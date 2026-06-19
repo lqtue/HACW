@@ -1,0 +1,12 @@
+node_modules
+/.svelte-kit
+/build
+/.wrangler
+.DS_Store
+.env
+.env.*
+
+# local tooling + design references (not part of the app)
+.claude
+/info*.jpeg
+/ref*.png

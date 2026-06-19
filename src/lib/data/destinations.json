@@ -1,0 +1,110 @@
+[
+  {
+    "id": "chua-cau",
+    "name": "Chùa Cầu",
+    "nameEn": "Japanese Covered Bridge",
+    "category": "di-tich",
+    "lat": 15.877153,
+    "lng": 108.326653,
+    "radius": 45,
+    "address": "Nguyễn Thị Minh Khai, Phường Minh An",
+    "hours": "Cả ngày",
+    "image": null,
+    "description": "Cây cầu gỗ do thương nhân Nhật Bản xây dựng đầu thế kỷ 17, biểu tượng kiến trúc và linh hồn của phố cổ Hội An. Cầu bắc qua một lạch nhỏ chảy ra sông Thu Bồn.",
+    "quiz": {
+      "question": "Chùa Cầu do cộng đồng thương nhân nào xây dựng?",
+      "options": ["Nhật Bản", "Trung Hoa", "Bồ Đào Nha"],
+      "answer": 0
+    }
+  },
+  {
+    "id": "hoi-quan-phuc-kien",
+    "name": "Hội quán Phúc Kiến",
+    "nameEn": "Fujian Assembly Hall",
+    "category": "hoi-quan",
+    "lat": 15.877500,
+    "lng": 108.328900,
+    "radius": 40,
+    "address": "46 Trần Phú, Phường Minh An",
+    "hours": "07:00 – 18:00",
+    "image": null,
+    "description": "Hội quán lớn và lộng lẫy nhất Hội An, nơi thờ Thiên Hậu Thánh Mẫu — vị thần bảo hộ thương nhân đi biển của cộng đồng người Hoa gốc Phúc Kiến.",
+    "quiz": {
+      "question": "Hội quán Phúc Kiến chủ yếu thờ vị thần nào?",
+      "options": ["Quan Công", "Thiên Hậu Thánh Mẫu", "Thần Tài"],
+      "answer": 1
+    }
+  },
+  {
+    "id": "hoi-quan-quang-trieu",
+    "name": "Hội quán Quảng Triệu",
+    "nameEn": "Cantonese Assembly Hall",
+    "category": "hoi-quan",
+    "lat": 15.877250,
+    "lng": 108.327050,
+    "radius": 40,
+    "address": "176 Trần Phú, Phường Minh An",
+    "hours": "07:00 – 18:00",
+    "image": null,
+    "description": "Còn gọi là hội quán Quảng Đông, nổi bật với nghệ thuật ghép sành sứ tinh xảo và các cột gỗ, đá chạm khắc công phu.",
+    "quiz": {
+      "question": "Hội quán Quảng Triệu còn được biết đến với tên gọi nào?",
+      "options": ["Hội quán Hải Nam", "Hội quán Quảng Đông", "Hội quán Triều Châu"],
+      "answer": 1
+    }
+  },
+  {
+    "id": "nha-co-tan-ky",
+    "name": "Nhà cổ Tấn Ký",
+    "nameEn": "Tan Ky Old House",
+    "category": "nha-co",
+    "lat": 15.876700,
+    "lng": 108.327500,
+    "radius": 35,
+    "address": "101 Nguyễn Thái Học, Phường Minh An",
+    "hours": "08:00 – 17:30",
+    "image": null,
+    "description": "Ngôi nhà cổ hơn 200 năm tuổi, kết hợp kiến trúc Việt – Nhật – Hoa, được công nhận là Di sản cấp quốc gia. Mặt trước hướng phố buôn bán, mặt sau hướng sông để bốc dỡ hàng.",
+    "quiz": {
+      "question": "Kiến trúc nhà cổ Tấn Ký kết hợp phong cách của những nền văn hóa nào?",
+      "options": ["Việt – Pháp – Hoa", "Việt – Nhật – Hoa", "Nhật – Hoa – Ấn"],
+      "answer": 1
+    }
+  },
+  {
+    "id": "mieu-quan-cong",
+    "name": "Miếu Quan Công",
+    "nameEn": "Quan Cong Temple",
+    "category": "di-tich",
+    "lat": 15.878600,
+    "lng": 108.329600,
+    "radius": 35,
+    "address": "24 Trần Phú, Phường Minh An",
+    "hours": "08:00 – 17:00",
+    "image": null,
+    "description": "Còn gọi là Chùa Ông, xây dựng năm 1653 để thờ Quan Vân Trường — biểu tượng của lòng trung nghĩa. Một trong những công trình tín ngưỡng cổ nhất phố Hội.",
+    "quiz": {
+      "question": "Miếu Quan Công thờ nhân vật lịch sử nào?",
+      "options": ["Khổng Tử", "Quan Vân Trường", "Trần Hưng Đạo"],
+      "answer": 1
+    }
+  },
+  {
+    "id": "bao-tang-gom-su-mau-dich",
+    "name": "Bảo tàng Gốm sứ Mậu dịch",
+    "nameEn": "Museum of Trade Ceramics",
+    "category": "bao-tang",
+    "lat": 15.877200,
+    "lng": 108.328400,
+    "radius": 35,
+    "address": "80 Trần Phú, Phường Minh An",
+    "hours": "08:00 – 17:00",
+    "image": null,
+    "description": "Trưng bày hơn 430 hiện vật gốm sứ mậu dịch từ thế kỷ 8–18, minh chứng cho vai trò của Hội An như một thương cảng quốc tế trên con đường gốm sứ trên biển.",
+    "quiz": {
+      "question": "Bảo tàng này trưng bày loại hiện vật chính nào?",
+      "options": ["Gốm sứ mậu dịch", "Tranh sơn mài", "Nhạc cụ dân tộc"],
+      "answer": 0
+    }
+  }
+]

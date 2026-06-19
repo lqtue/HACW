@@ -1,0 +1,16 @@
+[
+  {
+    "id": "hoi-quan-nguoi-hoa",
+    "title": "Dấu ấn người Hoa",
+    "theme": "Hội quán & tín ngưỡng",
+    "description": "Đi qua những hội quán lộng lẫy và miếu thờ — nơi kể câu chuyện về các cộng đồng thương nhân người Hoa đã góp phần dựng nên phố Hội.",
+    "stops": ["mieu-quan-cong", "hoi-quan-phuc-kien", "hoi-quan-quang-trieu"]
+  },
+  {
+    "id": "kien-truc-co",
+    "title": "Kiến trúc & di sản",
+    "theme": "Cầu cổ, nhà cổ, bảo tàng",
+    "description": "Tuyến cô đọng nhất cho người lần đầu đến Hội An: từ biểu tượng Chùa Cầu tới nhà cổ Tấn Ký và kho tàng gốm sứ mậu dịch.",
+    "stops": ["chua-cau", "nha-co-tan-ky", "bao-tang-gom-su-mau-dich"]
+  }
+]

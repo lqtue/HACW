@@ -1,0 +1,9 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512">
+  <rect width="512" height="512" rx="96" fill="#b8472a"/>
+  <!-- lantern -->
+  <ellipse cx="256" cy="270" rx="120" ry="150" fill="#f2b950"/>
+  <rect x="196" y="96" width="120" height="28" rx="8" fill="#7a2e1a"/>
+  <rect x="196" y="416" width="120" height="28" rx="8" fill="#7a2e1a"/>
+  <line x1="256" y1="124" x2="256" y2="416" stroke="#c98a2e" stroke-width="6"/>
+  <path d="M150 270h212" stroke="#c98a2e" stroke-width="6"/>
+</svg>

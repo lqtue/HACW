@@ -1,0 +1,8 @@
+[
+  { "id": "di-tich", "label": "Di tích", "icon": "⛩️" },
+  { "id": "hoi-quan", "label": "Hội quán", "icon": "🏮" },
+  { "id": "nha-co", "label": "Nhà cổ", "icon": "🏠" },
+  { "id": "bao-tang", "label": "Bảo tàng", "icon": "🏛️" },
+  { "id": "trai-nghiem", "label": "Trải nghiệm", "icon": "🎨" },
+  { "id": "trinh-dien", "label": "Trình diễn", "icon": "🎭" }
+]

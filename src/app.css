@@ -1,0 +1,217 @@
+:root {
+  --paper: #f6eddd;
+  --surface: #fffaf1;
+  --ink: #2a211a;
+  --muted: #927f68;
+  --line: #e6d8c2;
+  --brand: #bb4b2c;
+  --brand-dark: #7a2e1a;
+  --gold: #cf9a3c;
+  --teal: #2f6b5e;
+  --radius: 14px;
+  --shadow: 0 1px 2px rgba(74, 46, 20, 0.06), 0 8px 24px -12px rgba(74, 46, 20, 0.18);
+  --font-display: 'Playfair Display', Georgia, 'Times New Roman', serif;
+  --font-body: 'Be Vietnam Pro', ui-sans-serif, system-ui, sans-serif;
+  /* category accents -> map pins + chips + tags */
+  --c-di-tich: #bb4b2c;
+  --c-hoi-quan: #2f6b5e;
+  --c-nha-co: #b07a1e;
+  --c-bao-tang: #6a4a9c;
+  --c-trai-nghiem: #3a7d3f;
+  --c-trinh-dien: #b3326b;
+}
+
+* { box-sizing: border-box; }
+
+html, body {
+  margin: 0;
+  color: var(--ink);
+  font-family: var(--font-body);
+  background-color: var(--paper);
+  /* subtle warm atmosphere instead of a flat fill */
+  background-image: radial-gradient(120% 60% at 50% -10%, #fbf4e8 0%, var(--paper) 55%);
+  -webkit-font-smoothing: antialiased;
+  text-rendering: optimizeLegibility;
+}
+
+a { color: inherit; text-decoration: none; }
+
+.app {
+  max-width: 540px;
+  margin: 0 auto;
+  min-height: 100dvh;
+  display: flex;
+  flex-direction: column;
+  padding-bottom: calc(68px + env(safe-area-inset-bottom));
+}
+
+.page { padding: 18px 18px 8px; animation: rise 0.45s cubic-bezier(0.2, 0.7, 0.2, 1) both; }
+
+@keyframes rise {
+  from { opacity: 0; transform: translateY(10px); }
+  to { opacity: 1; transform: none; }
+}
+@media (prefers-reduced-motion: reduce) {
+  .page { animation: none; }
+}
+
+h1, h2, h3 { font-family: var(--font-display); font-weight: 700; letter-spacing: -0.01em; }
+h1 { font-size: 1.7rem; margin: 0 0 4px; line-height: 1.1; }
+h2 { font-size: 1.25rem; margin: 26px 0 10px; }
+h3 { font-weight: 600; }
+p { line-height: 1.6; }
+
+.muted { color: var(--muted); }
+
+/* ---- topbar: editorial paper header with hairline rule ---- */
+.topbar {
+  position: sticky; top: 0; z-index: 500;
+  background: color-mix(in srgb, var(--paper) 88%, transparent);
+  backdrop-filter: saturate(1.2) blur(10px);
+  border-bottom: 1px solid var(--line);
+  padding: 18px 18px 14px;
+  padding-top: max(18px, env(safe-area-inset-top));
+}
+.topbar h1 {
+  font-size: 1.5rem;
+  position: relative;
+  display: inline-block;
+  padding-left: 16px;
+}
+.topbar h1::before {
+  content: '';
+  position: absolute; left: 0; top: 0.18em; bottom: 0.18em;
+  width: 4px; border-radius: 2px;
+  background: var(--brand);
+}
+.topbar small { color: var(--muted); display: block; margin-top: 2px; }
+
+/* ---- buttons ---- */
+.btn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  border: none;
+  border-radius: 999px;
+  padding: 13px 22px;
+  font-family: var(--font-body);
+  font-size: 0.98rem;
+  font-weight: 600;
+  background: var(--brand);
+  color: #fff;
+  cursor: pointer;
+  box-shadow: 0 6px 16px -8px var(--brand);
+  transition: transform 0.12s ease, box-shadow 0.12s ease, opacity 0.12s ease;
+}
+.btn:active { transform: translateY(1px); }
+.btn:disabled { opacity: 0.55; cursor: default; box-shadow: none; }
+.btn.secondary {
+  background: var(--surface);
+  color: var(--ink);
+  border: 1px solid var(--line);
+  box-shadow: none;
+}
+
+/* ---- destination / tour card ---- */
+.card {
+  display: flex;
+  gap: 14px;
+  background: var(--surface);
+  border: 1px solid var(--line);
+  border-radius: var(--radius);
+  padding: 12px;
+  box-shadow: var(--shadow);
+  margin-bottom: 12px;
+  align-items: center;
+  transition: transform 0.14s ease, box-shadow 0.14s ease;
+}
+.card:active { transform: scale(0.99); }
+.card .thumb {
+  width: 60px; height: 60px;
+  border-radius: 12px;
+  flex: 0 0 auto;
+  display: grid; place-items: center;
+  color: #fff; font-family: var(--font-display); font-weight: 700; font-size: 1.5rem;
+  box-shadow: inset 0 0 0 1px rgba(255, 255, 255, 0.25);
+}
+.card .body { flex: 1; min-width: 0; }
+.card .body h3 { margin: 0; font-size: 1.02rem; line-height: 1.25; }
+.card .body small { color: var(--muted); display: block; margin-top: 3px; }
+
+/* ---- category chips ---- */
+.chips {
+  display: flex; gap: 8px; overflow-x: auto;
+  padding: 14px 18px 16px;
+  scrollbar-width: none;
+}
+.chips::-webkit-scrollbar { display: none; }
+.chip {
+  flex: 0 0 auto;
+  border: 1px solid var(--line);
+  background: var(--surface);
+  color: var(--ink);
+  border-radius: 999px;
+  padding: 8px 15px;
+  font-family: var(--font-body);
+  font-size: 0.85rem;
+  white-space: nowrap;
+  cursor: pointer;
+  transition: background 0.14s ease, color 0.14s ease, border-color 0.14s ease;
+}
+.chip[aria-pressed='true'] { background: var(--ink); color: var(--paper); border-color: var(--ink); }
+
+/* ---- tag ---- */
+.tag {
+  display: inline-block;
+  font-size: 0.66rem;
+  font-weight: 600;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+  padding: 3px 9px;
+  border-radius: 999px;
+  color: #fff;
+}
+
+/* ---- bottom nav ---- */
+.nav {
+  position: fixed;
+  bottom: 0; left: 0; right: 0;
+  max-width: 540px; margin: 0 auto;
+  display: flex;
+  background: color-mix(in srgb, var(--surface) 92%, transparent);
+  backdrop-filter: saturate(1.2) blur(12px);
+  border-top: 1px solid var(--line);
+  padding-bottom: env(safe-area-inset-bottom);
+  z-index: 1000;
+}
+.nav a {
+  flex: 1;
+  text-align: center;
+  padding: 9px 0 8px;
+  font-size: 0.68rem;
+  color: var(--muted);
+  position: relative;
+  transition: color 0.14s ease;
+}
+.nav a .ico { font-size: 1.25rem; display: block; margin-bottom: 1px; filter: grayscale(0.4); opacity: 0.7; }
+.nav a[aria-current='page'] { color: var(--brand); font-weight: 600; }
+.nav a[aria-current='page'] .ico { filter: none; opacity: 1; }
+.nav a[aria-current='page']::before {
+  content: '';
+  position: absolute; top: 0; left: 50%; transform: translateX(-50%);
+  width: 22px; height: 2px; border-radius: 0 0 2px 2px;
+  background: var(--brand);
+}
+
+/* ---- info banner ---- */
+.banner {
+  background: color-mix(in srgb, var(--gold) 14%, var(--surface));
+  border: 1px solid color-mix(in srgb, var(--gold) 40%, var(--line));
+  color: #6b4f12;
+  border-radius: 12px;
+  padding: 11px 13px;
+  font-size: 0.9rem;
+  line-height: 1.45;
+  margin-bottom: 12px;
+}
