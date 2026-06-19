@@ -1,8 +1,8 @@
 [
-  { "id": "di-tich", "label": "Di tích", "icon": "⛩️" },
-  { "id": "hoi-quan", "label": "Hội quán", "icon": "🏮" },
-  { "id": "nha-co", "label": "Nhà cổ", "icon": "🏠" },
-  { "id": "bao-tang", "label": "Bảo tàng", "icon": "🏛️" },
-  { "id": "trai-nghiem", "label": "Trải nghiệm", "icon": "🎨" },
-  { "id": "trinh-dien", "label": "Trình diễn", "icon": "🎭" }
+  { "id": "di-tich", "label": { "vi": "Di tích", "en": "Heritage" }, "icon": "⛩️" },
+  { "id": "hoi-quan", "label": { "vi": "Hội quán", "en": "Assembly halls" }, "icon": "🏮" },
+  { "id": "nha-co", "label": { "vi": "Nhà cổ", "en": "Old houses" }, "icon": "🏠" },
+  { "id": "bao-tang", "label": { "vi": "Bảo tàng", "en": "Museums" }, "icon": "🏛️" },
+  { "id": "trai-nghiem", "label": { "vi": "Trải nghiệm", "en": "Experiences" }, "icon": "🎨" },
+  { "id": "trinh-dien", "label": { "vi": "Trình diễn", "en": "Performances" }, "icon": "🎭" }
 ]

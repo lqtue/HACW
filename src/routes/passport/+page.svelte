@@ -1,37 +1,70 @@
 <script>
   import { base } from '$app/paths';
   import destinations from '$lib/data/destinations.json';
-  import { passport, hasStamp } from '$lib/passport.svelte.js';
+  import tours from '$lib/data/tours.json';
+  import { passport, hasStamp, isSetComplete, isRedeemed } from '$lib/passport.svelte.js';
   import { categoryLabel } from '$lib/util.js';
+  import { t } from '$lib/i18n.svelte.js';
+  import { s } from '$lib/strings.js';
 
   const total = destinations.length;
   const count = $derived(passport.stamps.length);
+
+  function setProgress(stops) {
+    return stops.filter((id) => hasStamp(id)).length;
+  }
 </script>
 
-<div class="topbar"><h1>Hộ chiếu của tôi</h1><small>{count}/{total} tem đã sưu tầm</small></div>
+<div class="topbar"><h1>{s('passport_title')}</h1><small>{s('stamps_of', count, total)}</small></div>
 
 <div class="page">
+  <!-- themed sets -> voucher redemption -->
+  <div class="sets">
+    {#each tours as tour}
+      <a class="set" class:complete={isSetComplete(tour.stops)} href="{base}/tours/{tour.id}">
+        <span class="ico">{isRedeemed(tour.id) ? '✅' : isSetComplete(tour.stops) ? '🎁' : '🚶'}</span>
+        <span class="info">
+          <strong>{t(tour.title)}</strong>
+          <small class="muted">{setProgress(tour.stops)}/{tour.stops.length}</small>
+        </span>
+      </a>
+    {/each}
+  </div>
+
   <div class="grid">
     {#each destinations as d}
       {@const got = hasStamp(d.id)}
       <a class="stamp" class:got href="{base}/destinations/{d.id}" style="--cat: var(--c-{d.category})">
         <div class="seal">
-          {#if got}<span>{d.name.charAt(0)}</span>{:else}<span class="lock">?</span>{/if}
+          {#if got}<span>{t(d.name).charAt(0)}</span>{:else}<span class="lock">?</span>{/if}
         </div>
-        <small class="name">{d.name}</small>
-        <small class="muted">{got ? categoryLabel(d.category) : 'Chưa check-in'}</small>
+        <small class="name">{t(d.name)}</small>
+        <small class="muted">{got ? t(categoryLabel(d.category)) : s('not_yet')}</small>
       </a>
     {/each}
   </div>
 
   {#if count === total}
-    <div class="banner" style="margin-top: 16px; text-align: center">
-      🎉 Hoàn thành! Bạn đã check-in tất cả điểm đến.
-    </div>
+    <div class="banner" style="margin-top: 16px; text-align: center">{s('all_done')}</div>
   {/if}
 </div>
 
 <style>
+  .sets { display: grid; gap: 10px; margin-bottom: 18px; }
+  .set {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    background: var(--surface);
+    border: 1px solid var(--line);
+    border-radius: var(--radius);
+    padding: 12px 14px;
+    box-shadow: var(--shadow);
+  }
+  .set.complete { border-color: color-mix(in srgb, var(--gold) 55%, var(--line)); }
+  .set .ico { font-size: 1.5rem; }
+  .set .info { display: grid; }
+
   .grid { display: grid; grid-template-columns: repeat(2, 1fr); gap: 12px; }
   .stamp {
     background: var(--surface);
@@ -60,7 +93,6 @@
     border: 2px dashed var(--line);
     color: var(--muted);
   }
-  /* collected = inked wax seal: double ring, tinted fill, slight stamp tilt */
   .stamp.got .seal {
     border: 2px solid var(--cat);
     box-shadow: inset 0 0 0 4px color-mix(in srgb, var(--cat) 14%, var(--surface));

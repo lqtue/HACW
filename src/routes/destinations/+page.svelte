@@ -6,6 +6,8 @@
   import categories from '$lib/data/categories.json';
   import Card from '$lib/components/Card.svelte';
   import { categoryIcon } from '$lib/util.js';
+  import { t } from '$lib/i18n.svelte.js';
+  import { s } from '$lib/strings.js';
 
   let active = $state('all');
   const list = $derived(active === 'all' ? destinations : destinations.filter((d) => d.category === active));
@@ -41,7 +43,7 @@
         popupAnchor: [0, -38]
       });
       const marker = L.marker([d.lat, d.lng], { icon }).addTo(map);
-      marker.bindPopup(`<strong>${d.name}</strong><br><a href="${base}/destinations/${d.id}">Xem & check-in →</a>`);
+      marker.bindPopup(`<strong>${t(d.name)}</strong><br><a href="${base}/destinations/${d.id}">${s('checkin')}</a>`);
       marker.on('popupopen', (e) => {
         e.popup.getElement().querySelector('a')?.addEventListener('click', (ev) => {
           ev.preventDefault();
@@ -68,14 +70,14 @@
 </script>
 
 <div class="explore">
-  <div class="topbar"><h1>Khám phá</h1><small>{destinations.length} địa điểm trong phố cổ</small></div>
+  <div class="topbar"><h1>{s('explore')}</h1><small>{s('sites_count', destinations.length)}</small></div>
 
   <div bind:this={el} class="map"></div>
 
   <div class="chips">
-    <button class="chip" aria-pressed={active === 'all'} onclick={() => (active = 'all')}>Tất cả</button>
+    <button class="chip" aria-pressed={active === 'all'} onclick={() => (active = 'all')}>{s('all')}</button>
     {#each categories as c}
-      <button class="chip" aria-pressed={active === c.id} onclick={() => (active = c.id)}>{c.icon} {c.label}</button>
+      <button class="chip" aria-pressed={active === c.id} onclick={() => (active = c.id)}>{c.icon} {t(c.label)}</button>
     {/each}
   </div>
 
@@ -84,7 +86,7 @@
       <Card {dest} />
     {/each}
     {#if list.length === 0}
-      <p class="muted empty">Chưa có điểm đến trong mục này.</p>
+      <p class="muted empty">{s('no_sites')}</p>
     {/if}
   </div>
 </div>

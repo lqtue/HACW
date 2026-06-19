@@ -1,13 +1,34 @@
 {
   "title": "Hội An Creative Week",
-  "subtitle": "Khu phố cổ Hội An — Di sản Văn hóa Thế giới",
+  "subtitle": {
+    "vi": "Khu phố cổ Hội An — Di sản Văn hóa Thế giới",
+    "en": "Hoi An Ancient Town — World Cultural Heritage"
+  },
   "dates": "Tháng 6, 2026",
-  "intro": "Phố cổ Hội An từng là một trong những thương cảng quốc tế sầm uất bậc nhất khu vực thế kỷ XVI–XVII. Trong tuần lễ sáng tạo, hãy đi bộ qua những hội quán, nhà cổ, bảo tàng và không gian nghệ thuật — check-in tại mỗi điểm để sưu tầm tem cho hộ chiếu của bạn.",
+  "intro": {
+    "vi": "Phố cổ Hội An từng là một trong những thương cảng quốc tế sầm uất bậc nhất khu vực thế kỷ XVI–XVII. Trong tuần lễ sáng tạo, hãy đi bộ qua những hội quán, nhà cổ, bảo tàng và không gian nghệ thuật — check-in tại mỗi điểm để sưu tầm tem cho hộ chiếu của bạn.",
+    "en": "Hoi An was one of the busiest international trading ports in the region during the 16th–17th centuries. During the creative week, walk through its assembly halls, old houses, museums and art spaces — check in at each to collect stamps for your passport."
+  },
   "howItWorks": [
-    "Mở bản đồ và chọn một điểm đến gần bạn.",
-    "Đến nơi, nhấn \"Check-in\". Ứng dụng kiểm tra vị trí GPS của bạn.",
-    "Trả lời một câu đố ngắn về điểm đến để xác nhận.",
-    "Nhận tem vào hộ chiếu. Sưu tầm đủ bộ và đi hết các tuyến đi bộ!"
+    {
+      "vi": "Mở bản đồ và chọn một điểm đến gần bạn.",
+      "en": "Open the map and pick a site near you."
+    },
+    {
+      "vi": "Đến nơi, nhấn \"Check-in\". Ứng dụng kiểm tra vị trí GPS của bạn.",
+      "en": "When you arrive, tap \"Check in\". The app verifies your GPS location."
+    },
+    {
+      "vi": "Trả lời vài câu hỏi về điểm đến để xác nhận.",
+      "en": "Answer a few questions about the site to confirm."
+    },
+    {
+      "vi": "Nhận tem vào hộ chiếu. Hoàn thành một bộ chủ đề để đổi voucher!",
+      "en": "Earn a stamp. Complete a themed set to redeem a voucher!"
+    }
   ],
-  "note": "Hộ chiếu được lưu trên thiết bị của bạn — không cần đăng nhập."
+  "note": {
+    "vi": "Hộ chiếu được lưu trên thiết bị của bạn — không cần đăng nhập.",
+    "en": "Your passport is stored on your device — no login required."
+  }
 }

@@ -1,110 +1,224 @@
 [
   {
     "id": "chua-cau",
-    "name": "Chùa Cầu",
-    "nameEn": "Japanese Covered Bridge",
+    "name": { "vi": "Chùa Cầu", "en": "Japanese Covered Bridge" },
     "category": "di-tich",
     "lat": 15.877153,
     "lng": 108.326653,
-    "radius": 45,
-    "address": "Nguyễn Thị Minh Khai, Phường Minh An",
-    "hours": "Cả ngày",
+    "radius": 35,
+    "address": { "vi": "Nguyễn Thị Minh Khai, Phường Minh An", "en": "Nguyen Thi Minh Khai St, Minh An Ward" },
+    "hours": { "vi": "Cả ngày", "en": "All day" },
     "image": null,
-    "description": "Cây cầu gỗ do thương nhân Nhật Bản xây dựng đầu thế kỷ 17, biểu tượng kiến trúc và linh hồn của phố cổ Hội An. Cầu bắc qua một lạch nhỏ chảy ra sông Thu Bồn.",
-    "quiz": {
-      "question": "Chùa Cầu do cộng đồng thương nhân nào xây dựng?",
-      "options": ["Nhật Bản", "Trung Hoa", "Bồ Đào Nha"],
-      "answer": 0
-    }
+    "description": {
+      "vi": "Cây cầu gỗ do thương nhân Nhật Bản xây dựng đầu thế kỷ 17, biểu tượng kiến trúc và linh hồn của phố cổ Hội An.",
+      "en": "A wooden bridge built by Japanese merchants in the early 17th century — the architectural symbol and soul of Hoi An's old town."
+    },
+    "quizBank": [
+      {
+        "difficulty": "easy",
+        "question": { "vi": "Chùa Cầu do cộng đồng thương nhân nào xây dựng?", "en": "Which merchant community built the bridge?" },
+        "options": [{ "vi": "Nhật Bản", "en": "Japanese" }, { "vi": "Trung Hoa", "en": "Chinese" }, { "vi": "Bồ Đào Nha", "en": "Portuguese" }],
+        "answer": 0
+      },
+      {
+        "difficulty": "easy",
+        "question": { "vi": "Chùa Cầu được làm chủ yếu bằng vật liệu gì?", "en": "What is the bridge mainly made of?" },
+        "options": [{ "vi": "Gỗ", "en": "Wood" }, { "vi": "Đá", "en": "Stone" }, { "vi": "Bê tông", "en": "Concrete" }],
+        "answer": 0
+      },
+      {
+        "difficulty": "easy",
+        "question": { "vi": "Chùa Cầu bắc qua dòng nước chảy ra con sông nào?", "en": "The bridge crosses a stream flowing into which river?" },
+        "options": [{ "vi": "Sông Thu Bồn", "en": "Thu Bon River" }, { "vi": "Sông Hàn", "en": "Han River" }, { "vi": "Sông Hương", "en": "Huong River" }],
+        "answer": 0
+      },
+      {
+        "difficulty": "hard",
+        "question": { "vi": "Chùa Cầu được xây dựng vào khoảng thời gian nào?", "en": "When was the bridge built?" },
+        "options": [{ "vi": "Đầu thế kỷ 17", "en": "Early 17th century" }, { "vi": "Thế kỷ 15", "en": "15th century" }, { "vi": "Thế kỷ 19", "en": "19th century" }],
+        "answer": 0
+      },
+      {
+        "difficulty": "hard",
+        "question": { "vi": "Hình ảnh Chùa Cầu xuất hiện trên tờ tiền Việt Nam mệnh giá nào?", "en": "The bridge appears on which Vietnamese banknote?" },
+        "options": [{ "vi": "20.000 đồng", "en": "20,000 VND" }, { "vi": "10.000 đồng", "en": "10,000 VND" }, { "vi": "50.000 đồng", "en": "50,000 VND" }],
+        "answer": 0
+      }
+    ]
   },
   {
     "id": "hoi-quan-phuc-kien",
-    "name": "Hội quán Phúc Kiến",
-    "nameEn": "Fujian Assembly Hall",
+    "name": { "vi": "Hội quán Phúc Kiến", "en": "Fujian Assembly Hall" },
     "category": "hoi-quan",
-    "lat": 15.877500,
-    "lng": 108.328900,
-    "radius": 40,
-    "address": "46 Trần Phú, Phường Minh An",
-    "hours": "07:00 – 18:00",
+    "lat": 15.8775,
+    "lng": 108.3289,
+    "radius": 35,
+    "address": { "vi": "46 Trần Phú, Phường Minh An", "en": "46 Tran Phu St, Minh An Ward" },
+    "hours": { "vi": "07:00 – 18:00", "en": "07:00 – 18:00" },
     "image": null,
-    "description": "Hội quán lớn và lộng lẫy nhất Hội An, nơi thờ Thiên Hậu Thánh Mẫu — vị thần bảo hộ thương nhân đi biển của cộng đồng người Hoa gốc Phúc Kiến.",
-    "quiz": {
-      "question": "Hội quán Phúc Kiến chủ yếu thờ vị thần nào?",
-      "options": ["Quan Công", "Thiên Hậu Thánh Mẫu", "Thần Tài"],
-      "answer": 1
-    }
+    "description": {
+      "vi": "Hội quán lớn và lộng lẫy nhất Hội An, nơi thờ Thiên Hậu Thánh Mẫu — vị thần bảo hộ thương nhân đi biển của cộng đồng người Hoa gốc Phúc Kiến.",
+      "en": "The largest and most ornate assembly hall in Hoi An, dedicated to Thien Hau, protector goddess of seafaring merchants of the Fujian community."
+    },
+    "quizBank": [
+      {
+        "difficulty": "easy",
+        "question": { "vi": "Hội quán Phúc Kiến chủ yếu thờ vị thần nào?", "en": "Which deity does the hall mainly worship?" },
+        "options": [{ "vi": "Thiên Hậu Thánh Mẫu", "en": "Goddess Thien Hau" }, { "vi": "Quan Công", "en": "Quan Cong" }, { "vi": "Thần Tài", "en": "God of Wealth" }],
+        "answer": 0
+      },
+      {
+        "difficulty": "easy",
+        "question": { "vi": "Hội quán này của cộng đồng người Hoa gốc nào?", "en": "Which Chinese community built this hall?" },
+        "options": [{ "vi": "Phúc Kiến", "en": "Fujian" }, { "vi": "Quảng Đông", "en": "Canton" }, { "vi": "Hải Nam", "en": "Hainan" }],
+        "answer": 0
+      },
+      {
+        "difficulty": "hard",
+        "question": { "vi": "Thiên Hậu Thánh Mẫu là vị thần bảo hộ cho ai?", "en": "Thien Hau is the protector of whom?" },
+        "options": [{ "vi": "Thương nhân đi biển", "en": "Seafaring merchants" }, { "vi": "Nông dân", "en": "Farmers" }, { "vi": "Học trò", "en": "Students" }],
+        "answer": 0
+      }
+    ]
   },
   {
     "id": "hoi-quan-quang-trieu",
-    "name": "Hội quán Quảng Triệu",
-    "nameEn": "Cantonese Assembly Hall",
+    "name": { "vi": "Hội quán Quảng Triệu", "en": "Cantonese Assembly Hall" },
     "category": "hoi-quan",
-    "lat": 15.877250,
-    "lng": 108.327050,
-    "radius": 40,
-    "address": "176 Trần Phú, Phường Minh An",
-    "hours": "07:00 – 18:00",
+    "lat": 15.87725,
+    "lng": 108.32705,
+    "radius": 35,
+    "address": { "vi": "176 Trần Phú, Phường Minh An", "en": "176 Tran Phu St, Minh An Ward" },
+    "hours": { "vi": "07:00 – 18:00", "en": "07:00 – 18:00" },
     "image": null,
-    "description": "Còn gọi là hội quán Quảng Đông, nổi bật với nghệ thuật ghép sành sứ tinh xảo và các cột gỗ, đá chạm khắc công phu.",
-    "quiz": {
-      "question": "Hội quán Quảng Triệu còn được biết đến với tên gọi nào?",
-      "options": ["Hội quán Hải Nam", "Hội quán Quảng Đông", "Hội quán Triều Châu"],
-      "answer": 1
-    }
+    "description": {
+      "vi": "Còn gọi là hội quán Quảng Đông, nổi bật với nghệ thuật ghép sành sứ tinh xảo và các cột gỗ, đá chạm khắc công phu.",
+      "en": "Also known as the Guangdong hall, famous for its intricate ceramic mosaics and elaborately carved wood and stone columns."
+    },
+    "quizBank": [
+      {
+        "difficulty": "easy",
+        "question": { "vi": "Hội quán Quảng Triệu còn được gọi là gì?", "en": "What is this hall also called?" },
+        "options": [{ "vi": "Hội quán Quảng Đông", "en": "Guangdong Hall" }, { "vi": "Hội quán Hải Nam", "en": "Hainan Hall" }, { "vi": "Hội quán Triều Châu", "en": "Chaozhou Hall" }],
+        "answer": 0
+      },
+      {
+        "difficulty": "easy",
+        "question": { "vi": "Nghệ thuật trang trí nổi bật của hội quán là gì?", "en": "What decorative art is the hall known for?" },
+        "options": [{ "vi": "Ghép sành sứ", "en": "Ceramic mosaic" }, { "vi": "Sơn mài", "en": "Lacquer" }, { "vi": "Thêu lụa", "en": "Silk embroidery" }],
+        "answer": 0
+      },
+      {
+        "difficulty": "hard",
+        "question": { "vi": "Vật liệu nào được dùng cho các cột chạm khắc của hội quán?", "en": "Which materials form the hall's carved columns?" },
+        "options": [{ "vi": "Gỗ và đá", "en": "Wood and stone" }, { "vi": "Gạch nung", "en": "Fired brick" }, { "vi": "Kim loại", "en": "Metal" }],
+        "answer": 0
+      }
+    ]
   },
   {
     "id": "nha-co-tan-ky",
-    "name": "Nhà cổ Tấn Ký",
-    "nameEn": "Tan Ky Old House",
+    "name": { "vi": "Nhà cổ Tấn Ký", "en": "Tan Ky Old House" },
     "category": "nha-co",
-    "lat": 15.876700,
-    "lng": 108.327500,
+    "lat": 15.8767,
+    "lng": 108.3275,
     "radius": 35,
-    "address": "101 Nguyễn Thái Học, Phường Minh An",
-    "hours": "08:00 – 17:30",
+    "address": { "vi": "101 Nguyễn Thái Học, Phường Minh An", "en": "101 Nguyen Thai Hoc St, Minh An Ward" },
+    "hours": { "vi": "08:00 – 17:30", "en": "08:00 – 17:30" },
     "image": null,
-    "description": "Ngôi nhà cổ hơn 200 năm tuổi, kết hợp kiến trúc Việt – Nhật – Hoa, được công nhận là Di sản cấp quốc gia. Mặt trước hướng phố buôn bán, mặt sau hướng sông để bốc dỡ hàng.",
-    "quiz": {
-      "question": "Kiến trúc nhà cổ Tấn Ký kết hợp phong cách của những nền văn hóa nào?",
-      "options": ["Việt – Pháp – Hoa", "Việt – Nhật – Hoa", "Nhật – Hoa – Ấn"],
-      "answer": 1
-    }
+    "description": {
+      "vi": "Ngôi nhà cổ hơn 200 năm tuổi, kết hợp kiến trúc Việt – Nhật – Hoa, được công nhận là Di sản cấp quốc gia.",
+      "en": "A 200-year-old house blending Vietnamese, Japanese and Chinese architecture, recognized as a national heritage site."
+    },
+    "quizBank": [
+      {
+        "difficulty": "easy",
+        "question": { "vi": "Nhà cổ Tấn Ký khoảng bao nhiêu năm tuổi?", "en": "About how old is the Tan Ky house?" },
+        "options": [{ "vi": "Hơn 200 năm", "en": "Over 200 years" }, { "vi": "Khoảng 50 năm", "en": "About 50 years" }, { "vi": "Hơn 500 năm", "en": "Over 500 years" }],
+        "answer": 0
+      },
+      {
+        "difficulty": "easy",
+        "question": { "vi": "Kiến trúc nhà cổ Tấn Ký kết hợp những nền văn hóa nào?", "en": "Which cultures does its architecture blend?" },
+        "options": [{ "vi": "Việt – Nhật – Hoa", "en": "Viet – Japanese – Chinese" }, { "vi": "Việt – Pháp – Hoa", "en": "Viet – French – Chinese" }, { "vi": "Nhật – Hoa – Ấn", "en": "Japanese – Chinese – Indian" }],
+        "answer": 0
+      },
+      {
+        "difficulty": "hard",
+        "question": { "vi": "Vì sao nhà có mặt trước ra phố, mặt sau ra sông?", "en": "Why does the house face the street in front and the river behind?" },
+        "options": [{ "vi": "Để buôn bán và bốc dỡ hàng", "en": "For trade and unloading goods" }, { "vi": "Để tránh gió bão", "en": "To avoid storms" }, { "vi": "Theo phong thủy", "en": "For feng shui only" }],
+        "answer": 0
+      }
+    ]
   },
   {
     "id": "mieu-quan-cong",
-    "name": "Miếu Quan Công",
-    "nameEn": "Quan Cong Temple",
+    "name": { "vi": "Miếu Quan Công", "en": "Quan Cong Temple" },
     "category": "di-tich",
-    "lat": 15.878600,
-    "lng": 108.329600,
+    "lat": 15.8786,
+    "lng": 108.3296,
     "radius": 35,
-    "address": "24 Trần Phú, Phường Minh An",
-    "hours": "08:00 – 17:00",
+    "address": { "vi": "24 Trần Phú, Phường Minh An", "en": "24 Tran Phu St, Minh An Ward" },
+    "hours": { "vi": "08:00 – 17:00", "en": "08:00 – 17:00" },
     "image": null,
-    "description": "Còn gọi là Chùa Ông, xây dựng năm 1653 để thờ Quan Vân Trường — biểu tượng của lòng trung nghĩa. Một trong những công trình tín ngưỡng cổ nhất phố Hội.",
-    "quiz": {
-      "question": "Miếu Quan Công thờ nhân vật lịch sử nào?",
-      "options": ["Khổng Tử", "Quan Vân Trường", "Trần Hưng Đạo"],
-      "answer": 1
-    }
+    "description": {
+      "vi": "Còn gọi là Chùa Ông, xây dựng năm 1653 để thờ Quan Vân Trường — biểu tượng của lòng trung nghĩa.",
+      "en": "Also called Chua Ong, built in 1653 to worship Quan Cong (Guan Yu), a symbol of loyalty and righteousness."
+    },
+    "quizBank": [
+      {
+        "difficulty": "easy",
+        "question": { "vi": "Miếu Quan Công thờ nhân vật nào?", "en": "Whom does the temple worship?" },
+        "options": [{ "vi": "Quan Vân Trường", "en": "Quan Cong (Guan Yu)" }, { "vi": "Khổng Tử", "en": "Confucius" }, { "vi": "Trần Hưng Đạo", "en": "Tran Hung Dao" }],
+        "answer": 0
+      },
+      {
+        "difficulty": "easy",
+        "question": { "vi": "Miếu Quan Công còn có tên gọi dân gian là gì?", "en": "What is the temple's common name?" },
+        "options": [{ "vi": "Chùa Ông", "en": "Chua Ong" }, { "vi": "Chùa Bà", "en": "Chua Ba" }, { "vi": "Chùa Cầu", "en": "Chua Cau" }],
+        "answer": 0
+      },
+      {
+        "difficulty": "hard",
+        "question": { "vi": "Miếu Quan Công được xây dựng vào năm nào?", "en": "In what year was the temple built?" },
+        "options": [{ "vi": "1653", "en": "1653" }, { "vi": "1719", "en": "1719" }, { "vi": "1840", "en": "1840" }],
+        "answer": 0
+      }
+    ]
   },
   {
     "id": "bao-tang-gom-su-mau-dich",
-    "name": "Bảo tàng Gốm sứ Mậu dịch",
-    "nameEn": "Museum of Trade Ceramics",
+    "name": { "vi": "Bảo tàng Gốm sứ Mậu dịch", "en": "Museum of Trade Ceramics" },
     "category": "bao-tang",
-    "lat": 15.877200,
-    "lng": 108.328400,
+    "lat": 15.8772,
+    "lng": 108.3284,
     "radius": 35,
-    "address": "80 Trần Phú, Phường Minh An",
-    "hours": "08:00 – 17:00",
+    "address": { "vi": "80 Trần Phú, Phường Minh An", "en": "80 Tran Phu St, Minh An Ward" },
+    "hours": { "vi": "08:00 – 17:00", "en": "08:00 – 17:00" },
     "image": null,
-    "description": "Trưng bày hơn 430 hiện vật gốm sứ mậu dịch từ thế kỷ 8–18, minh chứng cho vai trò của Hội An như một thương cảng quốc tế trên con đường gốm sứ trên biển.",
-    "quiz": {
-      "question": "Bảo tàng này trưng bày loại hiện vật chính nào?",
-      "options": ["Gốm sứ mậu dịch", "Tranh sơn mài", "Nhạc cụ dân tộc"],
-      "answer": 0
-    }
+    "description": {
+      "vi": "Trưng bày hơn 430 hiện vật gốm sứ mậu dịch từ thế kỷ 8–18, minh chứng cho vai trò thương cảng quốc tế của Hội An.",
+      "en": "Displays over 430 trade-ceramic artifacts from the 8th–18th centuries, evidence of Hoi An's role as an international port."
+    },
+    "quizBank": [
+      {
+        "difficulty": "easy",
+        "question": { "vi": "Bảo tàng trưng bày loại hiện vật chính nào?", "en": "What artifacts does the museum mainly display?" },
+        "options": [{ "vi": "Gốm sứ mậu dịch", "en": "Trade ceramics" }, { "vi": "Tranh sơn mài", "en": "Lacquer paintings" }, { "vi": "Nhạc cụ", "en": "Musical instruments" }],
+        "answer": 0
+      },
+      {
+        "difficulty": "easy",
+        "question": { "vi": "Các hiện vật gốm sứ phản ánh vai trò gì của Hội An?", "en": "What role of Hoi An do the ceramics reflect?" },
+        "options": [{ "vi": "Thương cảng quốc tế", "en": "International trading port" }, { "vi": "Kinh đô", "en": "Royal capital" }, { "vi": "Pháo đài quân sự", "en": "Military fortress" }],
+        "answer": 0
+      },
+      {
+        "difficulty": "hard",
+        "question": { "vi": "Hiện vật trong bảo tàng có niên đại khoảng thế kỷ mấy?", "en": "From around which centuries are the artifacts?" },
+        "options": [{ "vi": "Thế kỷ 8–18", "en": "8th–18th century" }, { "vi": "Thế kỷ 1–5", "en": "1st–5th century" }, { "vi": "Thế kỷ 19–20", "en": "19th–20th century" }],
+        "answer": 0
+      }
+    ]
   }
 ]

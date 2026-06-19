@@ -1,0 +1,26 @@
+{
+  "id": "",
+  "name": { "vi": "", "en": "" },
+  "category": "",
+  "lat": 0,
+  "lng": 0,
+  "radius": 35,
+  "address": { "vi": "", "en": "" },
+  "hours": { "vi": "", "en": "" },
+  "image": null,
+  "description": { "vi": "", "en": "" },
+  "quizBank": [
+    {
+      "difficulty": "easy",
+      "question": { "vi": "", "en": "" },
+      "options": [{ "vi": "", "en": "" }, { "vi": "", "en": "" }, { "vi": "", "en": "" }],
+      "answer": 0
+    },
+    {
+      "difficulty": "hard",
+      "question": { "vi": "", "en": "" },
+      "options": [{ "vi": "", "en": "" }, { "vi": "", "en": "" }, { "vi": "", "en": "" }],
+      "answer": 0
+    }
+  ]
+}

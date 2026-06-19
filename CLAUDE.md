@@ -9,7 +9,7 @@ npm run dev          # dev server (base path empty -> works at /)
 npm run build        # static build into build/
 BASE_PATH=/HACW npm run build   # build exactly as GitHub Pages deploys it
 npm run preview      # preview the production build
-npm run test:geo     # the only test: haversine / radius self-check (node, no framework)
+npm test             # node self-checks: haversine/radius + quiz draw (no framework)
 ```
 
 No lint step. Deploy is automatic: pushing to `main` triggers `.github/workflows/deploy.yml`, which builds with `BASE_PATH=/<repo>` and publishes to GitHub Pages. Live demo: https://lqtue.github.io/HACW/
@@ -62,9 +62,32 @@ routes (`destinations/[id]`, `tours/[id]`) must export an `entries()` from their
 
 **Check-in** (`src/routes/destinations/[id]/+page.svelte`): a small step state
 machine `idle → locating → (far | quiz) → done`. Tier 1 is GPS distance vs the
-destination's `radius` (meters, per-destination, tunable); tier 2 is the quiz.
+destination's `radius` (default 35m, per-destination); tier 2 is the quiz.
 A `SIMULATE` const renders a "skip GPS" test button — **set it to `false` for
-production.**
+production.** The quiz draws **2 easy + 1 hard** from the destination's
+`quizBank` (target 10/site) via `src/lib/quiz.js`; all drawn questions must be
+answered correctly to earn the stamp.
+
+**Bilingual content** (`src/lib/i18n.svelte.js` + `src/lib/strings.js`): all
+content JSON fields are `{ vi, en }` objects — resolve them in markup with
+`t(field)`. UI chrome strings live in `strings.js`, used via `s('key', ...args)`
+(some are functions for interpolation). Reactive `$state` language toggle is in
+the layout. Official languages are vi/en; other languages rely on the user's
+browser Google Translate (don't build more locales). When adding content,
+**every translatable field must be `{ vi, en }`**.
+
+**Voucher redemption** (`src/routes/tours/[id]/+page.svelte`): a "set" = a tour's
+stops. When all are stamped (`isSetComplete`), the tour page shows a redeem
+panel; a staff member taps confirm on the customer's phone, gated by a
+client-side `CONTROLLER_CODE` (prevents mis-taps, NOT fraud — real anti-fraud
+needs the server path). Redeemed set ids persist in `localStorage` via the
+passport store. No phone numbers, no e-vouchers — see [intake guide]
+constraints; vouchers are paper, exchanged at any ticket counter.
+
+**Content intake**: `content/CONTENT-GUIDE.md` (Vietnamese) + `content/
+destination.template.json` define the per-destination schema the survey team
+fills (25 sites, 10 questions each). Filled files get merged into
+`src/lib/data/destinations.json`.
 
 **Passport** (`src/lib/passport.svelte.js`): exports a reactive `$state` object
 mirrored to `localStorage`; mutate `passport.stamps`, never reassign it. The

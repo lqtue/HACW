@@ -1,16 +1,24 @@
 [
   {
     "id": "hoi-quan-nguoi-hoa",
-    "title": "Dấu ấn người Hoa",
-    "theme": "Hội quán & tín ngưỡng",
-    "description": "Đi qua những hội quán lộng lẫy và miếu thờ — nơi kể câu chuyện về các cộng đồng thương nhân người Hoa đã góp phần dựng nên phố Hội.",
+    "title": { "vi": "Dấu ấn người Hoa", "en": "Chinese Heritage Trail" },
+    "theme": { "vi": "Hội quán & tín ngưỡng", "en": "Assembly halls & beliefs" },
+    "description": {
+      "vi": "Đi qua những hội quán lộng lẫy và miếu thờ — nơi kể câu chuyện về các cộng đồng thương nhân người Hoa đã góp phần dựng nên phố Hội.",
+      "en": "Visit the ornate assembly halls and temples that tell the story of the Chinese merchant communities who helped build Hoi An."
+    },
+    "voucher": { "vi": "Voucher quà tặng (chốt tên sau)", "en": "Gift voucher (name TBD)" },
     "stops": ["mieu-quan-cong", "hoi-quan-phuc-kien", "hoi-quan-quang-trieu"]
   },
   {
     "id": "kien-truc-co",
-    "title": "Kiến trúc & di sản",
-    "theme": "Cầu cổ, nhà cổ, bảo tàng",
-    "description": "Tuyến cô đọng nhất cho người lần đầu đến Hội An: từ biểu tượng Chùa Cầu tới nhà cổ Tấn Ký và kho tàng gốm sứ mậu dịch.",
+    "title": { "vi": "Kiến trúc & di sản", "en": "Architecture & Heritage" },
+    "theme": { "vi": "Cầu cổ, nhà cổ, bảo tàng", "en": "Old bridge, old houses, museums" },
+    "description": {
+      "vi": "Tuyến cô đọng nhất cho người lần đầu đến Hội An: từ biểu tượng Chùa Cầu tới nhà cổ Tấn Ký và kho tàng gốm sứ mậu dịch.",
+      "en": "The essential first-visit route: from the iconic Japanese Bridge to the Tan Ky house and the trade-ceramics museum."
+    },
+    "voucher": { "vi": "Voucher quà tặng (chốt tên sau)", "en": "Gift voucher (name TBD)" },
     "stops": ["chua-cau", "nha-co-tan-ky", "bao-tang-gom-su-mau-dich"]
   }
 ]

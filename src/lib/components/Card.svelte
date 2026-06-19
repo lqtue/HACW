@@ -2,6 +2,7 @@
   import { base } from '$app/paths';
   import { categoryLabel, categoryIcon, mapsUrl } from '$lib/util.js';
   import { hasStamp } from '$lib/passport.svelte.js';
+  import { t } from '$lib/i18n.svelte.js';
 
   /** @type {{ dest: any, index?: number }} */
   let { dest, index } = $props();
@@ -12,16 +13,16 @@
     {#if index != null}{index}{:else}{categoryIcon(dest.category)}{/if}
   </a>
   <a class="body" href="{base}/destinations/{dest.id}">
-    <span class="tag" style="background: var(--c-{dest.category})">{categoryLabel(dest.category)}</span>
-    <h3>{dest.name} {#if hasStamp(dest.id)}✅{/if}</h3>
-    <small>{dest.hours} · {dest.address}</small>
+    <span class="tag" style="background: var(--c-{dest.category})">{t(categoryLabel(dest.category))}</span>
+    <h3>{t(dest.name)} {#if hasStamp(dest.id)}✅{/if}</h3>
+    <small>{t(dest.hours)} · {t(dest.address)}</small>
   </a>
   <a
     class="dir"
     href={mapsUrl(dest)}
     target="_blank"
     rel="noopener"
-    aria-label="Chỉ đường tới {dest.name}"
+    aria-label="{t(dest.name)}"
   >➤</a>
 </div>
 
