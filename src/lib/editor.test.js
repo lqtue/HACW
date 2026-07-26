@@ -2,6 +2,7 @@
 import assert from 'node:assert';
 import { readFileSync } from 'node:fs';
 import { checkDestination, checkDestinations, checkTours, checkRewards, checkEvent } from './editor.js';
+import { maxPossiblePoints } from './score.js';
 
 const good = {
   id: 'x',
@@ -61,15 +62,16 @@ assert.equal(checkTours([tour({ stops: ['x', 'ghost'] })], ['x', 'ghost']).lengt
 assert.equal(checkTours([tour({ stops: ['x', 'ghost'] })], ['x', 'y']).length, 2, 'unknown stop + orphaned y');
 assert.deepEqual(checkTours('nope'), ['tours.json: not an array']);
 
-// --- rewards -------------------------------------------------------------
+// --- rewards (tiers gate on points) --------------------------------------
 const tiers = [
-  { id: 'a', stamps: 3, title: bi, reward: bi },
-  { id: 'b', stamps: 8, title: bi, reward: bi }
+  { id: 'a', points: 40, title: bi, reward: bi },
+  { id: 'b', points: 120, title: bi, reward: bi }
 ];
-assert.deepEqual(checkRewards(tiers, 25), []);
-assert.equal(checkRewards(tiers, 5).length, 1, 'top tier must be reachable');
-assert.equal(checkRewards([tiers[1], tiers[0]], 25).length, 1, 'tiers must ascend');
-assert.equal(checkRewards([{ ...tiers[0], stamps: 2.5 }], 25).length, 1, 'half a stamp is not a thing');
+assert.deepEqual(checkRewards(tiers, 500), []);
+assert.equal(checkRewards(tiers, 100).length, 1, 'a tier above the reachable ceiling is a prize nobody can win');
+assert.equal(checkRewards([tiers[1], tiers[0]], 500).length, 1, 'tiers must ascend');
+assert.equal(checkRewards([{ ...tiers[0], points: 40.5 }], 500).length, 1, 'fractional points are not a thing');
+assert.equal(checkRewards([{ ...tiers[0], points: undefined }], 500).length, 1, 'a tier keyed on the old `stamps` field is rejected');
 assert.equal(checkRewards([]).length, 1);
 
 // --- event ---------------------------------------------------------------
@@ -91,7 +93,7 @@ assert.deepEqual(
   []
 );
 assert.deepEqual(checkTours(load('tours.json'), ids), []);
-assert.deepEqual(checkRewards(load('rewards.json'), ids.length), []);
+assert.deepEqual(checkRewards(load('rewards.json'), maxPossiblePoints(ids.length, load('tours.json').length)), []);
 assert.deepEqual(checkEvent(load('event.json')), []);
 
 console.log('editor.test.js OK');

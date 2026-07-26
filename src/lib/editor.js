@@ -91,8 +91,13 @@ export function checkTours(list, destIds = null) {
   return out;
 }
 
-/** Reward tiers. Must ascend, and the top tier must be reachable. */
-export function checkRewards(list, siteCount = null) {
+/**
+ * Reward tiers, keyed on **points** — the score is what the tiers gate on, so
+ * perfect quizzes, spotlight sites and completed tours all count toward a voucher.
+ * Must ascend, and the top tier must be reachable by someone who does everything.
+ * @param {number | null} maxPoints ceiling from `maxPossiblePoints()`, or null to skip
+ */
+export function checkRewards(list, maxPoints = null) {
   if (!Array.isArray(list)) return ['rewards.json: not an array'];
   const out = [];
   if (!list.length) out.push('rewards.json: no tiers');
@@ -102,12 +107,12 @@ export function checkRewards(list, siteCount = null) {
     if (!r?.id) out.push(`${at}: missing id`);
     bilingual(r?.title, `${at}.title`, out);
     bilingual(r?.reward, `${at}.reward`, out);
-    if (!Number.isInteger(r?.stamps) || r.stamps <= prev) {
-      out.push(`${at}: stamps must be a whole number above the previous tier (${prev})`);
-    } else prev = r.stamps;
+    if (!Number.isInteger(r?.points) || r.points <= prev) {
+      out.push(`${at}: points must be a whole number above the previous tier (${prev})`);
+    } else prev = r.points;
   }
-  if (siteCount != null && prev > siteCount) {
-    out.push(`top tier needs ${prev} stamps but only ${siteCount} sites exist`);
+  if (maxPoints != null && prev > maxPoints) {
+    out.push(`top tier needs ${prev} points but only ${maxPoints} are reachable in total`);
   }
   return out;
 }

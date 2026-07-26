@@ -66,14 +66,27 @@ export function totalPoints(stamps, tours, siteCount) {
   return breakdown(stamps, tours, siteCount).total;
 }
 
-/** Highest tier reached, or null. */
-export function tierFor(stampCount, tiers) {
-  return [...tiers].reverse().find((t) => stampCount >= t.stamps) ?? null;
+/**
+ * Points a visitor is *guaranteed* to reach by stamping every site and finishing
+ * every tour, claiming no perfect-quiz or spotlight bonus. Anything above this is
+ * reachable only with bonus luck, so it is the ceiling a reward tier may sit at.
+ */
+export function maxPossiblePoints(siteCount, tourCount) {
+  return siteCount * POINTS.stamp + tourCount * POINTS.tour + POINTS.allSites;
+}
+
+/**
+ * Tiers gate on **points**, not stamp count — that is what makes the quiz,
+ * spotlight and tour bonuses worth chasing rather than decorative.
+ * @returns the highest tier reached, or null
+ */
+export function tierFor(points, tiers) {
+  return [...tiers].reverse().find((t) => points >= t.points) ?? null;
 }
 
 /** Next tier to chase, or null when everything is unlocked. */
-export function nextTier(stampCount, tiers) {
-  return tiers.find((t) => stampCount < t.stamps) ?? null;
+export function nextTier(points, tiers) {
+  return tiers.find((t) => points < t.points) ?? null;
 }
 
 /**

@@ -24,8 +24,10 @@
   const total = destinations.length;
   const count = $derived(passport.stamps.length);
   const score = $derived(breakdown(passport.stamps, tours, total));
-  const rank = $derived(tierFor(count, rewards));
-  const next = $derived(nextTier(count, rewards));
+  // Tiers gate on points, not stamp count — that is what makes perfect quizzes,
+  // spotlight sites and finished tours worth anything at the counter.
+  const rank = $derived(tierFor(score.total, rewards));
+  const next = $derived(nextTier(score.total, rewards));
 
   function setProgress(stops) {
     return stops.filter((id) => hasStamp(id)).length;
@@ -90,8 +92,8 @@
       <span class="tag" style="background: var(--teal)">{s('rank')}</span>
       <strong>{rank ? `${rank.icon} ${t(rank.title)}` : s('no_rank')}</strong>
       {#if next}
-        <small class="muted">{s('next_rank', next.stamps - count, t(next.title))}</small>
-        <div class="bar"><i style="width: {Math.round((count / next.stamps) * 100)}%"></i></div>
+        <small class="muted">{s('next_rank', next.points - score.total, t(next.title))}</small>
+        <div class="bar"><i style="width: {Math.round(Math.min(1, score.total / next.points) * 100)}%"></i></div>
       {/if}
     </div>
   </div>
@@ -156,10 +158,10 @@
 
   <!-- everything below is reference material -> native <details>, closed by default -->
   <details>
-    <summary>{s('rewards_title')} · {rewards.filter((r) => count >= r.stamps).length}/{rewards.length}</summary>
+    <summary>{s('rewards_title')} · {rewards.filter((r) => score.total >= r.points).length}/{rewards.length}</summary>
     <div class="sets">
     {#each rewards as r}
-      {@const unlocked = count >= r.stamps}
+      {@const unlocked = score.total >= r.points}
       {@const taken = isRedeemed(r.id)}
       <div class="set" class:complete={unlocked}>
         <span class="ico">{taken ? '✅' : unlocked ? r.icon : '🔒'}</span>
@@ -167,7 +169,7 @@
           <strong>{t(r.title)}</strong>
           <small class="muted">{t(r.reward)}</small>
           <small class="muted">
-            {taken ? s('reward_taken') : unlocked ? s('reward_ready') : s('reward_locked', r.stamps)}
+            {taken ? s('reward_taken') : unlocked ? s('reward_ready') : s('reward_locked', r.points)}
           </small>
           {#if unlocked && !taken}
             <div class="claim">

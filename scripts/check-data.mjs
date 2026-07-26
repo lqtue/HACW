@@ -10,6 +10,7 @@ import { readFileSync } from 'node:fs';
 import { fileURLToPath } from 'node:url';
 import { dirname, join } from 'node:path';
 import { BOX, checkDestinations, checkTours, checkRewards, checkEvent } from '../src/lib/editor.js';
+import { maxPossiblePoints } from '../src/lib/score.js';
 
 const DATA = join(dirname(fileURLToPath(import.meta.url)), '..', 'src/lib/data');
 const load = (f) => JSON.parse(readFileSync(join(DATA, f), 'utf8'));
@@ -27,7 +28,9 @@ const ok = (problems, file) => assert.ok(problems.length === 0, `\n${file}:\n${p
 ok(checkDestinations(destinations, categories.map((c) => c.id)), 'destinations.json');
 // Passing ids in is also what asserts every site belongs to exactly one tour.
 ok(checkTours(tours, ids), 'tours.json');
-ok(checkRewards(rewards, destinations.length), 'rewards.json');
+// Tiers gate on points, so the ceiling is the score a visitor is guaranteed to
+// reach — not the number of sites.
+ok(checkRewards(rewards, maxPossiblePoints(destinations.length, tours.length)), 'rewards.json');
 ok(checkEvent(event), 'event.json');
 
 for (const p of tickets) {

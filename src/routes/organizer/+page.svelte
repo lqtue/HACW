@@ -27,6 +27,14 @@
 
   let gate = $state('');
   let gateErr = $state(false);
+
+  // Re-entering the *volunteer* code here succeeds as an unlock but changes
+  // nothing, so the test is `staff.admin`, not whether the code was accepted.
+  function upgrade() {
+    unlock(gate);
+    gateErr = !staff.admin;
+    if (staff.admin) gate = '';
+  }
   let events = $state({});
   let flagged = $state([]);
 
@@ -213,6 +221,18 @@
     {:else}
       <EventEditor />
     {/if}
+  {:else}
+    <!-- A volunteer gets the numbers but not the editor. Without this block the
+         section simply isn't there, which reads as "editing is broken" — and the
+         code box above is gone once any code has been accepted, so there was no
+         way up to the organizer tier except by hand-editing the URL. -->
+    <section class="dash">
+      <h2>{s('org_edit')}</h2>
+      <p class="muted"><small>{s('org_need_admin')}</small></p>
+      <input class="code" bind:value={gate} placeholder={s('enter_code')} />
+      {#if gateErr}<p class="err">{s('wrong_code')}</p>{/if}
+      <button class="btn secondary" onclick={upgrade}>{s('staff_confirm')}</button>
+    </section>
   {/if}
 {/if}
 </div>

@@ -5,6 +5,7 @@ import {
   spotlightIds,
   totalPoints,
   breakdown,
+  maxPossiblePoints,
   tierFor,
   nextTier,
   evenness
@@ -56,13 +57,23 @@ for (const st of [[], stamps, all, [{ id: 'a' }]]) {
 }
 assert.deepEqual(breakdown([], tours, 4), { stamps: 0, toursDone: 0, tours: 0, allSites: 0, total: 0 });
 
-// --- tiers ---
-const tiers = [{ stamps: 3 }, { stamps: 8 }, { stamps: 25 }];
+// --- tiers: keyed on points, not stamp count ---
+const tiers = [{ points: 40 }, { points: 120 }, { points: 500 }];
 assert.equal(tierFor(0, tiers), null);
-assert.equal(tierFor(3, tiers).stamps, 3);
-assert.equal(tierFor(24, tiers).stamps, 8);
-assert.equal(nextTier(3, tiers).stamps, 8);
-assert.equal(nextTier(25, tiers), null);
+assert.equal(tierFor(39, tiers), null, 'one point short is still no rank');
+assert.equal(tierFor(40, tiers).points, 40, 'the threshold itself unlocks');
+assert.equal(tierFor(499, tiers).points, 120);
+assert.equal(tierFor(500, tiers).points, 500);
+assert.equal(nextTier(40, tiers).points, 120);
+assert.equal(nextTier(500, tiers), null);
+
+// The ceiling a tier may sit at: every site stamped, every tour done, no bonuses.
+assert.equal(maxPossiblePoints(25, 5), 25 * POINTS.stamp + 5 * POINTS.tour + POINTS.allSites);
+assert.equal(maxPossiblePoints(25, 5), 500);
+// and a visitor who actually does all that reaches exactly it
+const everySite = Array.from({ length: 25 }, (_, i) => ({ id: `s${i}`, pts: POINTS.stamp }));
+const everyTour = Array.from({ length: 5 }, (_, i) => ({ stops: [`s${i * 5}`, `s${i * 5 + 1}`, `s${i * 5 + 2}`, `s${i * 5 + 3}`, `s${i * 5 + 4}`] }));
+assert.equal(totalPoints(everySite, everyTour, 25), maxPossiblePoints(25, 5), 'the ceiling is actually attainable');
 
 // --- evenness (organizer headline) ---
 assert.equal(evenness({}, dests), 1, 'no data reads as even');

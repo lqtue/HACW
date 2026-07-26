@@ -132,6 +132,11 @@ copy, quiz banks, tour stops) live in a detail row that opens under the record,
 tracked by a plain `$state({})` id map so several can be open at once. `event.json`
 is one object, not rows, so it stays a form.
 
+A volunteer-tier device sees the dashboard but no editor. That branch renders an
+explanation *and* a code box, because once any code is accepted the gate box at the
+top is gone — without it a volunteer has no route to the organizer tier but editing
+the URL, and the missing editor reads as a broken page.
+
 `/organizer` is the one route used at a desk: `+layout.svelte` puts `.wide` on
 `.app` for it, lifting the 540px phone column to 1600px. The dashboard half keeps
 a 900px `.dash` cap — only the editors want the full width.
@@ -161,6 +166,16 @@ map** as bonus-worthy, from live `/api/checkin` counts once ≥20 are recorded
 the sheet's `traffic`/`promoPriority` columns before that. This is the mechanism
 for "get every site visited evenly" — the app and `/organizer` call the same
 function, so staff see exactly what visitors are nudged toward.
+
+**Reward tiers gate on points, not stamp count** (`rewards.json` has `points:`,
+not `stamps:`) — that is what makes the perfect-quiz, spotlight and tour bonuses
+worth chasing rather than decorative. `tierFor`/`nextTier` take a score.
+`maxPossiblePoints(siteCount, tourCount)` is the ceiling a visitor is *guaranteed*
+to reach (every site + every tour, no bonuses = 500 today); `checkRewards` rejects
+a tier above it, so nobody can define a prize that cannot be won. Same four tiers
+as before in practice: 40 / 120 / 250 / 500 land where 3 / 8 / 15 / 25 stamps did
+for an ordinary visitor, and the top tier still effectively needs all 25 because
+the +100 full-set bonus is most of the gap.
 
 `breakdown(stamps, tours, siteCount)` splits that total into stamps / tour bonuses
 / full-set bonus and `totalPoints` is now just its `.total`, so the "how points
