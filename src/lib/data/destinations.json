@@ -1,223 +1,2344 @@
 [
   {
     "id": "chua-cau",
-    "name": { "vi": "Chùa Cầu", "en": "Japanese Covered Bridge" },
+    "code": "A1",
+    "name": {
+      "vi": "Chùa Cầu (Cầu Nhật Bản)",
+      "en": "Japanese Covered Bridge"
+    },
     "category": "di-tich",
-    "lat": 15.877153,
-    "lng": 108.326653,
-    "radius": 35,
-    "address": { "vi": "Nguyễn Thị Minh Khai, Phường Minh An", "en": "Nguyen Thi Minh Khai St, Minh An Ward" },
-    "hours": { "vi": "Cả ngày", "en": "All day" },
+    "lat": 15.8770873,
+    "lng": 108.3260704,
+    "radius": 75,
+    "address": {
+      "vi": "Cuối đường Nguyễn Thị Minh Khai",
+      "en": "Cuối đường Nguyễn Thị Minh Khai"
+    },
+    "hours": {
+      "vi": "7:00 - 22:00",
+      "en": "7:00 - 22:00"
+    },
     "image": null,
+    "traffic": "high",
+    "promoPriority": "low",
     "description": {
-      "vi": "Cây cầu gỗ do thương nhân Nhật Bản xây dựng đầu thế kỷ 17, biểu tượng kiến trúc và linh hồn của phố cổ Hội An.",
+      "vi": "Chùa Cầu nằm tiếp giáp đường Nguyễn Thị Minh Khai và đường Trần Phú- Hội An, còn được gọi là cầu Nhật Bản, là công trình do các thương gia Nhật Bản đến buôn bán tại Hội An xây dựng vào khoảng đầu thế kỷ XVII, cách nay hơn 400 năm.",
       "en": "A wooden bridge built by Japanese merchants in the early 17th century — the architectural symbol and soul of Hoi An's old town."
     },
     "quizBank": [
       {
         "difficulty": "easy",
-        "question": { "vi": "Chùa Cầu do cộng đồng thương nhân nào xây dựng?", "en": "Which merchant community built the bridge?" },
-        "options": [{ "vi": "Nhật Bản", "en": "Japanese" }, { "vi": "Trung Hoa", "en": "Chinese" }, { "vi": "Bồ Đào Nha", "en": "Portuguese" }],
+        "question": {
+          "vi": "Chùa Cầu do cộng đồng thương nhân nào xây dựng?",
+          "en": "Which merchant community built the bridge?"
+        },
+        "options": [
+          {
+            "vi": "Nhật Bản",
+            "en": "Japanese"
+          },
+          {
+            "vi": "Trung Hoa",
+            "en": "Chinese"
+          },
+          {
+            "vi": "Bồ Đào Nha",
+            "en": "Portuguese"
+          }
+        ],
         "answer": 0
       },
       {
         "difficulty": "easy",
-        "question": { "vi": "Chùa Cầu được làm chủ yếu bằng vật liệu gì?", "en": "What is the bridge mainly made of?" },
-        "options": [{ "vi": "Gỗ", "en": "Wood" }, { "vi": "Đá", "en": "Stone" }, { "vi": "Bê tông", "en": "Concrete" }],
+        "question": {
+          "vi": "Chùa Cầu được làm chủ yếu bằng vật liệu gì?",
+          "en": "What is the bridge mainly made of?"
+        },
+        "options": [
+          {
+            "vi": "Gỗ",
+            "en": "Wood"
+          },
+          {
+            "vi": "Đá",
+            "en": "Stone"
+          },
+          {
+            "vi": "Bê tông",
+            "en": "Concrete"
+          }
+        ],
         "answer": 0
       },
       {
         "difficulty": "easy",
-        "question": { "vi": "Chùa Cầu bắc qua dòng nước chảy ra con sông nào?", "en": "The bridge crosses a stream flowing into which river?" },
-        "options": [{ "vi": "Sông Thu Bồn", "en": "Thu Bon River" }, { "vi": "Sông Hàn", "en": "Han River" }, { "vi": "Sông Hương", "en": "Huong River" }],
+        "question": {
+          "vi": "Chùa Cầu bắc qua dòng nước chảy ra con sông nào?",
+          "en": "The bridge crosses a stream flowing into which river?"
+        },
+        "options": [
+          {
+            "vi": "Sông Thu Bồn",
+            "en": "Thu Bon River"
+          },
+          {
+            "vi": "Sông Hàn",
+            "en": "Han River"
+          },
+          {
+            "vi": "Sông Hương",
+            "en": "Huong River"
+          }
+        ],
         "answer": 0
       },
       {
         "difficulty": "hard",
-        "question": { "vi": "Chùa Cầu được xây dựng vào khoảng thời gian nào?", "en": "When was the bridge built?" },
-        "options": [{ "vi": "Đầu thế kỷ 17", "en": "Early 17th century" }, { "vi": "Thế kỷ 15", "en": "15th century" }, { "vi": "Thế kỷ 19", "en": "19th century" }],
+        "question": {
+          "vi": "Chùa Cầu được xây dựng vào khoảng thời gian nào?",
+          "en": "When was the bridge built?"
+        },
+        "options": [
+          {
+            "vi": "Đầu thế kỷ 17",
+            "en": "Early 17th century"
+          },
+          {
+            "vi": "Thế kỷ 15",
+            "en": "15th century"
+          },
+          {
+            "vi": "Thế kỷ 19",
+            "en": "19th century"
+          }
+        ],
         "answer": 0
       },
       {
         "difficulty": "hard",
-        "question": { "vi": "Hình ảnh Chùa Cầu xuất hiện trên tờ tiền Việt Nam mệnh giá nào?", "en": "The bridge appears on which Vietnamese banknote?" },
-        "options": [{ "vi": "20.000 đồng", "en": "20,000 VND" }, { "vi": "10.000 đồng", "en": "10,000 VND" }, { "vi": "50.000 đồng", "en": "50,000 VND" }],
+        "question": {
+          "vi": "Hình ảnh Chùa Cầu xuất hiện trên tờ tiền Việt Nam mệnh giá nào?",
+          "en": "The bridge appears on which Vietnamese banknote?"
+        },
+        "options": [
+          {
+            "vi": "20.000 đồng",
+            "en": "20,000 VND"
+          },
+          {
+            "vi": "10.000 đồng",
+            "en": "10,000 VND"
+          },
+          {
+            "vi": "50.000 đồng",
+            "en": "50,000 VND"
+          }
+        ],
         "answer": 0
       }
     ]
   },
   {
-    "id": "hoi-quan-phuc-kien",
-    "name": { "vi": "Hội quán Phúc Kiến", "en": "Fujian Assembly Hall" },
-    "category": "hoi-quan",
-    "lat": 15.8775,
-    "lng": 108.3289,
-    "radius": 35,
-    "address": { "vi": "46 Trần Phú, Phường Minh An", "en": "46 Tran Phu St, Minh An Ward" },
-    "hours": { "vi": "07:00 – 18:00", "en": "07:00 – 18:00" },
+    "id": "chua-quan-am",
+    "code": "A2",
+    "name": {
+      "vi": "Chùa Quan Âm",
+      "en": "Quan Am Pagoda"
+    },
+    "category": "di-tich",
+    "lat": 15.8776398,
+    "lng": 108.3314233,
+    "radius": 75,
+    "address": {
+      "vi": "26 Trần Phú",
+      "en": "26 Trần Phú"
+    },
+    "hours": {
+      "vi": "7:30 - 19:30",
+      "en": "7:30 - 19:30"
+    },
     "image": null,
+    "traffic": "low",
+    "promoPriority": "high",
     "description": {
-      "vi": "Hội quán lớn và lộng lẫy nhất Hội An, nơi thờ Thiên Hậu Thánh Mẫu — vị thần bảo hộ thương nhân đi biển của cộng đồng người Hoa gốc Phúc Kiến.",
-      "en": "The largest and most ornate assembly hall in Hoi An, dedicated to Thien Hau, protector goddess of seafaring merchants of the Fujian community."
+      "vi": "Tọa lạc tại số 13 đường Nguyễn Huệ, phường Minh An, thành phố Hội An, Minh Hương Phật tự hay còn gọi là chùa Quan Âm là ngôi chùa thờ Phật có lịch sử lâu đời tại phố cổ Hội An. Theo sử sách, chùa được cư dân làng Minh Hương cho xây khoảng trước năm 1653, giai đoạn hình thành của phố cổ Hội An.",
+      "en": "A Buddhist pagoda on Tran Phu street dedicated to Quan Am (Guanyin), the bodhisattva of compassion."
     },
     "quizBank": [
       {
         "difficulty": "easy",
-        "question": { "vi": "Hội quán Phúc Kiến chủ yếu thờ vị thần nào?", "en": "Which deity does the hall mainly worship?" },
-        "options": [{ "vi": "Thiên Hậu Thánh Mẫu", "en": "Goddess Thien Hau" }, { "vi": "Quan Công", "en": "Quan Cong" }, { "vi": "Thần Tài", "en": "God of Wealth" }],
-        "answer": 0
+        "generated": true,
+        "question": {
+          "vi": "Chùa Quan Âm nằm trên đường nào?",
+          "en": "Which street is Quan Am Pagoda on?"
+        },
+        "options": [
+          {
+            "vi": "Nguyễn Thị Minh Khai",
+            "en": "Nguyễn Thị Minh Khai"
+          },
+          {
+            "vi": "Trần Phú",
+            "en": "Trần Phú"
+          },
+          {
+            "vi": "Nguyễn Thái Học",
+            "en": "Nguyễn Thái Học"
+          }
+        ],
+        "answer": 1
       },
       {
         "difficulty": "easy",
-        "question": { "vi": "Hội quán này của cộng đồng người Hoa gốc nào?", "en": "Which Chinese community built this hall?" },
-        "options": [{ "vi": "Phúc Kiến", "en": "Fujian" }, { "vi": "Quảng Đông", "en": "Canton" }, { "vi": "Hải Nam", "en": "Hainan" }],
-        "answer": 0
+        "generated": true,
+        "question": {
+          "vi": "Chùa Quan Âm thuộc nhóm điểm đến nào?",
+          "en": "Which kind of site is Quan Am Pagoda?"
+        },
+        "options": [
+          {
+            "vi": "Hội quán",
+            "en": "Assembly halls"
+          },
+          {
+            "vi": "Nhà cổ",
+            "en": "Old houses"
+          },
+          {
+            "vi": "Di tích",
+            "en": "Heritage"
+          }
+        ],
+        "answer": 2
       },
       {
         "difficulty": "hard",
-        "question": { "vi": "Thiên Hậu Thánh Mẫu là vị thần bảo hộ cho ai?", "en": "Thien Hau is the protector of whom?" },
-        "options": [{ "vi": "Thương nhân đi biển", "en": "Seafaring merchants" }, { "vi": "Nông dân", "en": "Farmers" }, { "vi": "Học trò", "en": "Students" }],
-        "answer": 0
-      }
-    ]
-  },
-  {
-    "id": "hoi-quan-quang-trieu",
-    "name": { "vi": "Hội quán Quảng Triệu", "en": "Cantonese Assembly Hall" },
-    "category": "hoi-quan",
-    "lat": 15.87725,
-    "lng": 108.32705,
-    "radius": 35,
-    "address": { "vi": "176 Trần Phú, Phường Minh An", "en": "176 Tran Phu St, Minh An Ward" },
-    "hours": { "vi": "07:00 – 18:00", "en": "07:00 – 18:00" },
-    "image": null,
-    "description": {
-      "vi": "Còn gọi là hội quán Quảng Đông, nổi bật với nghệ thuật ghép sành sứ tinh xảo và các cột gỗ, đá chạm khắc công phu.",
-      "en": "Also known as the Guangdong hall, famous for its intricate ceramic mosaics and elaborately carved wood and stone columns."
-    },
-    "quizBank": [
-      {
-        "difficulty": "easy",
-        "question": { "vi": "Hội quán Quảng Triệu còn được gọi là gì?", "en": "What is this hall also called?" },
-        "options": [{ "vi": "Hội quán Quảng Đông", "en": "Guangdong Hall" }, { "vi": "Hội quán Hải Nam", "en": "Hainan Hall" }, { "vi": "Hội quán Triều Châu", "en": "Chaozhou Hall" }],
-        "answer": 0
-      },
-      {
-        "difficulty": "easy",
-        "question": { "vi": "Nghệ thuật trang trí nổi bật của hội quán là gì?", "en": "What decorative art is the hall known for?" },
-        "options": [{ "vi": "Ghép sành sứ", "en": "Ceramic mosaic" }, { "vi": "Sơn mài", "en": "Lacquer" }, { "vi": "Thêu lụa", "en": "Silk embroidery" }],
-        "answer": 0
-      },
-      {
-        "difficulty": "hard",
-        "question": { "vi": "Vật liệu nào được dùng cho các cột chạm khắc của hội quán?", "en": "Which materials form the hall's carved columns?" },
-        "options": [{ "vi": "Gỗ và đá", "en": "Wood and stone" }, { "vi": "Gạch nung", "en": "Fired brick" }, { "vi": "Kim loại", "en": "Metal" }],
-        "answer": 0
-      }
-    ]
-  },
-  {
-    "id": "nha-co-tan-ky",
-    "name": { "vi": "Nhà cổ Tấn Ký", "en": "Tan Ky Old House" },
-    "category": "nha-co",
-    "lat": 15.8767,
-    "lng": 108.3275,
-    "radius": 35,
-    "address": { "vi": "101 Nguyễn Thái Học, Phường Minh An", "en": "101 Nguyen Thai Hoc St, Minh An Ward" },
-    "hours": { "vi": "08:00 – 17:30", "en": "08:00 – 17:30" },
-    "image": null,
-    "description": {
-      "vi": "Ngôi nhà cổ hơn 200 năm tuổi, kết hợp kiến trúc Việt – Nhật – Hoa, được công nhận là Di sản cấp quốc gia.",
-      "en": "A 200-year-old house blending Vietnamese, Japanese and Chinese architecture, recognized as a national heritage site."
-    },
-    "quizBank": [
-      {
-        "difficulty": "easy",
-        "question": { "vi": "Nhà cổ Tấn Ký khoảng bao nhiêu năm tuổi?", "en": "About how old is the Tan Ky house?" },
-        "options": [{ "vi": "Hơn 200 năm", "en": "Over 200 years" }, { "vi": "Khoảng 50 năm", "en": "About 50 years" }, { "vi": "Hơn 500 năm", "en": "Over 500 years" }],
-        "answer": 0
-      },
-      {
-        "difficulty": "easy",
-        "question": { "vi": "Kiến trúc nhà cổ Tấn Ký kết hợp những nền văn hóa nào?", "en": "Which cultures does its architecture blend?" },
-        "options": [{ "vi": "Việt – Nhật – Hoa", "en": "Viet – Japanese – Chinese" }, { "vi": "Việt – Pháp – Hoa", "en": "Viet – French – Chinese" }, { "vi": "Nhật – Hoa – Ấn", "en": "Japanese – Chinese – Indian" }],
-        "answer": 0
-      },
-      {
-        "difficulty": "hard",
-        "question": { "vi": "Vì sao nhà có mặt trước ra phố, mặt sau ra sông?", "en": "Why does the house face the street in front and the river behind?" },
-        "options": [{ "vi": "Để buôn bán và bốc dỡ hàng", "en": "For trade and unloading goods" }, { "vi": "Để tránh gió bão", "en": "To avoid storms" }, { "vi": "Theo phong thủy", "en": "For feng shui only" }],
+        "generated": true,
+        "question": {
+          "vi": "Giờ mở cửa của Chùa Quan Âm là?",
+          "en": "What are the opening hours of Quan Am Pagoda?"
+        },
+        "options": [
+          {
+            "vi": "7:30 - 19:30",
+            "en": "7:30 - 19:30"
+          },
+          {
+            "vi": "7:00 - 22:00",
+            "en": "7:00 - 22:00"
+          },
+          {
+            "vi": "8:00 - 18:00",
+            "en": "8:00 - 18:00"
+          }
+        ],
         "answer": 0
       }
     ]
   },
   {
     "id": "mieu-quan-cong",
-    "name": { "vi": "Miếu Quan Công", "en": "Quan Cong Temple" },
+    "code": "A3",
+    "name": {
+      "vi": "Miếu Quan Công",
+      "en": "Quan Cong Temple"
+    },
     "category": "di-tich",
-    "lat": 15.8786,
-    "lng": 108.3296,
-    "radius": 35,
-    "address": { "vi": "24 Trần Phú, Phường Minh An", "en": "24 Tran Phu St, Minh An Ward" },
-    "hours": { "vi": "08:00 – 17:00", "en": "08:00 – 17:00" },
+    "lat": 15.8775421,
+    "lng": 108.3313724,
+    "radius": 75,
+    "address": {
+      "vi": "24 Trần Phú",
+      "en": "24 Trần Phú"
+    },
+    "hours": {
+      "vi": "7:30 - 19:30",
+      "en": "7:30 - 19:30"
+    },
     "image": null,
+    "traffic": "low",
+    "promoPriority": "high",
     "description": {
-      "vi": "Còn gọi là Chùa Ông, xây dựng năm 1653 để thờ Quan Vân Trường — biểu tượng của lòng trung nghĩa.",
+      "vi": "Miếu Quan Công, ở số 24 đường Trần Phú còn được gọi Chùa Ông, tên chữ là Trừng Hán Cung được người làng Minh Hương và người Việt tại Hội An xây dựng vào khoảng giữa thế kỷ XVII, thờ Quan Công – danh tướng thời Tam Quốc, nhằm tán dương lòng nghĩa khí, tiết trung liệt của Ông.",
       "en": "Also called Chua Ong, built in 1653 to worship Quan Cong (Guan Yu), a symbol of loyalty and righteousness."
     },
     "quizBank": [
       {
         "difficulty": "easy",
-        "question": { "vi": "Miếu Quan Công thờ nhân vật nào?", "en": "Whom does the temple worship?" },
-        "options": [{ "vi": "Quan Vân Trường", "en": "Quan Cong (Guan Yu)" }, { "vi": "Khổng Tử", "en": "Confucius" }, { "vi": "Trần Hưng Đạo", "en": "Tran Hung Dao" }],
+        "question": {
+          "vi": "Miếu Quan Công thờ nhân vật nào?",
+          "en": "Whom does the temple worship?"
+        },
+        "options": [
+          {
+            "vi": "Quan Vân Trường",
+            "en": "Quan Cong (Guan Yu)"
+          },
+          {
+            "vi": "Khổng Tử",
+            "en": "Confucius"
+          },
+          {
+            "vi": "Trần Hưng Đạo",
+            "en": "Tran Hung Dao"
+          }
+        ],
         "answer": 0
       },
       {
         "difficulty": "easy",
-        "question": { "vi": "Miếu Quan Công còn có tên gọi dân gian là gì?", "en": "What is the temple's common name?" },
-        "options": [{ "vi": "Chùa Ông", "en": "Chua Ong" }, { "vi": "Chùa Bà", "en": "Chua Ba" }, { "vi": "Chùa Cầu", "en": "Chua Cau" }],
+        "question": {
+          "vi": "Miếu Quan Công còn có tên gọi dân gian là gì?",
+          "en": "What is the temple's common name?"
+        },
+        "options": [
+          {
+            "vi": "Chùa Ông",
+            "en": "Chua Ong"
+          },
+          {
+            "vi": "Chùa Bà",
+            "en": "Chua Ba"
+          },
+          {
+            "vi": "Chùa Cầu",
+            "en": "Chua Cau"
+          }
+        ],
         "answer": 0
       },
       {
         "difficulty": "hard",
-        "question": { "vi": "Miếu Quan Công được xây dựng vào năm nào?", "en": "In what year was the temple built?" },
-        "options": [{ "vi": "1653", "en": "1653" }, { "vi": "1719", "en": "1719" }, { "vi": "1840", "en": "1840" }],
+        "question": {
+          "vi": "Miếu Quan Công được xây dựng vào năm nào?",
+          "en": "In what year was the temple built?"
+        },
+        "options": [
+          {
+            "vi": "1653",
+            "en": "1653"
+          },
+          {
+            "vi": "1719",
+            "en": "1719"
+          },
+          {
+            "vi": "1840",
+            "en": "1840"
+          }
+        ],
         "answer": 0
       }
     ]
   },
   {
     "id": "bao-tang-gom-su-mau-dich",
-    "name": { "vi": "Bảo tàng Gốm sứ Mậu dịch", "en": "Museum of Trade Ceramics" },
+    "code": "A4",
+    "name": {
+      "vi": "Bảo tàng Gốm sứ mậu dịch",
+      "en": "Museum of Trade Ceramics"
+    },
     "category": "bao-tang",
-    "lat": 15.8772,
-    "lng": 108.3284,
-    "radius": 35,
-    "address": { "vi": "80 Trần Phú, Phường Minh An", "en": "80 Tran Phu St, Minh An Ward" },
-    "hours": { "vi": "08:00 – 17:00", "en": "08:00 – 17:00" },
+    "lat": 15.8772894,
+    "lng": 108.3295509,
+    "radius": 75,
+    "address": {
+      "vi": "80 Trần Phú",
+      "en": "80 Trần Phú"
+    },
+    "hours": {
+      "vi": "7:00 - 21:00",
+      "en": "7:00 - 21:00"
+    },
     "image": null,
+    "traffic": "medium",
+    "promoPriority": "medium",
     "description": {
-      "vi": "Trưng bày hơn 430 hiện vật gốm sứ mậu dịch từ thế kỷ 8–18, minh chứng cho vai trò thương cảng quốc tế của Hội An.",
+      "vi": "Nằm trong một ngôi nhà cổ hai tầng được xây dựng vào khoảng đầu thế kỷ XX nằm tại số 80 Trần Phú, thành phố Hội An, Bảo tàng Gốm sứ Mậu dịch là bảo tàng chuyên đề trưng bày các hiện vật gốm sứ được tìm thấy trong các di chỉ khảo cổ học gốm sứ tại Hội An, phản ánh con đường gốm sứ mậu dịch trên biển…",
       "en": "Displays over 430 trade-ceramic artifacts from the 8th–18th centuries, evidence of Hoi An's role as an international port."
     },
     "quizBank": [
       {
         "difficulty": "easy",
-        "question": { "vi": "Bảo tàng trưng bày loại hiện vật chính nào?", "en": "What artifacts does the museum mainly display?" },
-        "options": [{ "vi": "Gốm sứ mậu dịch", "en": "Trade ceramics" }, { "vi": "Tranh sơn mài", "en": "Lacquer paintings" }, { "vi": "Nhạc cụ", "en": "Musical instruments" }],
+        "question": {
+          "vi": "Bảo tàng trưng bày loại hiện vật chính nào?",
+          "en": "What artifacts does the museum mainly display?"
+        },
+        "options": [
+          {
+            "vi": "Gốm sứ mậu dịch",
+            "en": "Trade ceramics"
+          },
+          {
+            "vi": "Tranh sơn mài",
+            "en": "Lacquer paintings"
+          },
+          {
+            "vi": "Nhạc cụ",
+            "en": "Musical instruments"
+          }
+        ],
         "answer": 0
       },
       {
         "difficulty": "easy",
-        "question": { "vi": "Các hiện vật gốm sứ phản ánh vai trò gì của Hội An?", "en": "What role of Hoi An do the ceramics reflect?" },
-        "options": [{ "vi": "Thương cảng quốc tế", "en": "International trading port" }, { "vi": "Kinh đô", "en": "Royal capital" }, { "vi": "Pháo đài quân sự", "en": "Military fortress" }],
+        "question": {
+          "vi": "Các hiện vật gốm sứ phản ánh vai trò gì của Hội An?",
+          "en": "What role of Hoi An do the ceramics reflect?"
+        },
+        "options": [
+          {
+            "vi": "Thương cảng quốc tế",
+            "en": "International trading port"
+          },
+          {
+            "vi": "Kinh đô",
+            "en": "Royal capital"
+          },
+          {
+            "vi": "Pháo đài quân sự",
+            "en": "Military fortress"
+          }
+        ],
         "answer": 0
       },
       {
         "difficulty": "hard",
-        "question": { "vi": "Hiện vật trong bảo tàng có niên đại khoảng thế kỷ mấy?", "en": "From around which centuries are the artifacts?" },
-        "options": [{ "vi": "Thế kỷ 8–18", "en": "8th–18th century" }, { "vi": "Thế kỷ 1–5", "en": "1st–5th century" }, { "vi": "Thế kỷ 19–20", "en": "19th–20th century" }],
+        "question": {
+          "vi": "Hiện vật trong bảo tàng có niên đại khoảng thế kỷ mấy?",
+          "en": "From around which centuries are the artifacts?"
+        },
+        "options": [
+          {
+            "vi": "Thế kỷ 8–18",
+            "en": "8th–18th century"
+          },
+          {
+            "vi": "Thế kỷ 1–5",
+            "en": "1st–5th century"
+          },
+          {
+            "vi": "Thế kỷ 19–20",
+            "en": "19th–20th century"
+          }
+        ],
         "answer": 0
+      }
+    ]
+  },
+  {
+    "id": "bao-tang-hoi-an",
+    "code": "A5",
+    "name": {
+      "vi": "Bảo tàng Hội An",
+      "en": "Hoi An Museum"
+    },
+    "category": "bao-tang",
+    "lat": 15.8802686,
+    "lng": 108.3294629,
+    "radius": 75,
+    "address": {
+      "vi": "10B Trần Hưng Đạo",
+      "en": "10B Trần Hưng Đạo"
+    },
+    "hours": {
+      "vi": "7:30 - 11:30 13:30 - 17:30",
+      "en": "7:30 - 11:30 13:30 - 17:30"
+    },
+    "image": null,
+    "traffic": "low",
+    "promoPriority": "medium",
+    "description": {
+      "vi": "Hội An là một thành phố nhỏ trực thuộc tỉnh Quảng Nam, nằm bên bờ bắc sông Thu Bồn cách Thành phố Đà Nẵng 30km về phía Nam. Thành phố Hội An có diện tích khoảng 60 km2, dân số hơn 90.000 người, gồm 9 phường , 3 xã đất liền và 1 xã đảo.",
+      "en": "The general museum of the town: Sa Huynh, Champa and trading-port periods through to the modern city."
+    },
+    "quizBank": [
+      {
+        "difficulty": "easy",
+        "generated": true,
+        "question": {
+          "vi": "Bảo tàng Hội An nằm trên đường nào?",
+          "en": "Which street is Hoi An Museum on?"
+        },
+        "options": [
+          {
+            "vi": "Nguyễn Thị Minh Khai",
+            "en": "Nguyễn Thị Minh Khai"
+          },
+          {
+            "vi": "Trần Hưng Đạo",
+            "en": "Trần Hưng Đạo"
+          },
+          {
+            "vi": "Nguyễn Thái Học",
+            "en": "Nguyễn Thái Học"
+          }
+        ],
+        "answer": 1
+      },
+      {
+        "difficulty": "easy",
+        "generated": true,
+        "question": {
+          "vi": "Bảo tàng Hội An thuộc nhóm điểm đến nào?",
+          "en": "Which kind of site is Hoi An Museum?"
+        },
+        "options": [
+          {
+            "vi": "Di tích",
+            "en": "Heritage"
+          },
+          {
+            "vi": "Hội quán",
+            "en": "Assembly halls"
+          },
+          {
+            "vi": "Bảo tàng",
+            "en": "Museums"
+          }
+        ],
+        "answer": 2
+      },
+      {
+        "difficulty": "hard",
+        "generated": true,
+        "question": {
+          "vi": "Giờ mở cửa của Bảo tàng Hội An là?",
+          "en": "What are the opening hours of Hoi An Museum?"
+        },
+        "options": [
+          {
+            "vi": "7:30 - 11:30 13:30 - 17:30",
+            "en": "7:30 - 11:30 13:30 - 17:30"
+          },
+          {
+            "vi": "7:00 - 22:00",
+            "en": "7:00 - 22:00"
+          },
+          {
+            "vi": "8:00 - 18:00",
+            "en": "8:00 - 18:00"
+          }
+        ],
+        "answer": 0
+      }
+    ]
+  },
+  {
+    "id": "bao-tang-sa-huynh",
+    "code": "A6",
+    "name": {
+      "vi": "Bảo tàng Văn hóa Sa Huỳnh",
+      "en": "Sa Huynh Culture Museum"
+    },
+    "category": "bao-tang",
+    "lat": 15.8768419,
+    "lng": 108.3263413,
+    "radius": 75,
+    "address": {
+      "vi": "149 Trần Phú",
+      "en": "149 Trần Phú"
+    },
+    "hours": {
+      "vi": "8:00 - 21:00",
+      "en": "8:00 - 21:00"
+    },
+    "image": null,
+    "traffic": "low",
+    "promoPriority": "medium",
+    "description": {
+      "vi": "Bảo tàng Văn hoá Sa Huỳnh tọa lạc tại một ngôi nhà cổ theo lối kiến trúc Pháp, nằm ở số 149 đường Trần Phú, Hội An, là nơi trưng bày bộ sưu tập đầy đủ và độc đáo gồm 971 hiện vật liên quan đến cư dân cổ thuộc hệ văn hoá Sa Huỳnh (niên đại cách nay hơn 2000 năm) - được coi là chủ nhân của tiền cảng -…",
+      "en": "Burial jars, jewellery and tools of the Sa Huynh culture that lived here more than 2,000 years ago."
+    },
+    "quizBank": [
+      {
+        "difficulty": "easy",
+        "generated": true,
+        "question": {
+          "vi": "Bảo tàng Văn hóa Sa Huỳnh nằm trên đường nào?",
+          "en": "Which street is Sa Huynh Culture Museum on?"
+        },
+        "options": [
+          {
+            "vi": "Nguyễn Thị Minh Khai",
+            "en": "Nguyễn Thị Minh Khai"
+          },
+          {
+            "vi": "Nguyễn Thái Học",
+            "en": "Nguyễn Thái Học"
+          },
+          {
+            "vi": "Trần Phú",
+            "en": "Trần Phú"
+          }
+        ],
+        "answer": 2
+      },
+      {
+        "difficulty": "easy",
+        "generated": true,
+        "question": {
+          "vi": "Bảo tàng Văn hóa Sa Huỳnh thuộc nhóm điểm đến nào?",
+          "en": "Which kind of site is Sa Huynh Culture Museum?"
+        },
+        "options": [
+          {
+            "vi": "Bảo tàng",
+            "en": "Museums"
+          },
+          {
+            "vi": "Di tích",
+            "en": "Heritage"
+          },
+          {
+            "vi": "Hội quán",
+            "en": "Assembly halls"
+          }
+        ],
+        "answer": 0
+      },
+      {
+        "difficulty": "hard",
+        "generated": true,
+        "question": {
+          "vi": "Giờ mở cửa của Bảo tàng Văn hóa Sa Huỳnh là?",
+          "en": "What are the opening hours of Sa Huynh Culture Museum?"
+        },
+        "options": [
+          {
+            "vi": "7:00 - 22:00",
+            "en": "7:00 - 22:00"
+          },
+          {
+            "vi": "8:00 - 21:00",
+            "en": "8:00 - 21:00"
+          },
+          {
+            "vi": "8:00 - 18:00",
+            "en": "8:00 - 18:00"
+          }
+        ],
+        "answer": 1
+      }
+    ]
+  },
+  {
+    "id": "bao-tang-van-hoa-dan-gian",
+    "code": "A7",
+    "name": {
+      "vi": "Bảo tàng Văn hóa dân gian",
+      "en": "Museum of Folk Culture"
+    },
+    "category": "bao-tang",
+    "lat": 15.8765833,
+    "lng": 108.3298399,
+    "radius": 75,
+    "address": {
+      "vi": "33 Nguyễn Thái Học",
+      "en": "33 Nguyễn Thái Học"
+    },
+    "hours": {
+      "vi": "8:00 - 21:30",
+      "en": "8:00 - 21:30"
+    },
+    "image": null,
+    "traffic": "medium",
+    "promoPriority": "medium",
+    "description": {
+      "vi": "Bảo tàng Văn hóa Dân gian tọa lạc tại một căn nhà cổ 2 tầng nằm ở số 33 đường Nguyễn Thái Học, Hội An, là nơi lưu giữ và cung cấp các thông tin có giá trị về nhiều nét đẹp văn hóa đặc sắc của cư dân địa phương.",
+      "en": "A large two-storey wooden house showing the crafts, folk arts and everyday life of Hoi An."
+    },
+    "quizBank": [
+      {
+        "difficulty": "easy",
+        "generated": true,
+        "question": {
+          "vi": "Bảo tàng Văn hóa dân gian nằm trên đường nào?",
+          "en": "Which street is Museum of Folk Culture on?"
+        },
+        "options": [
+          {
+            "vi": "Nguyễn Thái Học",
+            "en": "Nguyễn Thái Học"
+          },
+          {
+            "vi": "Nguyễn Thị Minh Khai",
+            "en": "Nguyễn Thị Minh Khai"
+          },
+          {
+            "vi": "Trần Hưng Đạo",
+            "en": "Trần Hưng Đạo"
+          }
+        ],
+        "answer": 0
+      },
+      {
+        "difficulty": "easy",
+        "generated": true,
+        "question": {
+          "vi": "Bảo tàng Văn hóa dân gian thuộc nhóm điểm đến nào?",
+          "en": "Which kind of site is Museum of Folk Culture?"
+        },
+        "options": [
+          {
+            "vi": "Di tích",
+            "en": "Heritage"
+          },
+          {
+            "vi": "Bảo tàng",
+            "en": "Museums"
+          },
+          {
+            "vi": "Hội quán",
+            "en": "Assembly halls"
+          }
+        ],
+        "answer": 1
+      },
+      {
+        "difficulty": "hard",
+        "generated": true,
+        "question": {
+          "vi": "Giờ mở cửa của Bảo tàng Văn hóa dân gian là?",
+          "en": "What are the opening hours of Museum of Folk Culture?"
+        },
+        "options": [
+          {
+            "vi": "7:00 - 22:00",
+            "en": "7:00 - 22:00"
+          },
+          {
+            "vi": "8:00 - 18:00",
+            "en": "8:00 - 18:00"
+          },
+          {
+            "vi": "8:00 - 21:30",
+            "en": "8:00 - 21:30"
+          }
+        ],
+        "answer": 2
+      }
+    ]
+  },
+  {
+    "id": "bao-tang-nghe-y",
+    "code": "A8",
+    "name": {
+      "vi": "Bảo tàng nghề Y truyền thống",
+      "en": "Museum of Traditional Medicine"
+    },
+    "category": "bao-tang",
+    "lat": 15.8766736,
+    "lng": 108.329857,
+    "radius": 75,
+    "address": {
+      "vi": "34 Nguyễn Thái Học",
+      "en": "34 Nguyễn Thái Học"
+    },
+    "hours": {
+      "vi": "8:00 - 21:30",
+      "en": "8:00 - 21:30"
+    },
+    "image": null,
+    "traffic": "low",
+    "promoPriority": "medium",
+    "description": {
+      "vi": "Traditional Vietnamese medicine: herb cabinets, scales, prescriptions and a reconstructed apothecary.",
+      "en": "Traditional Vietnamese medicine: herb cabinets, scales, prescriptions and a reconstructed apothecary."
+    },
+    "quizBank": [
+      {
+        "difficulty": "easy",
+        "generated": true,
+        "question": {
+          "vi": "Bảo tàng nghề Y truyền thống nằm trên đường nào?",
+          "en": "Which street is Museum of Traditional Medicine on?"
+        },
+        "options": [
+          {
+            "vi": "Nguyễn Thị Minh Khai",
+            "en": "Nguyễn Thị Minh Khai"
+          },
+          {
+            "vi": "Nguyễn Thái Học",
+            "en": "Nguyễn Thái Học"
+          },
+          {
+            "vi": "Trần Hưng Đạo",
+            "en": "Trần Hưng Đạo"
+          }
+        ],
+        "answer": 1
+      },
+      {
+        "difficulty": "easy",
+        "generated": true,
+        "question": {
+          "vi": "Bảo tàng nghề Y truyền thống thuộc nhóm điểm đến nào?",
+          "en": "Which kind of site is Museum of Traditional Medicine?"
+        },
+        "options": [
+          {
+            "vi": "Di tích",
+            "en": "Heritage"
+          },
+          {
+            "vi": "Hội quán",
+            "en": "Assembly halls"
+          },
+          {
+            "vi": "Bảo tàng",
+            "en": "Museums"
+          }
+        ],
+        "answer": 2
+      },
+      {
+        "difficulty": "hard",
+        "generated": true,
+        "question": {
+          "vi": "Giờ mở cửa của Bảo tàng nghề Y truyền thống là?",
+          "en": "What are the opening hours of Museum of Traditional Medicine?"
+        },
+        "options": [
+          {
+            "vi": "8:00 - 21:30",
+            "en": "8:00 - 21:30"
+          },
+          {
+            "vi": "7:00 - 22:00",
+            "en": "7:00 - 22:00"
+          },
+          {
+            "vi": "8:00 - 18:00",
+            "en": "8:00 - 18:00"
+          }
+        ],
+        "answer": 0
+      }
+    ]
+  },
+  {
+    "id": "bao-tang-tho-san",
+    "code": "A9",
+    "name": {
+      "vi": "Bảo tàng Thổ sản",
+      "en": "Museum of Local Products"
+    },
+    "category": "bao-tang",
+    "lat": 15.87735,
+    "lng": 108.32995,
+    "radius": 75,
+    "needsSurvey": true,
+    "address": {
+      "vi": "57 Trần Phú",
+      "en": "57 Trần Phú"
+    },
+    "hours": {
+      "vi": "8:00 - 21:30",
+      "en": "8:00 - 21:30"
+    },
+    "image": null,
+    "traffic": "low",
+    "promoPriority": "medium",
+    "description": {
+      "vi": "Local produce and specialities of Quang Nam, and the river trade that carried them to the port.",
+      "en": "Local produce and specialities of Quang Nam, and the river trade that carried them to the port."
+    },
+    "quizBank": [
+      {
+        "difficulty": "easy",
+        "generated": true,
+        "question": {
+          "vi": "Bảo tàng Thổ sản nằm trên đường nào?",
+          "en": "Which street is Museum of Local Products on?"
+        },
+        "options": [
+          {
+            "vi": "Nguyễn Thị Minh Khai",
+            "en": "Nguyễn Thị Minh Khai"
+          },
+          {
+            "vi": "Nguyễn Thái Học",
+            "en": "Nguyễn Thái Học"
+          },
+          {
+            "vi": "Trần Phú",
+            "en": "Trần Phú"
+          }
+        ],
+        "answer": 2
+      },
+      {
+        "difficulty": "easy",
+        "generated": true,
+        "question": {
+          "vi": "Bảo tàng Thổ sản thuộc nhóm điểm đến nào?",
+          "en": "Which kind of site is Museum of Local Products?"
+        },
+        "options": [
+          {
+            "vi": "Bảo tàng",
+            "en": "Museums"
+          },
+          {
+            "vi": "Di tích",
+            "en": "Heritage"
+          },
+          {
+            "vi": "Hội quán",
+            "en": "Assembly halls"
+          }
+        ],
+        "answer": 0
+      },
+      {
+        "difficulty": "hard",
+        "generated": true,
+        "question": {
+          "vi": "Giờ mở cửa của Bảo tàng Thổ sản là?",
+          "en": "What are the opening hours of Museum of Local Products?"
+        },
+        "options": [
+          {
+            "vi": "7:00 - 22:00",
+            "en": "7:00 - 22:00"
+          },
+          {
+            "vi": "8:00 - 21:30",
+            "en": "8:00 - 21:30"
+          },
+          {
+            "vi": "8:00 - 18:00",
+            "en": "8:00 - 18:00"
+          }
+        ],
+        "answer": 1
+      }
+    ]
+  },
+  {
+    "id": "nha-trung-bay-nhat-ban",
+    "code": "A10",
+    "name": {
+      "vi": "Nhà trưng bày Văn hóa Nhật Bản",
+      "en": "Japanese Culture Exhibition House"
+    },
+    "category": "bao-tang",
+    "lat": 15.8771789,
+    "lng": 108.3257066,
+    "radius": 75,
+    "address": {
+      "vi": "6 Nguyễn Thị Minh Khai",
+      "en": "6 Nguyễn Thị Minh Khai"
+    },
+    "hours": {
+      "vi": "Liên hệ ban tổ chức",
+      "en": "Check with organisers"
+    },
+    "image": null,
+    "traffic": "low",
+    "promoPriority": "low",
+    "description": {
+      "vi": "Exhibition on the Japanese quarter of old Hoi An and the archaeology of Japanese trade in the town.",
+      "en": "Exhibition on the Japanese quarter of old Hoi An and the archaeology of Japanese trade in the town."
+    },
+    "quizBank": [
+      {
+        "difficulty": "easy",
+        "generated": true,
+        "question": {
+          "vi": "Nhà trưng bày Văn hóa Nhật Bản nằm trên đường nào?",
+          "en": "Which street is Japanese Culture Exhibition House on?"
+        },
+        "options": [
+          {
+            "vi": "Nguyễn Thị Minh Khai",
+            "en": "Nguyễn Thị Minh Khai"
+          },
+          {
+            "vi": "Trần Phú",
+            "en": "Trần Phú"
+          },
+          {
+            "vi": "Nguyễn Thái Học",
+            "en": "Nguyễn Thái Học"
+          }
+        ],
+        "answer": 0
+      },
+      {
+        "difficulty": "easy",
+        "generated": true,
+        "question": {
+          "vi": "Nhà trưng bày Văn hóa Nhật Bản thuộc nhóm điểm đến nào?",
+          "en": "Which kind of site is Japanese Culture Exhibition House?"
+        },
+        "options": [
+          {
+            "vi": "Di tích",
+            "en": "Heritage"
+          },
+          {
+            "vi": "Bảo tàng",
+            "en": "Museums"
+          },
+          {
+            "vi": "Hội quán",
+            "en": "Assembly halls"
+          }
+        ],
+        "answer": 1
+      }
+    ]
+  },
+  {
+    "id": "nha-bieu-dien-nghe-thuat",
+    "code": "A11",
+    "name": {
+      "vi": "Nhà biểu diễn nghệ thuật cổ truyền Hội An",
+      "en": "Traditional Art Performance House"
+    },
+    "category": "trinh-dien",
+    "lat": 15.87645,
+    "lng": 108.32966,
+    "radius": 75,
+    "needsSurvey": true,
+    "address": {
+      "vi": "Khu phố cổ Hội An",
+      "en": "Hoi An Ancient Town"
+    },
+    "hours": {
+      "vi": "Liên hệ ban tổ chức",
+      "en": "Check with organisers"
+    },
+    "image": null,
+    "traffic": "medium",
+    "promoPriority": "medium",
+    "description": {
+      "vi": "Nhà Biểu diễn nghệ thuật cổ truyền được thành lập từ năm 1996 đến nay, các chương trình nghệ thuật đã mang lại nhiều mỹ cảm và sự thích thú cho đông đảo người xem trong nước và quốc tế.",
+      "en": "Stage for traditional music, bai choi singing and folk dance performances."
+    },
+    "quizBank": [
+      {
+        "difficulty": "easy",
+        "generated": true,
+        "question": {
+          "vi": "Nhà biểu diễn nghệ thuật cổ truyền Hội An thuộc nhóm điểm đến nào?",
+          "en": "Which kind of site is Traditional Art Performance House?"
+        },
+        "options": [
+          {
+            "vi": "Di tích",
+            "en": "Heritage"
+          },
+          {
+            "vi": "Hội quán",
+            "en": "Assembly halls"
+          },
+          {
+            "vi": "Trình diễn",
+            "en": "Performances"
+          }
+        ],
+        "answer": 2
+      }
+    ]
+  },
+  {
+    "id": "nha-tho-toc-tran",
+    "code": "A12",
+    "name": {
+      "vi": "Nhà thờ tộc Trần",
+      "en": "Tran Family Chapel"
+    },
+    "category": "nha-co",
+    "lat": 15.8786558,
+    "lng": 108.3287955,
+    "radius": 75,
+    "address": {
+      "vi": "21 Lê Lợi",
+      "en": "21 Lê Lợi"
+    },
+    "hours": {
+      "vi": "7:00 - 21:00 (trừ Chủ nhật và Thứ hai đóng cửa lúc 18:00)",
+      "en": "7:00 - 21:00 (trừ Chủ nhật và Thứ hai đóng cửa lúc 18:00)"
+    },
+    "image": null,
+    "traffic": "low",
+    "promoPriority": "medium",
+    "description": {
+      "vi": "A 200-year-old family worship house built by a mandarin of the Tran clan, set in a walled garden.",
+      "en": "A 200-year-old family worship house built by a mandarin of the Tran clan, set in a walled garden."
+    },
+    "quizBank": [
+      {
+        "difficulty": "easy",
+        "generated": true,
+        "question": {
+          "vi": "Nhà thờ tộc Trần nằm trên đường nào?",
+          "en": "Which street is Tran Family Chapel on?"
+        },
+        "options": [
+          {
+            "vi": "Nguyễn Thị Minh Khai",
+            "en": "Nguyễn Thị Minh Khai"
+          },
+          {
+            "vi": "Trần Hưng Đạo",
+            "en": "Trần Hưng Đạo"
+          },
+          {
+            "vi": "Lê Lợi",
+            "en": "Lê Lợi"
+          }
+        ],
+        "answer": 2
+      },
+      {
+        "difficulty": "easy",
+        "generated": true,
+        "question": {
+          "vi": "Nhà thờ tộc Trần thuộc nhóm điểm đến nào?",
+          "en": "Which kind of site is Tran Family Chapel?"
+        },
+        "options": [
+          {
+            "vi": "Nhà cổ",
+            "en": "Old houses"
+          },
+          {
+            "vi": "Di tích",
+            "en": "Heritage"
+          },
+          {
+            "vi": "Hội quán",
+            "en": "Assembly halls"
+          }
+        ],
+        "answer": 0
+      },
+      {
+        "difficulty": "hard",
+        "generated": true,
+        "question": {
+          "vi": "Giờ mở cửa của Nhà thờ tộc Trần là?",
+          "en": "What are the opening hours of Tran Family Chapel?"
+        },
+        "options": [
+          {
+            "vi": "7:00 - 22:00",
+            "en": "7:00 - 22:00"
+          },
+          {
+            "vi": "7:00 - 21:00 (trừ Chủ nhật và Thứ hai đóng cửa lúc 18:00)",
+            "en": "7:00 - 21:00 (trừ Chủ nhật và Thứ hai đóng cửa lúc 18:00)"
+          },
+          {
+            "vi": "8:00 - 18:00",
+            "en": "8:00 - 18:00"
+          }
+        ],
+        "answer": 1
+      }
+    ]
+  },
+  {
+    "id": "nha-tho-toc-nguyen-tuong",
+    "code": "A13",
+    "name": {
+      "vi": "Nhà thờ tộc Nguyễn Tường",
+      "en": "Nguyen Tuong Family Chapel"
+    },
+    "category": "nha-co",
+    "lat": 15.8775334,
+    "lng": 108.3256375,
+    "radius": 75,
+    "address": {
+      "vi": "8/2 Nguyễn Thị Minh Khai",
+      "en": "8/2 Nguyễn Thị Minh Khai"
+    },
+    "hours": {
+      "vi": "8:00 - 21:00",
+      "en": "8:00 - 21:00"
+    },
+    "image": null,
+    "traffic": "low",
+    "promoPriority": "medium",
+    "description": {
+      "vi": "Nằm tại số 8/2 đường Nguyễn Thị Minh Khai, Hội An, nhà thờ tộc Nguyễn Tường được khởi dựng năm 1806, vốn là tư dinh của cụ Nguyễn Tường Vân, làm quan dưới thời Gia Long triều Nguyễn, được thăng chức Binh bộ Thượng thư vào năm Minh Mạng thứ nhất (1820).",
+      "en": "Ancestral chapel of the Nguyen Tuong clan, a family of mandarins and writers."
+    },
+    "quizBank": [
+      {
+        "difficulty": "easy",
+        "generated": true,
+        "question": {
+          "vi": "Nhà thờ tộc Nguyễn Tường nằm trên đường nào?",
+          "en": "Which street is Nguyen Tuong Family Chapel on?"
+        },
+        "options": [
+          {
+            "vi": "Nguyễn Thị Minh Khai",
+            "en": "Nguyễn Thị Minh Khai"
+          },
+          {
+            "vi": "Trần Phú",
+            "en": "Trần Phú"
+          },
+          {
+            "vi": "Nguyễn Thái Học",
+            "en": "Nguyễn Thái Học"
+          }
+        ],
+        "answer": 0
+      },
+      {
+        "difficulty": "easy",
+        "generated": true,
+        "question": {
+          "vi": "Nhà thờ tộc Nguyễn Tường thuộc nhóm điểm đến nào?",
+          "en": "Which kind of site is Nguyen Tuong Family Chapel?"
+        },
+        "options": [
+          {
+            "vi": "Di tích",
+            "en": "Heritage"
+          },
+          {
+            "vi": "Nhà cổ",
+            "en": "Old houses"
+          },
+          {
+            "vi": "Hội quán",
+            "en": "Assembly halls"
+          }
+        ],
+        "answer": 1
+      },
+      {
+        "difficulty": "hard",
+        "generated": true,
+        "question": {
+          "vi": "Giờ mở cửa của Nhà thờ tộc Nguyễn Tường là?",
+          "en": "What are the opening hours of Nguyen Tuong Family Chapel?"
+        },
+        "options": [
+          {
+            "vi": "7:00 - 22:00",
+            "en": "7:00 - 22:00"
+          },
+          {
+            "vi": "8:00 - 18:00",
+            "en": "8:00 - 18:00"
+          },
+          {
+            "vi": "8:00 - 21:00",
+            "en": "8:00 - 21:00"
+          }
+        ],
+        "answer": 2
+      }
+    ]
+  },
+  {
+    "id": "nha-co-phung-hung",
+    "code": "A14",
+    "name": {
+      "vi": "Nhà cổ Phùng Hưng",
+      "en": "Phung Hung Old House"
+    },
+    "category": "nha-co",
+    "lat": 15.8771915,
+    "lng": 108.3258009,
+    "radius": 75,
+    "address": {
+      "vi": "4 Nguyễn Thị Minh Khai",
+      "en": "4 Nguyễn Thị Minh Khai"
+    },
+    "hours": {
+      "vi": "8:00 - 18:00",
+      "en": "8:00 - 18:00"
+    },
+    "image": null,
+    "traffic": "medium",
+    "promoPriority": "medium",
+    "description": {
+      "vi": "Nhà cổ Phùng Hưng nằm về phía Tây của cầu Nhật Bản khoảng 10m, có địa chỉ số 04 - Nguyễn Thị Minh Khai. Nhà được xây dựng cách đây khoảng hơn 100 năm, là nơi sinh sống của nhiều thế hệ nối tiếp nhau thuộc một gia đình.",
+      "en": "A two-storey merchant house blending Vietnamese, Japanese and Chinese carpentry, still lived in by the family."
+    },
+    "quizBank": [
+      {
+        "difficulty": "easy",
+        "generated": true,
+        "question": {
+          "vi": "Nhà cổ Phùng Hưng nằm trên đường nào?",
+          "en": "Which street is Phung Hung Old House on?"
+        },
+        "options": [
+          {
+            "vi": "Trần Phú",
+            "en": "Trần Phú"
+          },
+          {
+            "vi": "Nguyễn Thị Minh Khai",
+            "en": "Nguyễn Thị Minh Khai"
+          },
+          {
+            "vi": "Nguyễn Thái Học",
+            "en": "Nguyễn Thái Học"
+          }
+        ],
+        "answer": 1
+      },
+      {
+        "difficulty": "easy",
+        "generated": true,
+        "question": {
+          "vi": "Nhà cổ Phùng Hưng thuộc nhóm điểm đến nào?",
+          "en": "Which kind of site is Phung Hung Old House?"
+        },
+        "options": [
+          {
+            "vi": "Di tích",
+            "en": "Heritage"
+          },
+          {
+            "vi": "Hội quán",
+            "en": "Assembly halls"
+          },
+          {
+            "vi": "Nhà cổ",
+            "en": "Old houses"
+          }
+        ],
+        "answer": 2
+      },
+      {
+        "difficulty": "hard",
+        "generated": true,
+        "question": {
+          "vi": "Giờ mở cửa của Nhà cổ Phùng Hưng là?",
+          "en": "What are the opening hours of Phung Hung Old House?"
+        },
+        "options": [
+          {
+            "vi": "8:00 - 18:00",
+            "en": "8:00 - 18:00"
+          },
+          {
+            "vi": "7:00 - 22:00",
+            "en": "7:00 - 22:00"
+          },
+          {
+            "vi": "7:00 - 21:00 (trừ Chủ nhật và Thứ hai đóng cửa lúc 18:00)",
+            "en": "7:00 - 21:00 (trừ Chủ nhật và Thứ hai đóng cửa lúc 18:00)"
+          }
+        ],
+        "answer": 0
+      }
+    ]
+  },
+  {
+    "id": "nha-co-quan-thang",
+    "code": "A15",
+    "name": {
+      "vi": "Nhà cổ Quân Thắng",
+      "en": "Quan Thang Ancient House"
+    },
+    "category": "nha-co",
+    "lat": 15.8771093,
+    "lng": 108.3292184,
+    "radius": 75,
+    "address": {
+      "vi": "77 Trần Phú",
+      "en": "77 Trần Phú"
+    },
+    "hours": {
+      "vi": "9:00 - 19:00",
+      "en": "9:00 - 19:00"
+    },
+    "image": null,
+    "traffic": "high",
+    "promoPriority": "medium",
+    "description": {
+      "vi": "Nằm ở số 77 đường Trần Phú, thành phố Hội An, nhà cổ Quân Thắng là một trong những ngôi nhà cổ nhất và có kiến trúc độc đáo nhất ở phố cổ Hội An hiện còn được bảo tồn tương đối nguyên vẹn.",
+      "en": "A small, finely carved house of Chinese-Fujian style, over 150 years old."
+    },
+    "quizBank": [
+      {
+        "difficulty": "easy",
+        "generated": true,
+        "question": {
+          "vi": "Nhà cổ Quân Thắng nằm trên đường nào?",
+          "en": "Which street is Quan Thang Ancient House on?"
+        },
+        "options": [
+          {
+            "vi": "Nguyễn Thị Minh Khai",
+            "en": "Nguyễn Thị Minh Khai"
+          },
+          {
+            "vi": "Nguyễn Thái Học",
+            "en": "Nguyễn Thái Học"
+          },
+          {
+            "vi": "Trần Phú",
+            "en": "Trần Phú"
+          }
+        ],
+        "answer": 2
+      },
+      {
+        "difficulty": "easy",
+        "generated": true,
+        "question": {
+          "vi": "Nhà cổ Quân Thắng thuộc nhóm điểm đến nào?",
+          "en": "Which kind of site is Quan Thang Ancient House?"
+        },
+        "options": [
+          {
+            "vi": "Nhà cổ",
+            "en": "Old houses"
+          },
+          {
+            "vi": "Di tích",
+            "en": "Heritage"
+          },
+          {
+            "vi": "Hội quán",
+            "en": "Assembly halls"
+          }
+        ],
+        "answer": 0
+      },
+      {
+        "difficulty": "hard",
+        "generated": true,
+        "question": {
+          "vi": "Giờ mở cửa của Nhà cổ Quân Thắng là?",
+          "en": "What are the opening hours of Quan Thang Ancient House?"
+        },
+        "options": [
+          {
+            "vi": "7:00 - 22:00",
+            "en": "7:00 - 22:00"
+          },
+          {
+            "vi": "9:00 - 19:00",
+            "en": "9:00 - 19:00"
+          },
+          {
+            "vi": "7:00 - 21:00 (trừ Chủ nhật và Thứ hai đóng cửa lúc 18:00)",
+            "en": "7:00 - 21:00 (trừ Chủ nhật và Thứ hai đóng cửa lúc 18:00)"
+          }
+        ],
+        "answer": 1
+      }
+    ]
+  },
+  {
+    "id": "nha-co-duc-an",
+    "code": "A16",
+    "name": {
+      "vi": "Nhà cổ Đức An",
+      "en": "Duc An Old House"
+    },
+    "category": "nha-co",
+    "lat": 15.87705,
+    "lng": 108.3272,
+    "radius": 75,
+    "needsSurvey": true,
+    "address": {
+      "vi": "129 đường Trần Phú, Hội An",
+      "en": "129 đường Trần Phú, Hội An"
+    },
+    "hours": {
+      "vi": "9:00 - 19:00",
+      "en": "9:00 - 19:00"
+    },
+    "image": null,
+    "traffic": "high",
+    "promoPriority": "medium",
+    "description": {
+      "vi": "A house that was a bookshop and a meeting point of early 20th-century patriots.",
+      "en": "A house that was a bookshop and a meeting point of early 20th-century patriots."
+    },
+    "quizBank": [
+      {
+        "difficulty": "easy",
+        "generated": true,
+        "question": {
+          "vi": "Nhà cổ Đức An nằm trên đường nào?",
+          "en": "Which street is Duc An Old House on?"
+        },
+        "options": [
+          {
+            "vi": "Trần Phú",
+            "en": "Trần Phú"
+          },
+          {
+            "vi": "Nguyễn Thị Minh Khai",
+            "en": "Nguyễn Thị Minh Khai"
+          },
+          {
+            "vi": "Nguyễn Thái Học",
+            "en": "Nguyễn Thái Học"
+          }
+        ],
+        "answer": 0
+      },
+      {
+        "difficulty": "easy",
+        "generated": true,
+        "question": {
+          "vi": "Nhà cổ Đức An thuộc nhóm điểm đến nào?",
+          "en": "Which kind of site is Duc An Old House?"
+        },
+        "options": [
+          {
+            "vi": "Di tích",
+            "en": "Heritage"
+          },
+          {
+            "vi": "Nhà cổ",
+            "en": "Old houses"
+          },
+          {
+            "vi": "Hội quán",
+            "en": "Assembly halls"
+          }
+        ],
+        "answer": 1
+      },
+      {
+        "difficulty": "hard",
+        "generated": true,
+        "question": {
+          "vi": "Giờ mở cửa của Nhà cổ Đức An là?",
+          "en": "What are the opening hours of Duc An Old House?"
+        },
+        "options": [
+          {
+            "vi": "7:00 - 22:00",
+            "en": "7:00 - 22:00"
+          },
+          {
+            "vi": "7:00 - 21:00 (trừ Chủ nhật và Thứ hai đóng cửa lúc 18:00)",
+            "en": "7:00 - 21:00 (trừ Chủ nhật và Thứ hai đóng cửa lúc 18:00)"
+          },
+          {
+            "vi": "9:00 - 19:00",
+            "en": "9:00 - 19:00"
+          }
+        ],
+        "answer": 2
+      }
+    ]
+  },
+  {
+    "id": "nha-co-tan-ky",
+    "code": "A17",
+    "name": {
+      "vi": "Nhà cổ Tấn Ký",
+      "en": "Tan Ky Old House"
+    },
+    "category": "nha-co",
+    "lat": 15.8764821,
+    "lng": 108.3277659,
+    "radius": 75,
+    "address": {
+      "vi": "101 Nguyễn Thái Học",
+      "en": "101 Nguyễn Thái Học"
+    },
+    "hours": {
+      "vi": "8:30 - 18:00",
+      "en": "8:30 - 18:00"
+    },
+    "image": null,
+    "traffic": "high",
+    "promoPriority": "low",
+    "description": {
+      "vi": "Trong hơn 1.000 nhà cổ hiện nay ở Đô thị cổ Hội An, nhà cổ Tấn Ký số 101 đường Nguyễn Thái Học nổi tiếng với du khách gần xa với các giá trị về lịch sử văn hoá, về kiến trúc và cả mỹ thuật điêu khắc gỗ.",
+      "en": "A 200-year-old house blending Vietnamese, Japanese and Chinese architecture, recognized as a national heritage site."
+    },
+    "quizBank": [
+      {
+        "difficulty": "easy",
+        "question": {
+          "vi": "Nhà cổ Tấn Ký khoảng bao nhiêu năm tuổi?",
+          "en": "About how old is the Tan Ky house?"
+        },
+        "options": [
+          {
+            "vi": "Hơn 200 năm",
+            "en": "Over 200 years"
+          },
+          {
+            "vi": "Khoảng 50 năm",
+            "en": "About 50 years"
+          },
+          {
+            "vi": "Hơn 500 năm",
+            "en": "Over 500 years"
+          }
+        ],
+        "answer": 0
+      },
+      {
+        "difficulty": "easy",
+        "question": {
+          "vi": "Kiến trúc nhà cổ Tấn Ký kết hợp những nền văn hóa nào?",
+          "en": "Which cultures does its architecture blend?"
+        },
+        "options": [
+          {
+            "vi": "Việt – Nhật – Hoa",
+            "en": "Viet – Japanese – Chinese"
+          },
+          {
+            "vi": "Việt – Pháp – Hoa",
+            "en": "Viet – French – Chinese"
+          },
+          {
+            "vi": "Nhật – Hoa – Ấn",
+            "en": "Japanese – Chinese – Indian"
+          }
+        ],
+        "answer": 0
+      },
+      {
+        "difficulty": "hard",
+        "question": {
+          "vi": "Vì sao nhà có mặt trước ra phố, mặt sau ra sông?",
+          "en": "Why does the house face the street in front and the river behind?"
+        },
+        "options": [
+          {
+            "vi": "Để buôn bán và bốc dỡ hàng",
+            "en": "For trade and unloading goods"
+          },
+          {
+            "vi": "Để tránh gió bão",
+            "en": "To avoid storms"
+          },
+          {
+            "vi": "Theo phong thủy",
+            "en": "For feng shui only"
+          }
+        ],
+        "answer": 0
+      }
+    ]
+  },
+  {
+    "id": "hoi-quan-quang-trieu",
+    "code": "A18",
+    "name": {
+      "vi": "Hội quán Quảng Triệu",
+      "en": "Cantonese Assembly Hall"
+    },
+    "category": "hoi-quan",
+    "lat": 15.8771518,
+    "lng": 108.3265642,
+    "radius": 75,
+    "address": {
+      "vi": "176 Trần Phú",
+      "en": "176 Trần Phú"
+    },
+    "hours": {
+      "vi": "8:00 - 17:00",
+      "en": "8:00 - 17:00"
+    },
+    "image": null,
+    "traffic": "high",
+    "promoPriority": "low",
+    "description": {
+      "vi": "Hội quán Quảng Đông (hay còn gọi là Hội quán Quảng Triệu) nằm tại số 176 đường Trần Phú, Hội An. Công trình được Hoa kiều bang Quảng Đông tại Hội An và các vùng lân cận xây dựng vào năm 1885 làm nơi sinh hoạt cộng đồng và tín ngưỡng.",
+      "en": "Also known as the Guangdong hall, famous for its intricate ceramic mosaics and elaborately carved wood and stone columns."
+    },
+    "quizBank": [
+      {
+        "difficulty": "easy",
+        "question": {
+          "vi": "Hội quán Quảng Triệu còn được gọi là gì?",
+          "en": "What is this hall also called?"
+        },
+        "options": [
+          {
+            "vi": "Hội quán Quảng Đông",
+            "en": "Guangdong Hall"
+          },
+          {
+            "vi": "Hội quán Hải Nam",
+            "en": "Hainan Hall"
+          },
+          {
+            "vi": "Hội quán Triều Châu",
+            "en": "Chaozhou Hall"
+          }
+        ],
+        "answer": 0
+      },
+      {
+        "difficulty": "easy",
+        "question": {
+          "vi": "Nghệ thuật trang trí nổi bật của hội quán là gì?",
+          "en": "What decorative art is the hall known for?"
+        },
+        "options": [
+          {
+            "vi": "Ghép sành sứ",
+            "en": "Ceramic mosaic"
+          },
+          {
+            "vi": "Sơn mài",
+            "en": "Lacquer"
+          },
+          {
+            "vi": "Thêu lụa",
+            "en": "Silk embroidery"
+          }
+        ],
+        "answer": 0
+      },
+      {
+        "difficulty": "hard",
+        "question": {
+          "vi": "Vật liệu nào được dùng cho các cột chạm khắc của hội quán?",
+          "en": "Which materials form the hall's carved columns?"
+        },
+        "options": [
+          {
+            "vi": "Gỗ và đá",
+            "en": "Wood and stone"
+          },
+          {
+            "vi": "Gạch nung",
+            "en": "Fired brick"
+          },
+          {
+            "vi": "Kim loại",
+            "en": "Metal"
+          }
+        ],
+        "answer": 0
+      }
+    ]
+  },
+  {
+    "id": "hoi-quan-phuc-kien",
+    "code": "A19",
+    "name": {
+      "vi": "Hội quán Phúc Kiến",
+      "en": "Fujian Assembly Hall"
+    },
+    "category": "hoi-quan",
+    "lat": 15.8774847,
+    "lng": 108.3306281,
+    "radius": 75,
+    "address": {
+      "vi": "46 Trần Phú",
+      "en": "46 Trần Phú"
+    },
+    "hours": {
+      "vi": "7:00 - 18:00",
+      "en": "7:00 - 18:00"
+    },
+    "image": null,
+    "traffic": "medium",
+    "promoPriority": "medium",
+    "description": {
+      "vi": "Hội quán Phúc Kiến tọa lạc tại số 46 đường Trần Phú, Hội An, trên một khuôn đất cao ráo quay mặt về hướng Nam. Công trình được bà con người Hoa bang Phước Kiến tại Hội An cho xây dựng năm 1757 trên nền một ngôi chùa Việt cổ có tên “Kim Sơn Tự”, dùng cho việc thờ tự các vị thần bảo hộ, các vị tiền hi…",
+      "en": "The largest and most ornate assembly hall in Hoi An, dedicated to Thien Hau, protector goddess of seafaring merchants of the Fujian community."
+    },
+    "quizBank": [
+      {
+        "difficulty": "easy",
+        "question": {
+          "vi": "Hội quán Phúc Kiến chủ yếu thờ vị thần nào?",
+          "en": "Which deity does the hall mainly worship?"
+        },
+        "options": [
+          {
+            "vi": "Thiên Hậu Thánh Mẫu",
+            "en": "Goddess Thien Hau"
+          },
+          {
+            "vi": "Quan Công",
+            "en": "Quan Cong"
+          },
+          {
+            "vi": "Thần Tài",
+            "en": "God of Wealth"
+          }
+        ],
+        "answer": 0
+      },
+      {
+        "difficulty": "easy",
+        "question": {
+          "vi": "Hội quán này của cộng đồng người Hoa gốc nào?",
+          "en": "Which Chinese community built this hall?"
+        },
+        "options": [
+          {
+            "vi": "Phúc Kiến",
+            "en": "Fujian"
+          },
+          {
+            "vi": "Quảng Đông",
+            "en": "Canton"
+          },
+          {
+            "vi": "Hải Nam",
+            "en": "Hainan"
+          }
+        ],
+        "answer": 0
+      },
+      {
+        "difficulty": "hard",
+        "question": {
+          "vi": "Thiên Hậu Thánh Mẫu là vị thần bảo hộ cho ai?",
+          "en": "Thien Hau is the protector of whom?"
+        },
+        "options": [
+          {
+            "vi": "Thương nhân đi biển",
+            "en": "Seafaring merchants"
+          },
+          {
+            "vi": "Nông dân",
+            "en": "Farmers"
+          },
+          {
+            "vi": "Học trò",
+            "en": "Students"
+          }
+        ],
+        "answer": 0
+      }
+    ]
+  },
+  {
+    "id": "hoi-quan-hai-nam",
+    "code": "A20",
+    "name": {
+      "vi": "Hội quán Hải Nam",
+      "en": "Hainan Assembly Hall"
+    },
+    "category": "hoi-quan",
+    "lat": 15.8776513,
+    "lng": 108.3320041,
+    "radius": 75,
+    "address": {
+      "vi": "10 Trần Phú",
+      "en": "10 Trần Phú"
+    },
+    "hours": {
+      "vi": "9:00 - 21:00",
+      "en": "9:00 - 21:00"
+    },
+    "image": null,
+    "traffic": "low",
+    "promoPriority": "high",
+    "description": {
+      "vi": "Built by the Hainan community in memory of 108 merchants lost at sea in 1851.",
+      "en": "Built by the Hainan community in memory of 108 merchants lost at sea in 1851."
+    },
+    "quizBank": [
+      {
+        "difficulty": "easy",
+        "generated": true,
+        "question": {
+          "vi": "Hội quán Hải Nam nằm trên đường nào?",
+          "en": "Which street is Hainan Assembly Hall on?"
+        },
+        "options": [
+          {
+            "vi": "Nguyễn Thị Minh Khai",
+            "en": "Nguyễn Thị Minh Khai"
+          },
+          {
+            "vi": "Trần Phú",
+            "en": "Trần Phú"
+          },
+          {
+            "vi": "Nguyễn Thái Học",
+            "en": "Nguyễn Thái Học"
+          }
+        ],
+        "answer": 1
+      },
+      {
+        "difficulty": "easy",
+        "generated": true,
+        "question": {
+          "vi": "Hội quán Hải Nam thuộc nhóm điểm đến nào?",
+          "en": "Which kind of site is Hainan Assembly Hall?"
+        },
+        "options": [
+          {
+            "vi": "Di tích",
+            "en": "Heritage"
+          },
+          {
+            "vi": "Nhà cổ",
+            "en": "Old houses"
+          },
+          {
+            "vi": "Hội quán",
+            "en": "Assembly halls"
+          }
+        ],
+        "answer": 2
+      },
+      {
+        "difficulty": "hard",
+        "generated": true,
+        "question": {
+          "vi": "Giờ mở cửa của Hội quán Hải Nam là?",
+          "en": "What are the opening hours of Hainan Assembly Hall?"
+        },
+        "options": [
+          {
+            "vi": "9:00 - 21:00",
+            "en": "9:00 - 21:00"
+          },
+          {
+            "vi": "7:00 - 22:00",
+            "en": "7:00 - 22:00"
+          },
+          {
+            "vi": "7:00 - 21:00 (trừ Chủ nhật và Thứ hai đóng cửa lúc 18:00)",
+            "en": "7:00 - 21:00 (trừ Chủ nhật và Thứ hai đóng cửa lúc 18:00)"
+          }
+        ],
+        "answer": 0
+      }
+    ]
+  },
+  {
+    "id": "hoi-quan-trieu-chau",
+    "code": "A21",
+    "name": {
+      "vi": "Hội quán Triều Châu",
+      "en": "Teochew Assembly Hall"
+    },
+    "category": "hoi-quan",
+    "lat": 15.8778422,
+    "lng": 108.3330722,
+    "radius": 75,
+    "address": {
+      "vi": "362 Nguyễn Duy Hiệu",
+      "en": "362 Nguyễn Duy Hiệu"
+    },
+    "hours": {
+      "vi": "8:00 - 17:00 (có nghỉ trưa)",
+      "en": "8:00 - 17:00 (có nghỉ trưa)"
+    },
+    "image": null,
+    "traffic": "low",
+    "promoPriority": "high",
+    "description": {
+      "vi": "Chaozhou community hall renowned for its wood carving and porcelain-inlay decoration.",
+      "en": "Chaozhou community hall renowned for its wood carving and porcelain-inlay decoration."
+    },
+    "quizBank": [
+      {
+        "difficulty": "easy",
+        "generated": true,
+        "question": {
+          "vi": "Hội quán Triều Châu nằm trên đường nào?",
+          "en": "Which street is Teochew Assembly Hall on?"
+        },
+        "options": [
+          {
+            "vi": "Nguyễn Thị Minh Khai",
+            "en": "Nguyễn Thị Minh Khai"
+          },
+          {
+            "vi": "Trần Hưng Đạo",
+            "en": "Trần Hưng Đạo"
+          },
+          {
+            "vi": "Nguyễn Duy Hiệu",
+            "en": "Nguyễn Duy Hiệu"
+          }
+        ],
+        "answer": 2
+      },
+      {
+        "difficulty": "easy",
+        "generated": true,
+        "question": {
+          "vi": "Hội quán Triều Châu thuộc nhóm điểm đến nào?",
+          "en": "Which kind of site is Teochew Assembly Hall?"
+        },
+        "options": [
+          {
+            "vi": "Hội quán",
+            "en": "Assembly halls"
+          },
+          {
+            "vi": "Di tích",
+            "en": "Heritage"
+          },
+          {
+            "vi": "Nhà cổ",
+            "en": "Old houses"
+          }
+        ],
+        "answer": 0
+      },
+      {
+        "difficulty": "hard",
+        "generated": true,
+        "question": {
+          "vi": "Giờ mở cửa của Hội quán Triều Châu là?",
+          "en": "What are the opening hours of Teochew Assembly Hall?"
+        },
+        "options": [
+          {
+            "vi": "7:00 - 22:00",
+            "en": "7:00 - 22:00"
+          },
+          {
+            "vi": "8:00 - 17:00 (có nghỉ trưa)",
+            "en": "8:00 - 17:00 (có nghỉ trưa)"
+          },
+          {
+            "vi": "7:00 - 21:00 (trừ Chủ nhật và Thứ hai đóng cửa lúc 18:00)",
+            "en": "7:00 - 21:00 (trừ Chủ nhật và Thứ hai đóng cửa lúc 18:00)"
+          }
+        ],
+        "answer": 1
+      }
+    ]
+  },
+  {
+    "id": "dinh-cam-pho",
+    "code": "A22",
+    "name": {
+      "vi": "Đình Cẩm Phô",
+      "en": "Cam Pho Communal House"
+    },
+    "category": "di-tich",
+    "lat": 15.8782399,
+    "lng": 108.3240582,
+    "radius": 75,
+    "address": {
+      "vi": "52 Nguyễn Thị Minh Khai",
+      "en": "52 Nguyễn Thị Minh Khai"
+    },
+    "hours": {
+      "vi": "8:00 - 21:00",
+      "en": "8:00 - 21:00"
+    },
+    "image": null,
+    "traffic": "low",
+    "promoPriority": "medium",
+    "description": {
+      "vi": "The communal house of Cam Pho village, where the tutelary gods of the old settlement are worshipped.",
+      "en": "The communal house of Cam Pho village, where the tutelary gods of the old settlement are worshipped."
+    },
+    "quizBank": [
+      {
+        "difficulty": "easy",
+        "generated": true,
+        "question": {
+          "vi": "Đình Cẩm Phô nằm trên đường nào?",
+          "en": "Which street is Cam Pho Communal House on?"
+        },
+        "options": [
+          {
+            "vi": "Nguyễn Thị Minh Khai",
+            "en": "Nguyễn Thị Minh Khai"
+          },
+          {
+            "vi": "Trần Phú",
+            "en": "Trần Phú"
+          },
+          {
+            "vi": "Nguyễn Thái Học",
+            "en": "Nguyễn Thái Học"
+          }
+        ],
+        "answer": 0
+      },
+      {
+        "difficulty": "easy",
+        "generated": true,
+        "question": {
+          "vi": "Đình Cẩm Phô thuộc nhóm điểm đến nào?",
+          "en": "Which kind of site is Cam Pho Communal House?"
+        },
+        "options": [
+          {
+            "vi": "Hội quán",
+            "en": "Assembly halls"
+          },
+          {
+            "vi": "Di tích",
+            "en": "Heritage"
+          },
+          {
+            "vi": "Nhà cổ",
+            "en": "Old houses"
+          }
+        ],
+        "answer": 1
+      },
+      {
+        "difficulty": "hard",
+        "generated": true,
+        "question": {
+          "vi": "Giờ mở cửa của Đình Cẩm Phô là?",
+          "en": "What are the opening hours of Cam Pho Communal House?"
+        },
+        "options": [
+          {
+            "vi": "7:00 - 22:00",
+            "en": "7:00 - 22:00"
+          },
+          {
+            "vi": "8:00 - 18:00",
+            "en": "8:00 - 18:00"
+          },
+          {
+            "vi": "8:00 - 21:00",
+            "en": "8:00 - 21:00"
+          }
+        ],
+        "answer": 2
+      }
+    ]
+  },
+  {
+    "id": "tuy-tien-duong-minh-huong",
+    "code": "A23",
+    "name": {
+      "vi": "Tụy Tiên Đường Minh Hương",
+      "en": "Minh Huong Communal House"
+    },
+    "category": "di-tich",
+    "lat": 15.8776512,
+    "lng": 108.3319927,
+    "radius": 75,
+    "address": {
+      "vi": "14 Trần Phú",
+      "en": "14 Trần Phú"
+    },
+    "hours": {
+      "vi": "Liên hệ ban tổ chức",
+      "en": "Check with organisers"
+    },
+    "image": null,
+    "traffic": "low",
+    "promoPriority": "high",
+    "description": {
+      "vi": "Minh Hương Tụy Tiên Đường nằm ở số 14 đường Trần Phú - Hội An, còn gọi là Đình tiền hiền Minh Hương, là công trình kiến trúc tín ngưỡng do người Minh Hương dựng nên để thờ cúng các bậc tiền hiền khai lập làng Minh Hương, một trong những làng cổ ở Hội An gắn với quá trình di cư của cộng đồng người Ho…",
+      "en": "Worship house of the Minh Huong community — Chinese settlers who became Vietnamese citizens."
+    },
+    "quizBank": [
+      {
+        "difficulty": "easy",
+        "generated": true,
+        "question": {
+          "vi": "Tụy Tiên Đường Minh Hương nằm trên đường nào?",
+          "en": "Which street is Minh Huong Communal House on?"
+        },
+        "options": [
+          {
+            "vi": "Nguyễn Thị Minh Khai",
+            "en": "Nguyễn Thị Minh Khai"
+          },
+          {
+            "vi": "Trần Phú",
+            "en": "Trần Phú"
+          },
+          {
+            "vi": "Nguyễn Thái Học",
+            "en": "Nguyễn Thái Học"
+          }
+        ],
+        "answer": 1
+      },
+      {
+        "difficulty": "easy",
+        "generated": true,
+        "question": {
+          "vi": "Tụy Tiên Đường Minh Hương thuộc nhóm điểm đến nào?",
+          "en": "Which kind of site is Minh Huong Communal House?"
+        },
+        "options": [
+          {
+            "vi": "Hội quán",
+            "en": "Assembly halls"
+          },
+          {
+            "vi": "Nhà cổ",
+            "en": "Old houses"
+          },
+          {
+            "vi": "Di tích",
+            "en": "Heritage"
+          }
+        ],
+        "answer": 2
+      }
+    ]
+  },
+  {
+    "id": "dinh-hoi-an",
+    "code": "A24",
+    "name": {
+      "vi": "Đình Hội An",
+      "en": "Hoi An Communal House"
+    },
+    "category": "di-tich",
+    "lat": 15.877972,
+    "lng": 108.328667,
+    "radius": 75,
+    "needsSurvey": true,
+    "address": {
+      "vi": "Trên đường Lê Lợi",
+      "en": "Trên đường Lê Lợi"
+    },
+    "hours": {
+      "vi": "Liên hệ ban tổ chức",
+      "en": "Check with organisers"
+    },
+    "image": null,
+    "traffic": "low",
+    "promoPriority": "low",
+    "description": {
+      "vi": "Communal house on Le Loi street, a village worship site inside the old town.",
+      "en": "Communal house on Le Loi street, a village worship site inside the old town."
+    },
+    "quizBank": [
+      {
+        "difficulty": "easy",
+        "generated": true,
+        "question": {
+          "vi": "Đình Hội An nằm trên đường nào?",
+          "en": "Which street is Hoi An Communal House on?"
+        },
+        "options": [
+          {
+            "vi": "Nguyễn Thị Minh Khai",
+            "en": "Nguyễn Thị Minh Khai"
+          },
+          {
+            "vi": "Trần Hưng Đạo",
+            "en": "Trần Hưng Đạo"
+          },
+          {
+            "vi": "Lê Lợi",
+            "en": "Lê Lợi"
+          }
+        ],
+        "answer": 2
+      },
+      {
+        "difficulty": "easy",
+        "generated": true,
+        "question": {
+          "vi": "Đình Hội An thuộc nhóm điểm đến nào?",
+          "en": "Which kind of site is Hoi An Communal House?"
+        },
+        "options": [
+          {
+            "vi": "Di tích",
+            "en": "Heritage"
+          },
+          {
+            "vi": "Hội quán",
+            "en": "Assembly halls"
+          },
+          {
+            "vi": "Nhà cổ",
+            "en": "Old houses"
+          }
+        ],
+        "answer": 0
+      }
+    ]
+  },
+  {
+    "id": "trinh-nghe-xi-ma",
+    "code": "A25",
+    "name": {
+      "vi": "Điểm tham quan trình nghề Xí Mà",
+      "en": "Xi Ma Craft Demonstration"
+    },
+    "category": "trai-nghiem",
+    "lat": 15.8806,
+    "lng": 108.3302,
+    "radius": 75,
+    "needsSurvey": true,
+    "address": {
+      "vi": "45/17 đường Trần Hưng Đạo",
+      "en": "45/17 đường Trần Hưng Đạo"
+    },
+    "hours": {
+      "vi": "Liên hệ ban tổ chức",
+      "en": "Check with organisers"
+    },
+    "image": null,
+    "traffic": "low",
+    "promoPriority": "low",
+    "description": {
+      "vi": "Live demonstration of xi ma — the black sesame sweet soup that is a Hoi An street-food institution.",
+      "en": "Live demonstration of xi ma — the black sesame sweet soup that is a Hoi An street-food institution."
+    },
+    "quizBank": [
+      {
+        "difficulty": "easy",
+        "generated": true,
+        "question": {
+          "vi": "Điểm tham quan trình nghề Xí Mà nằm trên đường nào?",
+          "en": "Which street is Xi Ma Craft Demonstration on?"
+        },
+        "options": [
+          {
+            "vi": "Trần Hưng Đạo",
+            "en": "Trần Hưng Đạo"
+          },
+          {
+            "vi": "Nguyễn Thị Minh Khai",
+            "en": "Nguyễn Thị Minh Khai"
+          },
+          {
+            "vi": "Nguyễn Thái Học",
+            "en": "Nguyễn Thái Học"
+          }
+        ],
+        "answer": 0
+      },
+      {
+        "difficulty": "easy",
+        "generated": true,
+        "question": {
+          "vi": "Điểm tham quan trình nghề Xí Mà thuộc nhóm điểm đến nào?",
+          "en": "Which kind of site is Xi Ma Craft Demonstration?"
+        },
+        "options": [
+          {
+            "vi": "Di tích",
+            "en": "Heritage"
+          },
+          {
+            "vi": "Trải nghiệm",
+            "en": "Experiences"
+          },
+          {
+            "vi": "Hội quán",
+            "en": "Assembly halls"
+          }
+        ],
+        "answer": 1
       }
     ]
   }

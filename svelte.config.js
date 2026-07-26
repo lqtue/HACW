@@ -1,15 +1,17 @@
-import adapter from '@sveltejs/adapter-static';
+import adapter from '@sveltejs/adapter-cloudflare';
 import { vitePreprocess } from '@sveltejs/vite-plugin-svelte';
 
-// GitHub Pages serves at /<repo>; CI sets BASE_PATH=/HACW. Empty in dev.
+// Cloudflare Pages serves at the domain root. BASE_PATH stays supported only so a
+// subpath preview still works; leave it empty for the real deploy.
 const base = process.env.BASE_PATH ?? '';
 
 /** @type {import('@sveltejs/kit').Config} */
 export default {
   preprocess: vitePreprocess(),
   kit: {
-    // Fully static (GitHub Pages). For the Cloudflare check-in counter, swap back to adapter-cloudflare.
-    adapter: adapter({ fallback: '404.html' }),
+    // Cloudflare Pages: `functions/` is picked up automatically, so /api/checkin
+    // and /api/passport are live. Bind the CHECKINS KV namespace in the project.
+    adapter: adapter(),
     paths: { base }
   }
 };

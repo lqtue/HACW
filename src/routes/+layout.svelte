@@ -3,7 +3,9 @@
   import { page } from '$app/stores';
   import { base } from '$app/paths';
   import { onMount } from 'svelte';
-  import { flush } from '$lib/passport.svelte.js';
+  import { flush, backup } from '$lib/passport.svelte.js';
+  import { loadCounts } from '$lib/stats.svelte.js';
+  import { unlockFromUrl } from '$lib/staff.svelte.js';
   import { i18n, setLang } from '$lib/i18n.svelte.js';
   import { s } from '$lib/strings.js';
 
@@ -18,11 +20,29 @@
 
   const href = (p) => base + (p === '/' ? '/' : p);
 
-  // Flush queued check-ins on load and whenever connectivity returns.
-  onMount(() => {
+  // Catch up on load and whenever connectivity returns: send queued check-ins,
+  // re-upload the passport backup, refresh the counts that drive the spotlight.
+  function sync() {
     flush();
-    window.addEventListener('online', flush);
-    return () => window.removeEventListener('online', flush);
+    backup();
+    loadCounts();
+  }
+
+  onMount(() => {
+    unlockFromUrl($page.url);
+    sync();
+    window.addEventListener('online', sync);
+    // Leaving the page cuts the debounce in passport.svelte.js short, so the last
+    // stamp of a visit reaches the dashboard now rather than on the next open.
+    const leave = () => {
+      flush();
+      backup();
+    };
+    window.addEventListener('pagehide', leave);
+    return () => {
+      window.removeEventListener('online', sync);
+      window.removeEventListener('pagehide', leave);
+    };
   });
 
   const rel = $derived($page.url.pathname.slice(base.length) || '/');

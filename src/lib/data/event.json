@@ -23,12 +23,16 @@
       "en": "Answer a few questions about the site to confirm."
     },
     {
-      "vi": "Nhận tem vào hộ chiếu. Hoàn thành một bộ chủ đề để đổi voucher!",
-      "en": "Earn a stamp. Complete a themed set to redeem a voucher!"
+      "vi": "Nhận tem và điểm thưởng. Ghé “điểm cần khám phá” được +10 điểm.",
+      "en": "Earn a stamp and points. Spotlight sites give +10 bonus points."
+    },
+    {
+      "vi": "Đủ tem theo tuyến hoặc đạt mốc danh hiệu → đổi quà tại quầy vé.",
+      "en": "Complete a tour set or reach a rank → claim your gift at any ticket counter."
     }
   ],
   "note": {
-    "vi": "Hộ chiếu được lưu trên thiết bị của bạn — không cần đăng nhập.",
-    "en": "Your passport is stored on your device — no login required."
+    "vi": "Hộ chiếu được lưu trên thiết bị của bạn — không cần đăng nhập. Mất mạng vẫn check-in được. Hãy lưu lại mã khôi phục trong mục Hộ chiếu để không mất tem khi đổi máy.",
+    "en": "Your passport is stored on your device — no login required. Check-in works offline. Save the recovery code on the Passport tab so you keep your stamps if you switch phones."
   }
 }

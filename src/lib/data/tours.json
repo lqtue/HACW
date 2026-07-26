@@ -1,24 +1,82 @@
 [
   {
+    "id": "cua-ngo-tay",
+    "title": { "vi": "Cửa ngõ phía Tây", "en": "The Western Gateway" },
+    "theme": { "vi": "Chùa Cầu & làng Cẩm Phô", "en": "Japanese Bridge & Cam Pho village" },
+    "description": {
+      "vi": "Bắt đầu từ đình làng Cẩm Phô, đi dọc Nguyễn Thị Minh Khai qua các nhà thờ tộc và nhà cổ, kết thúc ở biểu tượng Chùa Cầu.",
+      "en": "Start at the Cam Pho communal house, walk down Nguyen Thi Minh Khai past family chapels and old houses, and finish at the iconic Japanese Bridge."
+    },
+    "voucher": { "vi": "Voucher quà tặng (chốt tên sau)", "en": "Gift voucher (name TBD)" },
+    "stops": [
+      "dinh-cam-pho",
+      "nha-tho-toc-nguyen-tuong",
+      "nha-trung-bay-nhat-ban",
+      "nha-co-phung-hung",
+      "chua-cau"
+    ]
+  },
+  {
+    "id": "tran-phu-di-san",
+    "title": { "vi": "Trần Phú di sản", "en": "Heritage on Tran Phu" },
+    "theme": { "vi": "Trục phố chính", "en": "The main street" },
+    "description": {
+      "vi": "Tuyến kinh điển trên trục Trần Phú: hội quán, bảo tàng khảo cổ và những ngôi nhà cổ còn nguyên nếp buôn bán xưa.",
+      "en": "The classic route along Tran Phu: an assembly hall, an archaeology museum and merchant houses that still keep their old trading layout."
+    },
+    "voucher": { "vi": "Voucher quà tặng (chốt tên sau)", "en": "Gift voucher (name TBD)" },
+    "stops": [
+      "hoi-quan-quang-trieu",
+      "bao-tang-sa-huynh",
+      "nha-co-duc-an",
+      "nha-co-quan-thang",
+      "bao-tang-gom-su-mau-dich"
+    ]
+  },
+  {
+    "id": "nghe-va-doi-song",
+    "title": { "vi": "Nghề & đời sống phố cổ", "en": "Crafts & Daily Life" },
+    "theme": { "vi": "Nhà cổ, bảo tàng nghề, sân khấu", "en": "Old houses, craft museums, stage" },
+    "description": {
+      "vi": "Dải phố phía sông: nhà cổ Tấn Ký, bảo tàng văn hóa dân gian và nghề y, khép lại bằng nghệ thuật cổ truyền.",
+      "en": "The riverside strip: the Tan Ky house, the folk-culture and traditional-medicine museums, closing with traditional performing arts."
+    },
+    "voucher": { "vi": "Voucher quà tặng (chốt tên sau)", "en": "Gift voucher (name TBD)" },
+    "stops": [
+      "nha-co-tan-ky",
+      "bao-tang-van-hoa-dan-gian",
+      "bao-tang-nghe-y",
+      "nha-bieu-dien-nghe-thuat",
+      "bao-tang-tho-san"
+    ]
+  },
+  {
     "id": "hoi-quan-nguoi-hoa",
     "title": { "vi": "Dấu ấn người Hoa", "en": "Chinese Heritage Trail" },
     "theme": { "vi": "Hội quán & tín ngưỡng", "en": "Assembly halls & beliefs" },
     "description": {
-      "vi": "Đi qua những hội quán lộng lẫy và miếu thờ — nơi kể câu chuyện về các cộng đồng thương nhân người Hoa đã góp phần dựng nên phố Hội.",
-      "en": "Visit the ornate assembly halls and temples that tell the story of the Chinese merchant communities who helped build Hoi An."
+      "vi": "Phía Đông phố cổ — nơi các hội quán lộng lẫy và miếu thờ kể câu chuyện về những cộng đồng thương nhân người Hoa đã góp phần dựng nên phố Hội.",
+      "en": "The eastern end of the old town, where ornate assembly halls and temples tell the story of the Chinese merchant communities who helped build Hoi An."
     },
     "voucher": { "vi": "Voucher quà tặng (chốt tên sau)", "en": "Gift voucher (name TBD)" },
-    "stops": ["mieu-quan-cong", "hoi-quan-phuc-kien", "hoi-quan-quang-trieu"]
+    "stops": [
+      "hoi-quan-phuc-kien",
+      "tuy-tien-duong-minh-huong",
+      "hoi-quan-hai-nam",
+      "hoi-quan-trieu-chau",
+      "mieu-quan-cong",
+      "chua-quan-am"
+    ]
   },
   {
-    "id": "kien-truc-co",
-    "title": { "vi": "Kiến trúc & di sản", "en": "Architecture & Heritage" },
-    "theme": { "vi": "Cầu cổ, nhà cổ, bảo tàng", "en": "Old bridge, old houses, museums" },
+    "id": "phia-bac-pho-co",
+    "title": { "vi": "Phía Bắc phố cổ", "en": "North of the Old Town" },
+    "theme": { "vi": "Lê Lợi – Trần Hưng Đạo", "en": "Le Loi – Tran Hung Dao" },
     "description": {
-      "vi": "Tuyến cô đọng nhất cho người lần đầu đến Hội An: từ biểu tượng Chùa Cầu tới nhà cổ Tấn Ký và kho tàng gốm sứ mậu dịch.",
-      "en": "The essential first-visit route: from the iconic Japanese Bridge to the Tan Ky house and the trade-ceramics museum."
+      "vi": "Tuyến ngắn ít người đi: nhà thờ tộc Trần, đình Hội An, bảo tàng Hội An và một bát xí mà nóng để kết thúc.",
+      "en": "A short, quiet route: the Tran family chapel, the Hoi An communal house and museum — ending with a hot bowl of xi ma."
     },
     "voucher": { "vi": "Voucher quà tặng (chốt tên sau)", "en": "Gift voucher (name TBD)" },
-    "stops": ["chua-cau", "nha-co-tan-ky", "bao-tang-gom-su-mau-dich"]
+    "stops": ["nha-tho-toc-tran", "dinh-hoi-an", "bao-tang-hoi-an", "trinh-nghe-xi-ma"]
   }
 ]

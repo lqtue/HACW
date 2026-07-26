@@ -1,4 +1,6 @@
 import categories from './data/categories.json';
+import { openState, isClosingSoon, formatMinutes } from './hours.js';
+import { s } from './strings.js';
 
 const byId = Object.fromEntries(categories.map((c) => [c.id, c]));
 
@@ -8,6 +10,26 @@ export function categoryLabel(id) {
 
 export function categoryIcon(id) {
   return byId[id]?.icon ?? '📍';
+}
+
+/**
+ * Open-now badge for a destination, or null when the sheet has no usable hours
+ * (better to say nothing than to send someone to a closed door).
+ * The hours string is language-neutral, so `vi` is fine for both locales.
+ * @returns {{ status: 'open'|'soon'|'closed', text: string } | null}
+ */
+export function openLabel(dest, now = new Date()) {
+  const st = openState(dest?.hours?.vi ?? '', now);
+  if (st.status === 'unknown') return null;
+  if (st.status === 'closed') {
+    return {
+      status: 'closed',
+      text: st.opensAt != null ? s('opens_at', formatMinutes(st.opensAt)) : s('closed_now')
+    };
+  }
+  return isClosingSoon(st)
+    ? { status: 'soon', text: s('closing_soon', st.closesIn) }
+    : { status: 'open', text: s('open_now') };
 }
 
 // External Google Maps walking-navigation handoff.

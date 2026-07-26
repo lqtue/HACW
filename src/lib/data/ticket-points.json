@@ -1,0 +1,170 @@
+[
+  {
+    "id": "V1",
+    "lat": 15.877556,
+    "lng": 108.323972,
+    "where": {
+      "vi": "Bên trái Quảng trường sông Hoài, trên dọc đường Công Nữ Ngọc Hoa",
+      "en": "Bên trái Quảng trường sông Hoài, trên dọc đường Công Nữ Ngọc Hoa"
+    },
+    "near": [
+      "Chùa Cầu"
+    ]
+  },
+  {
+    "id": "V3",
+    "lat": 15.878333,
+    "lng": 108.323417,
+    "where": {
+      "vi": "Đầu đường Nguyễn Thị Minh Khai, gần chỗ con thuyền Nhật Bản, ngay chỗ bắt xe taxi - xe điện",
+      "en": "Đầu đường Nguyễn Thị Minh Khai, gần chỗ con thuyền Nhật Bản, ngay chỗ bắt xe taxi - xe điện"
+    },
+    "near": [
+      "Đình Cẩm Phô",
+      "Nhà trưng bày Văn hóa Nhật Bản",
+      "Nhà thờ tộc Nguyễn Tường",
+      "Nhà cổ Phùng Hưng"
+    ]
+  },
+  {
+    "id": "V4",
+    "lat": 15.875889,
+    "lng": 108.323389,
+    "where": {
+      "vi": "Đầu đường Nguyễn Phúc Chu",
+      "en": "Đầu đường Nguyễn Phúc Chu"
+    },
+    "near": [
+      "Chùa Cầu"
+    ]
+  },
+  {
+    "id": "V10",
+    "lat": 15.878258,
+    "lng": 108.325351,
+    "where": {
+      "vi": "Công viên Phan Châu Trinh",
+      "en": "Công viên Phan Châu Trinh"
+    },
+    "near": [
+      "Nhà thờ tộc Nguyễn Tường",
+      "Nhà thờ tộc Trần"
+    ]
+  },
+  {
+    "id": "V5",
+    "lat": 15.877083,
+    "lng": 108.326167,
+    "where": {
+      "vi": "Cạnh chùa Cầu",
+      "en": "Cạnh chùa Cầu"
+    },
+    "near": [
+      "Chùa Cầu",
+      "Hội quán Quảng Triệu",
+      "Bảo tàng Văn hóa Sa Huỳnh"
+    ]
+  },
+  {
+    "id": "V6",
+    "lat": 15.876111,
+    "lng": 108.326444,
+    "where": {
+      "vi": "Đầu cầu An Hội, bên Nguyễn Phúc Chu",
+      "en": "Đầu cầu An Hội, bên Nguyễn Phúc Chu"
+    },
+    "near": [
+      "Chùa Cầu",
+      "Hội quán Quảng Triệu",
+      "Bảo tàng Văn hóa Sa Huỳnh",
+      "Nhà cổ Tấn Ký"
+    ]
+  },
+  {
+    "id": "V9",
+    "lat": 15.878,
+    "lng": 108.326778,
+    "where": {
+      "vi": "Trên đường Hai Bà Trưng, trước cổng chùa Bà Thiên Mụ",
+      "en": "Trên đường Hai Bà Trưng, trước cổng chùa Bà Thiên Mụ"
+    },
+    "near": [
+      "Nhà cổ Đức An",
+      "Hội quán Quảng Triệu"
+    ]
+  },
+  {
+    "id": "V8",
+    "lat": 15.877972,
+    "lng": 108.328667,
+    "where": {
+      "vi": "Trên đường Lê Lợi, cạnh Đình Hội An",
+      "en": "Trên đường Lê Lợi, cạnh Đình Hội An"
+    },
+    "near": [
+      "Đình Hội An",
+      "Nhà thờ tộc Trần"
+    ]
+  },
+  {
+    "id": "V6.2",
+    "lat": 15.876083,
+    "lng": 108.329972,
+    "where": {
+      "vi": "Trên đường Hoàng Văn Thụ, ra bờ sông",
+      "en": "Trên đường Hoàng Văn Thụ, ra bờ sông"
+    },
+    "near": [
+      "Bảo tàng Văn hóa Dân gian",
+      "Nhà biểu diễn nghệ thuật cổ truyền Hội An",
+      "Bảo tàng nghề Y truyền thống"
+    ]
+  },
+  {
+    "id": "V7",
+    "lat": 15.878556,
+    "lng": 108.331111,
+    "where": {
+      "vi": "Góc đường Phan Châu Trinh - Nguyễn Huệ",
+      "en": "Góc đường Phan Châu Trinh - Nguyễn Huệ"
+    },
+    "near": [
+      "Nhà thờ Tộc Trần",
+      "Chùa Quan Âm",
+      "Miếu Quan Công"
+    ]
+  },
+  {
+    "id": "V2",
+    "lat": 15.877778,
+    "lng": 108.332528,
+    "where": {
+      "vi": "Đầu đường Hoàng Diệu giao Trần Phú",
+      "en": "Đầu đường Hoàng Diệu giao Trần Phú"
+    },
+    "near": [
+      "Hội quán Triều Châu",
+      "Hội quán Hải Nam"
+    ]
+  },
+  {
+    "id": "V97",
+    "lat": 15.886139,
+    "lng": 108.319611,
+    "where": {
+      "vi": "Điểm bán vé tại bãi xe Hoiango",
+      "en": "Điểm bán vé tại bãi xe Hoiango"
+    },
+    "near": []
+  },
+  {
+    "id": "V332",
+    "lat": 15.8802686,
+    "lng": 108.3294629,
+    "where": {
+      "vi": "Điểm bán vé tại 10B Trần Hưng Đạo",
+      "en": "Điểm bán vé tại 10B Trần Hưng Đạo"
+    },
+    "near": []
+  }
+]

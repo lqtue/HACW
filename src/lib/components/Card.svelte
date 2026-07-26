@@ -1,21 +1,26 @@
 <script>
   import { base } from '$app/paths';
-  import { categoryLabel, categoryIcon, mapsUrl } from '$lib/util.js';
+  import { categoryLabel, categoryIcon, mapsUrl, openLabel } from '$lib/util.js';
   import { hasStamp } from '$lib/passport.svelte.js';
   import { t } from '$lib/i18n.svelte.js';
 
-  /** @type {{ dest: any, index?: number }} */
-  let { dest, index } = $props();
+  /** @type {{ dest: any, index?: number, active?: boolean }} */
+  let { dest, index, active = false } = $props();
+
+  const open = $derived(openLabel(dest));
 </script>
 
-<div class="card">
+<div class="card" class:active id="card-{dest.id}">
   <a class="thumb" href="{base}/destinations/{dest.id}" style="background: var(--c-{dest.category})">
     {#if index != null}{index}{:else}{categoryIcon(dest.category)}{/if}
   </a>
   <a class="body" href="{base}/destinations/{dest.id}">
     <span class="tag" style="background: var(--c-{dest.category})">{t(categoryLabel(dest.category))}</span>
     <h3>{t(dest.name)} {#if hasStamp(dest.id)}✅{/if}</h3>
-    <small>{t(dest.hours)} · {t(dest.address)}</small>
+    <small>
+      {#if open}<span class="open {open.status}">{open.text}</span> · {/if}{t(dest.hours)}
+    </small>
+    <small class="addr">{t(dest.address)}</small>
   </a>
   <a
     class="dir"
@@ -40,4 +45,14 @@
     transform: rotate(-45deg);
   }
   .tag { margin-bottom: 4px; }
+  .addr { display: block; color: var(--muted); }
+  .open { font-weight: 700; }
+  .open.open { color: var(--teal); }
+  .open.soon { color: #a4620e; }
+  .open.closed { color: var(--muted); }
+  /* selected from the map: the card the pin points at */
+  .card.active {
+    border-color: var(--brand);
+    box-shadow: 0 0 0 2px color-mix(in srgb, var(--brand) 35%, transparent), var(--shadow);
+  }
 </style>

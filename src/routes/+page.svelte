@@ -5,6 +5,7 @@
   import destinations from '$lib/data/destinations.json';
   import { t } from '$lib/i18n.svelte.js';
   import { s } from '$lib/strings.js';
+  import InstallApp from '$lib/components/InstallApp.svelte';
 </script>
 
 <div class="topbar">
@@ -32,4 +33,6 @@
     <a class="btn" href="{base}/destinations">{s('open_map')}</a>
     <a class="btn secondary" href="{base}/tours">{s('see_tours')}</a>
   </div>
+
+  <InstallApp />
 </div>
