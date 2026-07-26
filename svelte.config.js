@@ -9,8 +9,10 @@ const base = process.env.BASE_PATH ?? '';
 export default {
   preprocess: vitePreprocess(),
   kit: {
-    // Cloudflare Pages: `functions/` is picked up automatically, so /api/checkin
-    // and /api/passport are live. Bind the CHECKINS KV namespace in the project.
+    // Cloudflare Pages: this adapter emits a `_worker.js`, which makes Pages
+    // ignore `functions/` — so /api/checkin and /api/passport are ordinary
+    // +server.js routes reading D1 from platform.env.DB. Bind a D1 database
+    // named DB in the project (Settings → Bindings), on Production *and* Preview.
     adapter: adapter(),
     paths: { base }
   }
