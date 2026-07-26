@@ -155,16 +155,27 @@ belongs to no tour.
 
 ## Deploy
 
-**Cloudflare Pages** (`adapter-cloudflare`): connect the repo, build command
-`npm run build`, output directory `.svelte-kit/cloudflare`. Then the database:
+**Cloudflare Pages** (`adapter-cloudflare`), live at <https://hacw.pages.dev>.
+
+The Pages project is **connected to this GitHub repo**: pushing to `main` builds
+and deploys on its own, and every other branch gets a preview URL. There is no
+manual deploy step — `npx wrangler pages deploy` is not part of the workflow any
+more, and running it would push a Direct Upload deployment into a Git project.
+
+Build command `npm run build`, output directory `.svelte-kit/cloudflare`, both
+already configured. Leave `BASE_PATH` **unset**: it exists for subpath previews,
+and setting it breaks every link on the root domain.
+
+The `DB` binding comes from `wrangler.toml` in this repo, not from the dashboard —
+the Pages build reads it, so the binding survives a rebuild and lives in version
+control. The database itself is created once:
 
 ```bash
 npx wrangler d1 create hacw
 npx wrangler d1 execute hacw --remote --file=schema.sql
 ```
 
-and bind it to the Pages project as **`DB`** (Settings → Bindings → D1). Add a
-Rate Limiting rule on `/api/*` while you are in the dashboard.
+Add a Rate Limiting rule on `/api/*` in the dashboard — that part has no API.
 
 D1 rather than KV because the free tier actually covers this event (~100k row
 writes/day) and its upserts are atomic — counters can't lose an increment under a

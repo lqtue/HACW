@@ -15,10 +15,13 @@ npm test             # node self-checks: geo, quiz draw, scoring, backup/merge, 
 node scripts/import-csv.mjs [--resolve]   # survey CSV -> destinations/ticket-points JSON
 ```
 
-No lint step. Deploy target is **Cloudflare Pages** (`adapter-cloudflare`): connect
-the repo, build `npm run build`, output `.svelte-kit/cloudflare`, and bind a D1
-database named `DB` (apply `schema.sql` to it first — see README). `BASE_PATH`
-still exists for subpath previews but is empty in production.
+No lint step. Deploy target is **Cloudflare Pages** (`adapter-cloudflare`), live at
+hacw.pages.dev. The project is **Git-connected**: pushing `main` builds and deploys
+itself, other branches get preview URLs. Don't run `wrangler pages deploy` — a
+Direct Upload into a Git project is exactly the mess this replaced. The `DB` D1
+binding comes from `wrangler.toml` in the repo, not the dashboard, so it survives
+rebuilds. `BASE_PATH` still exists for subpath previews and must stay empty in
+production (setting it breaks every link on the root domain).
 
 ## What this is
 
