@@ -80,8 +80,11 @@ which sites are currently bonus-boosted, the nearest ticket counter to each site
 (where to send flyers), CSV export, plus the two data-quality lists: coordinates
 still to survey and quiz banks still auto-generated.
 
-Behind the staff code (`src/lib/staff.svelte.js`) — the same one that unlocks the
-skip-GPS button and voucher confirmation. `?staff=<code>` unlocks a device once,
+Behind the staff code (`src/lib/staff.svelte.js`) — the volunteer code, the same
+one that unlocks the skip-GPS button and voucher confirmation, gets the dashboard
+read-only; the organizer code adds the content editor (edit destinations and quiz
+questions, then download `destinations.json` and commit it — no server writes).
+`?staff=<code>` unlocks a device once,
 `?staff=0` locks it. That is a mis-tap guard, not security: put Cloudflare Access
 in front of the route if the numbers must not be public.
 
@@ -175,7 +178,7 @@ backup would all no-op there. `git revert` it if a static demo is ever wanted ba
 
 ## TODO before launch
 
-- Change the staff code `CODE` in `src/lib/staff.svelte.js` (it gates the
+- Change both staff codes (`VOLUNTEER`, `ORGANIZER`) in `src/lib/staff.svelte.js` (they gate the
   skip-GPS button, `/organizer` and voucher confirmation).
 - Verify all coordinates + radii on-site (5 are estimates — see `/organizer`).
 - Replace the 19 auto-generated quiz banks with real questions (target 10/site).

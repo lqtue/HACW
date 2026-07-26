@@ -106,10 +106,21 @@ perfect-answer bonus. The answers still ship in `destinations.json`, so this
 slows brute force, it doesn't prevent it; staff handing over the paper voucher
 is the real gate.
 
-**Staff mode** (`src/lib/staff.svelte.js`): one code (`CODE`, currently `2026`)
-unlocks the skip-GPS button, `/organizer` and the voucher confirm step, and is
-remembered in `localStorage`. `?staff=<code>` on any URL unlocks a device,
-`?staff=0` locks it. Client-side: stops mis-taps and curious visitors, not fraud.
+**Staff mode** (`src/lib/staff.svelte.js`): two codes, both remembered in
+`localStorage`. `VOLUNTEER` (`2026`) → `staff.on`: skip-GPS button, voucher
+confirm, `/organizer` read-only. `ORGANIZER` (`2026hacw`) → `staff.on` *and*
+`staff.admin`, which additionally shows the content editor in `/organizer`.
+`?staff=<code>` on any URL unlocks a device, `?staff=0` locks it. Client-side:
+stops mis-taps and curious visitors, not fraud.
+
+**Content editor** (`src/lib/components/DataEditor.svelte`, `staff.admin` only):
+edits a `structuredClone` of `destinations.json` — copy, hours, coords, radius,
+traffic/priority, and the whole quiz bank (add/remove questions and options, pick
+the answer, clear the `generated` flag) — then **downloads the JSON**. Nothing is
+written server-side; the file is committed and redeployed. Validation is
+`src/lib/editor.js` (`checkDestinations`), the same module `scripts/check-data.mjs`
+runs in `npm test`, so the download button is disabled on anything the repo would
+reject. It also reads a previously downloaded file back in to keep editing.
 
 **Fraud flagging** (`src/lib/fraud.js`, pure): `flagPassport(stamps, destinations)`
 returns impossible-travel and burst findings; `PUT /api/passport` stores the count
@@ -209,5 +220,5 @@ itself down in `onDestroy` because an **async `onMount` cannot return a cleanup*
 Verify every destination's `lat`/`lng`/`radius` on-site (coords come from the
 sheet's Google Maps links; 5 are estimates, flagged `needsSurvey` and listed in
 `/organizer`), replace the 19 auto-generated quiz banks, add real photos, add
-192/512 PNG icons, and change the staff `CODE` in `src/lib/staff.svelte.js`.
+192/512 PNG icons, and change both staff codes in `src/lib/staff.svelte.js`.
 Full list with reasoning: `CONCERNS.md`.

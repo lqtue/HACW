@@ -15,9 +15,12 @@ is a deliberate hold: decide the policy first, then it's ~10 lines.
 
 ## 1. Still to do before launch
 
-- [ ] **Change the staff code.** `CODE` in `src/lib/staff.svelte.js` is `2026`.
-      One code unlocks the skip-GPS button, `/organizer` and voucher confirmation.
-      Pick something the crowd won't guess and give it to staff on paper.
+- [ ] **Change the staff codes.** `VOLUNTEER` (`2026`) and `ORGANIZER` (`2026hacw`)
+      in `src/lib/staff.svelte.js`.
+      The volunteer code unlocks the skip-GPS button, voucher confirmation and a
+      read-only `/organizer`; the organizer code additionally unlocks the content
+      editor there. Pick two the crowd won't guess and hand them out on paper —
+      the organizer one to a much shorter list.
 
 - [ ] **Cloudflare setup** (dashboard, not code): build output
       `.svelte-kit/cloudflare`, a **Rate Limiting rule on `/api/*`** (free plan
@@ -194,8 +197,13 @@ Reported earlier, deliberately not applied yet (~110 lines):
   `checkin`, `gps_far`, `gps_fail`, `quiz_wrong`, `redeem` → D1 → `/organizer`.
   No cookie banner, no ad-blocker hole, works offline, and staff see the same
   numbers the app does.
-- **One staff code**, not a separate dev flag: it gates skip-GPS, `/organizer` and
-  redemption together, and `?staff=<code>` unlocks a device for a whole shift.
+- **Two staff codes**, not accounts: the volunteer one gates skip-GPS, redemption
+  and a read-only `/organizer`; the organizer one adds the content editor.
+  `?staff=<code>` unlocks a device for a whole shift.
+- **The content editor downloads a file, it does not save.** Editing
+  `destinations.json` in the browser and committing the download keeps the content
+  reviewable in git and needs no auth, no write path and no D1 table. A live edit
+  would need all three — and the codes above are a mis-tap guard, not auth.
 - **Check-in radius 75 m** by default — GPS in the old-town alleys is worse than
   the map suggests, and the quiz is the real gate anyway.
 - **Counts refresh every 6 h** in the app (`stats.svelte.js`); `/organizer` forces

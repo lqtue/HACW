@@ -2,25 +2,36 @@ import { browser } from '$app/environment';
 
 const KEY = 'hacw_staff_v1';
 
-// One code for everything staff-only: the skip-GPS test button, /organizer and
-// the voucher confirm step. Unlock by typing it, or once per device with
-// ?staff=<code> on any URL.
-// ponytail: client-side constant — stops mis-taps and curious visitors, NOT fraud.
+// Two tiers, both client-side. VOLUNTEER unlocks everything a helper on the
+// street needs: the skip-GPS test button, the voucher confirm step and reading
+// /organizer. ORGANIZER is a superset — it also unlocks the content editor in
+// /organizer (edit + download destinations.json).
+// Unlock by typing the code, or once per device with ?staff=<code> on any URL.
+// ponytail: client-side constants — stops mis-taps and curious visitors, NOT fraud.
 // Real gate = Cloudflare Access in front of /organizer + a server-signed redemption.
-const CODE = '2026';
+const VOLUNTEER = '2026';
+const ORGANIZER = '2026hacw';
 
-export const staff = $state({ on: browser && localStorage.getItem(KEY) === CODE });
+const stored = browser ? localStorage.getItem(KEY) : null;
 
-/** @returns {boolean} whether the code was right */
+export const staff = $state({
+  on: stored === VOLUNTEER || stored === ORGANIZER,
+  admin: stored === ORGANIZER
+});
+
+/** @returns {boolean} whether the code was right (either tier) */
 export function unlock(input) {
-  if (String(input).trim() !== CODE) return false;
+  const code = String(input).trim();
+  if (code !== VOLUNTEER && code !== ORGANIZER) return false;
   staff.on = true;
-  if (browser) localStorage.setItem(KEY, CODE);
+  staff.admin = code === ORGANIZER;
+  if (browser) localStorage.setItem(KEY, code);
   return true;
 }
 
 export function lock() {
   staff.on = false;
+  staff.admin = false;
   if (browser) localStorage.removeItem(KEY);
 }
 

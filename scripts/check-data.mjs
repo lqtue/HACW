@@ -5,6 +5,7 @@ import assert from 'node:assert';
 import { readFileSync } from 'node:fs';
 import { fileURLToPath } from 'node:url';
 import { dirname, join } from 'node:path';
+import { BOX, checkDestinations } from '../src/lib/editor.js';
 
 const DATA = join(dirname(fileURLToPath(import.meta.url)), '..', 'src/lib/data');
 const load = (f) => JSON.parse(readFileSync(join(DATA, f), 'utf8'));
@@ -21,34 +22,11 @@ const bilingual = (v, where) => {
   assert.ok(v.en?.trim(), `${where}: missing en`);
 };
 
-// Hội An old town bounding box — a pin outside it is a data-entry slip.
-const BOX = { latMin: 15.87, latMax: 15.89, lngMin: 108.31, lngMax: 108.34 };
-const ids = new Set();
-
-for (const d of destinations) {
-  const at = `${d.code ?? '?'} ${d.id}`;
-  assert.ok(d.id && !ids.has(d.id), `${at}: duplicate or missing id`);
-  ids.add(d.id);
-  for (const f of ['name', 'address', 'hours', 'description']) bilingual(d[f], `${at}.${f}`);
-  assert.ok(categories.some((c) => c.id === d.category), `${at}: unknown category ${d.category}`);
-  assert.ok(d.lat > BOX.latMin && d.lat < BOX.latMax, `${at}: lat ${d.lat} outside Hội An`);
-  assert.ok(d.lng > BOX.lngMin && d.lng < BOX.lngMax, `${at}: lng ${d.lng} outside Hội An`);
-  assert.ok(d.radius >= 15 && d.radius <= 100, `${at}: radius ${d.radius} m is unusable`);
-  assert.ok(['low', 'medium', 'high'].includes(d.traffic), `${at}: bad traffic`);
-  assert.ok(['low', 'medium', 'high'].includes(d.promoPriority), `${at}: bad promoPriority`);
-
-  assert.ok(d.quizBank.length >= 1, `${at}: empty quiz bank`);
-  for (const [i, q] of d.quizBank.entries()) {
-    bilingual(q.question, `${at}.quiz[${i}].question`);
-    assert.ok(q.options.length >= 2, `${at}.quiz[${i}]: needs at least 2 options`);
-    q.options.forEach((o, j) => bilingual(o, `${at}.quiz[${i}].options[${j}]`));
-    assert.ok(
-      Number.isInteger(q.answer) && q.answer >= 0 && q.answer < q.options.length,
-      `${at}.quiz[${i}]: answer index out of range`
-    );
-    assert.ok(['easy', 'hard'].includes(q.difficulty), `${at}.quiz[${i}]: bad difficulty`);
-  }
-}
+// Per-destination rules live in src/lib/editor.js so the /organizer editor can
+// run the exact same check on a JSON before it is downloaded.
+const problems = checkDestinations(destinations, categories.map((c) => c.id));
+assert.ok(problems.length === 0, `\n${problems.join('\n')}`);
+const ids = new Set(destinations.map((d) => d.id));
 
 // Every site must belong to a tour, or it can never be part of a reward set.
 const inTours = new Set();

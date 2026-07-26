@@ -7,7 +7,7 @@
     "dev": "vite dev",
     "build": "vite build",
     "preview": "vite preview",
-    "test": "node src/lib/geo.test.js && node src/lib/quiz.test.js && node src/lib/score.test.js && node src/lib/backup.test.js && node src/lib/route.test.js && node src/lib/hours.test.js && node src/lib/counts.test.js && node --no-warnings src/lib/sql.test.js && node src/lib/guard.test.js && node src/lib/fraud.test.js && node scripts/check-data.mjs",
+    "test": "node src/lib/geo.test.js && node src/lib/quiz.test.js && node src/lib/score.test.js && node src/lib/backup.test.js && node src/lib/route.test.js && node src/lib/hours.test.js && node src/lib/counts.test.js && node --no-warnings src/lib/sql.test.js && node src/lib/guard.test.js && node src/lib/fraud.test.js && node src/lib/editor.test.js && node scripts/check-data.mjs",
     "test:geo": "node src/lib/geo.test.js"
   },
   "devDependencies": {

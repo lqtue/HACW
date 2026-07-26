@@ -124,7 +124,39 @@ const UI = {
     lvl_medium: 'trung bình',
     lvl_high: 'cao',
     org_updated: (t) => `Cập nhật lúc ${t}`,
-    org_offline_cache: 'Đang xem dữ liệu đã lưu (không có mạng).'
+    org_offline_cache: 'Đang xem dữ liệu đã lưu (không có mạng).',
+
+    // content editor (organizer tier only)
+    org_tier_volunteer: 'Tình nguyện viên (chỉ xem)',
+    org_tier_admin: 'Ban tổ chức (sửa được nội dung)',
+    org_edit: 'Sửa nội dung điểm đến',
+    org_edit_hint:
+      'Sửa ở đây rồi bấm tải file destinations.json về và gửi cho kỹ thuật thay vào src/lib/data/. Không lưu thẳng lên máy chủ — sửa xong mà không tải file là mất.',
+    org_download_json: '⬇ Tải destinations.json',
+    org_load_json: 'Mở file đã sửa',
+    org_reset: 'Về bản gốc',
+    org_reset_confirm: 'Bỏ hết thay đổi chưa tải về?',
+    org_problems: (n) => `${n} lỗi — sửa hết rồi mới tải file về`,
+    org_data_ok: '✔ Dữ liệu hợp lệ',
+    org_bad_file: (m) => `Không đọc được file: ${m}`,
+    org_add_q: '+ Thêm câu hỏi',
+    org_del_q: 'Xoá câu',
+    org_add_opt: '+ Thêm đáp án',
+    org_del_opt: 'Xoá',
+    org_answer: 'Đáp án đúng',
+    org_generated: 'tự sinh',
+    org_reviewed: 'Đã kiểm tra',
+    org_needs_survey: 'Toạ độ cần khảo sát',
+    f_name: 'Tên',
+    f_address: 'Địa chỉ',
+    f_hours: 'Giờ mở cửa',
+    f_desc: 'Giới thiệu',
+    f_category: 'Nhóm',
+    f_radius: 'Bán kính (m)',
+    f_question: 'Câu hỏi',
+    f_difficulty: 'Độ khó',
+    lvl_easy: 'dễ',
+    lvl_hard: 'khó'
   },
   en: {
     intro: 'About',
@@ -248,7 +280,39 @@ const UI = {
     lvl_medium: 'medium',
     lvl_high: 'high',
     org_updated: (t) => `Updated ${t}`,
-    org_offline_cache: 'Showing cached data (offline).'
+    org_offline_cache: 'Showing cached data (offline).',
+
+    // content editor (organizer tier only)
+    org_tier_volunteer: 'Volunteer (view only)',
+    org_tier_admin: 'Organizer (can edit content)',
+    org_edit: 'Edit destination content',
+    org_edit_hint:
+      'Edit here, download destinations.json and hand it to the dev to replace src/lib/data/. Nothing is saved to the server — edits are lost if you do not download.',
+    org_download_json: '⬇ Download destinations.json',
+    org_load_json: 'Open an edited file',
+    org_reset: 'Back to shipped version',
+    org_reset_confirm: 'Discard every change you have not downloaded?',
+    org_problems: (n) => `${n} problems — fix them before downloading`,
+    org_data_ok: '✔ Data is valid',
+    org_bad_file: (m) => `Could not read that file: ${m}`,
+    org_add_q: '+ Add question',
+    org_del_q: 'Delete',
+    org_add_opt: '+ Add option',
+    org_del_opt: 'Remove',
+    org_answer: 'Correct answer',
+    org_generated: 'auto-generated',
+    org_reviewed: 'Mark reviewed',
+    org_needs_survey: 'Coordinates need a survey',
+    f_name: 'Name',
+    f_address: 'Address',
+    f_hours: 'Opening hours',
+    f_desc: 'Description',
+    f_category: 'Category',
+    f_radius: 'Radius (m)',
+    f_question: 'Question',
+    f_difficulty: 'Difficulty',
+    lvl_easy: 'easy',
+    lvl_hard: 'hard'
   }
 };
 

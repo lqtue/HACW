@@ -9,6 +9,7 @@
   import { t } from '$lib/i18n.svelte.js';
   import { s } from '$lib/strings.js';
   import { staff, unlock } from '$lib/staff.svelte.js';
+  import DataEditor from '$lib/components/DataEditor.svelte';
 
   let gate = $state('');
   let gateErr = $state(false);
@@ -91,9 +92,11 @@
 
 <div class="page">
 {#if !staff.on}
-  <!-- Same code as the voucher confirm and the skip-GPS button; ?staff=<code> also works. -->
+  <!-- Two tiers, same input: the volunteer code (also the voucher confirm / skip-GPS
+       code) gets this dashboard read-only, the organizer code adds the editor.
+       ?staff=<code> also works. -->
   <p class="muted"><small>{s('staff_only')}</small></p>
-  <input class="code" inputmode="numeric" bind:value={gate} placeholder={s('enter_code')} />
+  <input class="code" bind:value={gate} placeholder={s('enter_code')} />
   {#if gateErr}<p class="err">{s('wrong_code')}</p>{/if}
   <button class="btn" onclick={() => (gateErr = !unlock(gate))} style="width: 100%">
     {s('staff_confirm')}
@@ -105,6 +108,7 @@
     {#if stats.at}
       <small class="muted">{s('org_updated', new Date(stats.at).toLocaleTimeString())}</small>
     {/if}
+    <small class="muted">{staff.admin ? s('org_tier_admin') : s('org_tier_volunteer')}</small>
   </div>
 
   {#if !total}
@@ -181,6 +185,11 @@
         .join(' · ') || '—'}
     </small>
   </p>
+
+  <!-- Volunteers see everything above (numbers, to-do lists) but not this. -->
+  {#if staff.admin}
+    <DataEditor />
+  {/if}
 {/if}
 </div>
 
