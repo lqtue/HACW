@@ -4,6 +4,7 @@ import {
   stampPoints,
   spotlightIds,
   totalPoints,
+  breakdown,
   tierFor,
   nextTier,
   evenness
@@ -41,6 +42,19 @@ assert.equal(totalPoints(stamps, tours, 4), 10 + 25 + POINTS.tour);
 assert.equal(totalPoints([{ id: 'a' }], tours, 4), POINTS.stamp, 'missing pts falls back to base');
 const all = dests.map((d) => ({ id: d.id, pts: 10 }));
 assert.equal(totalPoints(all, tours, 4), 40 + 2 * POINTS.tour + POINTS.allSites);
+
+// --- breakdown: the passport shows the arithmetic, so the parts must add up ---
+const b = breakdown(stamps, tours, 4);
+assert.deepEqual(b, { stamps: 35, toursDone: 1, tours: POINTS.tour, allSites: 0, total: 35 + POINTS.tour });
+const bAll = breakdown(all, tours, 4);
+assert.equal(bAll.toursDone, 2);
+assert.equal(bAll.allSites, POINTS.allSites);
+assert.equal(bAll.stamps + bAll.tours + bAll.allSites, bAll.total, 'the parts add up to the total');
+// and the total is the only thing totalPoints reports, for every case above
+for (const st of [[], stamps, all, [{ id: 'a' }]]) {
+  assert.equal(totalPoints(st, tours, 4), breakdown(st, tours, 4).total);
+}
+assert.deepEqual(breakdown([], tours, 4), { stamps: 0, toursDone: 0, tours: 0, allSites: 0, total: 0 });
 
 // --- tiers ---
 const tiers = [{ stamps: 3 }, { stamps: 8 }, { stamps: 25 }];

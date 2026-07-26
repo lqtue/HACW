@@ -39,15 +39,31 @@ export function spotlightIds(counts, dests) {
   );
 }
 
+/**
+ * Where the score came from, so the passport can show the arithmetic instead of
+ * one opaque number. `stamps` is what was banked at check-in time (already
+ * including any perfect/spotlight bonus); the rest are set bonuses recomputed
+ * from what is currently stamped.
+ * @returns {{ stamps: number, toursDone: number, tours: number, allSites: number, total: number }}
+ */
+export function breakdown(stamps, tours, siteCount) {
+  const ids = new Set(stamps.map((s) => s.id));
+  const fromStamps = stamps.reduce((sum, s) => sum + (s.pts ?? POINTS.stamp), 0);
+  const toursDone = tours.filter((tour) => tour.stops.every((id) => ids.has(id))).length;
+  const allSites = ids.size >= siteCount ? POINTS.allSites : 0;
+  const tourPts = toursDone * POINTS.tour;
+  return {
+    stamps: fromStamps,
+    toursDone,
+    tours: tourPts,
+    allSites,
+    total: fromStamps + tourPts + allSites
+  };
+}
+
 /** Total score: stamps as earned, plus set bonuses derived from what is stamped. */
 export function totalPoints(stamps, tours, siteCount) {
-  const ids = new Set(stamps.map((s) => s.id));
-  let pts = stamps.reduce((sum, s) => sum + (s.pts ?? POINTS.stamp), 0);
-  for (const tour of tours) {
-    if (tour.stops.every((id) => ids.has(id))) pts += POINTS.tour;
-  }
-  if (ids.size >= siteCount) pts += POINTS.allSites;
-  return pts;
+  return breakdown(stamps, tours, siteCount).total;
 }
 
 /** Highest tier reached, or null. */

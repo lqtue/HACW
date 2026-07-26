@@ -103,6 +103,9 @@
     {s('staff_confirm')}
   </button>
 {:else}
+  <!-- Numbers stay a readable column even on a wide screen; only the editors below
+       actually want 1600px. -->
+  <section class="dash">
   <div class="actions">
     <button class="btn secondary" onclick={refresh} disabled={busy}>{s('org_refresh')}</button>
     <button class="btn secondary" onclick={exportCsv}>{s('org_export')}</button>
@@ -186,6 +189,7 @@
         .join(' · ') || '—'}
     </small>
   </p>
+  </section>
 
   <!-- Volunteers see everything above (numbers, to-do lists) but not this. -->
   {#if staff.admin}
@@ -232,6 +236,7 @@
   .kpi strong { font-family: var(--font-display); font-size: 1.7rem; color: var(--brand); }
 
   h2 { margin: 20px 0 6px; }
+  .dash { max-width: 900px; }
   table { width: 100%; border-collapse: collapse; }
   th, td { text-align: left; padding: 8px 6px; border-bottom: 1px solid var(--line); vertical-align: top; }
   .num { text-align: right; }

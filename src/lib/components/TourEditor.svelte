@@ -11,6 +11,9 @@
   const ids = destinations.map((d) => d.id);
   const byId = Object.fromEntries(destinations.map((d) => [d.id, d]));
 
+  let open = $state({});
+  const toggle = (id) => (open[id] = !open[id]);
+
   // Stop order is the walking order, so show what a reorder costs.
   const walk = (stops) => {
     const pts = stops.map((id) => byId[id]).filter(Boolean);
@@ -44,53 +47,85 @@
   {#snippet children(list)}
     <p class="muted"><small>{s('org_tours_hint')}</small></p>
 
-    {#each list as tour, ti (tour.id)}
-      {@const w = walk(tour.stops)}
-      <details class="ed-item">
-        <summary>
-          <strong>{tour.title.vi || tour.id}</strong>
-          <small class="muted">· {s('stops', tour.stops.length)}{#if w} · {formatDistance(w.meters, i18n.lang)}{/if}</small>
-          <button class="mini danger" onclick={() => list.splice(ti, 1)}>{s('org_del_tour')}</button>
-        </summary>
+    <div class="ed-scroll">
+      <table class="ed-table">
+        <thead>
+          <tr>
+            <th></th>
+            <th>id</th>
+            <th>{s('f_title')} vi</th>
+            <th>{s('f_title')} en</th>
+            <th>{s('f_theme')} vi</th>
+            <th>{s('f_voucher')} vi</th>
+            <th class="num">{s('f_stops')}</th>
+            <th class="num">{s('route')}</th>
+            <th></th>
+          </tr>
+        </thead>
+        {#each list as tour, ti (tour.id)}
+          {@const w = walk(tour.stops)}
+          <tbody class:open={open[tour.id]}>
+            <tr>
+              <td>
+                <button class="mini" onclick={() => toggle(tour.id)} title={s('org_details')}>
+                  {open[tour.id] ? '▾' : '▸'}
+                </button>
+              </td>
+              <!-- The id is the URL segment (/tours/<id>) and the redeemed-voucher key
+                   in every visitor's localStorage — renaming one un-redeems it. -->
+              <td><input bind:value={tour.id} /></td>
+              <td><input bind:value={tour.title.vi} /></td>
+              <td><input bind:value={tour.title.en} /></td>
+              <td><input bind:value={tour.theme.vi} /></td>
+              <td><input bind:value={tour.voucher.vi} /></td>
+              <td class="num">{tour.stops.length}</td>
+              <td class="num">{w ? formatDistance(w.meters, i18n.lang) : '—'}</td>
+              <td>
+                <button class="mini danger" onclick={() => list.splice(ti, 1)}>{s('org_del_tour')}</button>
+              </td>
+            </tr>
 
-        <!-- The id is the URL segment (/tours/<id>) and the redeemed-voucher key in
-             every visitor's localStorage — renaming one after launch un-redeems it. -->
-        <label class="ed-row"><span>id</span><input bind:value={tour.id} /></label>
-        <Bi field={tour.title} label={s('f_title')} />
-        <Bi field={tour.theme} label={s('f_theme')} />
-        <Bi field={tour.description} label={s('f_desc')} rows={3} />
-        <Bi field={tour.voucher} label={s('f_voucher')} />
+            {#if open[tour.id]}
+              <tr class="ed-detail">
+                <td colspan="9">
+                  <Bi field={tour.theme} label={s('f_theme')} />
+                  <Bi field={tour.description} label={s('f_desc')} rows={3} />
+                  <Bi field={tour.voucher} label={s('f_voucher')} />
 
-        <fieldset class="ed-fieldset">
-          <legend>{s('f_stops')} {#if w}<small class="muted">· {s('walk', formatDistance(w.meters, i18n.lang), w.minutes)}</small>{/if}</legend>
-          {#each tour.stops as stop, si}
-            <div class="stop">
-              <span class="n">{si + 1}</span>
-              <select bind:value={tour.stops[si]}>
-                {#each destinations as d}<option value={d.id}>{d.code} · {t(d.name)}</option>{/each}
-              </select>
-              <button class="mini" disabled={si === 0} onclick={() => move(tour.stops, si, -1)}>↑</button>
-              <button class="mini" disabled={si === tour.stops.length - 1} onclick={() => move(tour.stops, si, 1)}>↓</button>
-              <button class="mini danger" onclick={() => tour.stops.splice(si, 1)}>✕</button>
-            </div>
-          {/each}
-          <button
-            class="mini"
-            disabled={!unused(list)}
-            onclick={() => tour.stops.push(unused(list))}
-          >
-            {s('org_add_stop')}
-          </button>
-        </fieldset>
-      </details>
-    {/each}
+                  <fieldset class="ed-fieldset">
+                    <legend>
+                      {s('f_stops')}
+                      {#if w}<small class="muted">· {s('walk', formatDistance(w.meters, i18n.lang), w.minutes)}</small>{/if}
+                    </legend>
+                    {#each tour.stops as stop, si}
+                      <div class="stop">
+                        <span class="n">{si + 1}</span>
+                        <select bind:value={tour.stops[si]}>
+                          {#each destinations as d}<option value={d.id}>{d.code} · {t(d.name)}</option>{/each}
+                        </select>
+                        <button class="mini" disabled={si === 0} onclick={() => move(tour.stops, si, -1)}>↑</button>
+                        <button class="mini" disabled={si === tour.stops.length - 1} onclick={() => move(tour.stops, si, 1)}>↓</button>
+                        <button class="mini danger" onclick={() => tour.stops.splice(si, 1)}>✕</button>
+                      </div>
+                    {/each}
+                    <button class="mini" disabled={!unused(list)} onclick={() => tour.stops.push(unused(list))}>
+                      {s('org_add_stop')}
+                    </button>
+                  </fieldset>
+                </td>
+              </tr>
+            {/if}
+          </tbody>
+        {/each}
+      </table>
+    </div>
 
     <button class="btn secondary" onclick={() => list.push(blankTour(list))}>{s('org_add_tour')}</button>
   {/snippet}
 </JsonFile>
 
 <style>
-  .stop { display: grid; grid-template-columns: 22px 1fr auto auto auto; gap: 6px; align-items: center; margin: 4px 0; }
+  .stop { display: grid; grid-template-columns: 22px minmax(0, 380px) auto auto auto; gap: 6px; align-items: center; margin: 4px 0; }
   .stop .n { font-size: 0.8rem; color: var(--muted); text-align: right; }
   .stop select {
     width: 100%;

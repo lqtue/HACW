@@ -53,7 +53,8 @@
   {i18n.lang === 'vi' ? 'EN' : 'VI'}
 </button>
 
-<div class="app">
+<!-- /organizer is desk software; every other route is a phone column. -->
+<div class="app" class:wide={rel.startsWith('/organizer')}>
   {@render children()}
 </div>
 

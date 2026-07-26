@@ -120,11 +120,21 @@ stops mis-taps and curious visitors, not fraud.
 four editable files, one shell. `JsonFile.svelte` owns the whole flow — clone the
 shipped JSON, validate on every keystroke, **download** it, read an edited file
 back in, reset — and renders a `children(data)` snippet with the working copy.
-The four bodies are `DataEditor` (destinations: copy, coords, radius,
-traffic/priority, whole quiz bank), `TourEditor` (tours: copy, stop order with
-live walking cost, add/remove), `RewardEditor` (tiers) and `EventEditor` (home
-page copy). `Bi.svelte` is the `{ vi, en }` field pair they all use. Nothing is
-written server-side; the file is committed and redeployed.
+The four bodies are `DataEditor` (destinations), `TourEditor` (tours),
+`RewardEditor` (tiers) and `EventEditor` (home page copy). `Bi.svelte` is the
+`{ vi, en }` field pair they all use. Nothing is written server-side; the file is
+committed and redeployed.
+
+The three list files edit as **tables** (`.ed-table`) — one row per record, one
+input per cell, so 25 sites are comparable at a glance and the survey-critical
+numbers (lat/lng/radius) line up in columns. Fields too long for a cell (intro
+copy, quiz banks, tour stops) live in a detail row that opens under the record,
+tracked by a plain `$state({})` id map so several can be open at once. `event.json`
+is one object, not rows, so it stays a form.
+
+`/organizer` is the one route used at a desk: `+layout.svelte` puts `.wide` on
+`.app` for it, lifting the 540px phone column to 1600px. The dashboard half keeps
+a 900px `.dash` cap — only the editors want the full width.
 
 Validation lives in `src/lib/editor.js` — `checkDestinations`, `checkTours`,
 `checkRewards`, `checkEvent` — and `scripts/check-data.mjs` runs those same four
@@ -151,6 +161,14 @@ map** as bonus-worthy, from live `/api/checkin` counts once ≥20 are recorded
 the sheet's `traffic`/`promoPriority` columns before that. This is the mechanism
 for "get every site visited evenly" — the app and `/organizer` call the same
 function, so staff see exactly what visitors are nudged toward.
+
+`breakdown(stamps, tours, siteCount)` splits that total into stamps / tour bonuses
+/ full-set bonus and `totalPoints` is now just its `.total`, so the "how points
+work" panel on the passport cannot drift from the number above it. The stamp wall
+is **grouped by tour** rather than shown as one wall of 25 — a tour is the unit
+that earns a voucher, and `checkTours` guarantees every site is in exactly one, so
+the groups cover all of them with nothing orphaned. That replaced the separate
+tours list, which showed the same progress twice.
 
 **Recovery** (`src/lib/backup.js` pure + `passport.svelte.js` glue): every device
 gets an 8-char Crockford-base32 code, backed up to D1 on change and on reconnect

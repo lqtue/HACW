@@ -76,6 +76,15 @@ const UI = {
     reward_ready: 'Đã mở khoá — nhận tại quầy vé',
     reward_taken: 'Đã nhận',
     claim: '🎁 Nhận quà',
+    score_how: 'Cách tính điểm',
+    pt_stamp: 'mỗi lần check-in',
+    pt_perfect: 'trả lời đúng hết ngay lần đầu',
+    pt_spotlight: 'check-in tại “điểm cần khám phá”',
+    pt_tour: 'hoàn thành một tuyến (đủ tem của tuyến đó)',
+    pt_all: (n) => `check-in đủ cả ${n} điểm đến`,
+    tally_stamps: (n) => `${n} tem đã sưu tầm`,
+    tally_tours: (a, b) => `Tuyến hoàn thành ${a}/${b}`,
+    tally_all: 'Thưởng đủ bộ',
 
     // backup & recovery
     backup_title: 'Sao lưu & khôi phục',
@@ -165,6 +174,7 @@ const UI = {
     org_generated: 'tự sinh',
     org_reviewed: 'Đã kiểm tra',
     org_needs_survey: 'Toạ độ cần khảo sát',
+    f_code: 'Mã',
     f_name: 'Tên',
     f_address: 'Địa chỉ',
     f_hours: 'Giờ mở cửa',
@@ -186,6 +196,7 @@ const UI = {
     f_note: 'Ghi chú',
     f_steps: 'Các bước',
     stamps_at: (n) => `từ ${n} tem`,
+    org_details: 'Chi tiết',
     lvl_easy: 'dễ',
     lvl_hard: 'khó'
   },
@@ -263,6 +274,15 @@ const UI = {
     reward_ready: 'Unlocked — collect at any ticket counter',
     reward_taken: 'Collected',
     claim: '🎁 Claim',
+    score_how: 'How points work',
+    pt_stamp: 'per check-in',
+    pt_perfect: 'quiz answered correctly first try',
+    pt_spotlight: 'checking in at a spotlight site',
+    pt_tour: 'completing a tour (every stamp on it)',
+    pt_all: (n) => `checking in at all ${n} sites`,
+    tally_stamps: (n) => `${n} stamps collected`,
+    tally_tours: (a, b) => `Tours completed ${a}/${b}`,
+    tally_all: 'Full-set bonus',
 
     // backup & recovery
     backup_title: 'Backup & recovery',
@@ -352,6 +372,7 @@ const UI = {
     org_generated: 'auto-generated',
     org_reviewed: 'Mark reviewed',
     org_needs_survey: 'Coordinates need a survey',
+    f_code: 'Code',
     f_name: 'Name',
     f_address: 'Address',
     f_hours: 'Opening hours',
@@ -373,6 +394,7 @@ const UI = {
     f_note: 'Note',
     f_steps: 'Steps',
     stamps_at: (n) => `from ${n} stamps`,
+    org_details: 'Details',
     lvl_easy: 'easy',
     lvl_hard: 'hard'
   }

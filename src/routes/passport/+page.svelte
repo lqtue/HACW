@@ -17,19 +17,26 @@
     restore,
     restoreFromHash
   } from '$lib/passport.svelte.js';
-  import { totalPoints, tierFor, nextTier } from '$lib/score.js';
+  import { POINTS, breakdown, tierFor, nextTier } from '$lib/score.js';
   import { t } from '$lib/i18n.svelte.js';
   import { s } from '$lib/strings.js';
 
   const total = destinations.length;
   const count = $derived(passport.stamps.length);
-  const points = $derived(totalPoints(passport.stamps, tours, total));
+  const score = $derived(breakdown(passport.stamps, tours, total));
   const rank = $derived(tierFor(count, rewards));
   const next = $derived(nextTier(count, rewards));
 
   function setProgress(stops) {
     return stops.filter((id) => hasStamp(id)).length;
   }
+
+  // The stamp wall is grouped by tour rather than shown as one wall of 25: a tour
+  // is the unit that earns a voucher, so "3 of 5 on this one" is the number a
+  // visitor can act on. `check-data.mjs` guarantees every site is in exactly one
+  // tour, so this covers all of them with nothing orphaned.
+  const byId = Object.fromEntries(destinations.map((d) => [d.id, d]));
+  const groups = tours.map((tour) => ({ tour, stops: tour.stops.map((id) => byId[id]).filter(Boolean) }));
 
   // --- backup & recovery ---
   let notice = $state('');
@@ -78,7 +85,7 @@
 <div class="page">
   <!-- score + rank -->
   <div class="score">
-    <div class="big"><strong>{points}</strong><small>{s('points')}</small></div>
+    <div class="big"><strong>{score.total}</strong><small>{s('points')}</small></div>
     <div class="rankinfo">
       <span class="tag" style="background: var(--teal)">{s('rank')}</span>
       <strong>{rank ? `${rank.icon} ${t(rank.title)}` : s('no_rank')}</strong>
@@ -89,18 +96,59 @@
     </div>
   </div>
 
-  <!-- 25 stamps: the point of the page, so it goes first and stays compact -->
-  <div class="grid">
-    {#each destinations as d}
-      {@const got = hasStamp(d.id)}
-      <a class="stamp" class:got href="{base}/destinations/{d.id}" style="--cat: var(--c-{d.category})">
-        <div class="seal">
-          {#if got}<span>{t(d.name).charAt(0)}</span>{:else}<span class="lock">?</span>{/if}
-        </div>
-        <small class="name">{t(d.name)}</small>
+  <!-- How the number above was reached. Points are banked at check-in and stored
+       on the stamp, so this is a report, not a live recalculation of history. -->
+  <details class="how">
+    <summary>{s('score_how')}</summary>
+    <ul class="rules">
+      <li><b>{s('earned', POINTS.stamp)}</b> · {s('pt_stamp')}</li>
+      <li><b>{s('earned', POINTS.perfect)}</b> · {s('pt_perfect')}</li>
+      <li><b>{s('earned', POINTS.spotlight)}</b> · {s('pt_spotlight')}</li>
+      <li><b>{s('earned', POINTS.tour)}</b> · {s('pt_tour')}</li>
+      <li><b>{s('earned', POINTS.allSites)}</b> · {s('pt_all', total)}</li>
+    </ul>
+    <table class="tally">
+      <tbody>
+        <tr><td>{s('tally_stamps', count)}</td><td class="n">{score.stamps}</td></tr>
+        <tr><td>{s('tally_tours', score.toursDone, tours.length)}</td><td class="n">{score.tours}</td></tr>
+        <tr><td>{s('tally_all')}</td><td class="n">{score.allSites}</td></tr>
+        <tr class="sum"><td>{s('points')}</td><td class="n">{score.total}</td></tr>
+      </tbody>
+    </table>
+  </details>
+
+  <!-- The stamp wall, grouped by tour: the set is what earns a voucher, so it is
+       the unit worth showing progress against. -->
+  {#each groups as { tour, stops }}
+    {@const done = setProgress(tour.stops)}
+    {@const complete = isSetComplete(tour.stops)}
+    <section class="set-block" class:complete>
+      <a class="set-head" href="{base}/tours/{tour.id}">
+        <span class="ico">{isRedeemed(tour.id) ? '✅' : complete ? '🎁' : '🚶'}</span>
+        <span class="who">
+          <strong>{t(tour.title)}</strong>
+          <small class="muted">{t(tour.theme)}</small>
+        </span>
+        <span class="prog">
+          <b>{done}/{stops.length}</b>
+          <small class="muted">
+            {#if isRedeemed(tour.id)}{s('reward_taken')}{:else if complete}{s('set_complete')}{:else}{s('earned', POINTS.tour)}{/if}
+          </small>
+        </span>
       </a>
-    {/each}
-  </div>
+      <div class="grid">
+        {#each stops as d}
+          {@const got = hasStamp(d.id)}
+          <a class="stamp" class:got href="{base}/destinations/{d.id}" style="--cat: var(--c-{d.category})">
+            <div class="seal">
+              {#if got}<span>{t(d.name).charAt(0)}</span>{:else}<span class="lock">?</span>{/if}
+            </div>
+            <small class="name">{t(d.name)}</small>
+          </a>
+        {/each}
+      </div>
+    </section>
+  {/each}
 
   {#if count === total}
     <div class="banner" style="margin-top: 12px; text-align: center">{s('all_done')}</div>
@@ -133,24 +181,6 @@
     <!-- Every tier above is collected in person at a counter, and a counter is also
          where a visitor goes for help — so the finder sits here unconditionally. -->
     <NearestBooth />
-  </details>
-
-  <!-- themed sets -> voucher redemption -->
-  <details>
-    <summary>
-      {s('tours')} · {tours.filter((x) => isSetComplete(x.stops)).length}/{tours.length}
-    </summary>
-    <div class="sets">
-    {#each tours as tour}
-      <a class="set" class:complete={isSetComplete(tour.stops)} href="{base}/tours/{tour.id}">
-        <span class="ico">{isRedeemed(tour.id) ? '✅' : isSetComplete(tour.stops) ? '🎁' : '🚶'}</span>
-        <span class="info">
-          <strong>{t(tour.title)}</strong>
-          <small class="muted">{setProgress(tour.stops)}/{tour.stops.length}</small>
-        </span>
-      </a>
-    {/each}
-    </div>
   </details>
 
   <!-- backup & recovery -->
@@ -239,8 +269,33 @@
   .set .info { display: grid; flex: 1; }
   .claim { margin-top: 8px; }
 
-  /* 25 sites at 4 across ≈ one screen — was 2 across and three screens long */
-  .grid { display: grid; grid-template-columns: repeat(4, 1fr); gap: 8px; margin-top: 10px; }
+  /* --- the stamp wall, one block per tour --- */
+  .set-block { margin-top: 16px; }
+  .set-head {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    padding: 4px 2px;
+  }
+  .set-head .ico { font-size: 1.35rem; }
+  .set-head .who { display: grid; flex: 1; min-width: 0; }
+  .set-head .who strong { font-family: var(--font-display); font-size: 1.05rem; }
+  .set-head .who small { overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+  .set-head .prog { display: grid; justify-items: end; text-align: right; }
+  .set-head .prog b { color: var(--brand); font-size: 1.05rem; }
+  .set-block.complete .set-head .prog b { color: var(--teal); }
+
+  /* --- how points work --- */
+  .how { margin-top: 12px; }
+  .rules { margin: 0 0 10px; padding-left: 18px; font-size: 0.88rem; line-height: 1.7; }
+  .rules b { color: var(--brand); }
+  .tally { width: 100%; border-collapse: collapse; font-size: 0.88rem; }
+  .tally td { padding: 5px 0; border-bottom: 1px solid var(--line); }
+  .tally .n { text-align: right; font-variant-numeric: tabular-nums; }
+  .tally .sum td { font-weight: 700; border-bottom: none; color: var(--brand); }
+
+  /* 4 across ≈ one screen — was 2 across and three screens long */
+  .grid { display: grid; grid-template-columns: repeat(4, 1fr); gap: 8px; margin-top: 8px; }
   .stamp {
     background: var(--surface);
     border: 1px solid var(--line);
