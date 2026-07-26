@@ -81,10 +81,10 @@ is a deliberate hold: decide the policy first, then it's ~10 lines.
   Cloudflare Access in front of `/organizer` if the numbers must stay private.
 
 - **Counters are atomic now** (D1 `ON CONFLICT DO UPDATE SET n = n + ?`), so the
-  old sharding hack and its lost-update caveat are gone. `node scripts/loadtest.mjs
-  <url> --users 50 --seconds 10` still posts a valid body, but pointed at `npm run
-  dev` it measures the in-memory stand-in, not D1 — run it against a deployed
-  preview if you want a real number.
+  old sharding hack and its lost-update caveat are gone. `scripts/loadtest.mjs` was
+  deleted once that question was answered; `git log -- scripts/loadtest.mjs` brings
+  it back if a real number is ever wanted (point it at a deployed preview, not
+  `npm run dev`, which only measures the in-memory stand-in).
 
 - **No per-IP rate limit in code** — that would cost a database write per request.
   `src/hooks.server.js` enforces same-origin on writes and a 16 KB body cap; the

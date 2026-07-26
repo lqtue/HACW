@@ -10,7 +10,7 @@
 // Anything with real value needs a signed token instead.
 
 import { json } from '@sveltejs/kit';
-import { mergeSnapshots } from '$lib/backup.js';
+import { mergeSnapshots, isValidCode } from '$lib/backup.js';
 import { flagPassport } from '$lib/fraud.js';
 import destinations from '$lib/data/destinations.json';
 import { SELECT_PASSPORT, UPSERT_PASSPORT, SELECT_FLAGGED } from '$lib/sql.js';
@@ -19,7 +19,6 @@ export const prerender = false;
 
 const MAX_BYTES = 8192;
 const MAX_ITEMS = 100; // 25 sites + 5 tours + 4 tiers; anything bigger is junk
-const validPid = (pid) => typeof pid === 'string' && /^[0-9A-HJKMNP-TV-Z]{8}$/.test(pid);
 
 export async function PUT({ request, platform }) {
   let body;
@@ -28,7 +27,7 @@ export async function PUT({ request, platform }) {
   } catch {
     return json({ error: 'bad json' }, { status: 400 });
   }
-  if (!validPid(body?.pid)) return json({ error: 'bad pid' }, { status: 400 });
+  if (!isValidCode(body?.pid)) return json({ error: 'bad pid' }, { status: 400 });
   if (!Array.isArray(body?.stamps)) return json({ error: 'stamps[] required' }, { status: 400 });
   if (body.stamps.length > MAX_ITEMS || (body.redeemed?.length ?? 0) > MAX_ITEMS) {
     return json({ error: 'too many' }, { status: 400 });
@@ -65,7 +64,7 @@ export async function GET({ url, platform }) {
   }
 
   const pid = url.searchParams.get('pid') ?? '';
-  if (!validPid(pid)) return json({ error: 'bad pid' }, { status: 400 });
+  if (!isValidCode(pid)) return json({ error: 'bad pid' }, { status: 400 });
   const db = platform?.env?.DB;
   if (!db) return json({ error: 'no storage' }, { status: 404 });
   const row = await db.prepare(SELECT_PASSPORT).bind(pid).first();

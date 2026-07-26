@@ -2,6 +2,7 @@
   import Card from '$lib/components/Card.svelte';
   import StaffConfirm from '$lib/components/StaffConfirm.svelte';
   import RouteMap from '$lib/components/RouteMap.svelte';
+  import NearestBooth from '$lib/components/NearestBooth.svelte';
   import { isSetComplete, isRedeemed, redeemSet } from '$lib/passport.svelte.js';
   import { POINTS } from '$lib/score.js';
   import { routeStats, formatDistance } from '$lib/route.js';
@@ -31,6 +32,8 @@
     <div class="redeem">
       <p class="done">🎉 {s('set_complete')} · {s('earned', POINTS.tour)}</p>
       <StaffConfirm label={s('redeem')} onconfirm={() => redeemSet(tour.id)} />
+      <!-- The voucher is paper and lives at a counter, so say which one is closest. -->
+      <NearestBooth />
     </div>
   {/if}
 

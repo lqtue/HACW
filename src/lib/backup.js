@@ -51,4 +51,7 @@ export function normalizeCode(code) {
   return (code ?? '').replace(/[^0-9a-zA-Z]/g, '').toUpperCase();
 }
 
-export const isValidCode = (code) => /^[0-9A-HJKMNP-TV-Z]{8}$/.test(code);
+// Typeof check is not decoration: this also guards the /api/passport pid, and a
+// JSON body can put an array here, which a bare .test() would happily coerce.
+export const isValidCode = (code) =>
+  typeof code === 'string' && /^[0-9A-HJKMNP-TV-Z]{8}$/.test(code);

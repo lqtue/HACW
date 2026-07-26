@@ -36,3 +36,10 @@ export function openLabel(dest, now = new Date()) {
 export function mapsUrl(dest) {
   return `https://www.google.com/maps/dir/?api=1&destination=${dest.lat},${dest.lng}&travelmode=walking`;
 }
+
+/** Hand the browser a file. Used by the CSV export and every editor download. */
+export function download(filename, text, type = 'application/json') {
+  const url = URL.createObjectURL(new Blob([text], { type }));
+  Object.assign(document.createElement('a'), { href: url, download: filename }).click();
+  URL.revokeObjectURL(url);
+}

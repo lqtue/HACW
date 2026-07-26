@@ -1,6 +1,6 @@
-// Run: npm run test:geo
 import assert from 'node:assert';
-import { distanceMeters, withinRadius } from './geo.js';
+import { readFileSync } from 'node:fs';
+import { distanceMeters, nearest } from './geo.js';
 
 // Same point -> 0 m
 assert.equal(Math.round(distanceMeters({ lat: 15.877, lng: 108.327 }, { lat: 15.877, lng: 108.327 })), 0);
@@ -9,9 +9,26 @@ assert.equal(Math.round(distanceMeters({ lat: 15.877, lng: 108.327 }, { lat: 15.
 const d = distanceMeters({ lat: 15.877153, lng: 108.326653 }, { lat: 15.8775, lng: 108.3289 });
 assert.ok(d > 100 && d < 500, `expected 100-500m, got ${Math.round(d)}m`);
 
-// withinRadius respects the dest radius.
-const dest = { lat: 15.877153, lng: 108.326653, radius: 45 };
-assert.equal(withinRadius({ lat: 15.877153, lng: 108.326653 }, dest), true);
-assert.equal(withinRadius({ lat: 15.8775, lng: 108.3289 }, dest), false);
+// --- nearest(): what routes a visitor to a ticket counter ---
+const pts = [
+  { id: 'far', lat: 15.8806, lng: 108.3302 },
+  { id: 'close', lat: 15.8772, lng: 108.3268 },
+  { id: 'mid', lat: 15.8782, lng: 108.3241 }
+];
+const here = { lat: 15.877153, lng: 108.326653 };
+assert.equal(nearest(here, pts).point.id, 'close');
+assert.ok(nearest(here, pts).meters < 100, 'reports the distance, not just the winner');
+assert.equal(nearest(here, []), null, 'no counters is not a crash');
+assert.equal(nearest(here, null), null);
+assert.equal(nearest(pts[0], pts).meters, 0, 'standing on one picks that one');
+
+// Every shipped ticket point must be reachable by this, i.e. have real coords.
+const tickets = JSON.parse(readFileSync(new URL('./data/ticket-points.json', import.meta.url), 'utf8'));
+assert.ok(tickets.length > 0);
+assert.ok(
+  tickets.every((p) => Number.isFinite(p.lat) && Number.isFinite(p.lng)),
+  'a counter without coordinates can never be the nearest one'
+);
+assert.ok(nearest(here, tickets).meters < 3000, 'the nearest counter is inside the old town');
 
 console.log('geo.test.js OK');

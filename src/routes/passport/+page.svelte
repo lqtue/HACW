@@ -5,6 +5,7 @@
   import tours from '$lib/data/tours.json';
   import rewards from '$lib/data/rewards.json';
   import StaffConfirm from '$lib/components/StaffConfirm.svelte';
+  import NearestBooth from '$lib/components/NearestBooth.svelte';
   import {
     passport,
     hasStamp,
@@ -129,6 +130,9 @@
       </div>
     {/each}
     </div>
+    <!-- Every tier above is collected in person at a counter, and a counter is also
+         where a visitor goes for help — so the finder sits here unconditionally. -->
+    <NearestBooth />
   </details>
 
   <!-- themed sets -> voucher redemption -->

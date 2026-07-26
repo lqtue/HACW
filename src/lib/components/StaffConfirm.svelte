@@ -45,16 +45,6 @@
 {/if}
 
 <style>
-  .code {
-    width: 100%;
-    padding: 12px 14px;
-    border: 1px solid var(--line);
-    border-radius: 12px;
-    font-family: var(--font-body);
-    font-size: 1.1rem;
-    text-align: center;
-    letter-spacing: 0.2em;
-  }
   .err { color: var(--brand); margin: 0; font-size: 0.9rem; }
   .warn {
     margin: 0 0 8px;

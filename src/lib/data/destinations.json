@@ -18,7 +18,6 @@
       "vi": "7:00 - 22:00",
       "en": "7:00 - 22:00"
     },
-    "image": null,
     "traffic": "high",
     "promoPriority": "low",
     "description": {
@@ -157,7 +156,6 @@
       "vi": "7:30 - 19:30",
       "en": "7:30 - 19:30"
     },
-    "image": null,
     "traffic": "low",
     "promoPriority": "high",
     "description": {
@@ -255,7 +253,6 @@
       "vi": "7:30 - 19:30",
       "en": "7:30 - 19:30"
     },
-    "image": null,
     "traffic": "low",
     "promoPriority": "high",
     "description": {
@@ -350,7 +347,6 @@
       "vi": "7:00 - 21:00",
       "en": "7:00 - 21:00"
     },
-    "image": null,
     "traffic": "medium",
     "promoPriority": "medium",
     "description": {
@@ -445,7 +441,6 @@
       "vi": "7:30 - 11:30 13:30 - 17:30",
       "en": "7:30 - 11:30 13:30 - 17:30"
     },
-    "image": null,
     "traffic": "low",
     "promoPriority": "medium",
     "description": {
@@ -543,7 +538,6 @@
       "vi": "8:00 - 21:00",
       "en": "8:00 - 21:00"
     },
-    "image": null,
     "traffic": "low",
     "promoPriority": "medium",
     "description": {
@@ -641,7 +635,6 @@
       "vi": "8:00 - 21:30",
       "en": "8:00 - 21:30"
     },
-    "image": null,
     "traffic": "medium",
     "promoPriority": "medium",
     "description": {
@@ -739,7 +732,6 @@
       "vi": "8:00 - 21:30",
       "en": "8:00 - 21:30"
     },
-    "image": null,
     "traffic": "low",
     "promoPriority": "medium",
     "description": {
@@ -838,7 +830,6 @@
       "vi": "8:00 - 21:30",
       "en": "8:00 - 21:30"
     },
-    "image": null,
     "traffic": "low",
     "promoPriority": "medium",
     "description": {
@@ -936,7 +927,6 @@
       "vi": "Liên hệ ban tổ chức",
       "en": "Check with organisers"
     },
-    "image": null,
     "traffic": "low",
     "promoPriority": "low",
     "description": {
@@ -1012,7 +1002,6 @@
       "vi": "Liên hệ ban tổ chức",
       "en": "Check with organisers"
     },
-    "image": null,
     "traffic": "medium",
     "promoPriority": "medium",
     "description": {
@@ -1064,7 +1053,6 @@
       "vi": "7:00 - 21:00 (trừ Chủ nhật và Thứ hai đóng cửa lúc 18:00)",
       "en": "7:00 - 21:00 (trừ Chủ nhật và Thứ hai đóng cửa lúc 18:00)"
     },
-    "image": null,
     "traffic": "low",
     "promoPriority": "medium",
     "description": {
@@ -1162,7 +1150,6 @@
       "vi": "8:00 - 21:00",
       "en": "8:00 - 21:00"
     },
-    "image": null,
     "traffic": "low",
     "promoPriority": "medium",
     "description": {
@@ -1260,7 +1247,6 @@
       "vi": "8:00 - 18:00",
       "en": "8:00 - 18:00"
     },
-    "image": null,
     "traffic": "medium",
     "promoPriority": "medium",
     "description": {
@@ -1358,7 +1344,6 @@
       "vi": "9:00 - 19:00",
       "en": "9:00 - 19:00"
     },
-    "image": null,
     "traffic": "high",
     "promoPriority": "medium",
     "description": {
@@ -1457,7 +1442,6 @@
       "vi": "9:00 - 19:00",
       "en": "9:00 - 19:00"
     },
-    "image": null,
     "traffic": "high",
     "promoPriority": "medium",
     "description": {
@@ -1555,7 +1539,6 @@
       "vi": "8:30 - 18:00",
       "en": "8:30 - 18:00"
     },
-    "image": null,
     "traffic": "high",
     "promoPriority": "low",
     "description": {
@@ -1650,7 +1633,6 @@
       "vi": "8:00 - 17:00",
       "en": "8:00 - 17:00"
     },
-    "image": null,
     "traffic": "high",
     "promoPriority": "low",
     "description": {
@@ -1745,7 +1727,6 @@
       "vi": "7:00 - 18:00",
       "en": "7:00 - 18:00"
     },
-    "image": null,
     "traffic": "medium",
     "promoPriority": "medium",
     "description": {
@@ -1840,7 +1821,6 @@
       "vi": "9:00 - 21:00",
       "en": "9:00 - 21:00"
     },
-    "image": null,
     "traffic": "low",
     "promoPriority": "high",
     "description": {
@@ -1938,7 +1918,6 @@
       "vi": "8:00 - 17:00 (có nghỉ trưa)",
       "en": "8:00 - 17:00 (có nghỉ trưa)"
     },
-    "image": null,
     "traffic": "low",
     "promoPriority": "high",
     "description": {
@@ -2036,7 +2015,6 @@
       "vi": "8:00 - 21:00",
       "en": "8:00 - 21:00"
     },
-    "image": null,
     "traffic": "low",
     "promoPriority": "medium",
     "description": {
@@ -2134,7 +2112,6 @@
       "vi": "Liên hệ ban tổ chức",
       "en": "Check with organisers"
     },
-    "image": null,
     "traffic": "low",
     "promoPriority": "high",
     "description": {
@@ -2210,7 +2187,6 @@
       "vi": "Liên hệ ban tổ chức",
       "en": "Check with organisers"
     },
-    "image": null,
     "traffic": "low",
     "promoPriority": "low",
     "description": {
@@ -2286,7 +2262,6 @@
       "vi": "Liên hệ ban tổ chức",
       "en": "Check with organisers"
     },
-    "image": null,
     "traffic": "low",
     "promoPriority": "low",
     "description": {

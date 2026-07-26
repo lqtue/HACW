@@ -263,7 +263,6 @@ for (const [i, row] of rows.entries()) {
     hours: hours && hours !== 'N/A'
       ? { vi: hours, en: hours }
       : { vi: 'Liên hệ ban tổ chức', en: 'Check with organisers' },
-    image: prev.image ?? null,
     // sheet-reported footfall + promo priority -> drives the balancing boost
     traffic: level(row['Traffic']) ?? 'medium',
     promoPriority: level(row['Ưu tiên về quảng bá']) ?? 'medium',
@@ -294,8 +293,7 @@ for (const row of parseCsv(readFileSync(CSV_TICKETS, 'utf8'))) {
     id: row['Điểm'],
     lat: ll[0],
     lng: ll[1],
-    where: { vi: row['Vị trí (theo tuyến đường)'], en: row['Vị trí (theo tuyến đường)'] },
-    near: row['Điểm tham quan gần nhất'].split('\n').map((v) => v.trim()).filter(Boolean)
+    where: { vi: row['Vị trí (theo tuyến đường)'], en: row['Vị trí (theo tuyến đường)'] }
   });
 }
 writeFileSync(join(DATA, 'ticket-points.json'), JSON.stringify(tickets, null, 2) + '\n');

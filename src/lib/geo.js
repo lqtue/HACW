@@ -10,6 +10,21 @@ export function distanceMeters(a, b) {
   return 2 * R * Math.asin(Math.sqrt(s));
 }
 
+/**
+ * Closest of `points` to `from`. Straight-line, like everything else here — over
+ * a few hundred metres of old town that ranks the same as walking distance.
+ * Callers pass the JSON in, so this module stays import-free and node-testable.
+ * @returns {{ point: any, meters: number } | null} null when there are no points
+ */
+export function nearest(from, points) {
+  let best = null;
+  for (const p of points ?? []) {
+    const meters = distanceMeters(from, p);
+    if (!best || meters < best.meters) best = { point: p, meters };
+  }
+  return best;
+}
+
 // Promise wrapper around the browser geolocation API.
 export function getPosition() {
   return new Promise((resolve, reject) => {
@@ -23,9 +38,4 @@ export function getPosition() {
       { enableHighAccuracy: true, timeout: 10000, maximumAge: 0 }
     );
   });
-}
-
-// Tier 1 of check-in: are we within the destination's radius?
-export function withinRadius(here, dest) {
-  return distanceMeters(here, { lat: dest.lat, lng: dest.lng }) <= dest.radius;
 }

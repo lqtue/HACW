@@ -82,8 +82,10 @@ still to survey and quiz banks still auto-generated.
 
 Behind the staff code (`src/lib/staff.svelte.js`) — the volunteer code, the same
 one that unlocks the skip-GPS button and voucher confirmation, gets the dashboard
-read-only; the organizer code adds the content editor (edit destinations and quiz
-questions, then download `destinations.json` and commit it — no server writes).
+read-only; the organizer code adds the content editors — four tabs covering
+destinations and quiz banks, tours and their stop order, reward tiers, and the
+home-page copy. Each one validates as you type and then downloads its JSON for a
+developer to commit; nothing is written server-side.
 `?staff=<code>` unlocks a device once,
 `?staff=0` locks it. That is a mis-tap guard, not security: put Cloudflare Access
 in front of the route if the numbers must not be public.
@@ -174,7 +176,8 @@ adapter emits a `_worker.js`, and Pages ignores `functions/` when that exists.
 
 The GitHub Pages workflow was removed with the move to Cloudflare — `adapter-static`
 cannot serve the API, so the counter, live spotlight and code-based passport
-backup would all no-op there. `git revert` it if a static demo is ever wanted back.
+backup would all no-op there. It is no longer a dependency either; `git revert`
+the removal and reinstall it if a static demo is ever wanted back.
 
 ## TODO before launch
 
@@ -182,5 +185,6 @@ backup would all no-op there. `git revert` it if a static demo is ever wanted ba
   skip-GPS button, `/organizer` and voucher confirmation).
 - Verify all coordinates + radii on-site (5 are estimates — see `/organizer`).
 - Replace the 19 auto-generated quiz banks with real questions (target 10/site).
-- Add real destination photos (set `image` in `destinations.json`).
+- Add real destination photos (the unused `image` field was dropped from
+  `destinations.json`; re-add it in `scripts/import-csv.mjs` when photos exist).
 - Replace `static/icon.svg` with 192/512 PNG icons for full iOS install fidelity.

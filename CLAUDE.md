@@ -113,14 +113,23 @@ confirm, `/organizer` read-only. `ORGANIZER` (`2026hacw`) → `staff.on` *and*
 `?staff=<code>` on any URL unlocks a device, `?staff=0` locks it. Client-side:
 stops mis-taps and curious visitors, not fraud.
 
-**Content editor** (`src/lib/components/DataEditor.svelte`, `staff.admin` only):
-edits a `structuredClone` of `destinations.json` — copy, hours, coords, radius,
-traffic/priority, and the whole quiz bank (add/remove questions and options, pick
-the answer, clear the `generated` flag) — then **downloads the JSON**. Nothing is
-written server-side; the file is committed and redeployed. Validation is
-`src/lib/editor.js` (`checkDestinations`), the same module `scripts/check-data.mjs`
-runs in `npm test`, so the download button is disabled on anything the repo would
-reject. It also reads a previously downloaded file back in to keep editing.
+**Content editors** (`staff.admin` only, tabbed at the bottom of `/organizer`):
+four editable files, one shell. `JsonFile.svelte` owns the whole flow — clone the
+shipped JSON, validate on every keystroke, **download** it, read an edited file
+back in, reset — and renders a `children(data)` snippet with the working copy.
+The four bodies are `DataEditor` (destinations: copy, coords, radius,
+traffic/priority, whole quiz bank), `TourEditor` (tours: copy, stop order with
+live walking cost, add/remove), `RewardEditor` (tiers) and `EventEditor` (home
+page copy). `Bi.svelte` is the `{ vi, en }` field pair they all use. Nothing is
+written server-side; the file is committed and redeployed.
+
+Validation lives in `src/lib/editor.js` — `checkDestinations`, `checkTours`,
+`checkRewards`, `checkEvent` — and `scripts/check-data.mjs` runs those same four
+in `npm test`, so the download button is disabled on anything the repo would
+reject. Cross-file rules that a single editor cannot see stay in `check-data.mjs`;
+"every site is in exactly one tour" is enforced by passing the destination ids
+into `checkTours`. Editor CSS is global (`.ed-*` in `app.css`) because Svelte
+scopes component styles and four editors would otherwise carry four copies.
 
 **Fraud flagging** (`src/lib/fraud.js`, pure): `flagPassport(stamps, destinations)`
 returns impossible-travel and burst findings; `PUT /api/passport` stores the count
@@ -169,6 +178,17 @@ client-side `CONTROLLER_CODE` **inside StaffConfirm** (prevents mis-taps, NOT
 fraud — real anti-fraud needs the server path). Redeemed ids (tour ids *and*
 reward-tier ids) persist in `localStorage` via the passport store. No phone numbers, no e-vouchers — see [intake guide]
 constraints; vouchers are paper, exchanged at any ticket counter.
+
+**Finding a ticket counter** (`src/lib/geo.js` `nearest(from, points)`, pure):
+because vouchers are paper and staff stand at counters, "which counter is closest"
+is the question right after a set completes. `NearestBooth.svelte` asks for one
+GPS fix on tap and hands off to Google Maps walking directions — it sits in the
+tour redeem panel and the passport rewards section. The map (`destinations/`) uses
+Leaflet's own `map.locate({ watch: true })` behind the 📍 chip: **opt-in, never on
+page load**, drawing a dot + accuracy halo and the same nearest-counter line.
+`onDestroy` calls `stopLocate()` *and* `map.remove()` — a watch that outlives the
+route is a battery leak. `/organizer` calls the same `nearest()` for its
+per-site counter column.
 
 **Content intake**: the survey team works in Google Sheets; CSV exports live in
 `content/csv/` and `node scripts/import-csv.mjs` regenerates

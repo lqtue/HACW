@@ -7,7 +7,7 @@
 export const BOX = { latMin: 15.87, latMax: 15.89, lngMin: 108.31, lngMax: 108.34 };
 const LEVELS = ['low', 'medium', 'high'];
 
-const bilingual = (v, where, out) => {
+export const bilingual = (v, where, out) => {
   if (!v || typeof v !== 'object') out.push(`${where}: not a { vi, en } object`);
   else {
     if (!v.vi?.trim()) out.push(`${where}: missing vi`);
@@ -56,5 +56,70 @@ export function checkDestinations(list, categoryIds = null) {
     seen.add(d?.id);
     out.push(...checkDestination(d, categoryIds));
   }
+  return out;
+}
+
+/**
+ * Tours. A stop belonging to two tours would let one stamp count toward two
+ * voucher sets, so that is an error, not a warning.
+ * @param {string[] | null} destIds known destination ids, or null to skip that check
+ */
+export function checkTours(list, destIds = null) {
+  if (!Array.isArray(list)) return ['tours.json: not an array'];
+  const out = [];
+  const seenId = new Set();
+  const claimed = new Map(); // stop id -> the tour that already owns it
+  for (const tour of list) {
+    const at = tour?.id ?? '(no id)';
+    if (!tour?.id) out.push(`${at}: missing id`);
+    else if (seenId.has(tour.id)) out.push(`${at}: duplicate id`);
+    seenId.add(tour?.id);
+    for (const f of ['title', 'theme', 'description', 'voucher']) bilingual(tour?.[f], `${at}.${f}`, out);
+    const stops = tour?.stops ?? [];
+    if (stops.length < 2) out.push(`${at}: needs at least 2 stops`);
+    for (const stop of stops) {
+      if (destIds && !destIds.includes(stop)) out.push(`${at}: unknown stop ${stop}`);
+      if (claimed.has(stop)) out.push(`${at}: stop ${stop} is already in ${claimed.get(stop)}`);
+      else claimed.set(stop, at);
+    }
+  }
+  // A site in no tour can never be part of a reward set — the editor should say so
+  // while it is still fixable, not at the next `npm test`.
+  for (const id of destIds ?? []) {
+    if (!claimed.has(id)) out.push(`${id} is in no tour`);
+  }
+  return out;
+}
+
+/** Reward tiers. Must ascend, and the top tier must be reachable. */
+export function checkRewards(list, siteCount = null) {
+  if (!Array.isArray(list)) return ['rewards.json: not an array'];
+  const out = [];
+  if (!list.length) out.push('rewards.json: no tiers');
+  let prev = 0;
+  for (const r of list) {
+    const at = r?.id ?? '(no id)';
+    if (!r?.id) out.push(`${at}: missing id`);
+    bilingual(r?.title, `${at}.title`, out);
+    bilingual(r?.reward, `${at}.reward`, out);
+    if (!Number.isInteger(r?.stamps) || r.stamps <= prev) {
+      out.push(`${at}: stamps must be a whole number above the previous tier (${prev})`);
+    } else prev = r.stamps;
+  }
+  if (siteCount != null && prev > siteCount) {
+    out.push(`top tier needs ${prev} stamps but only ${siteCount} sites exist`);
+  }
+  return out;
+}
+
+/** Event copy on the home page. `title` and `dates` are deliberately one-language. */
+export function checkEvent(ev) {
+  if (!ev || typeof ev !== 'object' || Array.isArray(ev)) return ['event.json: not an object'];
+  const out = [];
+  if (!String(ev.title ?? '').trim()) out.push('event.title: empty');
+  if (!String(ev.dates ?? '').trim()) out.push('event.dates: empty');
+  for (const f of ['subtitle', 'intro', 'note']) bilingual(ev[f], `event.${f}`, out);
+  if (!Array.isArray(ev.howItWorks) || !ev.howItWorks.length) out.push('event.howItWorks: needs at least one step');
+  else ev.howItWorks.forEach((step, i) => bilingual(step, `event.howItWorks[${i}]`, out));
   return out;
 }

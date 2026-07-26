@@ -113,6 +113,18 @@ p { line-height: 1.6; }
   box-shadow: none;
 }
 
+/* staff-code entry — same field in /organizer and in StaffConfirm */
+.code {
+  width: 100%;
+  padding: 12px 14px;
+  border: 1px solid var(--line);
+  border-radius: 12px;
+  font-family: var(--font-body);
+  font-size: 1.1rem;
+  text-align: center;
+  letter-spacing: 0.2em;
+}
+
 /* ---- destination / tour card ---- */
 .card {
   display: flex;
@@ -203,6 +215,84 @@ p { line-height: 1.6; }
   width: 22px; height: 2px; border-radius: 0 0 2px 2px;
   background: var(--brand);
 }
+
+/* ---- organizer content editors (JsonFile + the four bodies) ----
+   Global rather than per-component: four editors render the same controls, and
+   Svelte scopes component styles, so keeping these local would mean four copies. */
+.ed-actions { display: flex; gap: 10px; flex-wrap: wrap; margin: 10px 0; }
+.ed-actions .btn { width: auto; padding: 10px 14px; }
+.ed-file { position: relative; overflow: hidden; display: inline-flex; align-items: center; cursor: pointer; }
+.ed-file input { position: absolute; inset: 0; opacity: 0; cursor: pointer; }
+.ed-err { color: var(--brand); font-size: 0.9rem; }
+.ed-ok { color: var(--brand); }
+
+.ed-problems { border: 1px solid var(--brand); border-radius: var(--radius); padding: 10px; margin-bottom: 10px; }
+.ed-problems ul { margin: 8px 0 0; padding-left: 18px; font-size: 0.85rem; }
+
+.ed-item {
+  border: 1px solid var(--line);
+  border-radius: var(--radius);
+  background: var(--surface);
+  padding: 10px 12px;
+  margin-bottom: 8px;
+}
+.ed-item summary { cursor: pointer; }
+.ed-tag {
+  background: color-mix(in srgb, var(--gold) 25%, transparent);
+  border-radius: 999px;
+  padding: 1px 8px;
+  margin-left: 6px;
+  font-size: 0.8rem;
+}
+
+.ed-row { display: grid; grid-template-columns: 130px 1fr; gap: 8px; align-items: start; margin: 6px 0; }
+.ed-row span { font-size: 0.85rem; padding-top: 8px; }
+.ed-row em { color: var(--brand); font-style: normal; }
+.ed-row.check { grid-template-columns: auto 1fr; align-items: center; }
+.ed-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(240px, 1fr)); gap: 0 16px; }
+
+.ed-row input, .ed-row textarea, .ed-row select, .ed-opt input {
+  width: 100%;
+  padding: 6px 8px;
+  border: 1px solid var(--line);
+  border-radius: 8px;
+  font-family: var(--font-body);
+  font-size: 0.9rem;
+  background: var(--bg);
+}
+.ed-row textarea { resize: vertical; }
+.ed-row.check input { width: auto; }
+
+.ed-fieldset { border: 1px solid var(--line); border-radius: var(--radius); margin: 12px 0; padding: 8px 10px; }
+.ed-fieldset legend { font-size: 0.85rem; padding: 0 6px; }
+.ed-opt { display: grid; grid-template-columns: auto 1fr 1fr auto; gap: 6px; align-items: center; margin: 4px 0; }
+.ed-opt input[type='radio'] { width: auto; }
+
+.mini {
+  border: 1px solid var(--line);
+  background: var(--surface);
+  border-radius: 8px;
+  padding: 3px 8px;
+  font-size: 0.8rem;
+  font-family: var(--font-body);
+  cursor: pointer;
+}
+.mini.danger { color: var(--brand); }
+.mini:disabled { opacity: 0.4; cursor: default; }
+
+/* editor tab strip */
+.ed-tabs { display: flex; gap: 6px; flex-wrap: wrap; margin: 14px 0 4px; }
+.ed-tabs button {
+  border: 1px solid var(--line);
+  background: var(--surface);
+  color: var(--ink);
+  border-radius: 999px;
+  padding: 6px 14px;
+  font-family: var(--font-body);
+  font-size: 0.88rem;
+  cursor: pointer;
+}
+.ed-tabs button[aria-pressed='true'] { background: var(--brand); color: #fff; border-color: var(--brand); }
 
 /* ---- info banner ---- */
 .banner {

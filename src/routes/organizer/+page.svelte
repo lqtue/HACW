@@ -5,11 +5,25 @@
   import tickets from '$lib/data/ticket-points.json';
   import { stats, loadCounts } from '$lib/stats.svelte.js';
   import { spotlightIds, evenness } from '$lib/score.js';
-  import { distanceMeters } from '$lib/geo.js';
+  import { nearest } from '$lib/geo.js';
+  import { download } from '$lib/util.js';
   import { t } from '$lib/i18n.svelte.js';
   import { s } from '$lib/strings.js';
   import { staff, unlock } from '$lib/staff.svelte.js';
   import DataEditor from '$lib/components/DataEditor.svelte';
+  import TourEditor from '$lib/components/TourEditor.svelte';
+  import RewardEditor from '$lib/components/RewardEditor.svelte';
+  import EventEditor from '$lib/components/EventEditor.svelte';
+
+  // One file open at a time: each editor holds its own unsaved working copy, and
+  // showing four at once invites downloading one and forgetting the other three.
+  let tab = $state('dest');
+  const TABS = [
+    ['dest', 'org_tab_dest'],
+    ['tours', 'org_tab_tours'],
+    ['rewards', 'org_tab_rewards'],
+    ['event', 'org_tab_event']
+  ];
 
   let gate = $state('');
   let gateErr = $state(false);
@@ -35,14 +49,7 @@
   const quizTodo = destinations.filter((d) => d.quizBank.some((q) => q.generated));
 
   // Cold sites are worth a flyer at the nearest counter — this is that mapping.
-  const nearestCounter = (d) =>
-    tickets.reduce(
-      (best, p) => {
-        const m = distanceMeters(d, p);
-        return m < best.m ? { p, m } : best;
-      },
-      { p: null, m: Infinity }
-    );
+  const nearestCounter = (d) => nearest(d, tickets);
 
   let busy = $state(false);
   async function refresh() {
@@ -78,13 +85,7 @@
         ].join(',')
       );
     }
-    const url = URL.createObjectURL(new Blob([lines.join('\n')], { type: 'text/csv' }));
-    const a = Object.assign(document.createElement('a'), {
-      href: url,
-      download: `hacw-checkins-${new Date().toISOString().slice(0, 10)}.csv`
-    });
-    a.click();
-    URL.revokeObjectURL(url);
+    download(`hacw-checkins-${new Date().toISOString().slice(0, 10)}.csv`, lines.join('\n'), 'text/csv');
   }
 </script>
 
@@ -141,7 +142,7 @@
               {d.code} · {s('org_traffic')}: {s(`lvl_${d.traffic}`)} · {s('org_priority')}:
               {s(`lvl_${d.promoPriority}`)}
               <br />
-              {s('org_nearest_ticket')}: {counter.p?.id ?? '—'} ({Math.round(counter.m)} m)
+              {s('org_nearest_ticket')}: {counter?.point.id ?? '—'} ({Math.round(counter?.meters ?? 0)} m)
             </small>
           </td>
           <td class="num"><strong>{n}</strong></td>
@@ -188,23 +189,32 @@
 
   <!-- Volunteers see everything above (numbers, to-do lists) but not this. -->
   {#if staff.admin}
-    <DataEditor />
+    <h2>{s('org_edit')}</h2>
+    <p class="muted"><small>{s('org_edit_hint')}</small></p>
+
+    <div class="ed-tabs">
+      {#each TABS as [id, key]}
+        <button aria-pressed={tab === id} onclick={() => (tab = id)}>{s(key)}</button>
+      {/each}
+    </div>
+
+    <!-- Keyed so switching tabs tears the old editor down rather than leaving a
+         stale working copy mounted behind an {#if}. -->
+    {#if tab === 'dest'}
+      <DataEditor />
+    {:else if tab === 'tours'}
+      <TourEditor />
+    {:else if tab === 'rewards'}
+      <RewardEditor />
+    {:else}
+      <EventEditor />
+    {/if}
   {/if}
 {/if}
 </div>
 
 <style>
-  .code {
-    width: 100%;
-    padding: 12px 14px;
-    margin-bottom: 10px;
-    border: 1px solid var(--line);
-    border-radius: 12px;
-    font-family: var(--font-body);
-    font-size: 1.1rem;
-    text-align: center;
-    letter-spacing: 0.2em;
-  }
+  .code { margin-bottom: 10px; }
   .err { color: var(--brand); margin: 0 0 8px; font-size: 0.9rem; }
   .actions { display: flex; gap: 10px; align-items: center; flex-wrap: wrap; margin-bottom: 12px; }
   .actions .btn { width: auto; padding: 10px 14px; }

@@ -1,5 +1,5 @@
 <script>
-  import { onMount } from 'svelte';
+  import { onMount, onDestroy } from 'svelte';
   import { goto } from '$app/navigation';
   import { base } from '$app/paths';
   import destinations from '$lib/data/destinations.json';
@@ -7,16 +7,25 @@
   import tickets from '$lib/data/ticket-points.json';
   import Card from '$lib/components/Card.svelte';
   import { categoryIcon, categoryLabel, mapsUrl, openLabel } from '$lib/util.js';
+  import { nearest } from '$lib/geo.js';
+  import { formatDistance } from '$lib/route.js';
   import { hasStamp } from '$lib/passport.svelte.js';
   import { stats } from '$lib/stats.svelte.js';
   import { spotlightIds } from '$lib/score.js';
-  import { t } from '$lib/i18n.svelte.js';
+  import { t, i18n } from '$lib/i18n.svelte.js';
   import { s } from '$lib/strings.js';
 
   let active = $state('all');
   let showTickets = $state(false);
   let openOnly = $state(false);
   let selected = $state(null); // pin tapped -> highlight its card below
+
+  // Location is opt-in: nothing is requested until the visitor taps the chip, so
+  // the permission prompt arrives with a reason attached instead of on page load.
+  let me = $state(null); // { lat, lng, accuracy } once a fix arrives
+  let locating = $state(false);
+  let geoErr = $state('');
+  const booth = $derived(me ? nearest(me, tickets) : null);
 
   // Sites open right now. Recomputed on filter changes only — good enough for a
   // walk-around app; nobody stares at this screen across an opening time.
@@ -52,6 +61,8 @@
   let map;
   let markers = [];
   let ticketLayer;
+  let meMarker;
+  let meHalo;
   // map/markers are plain variables, so the effects below need one reactive
   // signal telling them the async Leaflet setup has finished.
   let ready = $state(false);
@@ -110,7 +121,7 @@
       marker.on('popupclose', () => {
         if (selected === d.id) selected = null;
       });
-      markers.push({ marker, category: d.category, id: d.id, dest: d });
+      markers.push({ marker, dest: d });
       bounds.push([d.lat, d.lng]);
     }
 
@@ -123,18 +134,69 @@
       )
     );
 
+    // Leaflet's own geolocation wrapper — it already does watch + accuracy and
+    // hands back a latlng, so there is nothing here worth reimplementing.
+    map.on('locationfound', (e) => {
+      locating = false;
+      geoErr = '';
+      me = { lat: e.latlng.lat, lng: e.latlng.lng, accuracy: Math.round(e.accuracy) };
+      if (!meMarker) {
+        meMarker = L.marker(e.latlng, {
+          icon: L.divIcon({ className: 'me-wrap', html: '<div class="me"></div>', iconSize: [18, 18] }),
+          zIndexOffset: 1000
+        })
+          .addTo(map)
+          .bindPopup(() => `<strong>${s('you_are_here')}</strong><br><small>${s('accuracy_m', me.accuracy)}</small>`);
+        meHalo = L.circle(e.latlng, { radius: e.accuracy, className: 'me-halo', stroke: false }).addTo(map);
+        // Only the first fix moves the map — after that the visitor is panning.
+        map.setView(e.latlng, Math.max(map.getZoom(), 17));
+      } else {
+        meMarker.setLatLng(e.latlng);
+        meHalo.setLatLng(e.latlng).setRadius(e.accuracy);
+      }
+    });
+    map.on('locationerror', (e) => {
+      locating = false;
+      geoErr = e?.code === 1 ? s('geo_denied') : s('geo_fail');
+      stopLocate();
+    });
+
     if (bounds.length) map.fitBounds(bounds, { padding: [50, 50] });
     // map lives in a flex container sized after init -> recompute once laid out
     setTimeout(() => map.invalidateSize(), 0);
     ready = true;
   });
 
+  // A watch that outlives the page is a battery leak, so both the watch and the
+  // map itself are torn down explicitly (an async onMount cannot return a cleanup).
+  onDestroy(() => {
+    map?.stopLocate();
+    map?.remove();
+  });
+
+  function stopLocate() {
+    map?.stopLocate();
+    if (meMarker) map.removeLayer(meMarker);
+    if (meHalo) map.removeLayer(meHalo);
+    meMarker = meHalo = null;
+    me = null;
+    locating = false;
+  }
+
+  function toggleLocate() {
+    if (!ready) return;
+    if (me || locating) return stopLocate();
+    locating = true;
+    geoErr = '';
+    map.locate({ watch: true, enableHighAccuracy: true, maximumAge: 5000, timeout: 15000 });
+  }
+
   // Chips filter the map pins and the card list together.
   $effect(() => {
     if (!ready) return;
     const visible = new Set(shown.map((d) => d.id));
     for (const m of markers) {
-      if (visible.has(m.id)) m.marker.addTo(map);
+      if (visible.has(m.dest.id)) m.marker.addTo(map);
       else map.removeLayer(m.marker);
     }
   });
@@ -144,7 +206,7 @@
     if (!ready) return;
     for (const m of markers) {
       const el = m.marker.getElement();
-      el?.classList.toggle('spot', spotlight.has(m.id));
+      el?.classList.toggle('spot', spotlight.has(m.dest.id));
       el?.classList.toggle('shut', openLabel(m.dest)?.status === 'closed');
     }
   });
@@ -172,7 +234,21 @@
     <button class="chip" aria-pressed={showTickets} onclick={() => (showTickets = !showTickets)}>
       🎟️ {s('ticket_points')}
     </button>
+    <button class="chip" aria-pressed={!!me} onclick={toggleLocate}>
+      📍 {locating ? s('locating_now') : s('locate_me')}
+    </button>
   </div>
+
+  {#if geoErr}
+    <p class="geo-err"><small>{geoErr}</small></p>
+  {:else if booth}
+    <!-- Once we know where the visitor is, the counter is the one thing the map
+         cannot answer by itself: it is where paper vouchers and staff live. -->
+    <p class="booth-bar">
+      <small>{s('booth_nearest', booth.point.id, formatDistance(booth.meters, i18n.lang))}</small>
+      <a href={mapsUrl(booth.point)} target="_blank" rel="noopener">{s('booth_dir')}</a>
+    </p>
+  {/if}
 
   <div class="carousel">
     {#each shown as dest}
@@ -189,6 +265,32 @@
   .explore { flex: 1; display: flex; flex-direction: column; min-height: 0; }
   .map { flex: 1; min-height: 0; background: var(--paper); }
   .chips { flex: 0 0 auto; padding-bottom: 8px; }
+
+  .booth-bar, .geo-err {
+    flex: 0 0 auto;
+    margin: 0 18px 8px;
+    display: flex;
+    gap: 10px;
+    align-items: center;
+    justify-content: space-between;
+    background: var(--surface);
+    border: 1px solid var(--line);
+    border-radius: 12px;
+    padding: 8px 12px;
+    font-size: 0.85rem;
+  }
+  .booth-bar a { color: var(--brand); font-weight: 600; white-space: nowrap; }
+  .geo-err { color: var(--brand); }
+
+  /* live position: a dot with an accuracy halo, deliberately unlike the pins */
+  :global(.me) {
+    width: 16px; height: 16px;
+    border-radius: 50%;
+    background: var(--teal);
+    border: 3px solid #fff;
+    box-shadow: 0 0 0 1px var(--teal), 0 2px 6px -1px rgba(60, 30, 10, 0.5);
+  }
+  :global(.me-halo) { fill: var(--teal); fill-opacity: 0.12; }
 
   .carousel {
     flex: 0 0 auto;
