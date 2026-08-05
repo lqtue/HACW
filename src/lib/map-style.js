@@ -254,11 +254,21 @@ let loading;
  */
 export function loadMap(base) {
   return (loading ??= (async () => {
-    const [maplibregl, { Protocol, PMTiles, FileSource }] = await Promise.all([
-      import('maplibre-gl'),
-      import('pmtiles')
-    ]);
+    // maplibre-gl v6 finds its worker with `new URL('./maplibre-gl-worker.mjs',
+    // import.meta.url)`. Rollup can't see through that template literal, so the
+    // built chunk asks for a sibling file nobody emitted -> 404 in production.
+    // `?worker&url` makes Vite bundle the worker (it imports
+    // maplibre-gl-shared.mjs, so a bare `?url` would 404 on that instead) and
+    // hand back the hashed asset path. Imported here, not at module top level,
+    // so `map-style.test.js` can still load this file in plain node.
+    const [maplibregl, { Protocol, PMTiles, FileSource }, { default: workerUrl }] =
+      await Promise.all([
+        import('maplibre-gl'),
+        import('pmtiles'),
+        import('maplibre-gl/dist/maplibre-gl-worker.mjs?worker&url')
+      ]);
     await import('maplibre-gl/dist/maplibre-gl.css');
+    maplibregl.setWorkerUrl(workerUrl);
     const blob = await (await fetch(`${base}/map/${PMTILES_KEY}`)).blob();
     const protocol = new Protocol();
     protocol.add(new PMTiles(new FileSource(new File([blob], PMTILES_KEY))));
