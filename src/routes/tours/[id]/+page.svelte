@@ -56,12 +56,12 @@
   .redeem .done { margin: 0; font-weight: 600; }
   .walkline { margin: 8px 0 0; }
   .success {
-    background: #e6f4ea;
-    border: 1px solid #a8d8b9;
-    color: #1e6b34;
-    border-radius: 12px;
+    background: color-mix(in srgb, var(--teal) 12%, var(--surface));
+    border: 1px solid color-mix(in srgb, var(--teal) 45%, var(--line));
+    color: #1c6f68;
+    border-radius: var(--radius-sm);
     padding: 12px;
-    font-weight: 600;
+    font-weight: 700;
     margin-bottom: 8px;
   }
 </style>

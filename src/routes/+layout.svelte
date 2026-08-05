@@ -70,18 +70,19 @@
 <style>
   .lang {
     position: fixed;
-    top: max(12px, env(safe-area-inset-top));
+    top: max(14px, calc(env(safe-area-inset-top) + 6px));
     right: 12px;
     z-index: 1100;
-    border: 1px solid rgba(255, 255, 255, 0.6);
-    background: rgba(255, 255, 255, 0.85);
+    border: 1.5px solid color-mix(in srgb, var(--brand) 40%, transparent);
+    background: rgba(255, 247, 239, 0.9);
     color: var(--brand-dark);
     border-radius: 999px;
-    width: 40px;
-    height: 32px;
+    width: 42px;
+    height: 34px;
     font-family: var(--font-body);
-    font-size: 0.8rem;
-    font-weight: 700;
+    font-size: 0.78rem;
+    font-weight: 800;
+    letter-spacing: 0.04em;
     cursor: pointer;
     backdrop-filter: blur(8px);
     box-shadow: var(--shadow);

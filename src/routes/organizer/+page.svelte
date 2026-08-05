@@ -245,7 +245,7 @@
 
   .kpis { display: grid; grid-template-columns: repeat(3, 1fr); gap: 10px; }
   .kpi {
-    background: var(--surface);
+    background: linear-gradient(150deg, #fdeada, var(--surface));
     border: 1px solid var(--line);
     border-radius: var(--radius);
     padding: 12px;
@@ -253,7 +253,8 @@
     justify-items: center;
     box-shadow: var(--shadow);
   }
-  .kpi strong { font-family: var(--font-display); font-size: 1.7rem; color: var(--brand); }
+  .kpi strong { font-family: var(--font-display); font-weight: 800; font-size: 1.7rem; color: var(--brand-dark); }
+  .kpi small { color: var(--muted); }
 
   h2 { margin: 20px 0 6px; }
   .dash { max-width: 900px; }
@@ -261,6 +262,6 @@
   th, td { text-align: left; padding: 8px 6px; border-bottom: 1px solid var(--line); vertical-align: top; }
   .num { text-align: right; }
   tr.boost td { background: color-mix(in srgb, var(--gold) 10%, transparent); }
-  .bar { height: 5px; border-radius: 3px; background: var(--bg); overflow: hidden; margin: 4px 0; }
-  .bar i { display: block; height: 100%; background: var(--brand); }
+  .bar { height: 5px; border-radius: 999px; background: var(--bg); overflow: hidden; margin: 4px 0; }
+  .bar i { display: block; height: 100%; border-radius: 999px; background: var(--grad-brand); }
 </style>

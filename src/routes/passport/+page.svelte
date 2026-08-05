@@ -6,6 +6,7 @@
   import rewards from '$lib/data/rewards.json';
   import StaffConfirm from '$lib/components/StaffConfirm.svelte';
   import NearestBooth from '$lib/components/NearestBooth.svelte';
+  import MatCua from '$lib/components/MatCua.svelte';
   import {
     passport,
     hasStamp,
@@ -35,10 +36,16 @@
 
   // The stamp wall is grouped by tour rather than shown as one wall of 25: a tour
   // is the unit that earns a voucher, so "3 of 5 on this one" is the number a
-  // visitor can act on. `check-data.mjs` guarantees every site is in exactly one
-  // tour, so this covers all of them with nothing orphaned.
+  // visitor can act on. Only the surveyed routes are tours, so everything else
+  // lands in a final block — those sites still stamp and still score, they just
+  // are not a voucher set (`tour: null` is what the markup keys on).
   const byId = Object.fromEntries(destinations.map((d) => [d.id, d]));
-  const groups = tours.map((tour) => ({ tour, stops: tour.stops.map((id) => byId[id]).filter(Boolean) }));
+  const inTour = new Set(tours.flatMap((t) => t.stops));
+  const loose = destinations.filter((d) => !inTour.has(d.id));
+  const groups = [
+    ...tours.map((tour) => ({ tour, stops: tour.stops.map((id) => byId[id]).filter(Boolean) })),
+    ...(loose.length ? [{ tour: null, stops: loose }] : [])
+  ];
 
   // --- backup & recovery ---
   let notice = $state('');
@@ -122,28 +129,49 @@
   <!-- The stamp wall, grouped by tour: the set is what earns a voucher, so it is
        the unit worth showing progress against. -->
   {#each groups as { tour, stops }}
-    {@const done = setProgress(tour.stops)}
-    {@const complete = isSetComplete(tour.stops)}
+    {@const done = tour ? setProgress(tour.stops) : stops.filter((d) => hasStamp(d.id)).length}
+    {@const complete = tour ? isSetComplete(tour.stops) : false}
     <section class="set-block" class:complete>
-      <a class="set-head" href="{base}/tours/{tour.id}">
-        <span class="ico">{isRedeemed(tour.id) ? '✅' : complete ? '🎁' : '🚶'}</span>
-        <span class="who">
-          <strong>{t(tour.title)}</strong>
-          <small class="muted">{t(tour.theme)}</small>
-        </span>
-        <span class="prog">
-          <b>{done}/{stops.length}</b>
-          <small class="muted">
-            {#if isRedeemed(tour.id)}{s('reward_taken')}{:else if complete}{s('set_complete')}{:else}{s('earned', POINTS.tour)}{/if}
-          </small>
-        </span>
-      </a>
+      {#if tour}
+        <a class="set-head" href="{base}/tours/{tour.id}">
+          <span class="ico">{isRedeemed(tour.id) ? '✅' : complete ? '🎁' : '🚶'}</span>
+          <span class="who">
+            <strong>{t(tour.title)}</strong>
+            <small class="muted">{t(tour.theme)}</small>
+          </span>
+          <span class="prog">
+            <b>{done}/{stops.length}</b>
+            <small class="muted">
+              {#if isRedeemed(tour.id)}{s('reward_taken')}{:else if complete}{s('set_complete')}{:else}{s('earned', POINTS.tour)}{/if}
+            </small>
+          </span>
+        </a>
+      {:else}
+        <!-- outside the surveyed routes: stamps and points, but no voucher set -->
+        <div class="set-head">
+          <span class="ico">📍</span>
+          <span class="who">
+            <strong>{s('other_sites')}</strong>
+            <small class="muted">{s('other_sites_hint')}</small>
+          </span>
+          <span class="prog"><b>{done}/{stops.length}</b></span>
+        </div>
+      {/if}
       <div class="grid">
         {#each stops as d}
           {@const got = hasStamp(d.id)}
           <a class="stamp" class:got href="{base}/destinations/{d.id}" style="--cat: var(--c-{d.category})">
+            <!-- the stamp is a mắt cửa: carved but unpainted until you've been -->
             <div class="seal">
-              {#if got}<span>{t(d.name).charAt(0)}</span>{:else}<span class="lock">?</span>{/if}
+              <MatCua
+                size={52}
+                ghost={!got}
+                motif={d.id.charCodeAt(0) % 2 ? 'spiral' : 'am-duong'}
+                color="var(--cat)"
+                inner={got ? '#fbe0b8' : 'transparent'}
+                ink="var(--cat)"
+              />
+              <span class="glyph">{got ? t(d.name).charAt(0) : ''}</span>
             </div>
             <small class="name">{t(d.name)}</small>
           </a>
@@ -213,28 +241,45 @@
 </div>
 
 <style>
+  /* the one number the whole app is about -> key-visual treatment */
   .score {
+    position: relative;
+    overflow: hidden;
     display: flex;
     align-items: center;
     gap: 16px;
-    background: var(--surface);
+    background:
+      radial-gradient(120% 130% at 100% 0%, #fde3c9 0%, transparent 62%),
+      linear-gradient(150deg, #fdeada, var(--surface));
     border: 1px solid var(--line);
     border-radius: var(--radius);
     padding: 14px 16px;
     box-shadow: var(--shadow);
     margin-bottom: 6px;
   }
+  /* cloud-scroll capsule tucked behind the score */
+  .score::after {
+    content: '';
+    position: absolute;
+    right: -34px; top: 10px;
+    width: 120px; height: 26px;
+    border-radius: 999px;
+    background: var(--grad-warm);
+    opacity: 0.35;
+  }
   .score .big { display: grid; justify-items: center; min-width: 90px; }
   .score .big strong {
     font-family: var(--font-display);
+    font-weight: 800;
     font-size: 2.6rem;
     line-height: 1;
-    color: var(--brand);
+    color: var(--brand-dark);
   }
-  .score .rankinfo { display: grid; gap: 3px; flex: 1; }
+  .score .big small { color: var(--brand); font-weight: 700; text-transform: uppercase; font-size: 0.7rem; letter-spacing: 0.08em; }
+  .score .rankinfo { display: grid; gap: 3px; flex: 1; position: relative; }
   .score .tag { justify-self: start; }
-  .bar { height: 6px; border-radius: 3px; background: var(--bg); overflow: hidden; margin-top: 4px; }
-  .bar i { display: block; height: 100%; background: var(--teal); }
+  .bar { height: 7px; border-radius: 999px; background: color-mix(in srgb, var(--brand) 12%, var(--bg)); overflow: hidden; margin-top: 4px; }
+  .bar i { display: block; height: 100%; border-radius: 999px; background: var(--grad-brand); }
 
   /* collapsed by default: the page must open on one screen of stamps */
   .page > details {
@@ -321,26 +366,22 @@
   .stamp:not(.got) { box-shadow: none; }
   .stamp:not(.got) .name { color: var(--muted); }
 
+  /* door-eye seal: the carving and the initial share one grid cell */
   .seal {
-    width: 46px; height: 46px;
-    border-radius: 50%;
     display: grid;
     place-items: center;
-    font-family: var(--font-display);
-    font-size: 1.25rem;
-    font-weight: 700;
     margin-bottom: 2px;
-    border: 2px dashed var(--line);
-    color: var(--muted);
   }
-  .stamp.got .seal {
-    border: 2px solid var(--cat);
-    box-shadow: inset 0 0 0 4px color-mix(in srgb, var(--cat) 14%, var(--surface));
-    background: color-mix(in srgb, var(--cat) 9%, var(--surface));
-    color: var(--cat);
-    transform: rotate(-5deg);
+  .seal > :global(*) { grid-area: 1 / 1; }
+  .seal .glyph {
+    font-family: var(--font-display);
+    font-weight: 800;
+    font-size: 1.1rem;
+    color: var(--brand-dark);
+    text-shadow: 0 1px 0 rgba(255, 255, 255, 0.6);
   }
-  .lock { font-family: var(--font-body); font-weight: 500; }
+  /* pressed by hand, so never quite straight */
+  .stamp.got .seal { transform: rotate(-5deg); }
 
   .backup {
     background: var(--surface);

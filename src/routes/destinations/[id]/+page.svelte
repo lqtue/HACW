@@ -10,6 +10,8 @@
   import destinations from '$lib/data/destinations.json';
   import { t } from '$lib/i18n.svelte.js';
   import { s } from '$lib/strings.js';
+  import MatCua from '$lib/components/MatCua.svelte';
+  import StampPress from '$lib/components/StampPress.svelte';
 
   let { data } = $props();
   const dest = data.dest;
@@ -94,6 +96,8 @@
       firstStamp = passport.stamps.length === 0;
       addStamp(dest.id, earned);
       step = 'done';
+      // the seal lands; give the phone the thump too (no-op where unsupported)
+      navigator.vibrate?.(28);
     }
   }
 </script>
@@ -103,6 +107,9 @@
 <div class="page">
   <div class="hero" style="--cat: var(--c-{dest.category})">
     <span class="watermark">{t(dest.name).charAt(0)}</span>
+    <div class="eye">
+      <MatCua size={104} color="var(--cat)" inner="#fbe0b8" ink="var(--cat)" spin={step === 'done'} />
+    </div>
   </div>
 
   <span class="tag" style="background: var(--c-{dest.category})">{t(categoryLabel(dest.category))}</span>
@@ -126,6 +133,15 @@
 
   <div class="checkin">
     {#if step === 'done'}
+      <!-- earned is only set when the stamp was won on this visit, so revisiting
+           a stamped site shows the panel without re-pressing the seal -->
+      {#if earned}
+        <StampPress
+          color="var(--c-{dest.category})"
+          motif={dest.id.charCodeAt(0) % 2 ? 'spiral' : 'am-duong'}
+          glyph={t(dest.name).charAt(0)}
+        />
+      {/if}
       <div class="success">
         {s('checkin_done')}
         {#if earned}
@@ -178,9 +194,25 @@
     overflow: hidden;
     margin-bottom: 14px;
     background:
-      radial-gradient(140% 120% at 85% -10%, color-mix(in srgb, var(--cat) 55%, transparent), transparent 60%),
-      linear-gradient(160deg, color-mix(in srgb, var(--cat) 22%, var(--surface)), var(--surface));
+      radial-gradient(140% 120% at 85% -10%, color-mix(in srgb, var(--cat) 45%, transparent), transparent 60%),
+      linear-gradient(160deg, #fdeada, color-mix(in srgb, var(--cat) 14%, var(--surface)));
     border: 1px solid var(--line);
+  }
+  /* cloud-scroll capsules from the key visual */
+  .hero::before, .hero::after {
+    content: '';
+    position: absolute;
+    border-radius: 999px;
+    background: var(--grad-warm);
+  }
+  .hero::before { top: 22px; left: -30px; width: 130px; height: 28px; opacity: 0.7; }
+  .hero::after { top: 62px; left: 10px; width: 84px; height: 22px; opacity: 0.45; }
+  /* the door-eye hangs where it would over a real doorway: high, slightly right */
+  .hero .eye {
+    position: absolute;
+    top: 14px; right: 18px;
+    opacity: 0.9;
+    filter: drop-shadow(0 8px 14px rgba(126, 31, 19, 0.2));
   }
   .hero .watermark {
     position: absolute;
@@ -209,24 +241,27 @@
   .open.soon { color: #a4620e; }
   .open.closed { color: var(--brand); }
   .success {
-    background: #e6f4ea;
-    border: 1px solid #a8d8b9;
-    color: #1e6b34;
-    border-radius: 12px;
+    background: color-mix(in srgb, var(--teal) 12%, var(--surface));
+    border: 1px solid color-mix(in srgb, var(--teal) 45%, var(--line));
+    color: #1c6f68;
+    border-radius: var(--radius-sm);
     padding: 12px;
-    font-weight: 600;
+    font-weight: 700;
   }
   .quiz .opt {
     display: block;
     width: 100%;
     text-align: left;
-    padding: 12px 16px;
+    padding: 13px 16px;
     margin-bottom: 8px;
-    border: 1px solid var(--line);
-    border-radius: 12px;
+    border: 1.5px solid var(--line);
+    border-radius: var(--radius-sm);
     background: var(--surface);
     font-family: var(--font-body);
+    font-weight: 500;
     font-size: 1rem;
     cursor: pointer;
+    transition: border-color 0.12s ease, background 0.12s ease;
   }
+  .quiz .opt:hover { border-color: color-mix(in srgb, var(--brand) 45%, var(--line)); background: var(--bg); }
 </style>

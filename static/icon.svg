@@ -1,9 +1,19 @@
 <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512">
-  <rect width="512" height="512" rx="96" fill="#b8472a"/>
-  <!-- lantern -->
-  <ellipse cx="256" cy="270" rx="120" ry="150" fill="#f2b950"/>
-  <rect x="196" y="96" width="120" height="28" rx="8" fill="#7a2e1a"/>
-  <rect x="196" y="416" width="120" height="28" rx="8" fill="#7a2e1a"/>
-  <line x1="256" y1="124" x2="256" y2="416" stroke="#c98a2e" stroke-width="6"/>
-  <path d="M150 270h212" stroke="#c98a2e" stroke-width="6"/>
+  <defs>
+    <linearGradient id="bg" x1="0" y1="0" x2="1" y2="1">
+      <stop offset="0" stop-color="#fdeada"/>
+      <stop offset="1" stop-color="#fbdcd3"/>
+    </linearGradient>
+    <linearGradient id="coral" x1="0" y1="0" x2="1" y2="0">
+      <stop offset="0" stop-color="#f7c95c"/>
+      <stop offset="1" stop-color="#e85f34"/>
+    </linearGradient>
+  </defs>
+  <rect width="512" height="512" rx="112" fill="url(#bg)"/>
+  <!-- cloud-scroll capsules from the event key visual -->
+  <rect x="88" y="150" width="300" height="62" rx="31" fill="url(#coral)"/>
+  <rect x="150" y="232" width="238" height="54" rx="27" fill="#ef7a48" opacity=".8"/>
+  <rect x="88" y="306" width="196" height="46" rx="23" fill="#f4a25a" opacity=".7"/>
+  <!-- scroll curl -->
+  <path d="M330 372a46 46 0 1 0-46-46" fill="none" stroke="#e85f34" stroke-width="28" stroke-linecap="round"/>
 </svg>
