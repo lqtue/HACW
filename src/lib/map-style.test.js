@@ -12,7 +12,7 @@ const style = hoianStyle('http://localhost', 'vi');
 
 // Layers the app adds on top of the flavor. A @protomaps/basemaps upgrade that
 // shipped one of these ids would silently replace our own layer.
-const OURS = ['esri', 'buildings-3d', 'booths', 'sites', 'route-line', 'route-stop', 'route-step'];
+const OURS = ['buildings-3d', 'booths', 'sites', 'route-line', 'route-stop', 'route-step'];
 for (const id of OURS) {
   assert.ok(
     !style.layers.some((l) => l.id === id),
@@ -20,7 +20,11 @@ for (const id of OURS) {
   );
 }
 
-// The satellite toggle hides the basemap by filtering on source === 'protomaps'.
+// Every drawn layer must come from the one self-hosted archive: a flavor upgrade
+// that introduced a second source would be a layer fetching from somewhere else,
+// and the app is meant to make no network request at all.
+const sources = new Set(style.layers.map((l) => l.source).filter(Boolean));
+assert.deepStrictEqual([...sources], ['protomaps'], 'a basemap layer draws from a non-self-hosted source');
 assert.ok(style.layers.filter((l) => l.source === 'protomaps').length > 10, 'no basemap layers');
 
 // Every fontstack the style asks for must be self-hosted, ours included.

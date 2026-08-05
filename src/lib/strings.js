@@ -111,7 +111,6 @@ const UI = {
     // tours & map
     walk: (d, m) => `${d} · ~${m} phút đi bộ`,
     open_tour: 'Xem chi tiết tuyến →',
-    map_sat: 'Vệ tinh',
     popup_detail: 'Xem & check-in',
     popup_dir: 'Chỉ đường',
     stamped: 'Đã check-in',
@@ -318,7 +317,6 @@ const UI = {
     // tours & map
     walk: (d, m) => `${d} · ~${m} min walk`,
     open_tour: 'Open tour →',
-    map_sat: 'Satellite',
     popup_detail: 'Open & check in',
     popup_dir: 'Directions',
     stamped: 'Checked in',

@@ -160,11 +160,11 @@ day-1 data rather than arguing about them now.
 
 ## 4. Legal / third-party
 
-- [ ] **Esri World Imagery requires visible attribution**; CARTO Voyager has
-      fair-use limits, and the tile runtime cache (600 entries) must stay a
-      by-product of browsing, not a bulk download. Check both before launch.
-      (Satellite is Esri, *not* Google — Google tiles are licensed only through
-      their paid Maps APIs. Don't "fix" this back.)
+- [x] ~~**Esri World Imagery attribution / fair use**~~ — moot, the satellite
+      layer is gone. The basemap is our own Protomaps extract of OpenStreetMap,
+      attributed through MapLibre's ⓘ control, and no third-party tile server is
+      contacted at all. If satellite is ever asked for again it brings this
+      whole section back with it, plus the only network dependency in the app.
 
 - [ ] Photo rights for the destination images once they're added.
 

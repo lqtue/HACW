@@ -125,28 +125,14 @@ export default defineConfig({
         // visitor had already opened it *online* — which is exactly the phone
         // that has no signal in an old-town alley. ~2.4 MB, fetched by the
         // service worker in the background after first paint, once.
+        //
+        // There is no `runtimeCaching` at all any more, on purpose: after this
+        // precache the app makes no request the network could fail. The only
+        // outbound links left are the Google Maps directions hand-offs, which
+        // leave the app entirely.
         globPatterns: ['**/*.{js,css,html,json,svg,png,webmanifest,woff2}', 'client/map/**/*'],
         // The .pmtiles archive alone is 1.2 MB; the default 2 MB cap would skip it.
-        maximumFileSizeToCacheInBytes: 4 * 1024 * 1024,
-        runtimeCaching: [
-          {
-            // Satellite imagery only — the street basemap is our own vector style
-            // and needs no network at all. Esri tiles can't be precached (there
-            // are thousands, and bulk-scraping breaks their terms), so keep
-            // whatever the visitor actually panned over.
-            // ponytail: 600 tiles ~ the old town at z15-18. Raise if it goes blank.
-            urlPattern: /^https:\/\/server\.arcgisonline\.com\/.*/i,
-            handler: 'CacheFirst',
-            options: {
-              cacheName: 'hacw-tiles',
-              expiration: { maxEntries: 600, maxAgeSeconds: 30 * 24 * 60 * 60 },
-              cacheableResponse: { statuses: [0, 200] }
-            }
-          }
-          // No rule for /map/** or for fonts any more: the basemap is precached
-          // above and the typeface is bundled, so neither depends on a runtime
-          // fetch succeeding. Esri above is the only network the app ever needs.
-        ]
+        maximumFileSizeToCacheInBytes: 4 * 1024 * 1024
       }
     })
   ]

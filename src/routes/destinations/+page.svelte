@@ -33,7 +33,6 @@
   let openOnly = $state(false);
   let selected = $state(null); // pin tapped -> highlight its card below
   let tilt = $state(false); // pitch + building massing, opt-in: the map is a printed plan
-  let sat = $state(false);
 
   // Location is opt-in: nothing is requested until the visitor taps the chip, so
   // the permission prompt arrives with a reason attached instead of on page load.
@@ -126,7 +125,6 @@
   let el;
   let map;
   let geolocate;
-  let baseLayerIds = [];
   // map is a plain variable, so the effects below need one reactive signal
   // telling them the async MapLibre setup has finished.
   let ready = $state(false);
@@ -201,30 +199,8 @@
       map.addImage(`pin-${c.id}-spot`, pinImage(color, ink, gold), { pixelRatio: PIN_DPR });
     }
 
-    // Satellite = Esri World Imagery, not Google: Google's tiles may only be used
-    // through their paid Maps APIs, and scraping the tile server breaks their ToS.
-    map.addSource('esri', {
-      type: 'raster',
-      tiles: [
-        'https://server.arcgisonline.com/ArcGIS/rest/services/World_Imagery/MapServer/tile/{z}/{y}/{x}'
-      ],
-      tileSize: 256,
-      maxzoom: 19,
-      attribution: 'Esri, Maxar, Earthstar Geographics'
-    });
-    // Added before our own layers, so imagery never covers the pins. The vector
-    // basemap is hidden wholesale while it is on, which is why order is enough.
-    map.addLayer({ id: 'esri', type: 'raster', source: 'esri', layout: { visibility: 'none' } });
     map.addLayer(BUILDINGS_3D);
-    const hidden = hidePois(map);
-    // Captured *after* the extrusion so it hides with the rest of the vector
-    // basemap under satellite — ochre roofs painted over the photo read as a bug.
-    // POIs are excluded outright: they are off for good, and a bulk "show the
-    // basemap" pass would otherwise resurrect every café in the old town.
-    baseLayerIds = map
-      .getStyle()
-      .layers.filter((l) => l.source === 'protomaps' && !hidden.includes(l.id))
-      .map((l) => l.id);
+    hidePois(map);
 
     // Ticket counters: small neutral dots, off by default so they don't crowd the
     // pins. ponytail: a circle layer, not an image — the popup names the counter.
@@ -395,16 +371,11 @@
     if (ready) map.setLayoutProperty('booths', 'visibility', showTickets ? 'visible' : 'none');
   });
 
-  // One effect owns basemap visibility, because the two toggles overlap: imagery
-  // replaces the vector basemap rather than stacking on it (so the paper palette
-  // never bleeds through the photo), and the buildings belong to the 3D button.
-  // Split across two effects, whichever ran last would win.
+  // The building massing belongs to the 3D button; the flat plan is the default.
   $effect(() => {
     if (!ready) return;
-    map.setLayoutProperty('esri', 'visibility', sat ? 'visible' : 'none');
-    for (const id of baseLayerIds) {
-      const on = !sat && (tilt || !TILT_LAYERS.includes(id));
-      map.setLayoutProperty(id, 'visibility', on ? 'visible' : 'none');
+    for (const id of TILT_LAYERS) {
+      map.setLayoutProperty(id, 'visibility', tilt ? 'visible' : 'none');
     }
   });
 </script>
@@ -415,7 +386,6 @@
   <div class="wrap">
     <div bind:this={el} class="map"></div>
     <div class="mapbtns">
-      <button class="mapbtn" aria-pressed={sat} onclick={() => (sat = !sat)}>🛰️ {s('map_sat')}</button>
       <button class="mapbtn" aria-pressed={tilt} onclick={toggleTilt}>{tilt ? '▣' : '◱'} 3D</button>
     </div>
 

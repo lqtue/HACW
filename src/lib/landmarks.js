@@ -34,7 +34,7 @@ export const LANDMARKS = {
         <path d="M56 33h28v14H56z"/>
       </g>
       <!-- the two arches the stream runs through: shaded openings, not outlines,
-           so they still read as holes over satellite imagery -->
+           so they read as holes rather than as two more drawn shapes -->
       <g fill="${ink}" fill-opacity="0.18" stroke="${ink}" stroke-width="1.8" stroke-linejoin="round">
         <path d="M26 90V82a15 15 0 0 1 30 0v8z"/>
         <path d="M84 90V82a15 15 0 0 1 30 0v8z"/>

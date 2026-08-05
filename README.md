@@ -73,9 +73,9 @@ so they scale with zoom, collide their labels properly, dim when a site is close
 and wear a gold spark where the spotlight bonus is live. Tapping one opens a popup
 (hours/address/status) and scrolls to that site's card in the strip below. The 3D
 button tilts the camera and raises the shophouses when you want the massing.
-Satellite is **Esri World Imagery**, not Google — Google's tiles are only
-licensed through their paid Maps APIs — and it replaces the vector basemap
-wholesale so the paper palette never bleeds through the photo.
+There is no satellite view: it was the one part of the map that needed the
+network, and aerial photos of the same roofs added nothing to 25 surveyed pins on
+a printed plan.
 
 Everything the map needs is a static file under `static/map/` — `hoian.pmtiles`
 (1.3 MB, z0–15, overzoomed past that), the Noto Sans glyph ranges the labels
@@ -146,13 +146,10 @@ the score exactly as they were. The home page also has an **install** button
 instruction), which is about having an icon and no browser chrome, not about
 caching.
 
-Two things still want the network, both behind an explicit tap and neither on the
-path to a stamp:
-
-- **Satellite** imagery — thousands of Esri tiles, and bulk-downloading them
-  breaks their terms, so the service worker just keeps the last 600 the visitor
-  actually looked at (`runtimeCaching` in `vite.config.js`).
-- **Directions** links, which hand off to Google Maps.
+After that the app issues no network request at all — there is no
+`runtimeCaching` section in `vite.config.js`, because there is nothing left to
+cache. The one outbound thing is the **directions** link, which hands off to
+Google Maps and leaves the app.
 
 The typeface is self-hosted for the same reason: a Google Fonts `<link>` can only
 ever be runtime-cached, i.e. wrong on the first offline load. `src/lib/fonts/`

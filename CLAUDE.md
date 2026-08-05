@@ -280,9 +280,9 @@ more; both the destinations map and the tour route maps run on this.
   panning cannot reach blank paper. `BUILDINGS_3D` extrudes the shophouses
   (`height` fallback 7 m — OSM rarely tags it here) and rises between z14.5 and
   z16. `hidePois(map)` drops OSM's POIs and house numbers outright — every café
-  in the old town competing with 25 destinations — and **returns the ids it hid**
-  so a bulk "show the basemap again" pass can skip them. Anything hidden for good
-  must be excluded from `baseLayerIds`, or the satellite toggle resurrects it.
+  in the old town competing with 25 destinations. Nothing ever turns them back
+  on: there is no bulk "show the basemap again" pass any more, because there is
+  no satellite layer to hide the basemap under.
 - `src/lib/map-style.test.js` (in `npm test`) guards the assumptions this rests
   on: our layer ids don't collide with the flavor's, every fontstack the style
   asks for is self-hosted, every destination/counter name is inside the shipped
@@ -351,11 +351,13 @@ register at city zoom (our `minZoom` is 14, so that zoom range doesn't exist her
 Tour routes are **not** drawn on this map either — they live on `/tours`, where
 `RouteMap` shows one route at a time in the context of its own stop list.
 
-Satellite (**Esri World Imagery** — *not* Google, whose tiles are licensed only
-through their paid Maps APIs) hides every `source === 'protomaps'` layer instead
-of stacking on them. MapLibre's stylesheet is imported at **runtime**, i.e. after
-component CSS, so every override in the page has to out-specify it (hence
-`.maplibregl-map …`).
+**There is no satellite layer.** It was one Esri raster source behind a 🛰️
+chip, and it was the only thing in the app that could not work offline — 25
+surveyed pins on our own printed plan is the product, aerial photography of the
+same roofs was not. `map-style.test.js` asserts every layer draws from
+`protomaps`, so a second remote source cannot creep back in. MapLibre's
+stylesheet is imported at **runtime**, i.e. after component CSS, so every
+override in the page has to out-specify it (hence `.maplibregl-map …`).
 
 **Tours** (`src/routes/tours/+page.svelte`): single-open accordion — expanding a
 tour renders `RouteMap.svelte` (dashed line + numbered stops, all native layers
@@ -371,7 +373,7 @@ listed beside it. `RouteMap` tears itself down in `onDestroy` because an **async
 - Category accents are CSS vars `--c-<category-id>` (in `app.css`); category id/label/icon live in `categories.json` and are looked up via `src/lib/util.js`.
 - Deliberate shortcuts are marked with `// ponytail:` comments naming the ceiling/upgrade path.
 - Fonts: Be Vietnam Pro only — weight 800 uppercase for display (`--font-display`), 400–600 for body. Matches the official key visual's heavy geometric sans; no serif, no system-font fallback look. **Self-hosted** (`src/lib/fonts/*.woff2`, `@font-face` at the top of `app.css`): the app must render with the network off, and a Google Fonts link can only ever be *runtime* cached.
-- **Offline is a hard requirement, so nothing third-party is on the critical path.** Precache (~4.8 MB, 125 entries) covers every prerendered page, every JS/CSS chunk, the content JSON inside those chunks, the woff2 files and all of `static/map/`. The only network the app ever *wants* is Esri satellite imagery and the Google Maps directions links — both opt-in taps, neither needed to explore, check in, quiz, stamp or score.
+- **Offline is a hard requirement, so nothing third-party is on the critical path.** Precache (~4.8 MB, 125 entries) covers every prerendered page, every JS/CSS chunk, the content JSON inside those chunks, the woff2 files and all of `static/map/`. After that the app issues **no network request at all** — `vite.config.js` has no `runtimeCaching` section, because there is nothing left to cache. The only outbound thing is the Google Maps directions link, which leaves the app.
 - **Brand skin** (`app.css` `:root`): the official *Tuần lễ Sáng tạo Hội An 2026* key visual — peach→pink gradient paper (`--paper`/`--paper-2`/`--bg`), coral `--brand` + `--grad-brand`, oxblood `--brand-dark` headings, `--gold` scallop, `--teal` inside `--grad-strip`. Motif classes to reuse rather than redraw: `.brand-strip`, `.scallop` (roof-tile trim), `.spark` (four-petal), plus rounded capsules for the cloud-scroll blocks (see the home hero and the destination hero). Style new UI from these tokens; don't hardcode hex.
 
 ## Pre-launch TODO (from README)

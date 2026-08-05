@@ -83,11 +83,9 @@ export const HOI_AN = {
  * @param {any} map
  */
 export function hidePois(map) {
-  const hidden = ['pois', 'address_label'].filter((id) => map.getLayer(id));
-  for (const id of hidden) map.setLayoutProperty(id, 'visibility', 'none');
-  // Returned so the caller can keep them out of any bulk visibility pass —
-  // "show the basemap again" must not mean "show these again".
-  return hidden;
+  for (const id of ['pois', 'address_label']) {
+    if (map.getLayer(id)) map.setLayoutProperty(id, 'visibility', 'none');
+  }
 }
 
 /** Layers that belong to the 3D button, not to the flat plan. */
