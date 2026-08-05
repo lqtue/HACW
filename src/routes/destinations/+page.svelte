@@ -6,7 +6,20 @@
   import categories from '$lib/data/categories.json';
   import tickets from '$lib/data/ticket-points.json';
   import Card from '$lib/components/Card.svelte';
-  import { categoryIcon, categoryLabel, mapsUrl, openLabel } from '$lib/util.js';
+  import {
+    BOUNDS,
+    BUILDINGS_3D,
+    PIN_DPR,
+    TILT_LAYERS,
+    hidePois,
+    hoianStyle,
+    loadMap,
+    markSvg,
+    pinImage,
+    principalBearing
+  } from '$lib/map-style.js';
+  import { addLandmarks } from '$lib/landmarks.js';
+  import { categoryLabel, mapsUrl, openLabel } from '$lib/util.js';
   import { nearest } from '$lib/geo.js';
   import { formatDistance } from '$lib/route.js';
   import { hasStamp } from '$lib/passport.svelte.js';
@@ -19,6 +32,8 @@
   let showTickets = $state(false);
   let openOnly = $state(false);
   let selected = $state(null); // pin tapped -> highlight its card below
+  let tilt = $state(false); // pitch + building massing, opt-in: the map is a printed plan
+  let sat = $state(false);
 
   // Location is opt-in: nothing is requested until the visitor taps the chip, so
   // the permission prompt arrives with a reason attached instead of on page load.
@@ -38,195 +53,400 @@
   const spotlight = $derived(spotlightIds(stats.counts, destinations));
 
   // Popup is built on open, so language / stamp / spotlight are always current.
+  // It is a label on a printed map, not a card: the site's own mark, its name,
+  // two rows of facts under hairline keys, and one obvious thing to do.
   function popupHtml(d) {
     const open = openLabel(d);
     const badges = [
-      `<span class="ptag" style="background: var(--c-${d.category})">${t(categoryLabel(d.category))}</span>`,
-      open ? `<span class="ptag ${open.status}">${open.text}</span>` : '',
-      spotlight.has(d.id) ? `<span class="ptag gold">⭐ ${s('spotlight')}</span>` : '',
-      hasStamp(d.id) ? `<span class="ptag done">✅ ${s('stamped')}</span>` : ''
-    ].join(' ');
+      spotlight.has(d.id) ? `<span class="ptag gold">${s('spotlight')}</span>` : '',
+      hasStamp(d.id) ? `<span class="ptag done">${s('stamped')}</span>` : ''
+    ]
+      .filter(Boolean)
+      .join('');
     return `<div class="pop">
-      <strong>${t(d.name)}</strong>
-      <div class="badges">${badges}</div>
-      <small>🕑 ${t(d.hours)}<br>📍 ${t(d.address)}</small>
+      <div class="pop-head">
+        <span class="pop-mark">${markSvg(`var(--c-${d.category})`, 'var(--brand-dark)', 30)}</span>
+        <span class="pop-title">
+          <span class="pop-cat" style="color: var(--c-${d.category})">${t(categoryLabel(d.category))}</span>
+          <strong>${t(d.name)}</strong>
+        </span>
+      </div>
+      <dl class="pop-meta">
+        <dt>${s('hours_label')}</dt>
+        <dd>${t(d.hours)}${open ? ` <em class="${open.status}">${open.text}</em>` : ''}</dd>
+        <dt>${s('addr_label')}</dt>
+        <dd>${t(d.address)}</dd>
+      </dl>
+      ${badges ? `<div class="badges">${badges}</div>` : ''}
       <div class="acts">
-        <a data-go href="${base}/destinations/${d.id}">${s('popup_detail')}</a>
-        <a href="${mapsUrl(d)}" target="_blank" rel="noopener">${s('popup_dir')}</a>
+        <a data-go class="go" href="${base}/destinations/${d.id}">${s('popup_detail')}</a>
+        <a class="dir" href="${mapsUrl(d)}" target="_blank" rel="noopener">${s('popup_dir')}</a>
       </div>
     </div>`;
   }
 
+  // The sites layer is data-driven, so filters / spotlight / opening hours are
+  // one GeoJSON rebuild rather than 25 marker mutations. Everything reactive the
+  // map needs to know lives in these properties.
+  const siteData = $derived({
+    type: 'FeatureCollection',
+    features: shown.map((d) => ({
+      type: 'Feature',
+      geometry: { type: 'Point', coordinates: [d.lng, d.lat] },
+      properties: {
+        id: d.id,
+        icon: `pin-${d.category}${spotlight.has(d.id) ? '-spot' : ''}`,
+        label: t(d.name),
+        spot: spotlight.has(d.id),
+        sel: selected === d.id,
+        // closed right now -> faded pin, still tappable
+        dim: openLabel(d)?.status === 'closed' ? 0.45 : 1
+      }
+    }))
+  });
+
+  const byId = new Map(destinations.map((d) => [d.id, d]));
+
+  // The old town is a 1 km east-west strip. Turned to lie along the screen it is
+  // twice the size on a portrait phone, so north is not up here — the walk is.
+  const BEARING = principalBearing(destinations);
+
+  // Everything under the last tap, and where in it we are. One entry = an
+  // ordinary pin tap; more than one = the ‹ › bar appears.
+  let stack = $state([]);
+  let stackAt = $state(0);
+  let popup;
+  let openSite = () => {};
+
+  function step(delta) {
+    stackAt = (stackAt + delta + stack.length) % stack.length;
+    openSite(stack[stackAt]);
+  }
+
   let el;
   let map;
-  let markers = [];
-  let ticketLayer;
-  let meMarker;
-  let meHalo;
-  // map/markers are plain variables, so the effects below need one reactive
-  // signal telling them the async Leaflet setup has finished.
+  let geolocate;
+  let baseLayerIds = [];
+  // map is a plain variable, so the effects below need one reactive signal
+  // telling them the async MapLibre setup has finished.
   let ready = $state(false);
 
   onMount(async () => {
-    const L = (await import('leaflet')).default;
-    await import('leaflet/dist/leaflet.css');
+    const maplibregl = await loadMap(base);
 
-    map = L.map(el, { zoomControl: false }).setView([15.8772, 108.3275], 16);
-    L.control.zoom({ position: 'bottomright' }).addTo(map);
+    map = new maplibregl.Map({
+      container: el,
+      // ponytail: basemap labels are baked at the language the page loaded in —
+      // restyling mid-session would drop our own layers. Pin labels follow t().
+      style: hoianStyle(location.origin + base, i18n.lang),
+      center: [108.3275, 15.8772],
+      zoom: 16,
+      bearing: BEARING,
+      minZoom: 14,
+      maxZoom: 19, // the extract stops at z15; MapLibre overzooms vector cleanly
+      maxBounds: BOUNDS, // outside the archive there is nothing to draw
+      attributionControl: false // re-added top-right; the card sheet covers the default corner
+    });
 
-    // Basemap: CARTO Voyager (free, no key). CSS filter tints it to the paper palette.
-    const street = L.tileLayer('https://{s}.basemaps.cartocdn.com/rastertiles/voyager/{z}/{x}/{y}.png', {
-      subdomains: 'abcd',
-      maxZoom: 20,
-      attribution: '© OpenStreetMap, © CARTO'
-    }).addTo(map);
-    // ponytail: tiles need network; offline the map is blank but check-in/passport still work.
+    // Attribution collapses to its ⓘ puck: legally it only has to be reachable,
+    // and the expanded credit line eats the whole top edge on a phone.
+    map.addControl(new maplibregl.AttributionControl({ compact: true }), 'top-right');
+    map.once('idle', () =>
+      map
+        .getContainer()
+        .querySelector('.maplibregl-ctrl-attrib')
+        ?.classList.remove('maplibregl-compact-show')
+    );
+    // ponytail: no NavigationControl — pinch zooms, the 3D button pitches, and the
+    // bottom edge is needed for the ‹ › pager. Add it back if testers ask for +/−.
+
+    // MapLibre's own geolocate control already does watch + accuracy circle +
+    // permission errors, so the 📍 chip just triggers it and reads the fix back
+    // out. Its button is hidden in CSS — the chip is the affordance.
+    geolocate = new maplibregl.GeolocateControl({
+      positionOptions: { enableHighAccuracy: true, maximumAge: 5000, timeout: 15000 },
+      trackUserLocation: true,
+      showAccuracyCircle: true,
+      fitBoundsOptions: { maxZoom: 17 }
+    });
+    map.addControl(geolocate, 'bottom-right');
+    geolocate.on('geolocate', (e) => {
+      locating = false;
+      geoErr = '';
+      me = {
+        lat: e.coords.latitude,
+        lng: e.coords.longitude,
+        accuracy: Math.round(e.coords.accuracy)
+      };
+    });
+    geolocate.on('error', (e) => {
+      locating = false;
+      geoErr = e?.code === 1 ? s('geo_denied') : s('geo_fail');
+    });
+    geolocate.on('trackuserlocationend', () => {
+      me = null;
+      locating = false;
+    });
+
+    await new Promise((done) => map.on('load', done));
+
+    // Pins are generated here, not shipped: one image per category (plus a gold
+    // spotlight variant) drawn from the same CSS vars the rest of the app uses.
+    const css = getComputedStyle(document.documentElement);
+    const gold = css.getPropertyValue('--gold').trim() || '#e0a83c';
+    const ink = css.getPropertyValue('--brand-dark').trim() || '#7e1f13';
+    for (const c of categories) {
+      const color = css.getPropertyValue(`--c-${c.id}`).trim() || '#bb4b2c';
+      map.addImage(`pin-${c.id}`, pinImage(color, ink), { pixelRatio: PIN_DPR });
+      map.addImage(`pin-${c.id}-spot`, pinImage(color, ink, gold), { pixelRatio: PIN_DPR });
+    }
 
     // Satellite = Esri World Imagery, not Google: Google's tiles may only be used
     // through their paid Maps APIs, and scraping the tile server breaks their ToS.
-    const satellite = L.tileLayer(
-      'https://server.arcgisonline.com/ArcGIS/rest/services/World_Imagery/MapServer/tile/{z}/{y}/{x}',
-      { maxZoom: 19, attribution: 'Esri, Maxar, Earthstar Geographics' }
-    );
-    L.control
-      .layers({ [s('map_street')]: street, [s('map_sat')]: satellite }, null, { position: 'topright' })
-      .addTo(map);
-    // the paper tint would ruin the imagery -> drop it while satellite is on
-    map.on('baselayerchange', (e) => el.classList.toggle('sat', e.name === s('map_sat')));
+    map.addSource('esri', {
+      type: 'raster',
+      tiles: [
+        'https://server.arcgisonline.com/ArcGIS/rest/services/World_Imagery/MapServer/tile/{z}/{y}/{x}'
+      ],
+      tileSize: 256,
+      maxzoom: 19,
+      attribution: 'Esri, Maxar, Earthstar Geographics'
+    });
+    // Added before our own layers, so imagery never covers the pins. The vector
+    // basemap is hidden wholesale while it is on, which is why order is enough.
+    map.addLayer({ id: 'esri', type: 'raster', source: 'esri', layout: { visibility: 'none' } });
+    map.addLayer(BUILDINGS_3D);
+    const hidden = hidePois(map);
+    // Captured *after* the extrusion so it hides with the rest of the vector
+    // basemap under satellite — ochre roofs painted over the photo read as a bug.
+    // POIs are excluded outright: they are off for good, and a bulk "show the
+    // basemap" pass would otherwise resurrect every café in the old town.
+    baseLayerIds = map
+      .getStyle()
+      .layers.filter((l) => l.source === 'protomaps' && !hidden.includes(l.id))
+      .map((l) => l.id);
 
-    const css = getComputedStyle(document.documentElement);
-    const bounds = [];
-    for (const d of destinations) {
-      const color = css.getPropertyValue(`--c-${d.category}`).trim() || '#bb4b2c';
-      const icon = L.divIcon({
-        className: 'pin-wrap',
-        html: `<div class="pin" style="--c:${color}"><span>${categoryIcon(d.category)}</span></div>`,
-        iconSize: [34, 44],
-        iconAnchor: [17, 40],
-        popupAnchor: [0, -38]
-      });
-      const marker = L.marker([d.lat, d.lng], { icon }).addTo(map);
-      marker.bindPopup(() => popupHtml(d), { minWidth: 210 });
-      marker.on('popupopen', (e) => {
-        // internal link must go through the router (and keep the base path)
-        e.popup.getElement().querySelector('[data-go]')?.addEventListener('click', (ev) => {
-          ev.preventDefault();
-          goto(`${base}/destinations/${d.id}`);
-        });
-        selected = d.id;
-        document
-          .getElementById(`card-${d.id}`)
-          ?.scrollIntoView({ behavior: 'smooth', block: 'nearest', inline: 'center' });
-      });
-      marker.on('popupclose', () => {
-        if (selected === d.id) selected = null;
-      });
-      markers.push({ marker, dest: d });
-      bounds.push([d.lat, d.lng]);
-    }
-
-    // Ticket counters: small neutral dots, off by default so they don't crowd the pins.
-    ticketLayer = L.layerGroup(
-      tickets.map((p) =>
-        L.marker([p.lat, p.lng], {
-          icon: L.divIcon({ className: 'ticket-wrap', html: '<div class="ticket">🎟️</div>', iconSize: [22, 22] })
-        }).bindPopup(`<strong>${p.id}</strong><br>${t(p.where)}`)
-      )
-    );
-
-    // Leaflet's own geolocation wrapper — it already does watch + accuracy and
-    // hands back a latlng, so there is nothing here worth reimplementing.
-    map.on('locationfound', (e) => {
-      locating = false;
-      geoErr = '';
-      me = { lat: e.latlng.lat, lng: e.latlng.lng, accuracy: Math.round(e.accuracy) };
-      if (!meMarker) {
-        meMarker = L.marker(e.latlng, {
-          icon: L.divIcon({ className: 'me-wrap', html: '<div class="me"></div>', iconSize: [18, 18] }),
-          zIndexOffset: 1000
-        })
-          .addTo(map)
-          .bindPopup(() => `<strong>${s('you_are_here')}</strong><br><small>${s('accuracy_m', me.accuracy)}</small>`);
-        meHalo = L.circle(e.latlng, { radius: e.accuracy, className: 'me-halo', stroke: false }).addTo(map);
-        // Only the first fix moves the map — after that the visitor is panning.
-        map.setView(e.latlng, Math.max(map.getZoom(), 17));
-      } else {
-        meMarker.setLatLng(e.latlng);
-        meHalo.setLatLng(e.latlng).setRadius(e.accuracy);
+    // Ticket counters: small neutral dots, off by default so they don't crowd the
+    // pins. ponytail: a circle layer, not an image — the popup names the counter.
+    map.addSource('booths', {
+      type: 'geojson',
+      data: {
+        type: 'FeatureCollection',
+        features: tickets.map((p) => ({
+          type: 'Feature',
+          geometry: { type: 'Point', coordinates: [p.lng, p.lat] },
+          properties: { html: `<strong>${p.id}</strong><br>${t(p.where)}` }
+        }))
       }
     });
-    map.on('locationerror', (e) => {
-      locating = false;
-      geoErr = e?.code === 1 ? s('geo_denied') : s('geo_fail');
-      stopLocate();
+    map.addLayer({
+      id: 'booths',
+      type: 'circle',
+      source: 'booths',
+      layout: { visibility: 'none' },
+      paint: {
+        'circle-radius': 6,
+        'circle-color': '#fffaf3',
+        'circle-stroke-width': 2,
+        'circle-stroke-color': gold
+      }
     });
 
-    if (bounds.length) map.fitBounds(bounds, { padding: [50, 50] });
-    // map lives in a flex container sized after init -> recompute once laid out
-    setTimeout(() => map.invalidateSize(), 0);
+    await addLandmarks(map, byId, { ink, fill: '#fdf6e8' });
+
+    map.addSource('sites', { type: 'geojson', data: siteData });
+    map.addLayer({
+      id: 'sites',
+      type: 'symbol',
+      source: 'sites',
+      layout: {
+        'icon-image': ['get', 'icon'],
+        'icon-allow-overlap': true,
+        // pins grow into the town as you zoom, and the tapped one lifts out of it.
+        // A "zoom" expression has to be the top-level input, hence the per-stop case.
+        'icon-size': [
+          'interpolate',
+          ['linear'],
+          ['zoom'],
+          14, ['case', ['==', ['get', 'sel'], true], 0.82, 0.6],
+          16, ['case', ['==', ['get', 'sel'], true], 1.15, 0.85],
+          18.5, ['case', ['==', ['get', 'sel'], true], 1.4, 1.05]
+        ],
+        'icon-ignore-placement': true, // every site must show; only labels may collide
+        'text-field': ['get', 'label'],
+        'text-font': ['Noto Sans Medium'],
+        'text-size': 11,
+        'text-anchor': 'top',
+        'text-offset': [0, 1.5], // clears the mark, which anchors at its centre
+        'text-optional': true,
+        'text-max-width': 8
+      },
+      paint: {
+        'icon-opacity': ['coalesce', ['get', 'dim'], 1],
+        'text-color': '#7e1f13',
+        'text-halo-color': '#fff7ef',
+        'text-halo-width': 1.6,
+        // names only once the alleys are legible, otherwise it is a wall of text
+        'text-opacity': ['interpolate', ['linear'], ['zoom'], 16.2, 0, 16.8, 1]
+      }
+    });
+
+    // Sites in the old town sit metres apart — Trần Phú alone stacks several
+    // behind one mark. A tap therefore collects everything under the finger, not
+    // just the top feature, and the ‹ › bar pages through them in place. No
+    // zooming, no expanding cluster: the pin stays where the visitor put it.
+    openSite = (d) => {
+      popup?.remove();
+      popup = new maplibregl.Popup({ offset: [0, -24], closeButton: false, maxWidth: '260px' })
+        .setLngLat([d.lng, d.lat])
+        .setHTML(popupHtml(d))
+        .addTo(map);
+      // internal link must go through the router (and keep the base path)
+      popup.getElement()?.querySelector('[data-go]')?.addEventListener('click', (ev) => {
+        ev.preventDefault();
+        goto(`${base}/destinations/${d.id}`);
+      });
+      selected = d.id;
+      document
+        .getElementById(`card-${d.id}`)
+        ?.scrollIntoView({ behavior: 'smooth', block: 'nearest', inline: 'center' });
+    };
+
+    map.on('click', 'sites', (e) => {
+      const { x, y } = e.point;
+      const R = 26; // finger-sized: everything this close is "the same spot"
+      const near = map.queryRenderedFeatures(
+        [
+          [x - R, y - R],
+          [x + R, y + R]
+        ],
+        { layers: ['sites'] }
+      );
+      const tapped = e.features[0].properties.id;
+      const ids = [tapped, ...new Set(near.map((f) => f.properties.id))];
+      stack = [...new Set(ids)].map((id) => byId.get(id)).filter(Boolean);
+      stackAt = 0;
+      openSite(stack[0]);
+    });
+
+    // tap the paper: drop the selection and the bar with it
+    map.on('click', (e) => {
+      if (map.queryRenderedFeatures(e.point, { layers: ['sites', 'booths'] }).length) return;
+      popup?.remove();
+      popup = null;
+      stack = [];
+      selected = null;
+    });
+    map.on('click', 'booths', (e) => {
+      new maplibregl.Popup({ offset: 10, closeButton: false })
+        .setLngLat(e.lngLat)
+        .setHTML(e.features[0].properties.html)
+        .addTo(map);
+    });
+    for (const id of ['sites', 'booths']) {
+      map.on('mouseenter', id, () => (map.getCanvas().style.cursor = 'pointer'));
+      map.on('mouseleave', id, () => (map.getCanvas().style.cursor = ''));
+    }
+
+    map.fitBounds(
+      destinations.reduce(
+        (b, d) => [
+          [Math.min(b[0][0], d.lng), Math.min(b[0][1], d.lat)],
+          [Math.max(b[1][0], d.lng), Math.max(b[1][1], d.lat)]
+        ],
+        [
+          [180, 90],
+          [-180, -90]
+        ]
+      ),
+      { padding: 40, bearing: BEARING, animate: false }
+    );
     ready = true;
   });
 
-  // A watch that outlives the page is a battery leak, so both the watch and the
-  // map itself are torn down explicitly (an async onMount cannot return a cleanup).
-  onDestroy(() => {
-    map?.stopLocate();
-    map?.remove();
-  });
-
-  function stopLocate() {
-    map?.stopLocate();
-    if (meMarker) map.removeLayer(meMarker);
-    if (meHalo) map.removeLayer(meHalo);
-    meMarker = meHalo = null;
-    me = null;
-    locating = false;
-  }
+  // map.remove() also removes the geolocate control, which clears its watch —
+  // a watch that outlives the route is a battery leak. (An async onMount cannot
+  // return a cleanup, so the teardown is explicit.)
+  onDestroy(() => map?.remove());
 
   function toggleLocate() {
     if (!ready) return;
-    if (me || locating) return stopLocate();
-    locating = true;
-    geoErr = '';
-    map.locate({ watch: true, enableHighAccuracy: true, maximumAge: 5000, timeout: 15000 });
+    // trigger() toggles: a second tap on an active lock switches tracking off.
+    if (!me && !locating) {
+      locating = true;
+      geoErr = '';
+    }
+    geolocate.trigger();
   }
 
-  // Chips filter the map pins and the card list together.
-  $effect(() => {
-    if (!ready) return;
-    const visible = new Set(shown.map((d) => d.id));
-    for (const m of markers) {
-      if (visible.has(m.dest.id)) m.marker.addTo(map);
-      else map.removeLayer(m.marker);
-    }
-  });
+  // The 3D button owns the whole idea of buildings: flat-on, the plan is streets
+  // and 25 marks, and drawn footprints are just texture between them.
+  function toggleTilt() {
+    tilt = !tilt;
+    map?.easeTo({ pitch: tilt ? 55 : 0, duration: 600 });
+  }
 
-  // Counts can arrive before or after the markers -> re-flag the pins in place.
+  // Filters, spotlight and opening hours all land as one setData.
   $effect(() => {
-    if (!ready) return;
-    for (const m of markers) {
-      const el = m.marker.getElement();
-      el?.classList.toggle('spot', spotlight.has(m.dest.id));
-      el?.classList.toggle('shut', openLabel(m.dest)?.status === 'closed');
-    }
+    if (ready) map.getSource('sites').setData(siteData);
   });
 
   $effect(() => {
-    if (!ready || !ticketLayer) return;
-    if (showTickets) ticketLayer.addTo(map);
-    else map.removeLayer(ticketLayer);
+    if (ready) map.setLayoutProperty('booths', 'visibility', showTickets ? 'visible' : 'none');
+  });
+
+  // One effect owns basemap visibility, because the two toggles overlap: imagery
+  // replaces the vector basemap rather than stacking on it (so the paper palette
+  // never bleeds through the photo), and the buildings belong to the 3D button.
+  // Split across two effects, whichever ran last would win.
+  $effect(() => {
+    if (!ready) return;
+    map.setLayoutProperty('esri', 'visibility', sat ? 'visible' : 'none');
+    for (const id of baseLayerIds) {
+      const on = !sat && (tilt || !TILT_LAYERS.includes(id));
+      map.setLayoutProperty(id, 'visibility', on ? 'visible' : 'none');
+    }
   });
 </script>
 
 <div class="explore">
   <div class="topbar"><h1>{s('explore')}</h1><small>{s('sites_count', destinations.length)}</small></div>
 
-  <div bind:this={el} class="map"></div>
+  <div class="wrap">
+    <div bind:this={el} class="map"></div>
+    <div class="mapbtns">
+      <button class="mapbtn" aria-pressed={sat} onclick={() => (sat = !sat)}>🛰️ {s('map_sat')}</button>
+      <button class="mapbtn" aria-pressed={tilt} onclick={toggleTilt}>{tilt ? '▣' : '◱'} 3D</button>
+    </div>
+
+    <!-- several sites under one tap: page through them without moving the map -->
+    {#if stack.length > 1}
+      <div class="stack">
+        <button class="stack-nav" onclick={() => step(-1)} aria-label={s('prev_site')}>‹</button>
+        <span class="stack-label">
+          <b>{stackAt + 1}</b> / {stack.length} · {t(stack[stackAt].name)}
+        </span>
+        <button class="stack-nav" onclick={() => step(1)} aria-label={s('next_site')}>›</button>
+      </div>
+    {/if}
+  </div>
+
+  <!-- bottom sheet: filters, counter bar and site cards ride over the map edge -->
+  <div class="sheet">
+  <span class="handle" aria-hidden="true"></span>
 
   <div class="chips">
     <button class="chip" aria-pressed={active === 'all'} onclick={() => (active = 'all')}>{s('all')}</button>
+    <!-- the filter row is also the legend: each chip carries its pins' colour -->
     {#each categories as c}
-      <button class="chip" aria-pressed={active === c.id} onclick={() => (active = c.id)}>{c.icon} {t(c.label)}</button>
+      <button
+        class="chip cat"
+        style="--c: var(--c-{c.id})"
+        aria-pressed={active === c.id}
+        onclick={() => (active = c.id)}
+      >
+        <i class="sw" aria-hidden="true"></i>{t(c.label)}
+      </button>
     {/each}
     <button class="chip" aria-pressed={openOnly} onclick={() => (openOnly = !openOnly)}>
       🕑 {s('filter_open')}
@@ -252,19 +472,122 @@
 
   <div class="carousel">
     {#each shown as dest}
-      <Card {dest} active={selected === dest.id} />
+      <Card {dest} mark active={selected === dest.id} />
     {/each}
     {#if shown.length === 0}
       <p class="muted empty">{s('no_sites')}</p>
     {/if}
   </div>
+  </div>
 </div>
 
 <style>
-  /* full-height column: map fills, cards scroll sideways below */
+  /* full-height column: map fills, the sheet of controls rides over its bottom */
   .explore { flex: 1; display: flex; flex-direction: column; min-height: 0; }
-  .map { flex: 1; min-height: 0; background: var(--paper); }
-  .chips { flex: 0 0 auto; padding-bottom: 8px; }
+  .wrap { flex: 1; min-height: 0; position: relative; }
+  .map { position: absolute; inset: 0; background: var(--paper); }
+
+  /* top-left; the bottom edge belongs to the ‹ › pager */
+  .mapbtns { position: absolute; top: 12px; left: 12px; z-index: 5; display: flex; gap: 8px; }
+  .mapbtn {
+    border: 1px solid var(--line);
+    background: color-mix(in srgb, var(--surface) 92%, transparent);
+    backdrop-filter: blur(8px);
+    color: var(--brand-dark);
+    border-radius: 999px;
+    padding: 8px 14px;
+    font-family: var(--font-body);
+    font-weight: 700;
+    font-size: 0.8rem;
+    cursor: pointer;
+    box-shadow: var(--shadow);
+  }
+  .mapbtn[aria-pressed='true'] { background: var(--grad-brand); color: #fff; border-color: transparent; }
+
+  /* The map is a printed plan, so the sheet is the sheet of paper it is printed
+     on: flat stock, a hairline rule instead of frosted glass and a soft glow.
+     Scoped overrides only — .chip and .card keep their app-wide look elsewhere. */
+  .sheet {
+    flex: 0 0 auto;
+    position: relative;
+    z-index: 600; /* above the map canvas and its controls */
+    margin-top: 0;
+    background: var(--surface);
+    border-top: 1px solid color-mix(in srgb, var(--brand-dark) 22%, transparent);
+  }
+  .handle {
+    display: block;
+    width: 34px; height: 2px;
+    margin: 7px auto 0;
+    border-radius: 0;
+    background: color-mix(in srgb, var(--brand-dark) 25%, transparent);
+  }
+  .chips { flex: 0 0 auto; padding: 10px 18px 8px; }
+
+  /* chips as printed labels: hairline keyline, uppercase, no shadow, no gradient */
+  .chips :global(.chip) {
+    border-radius: 6px;
+    border-color: color-mix(in srgb, var(--brand-dark) 20%, transparent);
+    background: transparent;
+    box-shadow: none;
+    padding: 7px 12px;
+    font-size: 0.72rem;
+    font-weight: 700;
+    letter-spacing: 0.06em;
+    text-transform: uppercase;
+    color: var(--brand-dark);
+  }
+  .chips :global(.chip[aria-pressed='true']) {
+    background: var(--c, var(--brand-dark));
+    border-color: var(--c, var(--brand-dark));
+    color: var(--paper);
+  }
+  /* the legend swatch: same colour the site's mark is drawn in on the map */
+  .chips :global(.chip.cat) { display: inline-flex; align-items: center; gap: 7px; }
+  .chips :global(.chip .sw) {
+    width: 10px; height: 10px;
+    border-radius: 50%;
+    background: var(--c);
+    border: 1px solid color-mix(in srgb, var(--brand-dark) 45%, transparent);
+  }
+  .chips :global(.chip[aria-pressed='true'] .sw) { background: var(--paper); border-color: var(--paper); }
+
+  /* stack bar: the reference's "1 / 5 in this area" pager, in our ink */
+  .stack {
+    position: absolute;
+    left: 12px; right: 12px; bottom: 12px;
+    z-index: 6;
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    padding: 6px;
+    border-radius: 999px;
+    background: var(--brand-dark);
+    color: var(--paper);
+    box-shadow: 0 10px 24px -16px rgba(40, 12, 6, 0.9);
+  }
+  .stack-label {
+    flex: 1;
+    min-width: 0;
+    text-align: center;
+    font-size: 0.82rem;
+    font-weight: 600;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+  }
+  .stack-label b { color: var(--gold); }
+  .stack-nav {
+    flex: 0 0 auto;
+    width: 34px; height: 34px;
+    border: 0;
+    border-radius: 50%;
+    background: var(--paper);
+    color: var(--brand-dark);
+    font-size: 1.2rem;
+    line-height: 1;
+    cursor: pointer;
+  }
 
   .booth-bar, .geo-err {
     flex: 0 0 auto;
@@ -282,15 +605,17 @@
   .booth-bar a { color: var(--brand); font-weight: 600; white-space: nowrap; }
   .geo-err { color: var(--brand); }
 
-  /* live position: a dot with an accuracy halo, deliberately unlike the pins */
-  :global(.me) {
-    width: 16px; height: 16px;
-    border-radius: 50%;
-    background: var(--teal);
-    border: 3px solid #fff;
-    box-shadow: 0 0 0 1px var(--teal), 0 2px 6px -1px rgba(60, 30, 10, 0.5);
+  /* live position: MapLibre's own dot + accuracy circle, in the teal that says
+     "you", deliberately unlike the category pins. Its button is hidden — the
+     📍 chip in the sheet triggers the control.
+     MapLibre's stylesheet is imported at runtime, i.e. *after* these rules, so
+     every override here has to out-specify it, not just follow it. */
+  :global(.maplibregl-ctrl-group button.maplibregl-ctrl-geolocate) { display: none; }
+  :global(.maplibregl-map .maplibregl-user-location-dot),
+  :global(.maplibregl-map .maplibregl-user-location-dot::before) { background: var(--teal); }
+  :global(.maplibregl-map .maplibregl-user-location-accuracy-circle) {
+    background: color-mix(in srgb, var(--teal) 22%, transparent);
   }
-  :global(.me-halo) { fill: var(--teal); fill-opacity: 0.12; }
 
   .carousel {
     flex: 0 0 auto;
@@ -303,55 +628,127 @@
   }
   .carousel::-webkit-scrollbar { display: none; }
   /* each card becomes a snap item; ~82% leaves a peek of the next */
-  :global(.carousel .card) { flex: 0 0 82%; margin-bottom: 0; scroll-snap-align: center; }
+  :global(.carousel .card) {
+    flex: 0 0 82%;
+    margin-bottom: 0;
+    scroll-snap-align: center;
+    border-radius: 10px;
+    border-color: color-mix(in srgb, var(--brand-dark) 16%, transparent);
+    box-shadow: none;
+  }
+  /* the pin's own site: ink keyline, matching the mark's outline on the map */
+  :global(.carousel .card.active) {
+    border-color: var(--brand-dark);
+    box-shadow: 0 0 0 1px var(--brand-dark);
+  }
+  :global(.carousel .card .thumb) { border-radius: 8px; }
+  /* merged category labels are long; one line on the card keeps the rhythm */
+  :global(.carousel .card .tag) { white-space: nowrap; font-size: 0.58rem; }
   .empty { padding: 8px 0; }
 
-  :global(.leaflet-tile-pane) {
-    filter: sepia(0.2) saturate(0.85) brightness(1.04) contrast(0.92);
-  }
-  .map.sat :global(.leaflet-tile-pane) { filter: none; }
-  :global(.pin) {
-    width: 30px; height: 30px;
-    background: var(--c);
-    border: 2px solid #fff;
-    border-radius: 50% 50% 50% 0;
-    transform: rotate(-45deg);
-    box-shadow: 0 3px 7px -1px rgba(60, 30, 10, 0.45);
-    display: grid; place-items: center;
-  }
-  :global(.pin span) { transform: rotate(45deg); font-size: 15px; line-height: 1; }
-  /* boosted (quieter) sites get a gold halo so the map itself steers the crowd */
-  :global(.pin-wrap.spot .pin) {
-    border-color: var(--gold);
-    box-shadow: 0 0 0 4px color-mix(in srgb, var(--gold) 45%, transparent), 0 3px 7px -1px rgba(60, 30, 10, 0.45);
-  }
-  :global(.ticket) {
-    width: 22px; height: 22px;
-    display: grid; place-items: center;
-    font-size: 13px;
+  /* pins and the paper palette are drawn by the map itself now — the basemap is
+     our own vector style (src/lib/map-style.js), the pins are canvas images, so
+     there is no raster tint and no marker DOM left to style here. */
+  :global(.maplibregl-map) { font-family: var(--font-body); }
+  /* the popup is a paper label pinned to the map: ink keyline, hard little
+     shadow, solid ink pointer — the same drawing language as the marks */
+  :global(.maplibregl-map .maplibregl-popup-content) {
+    border-radius: 12px;
     background: var(--surface);
-    border: 1px solid var(--line);
-    border-radius: 50%;
-    box-shadow: 0 2px 5px -1px rgba(60, 30, 10, 0.35);
+    border: 1.5px solid var(--brand-dark);
+    color: var(--ink);
+    font-family: var(--font-body);
+    padding: 12px 14px 10px;
+    box-shadow: 0 10px 22px -18px rgba(40, 12, 6, 0.9);
   }
-  :global(.leaflet-container) { font-family: var(--font-body); }
-  :global(.leaflet-popup-content a) { color: var(--brand); font-weight: 600; }
-  :global(.pop) { display: grid; gap: 6px; line-height: 1.35; }
-  :global(.pop strong) { font-family: var(--font-display); font-size: 1.05rem; }
-  :global(.pop .badges) { display: flex; flex-wrap: wrap; gap: 4px; }
+  :global(.maplibregl-map .maplibregl-popup-anchor-bottom .maplibregl-popup-tip) {
+    border-top-color: var(--brand-dark);
+  }
+  :global(.maplibregl-map .maplibregl-popup-anchor-top .maplibregl-popup-tip) {
+    border-bottom-color: var(--brand-dark);
+  }
+  :global(.maplibregl-map .maplibregl-popup-anchor-left .maplibregl-popup-tip) {
+    border-right-color: var(--brand-dark);
+  }
+  :global(.maplibregl-map .maplibregl-popup-anchor-right .maplibregl-popup-tip) {
+    border-left-color: var(--brand-dark);
+  }
+  /* attribution must stay legible; bottom-right is under the card sheet */
+  :global(.maplibregl-map .maplibregl-ctrl-attrib) { border-radius: 0 0 0 8px; }
+  :global(.pop) { display: grid; gap: 9px; line-height: 1.35; min-width: 200px; }
+
+  /* the site's own mark, then what it is, then what it's called */
+  :global(.pop .pop-head) { display: flex; align-items: center; gap: 10px; }
+  :global(.pop .pop-mark) { flex: 0 0 auto; display: block; }
+  :global(.pop .pop-title) { display: grid; gap: 1px; min-width: 0; }
+  :global(.pop .pop-cat) {
+    font-size: 0.62rem;
+    font-weight: 700;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+  }
+  :global(.pop strong) {
+    font-family: var(--font-display);
+    font-size: 1rem;
+    line-height: 1.15;
+    color: var(--brand-dark);
+  }
+
+  /* facts as a two-column index: hairline keys, values in ink */
+  :global(.pop .pop-meta) {
+    display: grid;
+    grid-template-columns: auto 1fr;
+    gap: 3px 10px;
+    margin: 0;
+    padding-top: 8px;
+    border-top: 1px solid color-mix(in srgb, var(--brand-dark) 18%, transparent);
+    font-size: 0.78rem;
+  }
+  :global(.pop .pop-meta dt) {
+    color: var(--muted);
+    font-size: 0.6rem;
+    font-weight: 700;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+    padding-top: 2px;
+  }
+  :global(.pop .pop-meta dd) { margin: 0; }
+  :global(.pop .pop-meta em) { font-style: normal; font-weight: 700; }
+  :global(.pop .pop-meta em.open) { color: var(--teal); }
+  :global(.pop .pop-meta em.soon) { color: #a4620e; }
+  :global(.pop .pop-meta em.closed) { color: var(--muted); }
+
+  /* status badges are outlined, not filled — filled pills fight the marks */
+  :global(.pop .badges) { display: flex; flex-wrap: wrap; gap: 5px; }
   :global(.pop .ptag) {
-    color: #fff;
-    border-radius: 999px;
-    padding: 2px 8px;
-    font-size: 0.7rem;
-    font-weight: 600;
+    border-radius: 5px;
+    padding: 2px 7px;
+    font-size: 0.6rem;
+    font-weight: 700;
+    letter-spacing: 0.06em;
+    text-transform: uppercase;
+    border: 1px solid currentColor;
   }
-  :global(.pop .ptag.gold) { background: var(--gold); color: #4a2f06; }
-  :global(.pop .ptag.done) { background: var(--teal); }
-  :global(.pop .ptag.open) { background: var(--teal); }
-  :global(.pop .ptag.soon) { background: #a4620e; }
-  :global(.pop .ptag.closed) { background: var(--muted); }
-  /* closed right now -> faded pin, still tappable */
-  :global(.pin-wrap.shut .pin) { opacity: 0.45; }
-  :global(.pop .acts) { display: flex; gap: 12px; margin-top: 2px; }
+  :global(.pop .ptag.gold) { color: #8a5a08; background: color-mix(in srgb, var(--gold) 22%, transparent); }
+  :global(.pop .ptag.done) { color: var(--teal); background: color-mix(in srgb, var(--teal) 12%, transparent); }
+
+  /* one obvious action, one quiet one */
+  :global(.pop .acts) { display: flex; align-items: center; gap: 12px; }
+  :global(.pop .acts .go) {
+    flex: 1;
+    text-align: center;
+    background: var(--brand-dark);
+    color: var(--paper);
+    border-radius: 7px;
+    padding: 7px 10px;
+    font-size: 0.78rem;
+    font-weight: 700;
+  }
+  :global(.pop .acts .dir) {
+    color: var(--brand-dark);
+    font-size: 0.74rem;
+    font-weight: 700;
+    text-decoration: underline;
+    text-underline-offset: 3px;
+  }
 </style>

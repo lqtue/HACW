@@ -3,16 +3,29 @@
   import { categoryLabel, categoryIcon, mapsUrl, openLabel } from '$lib/util.js';
   import { hasStamp } from '$lib/passport.svelte.js';
   import { t } from '$lib/i18n.svelte.js';
+  import MatCua from './MatCua.svelte';
 
-  /** @type {{ dest: any, index?: number, active?: boolean }} */
-  let { dest, index, active = false } = $props();
+  /**
+   * `mark` swaps the emoji tile for the mắt cửa, which is what the map draws as
+   * this site's pin — on the map screen the card and the pin must be the same
+   * object seen twice.
+   * @type {{ dest: any, index?: number, active?: boolean, mark?: boolean }}
+   */
+  let { dest, index, active = false, mark = false } = $props();
 
   const open = $derived(openLabel(dest));
 </script>
 
 <div class="card" class:active id="card-{dest.id}">
-  <a class="thumb" href="{base}/destinations/{dest.id}" style="background: var(--c-{dest.category})">
-    {#if index != null}{index}{:else}{categoryIcon(dest.category)}{/if}
+  <a
+    class="thumb"
+    class:mark
+    href="{base}/destinations/{dest.id}"
+    style={mark ? '' : `background: var(--c-${dest.category})`}
+  >
+    {#if mark}
+      <MatCua size={38} color="var(--c-{dest.category})" inner="#fdf6e8" ink="var(--brand-dark)" />
+    {:else if index != null}{index}{:else}{categoryIcon(dest.category)}{/if}
   </a>
   <a class="body" href="{base}/destinations/{dest.id}">
     <span class="tag" style="background: var(--c-{dest.category})">{t(categoryLabel(dest.category))}</span>
@@ -45,6 +58,13 @@
     transform: rotate(-45deg);
   }
   .tag { margin-bottom: 4px; }
+  /* the pin, at rest: paper tile, hairline keyline, no fill of its own */
+  .thumb.mark {
+    background: var(--paper);
+    border: 1px solid var(--line);
+    display: grid;
+    place-items: center;
+  }
   .addr { display: block; color: var(--muted); }
   .open { font-weight: 700; }
   .open.open { color: var(--teal); }
