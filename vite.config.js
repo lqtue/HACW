@@ -95,18 +95,22 @@ function devApi() {
 }
 
 export default defineConfig({
+  // MapLibre spawns its worker with `new URL('./maplibre-gl-worker.mjs',
+  // import.meta.url)`. Pre-bundled into .vite/deps that path does not exist, so
+  // the worker 404s in dev — serving the package unbundled keeps it resolvable.
+  optimizeDeps: { exclude: ['maplibre-gl'] },
   plugins: [
     devApi(),
     sveltekit(),
     SvelteKitPWA({
       registerType: 'autoUpdate',
       manifest: {
-        name: 'Hội An Creative Week',
-        short_name: 'HACW',
-        description: 'Khám phá, check-in và sưu tầm tem Hội An Creative Week',
+        name: 'Tuần lễ Sáng tạo Hội An 2026',
+        short_name: 'HACW 2026',
+        description: 'Khám phá, check-in và sưu tầm tem Tuần lễ Sáng tạo Hội An 2026',
         lang: 'vi',
-        theme_color: '#b8472a',
-        background_color: '#fdf6ec',
+        theme_color: '#e85f34',
+        background_color: '#fbe3da',
         display: 'standalone',
         start_url: base + '/',
         scope: base + '/',
@@ -116,17 +120,31 @@ export default defineConfig({
       workbox: {
         // Precache all built assets incl. the content JSON -> destinations/quizzes work fully offline.
         globPatterns: ['**/*.{js,css,html,json,svg,png,webmanifest,woff2}'],
-        // Map tiles can't be precached (thousands of them, and bulk-scraping breaks
-        // CARTO/Esri terms). Instead keep whatever the visitor actually panned over:
-        // walk the old town once on wifi and the map still draws offline.
-        // ponytail: 600 tiles ~ the old town at z15-18. Raise if the map goes blank.
         runtimeCaching: [
           {
-            urlPattern: /^https:\/\/([a-d]\.basemaps\.cartocdn\.com|server\.arcgisonline\.com)\/.*/i,
+            // Satellite imagery only — the street basemap is our own vector style
+            // and needs no network at all. Esri tiles can't be precached (there
+            // are thousands, and bulk-scraping breaks their terms), so keep
+            // whatever the visitor actually panned over.
+            // ponytail: 600 tiles ~ the old town at z15-18. Raise if it goes blank.
+            urlPattern: /^https:\/\/server\.arcgisonline\.com\/.*/i,
             handler: 'CacheFirst',
             options: {
               cacheName: 'hacw-tiles',
               expiration: { maxEntries: 600, maxAgeSeconds: 30 * 24 * 60 * 60 },
+              cacheableResponse: { statuses: [0, 200] }
+            }
+          },
+          {
+            // The vector basemap: one 1.3 MB .pmtiles archive, the glyph ranges
+            // and the sprite. Runtime- rather than precached so a first visit
+            // isn't 1.3 MB heavier before anyone opens the map — open it once and
+            // the whole basemap is available offline afterwards.
+            urlPattern: /\/map\/.*\.(pmtiles|pbf|png|json)$/i,
+            handler: 'CacheFirst',
+            options: {
+              cacheName: 'hacw-vectormap',
+              expiration: { maxEntries: 40, maxAgeSeconds: 90 * 24 * 60 * 60 },
               cacheableResponse: { statuses: [0, 200] }
             }
           },

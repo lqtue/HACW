@@ -1,6 +1,8 @@
 <script>
   import { onMount, onDestroy } from 'svelte';
-  import { t } from '$lib/i18n.svelte.js';
+  import { base } from '$app/paths';
+  import { hidePois, hoianStyle, loadMap } from '$lib/map-style.js';
+  import { i18n } from '$lib/i18n.svelte.js';
 
   /** @type {{ stops: any[], height?: string }} */
   let { stops, height = '220px' } = $props();
@@ -10,30 +12,87 @@
   // async onMount can't return a cleanup -> tear the map down explicitly
   onDestroy(() => map?.remove());
 
-  // Leaflet is browser-only -> dynamic import, same as the main map.
+  // Same offline vector basemap as the main map, so an opened tour draws with no
+  // signal too. ponytail: no popups — the map is non-interactive and the stop
+  // names are listed right beside it on the tour page.
   onMount(async () => {
-    const L = (await import('leaflet')).default;
-    await import('leaflet/dist/leaflet.css');
+    const maplibregl = await loadMap(base);
+    const line = stops.map((d) => [d.lng, d.lat]);
+    const bounds = line.reduce(
+      (b, [lng, lat]) => [
+        [Math.min(b[0][0], lng), Math.min(b[0][1], lat)],
+        [Math.max(b[1][0], lng), Math.max(b[1][1], lat)]
+      ],
+      [
+        [180, 90],
+        [-180, -90]
+      ]
+    );
 
-    map = L.map(el, { zoomControl: false, attributionControl: false, dragging: false, scrollWheelZoom: false });
-    L.tileLayer('https://{s}.basemaps.cartocdn.com/rastertiles/voyager/{z}/{x}/{y}.png', {
-      subdomains: 'abcd',
-      maxZoom: 20
-    }).addTo(map);
-
-    const line = stops.map((d) => [d.lat, d.lng]);
-    L.polyline(line, { color: '#2f6b5e', weight: 4, opacity: 0.8, dashArray: '1 7', lineCap: 'round' }).addTo(map);
-
-    stops.forEach((d, i) => {
-      L.marker([d.lat, d.lng], {
-        icon: L.divIcon({ className: 'step-wrap', html: `<div class="step">${i + 1}</div>`, iconSize: [24, 24] })
-      })
-        .addTo(map)
-        .bindPopup(t(d.name));
+    map = new maplibregl.Map({
+      container: el,
+      style: hoianStyle(location.origin + base, i18n.lang),
+      bounds,
+      fitBoundsOptions: { padding: 34, maxZoom: 17 },
+      interactive: false,
+      attributionControl: false
     });
 
-    map.fitBounds(line, { padding: [28, 28] });
-    setTimeout(() => map?.invalidateSize(), 0);
+    await new Promise((done) => map.on('load', done));
+    hidePois(map);
+
+    map.addSource('route', {
+      type: 'geojson',
+      data: {
+        type: 'FeatureCollection',
+        features: [
+          { type: 'Feature', geometry: { type: 'LineString', coordinates: line }, properties: {} },
+          ...stops.map((d, i) => ({
+            type: 'Feature',
+            geometry: { type: 'Point', coordinates: [d.lng, d.lat] },
+            properties: { step: String(i + 1) }
+          }))
+        ]
+      }
+    });
+    map.addLayer({
+      id: 'route-line',
+      type: 'line',
+      source: 'route',
+      filter: ['==', ['geometry-type'], 'LineString'],
+      layout: { 'line-cap': 'round' },
+      paint: {
+        'line-color': '#2f6b5e',
+        'line-width': 4,
+        'line-opacity': 0.8,
+        'line-dasharray': [0.6, 1.6]
+      }
+    });
+    map.addLayer({
+      id: 'route-stop',
+      type: 'circle',
+      source: 'route',
+      filter: ['==', ['geometry-type'], 'Point'],
+      paint: {
+        'circle-radius': 12,
+        'circle-color': '#2f6b5e',
+        'circle-stroke-width': 2,
+        'circle-stroke-color': '#fff'
+      }
+    });
+    map.addLayer({
+      id: 'route-step',
+      type: 'symbol',
+      source: 'route',
+      filter: ['==', ['geometry-type'], 'Point'],
+      layout: {
+        'text-field': ['get', 'step'],
+        'text-font': ['Noto Sans Medium'],
+        'text-size': 12,
+        'text-allow-overlap': true
+      },
+      paint: { 'text-color': '#fff' }
+    });
   });
 </script>
 
@@ -46,15 +105,5 @@
     overflow: hidden;
     border: 1px solid var(--line);
     background: var(--paper);
-  }
-  :global(.step) {
-    width: 24px; height: 24px;
-    border-radius: 50%;
-    background: var(--teal);
-    color: #fff;
-    border: 2px solid #fff;
-    display: grid; place-items: center;
-    font-size: 12px; font-weight: 700;
-    box-shadow: 0 2px 5px -1px rgba(60, 30, 10, 0.45);
   }
 </style>
