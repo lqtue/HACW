@@ -60,7 +60,7 @@ const META = {
     enDesc: 'Local produce and specialities of Quang Nam, and the river trade that carried them to the port.' },
   A10: { id: 'nha-trung-bay-nhat-ban', category: 'bao-tang', en: 'Japanese Culture Exhibition House',
     enDesc: 'Exhibition on the Japanese quarter of old Hoi An and the archaeology of Japanese trade in the town.' },
-  A11: { id: 'nha-bieu-dien-nghe-thuat', category: 'trinh-dien', en: 'Traditional Art Performance House',
+  A11: { id: 'nha-bieu-dien-nghe-thuat', category: 'trai-nghiem', en: 'Traditional Art Performance House',
     enDesc: 'Stage for traditional music, bai choi singing and folk dance performances.' },
   A12: { id: 'nha-tho-toc-tran', category: 'nha-co', en: 'Tran Family Chapel',
     enDesc: 'A 200-year-old family worship house built by a mandarin of the Tran clan, set in a walled garden.' },

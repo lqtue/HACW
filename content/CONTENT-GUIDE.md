@@ -10,7 +10,7 @@ sau, nhưng phải có đủ tiếng Việt khi khảo sát.
 |--------|----------|-------|
 | `id` | ✅ | Mã không dấu, viết thường, nối bằng gạch ngang. VD: `chua-cau`, `hoi-quan-phuc-kien`. Không trùng. |
 | `name.vi` / `name.en` | ✅ | Tên điểm đến. |
-| `category` | ✅ | Một trong: `di-tich`, `hoi-quan`, `nha-co`, `bao-tang`, `trai-nghiem`, `trinh-dien`. |
+| `category` | ✅ | Một trong: `di-tich`, `hoi-quan`, `nha-co`, `bao-tang`, `trai-nghiem`. |
 | `lat`, `lng` | ✅ | **Toạ độ GPS đo TẠI CỬA/lối vào điểm đến** (mở Google Maps tại chỗ → giữ vào vị trí → copy toạ độ). Sai số toạ độ làm check-in thất bại. |
 | `radius` | ✅ | Bán kính check-in, mét. Mặc định **35**. Tăng lên (50–60) nếu điểm rộng hoặc GPS yếu. |
 | `address.vi` / `address.en` | ✅ | Số nhà + tên đường + phường. |

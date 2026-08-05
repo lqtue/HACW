@@ -3,6 +3,5 @@
   { "id": "hoi-quan", "label": { "vi": "Hội quán", "en": "Assembly halls" }, "icon": "🏮" },
   { "id": "nha-co", "label": { "vi": "Nhà cổ", "en": "Old houses" }, "icon": "🏠" },
   { "id": "bao-tang", "label": { "vi": "Bảo tàng", "en": "Museums" }, "icon": "🏛️" },
-  { "id": "trai-nghiem", "label": { "vi": "Trải nghiệm", "en": "Experiences" }, "icon": "🎨" },
-  { "id": "trinh-dien", "label": { "vi": "Trình diễn", "en": "Performances" }, "icon": "🎭" }
+  { "id": "trai-nghiem", "label": { "vi": "Trải nghiệm & trình diễn", "en": "Experiences & performances" }, "icon": "🎭" }
 ]
