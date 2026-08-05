@@ -989,7 +989,7 @@
       "vi": "Nhà biểu diễn nghệ thuật cổ truyền Hội An",
       "en": "Traditional Art Performance House"
     },
-    "category": "trinh-dien",
+    "category": "trai-nghiem",
     "lat": 15.87645,
     "lng": 108.32966,
     "radius": 75,
@@ -1430,8 +1430,8 @@
       "en": "Duc An Old House"
     },
     "category": "nha-co",
-    "lat": 15.87705,
-    "lng": 108.3272,
+    "lat": 15.8770626,
+    "lng": 108.3273177,
     "radius": 75,
     "needsSurvey": true,
     "address": {
@@ -2004,8 +2004,8 @@
       "en": "Cam Pho Communal House"
     },
     "category": "di-tich",
-    "lat": 15.8782399,
-    "lng": 108.3240582,
+    "lat": 15.8782222,
+    "lng": 108.324055,
     "radius": 75,
     "address": {
       "vi": "52 Nguyễn Thị Minh Khai",

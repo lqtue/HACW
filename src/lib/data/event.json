@@ -1,10 +1,19 @@
 {
-  "title": "Hội An Creative Week",
+  "title": "Tuần lễ Sáng tạo Hội An",
+  "year": "2026",
+  "tagline": {
+    "vi": "Chạm di sản, chạm sáng tạo",
+    "en": "Embrace Heritage, Inspire Creativity"
+  },
   "subtitle": {
     "vi": "Khu phố cổ Hội An — Di sản Văn hóa Thế giới",
     "en": "Hoi An Ancient Town — World Cultural Heritage"
   },
-  "dates": "Tháng 6, 2026",
+  "dates": "28/8 – 02/9/2026",
+  "venue": {
+    "vi": "Quảng trường sông Hoài và khu phố cổ Hội An",
+    "en": "Sông Hoài Square and Hội An Ancient Town"
+  },
   "intro": {
     "vi": "Phố cổ Hội An từng là một trong những thương cảng quốc tế sầm uất bậc nhất khu vực thế kỷ XVI–XVII. Trong tuần lễ sáng tạo, hãy đi bộ qua những hội quán, nhà cổ, bảo tàng và không gian nghệ thuật — check-in tại mỗi điểm để sưu tầm tem cho hộ chiếu của bạn.",
     "en": "Hoi An was one of the busiest international trading ports in the region during the 16th–17th centuries. During the creative week, walk through its assembly halls, old houses, museums and art spaces — check in at each to collect stamps for your passport."

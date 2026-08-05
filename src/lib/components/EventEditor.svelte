@@ -13,8 +13,11 @@
     <div class="ed-item">
       <!-- title and dates are proper nouns / a date range: one language on purpose. -->
       <label class="ed-row"><span>{s('f_title')}</span><input bind:value={ev.title} /></label>
+      <label class="ed-row"><span>{s('f_year')}</span><input bind:value={ev.year} /></label>
       <label class="ed-row"><span>{s('f_dates')}</span><input bind:value={ev.dates} /></label>
+      <Bi field={ev.tagline} label={s('f_tagline')} />
       <Bi field={ev.subtitle} label={s('f_subtitle')} />
+      <Bi field={ev.venue} label={s('f_venue')} />
       <Bi field={ev.intro} label={s('f_intro')} rows={5} />
       <Bi field={ev.note} label={s('f_note')} rows={4} />
     </div>

@@ -57,9 +57,9 @@ assert.equal(checkTours([tour({ stops: ['x'] })]).length, 1, 'a tour needs two s
 assert.equal(checkTours([tour({ voucher: null })]).length, 1);
 assert.equal(checkTours([tour({}), tour({ id: 't2' })]).length, 2, 'a stop cannot be in two tours');
 assert.equal(checkTours([tour({})], ['x', 'y']).length, 0);
-assert.equal(checkTours([tour({})], ['x', 'y', 'z']).length, 1, 'z is in no tour');
+assert.equal(checkTours([tour({})], ['x', 'y', 'z']).length, 0, 'a site in no tour is allowed');
 assert.equal(checkTours([tour({ stops: ['x', 'ghost'] })], ['x', 'ghost']).length, 0);
-assert.equal(checkTours([tour({ stops: ['x', 'ghost'] })], ['x', 'y']).length, 2, 'unknown stop + orphaned y');
+assert.equal(checkTours([tour({ stops: ['x', 'ghost'] })], ['x', 'y']).length, 1, 'unknown stop only');
 assert.deepEqual(checkTours('nope'), ['tours.json: not an array']);
 
 // --- rewards (tiers gate on points) --------------------------------------
@@ -75,7 +75,17 @@ assert.equal(checkRewards([{ ...tiers[0], points: undefined }], 500).length, 1, 
 assert.equal(checkRewards([]).length, 1);
 
 // --- event ---------------------------------------------------------------
-const ev = { title: 'T', dates: 'D', subtitle: bi, intro: bi, note: bi, howItWorks: [bi] };
+const ev = {
+  title: 'T',
+  year: '2026',
+  dates: 'D',
+  tagline: bi,
+  subtitle: bi,
+  venue: bi,
+  intro: bi,
+  note: bi,
+  howItWorks: [bi]
+};
 assert.deepEqual(checkEvent(ev), []);
 assert.equal(checkEvent({ ...ev, title: '  ' }).length, 1);
 assert.equal(checkEvent({ ...ev, howItWorks: [] }).length, 1);

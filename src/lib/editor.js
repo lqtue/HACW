@@ -83,11 +83,10 @@ export function checkTours(list, destIds = null) {
       else claimed.set(stop, at);
     }
   }
-  // A site in no tour can never be part of a reward set — the editor should say so
-  // while it is still fixable, not at the next `npm test`.
-  for (const id of destIds ?? []) {
-    if (!claimed.has(id)) out.push(`${id} is in no tour`);
-  }
+  // A site may belong to no tour: only some routes are surveyed walking routes,
+  // and an unassigned site is still stampable and still scores — it just earns no
+  // tour bonus. Two tours must never claim the same stop though, or one voucher
+  // set would silently complete another.
   return out;
 }
 
@@ -117,13 +116,13 @@ export function checkRewards(list, maxPoints = null) {
   return out;
 }
 
-/** Event copy on the home page. `title` and `dates` are deliberately one-language. */
+/** Event copy on the home page. `title`, `year` and `dates` are deliberately one-language. */
 export function checkEvent(ev) {
   if (!ev || typeof ev !== 'object' || Array.isArray(ev)) return ['event.json: not an object'];
   const out = [];
   if (!String(ev.title ?? '').trim()) out.push('event.title: empty');
   if (!String(ev.dates ?? '').trim()) out.push('event.dates: empty');
-  for (const f of ['subtitle', 'intro', 'note']) bilingual(ev[f], `event.${f}`, out);
+  for (const f of ['tagline', 'subtitle', 'venue', 'intro', 'note']) bilingual(ev[f], `event.${f}`, out);
   if (!Array.isArray(ev.howItWorks) || !ev.howItWorks.length) out.push('event.howItWorks: needs at least one step');
   else ev.howItWorks.forEach((step, i) => bilingual(step, `event.howItWorks[${i}]`, out));
   return out;
