@@ -641,9 +641,22 @@
     border-color: var(--brand-dark);
     box-shadow: 0 0 0 1px var(--brand-dark);
   }
-  :global(.carousel .card .thumb) { border-radius: 8px; }
+  :global(.carousel .card .thumb) { border-radius: 8px; width: 46px; height: 46px; }
   /* merged category labels are long; one line on the card keeps the rhythm */
   :global(.carousel .card .tag) { white-space: nowrap; font-size: 0.58rem; }
+  /* This card is a pointer at the pin, not the detail page. At 82% of a phone
+     column every line wrapped — name over two lines, address over three — and a
+     250px-tall card left the map about a third of the screen. One line each, no
+     address (the popup and the detail page both carry it), and the height goes
+     back to the map. */
+  :global(.carousel .card) { padding: 10px; gap: 10px; }
+  :global(.carousel .card h3),
+  :global(.carousel .card small) {
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+  }
+  :global(.carousel .card .addr) { display: none; }
   .empty { padding: 8px 0; }
 
   /* pins and the paper palette are drawn by the map itself now — the basemap is
