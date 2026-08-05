@@ -80,9 +80,9 @@ wholesale so the paper palette never bleeds through the photo.
 Everything the map needs is a static file under `static/map/` — `hoian.pmtiles`
 (1.3 MB, z0–15, overzoomed past that), the Noto Sans glyph ranges the labels
 need, and the sprite. The archive is fetched whole and read from memory rather
-than by HTTP range, so the service worker can cache it with an ordinary
-`CacheFirst` rule (`hacw-vectormap`) — open the map once and it is available
-offline afterwards. Colours live in `src/lib/map-style.js`: the Protomaps
+than by HTTP range, so the service worker can **precache** it like any other
+asset — the map works on a phone that has never had signal, not just on one that
+opened it online first. Colours live in `src/lib/map-style.js`: the Protomaps
 `LIGHT` flavor with the keys that matter overridden to the event palette (paper
 earth, ochre old-town walls, a teal Hoài river, warm pedestrian streets, warm
 muted POI labels), plus the sky, the light and the building extrusion.
@@ -136,16 +136,45 @@ voucher on its own. `CONCERNS.md` §3b is the full threat model.
 
 ## Using it with no signal
 
-The home page has an **install** button (Chrome/Android gets the real prompt,
-iOS shows the Share → Add to Home Screen instruction). Installing precaches every
-page, the content JSON and the fonts, so the whole app except the map tiles works
-with no data.
+Nothing the app *needs* comes from another host, so "offline" is the normal case
+rather than a degraded one. One visit — installed or not — precaches ~4.8 MB in
+the background: all 34 prerendered pages, every JS/CSS chunk (the content JSON is
+compiled into them), the typeface, and the whole of `static/map/`. Airplane mode
+after that leaves the map, the destinations, the quizzes, check-in, the stamps and
+the score exactly as they were. The home page also has an **install** button
+(Chrome/Android gets the real prompt, iOS shows the Share → Add to Home Screen
+instruction), which is about having an icon and no browser chrome, not about
+caching.
 
-The street map is included in that: the vector basemap is three static files
-(archive, glyphs, sprite), cached the first time the map opens. Only **satellite**
-tiles need the network — there are thousands of them and bulk-downloading breaks
-Esri's terms, so the service worker just keeps the last 600 the visitor actually
-looked at (`runtimeCaching` in `vite.config.js`).
+Two things still want the network, both behind an explicit tap and neither on the
+path to a stamp:
+
+- **Satellite** imagery — thousands of Esri tiles, and bulk-downloading them
+  breaks their terms, so the service worker just keeps the last 600 the visitor
+  actually looked at (`runtimeCaching` in `vite.config.js`).
+- **Directions** links, which hand off to Google Maps.
+
+The typeface is self-hosted for the same reason: a Google Fonts `<link>` can only
+ever be runtime-cached, i.e. wrong on the first offline load. `src/lib/fonts/`
+holds 5 weights × 3 subsets (160 KB), declared at the top of `app.css`. To add a
+weight, edit the `wght@` list and re-run:
+
+```bash
+node --input-type=module -e '
+import { writeFileSync } from "node:fs";
+const UA = "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 Chrome/124 Safari/537.36";
+const css = await (await fetch("https://fonts.googleapis.com/css2?family=Be+Vietnam+Pro:wght@400;500;600;700;800&display=swap", { headers: { "user-agent": UA } })).text();
+for (const b of css.split("/* ").slice(1)) {
+  const subset = b.slice(0, b.indexOf(" */"));
+  const weight = b.match(/font-weight: (\d+)/)[1];
+  const url = b.match(/url\((https:[^)]+)\)/)[1];
+  writeFileSync(`src/lib/fonts/bvp-${weight}-${subset}.woff2`, Buffer.from(await (await fetch(url)).arrayBuffer()));
+  console.log(weight, subset, b.match(/unicode-range: ([^;]+);/)[1]);
+}'
+```
+
+(the printed `unicode-range` is what each new `@font-face` needs — without it the
+browser downloads all three subsets for every glyph).
 
 ## Losing your phone / clearing the browser
 

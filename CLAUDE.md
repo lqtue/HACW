@@ -262,10 +262,13 @@ more; both the destinations map and the tour route maps run on this.
 - `loadMap(base)` imports maplibre-gl + pmtiles and registers the archive under
   the `pmtiles://` protocol, memoised so several maps share one download.
   maplibre-gl v6 has **no default ESM export** — use the namespace. Vite needs
-  `optimizeDeps.exclude: ['maplibre-gl']` or its worker 404s in dev.
+  `optimizeDeps.exclude: ['maplibre-gl']` or its worker 404s in dev, and
+  `loadMap` hands the `?worker&url` build of `maplibre-gl-worker.mjs` to
+  `setWorkerUrl()` — maplibre finds its worker through a template literal
+  Rollup can't see, so in production nothing was emitted and the worker 404'd.
 - The archive is loaded whole via `FileSource`, *not* HTTP range: a ranged 206 is
-  what the service worker cache cannot serve, so whole-file makes the basemap
-  ordinary `CacheFirst` traffic (`hacw-vectormap` in `vite.config.js`).
+  what the service worker cache cannot serve, so whole-file lets the basemap be
+  **precached** like any other asset (`globPatterns` in `vite.config.js`).
 - The style's source URL **must** be `pmtiles://` + `PMTILES_KEY` — that is the
   name the loaded archive registers itself under, not its path. MapLibre also
   rejects a relative `sprite`, so `hoianStyle()` takes `location.origin + base`.
@@ -367,7 +370,8 @@ listed beside it. `RouteMap` tears itself down in `onDestroy` because an **async
 - Plain JS + JSDoc, not TypeScript. Svelte 5 runes (`$state`, `$derived`, `$effect`, `$props`).
 - Category accents are CSS vars `--c-<category-id>` (in `app.css`); category id/label/icon live in `categories.json` and are looked up via `src/lib/util.js`.
 - Deliberate shortcuts are marked with `// ponytail:` comments naming the ceiling/upgrade path.
-- Fonts: Be Vietnam Pro only — weight 800 uppercase for display (`--font-display`), 400–600 for body. Matches the official key visual's heavy geometric sans; no serif, no system-font fallback look.
+- Fonts: Be Vietnam Pro only — weight 800 uppercase for display (`--font-display`), 400–600 for body. Matches the official key visual's heavy geometric sans; no serif, no system-font fallback look. **Self-hosted** (`src/lib/fonts/*.woff2`, `@font-face` at the top of `app.css`): the app must render with the network off, and a Google Fonts link can only ever be *runtime* cached.
+- **Offline is a hard requirement, so nothing third-party is on the critical path.** Precache (~4.8 MB, 125 entries) covers every prerendered page, every JS/CSS chunk, the content JSON inside those chunks, the woff2 files and all of `static/map/`. The only network the app ever *wants* is Esri satellite imagery and the Google Maps directions links — both opt-in taps, neither needed to explore, check in, quiz, stamp or score.
 - **Brand skin** (`app.css` `:root`): the official *Tuần lễ Sáng tạo Hội An 2026* key visual — peach→pink gradient paper (`--paper`/`--paper-2`/`--bg`), coral `--brand` + `--grad-brand`, oxblood `--brand-dark` headings, `--gold` scallop, `--teal` inside `--grad-strip`. Motif classes to reuse rather than redraw: `.brand-strip`, `.scallop` (roof-tile trim), `.spark` (four-petal), plus rounded capsules for the cloud-scroll blocks (see the home hero and the destination hero). Style new UI from these tokens; don't hardcode hex.
 
 ## Pre-launch TODO (from README)

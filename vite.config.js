@@ -119,7 +119,15 @@ export default defineConfig({
       },
       workbox: {
         // Precache all built assets incl. the content JSON -> destinations/quizzes work fully offline.
-        globPatterns: ['**/*.{js,css,html,json,svg,png,webmanifest,woff2}'],
+        // The basemap (map/**: the .pmtiles archive, the glyph ranges, the
+        // sprite) is in here too. It used to be runtime-cached to keep a first
+        // visit light, but "light" meant the map only worked offline if the
+        // visitor had already opened it *online* — which is exactly the phone
+        // that has no signal in an old-town alley. ~2.4 MB, fetched by the
+        // service worker in the background after first paint, once.
+        globPatterns: ['**/*.{js,css,html,json,svg,png,webmanifest,woff2}', 'client/map/**/*'],
+        // The .pmtiles archive alone is 1.2 MB; the default 2 MB cap would skip it.
+        maximumFileSizeToCacheInBytes: 4 * 1024 * 1024,
         runtimeCaching: [
           {
             // Satellite imagery only — the street basemap is our own vector style
@@ -134,29 +142,10 @@ export default defineConfig({
               expiration: { maxEntries: 600, maxAgeSeconds: 30 * 24 * 60 * 60 },
               cacheableResponse: { statuses: [0, 200] }
             }
-          },
-          {
-            // The vector basemap: one 1.3 MB .pmtiles archive, the glyph ranges
-            // and the sprite. Runtime- rather than precached so a first visit
-            // isn't 1.3 MB heavier before anyone opens the map — open it once and
-            // the whole basemap is available offline afterwards.
-            urlPattern: /\/map\/.*\.(pmtiles|pbf|png|json)$/i,
-            handler: 'CacheFirst',
-            options: {
-              cacheName: 'hacw-vectormap',
-              expiration: { maxEntries: 40, maxAgeSeconds: 90 * 24 * 60 * 60 },
-              cacheableResponse: { statuses: [0, 200] }
-            }
-          },
-          {
-            urlPattern: /^https:\/\/fonts\.(googleapis|gstatic)\.com\/.*/i,
-            handler: 'CacheFirst',
-            options: {
-              cacheName: 'hacw-fonts',
-              expiration: { maxEntries: 20, maxAgeSeconds: 365 * 24 * 60 * 60 },
-              cacheableResponse: { statuses: [0, 200] }
-            }
           }
+          // No rule for /map/** or for fonts any more: the basemap is precached
+          // above and the typeface is bundled, so neither depends on a runtime
+          // fetch succeeding. Esri above is the only network the app ever needs.
         ]
       }
     })
