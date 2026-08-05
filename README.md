@@ -60,11 +60,44 @@ vouchers.
 
 ## Map & tours
 
-The map has two base layers: CARTO Voyager (tinted to the paper palette) and
-Esri World Imagery for satellite. **Not Google satellite** — Google's tiles are
-only licensed through their paid Maps APIs. Pins carry a category colour, a gold
-halo when spotlighted, a popup with hours/address/status, and tapping one
-highlights and scrolls to that site's card in the strip below.
+The map is **our own basemap**: MapLibre GL over a Protomaps extract of the old
+town shipped inside the app. No API key, no tile server, no per-view cost — and
+because every byte it needs is a static file, it draws with no signal at all.
+
+It is drawn as a **printed plan, not a picture of a city**: the basemap is
+deliberately almost colourless — ivory land, white streets, a barely-tinted Hoài
+river — so the only saturated things on it are the 25 destinations. Sites are a
+real map layer, not markers: one symbol layer whose
+pins are the **mắt cửa** door-eye mark drawn on a canvas in the category colour,
+so they scale with zoom, collide their labels properly, dim when a site is closed
+and wear a gold spark where the spotlight bonus is live. Tapping one opens a popup
+(hours/address/status) and scrolls to that site's card in the strip below. The 3D
+button tilts the camera and raises the shophouses when you want the massing.
+Satellite is **Esri World Imagery**, not Google — Google's tiles are only
+licensed through their paid Maps APIs — and it replaces the vector basemap
+wholesale so the paper palette never bleeds through the photo.
+
+Everything the map needs is a static file under `static/map/` — `hoian.pmtiles`
+(1.3 MB, z0–15, overzoomed past that), the Noto Sans glyph ranges the labels
+need, and the sprite. The archive is fetched whole and read from memory rather
+than by HTTP range, so the service worker can cache it with an ordinary
+`CacheFirst` rule (`hacw-vectormap`) — open the map once and it is available
+offline afterwards. Colours live in `src/lib/map-style.js`: the Protomaps
+`LIGHT` flavor with the keys that matter overridden to the event palette (paper
+earth, ochre old-town walls, a teal Hoài river, warm pedestrian streets, warm
+muted POI labels), plus the sky, the light and the building extrusion.
+
+The archive's bbox is the map's `maxBounds`, so panning can't reach blank paper.
+`npm test` fails if a destination or ticket counter is ever edited to sit outside
+it, or if a name needs a glyph range the build doesn't ship.
+
+Regenerate the extract when the OSM data moves on (needs the `pmtiles` CLI,
+`brew install pmtiles`; pick a recent daily build):
+
+```bash
+pmtiles extract https://build.protomaps.com/20260804.pmtiles static/map/hoian.pmtiles \
+  --bbox=108.3150,15.8690,108.3420,15.8860 --maxzoom=15
+```
 
 `/tours` is an accordion: tapping a tour opens its route map (dashed line,
 numbered stops), the walking distance and time, and the per-leg distances.
@@ -108,10 +141,11 @@ iOS shows the Share → Add to Home Screen instruction). Installing precaches ev
 page, the content JSON and the fonts, so the whole app except the map tiles works
 with no data.
 
-Map tiles can't be precached — there are thousands and bulk-downloading them
-breaks CARTO/Esri terms. Instead the service worker keeps the last 600 tiles the
-visitor actually looked at (`runtimeCaching` in `vite.config.js`), so panning the
-old town once on wifi leaves the map usable offline.
+The street map is included in that: the vector basemap is three static files
+(archive, glyphs, sprite), cached the first time the map opens. Only **satellite**
+tiles need the network — there are thousands of them and bulk-downloading breaks
+Esri's terms, so the service worker just keeps the last 600 the visitor actually
+looked at (`runtimeCaching` in `vite.config.js`).
 
 ## Losing your phone / clearing the browser
 
@@ -147,8 +181,9 @@ with no real quiz bank yet get questions generated from their own sheet row
 (street / category / opening hours) and flagged `"generated": true`.
 
 `npm test` includes `scripts/check-data.mjs`, which fails on a missing `vi`/`en`
-field, a pin outside Hội An, a quiz answer index out of range, or a site that
-belongs to no tour.
+field, a pin outside Hội An, a quiz answer index out of range, or two tours
+claiming the same stop. A site in no tour is fine — it still earns stamps and
+points, it just is not part of a voucher set.
 
 **Verify `lat`/`lng`/`radius` for every destination on-site before the event.**
 `radius` (meters) is the GPS tolerance per spot.

@@ -10,7 +10,8 @@ npm run build        # Cloudflare Pages build into .svelte-kit/cloudflare/
 npm run preview      # preview the production build
 npm test             # node self-checks: geo, quiz draw, scoring, backup/merge, route,
                      # hours, counter keys + event validation, the D1 SQL against
-                     # a real sqlite, API guard,
+                     # a real sqlite, API guard, map style (layer ids, glyph
+                     # coverage, pins inside the tile extract),
                      # + scripts/check-data.mjs (content integrity). No framework.
 node scripts/import-csv.mjs [--resolve]   # survey CSV -> destinations/ticket-points JSON
 ```
@@ -27,7 +28,8 @@ production (setting it breaks every link on the root domain).
 
 Mobile-first PWA for the Hội An Creative Week event (content is in Vietnamese):
 map of destinations → two-tier check-in (GPS + quiz) → on-device stamp
-passport → themed walking tours. SvelteKit 5 (runes) + Leaflet.
+passport → themed walking tours. SvelteKit 5 (runes) + MapLibre GL over a
+self-hosted Protomaps basemap.
 
 ## Architecture — there is no backend
 
@@ -84,7 +86,7 @@ is verified, not assumed. Bind order is documented on each export; they use plai
 Everything is prerendered under a repo subpath (`/HACW`). `BASE_PATH` env →
 `kit.paths.base`. **Every internal link must be prefixed with `base` from
 `$app/paths`** — a root-absolute `href="/foo"` or `goto('/foo')` works in dev
-but 404s on the deployed subpath. This includes hrefs inside Leaflet popup HTML
+but 404s on the deployed subpath. This includes hrefs inside map popup HTML
 strings and `goto()` calls. `app.html` uses `%sveltekit.assets%` for the same
 reason; `vite.config.js` prefixes the PWA manifest paths with `base`.
 
@@ -145,8 +147,11 @@ Validation lives in `src/lib/editor.js` — `checkDestinations`, `checkTours`,
 `checkRewards`, `checkEvent` — and `scripts/check-data.mjs` runs those same four
 in `npm test`, so the download button is disabled on anything the repo would
 reject. Cross-file rules that a single editor cannot see stay in `check-data.mjs`;
-"every site is in exactly one tour" is enforced by passing the destination ids
-into `checkTours`. Editor CSS is global (`.ed-*` in `app.css`) because Svelte
+"no two tours claim the same stop" and "no tour points at an unknown id" are
+enforced by passing the destination ids into `checkTours`. A site in **no** tour
+is allowed on purpose: only surveyed walking routes ship as tours, and the rest
+still stamp and score — they just form no voucher set, and the passport groups
+them into a final "other sites" block. Editor CSS is global (`.ed-*` in `app.css`) because Svelte
 scopes component styles and four editors would otherwise carry four copies.
 
 **Fraud flagging** (`src/lib/fraud.js`, pure): `flagPassport(stamps, destinations)`
@@ -204,7 +209,10 @@ content JSON fields are `{ vi, en }` objects — resolve them in markup with
 (some are functions for interpolation). Reactive `$state` language toggle is in
 the layout. Official languages are vi/en; other languages rely on the user's
 browser Google Translate (don't build more locales). When adding content,
-**every translatable field must be `{ vi, en }`**.
+**every translatable field must be `{ vi, en }`**. `event.json` drives the home
+hero: `tagline`/`subtitle`/`venue`/`intro`/`note` are `{ vi, en }`, while
+`title`, `year` and `dates` are deliberately one-language (proper noun, a year,
+a date range) — `checkEvent` in `editor.js` enforces exactly that split.
 
 **Voucher redemption** (`src/routes/tours/[id]/+page.svelte` + the reward tiers on
 the passport page, both via `src/lib/components/StaffConfirm.svelte`): a "set" =
@@ -219,12 +227,14 @@ constraints; vouchers are paper, exchanged at any ticket counter.
 because vouchers are paper and staff stand at counters, "which counter is closest"
 is the question right after a set completes. `NearestBooth.svelte` asks for one
 GPS fix on tap and hands off to Google Maps walking directions — it sits in the
-tour redeem panel and the passport rewards section. The map (`destinations/`) uses
-Leaflet's own `map.locate({ watch: true })` behind the 📍 chip: **opt-in, never on
-page load**, drawing a dot + accuracy halo and the same nearest-counter line.
-`onDestroy` calls `stopLocate()` *and* `map.remove()` — a watch that outlives the
-route is a battery leak. `/organizer` calls the same `nearest()` for its
-per-site counter column.
+tour redeem panel and the passport rewards section. The map (`destinations/`) puts
+MapLibre's own `GeolocateControl` behind the 📍 chip — **opt-in, never on page
+load** — with its button hidden in CSS and `trigger()` called from the chip; the
+control supplies the dot, the accuracy circle and the watch, and its `geolocate`
+event feeds `me` for the nearest-counter bar. `map.remove()` in `onDestroy`
+removes the control, which clears the watch: a watch that outlives the route is a
+battery leak. `/organizer` calls the same `nearest()` for its per-site counter
+column.
 
 **Content intake**: the survey team works in Google Sheets; CSV exports live in
 `content/csv/` and `node scripts/import-csv.mjs` regenerates
@@ -237,39 +247,128 @@ wrong — just dull, and listed in `/organizer` as to-do. `content/
 CONTENT-GUIDE.md` (Vietnamese) + `content/destination.template.json` still
 define the target per-destination schema (10 questions/site).
 `scripts/check-data.mjs` (in `npm test`) fails on a missing `vi`/`en`, a pin
-outside Hội An, a bad answer index, or a site in no tour.
+outside Hội An, a bad answer index, or two tours claiming the same stop.
 
 **Passport** (`src/lib/passport.svelte.js`): exports a reactive `$state` object
 mirrored to `localStorage`; mutate `passport.stamps`, never reassign it. The
 queue flush is wired in `+layout.svelte` (`onMount` + `online` listener).
 
-**Map** (`src/routes/destinations/+page.svelte`, the "Khám phá" tab): Leaflet is
-browser-only and dynamically imported inside `onMount`. Markers are `divIcon`
-HTML pins (no image files) colored per category; the basemap is CARTO Voyager
-tinted by a CSS `filter` on `.leaflet-tile-pane`. A second base layer is **Esri
-World Imagery** — *not* Google satellite: Google tiles may only be used through
-their paid Maps APIs. The tint is dropped while satellite is active (`.map.sat`).
-Popups are built lazily per open (`popupHtml`) so language/stamp/spotlight are
-current; the internal link is `data-go` + `goto()` so the base path survives.
-Tapping a pin sets `selected`, which highlights and scrolls the matching card in
-the bottom carousel (`id="card-<destId>"`). Note: `map`/`markers` are plain
-variables, not `$state` — the `$effect`s key off a `ready = $state(false)` flag
-set at the end of `onMount`, otherwise counts that arrive before the markers
-exist would never repaint the spotlight halos. `invalidateSize()` is called
-because the map lives in a flex container sized after init.
+**The basemap is ours** (`src/lib/map-style.js`): MapLibre GL over a 1.3 MB
+Protomaps extract in `static/map/hoian.pmtiles`, with the glyph ranges and sprite
+self-hosted next to it — no API key, no tile server, no external host, and
+therefore genuinely offline. There is **no Leaflet and no raster street map** any
+more; both the destinations map and the tour route maps run on this.
+
+- `loadMap(base)` imports maplibre-gl + pmtiles and registers the archive under
+  the `pmtiles://` protocol, memoised so several maps share one download.
+  maplibre-gl v6 has **no default ESM export** — use the namespace. Vite needs
+  `optimizeDeps.exclude: ['maplibre-gl']` or its worker 404s in dev.
+- The archive is loaded whole via `FileSource`, *not* HTTP range: a ranged 206 is
+  what the service worker cache cannot serve, so whole-file makes the basemap
+  ordinary `CacheFirst` traffic (`hacw-vectormap` in `vite.config.js`).
+- The style's source URL **must** be `pmtiles://` + `PMTILES_KEY` — that is the
+  name the loaded archive registers itself under, not its path. MapLibre also
+  rejects a relative `sprite`, so `hoianStyle()` takes `location.origin + base`.
+- `hoianStyle()` spreads Protomaps' `LIGHT` flavor and overrides the keys that
+  show at old-town zoom, plus `sky` and `light`. Brand colours live there, not in
+  components. `pois` is an **object of eight colour names**, not a string — a
+  string silently produces `undefined` outputs and MapLibre refuses the style.
+- `BOUNDS` is the extract's bbox padded ~200 m and is used as `maxBounds`, so
+  panning cannot reach blank paper. `BUILDINGS_3D` extrudes the shophouses
+  (`height` fallback 7 m — OSM rarely tags it here) and rises between z14.5 and
+  z16. `hidePois(map)` drops OSM's POIs and house numbers outright — every café
+  in the old town competing with 25 destinations — and **returns the ids it hid**
+  so a bulk "show the basemap again" pass can skip them. Anything hidden for good
+  must be excluded from `baseLayerIds`, or the satellite toggle resurrects it.
+- `src/lib/map-style.test.js` (in `npm test`) guards the assumptions this rests
+  on: our layer ids don't collide with the flavor's, every fontstack the style
+  asks for is self-hosted, every destination/counter name is inside the shipped
+  glyph ranges, and every pin is inside `BOUNDS`.
+
+**Map** (`src/routes/destinations/+page.svelte`, the "Khám phá" tab): sites are
+**one symbol layer**, not markers. `siteData` is a `$derived` GeoJSON carrying
+everything reactive as feature properties (`icon`, `label`, `spot`, `sel`, `dim`),
+so filters, spotlight, language and opening hours are a single `setData` instead
+of 25 marker mutations. Pins are canvas images from `pinImage()` added with
+`addImage`, two per category (plain + gold spotlight rim). A `zoom` expression
+must be the **top-level** input of an `interpolate`, so per-feature scaling goes
+in the stop outputs (`['case', ['get','sel'], …]`) — wrapping the interpolate in
+`['*', …]` is a style-validation error. Popups are built per click (`popupHtml`)
+so language/stamp/spotlight are current; the internal link is `data-go` +
+`goto()` so the base path survives. The popup is styled as a **paper label**, not
+a card: ink keyline and a solid ink pointer, the site's own mark via `markSvg()`
+(the SVG twin of `pinImage`, keyline by underprint in both), category in small
+caps, hours/address as a hairline `<dl>` index, outlined status badges, and one
+solid primary action with the directions link kept quiet beside it. Clicking sets `selected`, which scrolls the
+matching card in the bottom carousel (`id="card-<destId>"`). `map` is a plain
+variable, not `$state` — the `$effect`s key off `ready = $state(false)`, set at
+the end of `onMount`, or counts arriving before the layers exist would be lost.
+
+**Visual direction** (after the Bangkok Design Week 2025 map the user referenced):
+the basemap carries **no brand colour at all** — ivory land, white streets, a
+barely-tinted river, grey labels — so the only saturated things on screen are the
+25 destinations themselves. The pin is the **mắt cửa** (`pinImage()`, the
+canvas twin of `MatCua.svelte`): one mark for every site, category carried by fill
+alone, ink keyline drawn by *underprint* (the same path a hair larger in ink —
+canvas can't union the petals, and stroking each would draw the seams), plus the
+four-petal gold spark on spotlight sites. The map is a **flat printed plan**:
+pitch 0, no animation, extrusions behind the 3D button.
+
+**North is not up.** The sites are a 965 × 462 m east–west strip, which wastes
+half a portrait phone. `principalBearing(destinations)` (in `map-style.js`, plain
+2×2 covariance, no library) returns the long axis — 85° today — and the map opens
+and `fitBounds`es at that bearing, making the same walk 455 × 958. It is computed,
+not hardcoded, so re-surveyed coordinates re-aim the map; `map-style.test.js`
+fails if the rotation ever stops helping. The 3D button therefore changes pitch
+only — it must not reset bearing.
+
+**Landmark drawings** (`src/lib/landmarks.js`): line-art elevations of notable
+buildings placed at their own coordinates, the reference map's strongest device.
+Hand-authored SVG paths → `Image` → `addImage` (MapLibre takes an
+`HTMLImageElement`, so no sprite sheet to keep in sync), anchored `bottom` so the
+building stands on its footprint, `icon-rotation-alignment: viewport` so it stays
+upright on the rotated map. **Chùa Cầu is the only one drawn so far** — proof the
+pipeline works; sites without art simply render nothing, so the set grows one
+building at a time. Keys are destination ids and the test enforces that.
+
+**Overlapping sites** are handled by a pager, not by clustering: sites here sit
+metres apart (Trần Phú stacks seven behind one mark), so a tap collects every
+feature within 26 px via `queryRenderedFeatures` into `stack`, and the ‹ › bar
+steps through them in place — the map never zooms or re-arranges under the
+visitor's finger. One hit = no bar. The filter chips carry each category's own
+`--c-<id>` as a swatch and as their pressed colour, so the row doubles as the
+map's legend; the carousel `Card` takes `mark` to draw the same mắt cửa the pin
+does. `NavigationControl` is deliberately absent (pinch zooms, the 3D button
+pitches) and the attribution is collapsed to its ⓘ — the bottom edge is the
+pager's and a phone has four corners.
+
+Deliberately *not* copied from the reference: hand-drawn landmark elevations as
+map symbols (needs 25 illustrations — an asset job), and its flood-colour poster
+register at city zoom (our `minZoom` is 14, so that zoom range doesn't exist here).
+Tour routes are **not** drawn on this map either — they live on `/tours`, where
+`RouteMap` shows one route at a time in the context of its own stop list.
+
+Satellite (**Esri World Imagery** — *not* Google, whose tiles are licensed only
+through their paid Maps APIs) hides every `source === 'protomaps'` layer instead
+of stacking on them. MapLibre's stylesheet is imported at **runtime**, i.e. after
+component CSS, so every override in the page has to out-specify it (hence
+`.maplibregl-map …`).
 
 **Tours** (`src/routes/tours/+page.svelte`): single-open accordion — expanding a
-tour renders `RouteMap.svelte` (dashed polyline + numbered stops) plus walking
-cost from `src/lib/route.js` (`routeStats` = straight-line chain × 1.3 detour
-factor, 75 m/min). Only one Leaflet instance exists at a time; `RouteMap` tears
-itself down in `onDestroy` because an **async `onMount` cannot return a cleanup**.
+tour renders `RouteMap.svelte` (dashed line + numbered stops, all native layers
+filtered by `['==', ['geometry-type'], …]` off one source) plus walking cost from
+`src/lib/route.js` (`routeStats` = straight-line chain × 1.3 detour factor,
+75 m/min). It is `interactive: false` and has no popups; the stop names are
+listed beside it. `RouteMap` tears itself down in `onDestroy` because an **async
+`onMount` cannot return a cleanup**.
 
 ## Conventions
 
 - Plain JS + JSDoc, not TypeScript. Svelte 5 runes (`$state`, `$derived`, `$effect`, `$props`).
 - Category accents are CSS vars `--c-<category-id>` (in `app.css`); category id/label/icon live in `categories.json` and are looked up via `src/lib/util.js`.
 - Deliberate shortcuts are marked with `// ponytail:` comments naming the ceiling/upgrade path.
-- Fonts: Playfair Display (display) + Be Vietnam Pro (body, Vietnamese diacritics) — avoid generic system fonts.
+- Fonts: Be Vietnam Pro only — weight 800 uppercase for display (`--font-display`), 400–600 for body. Matches the official key visual's heavy geometric sans; no serif, no system-font fallback look.
+- **Brand skin** (`app.css` `:root`): the official *Tuần lễ Sáng tạo Hội An 2026* key visual — peach→pink gradient paper (`--paper`/`--paper-2`/`--bg`), coral `--brand` + `--grad-brand`, oxblood `--brand-dark` headings, `--gold` scallop, `--teal` inside `--grad-strip`. Motif classes to reuse rather than redraw: `.brand-strip`, `.scallop` (roof-tile trim), `.spark` (four-petal), plus rounded capsules for the cloud-scroll blocks (see the home hero and the destination hero). Style new UI from these tokens; don't hardcode hex.
 
 ## Pre-launch TODO (from README)
 
