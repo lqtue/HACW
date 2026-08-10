@@ -69,6 +69,7 @@
 
 <style>
   .tour {
+    position: relative;
     background: var(--surface);
     border: 1px solid var(--line);
     border-radius: var(--radius);
@@ -76,6 +77,13 @@
     margin-bottom: 12px;
     overflow: hidden;
   }
+  .tour::before {
+    content: '';
+    position: absolute; inset: 0; z-index: 0; pointer-events: none;
+    background-image: var(--grain); background-size: 170px 170px;
+    opacity: 0.4; mix-blend-mode: multiply;
+  }
+  .tour > * { position: relative; z-index: 1; }
   .tour.open { border-color: color-mix(in srgb, var(--teal) 45%, var(--line)); }
   .head {
     display: flex;

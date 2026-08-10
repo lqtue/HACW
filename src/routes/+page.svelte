@@ -7,6 +7,7 @@
   import { breakdown } from '$lib/score.js';
   import { t } from '$lib/i18n.svelte.js';
   import { s } from '$lib/strings.js';
+  import { fingerprint } from '$lib/fingerprint.js';
   import InstallApp from '$lib/components/InstallApp.svelte';
   import MatCua from '$lib/components/MatCua.svelte';
 
@@ -16,21 +17,28 @@
   const pct = $derived(Math.round((count / total) * 100));
 </script>
 
-<!-- Key visual as a header: scallop trim, cloud-scroll capsules, oxblood display
-     type over the peach→pink gradient. Replaces the generic .topbar here only. -->
+<!-- The home screen is the cover of a creative passport: masthead lockup, a
+     serial like a real travel document, the tagline pressed in fingerprinted
+     ink (chạm = touch), and the visitor's own stamp count as the first seal. -->
 <header class="hero">
-  <div class="scallop"></div>
-  <div class="deco" aria-hidden="true">
-    <span class="cap c1"></span>
-    <span class="cap c2"></span>
-    <!-- the door-eye is the mark of the whole app; the capsules stay behind it -->
-    <div class="eye"><MatCua size={132} spin color="var(--brand)" inner="#fbd9a8" /></div>
+  <span class="strip" aria-hidden="true"></span>
+  <span class="eave" aria-hidden="true"></span>
+
+  <div class="masthead">
+    <span class="lockup">
+      <b>Hội An</b> Creative Week {event.year}
+      <span class="fieldlabel">Tuần lễ sáng tạo · phố cổ Hội An</span>
+    </span>
+    <span class="serial">
+      N° {event.year}
+      <span class="fieldlabel">Hộ chiếu sáng tạo</span>
+    </span>
   </div>
 
-  <p class="lockup">Hội An Creative Week {event.year}</p>
-  <p class="kicker">{s('journey')}</p>
+  <p class="eyebrow"><span class="dot"></span> {s('journey')} · <span class="yr">{event.dates}</span></p>
   <h1>{event.title} <span class="year">{event.year}</span></h1>
-  <p class="tagline">{t(event.tagline)}</p>
+  <p class="creed fp" use:fingerprint>{t(event.tagline)}</p>
+  <p class="sub">{t(event.subtitle)}</p>
 
   <div class="when">
     <span class="date">{event.dates}</span>
@@ -39,16 +47,22 @@
 </header>
 
 <div class="page">
-  <p>{t(event.intro)}</p>
-
-  <a class="progress" href="{base}/passport">
-    <div class="row">
-      <strong>{s('collected', count, total)}</strong>
-      <span class="pts">{score.total} {s('points')}</span>
-    </div>
-    <div class="bar"><i style="width: {pct}%"></i></div>
-    <small class="more">{s('view_passport')}</small>
+  <!-- the visitor's passport, as the first thing after the cover: their own
+       seal, painted once the first stamp exists -->
+  <a class="progress paper framed" href="{base}/passport">
+    <span class="pseal">
+      <MatCua size={62} ghost={count === 0} color="var(--brand)" inner={count ? '#fbe0b8' : 'transparent'} ink="var(--brand)" />
+    </span>
+    <span class="pcopy">
+      <span class="fieldlabel">{s('passport_title')}</span>
+      <strong class="pcount">{count}<span>/{total}</span></strong>
+      <span class="pmeta">{s('tally_stamps', count)} · <b>{score.total} {s('points')}</b></span>
+    </span>
+    <span class="pbar"><i style="width: {pct}%"></i></span>
+    <span class="pgo">{s('view_passport')}</span>
   </a>
+
+  <p class="intro">{t(event.intro)}</p>
 
   <h2>{s('how_it_works')}</h2>
   <ol class="steps">
@@ -61,6 +75,21 @@
   </ol>
   <p class="muted"><small>{t(event.note)}</small></p>
 
+  {#if event.programme?.length}
+    <h2>{t(event.programmeTitle)}</h2>
+    <ul class="programme">
+      {#each event.programme as ev}
+        <li>
+          <span class="when-cell">
+            <strong class="d">{ev.date}</strong>
+            <small class="tm">{ev.time}</small>
+          </span>
+          <span class="ptitle">{t(ev.title)}</span>
+        </li>
+      {/each}
+    </ul>
+  {/if}
+
   <div class="cta">
     <a class="btn" href="{base}/destinations">{s('open_map')}</a>
     <a class="btn secondary" href="{base}/tours">{s('see_tours')}</a>
@@ -70,92 +99,102 @@
 </div>
 
 <style>
+  /* ---- the passport cover: full-bleed, grained, roof-tile eave ---- */
   .hero {
     position: relative;
     overflow: hidden;
-    padding: 26px 18px 24px;
-    padding-top: max(26px, calc(env(safe-area-inset-top) + 26px));
-    background:
-      radial-gradient(120% 80% at 100% 0%, #fde3c9 0%, transparent 60%),
-      linear-gradient(160deg, #fdeada, #fbdcd3 70%, #f9d3cb);
+    padding: 30px 20px 24px;
+    padding-top: max(34px, calc(env(safe-area-inset-top) + 28px));
     border-bottom: 1px solid var(--line);
+    background:
+      radial-gradient(120% 80% at 100% 0%, #fde3c9 0%, transparent 58%),
+      linear-gradient(158deg, #fdeada, #fbdcd3 72%, #f9d3cb);
   }
-  .hero .scallop { position: absolute; inset: 0 0 auto 0; }
+  .hero::before {
+    content: '';
+    position: absolute; inset: 0; z-index: 0; pointer-events: none;
+    background-image: var(--grain); background-size: 180px 180px;
+    opacity: 0.4; mix-blend-mode: multiply;
+  }
+  .hero > * { position: relative; z-index: 1; }
+  .hero .strip { position: absolute; inset: 0 0 auto 0; height: 3px; z-index: 2; background: var(--grad-strip); }
+  .hero .eave { top: 3px; z-index: 2; }
 
-  /* the small English lockup that sits in the poster's top-left corner */
-  .lockup {
-    margin: 6px 0 14px;
-    font-size: 0.68rem;
-    font-weight: 800;
-    letter-spacing: 0.14em;
-    text-transform: uppercase;
-    color: var(--brand-mid);
-    opacity: 0.75;
-  }
-  .kicker { margin: 0 0 2px; font-weight: 700; font-size: 0.95rem; color: var(--brand-mid); }
-  .hero h1 {
-    margin: 0;
-    font-size: clamp(2rem, 10.5vw, 2.8rem);
-    line-height: 0.98;
-    text-transform: uppercase;
-    max-width: 9ch;
-  }
+  /* padding-right keeps the serial clear of the fixed language button */
+  .masthead { display: flex; justify-content: space-between; align-items: flex-start; gap: 14px;
+    margin: 6px 0 20px; padding-right: 46px; }
+  .lockup { font-family: var(--font-display); font-weight: 800; font-size: 0.9rem; color: var(--brand-dark);
+    line-height: 1.1; display: block; }
+  .lockup b { color: var(--brand); }
+  .lockup .fieldlabel { display: block; margin-top: 5px; font-weight: 600; }
+  .serial { text-align: right; font-family: var(--font-display); font-weight: 800; font-size: 0.92rem;
+    color: var(--brand-dark); line-height: 1.1; white-space: nowrap; }
+  .serial .fieldlabel { display: block; margin-top: 5px; }
+
+  .eyebrow { margin: 0 0 8px; }
+  .eyebrow .yr { color: var(--brand); }
+  .hero h1 { font-size: clamp(1.8rem, 8vw, 2.5rem); line-height: 0.98; text-transform: uppercase; max-width: 11ch; margin: 0; }
   .hero h1 .year { font-size: 0.34em; vertical-align: super; letter-spacing: 0; }
-  .tagline { margin: 10px 0 0; font-weight: 600; color: var(--brand); max-width: 20ch; }
 
-  .when {
-    display: grid;
-    gap: 4px;
-    margin-top: 18px;
-    padding-left: 12px;
-    border-left: 3px solid var(--brand);
+  /* the tagline, pressed in fingerprinted ink */
+  .creed {
+    margin: 12px 0 0;
+    font-family: var(--font-display);
+    font-weight: 800;
+    text-transform: uppercase;
+    font-size: clamp(1.1rem, 4.6vw, 1.5rem);
+    line-height: 1.05;
+    letter-spacing: -0.01em;
+    color: var(--brand-dark);
+    max-width: 16ch;
   }
+  .sub { margin: 12px 0 0; font-weight: 500; color: var(--ink); opacity: 0.82; max-width: 30ch; }
+
+  .when { display: grid; gap: 4px; margin-top: 20px; padding-left: 12px; border-left: 3px solid var(--brand); }
   .when .date { font-family: var(--font-display); font-weight: 800; font-size: 1.15rem; color: var(--brand-dark); }
-  .when .venue { font-size: 0.85rem; max-width: 26ch; }
+  .when .venue { font-size: 0.85rem; max-width: 28ch; color: var(--muted); }
 
-  /* cloud-scroll capsules, then the mắt cửa sitting on them like it sits on a lintel */
-  .deco { position: absolute; inset: 0; pointer-events: none; }
-  .deco .cap { position: absolute; border-radius: 999px; }
-  .c1 { top: 52px; right: -46px; width: 158px; height: 34px; background: var(--grad-warm); opacity: 0.8; }
-  .c2 { top: 96px; right: -18px; width: 112px; height: 30px; background: linear-gradient(90deg, #f7a879, #ef7a48); opacity: 0.6; }
-  .eye { position: absolute; top: 96px; right: -18px; opacity: 0.92; filter: drop-shadow(0 10px 18px rgba(126, 31, 19, 0.18)); }
-
-  /* stamps + points in one tap target, since both live on the passport */
+  /* ---- passport progress ---- */
   .progress {
-    display: block;
-    background: var(--surface);
-    border: 1px solid var(--line);
-    border-radius: var(--radius);
-    padding: 13px 15px;
-    margin: 16px 0 4px;
-    box-shadow: var(--shadow);
+    display: grid;
+    grid-template-columns: auto 1fr auto;
+    grid-template-areas: 'seal copy go' 'bar bar bar';
+    align-items: center;
+    gap: 6px 14px;
+    padding: 14px 16px;
+    margin: 4px 0 6px;
   }
-  .progress .row { display: flex; justify-content: space-between; gap: 10px; align-items: baseline; }
-  .progress .pts { color: var(--brand); font-weight: 800; white-space: nowrap; }
-  .progress .bar {
-    margin-top: 10px;
-    height: 8px;
-    border-radius: 999px;
-    background: color-mix(in srgb, var(--brand) 12%, var(--bg));
-    overflow: hidden;
-  }
-  .progress .bar i { display: block; height: 100%; border-radius: 999px; background: var(--grad-brand); }
-  .progress .more { display: block; margin-top: 8px; color: var(--brand); font-weight: 700; font-size: 0.8rem; }
+  .progress .pseal { grid-area: seal; display: grid; place-items: center; transform: rotate(-5deg); }
+  .progress .pcopy { grid-area: copy; display: grid; gap: 2px; }
+  .progress .pcount { font-family: var(--font-display); font-weight: 800; font-size: 1.9rem; line-height: 1;
+    color: var(--brand-dark); }
+  .progress .pcount span { color: var(--muted); font-size: 0.55em; }
+  .progress .pmeta { font-size: 0.8rem; color: var(--muted); }
+  .progress .pmeta b { color: var(--brand); font-weight: 700; }
+  .progress .pgo { grid-area: go; align-self: center; color: var(--brand); font-weight: 700; font-size: 0.8rem; white-space: nowrap; }
+  .progress .pbar { grid-area: bar; height: 7px; border-radius: 999px; margin-top: 8px;
+    background: color-mix(in srgb, var(--brand) 12%, var(--bg)); overflow: hidden; }
+  .progress .pbar i { display: block; height: 100%; border-radius: 999px; background: var(--grad-brand); }
 
-  /* numbered steps, as on the event's own infographics */
+  .intro { margin-top: 14px; }
+
+  /* numbered steps — a real sequence, so the numbering carries order */
   .steps { list-style: none; margin: 0; padding: 0; display: grid; gap: 12px; }
   .steps li { display: flex; gap: 12px; align-items: flex-start; line-height: 1.5; }
   .steps .num {
-    flex: 0 0 auto;
-    width: 34px; height: 34px;
-    display: grid; place-items: center;
-    border-radius: 12px;
-    background: var(--grad-brand);
-    color: #fff;
-    font-family: var(--font-display);
-    font-weight: 800;
-    font-size: 0.85rem;
+    flex: 0 0 auto; width: 34px; height: 34px; display: grid; place-items: center;
+    border-radius: 12px; background: var(--grad-brand); color: #fff;
+    font-family: var(--font-display); font-weight: 800; font-size: 0.85rem;
   }
+
+  /* the five-programme schedule as a hairline index */
+  .programme { list-style: none; margin: 0; padding: 0; display: grid; gap: 0; }
+  .programme li { display: flex; gap: 14px; align-items: baseline; padding: 12px 0; border-top: 1px solid var(--line); }
+  .programme li:last-child { border-bottom: 1px solid var(--line); }
+  .when-cell { flex: 0 0 auto; width: 82px; display: grid; gap: 2px; }
+  .when-cell .d { font-family: var(--font-display); font-weight: 800; color: var(--brand-dark); font-size: 1.05rem; }
+  .when-cell .tm { color: var(--muted); font-size: 0.72rem; white-space: nowrap; }
+  .programme .ptitle { line-height: 1.45; }
 
   .cta { display: flex; gap: 10px; margin-top: 22px; flex-wrap: wrap; }
   .cta .btn { flex: 1 1 auto; }

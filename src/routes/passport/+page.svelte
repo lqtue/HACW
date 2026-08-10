@@ -257,6 +257,18 @@
     box-shadow: var(--shadow);
     margin-bottom: 6px;
   }
+  /* fibre grain, matching the home cover */
+  .score::before {
+    content: '';
+    position: absolute;
+    inset: 0;
+    pointer-events: none;
+    background-image: var(--grain);
+    background-size: 170px 170px;
+    opacity: 0.4;
+    mix-blend-mode: multiply;
+  }
+  .score > * { position: relative; }
   /* cloud-scroll capsule tucked behind the score */
   .score::after {
     content: '';
