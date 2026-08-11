@@ -20,6 +20,13 @@
   const rank = $derived(tierFor(score.total, rewards));
   const en = $derived(i18n.lang === 'en');
 
+  // The hero display is the tagline minus its "Hành trình" lead-in (that becomes
+  // the kicker), split on "Chạm" so each touch-word wears the fingerprint. In EN
+  // there is no touch-word, so it renders as one clean plain part.
+  const heroLine = $derived(t(event.tagline).replace(/^\s*Hành trình[\s,–—-]*/i, '').trim());
+  const heroParts = $derived(heroLine.split(/(Chạm)/i));
+  const isTouch = (p) => /^chạm$/i.test(p);
+
   // The seal on the identity page is a demonstration of the check-in ritual, not
   // a real stamp — real stamps are earned on-site by GPS. Pressing shows how it
   // will feel, then points at the map. It never touches passport.stamps.
@@ -38,15 +45,19 @@
     <span class="eave" aria-hidden="true"></span>
 
     <div class="masthead">
-      <span class="lockup"><b>Hội An</b> Creative Week {event.year}</span>
+      <span class="lockup">
+        <b>Hội An</b> Creative Week {event.year}
+        <span class="fieldlabel">{event.title} {event.year}</span>
+      </span>
       <span class="serial">
         N° {event.year}
         <span class="fieldlabel">{en ? 'Creative passport' : 'Hộ chiếu sáng tạo'}</span>
       </span>
     </div>
 
-    <h1>{event.title} <span class="year">{event.year}</span></h1>
-    <p class="creed fp" use:fingerprint>{t(event.tagline)}</p>
+    <p class="eyebrow"><span class="dot"></span> {en ? 'Heritage journey' : 'Hành trình di sản'} · <span class="yr">28/8 – 1/9</span></p>
+    <p class="kicker">{en ? 'The journey' : 'Hành trình'}</p>
+    <h1 class="hero-line">{#each heroParts as p}{#if isTouch(p)}<span class="fp" use:fingerprint>{p}</span>{:else}{p}{/if}{/each}</h1>
 
     <div class="when">
       <span class="date">{event.dates}</span>
@@ -217,11 +228,25 @@
   .serial { text-align: right; font-family: var(--font-display); font-weight: 800; font-size: 0.92rem; color: var(--brand-dark); line-height: 1.1; white-space: nowrap; }
   .serial .fieldlabel { display: block; margin-top: 5px; }
 
-  .cover h1 { font-size: clamp(1.85rem, 9vw, 2.5rem); line-height: 0.98; text-transform: uppercase; max-width: 11ch; margin: 12px 0 0; }
-  .cover h1 .year { font-size: 0.34em; vertical-align: super; letter-spacing: 0; }
-  .creed { margin: 12px 0 0; font-family: var(--font-display); font-weight: 800; text-transform: uppercase;
-    font-size: clamp(1.1rem, 5.4vw, 1.5rem); line-height: 1.05; letter-spacing: -0.01em; color: var(--brand-dark); max-width: 15ch; }
-  .when { display: grid; gap: 4px; margin-top: 22px; padding-left: 12px; border-left: 3px solid var(--brand); }
+  .eyebrow { margin: 4px 0 14px; }
+  .eyebrow .yr { color: var(--brand); }
+  .kicker { margin: 0 0 2px; font-family: var(--font-display); font-weight: 800; text-transform: uppercase;
+    color: var(--brand); font-size: clamp(1.05rem, 3.4vw, 1.45rem); letter-spacing: 0.02em; }
+  /* the tagline as the hero display, with the fingerprint pressed into "Chạm" */
+  .hero-line {
+    margin: 0;
+    font-family: var(--font-display);
+    font-weight: 800;
+    text-transform: uppercase;
+    color: var(--brand-dark);
+    font-size: clamp(2rem, 9.2vw, 3.05rem);
+    line-height: 0.94;
+    letter-spacing: -0.015em;
+    max-width: 13ch;
+    text-wrap: balance;
+  }
+  .hero-line .fp { display: inline; }
+  .when { display: grid; gap: 4px; margin-top: 24px; padding-left: 12px; border-left: 3px solid var(--brand); }
   .when .date { font-family: var(--font-display); font-weight: 800; font-size: 1.15rem; color: var(--brand-dark); }
   .when .venue { font-size: 0.85rem; max-width: 28ch; color: var(--muted); }
 
