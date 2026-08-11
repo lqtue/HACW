@@ -1,7 +1,7 @@
 <script>
   import event from '$lib/data/event.json';
   import { base } from '$app/paths';
-  import { passport, prettyCode, hasStamp } from '$lib/passport.svelte.js';
+  import { passport, prettyCode, hasStamp, setHolder } from '$lib/passport.svelte.js';
   import destinations from '$lib/data/destinations.json';
   import tours from '$lib/data/tours.json';
   import rewards from '$lib/data/rewards.json';
@@ -38,20 +38,15 @@
     <span class="eave" aria-hidden="true"></span>
 
     <div class="masthead">
-      <span class="lockup">
-        <b>Hội An</b> Creative Week {event.year}
-        <span class="fieldlabel">Tuần lễ sáng tạo · phố cổ Hội An</span>
-      </span>
+      <span class="lockup"><b>Hội An</b> Creative Week {event.year}</span>
       <span class="serial">
         N° {event.year}
         <span class="fieldlabel">{en ? 'Creative passport' : 'Hộ chiếu sáng tạo'}</span>
       </span>
     </div>
 
-    <p class="eyebrow"><span class="dot"></span> {s('journey')} · <span class="yr">{event.dates}</span></p>
     <h1>{event.title} <span class="year">{event.year}</span></h1>
     <p class="creed fp" use:fingerprint>{t(event.tagline)}</p>
-    <p class="sub">{t(event.subtitle)}</p>
 
     <div class="when">
       <span class="date">{event.dates}</span>
@@ -67,6 +62,20 @@
     </div>
 
     <dl class="idgrid">
+      <div class="field span holder">
+        <dt class="fieldlabel">{en ? 'Holder name' : 'Tên chủ sở hữu'}</dt>
+        <dd>
+          <input
+            class="holderinput"
+            value={passport.holder}
+            oninput={(e) => setHolder(e.currentTarget.value)}
+            placeholder={en ? 'Tap to add your name' : 'Chạm để nhập tên của bạn'}
+            maxlength="28"
+            autocomplete="name"
+            aria-label={en ? 'Holder name' : 'Tên chủ sở hữu'}
+          />
+        </dd>
+      </div>
       <div class="field span">
         <dt class="fieldlabel">{en ? 'Passport no.' : 'Số hộ chiếu'}</dt>
         <dd class="mono">{prettyCode()}</dd>
@@ -173,10 +182,6 @@
 
   <!-- ================= foot ================= -->
   <div class="foot">
-    <div class="cta">
-      <a class="btn" href="{base}/destinations">{s('open_map')}</a>
-      <a class="btn secondary" href="{base}/tours">{s('see_tours')}</a>
-    </div>
     <InstallApp />
     <p class="muted"><small>{s('offline_ok')}</small></p>
   </div>
@@ -212,14 +217,11 @@
   .serial { text-align: right; font-family: var(--font-display); font-weight: 800; font-size: 0.92rem; color: var(--brand-dark); line-height: 1.1; white-space: nowrap; }
   .serial .fieldlabel { display: block; margin-top: 5px; }
 
-  .eyebrow { margin: 0 0 8px; }
-  .eyebrow .yr { color: var(--brand); }
-  .cover h1 { font-size: clamp(1.85rem, 9vw, 2.5rem); line-height: 0.98; text-transform: uppercase; max-width: 11ch; margin: 0; }
+  .cover h1 { font-size: clamp(1.85rem, 9vw, 2.5rem); line-height: 0.98; text-transform: uppercase; max-width: 11ch; margin: 12px 0 0; }
   .cover h1 .year { font-size: 0.34em; vertical-align: super; letter-spacing: 0; }
   .creed { margin: 12px 0 0; font-family: var(--font-display); font-weight: 800; text-transform: uppercase;
     font-size: clamp(1.1rem, 5.4vw, 1.5rem); line-height: 1.05; letter-spacing: -0.01em; color: var(--brand-dark); max-width: 15ch; }
-  .sub { margin: 12px 0 0; font-weight: 500; color: var(--ink); opacity: 0.82; max-width: 30ch; }
-  .when { display: grid; gap: 4px; margin-top: 20px; padding-left: 12px; border-left: 3px solid var(--brand); }
+  .when { display: grid; gap: 4px; margin-top: 22px; padding-left: 12px; border-left: 3px solid var(--brand); }
   .when .date { font-family: var(--font-display); font-weight: 800; font-size: 1.15rem; color: var(--brand-dark); }
   .when .venue { font-size: 0.85rem; max-width: 28ch; color: var(--muted); }
 
@@ -243,6 +245,20 @@
   .field dd.mono { letter-spacing: 0.14em; font-size: 1.3rem; }
   .field dd.rank { font-size: 1.05rem; }
   .field .of { color: var(--muted); font-size: 0.6em; }
+  /* editable holder line — reads as a filled-in passport field */
+  .holderinput {
+    width: 100%;
+    border: 0;
+    background: none;
+    padding: 2px 0 3px;
+    font-family: var(--font-display);
+    font-weight: 800;
+    font-size: 1.3rem;
+    color: var(--brand-dark);
+    border-bottom: 2px dashed color-mix(in srgb, var(--brand-dark) 25%, transparent);
+  }
+  .holderinput::placeholder { color: var(--muted); font-weight: 700; font-size: 0.95rem; opacity: 0.75; }
+  .holderinput:focus { outline: none; border-bottom-color: var(--brand); border-bottom-style: solid; }
 
   /* ---- the seal ritual ---- */
   .stampframe { display: grid; justify-items: center; gap: 12px; padding: 16px 0 4px;
@@ -292,6 +308,4 @@
 
   /* ---- foot ---- */
   .foot { padding: 22px 18px 8px; }
-  .cta { display: flex; gap: 10px; margin-bottom: 14px; flex-wrap: wrap; }
-  .cta .btn { flex: 1 1 auto; }
 </style>

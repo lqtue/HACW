@@ -6,6 +6,7 @@ const KEY = 'hacw_passport_v1';
 const QUEUE = 'hacw_checkin_queue_v1';
 const REDEEMED = 'hacw_redeemed_v1';
 const PID = 'hacw_pid_v1';
+const HOLDER = 'hacw_holder_v1';
 
 function read(key) {
   if (!browser) return [];
@@ -34,11 +35,26 @@ function loadPid() {
   return id;
 }
 
+function loadHolder() {
+  if (!browser) return '';
+  try {
+    return localStorage.getItem(HOLDER) ?? '';
+  } catch {
+    return '';
+  }
+}
+
 // Reactive passport state, mirrored to localStorage. Mutate arrays, don't reassign.
-export const passport = $state({ stamps: read(KEY), redeemed: read(REDEEMED), pid: loadPid() });
+export const passport = $state({ stamps: read(KEY), redeemed: read(REDEEMED), pid: loadPid(), holder: loadHolder() });
 
 /** Recovery code as shown to the visitor: ABCD-EFGH. */
 export const prettyCode = (pid = passport.pid) => (pid ? `${pid.slice(0, 4)}-${pid.slice(4)}` : '');
+
+/** The holder name the visitor typed on their passport — device-local, cached. */
+export function setHolder(name) {
+  passport.holder = name;
+  if (browser) localStorage.setItem(HOLDER, name);
+}
 
 function persist() {
   if (!browser) return;
