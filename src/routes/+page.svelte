@@ -55,7 +55,6 @@
       </span>
     </div>
 
-    <p class="eyebrow"><span class="dot"></span> {en ? 'Heritage journey' : 'Hành trình di sản'}</p>
     <p class="kicker">{en ? 'The journey' : 'Hành trình'}</p>
     <h1 class="hero-line">{#each heroParts as p}{#if isTouch(p)}<span class="fp" use:fingerprint>{p}</span>{:else}{p}{/if}{/each}</h1>
 
