@@ -55,7 +55,7 @@
       </span>
     </div>
 
-    <p class="eyebrow"><span class="dot"></span> {en ? 'Heritage journey' : 'Hành trình di sản'} · <span class="yr">28/8 – 1/9</span></p>
+    <p class="eyebrow"><span class="dot"></span> {en ? 'Heritage journey' : 'Hành trình di sản'}</p>
     <p class="kicker">{en ? 'The journey' : 'Hành trình'}</p>
     <h1 class="hero-line">{#each heroParts as p}{#if isTouch(p)}<span class="fp" use:fingerprint>{p}</span>{:else}{p}{/if}{/each}</h1>
 
@@ -229,7 +229,6 @@
   .serial .fieldlabel { display: block; margin-top: 5px; }
 
   .eyebrow { margin: 4px 0 14px; }
-  .eyebrow .yr { color: var(--brand); }
   .kicker { margin: 0 0 2px; font-family: var(--font-display); font-weight: 800; text-transform: uppercase;
     color: var(--brand); font-size: clamp(1.05rem, 3.4vw, 1.45rem); letter-spacing: 0.02em; }
   /* the tagline as the hero display, with the fingerprint pressed into "Chạm" */
@@ -240,7 +239,7 @@
     text-transform: uppercase;
     color: var(--brand-dark);
     font-size: clamp(2rem, 9.2vw, 3.05rem);
-    line-height: 0.94;
+    line-height: 1.08;
     letter-spacing: -0.015em;
     max-width: 13ch;
     text-wrap: balance;
