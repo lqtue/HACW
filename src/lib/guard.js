@@ -18,3 +18,11 @@ export function apiGuard({ pathname, method, origin, siteOrigin, length = 0 }) {
   if (length > MAX_BYTES) return { error: 'too large', status: 413 };
   return null;
 }
+
+// The organizer-only reads (masked flag list, behaviour tallies) are gated in the
+// UI by the client staff code, which is cosmetic — the endpoint itself must refuse
+// a cross-site or scripted read. Sec-Fetch-Site is sent by every current browser
+// and absent on a plain curl, so same-origin-only fails closed on both.
+// ponytail: a spoofable header, not a secret. If this data ever gains value, swap
+// for a signed token the organizer device presents.
+export const isSameOrigin = (secFetchSite) => secFetchSite === 'same-origin';

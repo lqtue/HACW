@@ -42,6 +42,34 @@ assert.deepEqual(
   'one bad entry does not discard the rest of the queue'
 );
 
+// --- allowlist: only real sites become rows (the quota-flood guard) ---
+const real = new Set(['chua-cau', 'nha-co-tan-ky']);
+assert.deepEqual(
+  tally([{ t: 'checkin', id: 'chua-cau' }], real),
+  { 'count:chua-cau': 1 },
+  'a real site still counts'
+);
+assert.deepEqual(
+  tally([{ t: 'checkin', id: 'not-a-place' }], real),
+  {},
+  'a well-formed but unknown id mints no row'
+);
+assert.deepEqual(
+  tally([{ t: 'gps_far', id: 'junk', n: 90 }], real),
+  {},
+  'per-site events are dropped for unknown ids too — no ev:gps_far:junk row'
+);
+assert.deepEqual(
+  tally([{ t: 'checkin', id: 'junk' }, { t: 'checkin', id: 'chua-cau' }], real),
+  { 'count:chua-cau': 1 },
+  'junk is dropped without discarding the real check-in beside it'
+);
+assert.deepEqual(
+  tally([{ t: 'redeem' }], real),
+  { 'ev:redeem': 1 },
+  'site-less events are bounded keys, unaffected by the allowlist'
+);
+
 // A replayed offline queue is capped, so one phone can't spend the whole day's writes.
 const flood = Array.from({ length: 500 }, () => ({ t: 'checkin', id: 'a' }));
 assert.deepEqual(tally(flood), { 'count:a': MAX_EVENTS });

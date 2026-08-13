@@ -14,6 +14,28 @@ export default {
     // +server.js routes reading D1 from platform.env.DB. Bind a D1 database
     // named DB in the project (Settings → Bindings), on Production *and* Preview.
     adapter: adapter(),
-    paths: { base }
+    paths: { base },
+    // Everything the app needs is same-origin and self-hosted (fonts, the pmtiles
+    // basemap, the /api routes), so the policy is 'self' with two exceptions:
+    // inline style="" attributes (popup labels, maplibre) need style 'unsafe-inline',
+    // and canvas pins / the maplibre worker need img+worker blob:/data:. Scripts get
+    // hashes from SvelteKit (mode: 'hash') — required because pages are prerendered,
+    // so there is no per-request nonce. No third-party host appears anywhere.
+    csp: {
+      mode: 'hash',
+      directives: {
+        'default-src': ['self'],
+        'script-src': ['self'],
+        'style-src': ['self', 'unsafe-inline'],
+        'img-src': ['self', 'data:', 'blob:'],
+        'font-src': ['self'],
+        'connect-src': ['self'],
+        'worker-src': ['self', 'blob:'],
+        'frame-ancestors': ['none'],
+        'base-uri': ['self'],
+        'form-action': ['self'],
+        'object-src': ['none']
+      }
+    }
   }
 };

@@ -18,3 +18,20 @@ database_id = "ddef60b2-6aa9-45a6-a431-442b98a2ea52"
 binding = "DB"
 database_name = "hacw"
 database_id = "ddef60b2-6aa9-45a6-a431-442b98a2ea52"
+
+# Per-IP rate limit on /api/* (see src/hooks.server.js). In-memory per-colo,
+# free, no KV/D1 write per request. 30 requests / 10s is generous for a real
+# visit (queue flush is a handful of events) and cuts a flood dead. `period`
+# must be 10 or 60; `namespace_id` is any unique string for this limiter.
+[[unsafe.bindings]]
+name = "API_LIMITER"
+type = "ratelimit"
+namespace_id = "1001"
+simple = { limit = 30, period = 10 }
+
+# Preview shares the same limiter config.
+[[env.preview.unsafe.bindings]]
+name = "API_LIMITER"
+type = "ratelimit"
+namespace_id = "1001"
+simple = { limit = 30, period = 10 }

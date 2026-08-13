@@ -17,13 +17,23 @@ export const eventKey = (type, id) => (id ? `ev:${type}:${id}` : `ev:${type}`);
  * Queued events -> `{ counterKey: increment }`. Unknown types and junk ids are
  * dropped rather than rejected: the queue is replayed from phones that may be
  * running an older build, and one bad entry must not block the rest of a visit.
+ *
+ * `validIds` (a Set of real destination ids) is the quota guard: without it a
+ * random id like `xyz` mints a brand-new counter row, so a script POSTing junk
+ * ids could invent unbounded rows and spend the D1 free-tier write allowance for
+ * the whole event. An id outside the set drops the whole event. Pass it in
+ * production; omit it in unit tests that use synthetic ids.
+ * @param {Iterable<object>} events
+ * @param {Set<string>|null} [validIds]
  */
-export function tally(events) {
+export function tally(events, validIds = null) {
   const bump = {};
   for (const e of (events ?? []).slice(0, MAX_EVENTS)) {
     const type = e?.t ?? 'checkin';
     if (!TYPES.has(type)) continue;
     const id = typeof e?.id === 'string' && ID.test(e.id) ? e.id : null;
+    // A well-formed id that names no real site is the flooding attack: drop it.
+    if (id && validIds && !validIds.has(id)) continue;
     if (type === 'checkin' && !id) continue;
     // gps_far/quiz_wrong are per-site diagnostics; the rest are plain totals.
     const key = type === 'checkin' ? countKey(id) : eventKey(type, id);

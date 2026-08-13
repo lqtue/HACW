@@ -1,0 +1,8 @@
+# Cloudflare Pages reads this from the build output root (static/ is copied there).
+# CSP lives in svelte.config.js (kit.csp) so it can hash the inline bootstrap; the
+# rest are the cheap, can't-break-anything headers.
+/*
+  X-Content-Type-Options: nosniff
+  X-Frame-Options: DENY
+  Referrer-Policy: strict-origin-when-cross-origin
+  Permissions-Policy: geolocation=(self), camera=(), microphone=(), interest-cohort=()

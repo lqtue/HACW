@@ -11,6 +11,7 @@
 
 import { json } from '@sveltejs/kit';
 import { mergeSnapshots, isValidCode } from '$lib/backup.js';
+import { isSameOrigin } from '$lib/guard.js';
 import { flagPassport } from '$lib/fraud.js';
 import destinations from '$lib/data/destinations.json';
 import { SELECT_PASSPORT, UPSERT_PASSPORT, SELECT_FLAGGED } from '$lib/sql.js';
@@ -47,10 +48,14 @@ export async function PUT({ request, platform }) {
   return json({ ok: true, stamps: merged.stamps.length });
 }
 
-export async function GET({ url, platform }) {
-  // Organizer review list. Codes are masked: knowing a full pid is enough to pull
-  // that passport, and this endpoint is only protected by a client-side staff code.
+export async function GET({ url, platform, request }) {
+  // Organizer review list. Pids are masked before they leave, and the UI hides
+  // this behind the client staff code — but that gate is cosmetic, so the endpoint
+  // itself refuses any cross-site or scripted read (Sec-Fetch-Site, see guard.js).
   if (url.searchParams.has('flagged')) {
+    if (!isSameOrigin(request.headers.get('sec-fetch-site'))) {
+      return json({ error: 'forbidden' }, { status: 403 });
+    }
     const db = platform?.env?.DB;
     if (!db) return json([]);
     const { results } = await db.prepare(SELECT_FLAGGED).all();

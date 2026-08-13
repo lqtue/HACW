@@ -1,5 +1,5 @@
 import assert from 'node:assert';
-import { apiGuard, MAX_BYTES } from './guard.js';
+import { apiGuard, isSameOrigin, MAX_BYTES } from './guard.js';
 
 const site = 'https://hacw.pages.dev';
 const req = (over = {}) => ({
@@ -36,5 +36,11 @@ assert.equal(
 assert.deepEqual(apiGuard(req({ length: MAX_BYTES + 1 })), { error: 'too large', status: 413 });
 assert.equal(apiGuard(req({ length: MAX_BYTES })), null, 'exactly at the limit is fine');
 assert.equal(apiGuard(req({ method: 'GET', origin: null, length: MAX_BYTES + 1 })).status, 413);
+
+// --- organizer-only reads: same-origin fetch only, curl (no header) is refused ---
+assert.equal(isSameOrigin('same-origin'), true, 'our own dashboard fetch is allowed');
+assert.equal(isSameOrigin('cross-site'), false, "another site's JS is refused");
+assert.equal(isSameOrigin(null), false, 'curl sends no Sec-Fetch-Site -> refused');
+assert.equal(isSameOrigin('same-site'), false, 'a sibling subdomain is not us');
 
 console.log('guard.test.js ok');

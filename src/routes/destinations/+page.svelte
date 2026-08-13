@@ -54,6 +54,11 @@
   // Popup is built on open, so language / stamp / spotlight are always current.
   // It is a label on a printed map, not a card: the site's own mark, its name,
   // two rows of facts under hairline keys, and one obvious thing to do.
+  // Content fields go into raw HTML strings (setHTML), so a stray `<` in an
+  // authored name/address would break or inject. Escape at the sink.
+  const esc = (v) =>
+    String(v).replace(/[&<>"]/g, (c) => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;' })[c]);
+
   function popupHtml(d) {
     const open = openLabel(d);
     const badges = [
@@ -66,15 +71,15 @@
       <div class="pop-head">
         <span class="pop-mark">${markSvg(`var(--c-${d.category})`, 'var(--brand-dark)', 30)}</span>
         <span class="pop-title">
-          <span class="pop-cat" style="color: var(--c-${d.category})">${t(categoryLabel(d.category))}</span>
-          <strong>${t(d.name)}</strong>
+          <span class="pop-cat" style="color: var(--c-${d.category})">${esc(t(categoryLabel(d.category)))}</span>
+          <strong>${esc(t(d.name))}</strong>
         </span>
       </div>
       <dl class="pop-meta">
         <dt>${s('hours_label')}</dt>
-        <dd>${t(d.hours)}${open ? ` <em class="${open.status}">${open.text}</em>` : ''}</dd>
+        <dd>${esc(t(d.hours))}${open ? ` <em class="${open.status}">${open.text}</em>` : ''}</dd>
         <dt>${s('addr_label')}</dt>
-        <dd>${t(d.address)}</dd>
+        <dd>${esc(t(d.address))}</dd>
       </dl>
       ${badges ? `<div class="badges">${badges}</div>` : ''}
       <div class="acts">
@@ -211,7 +216,7 @@
         features: tickets.map((p) => ({
           type: 'Feature',
           geometry: { type: 'Point', coordinates: [p.lng, p.lat] },
-          properties: { html: `<strong>${p.id}</strong><br>${t(p.where)}` }
+          properties: { html: `<strong>${esc(p.id)}</strong><br>${esc(t(p.where))}` }
         }))
       }
     });
