@@ -19,19 +19,10 @@ binding = "DB"
 database_name = "hacw"
 database_id = "ddef60b2-6aa9-45a6-a431-442b98a2ea52"
 
-# Per-IP rate limit on /api/* (see src/hooks.server.js). In-memory per-colo,
-# free, no KV/D1 write per request. 30 requests / 10s is generous for a real
-# visit (queue flush is a handful of events) and cuts a flood dead. `period`
-# must be 10 or 60; `namespace_id` is any unique string for this limiter.
-[[unsafe.bindings]]
-name = "API_LIMITER"
-type = "ratelimit"
-namespace_id = "1001"
-simple = { limit = 30, period = 10 }
-
-# Preview shares the same limiter config.
-[[env.preview.unsafe.bindings]]
-name = "API_LIMITER"
-type = "ratelimit"
-namespace_id = "1001"
-simple = { limit = 30, period = 10 }
+# Per-IP rate limit on /api/* lives as a Cloudflare dashboard rule, NOT here:
+# Pages' wrangler-config validation rejects `[[unsafe.bindings]]`, and the
+# ratelimit binding cannot be declared in wrangler.toml for a Pages project.
+# src/hooks.server.js already no-ops when `platform.env.API_LIMITER` is absent,
+# so the app is safe without it; the same-origin + 16 KB body guards in
+# $lib/guard.js still run. Re-add the limiter as a WAF/rate-limit rule on the
+# zone (or bind API_LIMITER in the dashboard) once on a custom domain.
