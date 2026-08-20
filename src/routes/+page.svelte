@@ -123,6 +123,7 @@
 
   let openId = $state(null); // list row expanded to show address/hours
   const toggleRow = (id) => (openId = openId === id ? null : id);
+  let mapOpen = $state(false); // the builder map is heavy — mount it only when shown
 
   const ctx = () => ({ weather: weather.now, now: new Date(), counts: stats.counts });
 
@@ -281,10 +282,12 @@
       {/each}
     </ul>
 
-    <!-- map, secondary -->
-    <details class="mapfold">
+    <!-- map, secondary — mounted only while open so it never inits at 0×0 -->
+    <details class="mapfold" bind:open={mapOpen}>
       <summary>{s('map_view')}</summary>
-      <div class="mapwrap"><BuilderMap eligible={eligibleIds} picked={pickedIds} onpick={pick} /></div>
+      {#if mapOpen}
+        <div class="mapwrap"><BuilderMap eligible={eligibleIds} picked={pickedIds} onpick={pick} /></div>
+      {/if}
     </details>
 
     {#if valid}
