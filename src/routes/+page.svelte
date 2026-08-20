@@ -167,8 +167,8 @@
 {#snippet slots(list)}
   <div class="slots" aria-hidden="true">
     {#each list as slot, i (i)}
-      {#if slot.id}
-        {@const d = byId[slot.id]}
+      {@const d = slot.id ? byId[slot.id] : null}
+      {#if d}
         <span class="slot filled" style="--cat: var(--c-{d.category})">
           <MatCua size={30} color="var(--cat)" inner="var(--surface)" />
         </span>
@@ -222,17 +222,17 @@
 
     <!-- the 5 slots double as step navigation; tap one to edit that class -->
     <div class="slotbtns" role="group" aria-label={s('your_ticket')}>
-      {#each slotList as id, i (i)}
+      {#each slotList as slot, i (i)}
         {@const si = i < 2 ? i : 2}
+        {@const d = slot.id ? byId[slot.id] : null}
         <button
           class="slot"
-          class:filled={id}
+          class:filled={d}
           class:on={stepIdx === si}
           onclick={() => (stepIdx = si)}
           aria-label={s(STEPS[si].key)}
         >
-          {#if id}
-            {@const d = byId[id]}
+          {#if d}
             <MatCua size={28} color="var(--c-{d.category})" inner="var(--surface)" />
           {/if}
         </button>
