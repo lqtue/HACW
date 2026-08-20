@@ -12,6 +12,7 @@
   import { s } from '$lib/strings.js';
   import MatCua from '$lib/components/MatCua.svelte';
   import StampPress from '$lib/components/StampPress.svelte';
+  import PageShell from '$lib/components/PageShell.svelte';
 
   let { data } = $props();
   const dest = data.dest;
@@ -102,9 +103,7 @@
   }
 </script>
 
-<div class="topbar"><h1>{t(dest.name)}</h1></div>
-
-<div class="page">
+<PageShell title={t(dest.name)}>
   <div class="hero" style="--cat: var(--c-{dest.category})">
     <span class="watermark">{t(dest.name).charAt(0)}</span>
     <div class="eye">
@@ -184,7 +183,7 @@
       </div>
     {/if}
   </div>
-</div>
+</PageShell>
 
 <style>
   .hero {
@@ -193,9 +192,7 @@
     border-radius: var(--radius);
     overflow: hidden;
     margin-bottom: 14px;
-    background:
-      radial-gradient(140% 120% at 85% -10%, color-mix(in srgb, var(--cat) 45%, transparent), transparent 60%),
-      linear-gradient(160deg, #fdeada, color-mix(in srgb, var(--cat) 14%, var(--surface)));
+    background: linear-gradient(160deg, color-mix(in srgb, var(--cat) 10%, var(--surface)), var(--surface));
     border: 1px solid var(--line);
   }
   /* cloud-scroll capsules from the key visual */
@@ -238,16 +235,8 @@
   }
   .open { font-weight: 700; }
   .open.open { color: var(--teal); }
-  .open.soon { color: #a4620e; }
+  .open.soon { color: var(--gold); }
   .open.closed { color: var(--brand); }
-  .success {
-    background: color-mix(in srgb, var(--teal) 12%, var(--surface));
-    border: 1px solid color-mix(in srgb, var(--teal) 45%, var(--line));
-    color: #1c6f68;
-    border-radius: var(--radius-sm);
-    padding: 12px;
-    font-weight: 700;
-  }
   .quiz .opt {
     display: block;
     width: 100%;

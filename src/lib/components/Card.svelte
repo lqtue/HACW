@@ -68,7 +68,7 @@
   .addr { display: block; color: var(--muted); }
   .open { font-weight: 700; }
   .open.open { color: var(--teal); }
-  .open.soon { color: #a4620e; }
+  .open.soon { color: var(--gold); }
   .open.closed { color: var(--muted); }
   /* selected from the map: the card the pin points at */
   .card.active {

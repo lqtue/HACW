@@ -1,6 +1,7 @@
 [
   {
     "id": "nha-co-va-nghe-xua",
+    "ticket": false,
     "title": { "vi": "Nhà cổ & nghề xưa", "en": "Old houses & old trades" },
     "theme": { "vi": "Nguyễn Tường → Miếu Quan Công", "en": "Nguyen Tuong chapel → Quan Cong temple" },
     "description": {
@@ -12,6 +13,7 @@
   },
   {
     "id": "chua-cau-va-cam-pho",
+    "ticket": false,
     "title": { "vi": "Chùa Cầu & Cẩm Phô", "en": "Japanese Bridge & Cam Pho" },
     "theme": {
       "vi": "Đình Cẩm Phô → Tụy Tiên Đường Minh Hương",
@@ -29,5 +31,50 @@
       "hoi-quan-quang-trieu",
       "tuy-tien-duong-minh-huong"
     ]
+  },
+  {
+    "id": "set-kien-truc",
+    "ticket": true,
+    "size": 5,
+    "draft": true,
+    "tags": ["kien-truc"],
+    "title": { "vi": "Kiến trúc phố cổ", "en": "Old-town architecture" },
+    "theme": { "vi": "Cầu, nhà cổ & hội quán", "en": "Bridge, old houses & an assembly hall" },
+    "description": {
+      "vi": "Bộ 5 điểm hợp lệ (1 di tích + 1 bảo tàng + 3 điểm tự do), tập trung vào kiến trúc gỗ và gạch của phố cổ. BẢN NHÁP — cần đội nội dung viết lại narrative và xếp thứ tự theo tuyến đã khảo sát.",
+      "en": "A valid 5-site set (1 monument + 1 museum + 3 free), themed on the old town's timber-and-brick architecture. DRAFT — content team to rewrite the narrative and order the stops along a surveyed route."
+    },
+    "voucher": { "vi": "Voucher quà tặng (chốt tên sau)", "en": "Gift voucher (name TBD)" },
+    "stops": ["chua-cau", "bao-tang-gom-su-mau-dich", "nha-co-tan-ky", "nha-co-phung-hung", "hoi-quan-phuc-kien"]
+  },
+  {
+    "id": "set-nghe-xua",
+    "ticket": true,
+    "size": 5,
+    "draft": true,
+    "tags": ["thu-cong"],
+    "title": { "vi": "Nghề xưa & thủ công", "en": "Old trades & craft" },
+    "theme": { "vi": "Miếu Quan Công → Xí Mà", "en": "Quan Cong temple → Xi Ma craft" },
+    "description": {
+      "vi": "Bộ 5 điểm hợp lệ (1 di tích + 1 bảo tàng + 3 điểm tự do), xoay quanh nghề truyền thống và nhà thờ tộc. BẢN NHÁP — cần đội nội dung viết lại narrative và xếp thứ tự theo tuyến đã khảo sát.",
+      "en": "A valid 5-site set (1 monument + 1 museum + 3 free), built around traditional trades and family chapels. DRAFT — content team to rewrite the narrative and order the stops along a surveyed route."
+    },
+    "voucher": { "vi": "Voucher quà tặng (chốt tên sau)", "en": "Gift voucher (name TBD)" },
+    "stops": ["mieu-quan-cong", "bao-tang-nghe-y", "nha-co-duc-an", "nha-tho-toc-nguyen-tuong", "trinh-nghe-xi-ma"]
+  },
+  {
+    "id": "set-cong-dong",
+    "ticket": true,
+    "size": 5,
+    "draft": true,
+    "tags": ["yen-tinh"],
+    "title": { "vi": "Tín ngưỡng & cộng đồng", "en": "Belief & community" },
+    "theme": { "vi": "Chùa Quan Âm → Minh Hương", "en": "Quan Am pagoda → Minh Huong hall" },
+    "description": {
+      "vi": "Bộ 5 điểm hợp lệ (1 di tích + 1 bảo tàng + 3 điểm tự do), gồm chùa, hội quán và đình làng — thường vắng hơn, dễ chịu hơn. BẢN NHÁP — cần đội nội dung viết lại narrative và xếp thứ tự theo tuyến đã khảo sát.",
+      "en": "A valid 5-site set (1 monument + 1 museum + 3 free) of pagoda, assembly hall and communal houses — usually quieter and more relaxed. DRAFT — content team to rewrite the narrative and order the stops along a surveyed route."
+    },
+    "voucher": { "vi": "Voucher quà tặng (chốt tên sau)", "en": "Gift voucher (name TBD)" },
+    "stops": ["chua-quan-am", "bao-tang-van-hoa-dan-gian", "hoi-quan-quang-trieu", "dinh-cam-pho", "tuy-tien-duong-minh-huong"]
   }
 ]

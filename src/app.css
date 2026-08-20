@@ -127,54 +127,55 @@
 }
 
 /* ==========================================================================
-   Hội An Creative Week 2026 — brand skin
-   Palette + motifs taken from the official key visual: peach→pink gradient
-   paper, coral capsules, oxblood display type, gold scallop trim, teal strip.
-   Everything below theme-level is token-driven, so pages stay unaware of hex.
+   Hội An Creative Week 2026 — clean skin
+   Minimal, Apple/Google-style: neutral warm-biased canvas, one coral accent,
+   no ornament (grain / scallop / gradients removed). The mắt cửa mark survives
+   only as the app logo + stamp + small category dot. Token-driven, so pages
+   stay unaware of hex — the same variable names now carry the clean values.
    ========================================================================== */
 
 :root {
-  /* paper */
-  --paper: #fbe3da;
-  --paper-2: #fdecd4;
-  --surface: #fff7ef;
-  --bg: #fdeee2; /* recessed fill: table cells, inputs, thumbs */
+  /* dark canvas (warm-biased near-blacks, not pure grey), one coral accent */
+  --paper: #0c0b0a; /* page ground */
+  --paper-2: #171512;
+  --surface: #1b1a17; /* cards, sheets */
+  --bg: #262320; /* recessed fill: inputs, add-buttons, empty-slot fill, thumbs */
 
   /* ink */
-  --ink: #52281f;
-  --muted: #a2786a;
-  --line: #f0d5c7;
+  --ink: #f6f4f1; /* near-white */
+  --muted: #9c948b; /* warm grey */
+  --line: #2c2926; /* hairline on dark */
 
-  /* brand */
-  --brand: #e85f34;
+  /* one accent */
+  --brand: #ec6238;
   --brand-soft: #f4a25a;
-  --brand-dark: #7e1f13;
-  --brand-mid: #a72f1b;
-  --gold: #f3c24e;
-  --teal: #2fa8a0;
+  --brand-dark: #f6f4f1; /* emphasis/heading ink = near-white on the dark ground.
+                            The map (light basemap) uses its own dark ink literal. */
+  --brand-mid: #f0713f; /* accent hover (brighter) */
+  --gold: #e6a53a; /* "quieter" / spotlight highlight */
+  --teal: #35b0a7; /* success / open now — brightened for dark legibility */
 
-  --grad-brand: linear-gradient(135deg, #f0713f, #e04f28);
-  --grad-warm: linear-gradient(120deg, #f7c95c, #f0713f);
-  --grad-strip: linear-gradient(90deg, #2fa8a0, #7cc47f, #f3c24e, #fbe3da, #f0713f);
+  /* buttons/chips/tabs are flat — these resolve to a solid colour, not a gradient */
+  --grad-brand: #ec6238;
+  --grad-warm: #e6a53a;
+  --grad-strip: #ec6238;
 
-  --radius: 20px;
-  --radius-sm: 14px;
-  --shadow: 0 1px 2px rgba(126, 31, 19, 0.05), 0 12px 28px -16px rgba(126, 31, 19, 0.28);
-  --shadow-lift: 0 18px 40px -22px rgba(126, 31, 19, 0.5);
+  --radius: 16px;
+  --radius-sm: 12px;
+  --shadow: 0 1px 2px rgba(0, 0, 0, 0.4), 0 10px 30px -18px rgba(0, 0, 0, 0.7);
+  --shadow-lift: 0 16px 40px -20px rgba(0, 0, 0, 0.85);
 
-  /* letterpress paper grain — a passport is a physical page, so surfaces have fibre */
-  --grain: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='180' height='180'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.85' numOctaves='2' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)' opacity='0.35'/%3E%3C/svg%3E");
+  --grain: none; /* no ornament */
 
-  /* the key visual is set in one heavy geometric sans — 800 for display, 400-600 body */
-  --font-display: 'Be Vietnam Pro', ui-sans-serif, system-ui, sans-serif;
-  --font-body: 'Be Vietnam Pro', ui-sans-serif, system-ui, sans-serif;
+  --font-display: 'Be Vietnam Pro', ui-sans-serif, system-ui, -apple-system, sans-serif;
+  --font-body: 'Be Vietnam Pro', ui-sans-serif, system-ui, -apple-system, sans-serif;
 
-  /* category accents -> map pins + chips + tags (kept inside the brand family) */
-  --c-di-tich: #b3311f;
-  --c-hoi-quan: #2fa8a0;
-  --c-nha-co: #d99a2b;
-  --c-bao-tang: #7a5aa8;
-  --c-trai-nghiem: #e0537f;
+  /* category accents -> flower marks + pins + tags, brightened to read on black */
+  --c-di-tich: #e2593a;
+  --c-hoi-quan: #35b0a7;
+  --c-nha-co: #e0a83c;
+  --c-bao-tang: #9b7ad6;
+  --c-trai-nghiem: #e86a97;
 }
 
 * { box-sizing: border-box; }
@@ -184,12 +185,6 @@ html, body {
   color: var(--ink);
   font-family: var(--font-body);
   background-color: var(--paper);
-  /* key-visual gradient: peach top-left, pink body, warm glow bottom-right */
-  background-image:
-    radial-gradient(90% 55% at 12% 0%, var(--paper-2) 0%, transparent 60%),
-    radial-gradient(80% 50% at 100% 100%, #fcd9cd 0%, transparent 62%),
-    linear-gradient(180deg, #fdeada 0%, var(--paper) 45%, #fbdcd3 100%);
-  background-attachment: fixed;
   -webkit-font-smoothing: antialiased;
   text-rendering: optimizeLegibility;
 }
@@ -223,14 +218,14 @@ a { color: inherit; text-decoration: none; }
 
 h1, h2, h3 {
   font-family: var(--font-display);
-  font-weight: 800;
+  font-weight: 700;
   letter-spacing: -0.02em;
-  color: var(--brand-dark);
+  color: var(--ink);
 }
-h1 { font-size: 1.75rem; margin: 0 0 4px; line-height: 1.05; }
-h2 { font-size: 1.2rem; margin: 26px 0 10px; text-transform: uppercase; }
-h3 { font-weight: 700; }
-p { line-height: 1.62; }
+h1 { font-size: 1.75rem; margin: 0 0 4px; line-height: 1.1; }
+h2 { font-size: 1.2rem; margin: 26px 0 10px; }
+h3 { font-weight: 600; }
+p { line-height: 1.6; }
 
 .muted { color: var(--muted); }
 
@@ -239,58 +234,23 @@ p { line-height: 1.62; }
    identity. Reused, not redrawn. The teal→gold→coral strip is drawn by the
    topbar's own ::before below, so it needs no class of its own. */
 
-.scallop {
-  height: 15px;
-  /* roof-tile eave from the key visual: gold scallop with a lighter shine on
-     each tile, over a hairline ridge — two stacked repeats, no image. */
-  background:
-    radial-gradient(circle at 50% 0%, #ffe1a3 0 4px, transparent 4.5px) 0 -2px / 18px 15px repeat-x,
-    radial-gradient(circle at 50% 0%, var(--gold) 0 8px, transparent 8.5px) 0 0 / 18px 15px repeat-x,
-    linear-gradient(var(--gold), var(--gold)) 0 0 / 100% 2px no-repeat;
-}
+/* Ornament removed in the clean restyle — these motif hooks stay as no-ops so
+   existing markup keeps working without a peach scallop / gold eave. */
+.scallop { display: none; }
+.eave { display: none; }
 
-/* ---- passport-paper surface language (shared across pages) --------------
-   A warm page with fibre grain and a debossed inner keyline — the physical
-   passport the whole app is themed as. Apply .paper to a card, add .framed
-   for the inner keyline, .eave for the gold roof-tile trim along its top. */
+/* ---- surface language: a plain white card, hairline border, soft shadow ---- */
 .paper {
   position: relative;
-  background: linear-gradient(155deg, var(--surface), var(--paper-2));
+  background: var(--surface);
   border: 1px solid var(--line);
   border-radius: var(--radius);
   box-shadow: var(--shadow);
   overflow: hidden;
   isolation: isolate;
 }
-.paper::before {
-  content: '';
-  position: absolute;
-  inset: 0;
-  z-index: -1;
-  pointer-events: none;
-  background-image: var(--grain);
-  background-size: 180px 180px;
-  opacity: 0.5;
-  mix-blend-mode: multiply;
-}
-.paper.framed::after {
-  content: '';
-  position: absolute;
-  inset: 9px;
-  pointer-events: none;
-  border: 1px solid color-mix(in srgb, var(--brand-dark) 15%, transparent);
-  border-radius: calc(var(--radius) - 8px);
-  box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.45);
-}
-.eave {
-  position: absolute;
-  inset: 0 0 auto 0;
-  height: 13px;
-  pointer-events: none;
-  background:
-    radial-gradient(circle at 50% 0%, #ffe1a3 0 3.5px, transparent 4px) 0 -2px / 17px 13px repeat-x,
-    radial-gradient(circle at 50% 0%, var(--gold) 0 7px, transparent 7.5px) 0 0 / 17px 13px repeat-x;
-}
+.paper::before { content: none; } /* no more paper grain */
+.paper.framed::after { content: none; } /* no more debossed keyline */
 
 /* passport-field label: tiny oxblood caps, letter-spaced, like a form field */
 .fieldlabel {
@@ -326,46 +286,20 @@ p { line-height: 1.62; }
   }
 }
 
-/* ---- topbar: brand strip + oxblood display title ---- */
+/* ---- topbar: clean sticky header, large title, hairline underline ---- */
 .topbar {
   position: sticky; top: 0; z-index: 500;
-  background: color-mix(in srgb, var(--paper-2) 86%, transparent);
-  backdrop-filter: saturate(1.3) blur(12px);
+  background: color-mix(in srgb, var(--paper) 82%, transparent);
+  backdrop-filter: saturate(1.1) blur(12px);
   border-bottom: 1px solid var(--line);
   padding: 16px 18px 14px;
   padding-top: max(16px, env(safe-area-inset-top));
 }
-.topbar::before {
-  content: '';
-  position: absolute; inset: 0 0 auto 0;
-  height: 4px;
-  background: var(--grad-strip);
-}
-/* roof-tile eave under the strip — the same trim as the home cover, so every
-   page reads as a page of the one passport */
-.topbar::after {
-  content: '';
-  position: absolute; inset: 4px 0 auto 0; height: 11px; pointer-events: none; opacity: 0.9;
-  background:
-    radial-gradient(circle at 50% 0%, #ffe1a3 0 3px, transparent 3.4px) 0 -2px / 16px 11px repeat-x,
-    radial-gradient(circle at 50% 0%, var(--gold) 0 6px, transparent 6.5px) 0 0 / 16px 11px repeat-x;
-}
-.topbar h1 {
-  font-size: 1.35rem;
-  text-transform: uppercase;
-  position: relative;
-  display: inline-block;
-  padding-left: 14px;
-}
-.topbar h1::before {
-  content: '';
-  position: absolute; left: 0; top: 0.16em; bottom: 0.16em;
-  width: 5px; border-radius: 999px;
-  background: var(--grad-brand);
-}
-.topbar small { color: var(--muted); display: block; margin-top: 3px; }
+.topbar::before, .topbar::after { content: none; }
+.topbar h1 { font-size: 1.55rem; }
+.topbar small { color: var(--muted); display: block; margin-top: 2px; }
 
-/* ---- buttons ---- */
+/* ---- buttons: flat coral primary, neutral secondary ---- */
 .btn {
   display: inline-flex;
   align-items: center;
@@ -375,22 +309,25 @@ p { line-height: 1.62; }
   border-radius: 999px;
   padding: 13px 22px;
   font-family: var(--font-body);
-  font-size: 0.98rem;
-  font-weight: 700;
-  background: var(--grad-brand);
+  font-size: 1rem;
+  font-weight: 600;
+  background: var(--brand);
   color: #fff;
   cursor: pointer;
-  box-shadow: 0 10px 20px -12px var(--brand);
-  transition: transform 0.12s ease, box-shadow 0.12s ease, opacity 0.12s ease;
+  box-shadow: none;
+  transition: background 0.15s ease, transform 0.12s ease, opacity 0.12s ease;
 }
+.btn:hover { background: var(--brand-mid); }
 .btn:active { transform: translateY(1px); }
-.btn:disabled { opacity: 0.55; cursor: default; box-shadow: none; }
+.btn:disabled { opacity: 0.5; cursor: default; }
+.btn:focus-visible { outline: 2px solid var(--brand); outline-offset: 2px; }
 .btn.secondary {
-  background: var(--surface);
-  color: var(--brand-dark);
-  border: 1.5px solid color-mix(in srgb, var(--brand) 32%, var(--line));
+  background: var(--bg);
+  color: var(--ink);
+  border: none;
   box-shadow: none;
 }
+.btn.secondary:hover { background: var(--paper-2); }
 
 /* staff-code entry — same field in /organizer and in StaffConfirm */
 .code {
@@ -419,24 +356,17 @@ p { line-height: 1.62; }
   margin-bottom: 12px;
   align-items: center;
   overflow: hidden;
-  transition: transform 0.14s ease, box-shadow 0.14s ease;
+  transition: transform 0.14s ease;
 }
-/* fibre grain, so the ticket cards feel printed like the passport */
-.card::before {
-  content: '';
-  position: absolute; inset: 0; z-index: 0; pointer-events: none;
-  background-image: var(--grain); background-size: 170px 170px;
-  opacity: 0.4; mix-blend-mode: multiply;
-}
+.card::before { content: none; } /* no more paper grain */
 .card > * { position: relative; z-index: 1; }
 .card:active { transform: scale(0.99); }
 .card .thumb {
   width: 62px; height: 62px;
-  border-radius: 18px;
+  border-radius: 14px;
   flex: 0 0 auto;
   display: grid; place-items: center;
-  color: #fff; font-family: var(--font-display); font-weight: 800; font-size: 1.4rem;
-  box-shadow: inset 0 0 0 1px rgba(255, 255, 255, 0.3);
+  color: #fff; font-family: var(--font-display); font-weight: 700; font-size: 1.4rem;
 }
 .card .body { flex: 1; min-width: 0; }
 .card .body h3 { margin: 0; font-size: 1.02rem; line-height: 1.25; color: var(--ink); }
@@ -461,11 +391,11 @@ p { line-height: 1.62; }
   font-size: 0.85rem;
   white-space: nowrap;
   cursor: pointer;
-  box-shadow: 0 6px 14px -12px rgba(126, 31, 19, 0.6);
+  box-shadow: none;
   transition: background 0.14s ease, color 0.14s ease, border-color 0.14s ease;
 }
 .chip[aria-pressed='true'] {
-  background: var(--grad-brand);
+  background: var(--brand);
   color: #fff;
   border-color: transparent;
 }
@@ -507,13 +437,11 @@ p { line-height: 1.62; }
   color: var(--muted);
   transition: color 0.14s ease, background 0.14s ease;
 }
-.nav a .ico { font-size: 1.2rem; display: block; margin-bottom: 1px; filter: grayscale(0.5); opacity: 0.65; }
+.nav a .ico { font-size: 1.2rem; display: block; margin-bottom: 1px; }
 .nav a[aria-current='page'] {
-  background: var(--grad-brand);
-  color: #fff;
-  box-shadow: 0 8px 16px -10px var(--brand);
+  background: transparent;
+  color: var(--brand);
 }
-.nav a[aria-current='page'] .ico { filter: none; opacity: 1; }
 
 /* ---- organizer content editors (JsonFile + the four bodies) ----
    Global rather than per-component: four editors render the same controls, and
@@ -643,12 +571,23 @@ p { line-height: 1.62; }
 
 /* ---- info banner ---- */
 .banner {
-  background: linear-gradient(120deg, color-mix(in srgb, var(--gold) 22%, var(--surface)), var(--surface));
-  border: 1px solid color-mix(in srgb, var(--gold) 45%, var(--line));
-  color: #7a4f10;
+  background: color-mix(in srgb, var(--gold) 12%, var(--surface));
+  border: 1px solid color-mix(in srgb, var(--gold) 30%, var(--line));
+  color: var(--ink);
   border-radius: var(--radius-sm);
   padding: 12px 14px;
   font-size: 0.9rem;
   line-height: 1.45;
   margin-bottom: 12px;
+}
+
+/* success/done panel — teal register (semantic colour, separate from the accent) */
+.success {
+  background: color-mix(in srgb, var(--teal) 14%, var(--surface));
+  border: 1px solid color-mix(in srgb, var(--teal) 40%, var(--line));
+  color: var(--teal);
+  border-radius: var(--radius-sm);
+  padding: 12px;
+  font-weight: 600;
+  margin-bottom: 8px;
 }

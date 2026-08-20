@@ -3,6 +3,7 @@
   import tours from '$lib/data/tours.json';
   import destinations from '$lib/data/destinations.json';
   import RouteMap from '$lib/components/RouteMap.svelte';
+  import PageShell from '$lib/components/PageShell.svelte';
   import { isSetComplete, hasStamp } from '$lib/passport.svelte.js';
   import { routeStats, formatDistance } from '$lib/route.js';
   import { openLabel } from '$lib/util.js';
@@ -12,7 +13,9 @@
   const byId = Object.fromEntries(destinations.map((d) => [d.id, d]));
 
   // Resolve stops + walking cost once — content is frozen, so this never changes.
-  const routes = tours.map((tour) => {
+  // Ticket sets (the "choose your 5" bundles) live on /plan; /tours is the free
+  // surveyed walking routes only.
+  const routes = tours.filter((tour) => !tour.ticket).map((tour) => {
     const stops = tour.stops.map((id) => byId[id]).filter(Boolean);
     return { tour, stops, ...routeStats(stops) };
   });
@@ -22,9 +25,7 @@
   const toggle = (id) => (open = open === id ? null : id);
 </script>
 
-<div class="topbar"><h1>{s('tours_title')}</h1><small>{s('tours_sub')}</small></div>
-
-<div class="page">
+<PageShell title={s('tours_title')} sub={s('tours_sub')}>
   {#each routes as { tour, stops, meters, minutes } (tour.id)}
     {@const done = stops.filter((d) => hasStamp(d.id)).length}
     <div class="tour" class:open={open === tour.id}>
@@ -65,7 +66,7 @@
       {/if}
     </div>
   {/each}
-</div>
+</PageShell>
 
 <style>
   .tour {
@@ -116,6 +117,6 @@
   .steps li { line-height: 1.35; }
   .open { font-weight: 700; }
   .open.open { color: var(--teal); }
-  .open.soon { color: #a4620e; }
+  .open.soon { color: var(--gold); }
   .open.closed { color: var(--muted); }
 </style>

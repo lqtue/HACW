@@ -1,3 +1,3 @@
-// Frozen, content-driven app -> prerender everything to static HTML.
+// Whole app is prerendered (static, offline-first). Dynamic routes list their
+// ids via entries() in their own +page.js.
 export const prerender = true;
-export const trailingSlash = 'ignore';

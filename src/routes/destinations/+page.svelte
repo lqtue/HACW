@@ -197,7 +197,9 @@
     // spotlight variant) drawn from the same CSS vars the rest of the app uses.
     const css = getComputedStyle(document.documentElement);
     const gold = css.getPropertyValue('--gold').trim() || '#e0a83c';
-    const ink = css.getPropertyValue('--brand-dark').trim() || '#7e1f13';
+    // literal dark ink: pins sit on the light printed basemap, so they keep dark
+    // keylines even though the app chrome ink (--brand-dark) is now near-white.
+    const ink = '#1c1917';
     for (const c of categories) {
       const color = css.getPropertyValue(`--c-${c.id}`).trim() || '#bb4b2c';
       map.addImage(`pin-${c.id}`, pinImage(color, ink), { pixelRatio: PIN_DPR });
@@ -264,7 +266,7 @@
       },
       paint: {
         'icon-opacity': ['coalesce', ['get', 'dim'], 1],
-        'text-color': '#7e1f13',
+        'text-color': '#1c1917',
         'text-halo-color': '#fff7ef',
         'text-halo-width': 1.6,
         // names only once the alleys are legible, otherwise it is a wall of text
@@ -386,7 +388,7 @@
 </script>
 
 <div class="explore">
-  <div class="topbar"><h1>{s('explore')}</h1><small>{s('sites_count', destinations.length)}</small></div>
+  <h1 class="sr-only">{s('explore')}</h1>
 
   <div class="wrap">
     <div bind:this={el} class="map"></div>
@@ -394,21 +396,21 @@
       <button class="mapbtn" aria-pressed={tilt} onclick={toggleTilt}>{tilt ? '▣' : '◱'} 3D</button>
     </div>
 
-    <!-- several sites under one tap: page through them without moving the map -->
-    {#if stack.length > 1}
-      <div class="stack">
-        <button class="stack-nav" onclick={() => step(-1)} aria-label={s('prev_site')}>‹</button>
-        <span class="stack-label">
-          <b>{stackAt + 1}</b> / {stack.length} · {t(stack[stackAt].name)}
-        </span>
-        <button class="stack-nav" onclick={() => step(1)} aria-label={s('next_site')}>›</button>
-      </div>
-    {/if}
-  </div>
-
-  <!-- bottom sheet: filters, counter bar and site cards ride over the map edge -->
+  <!-- bottom sheet floats over the map edge: filters, counter bar, site cards.
+       Translucent so the plan reads through it — the map is the screen now. -->
   <div class="sheet">
   <span class="handle" aria-hidden="true"></span>
+
+  <!-- several sites under one tap: page through them without moving the map -->
+  {#if stack.length > 1}
+    <div class="stack">
+      <button class="stack-nav" onclick={() => step(-1)} aria-label={s('prev_site')}>‹</button>
+      <span class="stack-label">
+        <b>{stackAt + 1}</b> / {stack.length} · {t(stack[stackAt].name)}
+      </span>
+      <button class="stack-nav" onclick={() => step(1)} aria-label={s('next_site')}>›</button>
+    </div>
+  {/if}
 
   <div class="chips">
     <button class="chip" aria-pressed={active === 'all'} onclick={() => (active = 'all')}>{s('all')}</button>
@@ -454,16 +456,29 @@
     {/if}
   </div>
   </div>
+  </div>
 </div>
 
 <style>
-  /* full-height column: map fills, the sheet of controls rides over its bottom */
+  /* full-bleed map: the wrap is the whole screen, the sheet floats over its
+     bottom. No topbar band here — the nav already names the tab, so the map
+     gets that strip of height back. */
   .explore { flex: 1; display: flex; flex-direction: column; min-height: 0; }
   .wrap { flex: 1; min-height: 0; position: relative; }
   .map { position: absolute; inset: 0; background: var(--paper); }
 
-  /* top-left; the bottom edge belongs to the ‹ › pager */
-  .mapbtns { position: absolute; top: 12px; left: 12px; z-index: 5; display: flex; gap: 8px; }
+  .sr-only {
+    position: absolute; width: 1px; height: 1px;
+    padding: 0; margin: -1px; overflow: hidden;
+    clip: rect(0 0 0 0); white-space: nowrap; border: 0;
+  }
+
+  /* clears the fixed language pill (top-right) and the notch */
+  .mapbtns {
+    position: absolute;
+    top: max(12px, calc(env(safe-area-inset-top) + 6px));
+    left: 12px; z-index: 5; display: flex; gap: 8px;
+  }
   .mapbtn {
     border: 1px solid var(--line);
     background: color-mix(in srgb, var(--surface) 92%, transparent);
@@ -483,12 +498,18 @@
      on: flat stock, a hairline rule instead of frosted glass and a soft glow.
      Scoped overrides only — .chip and .card keep their app-wide look elsewhere. */
   .sheet {
-    flex: 0 0 auto;
-    position: relative;
+    position: absolute;
+    left: 0; right: 0; bottom: 0;
     z-index: 600; /* above the map canvas and its controls */
-    margin-top: 0;
-    background: var(--surface);
+    display: flex;
+    flex-direction: column;
+    max-height: 62%;
+    background: color-mix(in srgb, var(--surface) 86%, transparent);
+    backdrop-filter: blur(14px) saturate(1.2);
     border-top: 1px solid color-mix(in srgb, var(--brand-dark) 22%, transparent);
+    border-radius: 18px 18px 0 0;
+    box-shadow: 0 -8px 30px -22px rgba(40, 12, 6, 0.75);
+    padding-bottom: max(2px, env(safe-area-inset-bottom));
   }
   .handle {
     display: block;
@@ -497,10 +518,24 @@
     border-radius: 0;
     background: color-mix(in srgb, var(--brand-dark) 25%, transparent);
   }
-  .chips { flex: 0 0 auto; padding: 10px 18px 8px; }
+  /* one scrolling row, not a wrapping block — wrapping ate three lines of height
+     and shoved the map off the top. Now the filters read like a map app's. */
+  .chips {
+    flex: 0 0 auto;
+    display: flex;
+    flex-wrap: nowrap;
+    gap: 8px;
+    padding: 10px 18px 8px;
+    overflow-x: auto;
+    scrollbar-width: none;
+    -webkit-overflow-scrolling: touch;
+  }
+  .chips::-webkit-scrollbar { display: none; }
 
   /* chips as printed labels: hairline keyline, uppercase, no shadow, no gradient */
   .chips :global(.chip) {
+    flex: 0 0 auto;
+    white-space: nowrap;
     border-radius: 6px;
     border-color: color-mix(in srgb, var(--brand-dark) 20%, transparent);
     background: transparent;
@@ -527,11 +562,11 @@
   }
   .chips :global(.chip[aria-pressed='true'] .sw) { background: var(--paper); border-color: var(--paper); }
 
-  /* stack bar: the reference's "1 / 5 in this area" pager, in our ink */
+  /* stack bar: the reference's "1 / 5 in this area" pager, in our ink. Rides at
+     the top of the sheet now (the sheet owns the bottom edge). */
   .stack {
-    position: absolute;
-    left: 12px; right: 12px; bottom: 12px;
-    z-index: 6;
+    flex: 0 0 auto;
+    margin: 6px 14px 2px;
     display: flex;
     align-items: center;
     gap: 10px;
@@ -592,12 +627,17 @@
     background: color-mix(in srgb, var(--teal) 22%, transparent);
   }
 
+  /* proximity, not mandatory: mandatory snap fought the drag and left the last
+     cards unreachable — the "can't scroll the locations" bug. touch-action pins
+     the gesture to this row so a horizontal swipe never bubbles to the map. */
   .carousel {
     flex: 0 0 auto;
     display: flex;
     gap: 12px;
     overflow-x: auto;
-    scroll-snap-type: x mandatory;
+    scroll-snap-type: x proximity;
+    touch-action: pan-x;
+    -webkit-overflow-scrolling: touch;
     padding: 4px 18px 14px;
     scrollbar-width: none;
   }
@@ -703,7 +743,7 @@
   :global(.pop .pop-meta dd) { margin: 0; }
   :global(.pop .pop-meta em) { font-style: normal; font-weight: 700; }
   :global(.pop .pop-meta em.open) { color: var(--teal); }
-  :global(.pop .pop-meta em.soon) { color: #a4620e; }
+  :global(.pop .pop-meta em.soon) { color: var(--gold); }
   :global(.pop .pop-meta em.closed) { color: var(--muted); }
 
   /* status badges are outlined, not filled — filled pills fight the marks */
@@ -717,7 +757,7 @@
     text-transform: uppercase;
     border: 1px solid currentColor;
   }
-  :global(.pop .ptag.gold) { color: #8a5a08; background: color-mix(in srgb, var(--gold) 22%, transparent); }
+  :global(.pop .ptag.gold) { color: var(--gold); background: color-mix(in srgb, var(--gold) 22%, transparent); }
   :global(.pop .ptag.done) { color: var(--teal); background: color-mix(in srgb, var(--teal) 12%, transparent); }
 
   /* one obvious action, one quiet one */

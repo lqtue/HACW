@@ -5,7 +5,8 @@ import {
   encodeSnapshot,
   decodeSnapshot,
   normalizeCode,
-  isValidCode
+  isValidCode,
+  codeFromTicket
 } from './backup.js';
 
 // --- merge never loses a stamp ---
@@ -56,5 +57,15 @@ assert.equal(normalizeCode('ab12-cd34'), 'AB12CD34');
 assert.ok(isValidCode(normalizeCode('ab12 cd34')));
 assert.ok(!isValidCode('AB12CD3'), 'too short');
 assert.ok(!isValidCode('AB12CD3I'), 'I is not in the alphabet');
+
+// --- codeFromTicket: stable, well-formed, separator-invariant ---
+const ticket = 'EBL0226T1490955889';
+const code = codeFromTicket(ticket);
+assert.ok(isValidCode(code), `derived code ${code} must pass isValidCode`);
+assert.equal(codeFromTicket(ticket), code, 'same ticket -> same code (re-scan restores)');
+assert.equal(codeFromTicket('ebl 0226t1490-955889'), code, 'case/separators do not change the code');
+assert.notEqual(codeFromTicket('EBL0226T1490955880'), code, 'different ticket -> different code');
+assert.equal(codeFromTicket(''), '', 'empty input -> empty code');
+assert.equal(codeFromTicket(null), '', 'null input -> empty code');
 
 console.log('backup.test.js ok');

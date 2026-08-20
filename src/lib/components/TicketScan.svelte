@@ -1,0 +1,155 @@
+<script>
+  import { onDestroy } from 'svelte';
+  import { browser } from '$app/environment';
+  import { s } from '$lib/strings.js';
+
+  // Optional "scan your ticket to begin". The Hội An ticket's QR is a Vietnamese
+  // e-invoice lookup code (tracuuhddt…), not machine-readable ticket contents — so
+  // scanning proves a purchase and gives us a stable anonymous id, but NOT which
+  // sites or 3-vs-5. That's why the planner never gates on it: iOS has no
+  // BarcodeDetector, so this stays a bonus gesture, not the only door.
+  // ponytail: native BarcodeDetector only, no QR-decode dependency. If iOS scan
+  // becomes a must-have, add a wasm decoder behind the same `supported` check.
+  const KEY = 'hacw_ticket_v1';
+  let { onsaved } = $props();
+
+  const supported =
+    typeof window !== 'undefined' && 'BarcodeDetector' in window && !!navigator.mediaDevices;
+
+  let saved = $state(
+    typeof localStorage !== 'undefined' && !!localStorage.getItem(KEY)
+  );
+  let scanning = $state(false);
+  let note = $state('');
+  let video = $state();
+  let stream = null;
+  let raf = 0;
+
+  function stop() {
+    if (!browser) return;
+    cancelAnimationFrame(raf);
+    raf = 0;
+    stream?.getTracks().forEach((t) => t.stop());
+    stream = null;
+    scanning = false;
+  }
+  onDestroy(stop);
+
+  async function start() {
+    if (!supported) {
+      note = s('scan_unsupported');
+      return;
+    }
+    note = '';
+    scanning = true;
+    try {
+      stream = await navigator.mediaDevices.getUserMedia({ video: { facingMode: 'environment' } });
+      video.srcObject = stream;
+      await video.play();
+      const detector = new BarcodeDetector({ formats: ['qr_code'] });
+      const tick = async () => {
+        if (!scanning) return;
+        try {
+          const codes = await detector.detect(video);
+          if (codes.length && codes[0].rawValue) return done(codes[0].rawValue);
+        } catch {
+          // a transient decode failure is fine — keep polling
+        }
+        raf = requestAnimationFrame(tick);
+      };
+      raf = requestAnimationFrame(tick);
+    } catch {
+      note = s('scan_unsupported');
+      stop();
+    }
+  }
+
+  function done(code) {
+    stop();
+    try {
+      localStorage.setItem(KEY, code);
+    } catch {
+      // private mode / no storage — the gesture still "worked" for the visitor
+    }
+    saved = true;
+    onsaved?.(code);
+  }
+</script>
+
+{#if scanning}
+  <div class="frame">
+    <video bind:this={video} playsinline muted></video>
+    <span class="reticle" aria-hidden="true"></span>
+    <p class="hint">{s('scan_point')}</p>
+    <button class="btn secondary close" onclick={stop}>{s('scan_close')}</button>
+  </div>
+{:else}
+  <div class="strip">
+    {#if saved}
+      <span class="ok">{s('scan_saved')}</span>
+    {:else}
+      <span class="lbl">{s('plan_scan')}</span>
+      <button class="link" onclick={start}>{s('scan_btn')}</button>
+    {/if}
+  </div>
+  {#if note}<p class="note">{note}</p>{/if}
+{/if}
+
+<style>
+  /* idle: a quiet strip, not a box — scanning is optional and must not compete
+     with the recommendation above it */
+  .strip {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-wrap: wrap;
+    gap: 8px;
+    margin-top: 28px;
+    padding-top: 16px;
+    border-top: 1px solid var(--line);
+  }
+  .lbl { color: var(--muted); font-size: 0.85rem; }
+  .link {
+    border: 0;
+    background: none;
+    padding: 0;
+    color: var(--brand);
+    font-family: var(--font-body);
+    font-weight: 700;
+    font-size: 0.85rem;
+    cursor: pointer;
+  }
+  .ok { color: var(--brand-dark); font-weight: 700; font-size: 0.9rem; }
+  .note { margin: 8px 0 0; text-align: center; color: var(--muted); font-size: 0.82rem; }
+
+  .frame {
+    position: relative;
+    width: 100%;
+    max-width: 340px;
+    aspect-ratio: 3 / 4;
+    margin: 20px auto 0;
+    border-radius: 16px;
+    overflow: hidden;
+    background: #000;
+  }
+  video { width: 100%; height: 100%; object-fit: cover; }
+  .reticle {
+    position: absolute;
+    inset: 16%;
+    border: 3px solid rgba(255, 255, 255, 0.92);
+    border-radius: 12px;
+    box-shadow: 0 0 0 100vmax rgba(0, 0, 0, 0.35);
+  }
+  .frame .hint {
+    position: absolute;
+    left: 0;
+    right: 0;
+    bottom: 58px;
+    margin: 0;
+    text-align: center;
+    color: #fff;
+    font-size: 0.85rem;
+    text-shadow: 0 1px 3px rgba(0, 0, 0, 0.6);
+  }
+  .close { position: absolute; left: 50%; bottom: 14px; transform: translateX(-50%); }
+</style>

@@ -135,7 +135,8 @@
         ],
         "answer": 0
       }
-    ]
+    ],
+    "ticketClass": "monument"
   },
   {
     "id": "chua-quan-am",
@@ -232,7 +233,8 @@
         ],
         "answer": 0
       }
-    ]
+    ],
+    "ticketClass": "monument"
   },
   {
     "id": "mieu-quan-cong",
@@ -326,7 +328,8 @@
         ],
         "answer": 0
       }
-    ]
+    ],
+    "ticketClass": "monument"
   },
   {
     "id": "bao-tang-gom-su-mau-dich",
@@ -420,7 +423,8 @@
         ],
         "answer": 0
       }
-    ]
+    ],
+    "ticketClass": "museum"
   },
   {
     "id": "bao-tang-hoi-an",
@@ -517,7 +521,8 @@
         ],
         "answer": 0
       }
-    ]
+    ],
+    "ticketClass": "museum"
   },
   {
     "id": "bao-tang-sa-huynh",
@@ -614,7 +619,8 @@
         ],
         "answer": 1
       }
-    ]
+    ],
+    "ticketClass": "museum"
   },
   {
     "id": "bao-tang-van-hoa-dan-gian",
@@ -711,7 +717,8 @@
         ],
         "answer": 2
       }
-    ]
+    ],
+    "ticketClass": "museum"
   },
   {
     "id": "bao-tang-nghe-y",
@@ -808,7 +815,8 @@
         ],
         "answer": 0
       }
-    ]
+    ],
+    "ticketClass": "museum"
   },
   {
     "id": "bao-tang-tho-san",
@@ -906,7 +914,8 @@
         ],
         "answer": 1
       }
-    ]
+    ],
+    "ticketClass": "museum"
   },
   {
     "id": "nha-trung-bay-nhat-ban",
@@ -980,7 +989,8 @@
         ],
         "answer": 1
       }
-    ]
+    ],
+    "ticketClass": "other"
   },
   {
     "id": "nha-bieu-dien-nghe-thuat",
@@ -1032,7 +1042,8 @@
         ],
         "answer": 2
       }
-    ]
+    ],
+    "ticketClass": "other"
   },
   {
     "id": "nha-tho-toc-tran",
@@ -1129,7 +1140,8 @@
         ],
         "answer": 1
       }
-    ]
+    ],
+    "ticketClass": "other"
   },
   {
     "id": "nha-tho-toc-nguyen-tuong",
@@ -1226,7 +1238,8 @@
         ],
         "answer": 2
       }
-    ]
+    ],
+    "ticketClass": "other"
   },
   {
     "id": "nha-co-phung-hung",
@@ -1323,7 +1336,8 @@
         ],
         "answer": 0
       }
-    ]
+    ],
+    "ticketClass": "other"
   },
   {
     "id": "nha-co-quan-thang",
@@ -1420,7 +1434,8 @@
         ],
         "answer": 1
       }
-    ]
+    ],
+    "ticketClass": "other"
   },
   {
     "id": "nha-co-duc-an",
@@ -1518,7 +1533,8 @@
         ],
         "answer": 2
       }
-    ]
+    ],
+    "ticketClass": "other"
   },
   {
     "id": "nha-co-tan-ky",
@@ -1612,7 +1628,8 @@
         ],
         "answer": 0
       }
-    ]
+    ],
+    "ticketClass": "other"
   },
   {
     "id": "hoi-quan-quang-trieu",
@@ -1706,7 +1723,8 @@
         ],
         "answer": 0
       }
-    ]
+    ],
+    "ticketClass": "other"
   },
   {
     "id": "hoi-quan-phuc-kien",
@@ -1800,7 +1818,8 @@
         ],
         "answer": 0
       }
-    ]
+    ],
+    "ticketClass": "other"
   },
   {
     "id": "hoi-quan-hai-nam",
@@ -1897,7 +1916,8 @@
         ],
         "answer": 0
       }
-    ]
+    ],
+    "ticketClass": "other"
   },
   {
     "id": "hoi-quan-trieu-chau",
@@ -1994,7 +2014,8 @@
         ],
         "answer": 1
       }
-    ]
+    ],
+    "ticketClass": "other"
   },
   {
     "id": "dinh-cam-pho",
@@ -2091,7 +2112,8 @@
         ],
         "answer": 2
       }
-    ]
+    ],
+    "ticketClass": "other"
   },
   {
     "id": "tuy-tien-duong-minh-huong",
@@ -2165,7 +2187,8 @@
         ],
         "answer": 2
       }
-    ]
+    ],
+    "ticketClass": "other"
   },
   {
     "id": "dinh-hoi-an",
@@ -2240,7 +2263,8 @@
         ],
         "answer": 0
       }
-    ]
+    ],
+    "ticketClass": "other"
   },
   {
     "id": "trinh-nghe-xi-ma",
@@ -2315,6 +2339,7 @@
         ],
         "answer": 1
       }
-    ]
+    ],
+    "ticketClass": "other"
   }
 ]

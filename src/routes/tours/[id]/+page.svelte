@@ -1,5 +1,6 @@
 <script>
   import Card from '$lib/components/Card.svelte';
+  import PageShell from '$lib/components/PageShell.svelte';
   import StaffConfirm from '$lib/components/StaffConfirm.svelte';
   import RouteMap from '$lib/components/RouteMap.svelte';
   import NearestBooth from '$lib/components/NearestBooth.svelte';
@@ -17,9 +18,7 @@
   const redeemed = $derived(isRedeemed(tour.id));
 </script>
 
-<div class="topbar"><h1>{t(tour.title)}</h1><small>{t(tour.theme)}</small></div>
-
-<div class="page">
+<PageShell title={t(tour.title)} sub={t(tour.theme)}>
   <RouteMap stops={data.stops} height="200px" />
   <p class="muted walkline">
     <small>{s('stops', data.stops.length)} · {s('walk', formatDistance(walk.meters, i18n.lang), walk.minutes)}</small>
@@ -41,7 +40,7 @@
   {#each data.stops as dest, i}
     <Card {dest} index={i + 1} />
   {/each}
-</div>
+</PageShell>
 
 <style>
   .redeem {
@@ -55,13 +54,4 @@
   }
   .redeem .done { margin: 0; font-weight: 600; }
   .walkline { margin: 8px 0 0; }
-  .success {
-    background: color-mix(in srgb, var(--teal) 12%, var(--surface));
-    border: 1px solid color-mix(in srgb, var(--teal) 45%, var(--line));
-    color: #1c6f68;
-    border-radius: var(--radius-sm);
-    padding: 12px;
-    font-weight: 700;
-    margin-bottom: 8px;
-  }
 </style>

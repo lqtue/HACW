@@ -7,6 +7,7 @@
   import StaffConfirm from '$lib/components/StaffConfirm.svelte';
   import NearestBooth from '$lib/components/NearestBooth.svelte';
   import MatCua from '$lib/components/MatCua.svelte';
+  import PageShell from '$lib/components/PageShell.svelte';
   import {
     passport,
     hasStamp,
@@ -89,9 +90,7 @@
   }
 </script>
 
-<div class="topbar"><h1>{s('passport_title')}</h1><small>{s('stamps_of', count, total)}</small></div>
-
-<div class="page">
+<PageShell title={s('passport_title')} sub={s('stamps_of', count, total)}>
   <!-- score + rank -->
   <div class="score">
     <div class="big"><strong>{score.total}</strong><small>{s('points')}</small></div>
@@ -238,7 +237,7 @@
     {#if notice}<p class="notice">{notice}</p>{/if}
     <p class="muted"><small>{s('offline_ok')}</small></p>
   </div>
-</div>
+</PageShell>
 
 <style>
   /* the one number the whole app is about -> key-visual treatment */
@@ -248,9 +247,7 @@
     display: flex;
     align-items: center;
     gap: 16px;
-    background:
-      radial-gradient(120% 130% at 100% 0%, #fde3c9 0%, transparent 62%),
-      linear-gradient(150deg, #fdeada, var(--surface));
+    background: var(--surface);
     border: 1px solid var(--line);
     border-radius: var(--radius);
     padding: 14px 16px;

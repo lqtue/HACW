@@ -56,6 +56,19 @@ export function setHolder(name) {
   if (browser) localStorage.setItem(HOLDER, name);
 }
 
+/**
+ * Adopt a recovery code derived from the visitor's scanned ticket (see
+ * codeFromTicket). Replaces the auto-generated pid so re-scanning the ticket on
+ * another device restores the same passport. No-op on junk or the current code;
+ * local stamps are untouched (merge-only), and a fresh backup goes up soon.
+ */
+export function adoptCode(pid) {
+  if (!isValidCode(pid) || pid === passport.pid) return;
+  passport.pid = pid;
+  if (browser) localStorage.setItem(PID, pid);
+  soon('backup', backup, 2000);
+}
+
 function persist() {
   if (!browser) return;
   localStorage.setItem(KEY, JSON.stringify(passport.stamps));

@@ -14,6 +14,7 @@
   import TourEditor from '$lib/components/TourEditor.svelte';
   import RewardEditor from '$lib/components/RewardEditor.svelte';
   import EventEditor from '$lib/components/EventEditor.svelte';
+  import PageShell from '$lib/components/PageShell.svelte';
 
   // One file open at a time: each editor holds its own unsaved working copy, and
   // showing four at once invites downloading one and forgetting the other three.
@@ -97,9 +98,7 @@
   }
 </script>
 
-<div class="topbar"><h1>{s('org_title')}</h1><small>{s('org_sub')}</small></div>
-
-<div class="page">
+<PageShell title={s('org_title')} sub={s('org_sub')}>
 {#if !staff.on}
   <!-- Two tiers, same input: the volunteer code (also the voucher confirm / skip-GPS
        code) gets this dashboard read-only, the organizer code adds the editor.
@@ -235,7 +234,7 @@
     </section>
   {/if}
 {/if}
-</div>
+</PageShell>
 
 <style>
   .code { margin-bottom: 10px; }
@@ -245,7 +244,7 @@
 
   .kpis { display: grid; grid-template-columns: repeat(3, 1fr); gap: 10px; }
   .kpi {
-    background: linear-gradient(150deg, #fdeada, var(--surface));
+    background: var(--surface);
     border: 1px solid var(--line);
     border-radius: var(--radius);
     padding: 12px;

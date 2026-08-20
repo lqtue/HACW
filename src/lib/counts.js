@@ -4,7 +4,12 @@
 //   count:<destId>         check-ins
 //   ev:<type>[:<destId>]   everything that isn't a check-in
 
-export const TYPES = new Set(['checkin', 'gps_far', 'gps_fail', 'quiz_wrong', 'redeem']);
+export const TYPES = new Set([
+  'checkin', 'gps_far', 'gps_fail', 'quiz_wrong', 'redeem',
+  // onboarding / planner funnel (site-less totals): app opened, ticket scanned,
+  // a valid 1+1+3 assembled — the numbers that show how many visitors reach each step.
+  'welcome', 'scan', 'plan_built'
+]);
 export const MAX_EVENTS = 50; // one dead-spot queue, not a firehose
 
 const ID = /^[a-z0-9-]{1,32}$/;

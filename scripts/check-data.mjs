@@ -26,8 +26,33 @@ const ids = destinations.map((d) => d.id);
 const ok = (problems, file) => assert.ok(problems.length === 0, `\n${file}:\n${problems.join('\n')}`);
 
 ok(checkDestinations(destinations, categories.map((c) => c.id)), 'destinations.json');
-// Passing ids in is also what asserts every site belongs to exactly one tour.
-ok(checkTours(tours, ids), 'tours.json');
+// Full destination objects (not just ids) so ticket-set slot composition is checked.
+ok(checkTours(tours, destinations), 'tours.json');
+
+// Ticket-class taxonomy: the paper ticket admits 1 of 3 monuments + 1 of 6 museums
+// + free slots. Every site must carry a ticketClass; counts must match the ticket.
+// PLACEHOLDER ASSIGNMENT — survey team must confirm the real monument/museum ids.
+const tc = { monument: 0, museum: 0, other: 0 };
+const badClass = [];
+for (const d of destinations) {
+  if (tc[d.ticketClass] === undefined) badClass.push(`${d.id}: bad ticketClass ${d.ticketClass}`);
+  else tc[d.ticketClass]++;
+}
+ok(badClass, 'ticketClass');
+assert.equal(tc.monument, 3, `expected 3 monuments, got ${tc.monument}`);
+assert.equal(tc.museum, 6, `expected 6 museums, got ${tc.museum}`);
+
+// (Opening hours are free text and may legitimately be "Liên hệ ban tổ chức" /
+// unknown — hours.js reports those as unknown and the filter treats them as open,
+// so there is nothing to enforce here.)
+
+// Coverage: a site in NO ticket set is invisible to the planner. Warn (don't fail)
+// — the themed sets are still being authored; /organizer lists these as a to-do.
+const inSet = new Set(tours.filter((t) => t.ticket).flatMap((t) => t.stops));
+const uncovered = destinations.filter((d) => !inSet.has(d.id)).map((d) => d.id);
+if (uncovered.length) console.warn(`  ⚠ ${uncovered.length} sites in no ticket set: ${uncovered.join(', ')}`);
+const draftSets = tours.filter((t) => t.ticket && t.draft).map((t) => t.id);
+if (draftSets.length) console.warn(`  ⚠ ${draftSets.length} draft ticket sets need real narratives: ${draftSets.join(', ')}`);
 // Tiers gate on points, so the ceiling is the score a visitor is guaranteed to
 // reach — not the number of sites.
 ok(checkRewards(rewards, maxPossiblePoints(destinations.length, tours.length)), 'rewards.json');

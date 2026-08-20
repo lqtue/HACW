@@ -1,7 +1,8 @@
 // Destination content rules, in one place: `npm test` (scripts/check-data.mjs)
 // and the /organizer editor both call these, so a JSON downloaded from the
-// browser passes exactly the gate the repo does. Pure — no imports, so node
-// runs it and Svelte imports it.
+// browser passes exactly the gate the repo does. Pure (only ticket.js, itself
+// import-free), so node runs it and Svelte imports it.
+import { isValidSet, TICKETS } from './ticket.js';
 
 // Hội An old town bounding box — a pin outside it is a data-entry slip.
 export const BOX = { latMin: 15.87, latMax: 15.89, lngMin: 108.31, lngMax: 108.34 };
@@ -60,15 +61,24 @@ export function checkDestinations(list, categoryIds = null) {
 }
 
 /**
- * Tours. A stop belonging to two tours would let one stamp count toward two
- * voucher sets, so that is an error, not a warning.
- * @param {string[] | null} destIds known destination ids, or null to skip that check
+ * Tours come in two kinds:
+ *  - free walking routes (`ticket` falsy): disjoint voucher sets, so a stop in two
+ *    of them is an error — one stamp would silently complete two vouchers.
+ *  - ticket sets (`ticket: true`): a valid slot mix for one paper ticket
+ *    (`size` stops, 1 monument + 1 museum + free). These *overlap by design* — a
+ *    monument recurs across themes — so the shared-stop rule does not apply, and
+ *    instead the slot composition is checked against TICKETS[size].
+ * @param {Array<string|object>|null} dests destination ids, or full destination
+ *   objects (needed to check ticket-set composition — ids alone skip that check).
  */
-export function checkTours(list, destIds = null) {
+export function checkTours(list, dests = null) {
   if (!Array.isArray(list)) return ['tours.json: not an array'];
   const out = [];
+  const asObjects = dests?.length && typeof dests[0] === 'object';
+  const destIds = dests ? dests.map((d) => (typeof d === 'string' ? d : d.id)) : null;
+  const byId = asObjects ? Object.fromEntries(dests.map((d) => [d.id, d])) : null;
   const seenId = new Set();
-  const claimed = new Map(); // stop id -> the tour that already owns it
+  const claimed = new Map(); // stop id -> the free walking route that already owns it
   for (const tour of list) {
     const at = tour?.id ?? '(no id)';
     if (!tour?.id) out.push(`${at}: missing id`);
@@ -76,17 +86,26 @@ export function checkTours(list, destIds = null) {
     seenId.add(tour?.id);
     for (const f of ['title', 'theme', 'description', 'voucher']) bilingual(tour?.[f], `${at}.${f}`, out);
     const stops = tour?.stops ?? [];
-    if (stops.length < 2) out.push(`${at}: needs at least 2 stops`);
+
+    if (tour?.ticket) {
+      const size = tour.size ?? 5;
+      if (!TICKETS[size]) out.push(`${at}: unknown ticket size ${size}`);
+      else if (byId && !isValidSet(stops, byId, size))
+        out.push(`${at}: not a valid ${size}-site ticket set (need 1 monument + 1 museum + ${size - 2} free)`);
+    } else if (stops.length < 2) {
+      out.push(`${at}: needs at least 2 stops`);
+    }
+
     for (const stop of stops) {
       if (destIds && !destIds.includes(stop)) out.push(`${at}: unknown stop ${stop}`);
-      if (claimed.has(stop)) out.push(`${at}: stop ${stop} is already in ${claimed.get(stop)}`);
-      else claimed.set(stop, at);
+      if (!tour?.ticket) {
+        if (claimed.has(stop)) out.push(`${at}: stop ${stop} is already in ${claimed.get(stop)}`);
+        else claimed.set(stop, at);
+      }
     }
   }
-  // A site may belong to no tour: only some routes are surveyed walking routes,
-  // and an unassigned site is still stampable and still scores — it just earns no
-  // tour bonus. Two tours must never claim the same stop though, or one voucher
-  // set would silently complete another.
+  // A site may belong to no free route (still stampable, still scores). Coverage
+  // by ticket sets is a soft goal checked as a warning in check-data.mjs.
   return out;
 }
 
