@@ -18,7 +18,7 @@
   import { codeFromTicket } from '$lib/backup.js';
   import { plan, setOnboarded, setTicketCode, setPlanSet } from '$lib/plan.svelte.js';
   import { openLabel } from '$lib/util.js';
-  import { i18n, t } from '$lib/i18n.svelte.js';
+  import { i18n, t, setLang } from '$lib/i18n.svelte.js';
   import { s } from '$lib/strings.js';
 
   const byId = Object.fromEntries(destinations.map((d) => [d.id, d]));
@@ -31,18 +31,23 @@
 
   // ---- onboarding: welcome -> scan -> build -> done ----
   let step = $state(plan.onboarded ? 'build' : 'welcome');
-  const HELLOS = ['Xin chào', 'Hello', '你好', 'こんにちは', '안녕하세요', 'Bonjour', 'Hola', 'สวัสดี'];
-  let hi = $state(0);
+
+  // The welcome screen's greetings ARE the language picker. Official locales are
+  // vi/en (other languages ride the browser's translate — see CLAUDE.md), so those
+  // are the two the app actually switches; tapping one sets it and moves on.
+  const LANGS = [
+    { code: 'vi', hello: 'Xin chào', name: 'Tiếng Việt' },
+    { code: 'en', hello: 'Hello', name: 'English' }
+  ];
 
   onMount(() => {
-    if (step !== 'welcome') return;
-    track('welcome');
-    if (window.matchMedia?.('(prefers-reduced-motion: reduce)').matches) return;
-    const id = setInterval(() => (hi = (hi + 1) % HELLOS.length), 1600);
-    return () => clearInterval(id);
+    if (step === 'welcome') track('welcome');
   });
 
-  const start = () => (step = 'scan');
+  function chooseLang(code) {
+    setLang(code);
+    step = 'scan';
+  }
   function onScanned(raw) {
     setTicketCode(raw);
     const code = codeFromTicket(raw);
@@ -176,11 +181,19 @@
 
 {#if step === 'welcome'}
   <section class="welcome">
-    <span class="brand-strip" aria-hidden="true"></span>
     <p class="eyebrow"><span class="dot"></span>Hội An Creative Week</p>
-    <p class="hello" aria-live="polite">{HELLOS[hi]}</p>
+    <p class="w-lead">Chọn ngôn ngữ · Choose your language</p>
+    <ul class="langs">
+      {#each LANGS as l (l.code)}
+        <li>
+          <button class="lang-pick" onclick={() => chooseLang(l.code)}>
+            <span class="hello">{l.hello}</span>
+            <span class="lang-name">{l.name} <span aria-hidden="true">→</span></span>
+          </button>
+        </li>
+      {/each}
+    </ul>
     <p class="w-sub">{s('welcome_sub')}</p>
-    <button class="btn" onclick={start}>{s('welcome_start')} →</button>
   </section>
 {:else if step === 'scan'}
   <section class="onboard">
@@ -276,21 +289,38 @@
     padding: 32px 26px calc(32px + env(safe-area-inset-bottom));
     padding-top: max(48px, calc(env(safe-area-inset-top) + 40px));
   }
-  .welcome .brand-strip { position: absolute; inset: 0 0 auto 0; }
   .welcome .eyebrow,
-  .onboard .eyebrow { margin-bottom: 20px; }
+  .onboard .eyebrow { margin-bottom: 14px; }
+  .w-lead { margin: 0 0 22px; color: var(--muted); font-size: 0.9rem; font-weight: 500; }
+
+  /* the greetings are the language picker */
+  .langs { list-style: none; margin: 0; padding: 0; display: flex; flex-direction: column; gap: 12px; }
+  .lang-pick {
+    width: 100%;
+    display: flex;
+    align-items: baseline;
+    justify-content: space-between;
+    gap: 14px;
+    text-align: left;
+    border: 1px solid var(--line);
+    background: var(--surface);
+    border-radius: var(--radius);
+    padding: 18px 20px;
+    cursor: pointer;
+    transition: border-color 0.14s ease, background 0.14s ease;
+  }
+  .lang-pick:hover { border-color: color-mix(in srgb, var(--brand) 55%, var(--line)); }
+  .lang-pick:focus-visible { outline: 2px solid var(--brand); outline-offset: 2px; }
   .hello {
-    margin: 0;
     font-family: var(--font-display);
     font-weight: 700;
     color: var(--ink);
-    font-size: clamp(2.4rem, 12vw, 3.4rem);
-    line-height: 1.02;
+    font-size: clamp(1.9rem, 8vw, 2.5rem);
+    line-height: 1;
     letter-spacing: -0.03em;
-    min-height: 1.05em;
   }
-  .w-sub { margin: 16px 0 32px; max-width: 22ch; color: var(--muted); font-size: 1rem; line-height: 1.5; }
-  .welcome .btn { align-self: flex-start; }
+  .lang-name { flex: 0 0 auto; color: var(--brand); font-weight: 600; font-size: 0.9rem; }
+  .w-sub { margin: 26px 0 0; max-width: 26ch; color: var(--muted); font-size: 0.95rem; line-height: 1.5; }
   .onboard h1 {
     margin: 0 0 8px;
     font-family: var(--font-display);
