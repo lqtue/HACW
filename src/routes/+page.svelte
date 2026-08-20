@@ -3,7 +3,6 @@
   import { onMount } from 'svelte';
   import destinations from '$lib/data/destinations.json';
   import tours from '$lib/data/tours.json';
-  import PageShell from '$lib/components/PageShell.svelte';
   import TicketScan from '$lib/components/TicketScan.svelte';
   import BuilderMap from '$lib/components/BuilderMap.svelte';
   import MatCua from '$lib/components/MatCua.svelte';
@@ -170,7 +169,7 @@
       {#if slot.id}
         {@const d = byId[slot.id]}
         <span class="slot filled" style="--cat: var(--c-{d.category})">
-          <MatCua size={30} color="var(--cat)" inner="#fbe0b8" ink="var(--cat)" />
+          <MatCua size={30} color="var(--cat)" inner="var(--surface)" />
         </span>
       {:else}
         <span class="slot empty" data-k={s(STEPS[i < 2 ? i : 2].key)}></span>
@@ -214,67 +213,86 @@
     <button class="skip" onclick={editPlan}>{s('edit_plan')}</button>
   </section>
 {:else}
-  <PageShell title={s('plan_title')} sub={s('comp_line', 1, 1, 3)}>
-    <!-- live ticket: the 5 slots fill as you pick -->
-    <div class="mystub">
-      {@render slots(slotList)}
-      <span class="count">{pickedIds.length}/5</span>
-    </div>
+  <div class="build">
+    <header class="b-head">
+      <h1>{s('plan_title')}</h1>
+      <p class="b-sub">{s('comp_line', 1, 1, 3)}</p>
+    </header>
 
-    <button class="btn secondary rec" onclick={recommendFull}>{s('recommend_full')}</button>
-
-    <!-- stepper: which slot you're filling -->
-    <div class="steps" role="tablist">
-      {#each STEPS as st, i (st.cls)}
-        {@const filled = st.cls === 'monument' ? !!mono : st.cls === 'museum' ? !!museo : free.length}
-        <button class="stepbtn" class:on={stepIdx === i} role="tab" aria-selected={stepIdx === i} onclick={() => (stepIdx = i)}>
-          <b>{s(st.key)}</b>
-          <small>{st.cls === 'other' ? `${free.length}/3` : filled ? '✓' : '—'}</small>
+    <!-- the 5 slots double as step navigation; tap one to edit that class -->
+    <div class="slotbtns" role="group" aria-label={s('your_ticket')}>
+      {#each slotList as id, i (i)}
+        {@const si = i < 2 ? i : 2}
+        <button
+          class="slot"
+          class:filled={id}
+          class:on={stepIdx === si}
+          onclick={() => (stepIdx = si)}
+          aria-label={s(STEPS[si].key)}
+        >
+          {#if id}
+            {@const d = byId[id]}
+            <MatCua size={28} color="var(--c-{d.category})" inner="var(--surface)" />
+          {/if}
         </button>
       {/each}
     </div>
+    <div class="pbar"><i style="width: {Math.round((pickedIds.length / 5) * 100)}%"></i></div>
 
-    <div class="mapwrap"><BuilderMap eligible={eligibleIds} picked={pickedIds} onpick={pick} /></div>
+    <button class="btn secondary rec" onclick={recommendFull}>{s('recommend_full')}</button>
 
-    <div class="listhead">
-      <button class="chip" aria-pressed={!!me} onclick={locate}>📍 {locating ? s('locating_now') : s('rank_dist')}</button>
-      {#if stepIdx === 2 && free.length < 3}
-        <button class="chip" onclick={autoFree}>{s('auto_free')}</button>
-      {/if}
+    <!-- current step -->
+    <div class="sec">
+      <p class="sec-label">
+        {s(STEPS[stepIdx].key)} ·
+        <span class="sec-hint">
+          {#if STEPS[stepIdx].cls === 'other'}{free.length}/3{:else if (STEPS[stepIdx].cls === 'monument' ? mono : museo)}✓{:else}{s('pick_one')}{/if}
+        </span>
+      </p>
+      <div class="sec-acts">
+        <button class="mini" class:on={!!me} onclick={locate}>📍 {locating ? s('locating_now') : s('rank_dist')}</button>
+        {#if stepIdx === 2 && free.length < 3}
+          <button class="mini" onclick={autoFree}>{s('auto_free')}</button>
+        {/if}
+      </div>
     </div>
 
-    <ul class="ranklist">
+    <ul class="list">
       {#each rankedList as { d, m } (d.id)}
         {@const picked = isPicked(d.id)}
         {@const oh = openLabel(d)}
-        <li class:picked>
-          <div class="rl-main">
-            <button class="rl-tap" onclick={() => toggleRow(d.id)} aria-expanded={openId === d.id}>
-              <span class="rl-mark" style="--cat: var(--c-{d.category})">
-                <MatCua size={26} color="var(--cat)" inner={picked ? '#fbe0b8' : 'transparent'} ink="var(--cat)" ghost={!picked} />
+        <li class="row" class:picked>
+          <div class="row-main">
+            <button class="row-tap" onclick={() => toggleRow(d.id)} aria-expanded={openId === d.id}>
+              <span class="mark" style="--cat: var(--c-{d.category})">
+                <MatCua size={30} color="var(--cat)" inner="var(--surface)" ghost={!picked} />
               </span>
-              <span class="rl-body">
+              <span class="body">
                 <b>{t(d.name)}</b>
                 <small>{formatDistance(m, i18n.lang)}{#if oh} · <em class={oh.status}>{oh.text}</em>{/if}</small>
               </span>
             </button>
-            <button class="rl-pick" class:on={picked} onclick={() => pick(d.id)}>
-              {picked ? s('picked_lbl') : s('pick_do')}
+            <button class="add" class:on={picked} onclick={() => pick(d.id)} aria-label={picked ? s('picked_lbl') : s('pick_do')}>
+              {picked ? '✓' : '+'}
             </button>
           </div>
-          {#if openId === d.id}
-            <p class="rl-intro">{intro(d)}</p>
-          {/if}
+          {#if openId === d.id}<p class="intro">{intro(d)}</p>{/if}
         </li>
       {/each}
     </ul>
+
+    <!-- map, secondary -->
+    <details class="mapfold">
+      <summary>{s('map_view')}</summary>
+      <div class="mapwrap"><BuilderMap eligible={eligibleIds} picked={pickedIds} onpick={pick} /></div>
+    </details>
 
     {#if valid}
       <button class="btn done-cta" onclick={finish}>{s('build_done')} →</button>
     {/if}
 
     <TicketScan onsaved={onScanned} />
-  </PageShell>
+  </div>
 {/if}
 
 <style>
@@ -346,96 +364,127 @@
     cursor: pointer;
   }
 
-  /* ---- the 5 slots (shared by build + done) ---- */
+  /* ---- the 5 display slots (done screen snippet) ---- */
   .slots { display: flex; gap: 8px; }
-  .slot {
-    width: 44px;
-    height: 44px;
-    display: grid;
-    place-items: center;
-    border-radius: 12px;
+  .slots .slot {
+    width: 44px; height: 44px; display: grid; place-items: center; border-radius: 12px;
   }
-  .slot.empty {
-    border: 1.5px dashed color-mix(in srgb, var(--brand-dark) 28%, transparent);
-    background: color-mix(in srgb, var(--bg) 50%, transparent);
-  }
-  .slot.filled { background: color-mix(in srgb, var(--gold) 16%, transparent); }
+  .slots .slot.empty { border: 1.5px dashed color-mix(in srgb, var(--ink) 22%, transparent); }
+  .slots .slot.filled { background: color-mix(in srgb, var(--gold) 16%, transparent); }
 
   /* ---- build screen ---- */
-  .mystub {
+  .build {
+    padding: 18px 18px 8px;
+    padding-top: max(28px, calc(env(safe-area-inset-top) + 22px));
     display: flex;
-    align-items: center;
-    justify-content: space-between;
-    gap: 12px;
-    margin-bottom: 12px;
+    flex-direction: column;
+    gap: 14px;
   }
-  .mystub .count {
-    font-family: var(--font-display);
-    font-weight: 800;
-    font-size: 1.4rem;
-    color: var(--brand-dark);
-  }
-  .rec { width: 100%; margin-bottom: 16px; }
+  .b-head { display: flex; flex-direction: column; gap: 3px; }
+  .b-head h1 { margin: 0; font-size: clamp(1.9rem, 7vw, 2.4rem); font-weight: 700; letter-spacing: -0.02em; }
+  .b-sub { margin: 0; color: var(--muted); font-size: 0.95rem; }
 
-  .steps { display: grid; grid-template-columns: repeat(3, 1fr); gap: 6px; margin-bottom: 12px; }
-  .stepbtn {
+  /* slots double as step nav */
+  .slotbtns { display: flex; gap: 8px; }
+  .slotbtns .slot {
+    flex: 1 1 0;
+    aspect-ratio: 1;
+    max-width: 56px;
     display: grid;
-    gap: 2px;
-    padding: 8px 6px;
-    border: 1px solid var(--line);
-    border-radius: 12px;
-    background: var(--surface);
+    place-items: center;
+    border-radius: 14px;
+    border: 1.5px dashed color-mix(in srgb, var(--ink) 20%, transparent);
+    background: transparent;
     cursor: pointer;
-    text-align: center;
+    transition: border-color 0.14s, background 0.14s;
   }
-  .stepbtn b { font-family: var(--font-display); font-weight: 800; font-size: 0.82rem; color: var(--brand-dark); }
-  .stepbtn small { color: var(--muted); font-size: 0.7rem; }
-  .stepbtn.on { border-color: var(--brand); box-shadow: inset 0 0 0 1px var(--brand); }
+  .slotbtns .slot.filled { border-style: solid; border-color: transparent; background: color-mix(in srgb, var(--bg) 90%, transparent); }
+  .slotbtns .slot.on { border-color: var(--brand); }
 
-  .mapwrap { height: 40vh; min-height: 240px; margin-bottom: 12px; }
+  .pbar { height: 6px; border-radius: 999px; background: var(--bg); overflow: hidden; margin-top: -4px; }
+  .pbar i { display: block; height: 100%; border-radius: 999px; background: var(--brand); transition: width 0.3s ease; }
 
-  .listhead { display: flex; flex-wrap: wrap; gap: 8px; margin-bottom: 10px; }
+  .rec { width: 100%; }
 
-  .ranklist { list-style: none; margin: 0; padding: 0; display: grid; gap: 2px; }
-  .ranklist li { border-top: 1px solid var(--line); }
-  .ranklist li:first-child { border-top: 0; }
-  .ranklist li.picked { background: color-mix(in srgb, var(--gold) 10%, transparent); border-radius: 10px; }
-  .rl-main { display: flex; align-items: center; gap: 8px; padding: 8px 6px; }
-  .rl-tap {
-    flex: 1 1 auto;
-    min-width: 0;
-    display: flex;
-    align-items: center;
-    gap: 10px;
-    border: 0;
-    background: none;
-    padding: 0;
-    cursor: pointer;
-    text-align: left;
-  }
-  .rl-mark { flex: 0 0 auto; display: grid; place-items: center; }
-  .rl-body { min-width: 0; display: grid; gap: 1px; }
-  .rl-body b { font-family: var(--font-display); font-weight: 700; color: var(--brand-dark); font-size: 0.95rem; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
-  .rl-body small { color: var(--muted); font-size: 0.76rem; }
-  .rl-body em { font-style: normal; font-weight: 700; }
-  .rl-body em.open { color: var(--teal); }
-  .rl-body em.closed { color: var(--muted); }
-  .rl-body em.soon { color: var(--gold); }
-  .rl-pick {
-    flex: 0 0 auto;
-    border: 1.5px solid color-mix(in srgb, var(--brand) 40%, transparent);
-    background: var(--surface);
-    color: var(--brand-dark);
-    border-radius: 999px;
-    padding: 7px 14px;
-    font-family: var(--font-body);
+  /* current-step label + actions */
+  .sec { display: flex; align-items: center; justify-content: space-between; gap: 10px; flex-wrap: wrap; margin-top: 4px; }
+  .sec-label {
+    margin: 0;
+    font-size: 0.72rem;
     font-weight: 700;
-    font-size: 0.8rem;
-    cursor: pointer;
-    white-space: nowrap;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+    color: var(--muted);
   }
-  .rl-pick.on { background: var(--grad-brand); border-color: transparent; color: #fff; }
-  .rl-intro { margin: 0 6px 10px; color: var(--muted); font-size: 0.82rem; line-height: 1.45; }
+  .sec-hint { color: var(--brand); }
+  .sec-acts { display: flex; gap: 8px; }
+  .mini {
+    border: 1px solid var(--line);
+    background: var(--surface);
+    color: var(--muted);
+    border-radius: 999px;
+    padding: 6px 12px;
+    font-family: var(--font-body);
+    font-weight: 600;
+    font-size: 0.76rem;
+    cursor: pointer;
+  }
+  .mini.on { color: var(--brand); border-color: color-mix(in srgb, var(--brand) 45%, var(--line)); }
 
-  .done-cta { width: 100%; margin-top: 16px; }
+  /* grouped list, sample style */
+  .list {
+    list-style: none;
+    margin: 0;
+    padding: 0;
+    background: var(--surface);
+    border: 1px solid var(--line);
+    border-radius: var(--radius);
+    overflow: hidden;
+  }
+  .row { border-top: 1px solid var(--line); }
+  .row:first-child { border-top: 0; }
+  .row.picked { background: color-mix(in srgb, var(--brand) 8%, transparent); }
+  .row-main { display: flex; align-items: center; gap: 12px; padding: 12px 14px; }
+  .row-tap {
+    flex: 1 1 auto; min-width: 0;
+    display: flex; align-items: center; gap: 12px;
+    border: 0; background: none; padding: 0; cursor: pointer; text-align: left;
+  }
+  .mark { flex: 0 0 auto; display: grid; place-items: center; }
+  .body { min-width: 0; display: grid; gap: 2px; }
+  .body b { font-weight: 600; font-size: 0.98rem; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+  .body small { color: var(--muted); font-size: 0.8rem; }
+  .body em { font-style: normal; font-weight: 600; }
+  .body em.open { color: var(--teal); }
+  .body em.closed { color: var(--muted); }
+  .body em.soon { color: var(--gold); }
+  .add {
+    flex: 0 0 auto;
+    width: 32px; height: 32px;
+    border-radius: 999px;
+    border: 1.5px solid var(--line);
+    background: transparent;
+    color: var(--muted);
+    font-size: 1.1rem;
+    line-height: 1;
+    display: grid; place-items: center;
+    cursor: pointer;
+    transition: background 0.14s, border-color 0.14s, color 0.14s;
+  }
+  .add.on { background: var(--brand); border-color: var(--brand); color: #fff; }
+  .intro { margin: 0 14px 12px 50px; color: var(--muted); font-size: 0.82rem; line-height: 1.45; }
+
+  .mapfold {
+    background: var(--surface);
+    border: 1px solid var(--line);
+    border-radius: var(--radius);
+    overflow: hidden;
+  }
+  .mapfold > summary { padding: 13px 15px; cursor: pointer; font-weight: 600; list-style: none; }
+  .mapfold > summary::-webkit-details-marker { display: none; }
+  .mapfold > summary::after { content: '▸'; float: right; color: var(--muted); }
+  .mapfold[open] > summary::after { content: '▾'; }
+  .mapwrap { height: 46vh; min-height: 260px; padding: 0 12px 12px; }
+
+  .done-cta { width: 100%; margin-top: 4px; }
 </style>
