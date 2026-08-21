@@ -1,6 +1,8 @@
 <script>
   import { onDestroy } from 'svelte';
   import { browser } from '$app/environment';
+  import { base } from '$app/paths';
+  import { goto } from '$app/navigation';
   import tickets from '$lib/data/ticket-points.json';
   import { isTicketQr } from '$lib/ticket.js';
   import { mapsUrl } from '$lib/util.js';
@@ -133,7 +135,11 @@
 {#snippet standsList()}
   {#if showStands}
     <!-- No ticket yet: the counters are where you buy one (and later redeem paper
-         vouchers). Listed, not GPS-picked — offline, and useful before arrival. -->
+         vouchers). "Show on map" opens Khám phá with the counter layer on; the list
+         below is the offline fallback with a directions link per counter. -->
+    <button class="btn secondary onmap" onclick={() => goto(`${base}/destinations?tickets=1`)}>
+      🗺️ {s('show_on_map')}
+    </button>
     <ul class="stands">
       {#each tickets as p}
         <li>
@@ -249,9 +255,10 @@
   .hero .buy { font-size: 0.88rem; }
   .hero .stands { width: 100%; }
 
+  .onmap { width: 100%; margin: 14px 0 0; }
   .stands {
     list-style: none;
-    margin: 14px 0 0;
+    margin: 12px 0 0;
     padding: 0;
     display: flex;
     flex-direction: column;

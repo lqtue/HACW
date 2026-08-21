@@ -133,6 +133,9 @@
   let ready = $state(false);
 
   onMount(async () => {
+    // ?tickets=1 — arriving from "where to buy?" opens with the counter layer on
+    if (new URLSearchParams(location.search).get('tickets') === '1') showTickets = true;
+
     const maplibregl = await loadMap(base);
 
     map = new maplibregl.Map({
