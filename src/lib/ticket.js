@@ -11,6 +11,28 @@
 
 export const TICKET_CLASSES = ['monument', 'museum', 'other'];
 
+// The Hội An ticket's QR is a Vietnamese e-invoice lookup (a tra-cứu-hóa-đơn URL or a
+// bare invoice code like "EBL0226T1490955889"). We can't read WHICH sites it admits
+// (see TicketScan) — but before deriving a recovery code from a scan we should at
+// least reject QRs that clearly aren't a ticket, so a poster / wifi / vCard QR doesn't
+// mint a garbage passport code.
+// ponytail: shape check, not an exact match — the real host/prefix isn't pinned. Once a
+// genuine ticket QR is captured, tighten INVOICE_HINT to that literal.
+const INVOICE_HINT = /(tracuuhddt|hoadon|hddt|e-?invoice|invoice|tra[-_]?cuu)/i;
+
+/** Does a scanned QR string look like a Hội An ticket (not some other QR)? */
+export function isTicketQr(raw) {
+  if (typeof raw !== 'string') return false;
+  const s = raw.trim();
+  if (s.length < 8 || /\s/.test(s)) return false; // too short, or free text with spaces
+  // other well-known QR payload kinds — definitely not a ticket
+  if (/^(WIFI:|BEGIN:|mailto:|tel:|smsto?:|geo:|matmsg:)/i.test(s)) return false;
+  // a URL passes only if it points at an invoice lookup; any other site is not a ticket
+  if (/^https?:\/\//i.test(s)) return INVOICE_HINT.test(s);
+  // otherwise a bare invoice code: alphanumeric with a few code separators
+  return /^[A-Za-z0-9][A-Za-z0-9._-]{7,}$/.test(s);
+}
+
 /** size -> { size, min: { class: minCount } } */
 export const TICKETS = {
   5: { size: 5, min: { monument: 1, museum: 1 } },

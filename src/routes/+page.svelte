@@ -16,7 +16,7 @@
   import { spotlightIds } from '$lib/score.js';
   import { distanceMeters, getPosition } from '$lib/geo.js';
   import { formatDistance, optimizeRoute, routeStats } from '$lib/route.js';
-  import { hasStamp, adoptCode, track } from '$lib/passport.svelte.js';
+  import { hasStamp, adoptCode, restore, track } from '$lib/passport.svelte.js';
   import { codeFromTicket } from '$lib/backup.js';
   import { plan, setOnboarded, setTicketCode, setPlanSet } from '$lib/plan.svelte.js';
   import { openLabel, categoryLabel, categoryIcon } from '$lib/util.js';
@@ -85,10 +85,26 @@
     trackLang('other');
     step = 'scan';
   }
-  function onScanned(raw) {
+  async function onScanned(raw) {
     setTicketCode(raw);
     const code = codeFromTicket(raw);
-    if (code) adoptCode(code);
+    if (code) {
+      // The ticket QR IS the recovery key: adopt its derived code so this device's
+      // backups go there, then pull any passport already backed up under it (a second
+      // phone, a reinstall) and merge. Best-effort — a 404 (first device with this
+      // ticket) or being offline is not an error, scanning still completes.
+      adoptCode(code);
+      try {
+        // don't let a slow/hanging fetch stall onboarding on flaky event wifi — cap the
+        // wait; if the merge lands after this, it still applies (restore mutates in place)
+        await Promise.race([
+          restore(code),
+          new Promise((_, reject) => setTimeout(() => reject(new Error('timeout')), 4000))
+        ]);
+      } catch {
+        // no prior backup / no server / offline / slow — nothing to merge now, carry on
+      }
+    }
     track('scan');
     finishOnboarding();
   }

@@ -2,6 +2,7 @@
   import { onDestroy } from 'svelte';
   import { browser } from '$app/environment';
   import tickets from '$lib/data/ticket-points.json';
+  import { isTicketQr } from '$lib/ticket.js';
   import { mapsUrl } from '$lib/util.js';
   import { t } from '$lib/i18n.svelte.js';
   import { s } from '$lib/strings.js';
@@ -107,6 +108,12 @@
 
   function done(code) {
     stop();
+    // A random QR (a poster, a wifi code) would otherwise be saved as the "ticket" and
+    // mint a bogus recovery code — reject anything that isn't a Hội An ticket QR.
+    if (!isTicketQr(code)) {
+      note = s('scan_bad_ticket');
+      return;
+    }
     try {
       localStorage.setItem(KEY, code);
     } catch {

@@ -1,5 +1,5 @@
 import assert from 'node:assert';
-import { isValidSet, TICKETS } from './ticket.js';
+import { isValidSet, TICKETS, isTicketQr } from './ticket.js';
 
 const dests = [
   { id: 'm1', ticketClass: 'monument' },
@@ -38,5 +38,16 @@ assert.ok(isValidSet(['m1', 'mu1', 'o1', 'o2', 'o3'], byId, 5));
 // unknown size
 assert.ok(!isValidSet(['m1', 'mu1', 'o1', 'o2', 'o3'], dests, 4));
 assert.equal(TICKETS[5].size, 5);
+
+// --- isTicketQr: reject non-ticket QRs before deriving a recovery code ---
+assert.ok(isTicketQr('EBL0226T1490955889'), 'a bare e-invoice code is a ticket');
+assert.ok(isTicketQr('https://tracuuhddt.gdt.gov.vn/?code=EBL0226T1490955889'), 'invoice-lookup URL');
+assert.ok(!isTicketQr('https://example.com/promo'), 'a link to some other site is not a ticket');
+assert.ok(!isTicketQr('WIFI:S:CafeHoiAn;T:WPA;P:secret;;'), 'a wifi QR is not a ticket');
+assert.ok(!isTicketQr('BEGIN:VCARD\nFN:X\nEND:VCARD'), 'a vCard is not a ticket');
+assert.ok(!isTicketQr('tel:+84905123456'), 'a tel: QR is not a ticket');
+assert.ok(!isTicketQr('hi'), 'too short');
+assert.ok(!isTicketQr('two words here'), 'free text with spaces is not a code');
+assert.ok(!isTicketQr(null) && !isTicketQr(123), 'non-strings are rejected');
 
 console.log('ticket.test.js ok');
