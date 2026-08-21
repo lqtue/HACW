@@ -128,6 +128,7 @@ const UI = {
     // location & ticket counters
     locate_me: 'Vị trí của tôi',
     reset_north: 'Xoay về hướng Bắc',
+    research_optin: 'Chia sẻ vị trí ẩn danh cho nghiên cứu (không lưu lộ trình)',
     hours_label: 'Giờ mở',
     addr_label: 'Địa chỉ',
     prev_site: 'Điểm trước',
@@ -138,6 +139,10 @@ const UI = {
     booth_nearest: (name, d) => `Quầy ${name} · cách ${d}`,
     booth_dir: '➤ Chỉ đường tới quầy',
 
+    org_heat: 'Bản đồ nhiệt (nghiên cứu)',
+    org_heat_hint: 'Mật độ ẩn danh từ người dùng đã đồng ý chia sẻ vị trí. Chỉ đếm theo ô ~150 m, không lưu lộ trình; ô dưới 5 lượt được ẩn.',
+    org_heat_filter: 'Lọc theo quốc tịch:',
+    org_heat_all: 'Tất cả',
     org_lang: 'Ngôn ngữ / quốc tịch',
     org_lang_hint: 'Đại diện cho quốc tịch: ngôn ngữ thiết bị và ngôn ngữ khách chọn ở màn hình chào.',
     org_lang_device: 'Ngôn ngữ thiết bị',
@@ -415,6 +420,7 @@ const UI = {
     // location & ticket counters
     locate_me: 'My location',
     reset_north: 'Face north',
+    research_optin: 'Share anonymous location for research (no path stored)',
     hours_label: 'Hours',
     addr_label: 'Address',
     prev_site: 'Previous site',
@@ -425,6 +431,10 @@ const UI = {
     booth_nearest: (name, d) => `Counter ${name} · ${d} away`,
     booth_dir: '➤ Directions to the counter',
 
+    org_heat: 'Footfall heatmap (research)',
+    org_heat_hint: 'Anonymous density from visitors who opted in to share location. Counts per ~150 m cell only, no path stored; cells under 5 are hidden.',
+    org_heat_filter: 'Filter by nationality:',
+    org_heat_all: 'All',
     org_lang: 'Language / nationality',
     org_lang_hint: 'A nationality proxy: the device locale and the language chosen on the welcome screen.',
     org_lang_device: 'Device locale',

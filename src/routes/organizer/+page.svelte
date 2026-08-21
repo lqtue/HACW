@@ -15,6 +15,7 @@
   import RewardEditor from '$lib/components/RewardEditor.svelte';
   import EventEditor from '$lib/components/EventEditor.svelte';
   import PageShell from '$lib/components/PageShell.svelte';
+  import HeatMap from '$lib/components/HeatMap.svelte';
 
   // One file open at a time: each editor holds its own unsaved working copy, and
   // showing four at once invites downloading one and forgetting the other three.
@@ -72,6 +73,27 @@
       .sort((a, b) => b[1] - a[1]);
   const localeRows = $derived(langRows('lang:'));
   const pickRows = $derived(langRows('pick:'));
+
+  // Research heatmap: fold `cell:<geohash>[-<locale>]` events into per-cell totals plus
+  // a per-locale split, so the map can be sliced by nationality. Counts only — no path.
+  const cells = $derived.by(() => {
+    const out = {};
+    for (const [k, n] of Object.entries(events)) {
+      if (!k.startsWith('cell:')) continue;
+      const rest = k.slice(5);
+      const dash = rest.indexOf('-');
+      const gh = dash < 0 ? rest : rest.slice(0, dash);
+      const loc = dash < 0 ? '' : rest.slice(dash + 1);
+      (out[gh] ??= { total: 0, byLoc: {} }).total += n;
+      if (loc) out[gh].byLoc[loc] = (out[gh].byLoc[loc] ?? 0) + n;
+    }
+    return out;
+  });
+  const cellLocales = $derived(
+    [...new Set(Object.values(cells).flatMap((c) => Object.keys(c.byLoc)))].sort()
+  );
+  const hasCells = $derived(Object.keys(cells).length > 0);
+  let heatLocale = $state('all');
 
   // Cold sites are worth a flyer at the nearest counter — this is that mapping.
   const nearestCounter = (d) => nearest(d, tickets);
@@ -229,11 +251,26 @@
     </div>
   </div>
 
+  {#if hasCells}
+    <h2>{s('org_heat')}</h2>
+    <p class="muted"><small>{s('org_heat_hint')}</small></p>
+    <label class="heatfilter">
+      {s('org_heat_filter')}
+      <select bind:value={heatLocale}>
+        <option value="all">{s('org_heat_all')}</option>
+        {#each cellLocales as loc}
+          <option value={loc}>{langName(loc)} ({loc})</option>
+        {/each}
+      </select>
+    </label>
+    <HeatMap {cells} locale={heatLocale} />
+  {/if}
+
   <h2>{s('org_events')}</h2>
   <p class="muted">
     <small>
       {Object.entries(events)
-        .filter(([k]) => !k.startsWith('lang:') && !k.startsWith('pick:'))
+        .filter(([k]) => !k.startsWith('lang:') && !k.startsWith('pick:') && !k.startsWith('cell:'))
         .map(([k, v]) => `${k} ${v}`)
         .join(' · ') || '—'}
     </small>
@@ -290,6 +327,16 @@
     font-size: 0.9rem;
   }
   .langlist b { font-variant-numeric: tabular-nums; }
+
+  .heatfilter { display: inline-flex; align-items: center; gap: 8px; margin-bottom: 10px; font-size: 0.9rem; }
+  .heatfilter select {
+    font-family: var(--font-body);
+    padding: 6px 10px;
+    border: 1px solid var(--line);
+    border-radius: 8px;
+    background: var(--surface);
+    color: var(--ink);
+  }
 
   .code { margin-bottom: 10px; }
   .err { color: var(--brand); margin: 0 0 8px; font-size: 0.9rem; }

@@ -1,6 +1,6 @@
 import assert from 'node:assert';
 import { readFileSync } from 'node:fs';
-import { distanceMeters, nearest } from './geo.js';
+import { distanceMeters, nearest, geohash, geohashDecode } from './geo.js';
 
 // Same point -> 0 m
 assert.equal(Math.round(distanceMeters({ lat: 15.877, lng: 108.327 }, { lat: 15.877, lng: 108.327 })), 0);
@@ -30,5 +30,16 @@ assert.ok(
   'a counter without coordinates can never be the nearest one'
 );
 assert.ok(nearest(here, tickets).meters < 3000, 'the nearest counter is inside the old town');
+
+// --- geohash: known value, precision, and round-trip within a cell ---
+assert.equal(geohash(57.64911, 10.40744, 11), 'u4pruydqqvj', 'canonical geohash reference');
+assert.equal(geohash(15.8772, 108.3275).length, 7, 'default precision is 7 chars');
+// decode lands within ~½ a precision-7 cell (~150 m) of the original point
+const gh = geohash(15.8772, 108.3275);
+assert.ok(distanceMeters({ lat: 15.8772, lng: 108.3275 }, geohashDecode(gh)) < 120, 'decode ≈ cell centre');
+// two points in the same ~150 m cell share a hash; far apart, they don't
+assert.equal(geohash(15.8772, 108.3275), geohash(15.87725, 108.32755), 'same cell → same hash');
+assert.notEqual(geohash(15.8772, 108.3275), geohash(15.8850, 108.3400), 'a different cell → different hash');
+assert.equal(geohashDecode('!!!'), null, 'junk decodes to null');
 
 console.log('geo.test.js OK');

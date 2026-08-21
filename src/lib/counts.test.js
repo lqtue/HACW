@@ -86,6 +86,17 @@ assert.deepEqual(tally([{ t: 'lang', id: 'zh-cn' }]), {}, 'a full BCP-47 tag is 
 assert.deepEqual(tally([{ t: 'lang' }]), {}, 'a language event with no code is dropped');
 assert.deepEqual(tally([{ t: 'lang', id: 'DROP' }]), {}, 'codes are lowercase letters, not SQL');
 
+// --- heatmap cells: geohash, optionally -locale; bounded, bypasses the site guard ---
+assert.deepEqual(tally([{ t: 'cell', id: 'w3gv5k2' }]), { 'ev:cell:w3gv5k2': 1 }, 'a bare cell counts');
+assert.deepEqual(
+  tally([{ t: 'cell', id: 'w3gv5k2-ko' }], real),
+  { 'ev:cell:w3gv5k2-ko': 1 },
+  'a cell+locale is not a dest id — it bypasses the allowlist'
+);
+assert.deepEqual(tally([{ t: 'cell', id: 'w3gvaik' }]), {}, 'a/i/l/o are not geohash chars — rejected');
+assert.deepEqual(tally([{ t: 'cell', id: 'w3gv5k2-KO' }]), {}, 'locale suffix is lowercase');
+assert.deepEqual(tally([{ t: 'cell' }]), {}, 'a cell with no id is dropped');
+
 // A replayed offline queue is capped, so one phone can't spend the whole day's writes.
 const flood = Array.from({ length: 500 }, () => ({ t: 'checkin', id: 'a' }));
 assert.deepEqual(tally(flood), { 'count:a': MAX_EVENTS });

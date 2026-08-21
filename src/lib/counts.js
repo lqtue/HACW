@@ -13,7 +13,11 @@ export const TYPES = new Set([
   // `pick` = the language the visitor chose on the welcome screen. Both are a proxy
   // for nationality — see the welcome picker. Their id is a language code, not a
   // destination id, so they take the LANGCODE path below and skip the dest-id guard.
-  'lang', 'pick'
+  'lang', 'pick',
+  // research heatmap (opt-in): `cell` = a geohash cell, optionally suffixed with the
+  // device locale (`w3gv5k2-ko`), so footfall can be sliced by nationality. Only the
+  // per-cell COUNT is kept — never a point or a path. Bounded id, skips the guard.
+  'cell'
 ]);
 export const MAX_EVENTS = 50; // one dead-spot queue, not a firehose
 
@@ -23,6 +27,9 @@ const ID = /^[a-z0-9-]{1,32}$/;
 // allowlist — a flood tops out at a few thousand real codes, not the unbounded
 // junk the dest-id guard exists to stop.
 const LANGCODE = /^[a-z]{2,8}$/;
+// A geohash cell (base32, no a/i/l/o), optionally `-<langcode>`. Same bounded-alphabet
+// argument: the old town is a few dozen cells × a handful of locales, not a flood.
+const CELL = /^[0-9b-hjkmnp-z]{5,9}(-[a-z]{2,3})?$/;
 const LANG_TYPES = new Set(['lang', 'pick']);
 
 export const countKey = (id) => `count:${id}`;
@@ -53,6 +60,14 @@ export function tally(events, validIds = null) {
       const code = typeof e?.id === 'string' && LANGCODE.test(e.id) ? e.id : null;
       if (!code) continue;
       const key = eventKey(type, code);
+      bump[key] = (bump[key] ?? 0) + 1;
+      continue;
+    }
+    // heatmap cells: a geohash(+locale), same bounded-id argument as the language keys.
+    if (type === 'cell') {
+      const cell = typeof e?.id === 'string' && CELL.test(e.id) ? e.id : null;
+      if (!cell) continue;
+      const key = eventKey(type, cell);
       bump[key] = (bump[key] ?? 0) + 1;
       continue;
     }

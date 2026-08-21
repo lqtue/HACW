@@ -17,14 +17,15 @@
   } from '$lib/map-style.js';
   import { addLandmarks } from '$lib/landmarks.js';
   import { categoryLabel, mapsUrl, openLabel } from '$lib/util.js';
-  import { nearest } from '$lib/geo.js';
+  import { nearest, geohash } from '$lib/geo.js';
   import { formatDistance } from '$lib/route.js';
-  import { hasStamp } from '$lib/passport.svelte.js';
+  import { hasStamp, track } from '$lib/passport.svelte.js';
   import { stats } from '$lib/stats.svelte.js';
   import { spotlightIds } from '$lib/score.js';
   import { t, i18n } from '$lib/i18n.svelte.js';
   import { s } from '$lib/strings.js';
   import { theme } from '$lib/theme.svelte.js';
+  import { research, setResearch } from '$lib/research.svelte.js';
 
   let active = $state('all');
   let showTickets = $state(false);
@@ -38,6 +39,21 @@
   let locating = $state(false);
   let geoErr = $state('');
   const booth = $derived(me ? nearest(me, tickets) : null);
+
+  // Research footfall (opt-in). When consent is on, bucket the fix into a ~150 m
+  // geohash cell tagged with the device locale and count it — a heatmap sliceable by
+  // nationality. Throttled to ~30 s; only the cell id is ever sent, never the point
+  // or a path, so there is no trajectory. Off by default (research store).
+  let lastCellAt = 0;
+  function recordCell(pos) {
+    if (!research.on || !pos) return;
+    const now = Date.now();
+    if (now - lastCellAt < 30000) return;
+    lastCellAt = now;
+    const loc = (navigator.language || '').toLowerCase().split('-')[0];
+    const cell = geohash(pos.lat, pos.lng);
+    track('cell', /^[a-z]{2,3}$/.test(loc) ? `${cell}-${loc}` : cell);
+  }
 
   // Sites open right now. Recomputed on filter changes only — good enough for a
   // walk-around app; nobody stares at this screen across an opening time.
@@ -187,6 +203,7 @@
         lng: e.coords.longitude,
         accuracy: Math.round(e.coords.accuracy)
       };
+      recordCell(me);
     });
     geolocate.on('error', (e) => {
       locating = false;
@@ -447,6 +464,15 @@
     </p>
   {/if}
 
+  {#if me}
+    <!-- Opt-in research footfall: only shown while location is active, off by default.
+         Anonymous coarse cell counts (see research.svelte.js / recordCell), no path. -->
+    <button class="research" aria-pressed={research.on} onclick={() => setResearch(!research.on)}>
+      <span class="rbox" aria-hidden="true">{research.on ? '✓' : ''}</span>
+      <small>{s('research_optin')}</small>
+    </button>
+  {/if}
+
   <div class="carousel">
     {#each shown as dest}
       <Card {dest} mark active={selected === dest.id} />
@@ -595,6 +621,33 @@
   }
   .booth-bar a { color: var(--brand); font-weight: 600; white-space: nowrap; }
   .geo-err { color: var(--brand); }
+
+  /* opt-in research consent — quiet, a checkbox row, not a call to action */
+  .research {
+    flex: 0 0 auto;
+    margin: 0 18px 8px;
+    display: flex;
+    gap: 9px;
+    align-items: center;
+    width: calc(100% - 36px);
+    background: none;
+    border: 0;
+    padding: 2px 0;
+    text-align: left;
+    color: var(--muted);
+    cursor: pointer;
+  }
+  .research .rbox {
+    flex: 0 0 auto;
+    width: 18px; height: 18px;
+    display: grid; place-items: center;
+    border: 1px solid var(--line);
+    border-radius: 5px;
+    font-size: 0.7rem;
+    color: #fff;
+  }
+  .research[aria-pressed='true'] .rbox { background: var(--brand); border-color: var(--brand); }
+  .research[aria-pressed='true'] { color: var(--brand-dark); }
 
   /* live position: MapLibre's own dot + accuracy circle, in the teal that says
      "you", deliberately unlike the category pins. Its button is hidden — the
