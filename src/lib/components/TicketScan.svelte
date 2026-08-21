@@ -14,7 +14,10 @@
   // ponytail: native BarcodeDetector only, no QR-decode dependency. If iOS scan
   // becomes a must-have, add a wasm decoder behind the same `supported` check.
   const KEY = 'hacw_ticket_v1';
-  let { onsaved } = $props();
+  // `hero` is the dedicated onboarding scan step, where scanning IS the screen: a
+  // viewfinder + a real button. Everywhere else (recommend / manual) it stays a quiet
+  // one-line strip so it never competes with the plan above it.
+  let { onsaved, hero = false } = $props();
 
   const supported =
     typeof window !== 'undefined' && 'BarcodeDetector' in window && !!navigator.mediaDevices;
@@ -80,25 +83,13 @@
   }
 </script>
 
-{#if scanning}
-  <div class="frame">
-    <video bind:this={video} playsinline muted></video>
-    <span class="reticle" aria-hidden="true"></span>
-    <p class="hint">{s('scan_point')}</p>
-    <button class="btn secondary close" onclick={stop}>{s('scan_close')}</button>
-  </div>
-{:else}
-  <div class="strip">
-    {#if saved}
-      <span class="ok">{s('scan_saved')}</span>
-    {:else}
-      <span class="lbl">{s('plan_scan')}</span>
-      <button class="link" onclick={start}>{s('scan_btn')}</button>
-    {/if}
-    <button class="link" onclick={() => (showStands = !showStands)} aria-expanded={showStands}>
-      {s('buy_ticket')}
-    </button>
-  </div>
+{#snippet buyLink()}
+  <button class="link buy" onclick={() => (showStands = !showStands)} aria-expanded={showStands}>
+    {s('buy_ticket')}
+  </button>
+{/snippet}
+
+{#snippet standsList()}
   {#if showStands}
     <!-- No ticket yet: the counters are where you buy one (and later redeem paper
          vouchers). Listed, not GPS-picked — offline, and useful before arrival. -->
@@ -111,6 +102,64 @@
       {/each}
     </ul>
   {/if}
+{/snippet}
+
+<!-- QR viewfinder mark: corner brackets + three finder squares, drawn in ink so it
+     reads as "scan here" without a raster asset. Also the empty-state illustration. -->
+{#snippet viewfinder()}
+  <svg class="vf" viewBox="0 0 100 100" role="img" aria-label="QR">
+    <g class="vf-bracket" fill="none" stroke-width="4" stroke-linecap="round">
+      <path d="M6 24 V12 A6 6 0 0 1 12 6 H24" />
+      <path d="M76 6 H88 A6 6 0 0 1 94 12 V24" />
+      <path d="M94 76 V88 A6 6 0 0 1 88 94 H76" />
+      <path d="M24 94 H12 A6 6 0 0 1 6 88 V76" />
+    </g>
+    <g class="vf-qr" fill="currentColor">
+      <path d="M28 28 h14 v14 h-14 z M32 32 v6 h6 v-6 z" fill-rule="evenodd" />
+      <path d="M58 28 h14 v14 h-14 z M62 32 v6 h6 v-6 z" fill-rule="evenodd" />
+      <path d="M28 58 h14 v14 h-14 z M32 62 v6 h6 v-6 z" fill-rule="evenodd" />
+      <rect x="58" y="58" width="4" height="4" /><rect x="66" y="58" width="4" height="4" />
+      <rect x="62" y="62" width="4" height="4" /><rect x="58" y="66" width="4" height="4" />
+      <rect x="68" y="68" width="4" height="4" />
+    </g>
+  </svg>
+{/snippet}
+
+{#if scanning}
+  <div class="frame">
+    <video bind:this={video} playsinline muted></video>
+    <span class="corners" aria-hidden="true"></span>
+    <span class="scanline" aria-hidden="true"></span>
+    <p class="hint">{s('scan_point')}</p>
+    <button class="btn secondary close" onclick={stop}>{s('scan_close')}</button>
+  </div>
+{:else if hero}
+  <div class="hero">
+    <div class="vf-wrap" class:done={saved}>{@render viewfinder()}</div>
+    {#if saved}
+      <span class="ok">{s('scan_saved')}</span>
+    {:else if supported}
+      <button class="btn scan-cta" onclick={start}>{s('scan_btn')}</button>
+    {:else}
+      <!-- no BarcodeDetector (iOS Safari): scanning can't work, so don't dangle a
+           dead button — say so and lean on skip / "where to buy". -->
+      <p class="note">{s('scan_unsupported')}</p>
+    {/if}
+    {@render buyLink()}
+    {@render standsList()}
+    {#if note}<p class="note">{note}</p>{/if}
+  </div>
+{:else}
+  <div class="strip">
+    {#if saved}
+      <span class="ok">{s('scan_saved')}</span>
+    {:else}
+      <span class="lbl">{s('plan_scan')}</span>
+      <button class="link" onclick={start}>{s('scan_btn')}</button>
+    {/if}
+    {@render buyLink()}
+  </div>
+  {@render standsList()}
   {#if note}<p class="note">{note}</p>{/if}
 {/if}
 
@@ -140,6 +189,24 @@
   }
   .ok { color: var(--brand-dark); font-weight: 700; font-size: 0.9rem; }
   .note { margin: 8px 0 0; text-align: center; color: var(--muted); font-size: 0.82rem; }
+
+  /* hero: the dedicated scan step. Viewfinder mark, then one real button. */
+  .hero { display: flex; flex-direction: column; align-items: center; gap: 16px; }
+  .vf-wrap {
+    width: 128px; height: 128px;
+    display: grid; place-items: center;
+    border-radius: 22px;
+    background: color-mix(in srgb, var(--brand) 8%, var(--surface));
+    border: 1px solid color-mix(in srgb, var(--brand) 22%, var(--line));
+    color: var(--brand);
+    transition: color 0.2s ease, background 0.2s ease;
+  }
+  .vf-wrap.done { color: var(--brand-dark); background: color-mix(in srgb, var(--gold) 18%, var(--surface)); }
+  .vf { width: 84px; height: 84px; }
+  .vf-bracket { stroke: currentColor; }
+  .scan-cta { width: 100%; max-width: 300px; }
+  .hero .buy { font-size: 0.88rem; }
+  .hero .stands { width: 100%; }
 
   .stands {
     list-style: none;
@@ -172,12 +239,39 @@
     background: #000;
   }
   video { width: 100%; height: 100%; object-fit: cover; }
-  .reticle {
+  /* live reticle: a dimmed surround with four corner brackets (not a full box) and a
+     sweeping scan line — reads as an active scanner rather than a static frame. */
+  .corners {
     position: absolute;
     inset: 16%;
-    border: 3px solid rgba(255, 255, 255, 0.92);
     border-radius: 12px;
-    box-shadow: 0 0 0 100vmax rgba(0, 0, 0, 0.35);
+    box-shadow: 0 0 0 100vmax rgba(0, 0, 0, 0.4);
+    background:
+      linear-gradient(var(--brand), var(--brand)) left top,
+      linear-gradient(var(--brand), var(--brand)) left top,
+      linear-gradient(var(--brand), var(--brand)) right top,
+      linear-gradient(var(--brand), var(--brand)) right top,
+      linear-gradient(var(--brand), var(--brand)) left bottom,
+      linear-gradient(var(--brand), var(--brand)) left bottom,
+      linear-gradient(var(--brand), var(--brand)) right bottom,
+      linear-gradient(var(--brand), var(--brand)) right bottom;
+    background-repeat: no-repeat;
+    background-size: 22px 3px, 3px 22px;
+  }
+  .scanline {
+    position: absolute;
+    left: 16%; right: 16%;
+    height: 2px;
+    background: linear-gradient(90deg, transparent, var(--brand), transparent);
+    box-shadow: 0 0 8px 1px color-mix(in srgb, var(--brand) 70%, transparent);
+    animation: scan 2.2s ease-in-out infinite;
+  }
+  @keyframes scan {
+    0%, 100% { top: 18%; }
+    50% { top: 82%; }
+  }
+  @media (prefers-reduced-motion: reduce) {
+    .scanline { animation: none; top: 50%; }
   }
   .frame .hint {
     position: absolute;

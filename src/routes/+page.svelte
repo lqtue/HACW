@@ -304,7 +304,7 @@
     <p class="eyebrow"><span class="dot"></span>{s('scan_step')}</p>
     <h1>{s('scan_title')}</h1>
     <p class="o-sub">{s('scan_why')}</p>
-    <TicketScan onsaved={onScanned} />
+    <TicketScan onsaved={onScanned} hero />
     <button class="skip" onclick={finishOnboarding}>{s('scan_skip')}</button>
   </section>
 {:else if step === 'done'}
