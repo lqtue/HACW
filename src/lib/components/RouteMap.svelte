@@ -3,6 +3,7 @@
   import { base } from '$app/paths';
   import { hidePois, hoianStyle, loadMap } from '$lib/map-style.js';
   import { i18n } from '$lib/i18n.svelte.js';
+  import { theme } from '$lib/theme.svelte.js';
 
   /** @type {{ stops: any[], height?: string }} */
   let { stops, height = '220px' } = $props();
@@ -31,7 +32,7 @@
 
     map = new maplibregl.Map({
       container: el,
-      style: hoianStyle(location.origin + base, i18n.lang),
+      style: hoianStyle(location.origin + base, i18n.lang, theme.mode === 'dark'),
       bounds,
       fitBoundsOptions: { padding: 34, maxZoom: 17 },
       interactive: false,

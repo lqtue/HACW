@@ -1,6 +1,9 @@
 <script>
   import { onDestroy } from 'svelte';
   import { browser } from '$app/environment';
+  import tickets from '$lib/data/ticket-points.json';
+  import { mapsUrl } from '$lib/util.js';
+  import { t } from '$lib/i18n.svelte.js';
   import { s } from '$lib/strings.js';
 
   // Optional "scan your ticket to begin". The Hội An ticket's QR is a Vietnamese
@@ -20,6 +23,7 @@
     typeof localStorage !== 'undefined' && !!localStorage.getItem(KEY)
   );
   let scanning = $state(false);
+  let showStands = $state(false); // "where to buy?" -> the ticket-counter list
   let note = $state('');
   let video = $state();
   let stream = null;
@@ -91,7 +95,22 @@
       <span class="lbl">{s('plan_scan')}</span>
       <button class="link" onclick={start}>{s('scan_btn')}</button>
     {/if}
+    <button class="link" onclick={() => (showStands = !showStands)} aria-expanded={showStands}>
+      {s('buy_ticket')}
+    </button>
   </div>
+  {#if showStands}
+    <!-- No ticket yet: the counters are where you buy one (and later redeem paper
+         vouchers). Listed, not GPS-picked — offline, and useful before arrival. -->
+    <ul class="stands">
+      {#each tickets as p}
+        <li>
+          <span>{t(p.where)}</span>
+          <a href={mapsUrl(p)} target="_blank" rel="noopener">{s('booth_dir')}</a>
+        </li>
+      {/each}
+    </ul>
+  {/if}
   {#if note}<p class="note">{note}</p>{/if}
 {/if}
 
@@ -121,6 +140,26 @@
   }
   .ok { color: var(--brand-dark); font-weight: 700; font-size: 0.9rem; }
   .note { margin: 8px 0 0; text-align: center; color: var(--muted); font-size: 0.82rem; }
+
+  .stands {
+    list-style: none;
+    margin: 14px 0 0;
+    padding: 0;
+    display: flex;
+    flex-direction: column;
+    gap: 2px;
+  }
+  .stands li {
+    display: flex;
+    align-items: baseline;
+    justify-content: space-between;
+    gap: 12px;
+    padding: 8px 0;
+    border-top: 1px solid var(--line);
+    font-size: 0.85rem;
+  }
+  .stands li span { color: var(--brand-dark); }
+  .stands li a { flex: none; color: var(--brand); font-weight: 700; white-space: nowrap; }
 
   .frame {
     position: relative;

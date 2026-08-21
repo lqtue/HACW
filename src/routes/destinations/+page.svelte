@@ -8,15 +8,12 @@
   import Card from '$lib/components/Card.svelte';
   import {
     BOUNDS,
-    BUILDINGS_3D,
     PIN_DPR,
-    TILT_LAYERS,
     hidePois,
     hoianStyle,
     loadMap,
     markSvg,
-    pinImage,
-    principalBearing
+    pinImage
   } from '$lib/map-style.js';
   import { addLandmarks } from '$lib/landmarks.js';
   import { categoryLabel, mapsUrl, openLabel } from '$lib/util.js';
@@ -27,12 +24,13 @@
   import { spotlightIds } from '$lib/score.js';
   import { t, i18n } from '$lib/i18n.svelte.js';
   import { s } from '$lib/strings.js';
+  import { theme } from '$lib/theme.svelte.js';
 
   let active = $state('all');
   let showTickets = $state(false);
   let openOnly = $state(false);
   let selected = $state(null); // pin tapped -> highlight its card below
-  let tilt = $state(false); // pitch + building massing, opt-in: the map is a printed plan
+  let rotated = $state(false); // map twisted off north -> show the reset-north chip
 
   // Location is opt-in: nothing is requested until the visitor taps the chip, so
   // the permission prompt arrives with a reason attached instead of on page load.
@@ -111,9 +109,9 @@
 
   const byId = new Map(destinations.map((d) => [d.id, d]));
 
-  // The old town is a 1 km east-west strip. Turned to lie along the screen it is
-  // twice the size on a portrait phone, so north is not up here — the walk is.
-  const BEARING = principalBearing(destinations);
+  // North up (true north). The old town is an east-west strip so a rotated map fills
+  // the phone better, but the user wants a conventional north-up orientation.
+  const BEARING = 0;
 
   // Everything under the last tap, and where in it we are. One entry = an
   // ordinary pin tap; more than one = the ‹ › bar appears.
@@ -141,7 +139,7 @@
       container: el,
       // ponytail: basemap labels are baked at the language the page loaded in —
       // restyling mid-session would drop our own layers. Pin labels follow t().
-      style: hoianStyle(location.origin + base, i18n.lang),
+      style: hoianStyle(location.origin + base, i18n.lang, theme.mode === 'dark'),
       center: [108.3275, 15.8772],
       zoom: 16,
       bearing: BEARING,
@@ -160,8 +158,13 @@
         .querySelector('.maplibregl-ctrl-attrib')
         ?.classList.remove('maplibregl-compact-show')
     );
-    // ponytail: no NavigationControl — pinch zooms, the 3D button pitches, and the
-    // bottom edge is needed for the ‹ › pager. Add it back if testers ask for +/−.
+    // ponytail: no NavigationControl — pinch zooms, a two-finger twist rotates
+    // (the 🧭 chip resets north), and the bottom edge is needed for the ‹ ›
+    // pager. Add it back if testers ask for +/−.
+    map.on('rotate', () => {
+      const b = ((map.getBearing() % 360) + 360) % 360;
+      rotated = b > 1 && b < 359; // twisted off north -> reveal the reset chip
+    });
 
     // MapLibre's own geolocate control already does watch + accuracy circle +
     // permission errors, so the 📍 chip just triggers it and reads the fix back
@@ -197,16 +200,18 @@
     // spotlight variant) drawn from the same CSS vars the rest of the app uses.
     const css = getComputedStyle(document.documentElement);
     const gold = css.getPropertyValue('--gold').trim() || '#e0a83c';
-    // literal dark ink: pins sit on the light printed basemap, so they keep dark
-    // keylines even though the app chrome ink (--brand-dark) is now near-white.
-    const ink = '#1c1917';
+    // Keyline follows the basemap: dark ink on the light plan, a warm paper light
+    // on the dark one so the mark detaches from dark land. Pupil stays dark either
+    // way — it sits on the cream eye face, not on the land.
+    const dark = theme.mode === 'dark';
+    const ink = dark ? '#efe6d6' : '#1c1917';
+    const eye = '#1c1917';
     for (const c of categories) {
       const color = css.getPropertyValue(`--c-${c.id}`).trim() || '#bb4b2c';
-      map.addImage(`pin-${c.id}`, pinImage(color, ink), { pixelRatio: PIN_DPR });
-      map.addImage(`pin-${c.id}-spot`, pinImage(color, ink, gold), { pixelRatio: PIN_DPR });
+      map.addImage(`pin-${c.id}`, pinImage(color, ink, undefined, eye), { pixelRatio: PIN_DPR });
+      map.addImage(`pin-${c.id}-spot`, pinImage(color, ink, gold, eye), { pixelRatio: PIN_DPR });
     }
 
-    map.addLayer(BUILDINGS_3D);
     hidePois(map);
 
     // Ticket counters: small neutral dots, off by default so they don't crowd the
@@ -362,11 +367,10 @@
     geolocate.trigger();
   }
 
-  // The 3D button owns the whole idea of buildings: flat-on, the plan is streets
-  // and 25 marks, and drawn footprints are just texture between them.
-  function toggleTilt() {
-    tilt = !tilt;
-    map?.easeTo({ pitch: tilt ? 55 : 0, duration: 600 });
+  // The map opens north-up, but a two-finger twist can leave it at any angle —
+  // this snaps the bearing back to north.
+  function resetNorth() {
+    map?.easeTo({ bearing: BEARING, duration: 400 });
   }
 
   // Filters, spotlight and opening hours all land as one setData.
@@ -378,13 +382,6 @@
     if (ready) map.setLayoutProperty('booths', 'visibility', showTickets ? 'visible' : 'none');
   });
 
-  // The building massing belongs to the 3D button; the flat plan is the default.
-  $effect(() => {
-    if (!ready) return;
-    for (const id of TILT_LAYERS) {
-      map.setLayoutProperty(id, 'visibility', tilt ? 'visible' : 'none');
-    }
-  });
 </script>
 
 <div class="explore">
@@ -392,9 +389,6 @@
 
   <div class="wrap">
     <div bind:this={el} class="map"></div>
-    <div class="mapbtns">
-      <button class="mapbtn" aria-pressed={tilt} onclick={toggleTilt}>{tilt ? '▣' : '◱'} 3D</button>
-    </div>
 
   <!-- bottom sheet floats over the map edge: filters, counter bar, site cards.
        Translucent so the plan reads through it — the map is the screen now. -->
@@ -434,6 +428,9 @@
     <button class="chip" aria-pressed={!!me} onclick={toggleLocate}>
       📍 {locating ? s('locating_now') : s('locate_me')}
     </button>
+    {#if rotated}
+      <button class="chip" onclick={resetNorth}>🧭 {s('reset_north')}</button>
+    {/if}
   </div>
 
   {#if geoErr}
@@ -474,25 +471,6 @@
   }
 
   /* clears the fixed language pill (top-right) and the notch */
-  .mapbtns {
-    position: absolute;
-    top: max(12px, calc(env(safe-area-inset-top) + 6px));
-    left: 12px; z-index: 5; display: flex; gap: 8px;
-  }
-  .mapbtn {
-    border: 1px solid var(--line);
-    background: color-mix(in srgb, var(--surface) 92%, transparent);
-    backdrop-filter: blur(8px);
-    color: var(--brand-dark);
-    border-radius: 999px;
-    padding: 8px 14px;
-    font-family: var(--font-body);
-    font-weight: 700;
-    font-size: 0.8rem;
-    cursor: pointer;
-    box-shadow: var(--shadow);
-  }
-  .mapbtn[aria-pressed='true'] { background: var(--grad-brand); color: #fff; border-color: transparent; }
 
   /* The map is a printed plan, so the sheet is the sheet of paper it is printed
      on: flat stock, a hairline rule instead of frosted glass and a soft glow.

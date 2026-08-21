@@ -8,11 +8,22 @@ export const TYPES = new Set([
   'checkin', 'gps_far', 'gps_fail', 'quiz_wrong', 'redeem',
   // onboarding / planner funnel (site-less totals): app opened, ticket scanned,
   // a valid 1+1+3 assembled — the numbers that show how many visitors reach each step.
-  'welcome', 'scan', 'plan_built'
+  'welcome', 'scan', 'plan_built',
+  // language study: `lang` = the device locale (navigator.language primary subtag),
+  // `pick` = the language the visitor chose on the welcome screen. Both are a proxy
+  // for nationality — see the welcome picker. Their id is a language code, not a
+  // destination id, so they take the LANGCODE path below and skip the dest-id guard.
+  'lang', 'pick'
 ]);
 export const MAX_EVENTS = 50; // one dead-spot queue, not a firehose
 
 const ID = /^[a-z0-9-]{1,32}$/;
+// A language code (ISO 639 subtag, or 'other'). Its own bounded alphabet caps how
+// many distinct rows it can mint, so unlike a free destination id it needs no
+// allowlist — a flood tops out at a few thousand real codes, not the unbounded
+// junk the dest-id guard exists to stop.
+const LANGCODE = /^[a-z]{2,8}$/;
+const LANG_TYPES = new Set(['lang', 'pick']);
 
 export const countKey = (id) => `count:${id}`;
 
@@ -36,6 +47,15 @@ export function tally(events, validIds = null) {
   for (const e of (events ?? []).slice(0, MAX_EVENTS)) {
     const type = e?.t ?? 'checkin';
     if (!TYPES.has(type)) continue;
+    // language events carry a language code, not a destination id: validate against
+    // LANGCODE and skip the dest-id allowlist (the code alphabet is its own bound).
+    if (LANG_TYPES.has(type)) {
+      const code = typeof e?.id === 'string' && LANGCODE.test(e.id) ? e.id : null;
+      if (!code) continue;
+      const key = eventKey(type, code);
+      bump[key] = (bump[key] ?? 0) + 1;
+      continue;
+    }
     const id = typeof e?.id === 'string' && ID.test(e.id) ? e.id : null;
     // A well-formed id that names no real site is the flooding attack: drop it.
     if (id && validIds && !validIds.has(id)) continue;

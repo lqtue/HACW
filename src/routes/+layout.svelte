@@ -6,7 +6,7 @@
   import { flush, backup } from '$lib/passport.svelte.js';
   import { loadCounts } from '$lib/stats.svelte.js';
   import { unlockFromUrl } from '$lib/staff.svelte.js';
-  import { i18n, setLang } from '$lib/i18n.svelte.js';
+  import { theme, toggleTheme } from '$lib/theme.svelte.js';
   import { s } from '$lib/strings.js';
 
   let { children } = $props();
@@ -44,8 +44,8 @@
   const wide = $derived(rel.startsWith('/organizer'));
 </script>
 
-<button class="lang" onclick={() => setLang(i18n.lang === 'vi' ? 'en' : 'vi')} aria-label="Language">
-  {i18n.lang === 'vi' ? 'EN' : 'VI'}
+<button class="chip-fab theme" onclick={toggleTheme} aria-label="Theme" title="Theme">
+  {theme.mode === 'dark' ? '☀' : '☾'}
 </button>
 
 <div class="app" class:wide>
@@ -72,16 +72,14 @@
 {/if}
 
 <style>
-  .lang {
+  .chip-fab {
     position: fixed;
     top: max(14px, calc(env(safe-area-inset-top) + 6px));
-    right: 14px;
     z-index: 1100;
     border: 1px solid var(--line);
     background: color-mix(in srgb, var(--surface) 80%, transparent);
     color: var(--ink);
     border-radius: 999px;
-    width: 44px;
     height: 34px;
     font-family: var(--font-body);
     font-size: 0.78rem;
@@ -90,4 +88,5 @@
     cursor: pointer;
     backdrop-filter: blur(10px);
   }
+  .theme { right: 14px; width: 40px; font-size: 1rem; }
 </style>

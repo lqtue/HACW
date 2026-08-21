@@ -1,4 +1,4 @@
-import { LIGHT, layers } from '@protomaps/basemaps';
+import { DARK, LIGHT, layers } from '@protomaps/basemaps';
 
 /**
  * "Giấy Hội An" — the basemap as *paper*, deliberately almost colourless.
@@ -11,6 +11,22 @@ import { LIGHT, layers } from '@protomaps/basemaps';
  * barely tinted — everything sits a step above "greyscale" so it still reads as
  * the event's paper rather than a utility map.
  */
+// OSM's own points of interest. The flavor keys these by colour name, one per
+// POI family; ours are all muted and warm so context labels never compete with
+// the 25 destination pins — except transport, which stays cool on purpose,
+// because a bus stop is wayfinding, not decoration. Shared by both flavors —
+// they're hidden by `hidePois` anyway, so one warm set serves light and dark.
+const POIS = {
+  green: '#6f8a5c',
+  turquoise: '#5f9a99',
+  lapis: '#6d7f96',
+  slategray: '#8d8299',
+  blue: '#94796a',
+  tangerine: '#b4763c',
+  red: '#b5624e',
+  pink: '#a2786a'
+};
+
 export const HOI_AN = {
   ...LIGHT,
   background: '#ece5da',
@@ -59,20 +75,64 @@ export const HOI_AN = {
   city_label_halo: '#fffdf8',
   address_label: '#b3aca1',
   address_label_halo: '#fffdf8',
-  // OSM's own points of interest. The flavor keys these by colour name, one per
-  // POI family; ours are all muted and warm so context labels never compete with
-  // the 25 destination pins — except transport, which stays cool on purpose,
-  // because a bus stop is wayfinding, not decoration.
-  pois: {
-    green: '#6f8a5c',
-    turquoise: '#5f9a99',
-    lapis: '#6d7f96',
-    slategray: '#8d8299',
-    blue: '#94796a',
-    tangerine: '#b4763c',
-    red: '#b5624e',
-    pink: '#a2786a'
-  }
+  pois: POIS
+};
+
+/**
+ * "Giấy Hội An" after dark — the same printed-plan idea inverted. The land is a
+ * warm near-black, streets a step lighter so they still read, the river barely
+ * tinted; nothing carries brand colour, so the 25 saturated pins are again the
+ * only bright things on screen. Same key set as HOI_AN, dark values.
+ */
+export const HOI_AN_DARK = {
+  ...DARK,
+  background: '#141210',
+  earth: '#1c1915',
+
+  water: '#222b2c',
+  sand: '#201d16',
+  beach: '#201d16',
+
+  park_a: '#1c2018',
+  park_b: '#242c1e',
+  wood_a: '#1b1f17',
+  wood_b: '#232a1d',
+  scrub_a: '#1d2019',
+  scrub_b: '#252b1f',
+
+  buildings: '#221e17',
+  pedestrian: '#26221a',
+  pier: '#1f1b15',
+
+  other: '#2d2820',
+  minor_service: '#2d2820',
+  minor_a: '#2d2820',
+  minor_b: '#2d2820',
+  link: '#2d2820',
+  major: '#322c22',
+  highway: '#322c22',
+  minor_service_casing: '#171410',
+  minor_casing: '#171410',
+  link_casing: '#171410',
+  major_casing_early: '#171410',
+  major_casing_late: '#171410',
+  highway_casing_early: '#171410',
+  highway_casing_late: '#171410',
+
+  railway: '#3a3327',
+  boundaries: '#4a4231',
+
+  roads_label_minor: '#8a8072',
+  roads_label_minor_halo: '#100e0b',
+  roads_label_major: '#a89e8c',
+  roads_label_major_halo: '#100e0b',
+  subplace_label: '#9a9080',
+  subplace_label_halo: '#100e0b',
+  city_label: '#cabfa9',
+  city_label_halo: '#100e0b',
+  address_label: '#726b60',
+  address_label_halo: '#100e0b',
+  pois: POIS
 };
 
 /**
@@ -209,6 +269,19 @@ const SKY = {
 
 const LIGHT_3D = { anchor: 'viewport', color: '#fff4e2', intensity: 0.38, position: [1.4, 210, 32] };
 
+/** Night variants of the two — only read when the camera is pitched (3D button). */
+const DARK_SKY = {
+  'sky-color': '#0d1622',
+  'horizon-color': '#241a1c',
+  'fog-color': '#14100c',
+  'sky-horizon-blend': 0.7,
+  'horizon-fog-blend': 0.6,
+  'fog-ground-blend': 0.55,
+  'atmosphere-blend': ['interpolate', ['linear'], ['zoom'], 12, 0.5, 17, 0.12]
+};
+
+const DARK_LIGHT_3D = { anchor: 'viewport', color: '#3a3630', intensity: 0.5, position: [1.4, 210, 32] };
+
 /**
  * MapLibre style for the offline old-town basemap. Everything it references —
  * tiles, glyphs, sprite — is served from our own `static/map/`, so the map
@@ -217,14 +290,17 @@ const LIGHT_3D = { anchor: 'viewport', color: '#fff4e2', intensity: 0.38, positi
  * base (`location.origin + base`) — browser-only, which this map already is.
  * @param {string} base origin + SvelteKit `base` path
  * @param {'vi'|'en'} lang label language
+ * @param {boolean} [dark] use the night flavor
  */
-export function hoianStyle(base, lang = 'vi') {
+export function hoianStyle(base, lang = 'vi', dark = false) {
   return {
     version: 8,
     glyphs: `${base}/map/fonts/{fontstack}/{range}.pbf`,
+    // the sprite carries only OSM POI icons, which `hidePois` hides — so one
+    // (light) sprite serves both themes, no dark sprite to author.
     sprite: `${base}/map/sprites/light`,
-    sky: SKY,
-    light: LIGHT_3D,
+    sky: dark ? DARK_SKY : SKY,
+    light: dark ? DARK_LIGHT_3D : LIGHT_3D,
     sources: {
       protomaps: {
         type: 'vector',
@@ -232,7 +308,7 @@ export function hoianStyle(base, lang = 'vi') {
         attribution: '© <a href="https://openstreetmap.org">OpenStreetMap</a>, Protomaps'
       }
     },
-    layers: layers('protomaps', HOI_AN, { lang })
+    layers: layers('protomaps', dark ? HOI_AN_DARK : HOI_AN, { lang })
   };
 }
 
@@ -302,11 +378,14 @@ function markPath(x, r, petals = 9) {
  * Drawn on a canvas so sites can be one real symbol layer (label collision, zoom
  * sizing, data-driven dimming) instead of 25 absolutely-positioned DOM nodes.
  * @param {string} fill category accent
- * @param {string} ink keyline colour
+ * @param {string} ink keyline colour (light on the dark basemap, so the mark
+ *   detaches from dark land; dark on the light one)
  * @param {string} [spark] gold badge colour — set for spotlight sites
+ * @param {string} [eye] pupil colour; defaults to `ink`. Kept dark on the dark
+ *   map so the pupil still reads against the cream eye face.
  * @returns {ImageData} pass to `map.addImage(id, …, { pixelRatio: PIN_DPR })`
  */
-export function pinImage(fill, ink, spark) {
+export function pinImage(fill, ink, spark, eye = ink) {
   const dpr = PIN_DPR;
   const c = document.createElement('canvas');
   c.width = PIN * dpr;
@@ -332,7 +411,7 @@ export function pinImage(fill, ink, spark) {
   x.fill();
   x.beginPath();
   x.arc(0, 0, R * 0.17, 0, Math.PI * 2);
-  x.fillStyle = ink;
+  x.fillStyle = eye;
   x.fill();
 
   // spotlight badge: the four-petal spark from the key visual, top-right

@@ -57,6 +57,22 @@
   const survey = destinations.filter((d) => d.needsSurvey);
   const quizTodo = destinations.filter((d) => d.quizBank.some((q) => q.generated));
 
+  // Language study (nationality proxy): `lang:<code>` = device locale, `pick:<code>`
+  // = the language chosen on the welcome screen. Split out of the raw event dump
+  // and shown biggest-first. Codes not in the map render as their raw ISO subtag.
+  const LANG_NAMES = {
+    vi: 'Tiếng Việt', en: 'English', ko: '한국어', zh: '中文',
+    ja: '日本語', th: 'ไทย', fr: 'Français', de: 'Deutsch', other: '—'
+  };
+  const langName = (c) => LANG_NAMES[c] ?? c;
+  const langRows = (prefix) =>
+    Object.entries(events)
+      .filter(([k]) => k.startsWith(prefix))
+      .map(([k, n]) => [k.slice(prefix.length), n])
+      .sort((a, b) => b[1] - a[1]);
+  const localeRows = $derived(langRows('lang:'));
+  const pickRows = $derived(langRows('pick:'));
+
   // Cold sites are worth a flyer at the nearest counter — this is that mapping.
   const nearestCounter = (d) => nearest(d, tickets);
 
@@ -188,10 +204,36 @@
     <p class="muted"><small>{s('org_flagged_none')}</small></p>
   {/if}
 
+  <h2>{s('org_lang')}</h2>
+  <p class="muted"><small>{s('org_lang_hint')}</small></p>
+  <div class="langgrid">
+    <div>
+      <p class="fieldlabel">{s('org_lang_device')}</p>
+      {#if localeRows.length}
+        <ul class="langlist">
+          {#each localeRows as [code, n] (code)}
+            <li><span>{langName(code)} <small class="muted">{code}</small></span> <b>{n}</b></li>
+          {/each}
+        </ul>
+      {:else}<p class="muted"><small>—</small></p>{/if}
+    </div>
+    <div>
+      <p class="fieldlabel">{s('org_lang_pick')}</p>
+      {#if pickRows.length}
+        <ul class="langlist">
+          {#each pickRows as [code, n] (code)}
+            <li><span>{langName(code)} <small class="muted">{code}</small></span> <b>{n}</b></li>
+          {/each}
+        </ul>
+      {:else}<p class="muted"><small>—</small></p>{/if}
+    </div>
+  </div>
+
   <h2>{s('org_events')}</h2>
   <p class="muted">
     <small>
       {Object.entries(events)
+        .filter(([k]) => !k.startsWith('lang:') && !k.startsWith('pick:'))
         .map(([k, v]) => `${k} ${v}`)
         .join(' · ') || '—'}
     </small>
@@ -237,6 +279,18 @@
 </PageShell>
 
 <style>
+  .langgrid { display: grid; grid-template-columns: 1fr 1fr; gap: 18px; margin-bottom: 8px; }
+  .langlist { list-style: none; margin: 0; padding: 0; }
+  .langlist li {
+    display: flex;
+    justify-content: space-between;
+    gap: 12px;
+    padding: 5px 0;
+    border-bottom: 1px solid var(--line);
+    font-size: 0.9rem;
+  }
+  .langlist b { font-variant-numeric: tabular-nums; }
+
   .code { margin-bottom: 10px; }
   .err { color: var(--brand); margin: 0 0 8px; font-size: 0.9rem; }
   .actions { display: flex; gap: 10px; align-items: center; flex-wrap: wrap; margin-bottom: 12px; }

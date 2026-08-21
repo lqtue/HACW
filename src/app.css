@@ -135,18 +135,63 @@
    ========================================================================== */
 
 :root {
-  /* dark canvas (warm-biased near-blacks, not pure grey), one coral accent */
-  --paper: #0c0b0a; /* page ground */
-  --paper-2: #171512;
-  --surface: #1b1a17; /* cards, sheets */
-  --bg: #262320; /* recessed fill: inputs, add-buttons, empty-slot fill, thumbs */
+  color-scheme: light;
+
+  /* light canvas — warm ivory/peach paper (official key visual), one coral accent */
+  --paper: #fbf1ea; /* page ground */
+  --paper-2: #f5e4d8;
+  --surface: #ffffff; /* cards, sheets */
+  --bg: #f1e6dc; /* recessed fill: inputs, add-buttons, empty-slot fill, thumbs */
 
   /* ink */
+  --ink: #2b1d17; /* warm near-black */
+  --muted: #8b7b70; /* warm grey */
+  --line: #ecdbcd; /* warm hairline */
+
+  /* one accent */
+  --brand: #e0542c;
+  --brand-soft: #f4a25a;
+  --brand-dark: #8f2417; /* oxblood emphasis/headings on the light ground */
+  --brand-mid: #c8461f; /* accent hover (darker) */
+  --gold: #bd8420; /* "quieter" / spotlight highlight — darkened to read on white */
+  --teal: #0f8079; /* success / open now — darkened to read on white */
+
+  /* buttons/chips/tabs are flat — these resolve to a solid colour, not a gradient */
+  --grad-brand: #e0542c;
+  --grad-warm: #bd8420;
+  --grad-strip: #e0542c;
+
+  --radius: 16px;
+  --radius-sm: 12px;
+  --shadow: 0 1px 2px rgba(60, 30, 20, 0.08), 0 10px 30px -18px rgba(60, 30, 20, 0.25);
+  --shadow-lift: 0 16px 40px -20px rgba(60, 30, 20, 0.35);
+
+  --grain: none; /* no ornament */
+
+  --font-display: 'Be Vietnam Pro', ui-sans-serif, system-ui, -apple-system, sans-serif;
+  --font-body: 'Be Vietnam Pro', ui-sans-serif, system-ui, -apple-system, sans-serif;
+
+  /* category accents -> flower marks + pins + tags, tuned to read on white */
+  --c-di-tich: #d24b2c;
+  --c-hoi-quan: #0f8079;
+  --c-nha-co: #b6851c;
+  --c-bao-tang: #7c56c0;
+  --c-trai-nghiem: #d6497e;
+}
+
+:root[data-theme='dark'] {
+  color-scheme: dark;
+
+  /* dark canvas (warm-biased near-blacks, not pure grey), one coral accent */
+  --paper: #0c0b0a;
+  --paper-2: #171512;
+  --surface: #1b1a17;
+  --bg: #262320;
+
   --ink: #f6f4f1; /* near-white */
   --muted: #9c948b; /* warm grey */
   --line: #2c2926; /* hairline on dark */
 
-  /* one accent */
   --brand: #ec6238;
   --brand-soft: #f4a25a;
   --brand-dark: #f6f4f1; /* emphasis/heading ink = near-white on the dark ground.
@@ -155,22 +200,14 @@
   --gold: #e6a53a; /* "quieter" / spotlight highlight */
   --teal: #35b0a7; /* success / open now — brightened for dark legibility */
 
-  /* buttons/chips/tabs are flat — these resolve to a solid colour, not a gradient */
   --grad-brand: #ec6238;
   --grad-warm: #e6a53a;
   --grad-strip: #ec6238;
 
-  --radius: 16px;
-  --radius-sm: 12px;
   --shadow: 0 1px 2px rgba(0, 0, 0, 0.4), 0 10px 30px -18px rgba(0, 0, 0, 0.7);
   --shadow-lift: 0 16px 40px -20px rgba(0, 0, 0, 0.85);
 
-  --grain: none; /* no ornament */
-
-  --font-display: 'Be Vietnam Pro', ui-sans-serif, system-ui, -apple-system, sans-serif;
-  --font-body: 'Be Vietnam Pro', ui-sans-serif, system-ui, -apple-system, sans-serif;
-
-  /* category accents -> flower marks + pins + tags, brightened to read on black */
+  /* category accents brightened to read on black */
   --c-di-tich: #e2593a;
   --c-hoi-quan: #35b0a7;
   --c-nha-co: #e0a83c;

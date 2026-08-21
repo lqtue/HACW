@@ -70,6 +70,22 @@ assert.deepEqual(
   'site-less events are bounded keys, unaffected by the allowlist'
 );
 
+// --- language study: lang/pick carry a language code, not a dest id ---
+assert.deepEqual(
+  tally([{ t: 'lang', id: 'ko' }, { t: 'pick', id: 'en' }]),
+  { 'ev:lang:ko': 1, 'ev:pick:en': 1 },
+  'device locale + chosen language count under their own keys'
+);
+assert.deepEqual(
+  tally([{ t: 'lang', id: 'ko' }], real),
+  { 'ev:lang:ko': 1 },
+  'a language code is NOT a dest id — it bypasses the site allowlist'
+);
+assert.deepEqual(tally([{ t: 'pick', id: 'other' }]), { 'ev:pick:other': 1 }, "'other' is a valid code");
+assert.deepEqual(tally([{ t: 'lang', id: 'zh-cn' }]), {}, 'a full BCP-47 tag is rejected — subtag only');
+assert.deepEqual(tally([{ t: 'lang' }]), {}, 'a language event with no code is dropped');
+assert.deepEqual(tally([{ t: 'lang', id: 'DROP' }]), {}, 'codes are lowercase letters, not SQL');
+
 // A replayed offline queue is capped, so one phone can't spend the whole day's writes.
 const flood = Array.from({ length: 500 }, () => ({ t: 'checkin', id: 'a' }));
 assert.deepEqual(tally(flood), { 'count:a': MAX_EVENTS });

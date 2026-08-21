@@ -120,8 +120,9 @@ function soon(key, fn, ms) {
 // Own endpoint instead of Google Analytics: no cookie banner, no ad-blocker
 // hole, works offline (the queue survives in localStorage), and the organizer
 // dashboard reads the same numbers the app does.
-/** @param {string} type checkin | gps_far | gps_fail | quiz_wrong | redeem
- *  @param {string} [id] destination / tour id
+/** @param {string} type checkin | gps_far | gps_fail | quiz_wrong | redeem |
+ *    welcome | scan | plan_built | lang | pick
+ *  @param {string} [id] destination / tour id — or, for lang/pick, a language code
  *  @param {number} [n] optional measurement (metres off, question index) */
 export function track(type, id, n) {
   if (!browser) return;

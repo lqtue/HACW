@@ -58,6 +58,13 @@ if (draftSets.length) console.warn(`  ⚠ ${draftSets.length} draft ticket sets 
 ok(checkRewards(rewards, maxPossiblePoints(destinations.length, tours.length)), 'rewards.json');
 ok(checkEvent(event), 'event.json');
 
+// distance matrix must match the current destination set (stale after add/remove/move → rebuild it)
+const { default: DIST } = await import('../src/lib/data/distances.js');
+assert.deepEqual(DIST.ids, ids, 'distances.js ids drift from destinations — run scripts/build-distance-matrix.mjs');
+assert.ok(DIST.m.length === ids.length && DIST.m.every((r) => r.length === ids.length), 'distances.js matrix not N×N');
+if (DIST.source?.startsWith('fallback'))
+  console.warn('  ⚠ distances.js is the haversine fallback — run `ORS_TOKEN=… node scripts/build-distance-matrix.mjs --ors` for real walking distances');
+
 for (const p of tickets) {
   assert.ok(p.id, 'ticket point without id');
   assert.ok(p.lat > BOX.latMin && p.lat < BOX.latMax + 0.01, `${p.id}: lat outside Hội An`);

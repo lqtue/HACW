@@ -1,4 +1,4 @@
-import { routeStats } from './route.js';
+import { routeStats, optimizeRoute } from './route.js';
 import { openState } from './hours.js';
 import { spotlightIds } from './score.js';
 
@@ -22,9 +22,10 @@ export function rankSets(sets, ctx, destinations) {
   const spot = spotlightIds(counts, destinations);
 
   const scored = sets.map((set) => {
-    const stops = set.stops ?? [];
+    // reorder for the shortest walk before costing/ranking, so walkM is the real minimum
+    const stops = optimizeRoute(set.stops ?? []);
     const n = stops.length || 1;
-    const { minutes: walkMin } = routeStats(stops);
+    const { meters: walkM, minutes: walkMin } = routeStats(stops);
     const indoor = stops.filter((d) => INDOOR.has(d.category)).length / n;
     const closedCount = stops.filter(
       (d) => openState(d?.hours?.vi ?? '', now).status === 'closed'
@@ -38,7 +39,7 @@ export function rankSets(sets, ctx, destinations) {
     fit += quiet ? 3 : 0; // uncrowded nudge = local dispersal goal
     fit -= closedCount * 5; // don't send anyone to a shut door
 
-    return { ...set, walkMin, indoor, quiet, closedCount, openNow: closedCount === 0, _score: fit };
+    return { ...set, stops, walkM, walkMin, indoor, quiet, closedCount, openNow: closedCount === 0, _score: fit };
   });
 
   return scored.sort((a, b) => b._score - a._score);
