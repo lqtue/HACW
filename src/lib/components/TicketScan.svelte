@@ -9,18 +9,23 @@
   // Optional "scan your ticket to begin". The Hội An ticket's QR is a Vietnamese
   // e-invoice lookup code (tracuuhddt…), not machine-readable ticket contents — so
   // scanning proves a purchase and gives us a stable anonymous id, but NOT which
-  // sites or 3-vs-5. That's why the planner never gates on it: iOS has no
-  // BarcodeDetector, so this stays a bonus gesture, not the only door.
-  // ponytail: native BarcodeDetector only, no QR-decode dependency. If iOS scan
-  // becomes a must-have, add a wasm decoder behind the same `supported` check.
+  // sites or 3-vs-5. That's why the planner never gates on it — it's a bonus gesture.
+  //
+  // Two decode paths: the native BarcodeDetector where it exists (Chrome/Android —
+  // fast, GPU), and jsQR over canvas frames everywhere else. iOS/Safari has no
+  // BarcodeDetector but does have getUserMedia, so jsQR is what makes iPhones scan.
+  // jsQR is pure JS, dynamically imported (only the no-BarcodeDetector path pays for
+  // it) and bundled — precached, so it still works offline.
   const KEY = 'hacw_ticket_v1';
   // `hero` is the dedicated onboarding scan step, where scanning IS the screen: a
   // viewfinder + a real button. Everywhere else (recommend / manual) it stays a quiet
   // one-line strip so it never competes with the plan above it.
   let { onsaved, hero = false } = $props();
 
+  // Any device with a camera can scan now — the decoder is chosen at start().
   const supported =
-    typeof window !== 'undefined' && 'BarcodeDetector' in window && !!navigator.mediaDevices;
+    typeof navigator !== 'undefined' && !!navigator.mediaDevices?.getUserMedia;
+  const hasBD = typeof window !== 'undefined' && 'BarcodeDetector' in window;
 
   let saved = $state(
     typeof localStorage !== 'undefined' && !!localStorage.getItem(KEY)
@@ -31,6 +36,7 @@
   let video = $state();
   let stream = null;
   let raf = 0;
+  let canvas = null; // jsQR path: video frame is drawn here to read pixels
 
   function stop() {
     if (!browser) return;
@@ -53,14 +59,24 @@
       stream = await navigator.mediaDevices.getUserMedia({ video: { facingMode: 'environment' } });
       video.srcObject = stream;
       await video.play();
-      const detector = new BarcodeDetector({ formats: ['qr_code'] });
+
+      // Fast native path where it exists; jsQR over canvas frames otherwise (iOS).
+      const detector = hasBD ? new BarcodeDetector({ formats: ['qr_code'] }) : null;
+      const jsQR = detector ? null : (await import('jsqr')).default;
+      if (!detector) canvas = document.createElement('canvas');
+
       const tick = async () => {
         if (!scanning) return;
         try {
-          const codes = await detector.detect(video);
-          if (codes.length && codes[0].rawValue) return done(codes[0].rawValue);
+          if (detector) {
+            const codes = await detector.detect(video);
+            if (codes.length && codes[0].rawValue) return done(codes[0].rawValue);
+          } else {
+            const hit = readFrame(jsQR);
+            if (hit) return done(hit);
+          }
         } catch {
-          // a transient decode failure is fine — keep polling
+          // a transient decode/read failure is fine — keep polling
         }
         raf = requestAnimationFrame(tick);
       };
@@ -69,6 +85,24 @@
       note = s('scan_unsupported');
       stop();
     }
+  }
+
+  // Draw the current video frame (downscaled — QR needs contrast, not megapixels) and
+  // hand the pixels to jsQR. Returns the decoded string, or null to keep polling.
+  function readFrame(jsQR) {
+    const vw = video.videoWidth;
+    const vh = video.videoHeight;
+    if (!vw || !vh) return null;
+    const scale = Math.min(1, 640 / Math.max(vw, vh));
+    const w = Math.round(vw * scale);
+    const h = Math.round(vh * scale);
+    canvas.width = w;
+    canvas.height = h;
+    const ctx = canvas.getContext('2d', { willReadFrequently: true });
+    ctx.drawImage(video, 0, 0, w, h);
+    const img = ctx.getImageData(0, 0, w, h);
+    const res = jsQR(img.data, w, h, { inversionAttempts: 'dontInvert' });
+    return res?.data || null;
   }
 
   function done(code) {
