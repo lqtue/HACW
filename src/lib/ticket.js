@@ -11,13 +11,14 @@
 
 export const TICKET_CLASSES = ['monument', 'museum', 'other'];
 
-// The Hội An ticket's QR is a Vietnamese e-invoice lookup (a tra-cứu-hóa-đơn URL or a
-// bare invoice code like "EBL0226T1490955889"). We can't read WHICH sites it admits
-// (see TicketScan) — but before deriving a recovery code from a scan we should at
-// least reject QRs that clearly aren't a ticket, so a poster / wifi / vCard QR doesn't
-// mint a garbage passport code.
-// ponytail: shape check, not an exact match — the real host/prefix isn't pinned. Once a
-// genuine ticket QR is captured, tighten INVOICE_HINT to that literal.
+// The Hội An ticket's QR is a Vietnamese e-invoice lookup. Confirmed from a real 2026
+// ticket: it prints "https://tracuuhddt7…com.vn" + lookup code "EBL0226T1490955889", so
+// the QR resolves to a `tracuuhddt…` invoice-portal URL (host is the stable token). We
+// can't read WHICH sites it admits (see TicketScan) — but before deriving a recovery
+// code from a scan we reject QRs that clearly aren't a ticket, so a poster / wifi /
+// vCard QR doesn't mint a garbage passport code.
+// `tracuuhddt` is the verified marker; the rest stay as resilience across invoice-
+// provider batches. ponytail: narrow to the exact host if a batch ever collides.
 const INVOICE_HINT = /(tracuuhddt|hoadon|hddt|e-?invoice|invoice|tra[-_]?cuu)/i;
 
 /** Does a scanned QR string look like a Hội An ticket (not some other QR)? */

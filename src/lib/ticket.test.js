@@ -40,7 +40,9 @@ assert.ok(!isValidSet(['m1', 'mu1', 'o1', 'o2', 'o3'], dests, 4));
 assert.equal(TICKETS[5].size, 5);
 
 // --- isTicketQr: reject non-ticket QRs before deriving a recovery code ---
-assert.ok(isTicketQr('EBL0226T1490955889'), 'a bare e-invoice code is a ticket');
+// real 2026 Hội An ticket: printed code + tracuuhddt7…com.vn lookup portal
+assert.ok(isTicketQr('EBL0226T1490955889'), 'the real bare lookup code is a ticket');
+assert.ok(isTicketQr('https://tracuuhddt79.example.com.vn/tra-cuu?ma=EBL0226T1490955889'), 'the real tracuuhddt lookup URL');
 assert.ok(isTicketQr('https://tracuuhddt.gdt.gov.vn/?code=EBL0226T1490955889'), 'invoice-lookup URL');
 assert.ok(!isTicketQr('https://example.com/promo'), 'a link to some other site is not a ticket');
 assert.ok(!isTicketQr('WIFI:S:CafeHoiAn;T:WPA;P:secret;;'), 'a wifi QR is not a ticket');
