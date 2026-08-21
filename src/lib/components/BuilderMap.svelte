@@ -4,7 +4,7 @@
   import destinations from '$lib/data/destinations.json';
   import categories from '$lib/data/categories.json';
   import { BOUNDS, PIN_DPR, hidePois, hoianStyle, loadMap, pinImage } from '$lib/map-style.js';
-  import { optimizeRoute } from '$lib/route.js';
+  import { optimizeRoute, stitchRoute } from '$lib/route.js';
   import { t, i18n } from '$lib/i18n.svelte.js';
   import { theme } from '$lib/theme.svelte.js';
 
@@ -24,7 +24,8 @@
   const numById = $derived(Object.fromEntries(orderedPicks.map((d, i) => [d.id, i + 1])));
   const routeData = $derived({
     type: 'Feature',
-    geometry: { type: 'LineString', coordinates: orderedPicks.map((d) => [d.lng, d.lat]) }
+    // real walking streets where baked (src/lib/data/legs.js), straight legs otherwise
+    geometry: { type: 'LineString', coordinates: stitchRoute(orderedPicks) }
   });
 
   const siteData = $derived({

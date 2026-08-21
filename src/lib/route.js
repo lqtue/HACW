@@ -1,5 +1,6 @@
 import { distanceMeters } from './geo.js';
 import DIST from './data/distances.js';
+import LEGS from './data/legs.js';
 
 // Leg cost uses the precomputed walking-distance matrix (real street distances between
 // the 25 fixed sites, baked by scripts/build-distance-matrix.mjs). Any point NOT in the
@@ -15,6 +16,34 @@ export function legMeters(a, b) {
   const j = IDX[b?.id];
   const m = i != null && j != null ? DIST.m?.[i]?.[j] : null;
   return m != null ? m : Math.round(distanceMeters(a, b) * DETOUR);
+}
+
+/**
+ * The polyline to DRAW for the leg a→b: the baked walking geometry (real streets),
+ * else a straight two-point line. Coords are [lng,lat]. Legs are stored once (i<j) and
+ * reversed for the other direction — pedestrian paths are symmetric enough to reuse.
+ * @returns {[number, number][]}
+ */
+export function legPath(a, b) {
+  const i = IDX[a?.id];
+  const j = IDX[b?.id];
+  if (i != null && j != null) {
+    const p = LEGS.paths?.[i < j ? `${i}_${j}` : `${j}_${i}`];
+    if (p) return i < j ? p : [...p].reverse();
+  }
+  return [[a.lng, a.lat], [b.lng, b.lat]];
+}
+
+/**
+ * Stitch a stop chain into one polyline for the map, following real streets where the
+ * geometry is baked. Drops each leg's first point (it repeats the previous leg's last).
+ * @returns {[number, number][]}
+ */
+export function stitchRoute(stops) {
+  if (!stops?.length) return [];
+  const out = [[stops[0].lng, stops[0].lat]];
+  for (let i = 1; i < stops.length; i++) out.push(...legPath(stops[i - 1], stops[i]).slice(1));
+  return out;
 }
 
 /** @returns {{ meters: number, minutes: number }} walking cost of visiting stops in order */

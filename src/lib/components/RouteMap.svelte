@@ -2,6 +2,7 @@
   import { onMount, onDestroy } from 'svelte';
   import { base } from '$app/paths';
   import { hidePois, hoianStyle, loadMap } from '$lib/map-style.js';
+  import { stitchRoute } from '$lib/route.js';
   import { i18n } from '$lib/i18n.svelte.js';
   import { theme } from '$lib/theme.svelte.js';
 
@@ -18,7 +19,8 @@
   // names are listed right beside it on the tour page.
   onMount(async () => {
     const maplibregl = await loadMap(base);
-    const line = stops.map((d) => [d.lng, d.lat]);
+    // real walking streets where baked (src/lib/data/legs.js), straight legs otherwise
+    const line = stitchRoute(stops);
     const bounds = line.reduce(
       (b, [lng, lat]) => [
         [Math.min(b[0][0], lng), Math.min(b[0][1], lat)],

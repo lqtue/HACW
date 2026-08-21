@@ -65,6 +65,12 @@ assert.ok(DIST.m.length === ids.length && DIST.m.every((r) => r.length === ids.l
 if (DIST.source?.startsWith('fallback'))
   console.warn('  ⚠ distances.js is the haversine fallback — run `ORS_TOKEN=… node scripts/build-distance-matrix.mjs --ors` for real walking distances');
 
+// walking-leg geometry (the polylines the map draws) — same drift check
+const { default: LEGS } = await import('../src/lib/data/legs.js');
+assert.deepEqual(LEGS.ids, ids, 'legs.js ids drift from destinations — run scripts/build-distance-matrix.mjs --geom');
+if (LEGS.source?.startsWith('fallback'))
+  console.warn('  ⚠ legs.js has no baked geometry — routes draw as straight lines. Run `ORS_TOKEN=… node scripts/build-distance-matrix.mjs --ors --geom` for real walking paths');
+
 for (const p of tickets) {
   assert.ok(p.id, 'ticket point without id');
   assert.ok(p.lat > BOX.latMin && p.lat < BOX.latMax + 0.01, `${p.id}: lat outside Hội An`);
