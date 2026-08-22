@@ -94,9 +94,10 @@
     } catch (e) {}
   };
 
-  // this file is served at <base>/screens.html, so strip that to recover the
-  // deploy base path ('' at the domain root, '/HACW' under a subpath preview).
-  const BASE = location.pathname.replace(/\/screens\.html$/, '').replace(/\/$/, '');
+  // this file is served at <base>/screens.html, but a static host may redirect
+  // that to the clean URL <base>/screens or <base>/screens/. Strip any of those
+  // to recover the deploy base ('' at the domain root, '/HACW' under a subpath).
+  const BASE = location.pathname.replace(/\/screens(\.html)?\/?$/, '');
   // staff code comes from THIS page's url (screens.html?staff=CODE), never from
   // screens.json — so no code is ever shipped. Only quiz frames get it, to unlock
   // the 🧪 simulate button. No code → quizzes just won't reveal (harmless).
@@ -108,7 +109,7 @@
   };
 
   (async () => {
-    const groups = await fetch('screens.json').then((r) => r.json());
+    const groups = await fetch(`${BASE}/screens.json`).then((r) => r.json());
     const root = document.getElementById('root');
     for (const g of groups) {
       const h = document.createElement('h2');
