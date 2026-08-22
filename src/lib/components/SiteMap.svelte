@@ -5,6 +5,7 @@
   import { createHeadingCone } from '$lib/heading.js';
   import { i18n } from '$lib/i18n.svelte.js';
   import { theme } from '$lib/theme.svelte.js';
+  import { s } from '$lib/strings.js';
   import MapControls from './MapControls.svelte';
 
   // The one map. Everything identical across the picker / discover / nav screens lives
@@ -23,6 +24,7 @@
     autoLocate = false,       // trigger geolocation on mount (explicit-navigate screens)
     controls = true,          // show the built-in locate + reset-north MapControls
     controlsTop = '10px',
+    attributionPos = 'bottom-right', // 'top-left' where a bottom sheet covers the corner
     interactive = true,
     bearing = 0,
     center = [108.3275, 15.8772],
@@ -30,12 +32,14 @@
     fitBounds = null,         // [[w,s],[e,n]] to fit instead of center/zoom
     fitPadding = 40,
     oninit = null,            // (map, maplibregl, { gold, ink }) => void — extra layers/handlers
-    onsiteclick = null,       // (id, feature, e) => void
+    onready = null,           // (map, maplibregl) => void — fired once the sites layer is up
+    onsiteclick = null,       // (id, feature, e, map, maplibregl) => void
+    me = $bindable(null),     // the current GPS fix, readable by the parent (booth bar etc)
+    geoErr = $bindable(''),   // last geolocation error message (denied / unavailable)
     children = null           // overlay snippet, called with { me, located, toggleLocate, resetNorth, recenter, following }
   } = $props();
 
   let el, map, geolocate, cone;
-  let me = $state(null);
   let locating = $state(false);
   let rotated = $state(false);
   let located = $state(false);
@@ -76,7 +80,7 @@
       interactive,
       attributionControl: false
     });
-    map.addControl(new maplibregl.AttributionControl({ compact: true }), 'bottom-right');
+    map.addControl(new maplibregl.AttributionControl({ compact: true }), attributionPos);
     map.once('idle', () =>
       map.getContainer().querySelector('.maplibregl-ctrl-attrib')?.classList.remove('maplibregl-compact-show')
     );
@@ -96,11 +100,15 @@
     geolocate.on('geolocate', (e) => {
       locating = false;
       located = true;
+      geoErr = '';
       me = { lat: e.coords.latitude, lng: e.coords.longitude, accuracy: Math.round(e.coords.accuracy) };
       cone?.onFix(e.coords);
       if (following) map.easeTo({ center: [e.coords.longitude, e.coords.latitude], zoom: Math.max(map.getZoom(), 16.5), duration: 600 });
     });
-    geolocate.on('error', () => (locating = false));
+    geolocate.on('error', (e) => {
+      locating = false;
+      geoErr = e?.code === 1 ? s('geo_denied') : s('geo_fail');
+    });
     geolocate.on('trackuserlocationend', () => { me = null; cone?.hide(); });
 
     await new Promise((done) => map.on('load', done));
@@ -143,6 +151,7 @@
     }
 
     ready = true;
+    onready?.(map, mgl);
     if (autoLocate) { geolocate.trigger(); cone.enableCompass(); }
   });
 
