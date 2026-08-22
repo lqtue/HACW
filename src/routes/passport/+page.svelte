@@ -89,6 +89,7 @@
 <div class="pp">
   <header class="head">
     <h1>{s('passport_title')}</h1>
+    <p class="code-label">{s('code_label')}</p>
     <p class="code">{prettyCode()}</p>
   </header>
 
@@ -236,6 +237,14 @@
   }
   .head { display: flex; flex-direction: column; gap: 2px; }
   .head h1 { margin: 0; font-size: clamp(1.9rem, 7vw, 2.3rem); font-weight: 700; letter-spacing: -0.02em; }
+  .code-label {
+    margin: 6px 0 0;
+    font-size: 0.7rem;
+    font-weight: 700;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+    color: var(--muted);
+  }
   .code {
     margin: 0;
     color: var(--muted);

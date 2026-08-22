@@ -368,13 +368,14 @@
 
   function toggleLocate() {
     if (!ready) return;
-    cone?.enableCompass(); // this tap is the user gesture iOS needs for the compass
     // trigger() toggles: a second tap on an active lock switches tracking off.
     if (!me && !locating) {
       locating = true;
       geoErr = '';
     }
-    geolocate.trigger();
+    geolocate.trigger(); // location first — the essential prompt
+    cone?.enableCompass(); // then compass (iOS: a 2nd prompt; Android: silent). Still
+    // inside this tap, the user gesture iOS requires for the motion prompt.
   }
 
   // The map opens north-up, but a two-finger twist can leave it at any angle —

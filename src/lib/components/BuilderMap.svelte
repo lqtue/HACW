@@ -67,9 +67,10 @@
 
   function toggleLocate() {
     if (!ready) return;
-    cone?.enableCompass(); // this tap is the user gesture iOS needs for the compass
     if (!me && !locating) locating = true;
-    geolocate.trigger(); // toggles: a second tap switches tracking off
+    geolocate.trigger(); // location first — the essential prompt
+    cone?.enableCompass(); // then compass (iOS: a 2nd prompt; Android: silent). Still
+    // inside this tap, which is the user gesture iOS requires for the motion prompt.
   }
   function resetNorth() {
     map?.easeTo({ bearing: BEARING, duration: 400 });

@@ -171,7 +171,7 @@
            dead button — say so and lean on skip / "where to buy". -->
       <p class="note">{s('scan_unsupported')}</p>
     {/if}
-    {@render buyLink()}
+    {#if !saved}{@render buyLink()}{/if}
     {#if note}<p class="note">{note}</p>{/if}
   </div>
 {:else}
@@ -181,8 +181,8 @@
     {:else}
       <span class="lbl">{s('plan_scan')}</span>
       <button class="link" onclick={start}>{s('scan_btn')}</button>
+      {@render buyLink()}
     {/if}
-    {@render buyLink()}
   </div>
   {#if note}<p class="note">{note}</p>{/if}
 {/if}

@@ -447,14 +447,14 @@ ticket-points.json,[12].where,,Điểm bán vé tại 10B Trần Hưng Đạo,Đ
 strings.js,intro,,Giới thiệu,About
 strings.js,explore,,Khám phá,Explore
 strings.js,tours,,Tuyến,Tours
-strings.js,passport,,Hộ chiếu,Passport
+strings.js,passport,,Sổ tay,Passport
 strings.js,all,,Tất cả,All
 strings.js,no_sites,,Chưa có điểm đến trong mục này.,No sites in this category yet.
 strings.js,journey,,Hành trình,The journey
 strings.js,how_it_works,,Cách hoạt động,How it works
 strings.js,open_map,,🗺️ Khám phá bản đồ,🗺️ Explore the map
 strings.js,see_tours,,🚶 Xem tuyến đi bộ,🚶 Walking tours
-strings.js,view_passport,,Xem hộ chiếu →,View passport →
+strings.js,view_passport,,Xem sổ tay →,View passport →
 strings.js,directions,,➤ Chỉ đường bằng Google Maps,➤ Directions in Google Maps
 strings.js,checkin,,📍 Check-in tại đây,📍 Check in here
 strings.js,simulate,,🧪 Giả lập đã đến nơi (test),🧪 Simulate arrival (test)
@@ -463,7 +463,7 @@ strings.js,retry,,Thử lại,Try again
 strings.js,geo_denied,,Bạn cần cho phép truy cập vị trí để check-in.,Please allow location access to check in.
 strings.js,geo_fail,,Không lấy được vị trí. Hãy thử lại ở ngoài trời.,Could not get your location. Try again outdoors.
 strings.js,arrived,,✔ Đã đến nơi! Trả lời câu hỏi để nhận tem:,✔ You are here! Answer the questions to earn a stamp:
-strings.js,checkin_done,,✅ Đã check-in! Tem đã được thêm vào hộ chiếu.,✅ Checked in! The stamp was added to your passport.
+strings.js,checkin_done,,✅ Đã check-in! Tem đã được thêm vào sổ tay.,✅ Checked in! The stamp was added to your passport.
 strings.js,tours_title,,Tuyến đi bộ,Walking tours
 strings.js,tours_sub,,Khám phá phố cổ theo chủ đề,Explore the old town by theme
 strings.js,route,,Lộ trình,Route
@@ -499,9 +499,9 @@ strings.js,scan_bad_ticket,,Đây không phải mã QR trên vé Hội An — h�
 strings.js,welcome_sub,,Người bạn đồng hành cho tấm vé tham quan phố cổ.,Your companion for the old-town sightseeing ticket.
 strings.js,welcome_start,,Bắt đầu,Get started
 strings.js,scan_step,,Bước 1,Step 1
-strings.js,scan_title,,Quét vé của bạn,Scan your ticket
-strings.js,scan_why,,Quét mã QR trên vé để lưu tiến trình — quét lại trên máy khác là khôi phục được hộ chiếu.,Scan the QR on your ticket to save your progress — re-scan on another phone to restore your passport.
-strings.js,scan_skip,,"Bỏ qua, chọn điểm ngay","Skip, choose sites now"
+strings.js,scan_title,,Quét mã vé,Scan your ticket
+strings.js,scan_why,,Quét mã QR trên vé để lưu tiến trình tham quan và đồng bộ dữ liệu khi đổi thiết bị.,Scan the QR on your ticket to save your progress — re-scan on another phone to restore your passport.
+strings.js,scan_skip,,"Bỏ qua, chọn điểm đến ngay","Skip, choose sites now"
 strings.js,your_ticket,,Vé của bạn,Your ticket
 strings.js,route_label,,Tuyến của bạn,Your route
 strings.js,route_empty,,Chưa có tuyến — chọn 5 điểm,No route yet — choose your 5
@@ -527,18 +527,18 @@ strings.js,all_cats,,Tất cả,All
 strings.js,sort_lbl,,Sắp xếp,Sort
 strings.js,sort_dist,,Gần nhất,Nearest
 strings.js,sort_name,,A–Z,A–Z
-strings.js,sort_cat,,Theo loại,By type
-strings.js,my_loc,,Vị trí của tôi,My location
 strings.js,auto_free,,Chọn giúp 3 điểm còn lại,Fill the last 3 for me
 strings.js,rank_dist,,Sắp theo khoảng cách,Sort by distance
 strings.js,pick_do,,Chọn,Pick
+strings.js,pick_remove,,Bỏ chọn,Remove
 strings.js,picked_lbl,,✓ Đã chọn,✓ Picked
 strings.js,build_done,,Xong — bắt đầu check-in,Done — start checking in
 strings.js,done_title,,Vé của bạn đã sẵn sàng,Your ticket is ready
 strings.js,done_sub,,Đi tới từng điểm và check-in để đóng dấu.,Head to each site and check in to stamp it.
 strings.js,go_checkin,,Mở bản đồ check-in →,Open the check-in map →
 strings.js,edit_plan,,Chọn lại,Change picks
-strings.js,passport_title,,Hộ chiếu của tôi,My passport
+strings.js,passport_title,,Sổ tay của tôi,My passport
+strings.js,code_label,,Mã vé của bạn,Your ticket code
 strings.js,all_done,,🎉 Hoàn thành! Bạn đã check-in tất cả điểm đến.,🎉 Complete! You have checked in everywhere.
 strings.js,set_complete,,Đã hoàn thành bộ tem này!,You completed this stamp set!
 strings.js,redeem,,🎁 Đổi voucher,🎁 Redeem voucher
@@ -548,13 +548,15 @@ strings.js,enter_code,,Nhập mã nhân viên,Enter staff code
 strings.js,wrong_code,,Mã không đúng.,Wrong code.
 strings.js,staff_only,,Khu vực dành cho ban tổ chức. Nhập mã để xem.,Organizer area. Enter the staff code to continue.
 strings.js,redeemed,,✅ Đã đổi voucher. Cảm ơn bạn!,✅ Voucher redeemed. Thank you!
-strings.js,keep_code,,📸 Hãy chụp lại mã trên màn hình! Đây là cách duy nhất lấy lại hộ chiếu nếu bạn đổi thiết bị hoặc xoá dữ liệu trình duyệt.,📸 Screenshot this code! It is the only way to get your passport back on a new phone or after clearing your browser.
+strings.js,keep_code,,📸 Hãy chụp lại mã trên màn hình! Đây là cách duy nhất lấy lại sổ tay nếu bạn đổi thiết bị hoặc xoá dữ liệu trình duyệt.,📸 Screenshot this code! It is the only way to get your passport back on a new phone or after clearing your browser.
 strings.js,install,,⬇️ Tải app về máy (dùng offline),⬇️ Install the app (works offline)
 strings.js,install_why,,Cài về màn hình chính để dùng khi không có mạng.,Add it to your home screen to use it without a signal.
 strings.js,install_ios,,"Trên iPhone: bấm nút Chia sẻ ⬆️ rồi chọn ""Thêm vào MH chính"".","On iPhone: tap Share ⬆️ then ""Add to Home Screen""."
 strings.js,locate_me,,Vị trí của tôi,My location
 strings.js,reset_north,,Xoay về hướng Bắc,Face north
-strings.js,research_optin,,Chia sẻ vị trí ẩn danh cho nghiên cứu (không lưu lộ trình),Share anonymous location for research (no path stored)
+strings.js,research_optin,,"Chia sẻ số lượng tham quan ẩn danh (không lưu lộ trình, thời gian hay danh tính cá nhân). Chạm để bật/tắt.","Anonymous foot-traffic count to help spread visitors evenly — no path, time or identity stored. On by default; tap to turn off."
+strings.js,loc_note,,"📍 Vị trí và la bàn dùng để hiện bạn đang ở đâu và quay về hướng nào, giúp điểm danh và tìm quầy vé gần nhất. Ứng dụng sẽ xin phép khi bạn mở bản đồ.",📍 Location and compass show where you are and which way you face — to check in and find the nearest ticket counter. We ask when you open the map.
+strings.js,study_note,,"Ngoài ra, hệ thống tự động ghi nhận số lượng người tham quan ẩn danh để ban tổ chức điều phối khách hợp lý giữa các điểm.","The app also counts anonymous foot-traffic, helping organizers spread visitors more evenly across the sites."
 strings.js,hours_label,,Giờ mở,Hours
 strings.js,addr_label,,Địa chỉ,Address
 strings.js,prev_site,,Điểm trước,Previous site
@@ -572,10 +574,10 @@ strings.js,org_lang_hint,,Đại diện cho quốc tịch: ngôn ngữ thiết b
 strings.js,org_lang_device,,Ngôn ngữ thiết bị,Device locale
 strings.js,org_lang_pick,,Ngôn ngữ đã chọn,Chosen language
 strings.js,org_events,,Sự kiện khác,Other events
-strings.js,org_flagged,,Hộ chiếu cần xem lại,Passports to review
-strings.js,org_flagged_none,,Chưa có hộ chiếu nào bất thường.,Nothing unusual so far.
+strings.js,org_flagged,,Sổ tay cần xem lại,Passports to review
+strings.js,org_flagged_none,,Chưa có sổ tay nào bất thường.,Nothing unusual so far.
 strings.js,org_flagged_hint,,Dấu hiệu di chuyển bất khả thi giữa các điểm. Chỉ để tham khảo. Vẫn phát voucher nếu khách cho biết lý do hợp lý.,Stamps that could not have been walked between. Advisory only. hand over the voucher if the visitor makes sense.
-strings.js,flag_warn,,⚠️ Hộ chiếu này có dấu hiệu check-in bất thường. Hỏi khách vài câu về điểm đến trước khi phát voucher. nếu hợp lý thì vẫn phát bình thường.,"⚠️ This passport has unusual check-in timing. Ask the visitor about a site or two before handing over the voucher. if they check out, redeem as normal."
+strings.js,flag_warn,,⚠️ Sổ tay này có dấu hiệu check-in bất thường. Hỏi khách vài câu về điểm đến trước khi phát voucher. nếu hợp lý thì vẫn phát bình thường.,"⚠️ This passport has unusual check-in timing. Ask the visitor about a site or two before handing over the voucher. if they check out, redeem as normal."
 strings.js,points,,điểm,points
 strings.js,perfect_bonus,,Đúng hết ngay lần đầu,All correct first try
 strings.js,spotlight,,Điểm cần khám phá,Spotlight site
@@ -594,19 +596,20 @@ strings.js,pt_spotlight,,check-in tại “điểm cần khám phá”,checking 
 strings.js,pt_tour,,hoàn thành một tuyến (đủ tem của tuyến đó),completing a tour (every stamp on it)
 strings.js,tally_all,,đủ bộ phần thưởng,Full-set bonus
 strings.js,backup_title,,Sao lưu & khôi phục,Backup & recovery
-strings.js,backup_hint,,"Hộ chiếu được lưu trên thiết bị của bạn. Hãy ghi lại mã này. nếu đổi điện thoại hoặc xoá dữ liệu trình duyệt, bạn dùng mã để lấy lại toàn bộ tem.","Your passport is stored on this device. Note this code down. if you switch phones or clear your browser, it brings every stamp back."
+strings.js,backup_hint,,"Sổ tay được lưu trên thiết bị của bạn. Hãy ghi lại mã này. nếu đổi điện thoại hoặc xoá dữ liệu trình duyệt, bạn dùng mã để lấy lại toàn bộ tem.","Your passport is stored on this device. Note this code down. if you switch phones or clear your browser, it brings every stamp back."
 strings.js,your_code,,Mã khôi phục,Recovery code
 strings.js,copy,,Sao chép,Copy
 strings.js,copied,,Đã sao chép,Copied
 strings.js,copy_link,,Sao chép link sao lưu,Copy backup link
 strings.js,restore,,Khôi phục từ mã khác,Restore from another code
 strings.js,restore_do,,Khôi phục,Restore
-strings.js,restore_ok,,✅ Đã khôi phục hộ chiếu.,✅ Passport restored.
+strings.js,restore_ok,,✅ Đã khôi phục sổ tay.,✅ Passport restored.
 strings.js,restore_bad,,Mã gồm 8 ký tự.,The code is 8 characters.
-strings.js,restore_missing,,Không tìm thấy hộ chiếu với mã này.,No passport found for that code.
+strings.js,restore_missing,,Không tìm thấy sổ tay với mã này.,No passport found for that code.
 strings.js,restore_offline,,Chưa kết nối được máy chủ. Thử lại khi có mạng.,Could not reach the server. Try again when online.
 strings.js,offline_ok,,Mất mạng vẫn check-in được. dữ liệu tự gửi lên khi có kết nối lại.,Check-in works offline. your data uploads once you are back online.
 strings.js,ticket_points,,Điểm bán vé,Ticket counters
+strings.js,show_all_sites,,Xem tất cả điểm đến,Show all sites
 strings.js,open_tour,,Xem chi tiết tuyến →,Open tour →
 strings.js,popup_detail,,Xem & check-in,Open & check in
 strings.js,popup_dir,,Chỉ đường,Directions
