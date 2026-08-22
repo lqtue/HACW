@@ -13,9 +13,9 @@
   const byId = Object.fromEntries(destinations.map((d) => [d.id, d]));
 
   // Resolve stops + walking cost once — content is frozen, so this never changes.
-  // Ticket sets (the "choose your 5" bundles) live on /plan; /tours is the free
-  // surveyed walking routes only.
-  const routes = tours.filter((tour) => !tour.ticket).map((tour) => {
+  // One unified list now: every tour is a valid 5-point ticket set AND a walkable
+  // route, shown here, on the planner and on the passport — the same 5 everywhere.
+  const routes = tours.map((tour) => {
     const stops = tour.stops.map((id) => byId[id]).filter(Boolean);
     return { tour, stops, ...routeStats(stops) };
   });
