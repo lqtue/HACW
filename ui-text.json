@@ -1,0 +1,1126 @@
+{
+  "intro": {
+    "vi": "Giới thiệu",
+    "en": "About"
+  },
+  "explore": {
+    "vi": "Khám phá",
+    "en": "Explore"
+  },
+  "tours": {
+    "vi": "Tuyến",
+    "en": "Tours"
+  },
+  "passport": {
+    "vi": "Sổ tay",
+    "en": "Passport"
+  },
+  "sites_count": {
+    "vi": "{0} địa điểm trong phố cổ",
+    "en": "{0} sites in the Ancient Town"
+  },
+  "all": {
+    "vi": "Tất cả",
+    "en": "All"
+  },
+  "no_sites": {
+    "vi": "Chưa có điểm đến trong mục này.",
+    "en": "No sites in this category yet."
+  },
+  "journey": {
+    "vi": "Hành trình",
+    "en": "The journey"
+  },
+  "how_it_works": {
+    "vi": "Cách hoạt động",
+    "en": "How it works"
+  },
+  "open_map": {
+    "vi": "🗺️ Khám phá bản đồ",
+    "en": "🗺️ Explore the map"
+  },
+  "see_tours": {
+    "vi": "🚶 Xem tuyến đi bộ",
+    "en": "🚶 Walking tours"
+  },
+  "collected": {
+    "vi": "Bạn đã sưu tầm {0}/{1} tem.",
+    "en": "You have collected {0}/{1} stamps."
+  },
+  "view_passport": {
+    "vi": "Xem sổ tay →",
+    "en": "View passport →"
+  },
+  "directions": {
+    "vi": "➤ Chỉ đường bằng Google Maps",
+    "en": "➤ Directions in Google Maps"
+  },
+  "checkin": {
+    "vi": "📍 Check-in tại đây",
+    "en": "📍 Check in here"
+  },
+  "simulate": {
+    "vi": "🧪 Giả lập đã đến nơi (test)",
+    "en": "🧪 Simulate arrival (test)"
+  },
+  "locating": {
+    "vi": "Đang xác định vị trí…",
+    "en": "Locating you…"
+  },
+  "retry": {
+    "vi": "Thử lại",
+    "en": "Try again"
+  },
+  "back": {
+    "vi": "Quay lại",
+    "en": "Back"
+  },
+  "far": {
+    "vi": "Bạn đang cách điểm đến khoảng {0} m (cần ≤ {1} m). Hãy đến gần hơn rồi thử lại.",
+    "en": "You are about {0} m away (need ≤ {1} m). Get closer and try again."
+  },
+  "geo_denied": {
+    "vi": "Bạn cần cho phép truy cập vị trí để check-in.",
+    "en": "Please allow location access to check in."
+  },
+  "geo_fail": {
+    "vi": "Không lấy được vị trí. Hãy thử lại ở ngoài trời.",
+    "en": "Could not get your location. Try again outdoors."
+  },
+  "arrived": {
+    "vi": "✔ Đã đến nơi! Trả lời câu hỏi để nhận tem:",
+    "en": "✔ You are here! Answer the questions to earn a stamp:"
+  },
+  "highlights": {
+    "vi": "Đừng bỏ lỡ",
+    "en": "Don't miss"
+  },
+  "quiz_continue": {
+    "vi": "Tiếp tục →",
+    "en": "Continue →"
+  },
+  "nav_start": {
+    "vi": "Bắt đầu đi tuyến",
+    "en": "Start walking"
+  },
+  "nav_close": {
+    "vi": "Đóng",
+    "en": "Close"
+  },
+  "question_of": {
+    "vi": "Câu {0}/{1}",
+    "en": "Question {0}/{1}"
+  },
+  "checkin_done": {
+    "vi": "✅ Đã check-in! Tem đã được thêm vào sổ tay.",
+    "en": "✅ Checked in! The stamp was added to your passport."
+  },
+  "tours_title": {
+    "vi": "Tuyến đi bộ",
+    "en": "Walking tours"
+  },
+  "tours_sub": {
+    "vi": "Khám phá phố cổ theo chủ đề",
+    "en": "Explore the old town by theme"
+  },
+  "stops": {
+    "vi": "{0} điểm dừng",
+    "en": "{0} stops"
+  },
+  "route": {
+    "vi": "Lộ trình",
+    "en": "Route"
+  },
+  "plan": {
+    "vi": "Gợi ý",
+    "en": "Plan"
+  },
+  "plan_title": {
+    "vi": "Chọn 5 điểm của bạn",
+    "en": "Choose your 5"
+  },
+  "plan_sub": {
+    "vi": "Vé của bạn gồm 5 điểm — chọn một bộ hợp gu và hợp thời tiết.",
+    "en": "Your ticket covers 5 sites — pick a set that fits your taste and the weather."
+  },
+  "plan_cta": {
+    "vi": "🧭 Gợi ý 5 điểm cho tôi",
+    "en": "🧭 Plan my 5 sites"
+  },
+  "weather_q": {
+    "vi": "Thời tiết bây giờ?",
+    "en": "Weather right now?"
+  },
+  "w_hot": {
+    "vi": "☀️ Nắng",
+    "en": "☀️ Hot"
+  },
+  "w_mild": {
+    "vi": "🌤️ Dịu",
+    "en": "🌤️ Mild"
+  },
+  "w_rain": {
+    "vi": "🌧️ Mưa",
+    "en": "🌧️ Rain"
+  },
+  "taste_q": {
+    "vi": "Bạn thích gì?",
+    "en": "What are you into?"
+  },
+  "plan_top": {
+    "vi": "Gợi ý hôm nay",
+    "en": "Today’s pick"
+  },
+  "plan_alts": {
+    "vi": "Lựa chọn khác",
+    "en": "Other sets"
+  },
+  "go_route": {
+    "vi": "Đi tuyến này",
+    "en": "Take this route"
+  },
+  "reason_quiet": {
+    "vi": "Ít đông",
+    "en": "Quieter"
+  },
+  "reason_sun": {
+    "vi": "Hợp nắng",
+    "en": "Good in heat"
+  },
+  "reason_rain": {
+    "vi": "Tránh mưa",
+    "en": "Stays dry"
+  },
+  "reason_open": {
+    "vi": "Đang mở",
+    "en": "All open"
+  },
+  "reason_walk": {
+    "vi": "~{0}′",
+    "en": "~{0}′"
+  },
+  "cls_monument": {
+    "vi": "di tích",
+    "en": "monument"
+  },
+  "cls_museum": {
+    "vi": "bảo tàng",
+    "en": "museum"
+  },
+  "cls_free": {
+    "vi": "tự do",
+    "en": "free"
+  },
+  "comp_line": {
+    "vi": "{0} di tích · {1} bảo tàng · {2} tự do",
+    "en": "{0} monument · {1} museum · {2} free"
+  },
+  "plan_none": {
+    "vi": "Không có bộ điểm nào khớp bộ lọc.",
+    "en": "No sets match your filters."
+  },
+  "plan_scan": {
+    "vi": "Đã có vé? Quét để lưu",
+    "en": "Have a ticket? Scan to save"
+  },
+  "scan_btn": {
+    "vi": "📷 Quét vé",
+    "en": "📷 Scan ticket"
+  },
+  "scan_saved": {
+    "vi": "✓ Đã lưu vé",
+    "en": "✓ Ticket saved"
+  },
+  "buy_ticket": {
+    "vi": "Mua vé ở đâu?",
+    "en": "Where to buy?"
+  },
+  "show_on_map": {
+    "vi": "Xem quầy vé trên bản đồ",
+    "en": "Show ticket counters on the map"
+  },
+  "scan_close": {
+    "vi": "Đóng",
+    "en": "Close"
+  },
+  "scan_point": {
+    "vi": "Đưa mã QR trên vé vào khung",
+    "en": "Point the ticket QR into the frame"
+  },
+  "scan_unsupported": {
+    "vi": "Không mở được camera — hãy cho phép quyền camera, hoặc bỏ qua và chọn bộ điểm bên dưới.",
+    "en": "Couldn’t open the camera — allow camera access, or skip and pick a set below."
+  },
+  "scan_bad_ticket": {
+    "vi": "Đây không phải mã QR trên vé Hội An — hãy quét mã QR in trên vé.",
+    "en": "That’s not a Hội An ticket QR — scan the QR printed on your ticket."
+  },
+  "welcome_sub": {
+    "vi": "Người bạn đồng hành cho tấm vé tham quan phố cổ.",
+    "en": "Your companion for the old-town sightseeing ticket."
+  },
+  "welcome_start": {
+    "vi": "Bắt đầu",
+    "en": "Get started"
+  },
+  "scan_step": {
+    "vi": "Bước 1",
+    "en": "Step 1"
+  },
+  "scan_title": {
+    "vi": "Quét mã vé",
+    "en": "Scan your ticket"
+  },
+  "scan_why": {
+    "vi": "Quét mã QR trên vé để lưu tiến trình tham quan và đồng bộ dữ liệu khi đổi thiết bị.",
+    "en": "Scan the QR on your ticket to save your progress — re-scan on another phone to restore your passport."
+  },
+  "scan_skip": {
+    "vi": "Bỏ qua, chọn điểm đến ngay",
+    "en": "Skip, choose sites now"
+  },
+  "your_ticket": {
+    "vi": "Vé của bạn",
+    "en": "Your ticket"
+  },
+  "route_label": {
+    "vi": "Tuyến của bạn",
+    "en": "Your route"
+  },
+  "route_empty": {
+    "vi": "Chưa có tuyến — chọn 5 điểm",
+    "en": "No route yet — choose your 5"
+  },
+  "all_sites": {
+    "vi": "Tất cả điểm",
+    "en": "All sites"
+  },
+  "r_unlocked": {
+    "vi": "Đã mở",
+    "en": "Unlocked"
+  },
+  "r_locked": {
+    "vi": "Chưa mở",
+    "en": "Locked"
+  },
+  "pick_one": {
+    "vi": "chọn 1",
+    "en": "pick one"
+  },
+  "view_mode": {
+    "vi": "Chế độ xem",
+    "en": "View mode"
+  },
+  "view_list": {
+    "vi": "Danh sách",
+    "en": "List"
+  },
+  "view_map": {
+    "vi": "Bản đồ",
+    "en": "Map"
+  },
+  "step_monument": {
+    "vi": "Di tích",
+    "en": "Monument"
+  },
+  "step_museum": {
+    "vi": "Bảo tàng",
+    "en": "Museum"
+  },
+  "step_free": {
+    "vi": "3 điểm tự do",
+    "en": "3 free"
+  },
+  "recommend_full": {
+    "vi": "✦ Gợi ý cả bộ 5 cho tôi",
+    "en": "✦ Recommend all 5 for me"
+  },
+  "rec_head": {
+    "vi": "Gợi ý cho bạn",
+    "en": "Suggested for you"
+  },
+  "rec_sub": {
+    "vi": "Bộ 5 điểm dựng sẵn, hợp lệ — xếp theo thời tiết & giờ mở cửa. Dùng luôn, hoặc tự chọn.",
+    "en": "Ready-made valid 5-site sets, ranked for the weather & opening hours. Use one, or pick your own."
+  },
+  "rec_badge": {
+    "vi": "Đề xuất",
+    "en": "Recommended"
+  },
+  "use_set": {
+    "vi": "Dùng bộ này",
+    "en": "Use this set"
+  },
+  "pick_own": {
+    "vi": "Tự chọn 5 điểm →",
+    "en": "Pick my own 5 →"
+  },
+  "back_sugg": {
+    "vi": "← Xem gợi ý",
+    "en": "← See suggestions"
+  },
+  "reset_picks": {
+    "vi": "↺ Xoá hết",
+    "en": "↺ Clear all"
+  },
+  "walk_time": {
+    "vi": "{0} phút đi bộ",
+    "en": "{0} min walk"
+  },
+  "open_all": {
+    "vi": "Cả 5 đang mở",
+    "en": "All 5 open now"
+  },
+  "n_closed": {
+    "vi": "{0} điểm đang đóng",
+    "en": "{0} closed now"
+  },
+  "quiet_pick": {
+    "vi": "Có điểm vắng khách",
+    "en": "Includes a quiet spot"
+  },
+  "all_cats": {
+    "vi": "Tất cả",
+    "en": "All"
+  },
+  "route_walk": {
+    "vi": "Tuyến ngắn nhất: {0} · {1} phút đi bộ",
+    "en": "Shortest route: {0} · {1} min walk"
+  },
+  "auto_free": {
+    "vi": "Chọn giúp 3 điểm còn lại",
+    "en": "Fill the last 3 for me"
+  },
+  "list_more": {
+    "vi": "Xem thêm {0} điểm",
+    "en": "Show {0} more"
+  },
+  "rank_dist": {
+    "vi": "Sắp theo khoảng cách",
+    "en": "Sort by distance"
+  },
+  "pick_do": {
+    "vi": "Chọn",
+    "en": "Pick"
+  },
+  "pick_remove": {
+    "vi": "Bỏ chọn",
+    "en": "Remove"
+  },
+  "picked_lbl": {
+    "vi": "✓ Đã chọn",
+    "en": "✓ Picked"
+  },
+  "build_done": {
+    "vi": "Xong — bắt đầu check-in",
+    "en": "Done — start checking in"
+  },
+  "done_title": {
+    "vi": "Vé của bạn đã sẵn sàng",
+    "en": "Your ticket is ready"
+  },
+  "done_sub": {
+    "vi": "Đi tới từng điểm và check-in để đóng dấu.",
+    "en": "Head to each site and check in to stamp it."
+  },
+  "go_checkin": {
+    "vi": "Mở bản đồ check-in →",
+    "en": "Open the check-in map →"
+  },
+  "edit_plan": {
+    "vi": "Chọn lại",
+    "en": "Change picks"
+  },
+  "passport_title": {
+    "vi": "Sổ tay của tôi",
+    "en": "My passport"
+  },
+  "code_label": {
+    "vi": "Mã vé của bạn",
+    "en": "Your ticket code"
+  },
+  "stamps_of": {
+    "vi": "{0}/{1} tem đã sưu tầm",
+    "en": "{0}/{1} stamps collected"
+  },
+  "all_done": {
+    "vi": "🎉 Hoàn thành! Bạn đã check-in tất cả điểm đến.",
+    "en": "🎉 Complete! You have checked in everywhere."
+  },
+  "set_complete": {
+    "vi": "Đã hoàn thành bộ tem này!",
+    "en": "You completed this stamp set!"
+  },
+  "redeem": {
+    "vi": "🎁 Đổi voucher",
+    "en": "🎁 Redeem voucher"
+  },
+  "redeem_intro": {
+    "vi": "Đưa màn hình này cho nhân viên tại quầy vé để nhận voucher giấy.",
+    "en": "Show this screen to a staff member at any ticket counter to receive a paper voucher."
+  },
+  "staff_confirm": {
+    "vi": "Nhân viên xác nhận",
+    "en": "Staff confirm"
+  },
+  "enter_code": {
+    "vi": "Nhập mã nhân viên",
+    "en": "Enter staff code"
+  },
+  "wrong_code": {
+    "vi": "Mã không đúng.",
+    "en": "Wrong code."
+  },
+  "staff_only": {
+    "vi": "Khu vực dành cho ban tổ chức. Nhập mã để xem.",
+    "en": "Organizer area. Enter the staff code to continue."
+  },
+  "redeemed": {
+    "vi": "✅ Đã đổi voucher. Cảm ơn bạn!",
+    "en": "✅ Voucher redeemed. Thank you!"
+  },
+  "wrong_wait": {
+    "vi": "Chưa đúng. Đọc lại bảng giới thiệu và thử lại sau {0} giây.",
+    "en": "Not quite. Read the sign again and retry in {0}s."
+  },
+  "keep_code": {
+    "vi": "📸 Hãy chụp lại mã trên màn hình! Đây là cách duy nhất lấy lại sổ tay nếu bạn đổi thiết bị hoặc xoá dữ liệu trình duyệt.",
+    "en": "📸 Screenshot this code! It is the only way to get your passport back on a new phone or after clearing your browser."
+  },
+  "install": {
+    "vi": "⬇️ Tải app về máy (dùng offline)",
+    "en": "⬇️ Install the app (works offline)"
+  },
+  "install_why": {
+    "vi": "Cài về màn hình chính để dùng khi không có mạng.",
+    "en": "Add it to your home screen to use it without a signal."
+  },
+  "install_ios": {
+    "vi": "Trên iPhone: bấm nút Chia sẻ ⬆️ rồi chọn \"Thêm vào MH chính\".",
+    "en": "On iPhone: tap Share ⬆️ then \"Add to Home Screen\"."
+  },
+  "locate_me": {
+    "vi": "Vị trí của tôi",
+    "en": "My location"
+  },
+  "reset_north": {
+    "vi": "Xoay về hướng Bắc",
+    "en": "Face north"
+  },
+  "research_optin": {
+    "vi": "Chia sẻ số lượng tham quan ẩn danh (không lưu lộ trình, thời gian hay danh tính cá nhân). Chạm để bật/tắt.",
+    "en": "Anonymous foot-traffic count to help spread visitors evenly — no path, time or identity stored. On by default; tap to turn off."
+  },
+  "loc_note": {
+    "vi": "📍 Vị trí và la bàn dùng để hiện bạn đang ở đâu và quay về hướng nào, giúp điểm danh và tìm quầy vé gần nhất. Ứng dụng sẽ xin phép khi bạn mở bản đồ.",
+    "en": "📍 Location and compass show where you are and which way you face — to check in and find the nearest ticket counter. We ask when you open the map."
+  },
+  "study_note": {
+    "vi": "Ngoài ra, hệ thống tự động ghi nhận số lượng người tham quan ẩn danh để ban tổ chức điều phối khách hợp lý giữa các điểm.",
+    "en": "The app also counts anonymous foot-traffic, helping organizers spread visitors more evenly across the sites."
+  },
+  "hours_label": {
+    "vi": "Giờ mở",
+    "en": "Hours"
+  },
+  "addr_label": {
+    "vi": "Địa chỉ",
+    "en": "Address"
+  },
+  "prev_site": {
+    "vi": "Điểm trước",
+    "en": "Previous site"
+  },
+  "next_site": {
+    "vi": "Điểm sau",
+    "en": "Next site"
+  },
+  "locating_now": {
+    "vi": "Đang tìm vị trí…",
+    "en": "Finding you…"
+  },
+  "booth_find": {
+    "vi": "🎟️ Quầy vé gần nhất",
+    "en": "🎟️ Nearest ticket counter"
+  },
+  "booth_hint": {
+    "vi": "Đổi voucher hoặc nhờ hỗ trợ tại quầy vé.",
+    "en": "Claim vouchers or ask for help at a ticket counter."
+  },
+  "booth_nearest": {
+    "vi": "Quầy {0} · cách {1}",
+    "en": "Counter {0} · {1} away"
+  },
+  "booth_dir": {
+    "vi": "➤ Chỉ đường tới quầy",
+    "en": "➤ Directions to the counter"
+  },
+  "org_heat": {
+    "vi": "Bản đồ nhiệt (nghiên cứu)",
+    "en": "Footfall heatmap (research)"
+  },
+  "org_heat_hint": {
+    "vi": "Mật độ ẩn danh từ người dùng đã đồng ý chia sẻ vị trí. Chỉ đếm theo ô ~150 m, không lưu lộ trình; ô dưới 5 lượt được ẩn.",
+    "en": "Anonymous density from visitors who opted in to share location. Counts per ~150 m cell only, no path stored; cells under 5 are hidden."
+  },
+  "org_heat_filter": {
+    "vi": "Lọc theo quốc tịch:",
+    "en": "Filter by nationality:"
+  },
+  "org_heat_all": {
+    "vi": "Tất cả",
+    "en": "All"
+  },
+  "org_lang": {
+    "vi": "Ngôn ngữ / quốc tịch",
+    "en": "Language / nationality"
+  },
+  "org_lang_hint": {
+    "vi": "Đại diện cho quốc tịch: ngôn ngữ thiết bị và ngôn ngữ khách chọn ở màn hình chào.",
+    "en": "A nationality proxy: the device locale and the language chosen on the welcome screen."
+  },
+  "org_lang_device": {
+    "vi": "Ngôn ngữ thiết bị",
+    "en": "Device locale"
+  },
+  "org_lang_pick": {
+    "vi": "Ngôn ngữ đã chọn",
+    "en": "Chosen language"
+  },
+  "org_events": {
+    "vi": "Sự kiện khác",
+    "en": "Other events"
+  },
+  "org_flagged": {
+    "vi": "Sổ tay cần xem lại",
+    "en": "Passports to review"
+  },
+  "org_flagged_none": {
+    "vi": "Chưa có sổ tay nào bất thường.",
+    "en": "Nothing unusual so far."
+  },
+  "org_flagged_hint": {
+    "vi": "Dấu hiệu di chuyển bất khả thi giữa các điểm. Chỉ để tham khảo. Vẫn phát voucher nếu khách cho biết lý do hợp lý.",
+    "en": "Stamps that could not have been walked between. Advisory only. hand over the voucher if the visitor makes sense."
+  },
+  "flag_warn": {
+    "vi": "⚠️ Sổ tay này có dấu hiệu check-in bất thường. Hỏi khách vài câu về điểm đến trước khi phát voucher. nếu hợp lý thì vẫn phát bình thường.",
+    "en": "⚠️ This passport has unusual check-in timing. Ask the visitor about a site or two before handing over the voucher. if they check out, redeem as normal."
+  },
+  "points": {
+    "vi": "điểm",
+    "en": "points"
+  },
+  "earned": {
+    "vi": "+{0} điểm",
+    "en": "+{0} points"
+  },
+  "perfect_bonus": {
+    "vi": "Đúng hết ngay lần đầu",
+    "en": "All correct first try"
+  },
+  "spotlight": {
+    "vi": "Điểm cần khám phá",
+    "en": "Spotlight site"
+  },
+  "spotlight_hint": {
+    "vi": "Tiêu điểm hiện tại. Check-in tại đây được +{0} điểm thưởng.",
+    "en": "Current spotlight. Checking in here earns +{0} bonus points."
+  },
+  "rank": {
+    "vi": "Danh hiệu",
+    "en": "Rank"
+  },
+  "no_rank": {
+    "vi": "Chưa có danh hiệu",
+    "en": "No rank yet"
+  },
+  "next_rank": {
+    "vi": "Còn {0} điểm nữa để đạt “{1}”",
+    "en": "{0} more points to reach “{1}”"
+  },
+  "rewards_title": {
+    "vi": "Phần thưởng",
+    "en": "Rewards"
+  },
+  "reward_locked": {
+    "vi": "Cần {0} điểm",
+    "en": "Needs {0} points"
+  },
+  "reward_ready": {
+    "vi": "Đã mở khoá. Nhận tại quầy vé",
+    "en": "Unlocked. Collect at any ticket counter"
+  },
+  "reward_taken": {
+    "vi": "Đã nhận",
+    "en": "Collected"
+  },
+  "other_sites": {
+    "vi": "Điểm tham quan khác",
+    "en": "Other sites"
+  },
+  "other_sites_hint": {
+    "vi": "Vẫn nhận tem và điểm, không thuộc tuyến nào",
+    "en": "Still earn stamps and points, not part of a tour"
+  },
+  "claim": {
+    "vi": "🎁 Nhận quà",
+    "en": "🎁 Claim"
+  },
+  "score_how": {
+    "vi": "Cách tính điểm",
+    "en": "How points work"
+  },
+  "pt_stamp": {
+    "vi": "mỗi lần check-in",
+    "en": "per check-in"
+  },
+  "pt_perfect": {
+    "vi": "trả lời đúng hết ngay lần đầu",
+    "en": "quiz answered correctly first try"
+  },
+  "pt_spotlight": {
+    "vi": "check-in tại “điểm cần khám phá”",
+    "en": "checking in at a spotlight site"
+  },
+  "pt_tour": {
+    "vi": "hoàn thành một tuyến (đủ tem của tuyến đó)",
+    "en": "completing a tour (every stamp on it)"
+  },
+  "pt_all": {
+    "vi": "check-in đủ cả {0} điểm đến",
+    "en": "checking in at all {0} sites"
+  },
+  "tally_stamps": {
+    "vi": "đã sưu tầm {0} tem ",
+    "en": "{0} stamps collected"
+  },
+  "tally_tours": {
+    "vi": "Tuyến hoàn thành {0}/{1}",
+    "en": "Tours completed {0}/{1}"
+  },
+  "tally_all": {
+    "vi": "đủ bộ phần thưởng",
+    "en": "Full-set bonus"
+  },
+  "backup_title": {
+    "vi": "Sao lưu & khôi phục",
+    "en": "Backup & recovery"
+  },
+  "backup_hint": {
+    "vi": "Sổ tay được lưu trên thiết bị của bạn. Hãy ghi lại mã này. nếu đổi điện thoại hoặc xoá dữ liệu trình duyệt, bạn dùng mã để lấy lại toàn bộ tem.",
+    "en": "Your passport is stored on this device. Note this code down. if you switch phones or clear your browser, it brings every stamp back."
+  },
+  "your_code": {
+    "vi": "Mã khôi phục",
+    "en": "Recovery code"
+  },
+  "copy": {
+    "vi": "Sao chép",
+    "en": "Copy"
+  },
+  "copied": {
+    "vi": "Đã sao chép",
+    "en": "Copied"
+  },
+  "copy_link": {
+    "vi": "Sao chép link sao lưu",
+    "en": "Copy backup link"
+  },
+  "restore": {
+    "vi": "Khôi phục từ mã khác",
+    "en": "Restore from another code"
+  },
+  "restore_do": {
+    "vi": "Khôi phục",
+    "en": "Restore"
+  },
+  "restore_ok": {
+    "vi": "✅ Đã khôi phục sổ tay.",
+    "en": "✅ Passport restored."
+  },
+  "restore_bad": {
+    "vi": "Mã gồm 8 ký tự.",
+    "en": "The code is 8 characters."
+  },
+  "restore_missing": {
+    "vi": "Không tìm thấy sổ tay với mã này.",
+    "en": "No passport found for that code."
+  },
+  "restore_offline": {
+    "vi": "Chưa kết nối được máy chủ. Thử lại khi có mạng.",
+    "en": "Could not reach the server. Try again when online."
+  },
+  "offline_ok": {
+    "vi": "Mất mạng vẫn check-in được. dữ liệu tự gửi lên khi có kết nối lại.",
+    "en": "Check-in works offline. your data uploads once you are back online."
+  },
+  "ticket_points": {
+    "vi": "Điểm bán vé",
+    "en": "Ticket counters"
+  },
+  "show_all_sites": {
+    "vi": "Xem tất cả điểm đến",
+    "en": "Show all sites"
+  },
+  "walk": {
+    "vi": "{0} · ~{1} phút đi bộ",
+    "en": "{0} · ~{1} min walk"
+  },
+  "open_tour": {
+    "vi": "Xem chi tiết tuyến →",
+    "en": "Open tour →"
+  },
+  "popup_detail": {
+    "vi": "Xem & check-in",
+    "en": "Open & check in"
+  },
+  "popup_dir": {
+    "vi": "Chỉ đường",
+    "en": "Directions"
+  },
+  "stamped": {
+    "vi": "Đã check-in",
+    "en": "Checked in"
+  },
+  "open_now": {
+    "vi": "Đang mở",
+    "en": "Open now"
+  },
+  "closed_now": {
+    "vi": "Đã đóng cửa",
+    "en": "Closed"
+  },
+  "closing_soon": {
+    "vi": "Sắp đóng cửa trong {0} phút",
+    "en": "Closing in {0} min"
+  },
+  "opens_at": {
+    "vi": "Mở lúc {0}",
+    "en": "Opens {0}"
+  },
+  "filter_open": {
+    "vi": "Đang mở",
+    "en": "Open now"
+  },
+  "closed_warning": {
+    "vi": "Điểm này đang đóng cửa. bạn vẫn check-in được nếu đứng đúng vị trí.",
+    "en": "This site is closed right now. you can still check in if you are at the spot."
+  },
+  "org_title": {
+    "vi": "Bảng điều hành",
+    "en": "Organizer dashboard"
+  },
+  "org_sub": {
+    "vi": "Dữ liệu check-in theo điểm đến",
+    "en": "Check-ins per destination"
+  },
+  "org_evenness": {
+    "vi": "Độ đồng đều",
+    "en": "Evenness"
+  },
+  "org_total": {
+    "vi": "Lượt check-in",
+    "en": "Check-ins"
+  },
+  "org_covered": {
+    "vi": "Điểm có khách",
+    "en": "Sites visited"
+  },
+  "org_spotlight_now": {
+    "vi": "Đang được thưởng điểm",
+    "en": "Currently bonus-boosted"
+  },
+  "org_refresh": {
+    "vi": "Tải lại",
+    "en": "Refresh"
+  },
+  "org_export": {
+    "vi": "⬇ Tải CSV",
+    "en": "⬇ Export CSV"
+  },
+  "org_no_data": {
+    "vi": "Chưa có lượt check-in nào. Số liệu hiện ra ngay khi có người check-in đầu tiên.",
+    "en": "No check-ins yet. Numbers appear as soon as the first visitor checks in."
+  },
+  "org_survey": {
+    "vi": "Toạ độ cần khảo sát lại",
+    "en": "Coordinates to re-survey"
+  },
+  "org_quiz_todo": {
+    "vi": "Bộ câu hỏi còn tự sinh",
+    "en": "Quiz banks still auto-generated"
+  },
+  "org_nearest_ticket": {
+    "vi": "Quầy vé gần nhất",
+    "en": "Nearest counter"
+  },
+  "org_traffic": {
+    "vi": "Lượng khách (khảo sát)",
+    "en": "Footfall (survey)"
+  },
+  "org_priority": {
+    "vi": "Ưu tiên quảng bá",
+    "en": "Promo priority"
+  },
+  "lvl_low": {
+    "vi": "thấp",
+    "en": "low"
+  },
+  "lvl_medium": {
+    "vi": "trung bình",
+    "en": "medium"
+  },
+  "lvl_high": {
+    "vi": "cao",
+    "en": "high"
+  },
+  "org_updated": {
+    "vi": "Cập nhật lúc {0}",
+    "en": "Updated {0}"
+  },
+  "org_tier_volunteer": {
+    "vi": "Tình nguyện viên (chỉ xem)",
+    "en": "Volunteer (view only)"
+  },
+  "org_tier_admin": {
+    "vi": "Ban tổ chức (sửa được nội dung)",
+    "en": "Organizer (can edit content)"
+  },
+  "org_edit": {
+    "vi": "Sửa nội dung",
+    "en": "Edit content"
+  },
+  "org_edit_hint": {
+    "vi": "Sửa tại đây rồi bấm tải file JSON về và gửi cho kỹ thuật thay vào src/lib/data/. Không lưu thẳng lên máy chủ. File sẽ mất nếu sửa xong nhưng không tải về.",
+    "en": "Edit here, download the JSON and hand it to the dev to replace src/lib/data/. Nothing is saved to the server. Edits are lost if you do not download."
+  },
+  "org_need_admin": {
+    "vi": "Cần mã ban tổ chức để sửa nội dung. Mã tình nguyện viên chỉ xem được số liệu.",
+    "en": "Editing content needs the organizer code. The volunteer code can only read the numbers."
+  },
+  "org_tab_dest": {
+    "vi": "Điểm đến",
+    "en": "Destinations"
+  },
+  "org_tab_tours": {
+    "vi": "Tuyến",
+    "en": "Tours"
+  },
+  "org_tab_rewards": {
+    "vi": "Phần thưởng",
+    "en": "Rewards"
+  },
+  "org_tab_event": {
+    "vi": "Giới thiệu",
+    "en": "About"
+  },
+  "org_tours_hint": {
+    "vi": "Hành trình được sắp xếp theo đúng thứ tự các điểm đến. Mỗi điểm đến chỉ được thuộc một tuyến; điểm không nằm trong tuyến nào vẫn nhận tem và điểm thưởng, chỉ là không tạo thành bộ quà tặng.",
+    "en": "Stop order is the walking order. A destination can be in at most one tour; sites in no tour still earn stamps and points, they just are not a voucher set."
+  },
+  "org_rewards_hint": {
+    "vi": "Mốc điểm phải tăng dần và không vượt quá {0} điểm (mức tối đa chắc chắn đạt được).",
+    "en": "Point thresholds must ascend and cannot exceed {0}, the score every visitor can be sure of reaching."
+  },
+  "org_event_hint": {
+    "vi": "Nội dung trang chủ.",
+    "en": "Home page copy."
+  },
+  "org_add_tour": {
+    "vi": "+ Thêm tuyến",
+    "en": "+ Add tour"
+  },
+  "org_del_tour": {
+    "vi": "Xoá tuyến",
+    "en": "Delete tour"
+  },
+  "org_add_stop": {
+    "vi": "+ Thêm điểm dừng",
+    "en": "+ Add stop"
+  },
+  "org_add_tier": {
+    "vi": "+ Thêm mốc",
+    "en": "+ Add tier"
+  },
+  "org_del_tier": {
+    "vi": "Xoá mốc",
+    "en": "Delete tier"
+  },
+  "org_add_step": {
+    "vi": "+ Thêm bước",
+    "en": "+ Add step"
+  },
+  "org_del_step": {
+    "vi": "Xoá bước",
+    "en": "Delete step"
+  },
+  "org_download_json": {
+    "vi": "⬇ Tải {0}",
+    "en": "⬇ Download {0}"
+  },
+  "org_load_json": {
+    "vi": "Mở file đã sửa",
+    "en": "Open an edited file"
+  },
+  "org_reset": {
+    "vi": "Về bản gốc",
+    "en": "Back to shipped version"
+  },
+  "org_reset_confirm": {
+    "vi": "Bỏ hết thay đổi chưa tải về?",
+    "en": "Discard every change you have not downloaded?"
+  },
+  "org_problems": {
+    "vi": "{0} lỗi - sửa hết rồi mới tải file về",
+    "en": "{0} problems - fix them before downloading"
+  },
+  "org_data_ok": {
+    "vi": "✔ Dữ liệu hợp lệ",
+    "en": "✔ Data is valid"
+  },
+  "org_bad_file": {
+    "vi": "Không đọc được file: {0}",
+    "en": "Could not read that file: {0}"
+  },
+  "org_add_q": {
+    "vi": "+ Thêm câu hỏi",
+    "en": "+ Add question"
+  },
+  "org_del_q": {
+    "vi": "Xoá câu",
+    "en": "Delete"
+  },
+  "org_add_opt": {
+    "vi": "+ Thêm đáp án",
+    "en": "+ Add option"
+  },
+  "org_del_opt": {
+    "vi": "Xoá",
+    "en": "Remove"
+  },
+  "org_answer": {
+    "vi": "Đáp án đúng",
+    "en": "Correct answer"
+  },
+  "org_generated": {
+    "vi": "tự sinh",
+    "en": "auto-generated"
+  },
+  "org_reviewed": {
+    "vi": "Đã kiểm tra",
+    "en": "Mark reviewed"
+  },
+  "org_needs_survey": {
+    "vi": "Toạ độ cần khảo sát",
+    "en": "Coordinates need a survey"
+  },
+  "f_code": {
+    "vi": "Mã",
+    "en": "Code"
+  },
+  "f_name": {
+    "vi": "Tên",
+    "en": "Name"
+  },
+  "f_address": {
+    "vi": "Địa chỉ",
+    "en": "Address"
+  },
+  "f_hours": {
+    "vi": "Giờ mở cửa",
+    "en": "Opening hours"
+  },
+  "f_desc": {
+    "vi": "Giới thiệu",
+    "en": "Description"
+  },
+  "f_category": {
+    "vi": "Nhóm",
+    "en": "Category"
+  },
+  "f_radius": {
+    "vi": "Bán kính (m)",
+    "en": "Radius (m)"
+  },
+  "f_question": {
+    "vi": "Câu hỏi",
+    "en": "Question"
+  },
+  "f_difficulty": {
+    "vi": "Độ khó",
+    "en": "Difficulty"
+  },
+  "f_title": {
+    "vi": "Tiêu đề",
+    "en": "Title"
+  },
+  "f_theme": {
+    "vi": "Chủ đề",
+    "en": "Theme"
+  },
+  "f_voucher": {
+    "vi": "Quà tặng",
+    "en": "Voucher"
+  },
+  "f_stops": {
+    "vi": "Điểm dừng",
+    "en": "Stops"
+  },
+  "f_points": {
+    "vi": "Điểm",
+    "en": "Points"
+  },
+  "f_icon": {
+    "vi": "Biểu tượng",
+    "en": "Icon"
+  },
+  "f_reward": {
+    "vi": "Phần thưởng",
+    "en": "Reward"
+  },
+  "f_subtitle": {
+    "vi": "Phụ đề",
+    "en": "Subtitle"
+  },
+  "f_tagline": {
+    "vi": "Thông điệp",
+    "en": "Tagline"
+  },
+  "f_year": {
+    "vi": "Năm",
+    "en": "Year"
+  },
+  "f_venue": {
+    "vi": "Địa điểm",
+    "en": "Venue"
+  },
+  "f_dates": {
+    "vi": "Thời gian",
+    "en": "Dates"
+  },
+  "f_intro": {
+    "vi": "Giới thiệu",
+    "en": "Intro"
+  },
+  "f_note": {
+    "vi": "Ghi chú",
+    "en": "Note"
+  },
+  "f_steps": {
+    "vi": "Các bước",
+    "en": "Steps"
+  },
+  "org_details": {
+    "vi": "Chi tiết",
+    "en": "Details"
+  },
+  "lvl_easy": {
+    "vi": "dễ",
+    "en": "easy"
+  },
+  "lvl_hard": {
+    "vi": "khó",
+    "en": "hard"
+  }
+}

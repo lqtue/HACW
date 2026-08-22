@@ -115,6 +115,7 @@
 
 <style>
   .bmap-wrap {
+    position: relative;
     width: 100%; height: 100%;
     border-radius: 16px; overflow: hidden;
     background: var(--paper); border: 1px solid var(--line);

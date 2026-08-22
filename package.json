@@ -7,7 +7,7 @@
     "dev": "vite dev",
     "build": "vite build",
     "preview": "vite preview",
-  "i18n:export": "node scripts/i18n-export.mjs",
+    "i18n:export": "node scripts/i18n-export.mjs",
     "test": "node src/lib/geo.test.js && node src/lib/quiz.test.js && node src/lib/score.test.js && node src/lib/backup.test.js && node src/lib/route.test.js && node src/lib/hours.test.js && node src/lib/ticket.test.js && node src/lib/advisor.test.js && node src/lib/counts.test.js && node --no-warnings src/lib/sql.test.js && node src/lib/guard.test.js && node src/lib/fraud.test.js && node src/lib/editor.test.js && node src/lib/map-style.test.js && node scripts/check-data.mjs"
   },
   "devDependencies": {
@@ -15,6 +15,7 @@
     "@sveltejs/kit": "^2.8.0",
     "@sveltejs/vite-plugin-svelte": "^4.0.0",
     "@vite-pwa/sveltekit": "^0.6.0",
+    "playwright": "^1.62.1",
     "svelte": "^5.1.0",
     "vite": "^5.4.0"
   },

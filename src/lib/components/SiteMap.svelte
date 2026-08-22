@@ -169,7 +169,9 @@
 </div>
 
 <style>
-  .sm-wrap { position: relative; width: 100%; height: 100%; }
+  /* fill the positioned parent directly (like the old absolute .map), so the canvas
+     is never left with a collapsed percentage height */
+  .sm-wrap { position: absolute; inset: 0; }
   .sm-map { position: absolute; inset: 0; }
   :global(.sm-wrap .maplibregl-ctrl-group button.maplibregl-ctrl-geolocate) { display: none; }
 </style>
