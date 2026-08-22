@@ -13,7 +13,12 @@ export default {
     // ignore `functions/` — so /api/checkin and /api/passport are ordinary
     // +server.js routes reading D1 from platform.env.DB. Bind a D1 database
     // named DB in the project (Settings → Bindings), on Production *and* Preview.
-    adapter: adapter(),
+    // Exclude /screens from the _worker.js so Cloudflare's static layer serves
+    // static/screens.html for it. Without this, CF 308-redirects /screens.html to
+    // the clean URL /screens, which the worker then 404s (no such SvelteKit route).
+    // The tokens are the adapter's defaults; we just append /screens.
+    // ponytail: only needed while the dev/content board ships; drop with the board.
+    adapter: adapter({ routes: { include: ['/*'], exclude: ['<build>', '<files>', '<prerendered>', '/screens'] } }),
     paths: { base },
     // Everything the app needs is same-origin and self-hosted (fonts, the pmtiles
     // basemap, the /api routes), so the policy is 'self' with two exceptions:
