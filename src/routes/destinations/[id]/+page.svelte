@@ -113,7 +113,7 @@
   }
 </script>
 
-<PageShell title={t(dest.name)}>
+<PageShell title={t(dest.name)} back>
   <div class="hero" style="--cat: var(--c-{dest.category})">
     <span class="watermark">{t(dest.name).charAt(0)}</span>
     <div class="eye">

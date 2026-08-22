@@ -3,8 +3,8 @@
   import PageShell from '$lib/components/PageShell.svelte';
   import StaffConfirm from '$lib/components/StaffConfirm.svelte';
   import RouteMap from '$lib/components/RouteMap.svelte';
-  import TourNav from '$lib/components/TourNav.svelte';
   import NearestBooth from '$lib/components/NearestBooth.svelte';
+  import { base } from '$app/paths';
   import { isSetComplete, isRedeemed, redeemSet } from '$lib/passport.svelte.js';
   import { POINTS } from '$lib/score.js';
   import { routeStats, formatDistance } from '$lib/route.js';
@@ -17,7 +17,6 @@
 
   const complete = $derived(isSetComplete(tour.stops));
   const redeemed = $derived(isRedeemed(tour.id));
-  let navOpen = $state(false);
 </script>
 
 <PageShell title={t(tour.title)} sub={t(tour.theme)}>
@@ -25,7 +24,7 @@
   <p class="muted walkline">
     <small>{s('stops', data.stops.length)} · {s('walk', formatDistance(walk.meters, i18n.lang), walk.minutes)}</small>
   </p>
-  <button class="btn nav-start" onclick={() => (navOpen = true)}>🧭 {s('nav_start')}</button>
+  <a class="btn nav-start" href="{base}/go?set={tour.id}">🧭 {s('nav_start')}</a>
   <p>{t(tour.description)}</p>
 
   {#if redeemed}
@@ -44,10 +43,6 @@
     <Card {dest} index={i + 1} />
   {/each}
 </PageShell>
-
-{#if navOpen}
-  <TourNav stops={data.stops} title={tour.title} onclose={() => (navOpen = false)} />
-{/if}
 
 <style>
   .redeem {
