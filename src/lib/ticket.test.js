@@ -27,9 +27,8 @@ assert.ok(!isValidSet(['m1', 'mu1', 'o1', 'o1', 'o2'], dests, 5));
 // unknown id
 assert.ok(!isValidSet(['m1', 'mu1', 'o1', 'o2', 'zzz'], dests, 5));
 
-// 3-site: 1 monument + 2 free, no museum required
-assert.ok(isValidSet(['m1', 'o1', 'o2'], dests, 3));
-assert.ok(!isValidSet(['mu1', 'o1', 'o2'], dests, 3));
+// only the 5-site recipe is wired; any other size is rejected
+assert.ok(!isValidSet(['m1', 'o1', 'o2'], dests, 3));
 
 // accepts an id->dest map too
 const byId = Object.fromEntries(dests.map((d) => [d.id, d]));

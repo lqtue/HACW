@@ -92,8 +92,16 @@
       return;
     }
     message = '';
+    // Correct: if the question carries an explanation, show it as the payoff before
+    // moving on (guessing still can't reach it — a wrong tap goes to cooldown instead).
+    if (questions[qIndex].explain) step = 'explain';
+    else advance();
+  }
+
+  function advance() {
     if (qIndex < questions.length - 1) {
       qIndex += 1;
+      step = 'quiz';
     } else {
       earned = stampPoints({ perfect: !missed, spotlight });
       firstStamp = passport.stamps.length === 0;
@@ -117,7 +125,16 @@
   {#if spotlight && step !== 'done'}
     <span class="tag spot">⭐ {s('spotlight')} {s('earned', POINTS.spotlight)}</span>
   {/if}
+  {#if dest.short}<p class="lead">{t(dest.short)}</p>{/if}
   <p>{t(dest.description)}</p>
+  {#if dest.highlights?.length}
+    <div class="highlights">
+      <h2>{s('highlights')}</h2>
+      <ul>
+        {#each dest.highlights as h}<li>{t(h)}</li>{/each}
+      </ul>
+    </div>
+  {/if}
   <p class="muted">
     <small>
       🕑 {#if open}<span class="open {open.status}">{open.text}</span> · {/if}{t(dest.hours)}
@@ -174,14 +191,32 @@
       <div class="banner">{s('far', distance, dest.radius)}</div>
       <button class="btn" onclick={checkIn} style="width: 100%">{s('retry')}</button>
     {:else if step === 'quiz'}
+      {@const q = questions[qIndex]}
       <div class="quiz">
         <p><strong>{s('arrived')}</strong></p>
         <p class="muted"><small>{s('question_of', qIndex + 1, questions.length)}</small></p>
-        <p>{t(questions[qIndex].question)}</p>
-        {#each questions[qIndex].options as opt, i}
-          <button class="opt" onclick={() => answer(i)}>{t(opt)}</button>
-        {/each}
+        <p class="q">{t(q.question)}</p>
+        {#if q.hint}<p class="hint">💡 {t(q.hint)}</p>{/if}
+        {#if q.photo}
+          <div class="photo-opts">
+            {#each q.options as opt, i}
+              <button class="photo-opt" onclick={() => answer(i)}>
+                <img src="{base}/{q.photo[i]}" alt={t(opt)} loading="lazy" />
+                <span>{t(opt)}</span>
+              </button>
+            {/each}
+          </div>
+        {:else}
+          {#each q.options as opt, i}
+            <button class="opt" onclick={() => answer(i)}>{t(opt)}</button>
+          {/each}
+        {/if}
         {#if message}<p class="muted">{message}</p>{/if}
+      </div>
+    {:else if step === 'explain'}
+      <div class="quiz">
+        <div class="banner explain">✔ {t(questions[qIndex].explain)}</div>
+        <button class="btn" onclick={advance} style="width: 100%">{s('quiz_continue')}</button>
       </div>
     {/if}
   </div>
@@ -255,4 +290,33 @@
     transition: border-color 0.12s ease, background 0.12s ease;
   }
   .quiz .opt:hover { border-color: color-mix(in srgb, var(--brand) 45%, var(--line)); background: var(--bg); }
+
+  /* richer content: short lead, highlights, quiz hint/photo/explain */
+  .lead { font-size: 1.08rem; font-weight: 600; color: var(--brand-dark); line-height: 1.4; margin: 0 0 8px; }
+  .highlights { margin: 14px 0; padding: 14px 16px; background: var(--surface); border: 1px solid var(--line); border-radius: var(--radius-sm); }
+  .highlights h2 {
+    margin: 0 0 8px; font-size: 0.72rem; font-weight: 800; letter-spacing: 0.08em;
+    text-transform: uppercase; color: var(--brand);
+  }
+  .highlights ul { margin: 0; padding-left: 1.1em; display: flex; flex-direction: column; gap: 6px; }
+  .highlights li { line-height: 1.4; }
+  .quiz .q { font-weight: 600; }
+  .hint {
+    margin: -2px 0 12px; padding: 9px 12px; font-size: 0.9rem; line-height: 1.4;
+    color: var(--brand-dark);
+    background: color-mix(in srgb, var(--gold) 14%, var(--surface));
+    border: 1px solid color-mix(in srgb, var(--gold) 30%, var(--line));
+    border-radius: var(--radius-sm);
+  }
+  .photo-opts { display: grid; grid-template-columns: repeat(auto-fit, minmax(120px, 1fr)); gap: 10px; margin-bottom: 8px; }
+  .photo-opt {
+    display: flex; flex-direction: column; gap: 6px; padding: 0;
+    border: 1.5px solid var(--line); border-radius: var(--radius-sm);
+    background: var(--surface); overflow: hidden; cursor: pointer;
+    font-family: var(--font-body); font-weight: 600; font-size: 0.9rem;
+  }
+  .photo-opt img { width: 100%; aspect-ratio: 3 / 2; object-fit: cover; display: block; }
+  .photo-opt span { padding: 0 0 9px; }
+  .photo-opt:hover { border-color: color-mix(in srgb, var(--brand) 45%, var(--line)); }
+  .banner.explain { text-align: left; line-height: 1.5; margin-bottom: 12px; }
 </style>

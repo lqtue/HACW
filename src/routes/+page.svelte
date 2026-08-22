@@ -15,7 +15,7 @@
   import { weather } from '$lib/weather.svelte.js';
   import { stats } from '$lib/stats.svelte.js';
   import { spotlightIds } from '$lib/score.js';
-  import { distanceMeters, getPosition } from '$lib/geo.js';
+  import { distanceMeters } from '$lib/geo.js';
   import { formatDistance, optimizeRoute, routeStats } from '$lib/route.js';
   import { hasStamp, adoptCode, restore, track } from '$lib/passport.svelte.js';
   import { codeFromTicket } from '$lib/backup.js';
@@ -25,6 +25,9 @@
   import { s } from '$lib/strings.js';
 
   const byId = Object.fromEntries(destinations.map((d) => [d.id, d]));
+  // organizer's location priority as a sort key (lower = promote first)
+  const PRIO = { high: 0, medium: 1, low: 2 };
+  const prioRank = (d) => PRIO[d?.promoPriority] ?? 1;
   const groups = {
     monument: destinations.filter((d) => d.ticketClass === 'monument'),
     museum: destinations.filter((d) => d.ticketClass === 'museum'),
@@ -135,26 +138,13 @@
     { cls: 'other', id: free[2] ?? null }
   ]);
 
-  // opt-in location — nothing requested until the visitor taps "sort by distance"
-  let me = $state(null);
-  let locating = $state(false);
+  // "nearest" reference: the cluster of sites already picked (so the next pick keeps
+  // the walk compact), else the town centre. No GPS here — the picker sorts by these,
+  // and location is requested at check-in / on the map, where it actually matters.
   const TOWN_CENTRE = { lat: 15.8772, lng: 108.3275 };
-  const origin = $derived(me ?? TOWN_CENTRE);
-  async function locate() {
-    locating = true;
-    try {
-      me = await getPosition();
-    } catch {
-      // denied / unavailable — list stays sorted from the cluster / town centre
-    }
-    locating = false;
-  }
-
-  // "nearest" reference: a GPS fix if we have one, else the cluster of sites already
-  // picked (so the next pick keeps the walking route compact), else the town centre.
+  const origin = TOWN_CENTRE;
   const picks = $derived(pickedIds.map((id) => byId[id]).filter(Boolean));
   function distFor(d) {
-    if (me) return distanceMeters(me, d);
     if (picks.length) return Math.min(...picks.filter((p) => p.id !== d.id).map((p) => distanceMeters(p, d)).concat(Infinity));
     return distanceMeters(TOWN_CENTRE, d);
   }
@@ -164,7 +154,13 @@
   const freeCats = categories.map((c) => c.id).filter((id) => groups.other.some((d) => d.category === id));
   let catFilter = $state(null);
 
-  let sortBy = $state('distance'); // 'distance' | 'name'
+  // The free pool is 16+ sites; show the closest handful and hide the rest behind
+  // "show more" so the picker isn't a marathon scroll. The sort ranks by distance, so
+  // the visible ones are the realistic (compact-walk) picks.
+  const CAP = 8;
+  let showAll = $state(false);
+  // list (scan names/status) vs map (spatial pick) — one at a time, not stacked
+  let viewMode = $state('list'); // 'list' | 'map'
 
   const currentGroup = $derived(groups[STEPS[stepIdx].cls]);
   const eligibleIds = $derived(currentGroup.map((d) => d.id));
@@ -173,10 +169,15 @@
     const list = currentGroup
       .filter((d) => !onFree || !catFilter || d.category === catFilter)
       .map((d) => ({ d, m: distFor(d) }));
-    if (sortBy === 'name') list.sort((a, b) => t(a.d.name).localeCompare(t(b.d.name), i18n.lang));
-    else list.sort((a, b) => a.m - b.m);
+    // distance-banded (~40 m) so a higher organizer priority floats up within a band —
+    // a gentle nudge that doesn't scatter the walk. Nearest overall stays first.
+    list.sort((a, b) =>
+      (Math.round(a.m / 40) - Math.round(b.m / 40)) || (prioRank(a.d) - prioRank(b.d)) || (a.m - b.m)
+    );
     return list;
   });
+  // only the free step is long enough to need capping; other steps are short
+  const shownList = $derived(onFree && !showAll ? rankedList.slice(0, CAP) : rankedList);
 
   function firstIncomplete() {
     if (!mono) return 0;
@@ -197,7 +198,6 @@
     if (done && stepIdx < 2) stepIdx = firstIncomplete();
   }
 
-  let mapOpen = $state(false); // the builder map is heavy — mount it only when shown
 
   // recommend the prebuilt sets first; manual builder is opt-in behind "pick my own"
   let mode = $state(plan.set.length ? 'manual' : 'recommend');
@@ -211,9 +211,6 @@
     )
   );
 
-  // one-line summary for a site — first sentence/clamp of its description (CSS ellipsis finishes it)
-  const sum = (d) => t(d.description) ?? '';
-
   function applySet(ids) {
     mono = ids.find((i) => byId[i]?.ticketClass === 'monument') ?? null;
     museo = ids.find((i) => byId[i]?.ticketClass === 'museum') ?? null;
@@ -226,10 +223,11 @@
 
   function autoFree() {
     const spot = spotlightIds(stats.counts, destinations);
+    // auto-pick favours quiet sites (dispersal), then the organizer's priority, then near
     const pool = groups.other
       .filter((d) => !free.includes(d.id))
-      .map((d) => ({ id: d.id, quiet: spot.has(d.id) ? 0 : 1, m: distanceMeters(origin, d) }))
-      .sort((a, b) => a.quiet - b.quiet || a.m - b.m);
+      .map((d) => ({ id: d.id, quiet: spot.has(d.id) ? 0 : 1, prio: prioRank(d), m: distanceMeters(origin, d) }))
+      .sort((a, b) => a.quiet - b.quiet || a.prio - b.prio || a.m - b.m);
     free = [...free, ...pool.slice(0, 3 - free.length).map((x) => x.id)];
   }
 
@@ -428,7 +426,6 @@
         </button>
       {/each}
     </div>
-    <div class="pbar"><i style="width: {Math.round((pickedIds.length / 5) * 100)}%"></i></div>
 
     <!-- current step -->
     <div class="sec">
@@ -440,15 +437,10 @@
       </p>
     </div>
 
-    <div class="sortbar">
-      <span class="sort-lbl">{s('sort_lbl')}</span>
-      <!-- Nearest owns location: tapping it asks for a fix (once), then sorts by it.
-           No separate "my location" control, and no "by type" — the category chips
-           below already group by type. -->
-      <button class="mini" class:on={sortBy === 'distance'} onclick={() => { sortBy = 'distance'; if (!me) locate(); }}>
-        {me ? '📍 ' : ''}{locating ? s('locating_now') : s('sort_dist')}
-      </button>
-      <button class="mini" class:on={sortBy === 'name'} onclick={() => (sortBy = 'name')}>{s('sort_name')}</button>
+    <!-- balance list vs map: pick a mode instead of scrolling past both -->
+    <div class="viewtabs" role="tablist" aria-label={s('view_mode')}>
+      <button class="vtab" class:on={viewMode === 'list'} role="tab" aria-selected={viewMode === 'list'} onclick={() => (viewMode = 'list')}>{s('view_list')}</button>
+      <button class="vtab" class:on={viewMode === 'map'} role="tab" aria-selected={viewMode === 'map'} onclick={() => (viewMode = 'map')}>{s('view_map')}</button>
     </div>
 
     {#if onFree}
@@ -468,47 +460,47 @@
       </div>
     {/if}
 
-    <ul class="list">
-      {#each rankedList as { d, m } (d.id)}
-        {@const picked = isPicked(d.id)}
-        {@const oh = openLabel(d)}
-        <li class="row" class:picked>
-          <button class="row-tap" onclick={() => pick(d.id)} aria-pressed={picked} aria-label={picked ? s('picked_lbl') : s('pick_do')}>
-            <span class="mark" style="--cat: var(--c-{d.category})">
-              <MatCua size={30} color="var(--cat)" inner="var(--surface)" ghost={!picked} />
-            </span>
-            <span class="body">
-              <b>{t(d.name)}</b>
-              <small class="sum">{sum(d)}</small>
-              <small class="meta">
-                {#if me}{formatDistance(m, i18n.lang)}{#if oh} · {/if}{/if}{#if oh}<em class={oh.status}>{oh.text}</em>{/if}
-              </small>
-            </span>
-            <span class="add" class:on={picked} aria-hidden="true">{picked ? '✓' : '+'}</span>
-          </button>
-        </li>
-      {/each}
-    </ul>
+    {#if viewMode === 'list'}
+      <ul class="list">
+        {#each shownList as { d, m } (d.id)}
+          {@const picked = isPicked(d.id)}
+          {@const oh = openLabel(d)}
+          <li class="row" class:picked>
+            <button class="row-tap" onclick={() => pick(d.id)} aria-pressed={picked} aria-label={picked ? s('picked_lbl') : s('pick_do')}>
+              <span class="mark" style="--cat: var(--c-{d.category})">
+                <MatCua size={30} color="var(--cat)" inner="var(--surface)" ghost={!picked} />
+              </span>
+              <span class="body">
+                <b>{t(d.name)}</b>
+                <!-- picker row: identity + status only. The description is a detail-page
+                     thing, not a pick criterion — dropping it halves the row height. -->
+                <small class="meta">
+                  {t(categoryLabel(d.category))}{#if oh} · <em class={oh.status}>{oh.text}</em>{/if}
+                </small>
+              </span>
+              <span class="add" class:on={picked} aria-hidden="true">{picked ? '✓' : '+'}</span>
+            </button>
+          </li>
+        {/each}
+      </ul>
 
-    <!-- escape hatch, demoted below the list: reach for it after browsing, not before -->
+      {#if onFree && !showAll && rankedList.length > CAP}
+        <button class="link fill-link" onclick={() => (showAll = true)}>{s('list_more', rankedList.length - CAP)}</button>
+      {/if}
+    {:else}
+      <!-- map mode: tap a pin to add/remove; mounted only in this branch so it never inits at 0×0 -->
+      <div class="mapwrap"><BuilderMap eligible={eligibleIds} picked={pickedIds} catFilter={onFree ? catFilter : null} onpick={pick} /></div>
+    {/if}
+
+    <!-- escape hatch, at the bottom in both modes: reach for it after browsing -->
     {#if onFree && free.length < 3}
       <button class="link fill-link" onclick={autoFree}>{s('auto_free')}</button>
     {/if}
-
-    <!-- map, secondary — mounted only while open so it never inits at 0×0 -->
-    <details class="mapfold" bind:open={mapOpen}>
-      <summary>{s('map_view')}</summary>
-      {#if mapOpen}
-        <div class="mapwrap"><BuilderMap eligible={eligibleIds} picked={pickedIds} catFilter={onFree ? catFilter : null} onpick={pick} /></div>
-      {/if}
-    </details>
 
     {#if valid}
       <p class="walk-note">{s('route_walk', formatDistance(planWalk.meters, i18n.lang), planWalk.minutes)}</p>
       <button class="btn done-cta" onclick={finish}>{s('build_done')} →</button>
     {/if}
-
-    <TicketScan onsaved={onScanned} />
   </div>
 {/if}
 
@@ -681,8 +673,6 @@
   .slotbtns .slot.filled { border-style: solid; border-color: transparent; background: color-mix(in srgb, var(--bg) 90%, transparent); }
   .slotbtns .slot.on { border-color: var(--brand); }
 
-  .pbar { height: 6px; border-radius: 999px; background: var(--bg); overflow: hidden; margin-top: -4px; }
-  .pbar i { display: block; height: 100%; border-radius: 999px; background: var(--brand); transition: width 0.3s ease; }
 
   .build-top { display: flex; align-items: center; justify-content: space-between; }
   .link-back.reset { color: var(--brand); }
@@ -766,26 +756,12 @@
     color: var(--muted);
   }
   .sec-hint { color: var(--brand); }
-  .sortbar { display: flex; align-items: center; gap: 8px; flex-wrap: wrap; margin-top: -4px; }
-  .sort-lbl { font-size: 0.72rem; font-weight: 700; letter-spacing: 0.06em; text-transform: uppercase; color: var(--muted); }
   .fill-link {
     display: block; margin: 10px auto 0;
     border: 0; background: none; padding: 6px;
     color: var(--brand); font-family: var(--font-body); font-weight: 700; font-size: 0.9rem;
     cursor: pointer; text-decoration: underline; text-underline-offset: 3px;
   }
-  .mini {
-    border: 1px solid var(--line);
-    background: var(--surface);
-    color: var(--muted);
-    border-radius: 999px;
-    padding: 6px 12px;
-    font-family: var(--font-body);
-    font-weight: 600;
-    font-size: 0.76rem;
-    cursor: pointer;
-  }
-  .mini.on { color: var(--brand); border-color: color-mix(in srgb, var(--brand) 45%, var(--line)); }
 
   /* free-pool category filter — chips carry each category's accent (also the legend) */
   .catfilter { display: flex; gap: 8px; overflow-x: auto; padding-bottom: 2px; scrollbar-width: none; }
@@ -852,17 +828,23 @@
   }
   .add.on { background: var(--brand); border-color: var(--brand); color: #fff; }
 
-  .mapfold {
-    background: var(--surface);
-    border: 1px solid var(--line);
-    border-radius: var(--radius);
-    overflow: hidden;
+  /* list|map segmented control */
+  .viewtabs {
+    display: flex; gap: 4px; padding: 4px;
+    background: var(--surface); border: 1px solid var(--line); border-radius: 999px;
+    margin-bottom: 2px;
   }
-  .mapfold > summary { padding: 13px 15px; cursor: pointer; font-weight: 600; list-style: none; }
-  .mapfold > summary::-webkit-details-marker { display: none; }
-  .mapfold > summary::after { content: '▸'; float: right; color: var(--muted); }
-  .mapfold[open] > summary::after { content: '▾'; }
-  .mapwrap { height: 46vh; min-height: 260px; padding: 0 12px 12px; }
+  .vtab {
+    flex: 1; padding: 9px 12px; border: 0; border-radius: 999px;
+    background: none; color: var(--muted);
+    font-family: var(--font-body); font-weight: 700; font-size: 0.9rem; cursor: pointer;
+  }
+  .vtab.on { background: var(--brand); color: #fff; }
+  .vtab:focus-visible { outline: 2px solid var(--brand); outline-offset: 2px; }
+  .mapwrap {
+    height: 56vh; min-height: 320px;
+    border: 1px solid var(--line); border-radius: var(--radius); overflow: hidden;
+  }
 
   .walk-note { margin: 4px 0 0; color: var(--muted); font-size: 0.85rem; font-weight: 600; text-align: center; }
   .done-cta { width: 100%; margin-top: 4px; }

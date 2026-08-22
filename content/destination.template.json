@@ -8,13 +8,27 @@
   "address": { "vi": "", "en": "" },
   "hours": { "vi": "", "en": "" },
   "image": null,
+  "short": { "vi": "", "en": "" },
   "description": { "vi": "", "en": "" },
+  "highlights": [
+    { "vi": "", "en": "" }
+  ],
   "quizBank": [
     {
       "difficulty": "easy",
       "question": { "vi": "", "en": "" },
+      "hint": { "vi": "", "en": "" },
       "options": [{ "vi": "", "en": "" }, { "vi": "", "en": "" }, { "vi": "", "en": "" }],
-      "answer": 0
+      "answer": 0,
+      "explain": { "vi": "", "en": "" }
+    },
+    {
+      "difficulty": "easy",
+      "photo": ["quiz/<id>/a-1.png", "quiz/<id>/a-2.png", "quiz/<id>/a-3.png"],
+      "question": { "vi": "", "en": "" },
+      "options": [{ "vi": "Ảnh 1", "en": "Photo 1" }, { "vi": "Ảnh 2", "en": "Photo 2" }, { "vi": "Ảnh 3", "en": "Photo 3" }],
+      "answer": 0,
+      "explain": { "vi": "", "en": "" }
     },
     {
       "difficulty": "hard",

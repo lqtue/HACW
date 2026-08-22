@@ -4,12 +4,9 @@
 // split — the "free" slots may be any class, including a second monument.
 //
 //   5-site: ≥1 of 3 monuments + ≥1 of 6 museums + 3 free  (total 5)
-//   3-site: ≥1 of 3 monuments + 2 free                    (total 3)
 //
-// ponytail: 5-site is what the UI wires today; the 3-site recipe is here so
-// wiring it later is data, not code. No per-visitor ticket state yet.
-
-export const TICKET_CLASSES = ['monument', 'museum', 'other'];
+// ponytail: only the 5-site ticket is wired. Add a 3-site recipe to TICKETS
+// (data, not code) if that ticket type ships.
 
 // The Hội An ticket's QR is a Vietnamese e-invoice lookup. Confirmed from a real 2026
 // ticket: it prints "https://tracuuhddt7…com.vn" + lookup code "EBL0226T1490955889", so
@@ -36,8 +33,7 @@ export function isTicketQr(raw) {
 
 /** size -> { size, min: { class: minCount } } */
 export const TICKETS = {
-  5: { size: 5, min: { monument: 1, museum: 1 } },
-  3: { size: 3, min: { monument: 1 } }
+  5: { size: 5, min: { monument: 1, museum: 1 } }
 };
 
 /** @param {string[]} stopIds @param {Record<string,any>} byId */

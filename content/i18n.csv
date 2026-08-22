@@ -286,19 +286,34 @@ destinations.json,[17].quizBank[2].options[2],,Kim loại,Metal
 destinations.json,[18].name,,Hội quán Phúc Kiến,Fujian Assembly Hall
 destinations.json,[18].address,1,46 Trần Phú,46 Trần Phú
 destinations.json,[18].hours,1,7:00 - 18:00,7:00 - 18:00
-destinations.json,[18].description,,"Hội quán Phúc Kiến tọa lạc tại số 46 đường Trần Phú, Hội An, trên một khuôn đất cao ráo quay mặt về hướng Nam. Công trình được bà con người Hoa bang Phước Kiến tại Hội An cho xây dựng năm 1757 trên nền một ngôi chùa Việt cổ có tên “Kim Sơn Tự”, dùng cho việc thờ tự các vị thần bảo hộ, các vị tiền hi…","The largest and most ornate assembly hall in Hoi An, dedicated to Thien Hau, protector goddess of seafaring merchants of the Fujian community."
-destinations.json,[18].quizBank[0].question,,Hội quán Phúc Kiến chủ yếu thờ vị thần nào?,Which deity does the hall mainly worship?
-destinations.json,[18].quizBank[0].options[0],,Thiên Hậu Thánh Mẫu,Goddess Thien Hau
-destinations.json,[18].quizBank[0].options[1],,Quan Công,Quan Cong
-destinations.json,[18].quizBank[0].options[2],,Thần Tài,God of Wealth
-destinations.json,[18].quizBank[1].question,,Hội quán này của cộng đồng người Hoa gốc nào?,Which Chinese community built this hall?
-destinations.json,[18].quizBank[1].options[0],,Phúc Kiến,Fujian
-destinations.json,[18].quizBank[1].options[1],,Quảng Đông,Canton
-destinations.json,[18].quizBank[1].options[2],,Hải Nam,Hainan
-destinations.json,[18].quizBank[2].question,,Thiên Hậu Thánh Mẫu là vị thần bảo hộ cho ai?,Thien Hau is the protector of whom?
-destinations.json,[18].quizBank[2].options[0],,Thương nhân đi biển,Seafaring merchants
-destinations.json,[18].quizBank[2].options[1],,Nông dân,Farmers
-destinations.json,[18].quizBank[2].options[2],,Học trò,Students
+destinations.json,[18].description,,"Hội quán tráng lệ nhất phố Hội, với những chi tiết trang trí gốm sứ tinh xảo, tái hiện hải trình của những thương nhân Phước Kiến đã vượt biển đến Hội An.",The most magnificent assembly hall in the old town — its intricate ceramic ornament retells the sea voyage of the Fujian merchants who crossed the ocean to Hội An.
+destinations.json,[18].quizBank[0].question,,Hình ảnh nào dưới đây là mái của Hội quán Phước Kiến?,Which of these is the roof of the Fujian Assembly Hall?
+destinations.json,[18].quizBank[0].options[0],,Ảnh 1,Photo 1
+destinations.json,[18].quizBank[0].options[1],,Ảnh 2,Photo 2
+destinations.json,[18].quizBank[0].options[2],,Ảnh 3,Photo 3
+destinations.json,[18].quizBank[0].explain,,"Khác với kiểu nóc mái thẳng tắp của Quảng Đông, kiến trúc mái đặc trưng của vùng Phúc Kiến có bờ nóc võng xuống như con thuyền đang cưỡi sóng. Phần trang trí cũng công phu hơn so với các hội quán khác.","Unlike the straight ridgeline of the Cantonese hall, the Fujian roof dips in the middle like a boat riding the waves — and its ornament is more elaborate than the other halls."
+destinations.json,[18].quizBank[1].question,,Tại sao Hội quán Phước Kiến và nhiều hội quán khác của người Hoa lại thờ bà Thiên Hậu?,Why do the Fujian hall and many other Chinese halls worship the goddess Thiên Hậu (Mazu)?
+destinations.json,[18].quizBank[1].hint,,Hãy quan sát những bức tranh và mô hình trong hội quán,Look at the murals and the ship model inside the hall
+destinations.json,[18].quizBank[1].options[0],,Để cầu bình an khi đi biển,To pray for safety at sea
+destinations.json,[18].quizBank[1].options[1],,Để cầu tài lộc,To pray for wealth
+destinations.json,[18].quizBank[1].options[2],,Để tưởng nhớ công dẹp giặc,To honour victories in battle
+destinations.json,[18].quizBank[1].explain,,"Ngay sau khi bước vào tiền điện, du khách sẽ thấy ở phía tường Đông là bích họa Thiên Hậu Thánh Mẫu cùng đệ tử cầm đèn lồng vượt sóng gió đến cứu người bị nạn và ở phía tường Tây là bích họa Lục Tánh Vương Gia cưỡi ngựa xung trận. Bên trong chính điện có mô hình thương thuyền được trang trí kỳ công với một gian thờ Thiên Hậu trong thuyền.","Just inside the entrance hall, the east wall shows Thiên Hậu and her disciples carrying lanterns through the storm to rescue those in peril, and the west wall shows Lục Tánh Vương Gia charging into battle on horseback. The main hall holds an ornate merchant-ship model with a shrine to Thiên Hậu aboard."
+destinations.json,[18].quizBank[2].question,,Hai vị thần phò tá Bà Thiên Hậu và được thờ phụng trong chính điện là ai?,Which two deities attend the goddess Thiên Hậu in the main hall?
+destinations.json,[18].quizBank[2].options[0],,Thiên Lý Nhãn - Thuận Phong Nhĩ,Thiên Lý Nhãn (Thousand-Mile Eyes) & Thuận Phong Nhĩ (Wind-Following Ears)
+destinations.json,[18].quizBank[2].options[1],,Thần Đồ - Uất Lũy,Thần Đồ & Uất Lũy
+destinations.json,[18].quizBank[2].options[2],,Thanh Long - Bạch Hổ,Azure Dragon & White Tiger
+destinations.json,[18].quizBank[3].question,,Những đôi giày trong tủ kính dành cho ai?,Whom were the shoes in the glass cabinet made for?
+destinations.json,[18].quizBank[3].options[0],,Những người phụ nữ bó chân gót sen,Women with bound 'lotus' feet
+destinations.json,[18].quizBank[3].options[1],,Vũ công múa thủy tụ,Water-sleeve dancers
+destinations.json,[18].quizBank[3].options[2],,Tượng thờ các vị thần,The deity statues
+destinations.json,[18].quizBank[4].question,,Bức tranh vẽ những đứa trẻ này được tìm thấy ở đâu?,Where is this painting of children found?
+destinations.json,[18].quizBank[4].options[0],,Án thờ 3 bà Chúa Sanh thai và 12 bà mụ,The altar of the 3 Birth Ladies and 12 Midwives
+destinations.json,[18].quizBank[4].options[1],,Án thờ Lục Tánh vương gia,The altar of Lục Tánh Vương Gia
+destinations.json,[18].quizBank[4].options[2],,Nhà Đông,The East House
+destinations.json,[18].short,,Hội quán tráng lệ nhất với những chi tiết trang trí gốm sứ tinh xảo và câu chuyện của thương nhân Phước Kiến.,The grandest assembly hall — exquisite ceramic ornament and the story of the Fujian merchants.
+destinations.json,[18].highlights[0],,"Cổng tam quan uy nghi với các đồ án lưỡng long tranh bình hồ lô, ông Nhật - bà Nguyệt và các con giống trang trí mỗi góc mái","The stately triple gate — twin-dragon-and-gourd motifs, Mr Sun and Mrs Moon, and mythical beasts on every roof corner"
+destinations.json,[18].highlights[1],,Mô hình thuyền vượt biển sống động,A vivid model of the ocean-crossing ship
+destinations.json,[18].highlights[2],,Hoành phi và liễn đối do Trạng nguyên Ngô Lỗ tỉnh Phước Kiến cúng vào năm 1897,"Horizontal lacquered boards and couplets donated in 1897 by Ngô Lỗ, a laureate scholar from Fujian"
 destinations.json,[19].name,,Hội quán Hải Nam,Hainan Assembly Hall
 destinations.json,[19].address,1,10 Trần Phú,10 Trần Phú
 destinations.json,[19].hours,1,9:00 - 21:00,9:00 - 21:00
@@ -463,6 +478,8 @@ strings.js,retry,,Thử lại,Try again
 strings.js,geo_denied,,Bạn cần cho phép truy cập vị trí để check-in.,Please allow location access to check in.
 strings.js,geo_fail,,Không lấy được vị trí. Hãy thử lại ở ngoài trời.,Could not get your location. Try again outdoors.
 strings.js,arrived,,✔ Đã đến nơi! Trả lời câu hỏi để nhận tem:,✔ You are here! Answer the questions to earn a stamp:
+strings.js,highlights,,Đừng bỏ lỡ,Don't miss
+strings.js,quiz_continue,,Tiếp tục →,Continue →
 strings.js,checkin_done,,✅ Đã check-in! Tem đã được thêm vào sổ tay.,✅ Checked in! The stamp was added to your passport.
 strings.js,tours_title,,Tuyến đi bộ,Walking tours
 strings.js,tours_sub,,Khám phá phố cổ theo chủ đề,Explore the old town by theme
@@ -509,7 +526,9 @@ strings.js,all_sites,,Tất cả điểm,All sites
 strings.js,r_unlocked,,Đã mở,Unlocked
 strings.js,r_locked,,Chưa mở,Locked
 strings.js,pick_one,,chọn 1,pick one
-strings.js,map_view,,Xem trên bản đồ,View on map
+strings.js,view_mode,,Chế độ xem,View mode
+strings.js,view_list,,Danh sách,List
+strings.js,view_map,,Bản đồ,Map
 strings.js,step_monument,,Di tích,Monument
 strings.js,step_museum,,Bảo tàng,Museum
 strings.js,step_free,,3 điểm tự do,3 free

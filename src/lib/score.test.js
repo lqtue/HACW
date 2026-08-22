@@ -3,7 +3,6 @@ import {
   POINTS,
   stampPoints,
   spotlightIds,
-  totalPoints,
   breakdown,
   maxPossiblePoints,
   tierFor,
@@ -36,25 +35,21 @@ assert.deepEqual([...spotlightIds(null, dests)].sort(), ['c', 'd']);
 const many = Object.fromEntries(dests.map((d, i) => [d.id, i * 10]));
 assert.ok(spotlightIds(many, dests).has('a'), 'zero-count site is spotlighted');
 
-// --- totals ---
+// --- totals (via breakdown().total — the passport shows the arithmetic) ---
 const tours = [{ stops: ['a', 'b'] }, { stops: ['c', 'd'] }];
 const stamps = [{ id: 'a', pts: 10 }, { id: 'b', pts: 25 }];
-assert.equal(totalPoints(stamps, tours, 4), 10 + 25 + POINTS.tour);
-assert.equal(totalPoints([{ id: 'a' }], tours, 4), POINTS.stamp, 'missing pts falls back to base');
+assert.equal(breakdown(stamps, tours, 4).total, 10 + 25 + POINTS.tour);
+assert.equal(breakdown([{ id: 'a' }], tours, 4).total, POINTS.stamp, 'missing pts falls back to base');
 const all = dests.map((d) => ({ id: d.id, pts: 10 }));
-assert.equal(totalPoints(all, tours, 4), 40 + 2 * POINTS.tour + POINTS.allSites);
+assert.equal(breakdown(all, tours, 4).total, 40 + 2 * POINTS.tour + POINTS.allSites);
 
-// --- breakdown: the passport shows the arithmetic, so the parts must add up ---
+// --- breakdown: the parts must add up to the total ---
 const b = breakdown(stamps, tours, 4);
 assert.deepEqual(b, { stamps: 35, toursDone: 1, tours: POINTS.tour, allSites: 0, total: 35 + POINTS.tour });
 const bAll = breakdown(all, tours, 4);
 assert.equal(bAll.toursDone, 2);
 assert.equal(bAll.allSites, POINTS.allSites);
 assert.equal(bAll.stamps + bAll.tours + bAll.allSites, bAll.total, 'the parts add up to the total');
-// and the total is the only thing totalPoints reports, for every case above
-for (const st of [[], stamps, all, [{ id: 'a' }]]) {
-  assert.equal(totalPoints(st, tours, 4), breakdown(st, tours, 4).total);
-}
 assert.deepEqual(breakdown([], tours, 4), { stamps: 0, toursDone: 0, tours: 0, allSites: 0, total: 0 });
 
 // --- tiers: keyed on points, not stamp count ---
@@ -73,7 +68,7 @@ assert.equal(maxPossiblePoints(25, 5), 500);
 // and a visitor who actually does all that reaches exactly it
 const everySite = Array.from({ length: 25 }, (_, i) => ({ id: `s${i}`, pts: POINTS.stamp }));
 const everyTour = Array.from({ length: 5 }, (_, i) => ({ stops: [`s${i * 5}`, `s${i * 5 + 1}`, `s${i * 5 + 2}`, `s${i * 5 + 3}`, `s${i * 5 + 4}`] }));
-assert.equal(totalPoints(everySite, everyTour, 25), maxPossiblePoints(25, 5), 'the ceiling is actually attainable');
+assert.equal(breakdown(everySite, everyTour, 25).total, maxPossiblePoints(25, 5), 'the ceiling is actually attainable');
 
 // --- evenness (organizer headline) ---
 assert.equal(evenness({}, dests), 1, 'no data reads as even');

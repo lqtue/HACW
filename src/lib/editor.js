@@ -26,6 +26,12 @@ export function checkDestination(d, categoryIds = null) {
   const at = `${d?.code ?? '?'} ${d?.id ?? '(no id)'}`;
   if (!d?.id) out.push(`${at}: missing id`);
   for (const f of ['name', 'address', 'hours', 'description']) bilingual(d?.[f], `${at}.${f}`, out);
+  // optional richer content — only validated when present, so the other sites still pass
+  if (d?.short != null) bilingual(d.short, `${at}.short`, out);
+  if (d?.highlights != null) {
+    if (!Array.isArray(d.highlights)) out.push(`${at}.highlights: not an array`);
+    else d.highlights.forEach((h, i) => bilingual(h, `${at}.highlights[${i}]`, out));
+  }
   if (categoryIds && !categoryIds.includes(d?.category)) out.push(`${at}: unknown category ${d?.category}`);
   if (!(d?.lat > BOX.latMin && d?.lat < BOX.latMax)) out.push(`${at}: lat ${d?.lat} outside Hội An`);
   if (!(d?.lng > BOX.lngMin && d?.lng < BOX.lngMax)) out.push(`${at}: lng ${d?.lng} outside Hội An`);
@@ -43,6 +49,14 @@ export function checkDestination(d, categoryIds = null) {
     if (!(Number.isInteger(q?.answer) && q.answer >= 0 && q.answer < opts.length))
       out.push(`${at}.quiz[${i}]: answer index out of range`);
     if (!['easy', 'hard'].includes(q?.difficulty)) out.push(`${at}.quiz[${i}]: bad difficulty`);
+    // optional per-question extras
+    if (q?.hint != null) bilingual(q.hint, `${at}.quiz[${i}].hint`, out);
+    if (q?.explain != null) bilingual(q.explain, `${at}.quiz[${i}].explain`, out);
+    if (q?.photo != null) {
+      if (!Array.isArray(q.photo) || q.photo.length !== opts.length)
+        out.push(`${at}.quiz[${i}].photo: must be one image path per option`);
+      else q.photo.forEach((p, j) => { if (typeof p !== 'string' || !p.trim()) out.push(`${at}.quiz[${i}].photo[${j}]: empty path`); });
+    }
   });
   return out;
 }

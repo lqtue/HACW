@@ -1748,28 +1748,89 @@
     "traffic": "medium",
     "promoPriority": "medium",
     "description": {
-      "vi": "Hội quán Phúc Kiến tọa lạc tại số 46 đường Trần Phú, Hội An, trên một khuôn đất cao ráo quay mặt về hướng Nam. Công trình được bà con người Hoa bang Phước Kiến tại Hội An cho xây dựng năm 1757 trên nền một ngôi chùa Việt cổ có tên “Kim Sơn Tự”, dùng cho việc thờ tự các vị thần bảo hộ, các vị tiền hi…",
-      "en": "The largest and most ornate assembly hall in Hoi An, dedicated to Thien Hau, protector goddess of seafaring merchants of the Fujian community."
+      "vi": "Hội quán tráng lệ nhất phố Hội, với những chi tiết trang trí gốm sứ tinh xảo, tái hiện hải trình của những thương nhân Phước Kiến đã vượt biển đến Hội An.",
+      "en": "The most magnificent assembly hall in the old town — its intricate ceramic ornament retells the sea voyage of the Fujian merchants who crossed the ocean to Hội An."
     },
     "quizBank": [
       {
         "difficulty": "easy",
+        "photo": [
+          "quiz/hoi-quan-phuc-kien/mai-1.png",
+          "quiz/hoi-quan-phuc-kien/mai-2.png",
+          "quiz/hoi-quan-phuc-kien/mai-3.png"
+        ],
         "question": {
-          "vi": "Hội quán Phúc Kiến chủ yếu thờ vị thần nào?",
-          "en": "Which deity does the hall mainly worship?"
+          "vi": "Hình ảnh nào dưới đây là mái của Hội quán Phước Kiến?",
+          "en": "Which of these is the roof of the Fujian Assembly Hall?"
         },
         "options": [
           {
-            "vi": "Thiên Hậu Thánh Mẫu",
-            "en": "Goddess Thien Hau"
+            "vi": "Ảnh 1",
+            "en": "Photo 1"
           },
           {
-            "vi": "Quan Công",
-            "en": "Quan Cong"
+            "vi": "Ảnh 2",
+            "en": "Photo 2"
           },
           {
-            "vi": "Thần Tài",
-            "en": "God of Wealth"
+            "vi": "Ảnh 3",
+            "en": "Photo 3"
+          }
+        ],
+        "answer": 1,
+        "explain": {
+          "vi": "Khác với kiểu nóc mái thẳng tắp của Quảng Đông, kiến trúc mái đặc trưng của vùng Phúc Kiến có bờ nóc võng xuống như con thuyền đang cưỡi sóng. Phần trang trí cũng công phu hơn so với các hội quán khác.",
+          "en": "Unlike the straight ridgeline of the Cantonese hall, the Fujian roof dips in the middle like a boat riding the waves — and its ornament is more elaborate than the other halls."
+        }
+      },
+      {
+        "difficulty": "hard",
+        "question": {
+          "vi": "Tại sao Hội quán Phước Kiến và nhiều hội quán khác của người Hoa lại thờ bà Thiên Hậu?",
+          "en": "Why do the Fujian hall and many other Chinese halls worship the goddess Thiên Hậu (Mazu)?"
+        },
+        "hint": {
+          "vi": "Hãy quan sát những bức tranh và mô hình trong hội quán",
+          "en": "Look at the murals and the ship model inside the hall"
+        },
+        "options": [
+          {
+            "vi": "Để cầu bình an khi đi biển",
+            "en": "To pray for safety at sea"
+          },
+          {
+            "vi": "Để cầu tài lộc",
+            "en": "To pray for wealth"
+          },
+          {
+            "vi": "Để tưởng nhớ công dẹp giặc",
+            "en": "To honour victories in battle"
+          }
+        ],
+        "answer": 0,
+        "explain": {
+          "vi": "Ngay sau khi bước vào tiền điện, du khách sẽ thấy ở phía tường Đông là bích họa Thiên Hậu Thánh Mẫu cùng đệ tử cầm đèn lồng vượt sóng gió đến cứu người bị nạn và ở phía tường Tây là bích họa Lục Tánh Vương Gia cưỡi ngựa xung trận. Bên trong chính điện có mô hình thương thuyền được trang trí kỳ công với một gian thờ Thiên Hậu trong thuyền.",
+          "en": "Just inside the entrance hall, the east wall shows Thiên Hậu and her disciples carrying lanterns through the storm to rescue those in peril, and the west wall shows Lục Tánh Vương Gia charging into battle on horseback. The main hall holds an ornate merchant-ship model with a shrine to Thiên Hậu aboard."
+        }
+      },
+      {
+        "difficulty": "hard",
+        "question": {
+          "vi": "Hai vị thần phò tá Bà Thiên Hậu và được thờ phụng trong chính điện là ai?",
+          "en": "Which two deities attend the goddess Thiên Hậu in the main hall?"
+        },
+        "options": [
+          {
+            "vi": "Thiên Lý Nhãn - Thuận Phong Nhĩ",
+            "en": "Thiên Lý Nhãn (Thousand-Mile Eyes) & Thuận Phong Nhĩ (Wind-Following Ears)"
+          },
+          {
+            "vi": "Thần Đồ - Uất Lũy",
+            "en": "Thần Đồ & Uất Lũy"
+          },
+          {
+            "vi": "Thanh Long - Bạch Hổ",
+            "en": "Azure Dragon & White Tiger"
           }
         ],
         "answer": 0
@@ -1777,49 +1838,67 @@
       {
         "difficulty": "easy",
         "question": {
-          "vi": "Hội quán này của cộng đồng người Hoa gốc nào?",
-          "en": "Which Chinese community built this hall?"
+          "vi": "Những đôi giày trong tủ kính dành cho ai?",
+          "en": "Whom were the shoes in the glass cabinet made for?"
         },
         "options": [
           {
-            "vi": "Phúc Kiến",
-            "en": "Fujian"
+            "vi": "Những người phụ nữ bó chân gót sen",
+            "en": "Women with bound 'lotus' feet"
           },
           {
-            "vi": "Quảng Đông",
-            "en": "Canton"
+            "vi": "Vũ công múa thủy tụ",
+            "en": "Water-sleeve dancers"
           },
           {
-            "vi": "Hải Nam",
-            "en": "Hainan"
+            "vi": "Tượng thờ các vị thần",
+            "en": "The deity statues"
           }
         ],
         "answer": 0
       },
       {
-        "difficulty": "hard",
+        "difficulty": "easy",
         "question": {
-          "vi": "Thiên Hậu Thánh Mẫu là vị thần bảo hộ cho ai?",
-          "en": "Thien Hau is the protector of whom?"
+          "vi": "Bức tranh vẽ những đứa trẻ này được tìm thấy ở đâu?",
+          "en": "Where is this painting of children found?"
         },
         "options": [
           {
-            "vi": "Thương nhân đi biển",
-            "en": "Seafaring merchants"
+            "vi": "Án thờ 3 bà Chúa Sanh thai và 12 bà mụ",
+            "en": "The altar of the 3 Birth Ladies and 12 Midwives"
           },
           {
-            "vi": "Nông dân",
-            "en": "Farmers"
+            "vi": "Án thờ Lục Tánh vương gia",
+            "en": "The altar of Lục Tánh Vương Gia"
           },
           {
-            "vi": "Học trò",
-            "en": "Students"
+            "vi": "Nhà Đông",
+            "en": "The East House"
           }
         ],
         "answer": 0
       }
     ],
-    "ticketClass": "other"
+    "ticketClass": "other",
+    "short": {
+      "vi": "Hội quán tráng lệ nhất với những chi tiết trang trí gốm sứ tinh xảo và câu chuyện của thương nhân Phước Kiến.",
+      "en": "The grandest assembly hall — exquisite ceramic ornament and the story of the Fujian merchants."
+    },
+    "highlights": [
+      {
+        "vi": "Cổng tam quan uy nghi với các đồ án lưỡng long tranh bình hồ lô, ông Nhật - bà Nguyệt và các con giống trang trí mỗi góc mái",
+        "en": "The stately triple gate — twin-dragon-and-gourd motifs, Mr Sun and Mrs Moon, and mythical beasts on every roof corner"
+      },
+      {
+        "vi": "Mô hình thuyền vượt biển sống động",
+        "en": "A vivid model of the ocean-crossing ship"
+      },
+      {
+        "vi": "Hoành phi và liễn đối do Trạng nguyên Ngô Lỗ tỉnh Phước Kiến cúng vào năm 1897",
+        "en": "Horizontal lacquered boards and couplets donated in 1897 by Ngô Lỗ, a laureate scholar from Fujian"
+      }
+    ]
   },
   {
     "id": "hoi-quan-hai-nam",

@@ -7,6 +7,10 @@ import LEGS from './data/legs.js';
 // matrix — e.g. a live GPS fix — falls back to straight-line × DETOUR.
 export const DETOUR = 1.3; // fallback detour factor for off-matrix points
 export const WALK_M_PER_MIN = 75; // ≈ 4.5 km/h, tourist pace
+// A baked leg is drawn only if it's within this × the crow-flies distance. Hội An's
+// pedestrian core is patchily mapped in OSM, so ORS sometimes loops a leg around the
+// perimeter roads — past this ratio we draw a straight segment instead of the loop.
+const DRAW_DETOUR_CAP = 1.6;
 
 const IDX = Object.fromEntries((DIST.ids ?? []).map((id, i) => [id, i]));
 
@@ -29,9 +33,23 @@ export function legPath(a, b) {
   const j = IDX[b?.id];
   if (i != null && j != null) {
     const p = LEGS.paths?.[i < j ? `${i}_${j}` : `${j}_${i}`];
-    if (p) return i < j ? p : [...p].reverse();
+    if (p) {
+      const path = i < j ? p : [...p].reverse();
+      // drop pathological baked detours (OSM gaps make ORS loop around); keep genuine
+      // street-following. Very short legs skip the check (ratio is noisy near zero).
+      const straight = distanceMeters(a, b);
+      if (straight < 40 || polyMeters(path) <= straight * DRAW_DETOUR_CAP) return path;
+    }
   }
   return [[a.lng, a.lat], [b.lng, b.lat]];
+}
+
+/** length in metres of a [lng,lat] polyline */
+function polyMeters(path) {
+  let m = 0;
+  for (let k = 1; k < path.length; k++)
+    m += distanceMeters({ lng: path[k - 1][0], lat: path[k - 1][1] }, { lng: path[k][0], lat: path[k][1] });
+  return m;
 }
 
 /**
@@ -46,14 +64,6 @@ export function stitchRoute(stops) {
   return out;
 }
 
-/** @returns {{ meters: number, minutes: number }} walking cost of visiting stops in order */
-export function routeStats(stops) {
-  let meters = 0;
-  for (let i = 1; i < stops.length; i++) meters += legMeters(stops[i - 1], stops[i]);
-  meters = Math.round(meters);
-  return { meters, minutes: Math.max(1, Math.round(meters / WALK_M_PER_MIN)) };
-}
-
 /** total walking length of a stop chain, in metres (order matters) */
 function pathLen(stops) {
   let m = 0;
@@ -61,31 +71,20 @@ function pathLen(stops) {
   return m;
 }
 
+/** @returns {{ meters: number, minutes: number }} walking cost of visiting stops in order */
+export function routeStats(stops) {
+  const meters = Math.round(pathLen(stops));
+  return { meters, minutes: Math.max(1, Math.round(meters / WALK_M_PER_MIN)) };
+}
+
 /**
  * Reorder stops for the shortest walk (open path — you don't loop back to the start).
  * A 5-stop ticket is a tiny TSP: brute-force every permutation is exact and instant.
- * ponytail: n! blows up past ~8; falls back to nearest-neighbour there. No 2-opt —
- * a ticket is 5, and no walking route in this app exceeds a handful of stops.
+ * Every caller feeds ≤5 stops (1+1+3 ticket, themed sets); n! is fine at that size.
  * @param {{lat:number,lng:number}[]} stops
  */
 export function optimizeRoute(stops) {
   if (stops.length <= 2) return stops.slice();
-  if (stops.length > 8) {
-    // nearest-neighbour from each possible start, keep the best
-    let best = null, bestD = Infinity;
-    for (let s = 0; s < stops.length; s++) {
-      const left = stops.slice(); const order = [left.splice(s, 1)[0]];
-      while (left.length) {
-        let k = 0;
-        for (let i = 1; i < left.length; i++)
-          if (distanceMeters(order[order.length - 1], left[i]) < distanceMeters(order[order.length - 1], left[k])) k = i;
-        order.push(left.splice(k, 1)[0]);
-      }
-      const d = pathLen(order);
-      if (d < bestD) { bestD = d; best = order; }
-    }
-    return best;
-  }
   let best = stops, bestD = pathLen(stops);
   const perm = (arr, cur) => {
     if (!arr.length) {

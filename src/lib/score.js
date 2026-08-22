@@ -61,11 +61,6 @@ export function breakdown(stamps, tours, siteCount) {
   };
 }
 
-/** Total score: stamps as earned, plus set bonuses derived from what is stamped. */
-export function totalPoints(stamps, tours, siteCount) {
-  return breakdown(stamps, tours, siteCount).total;
-}
-
 /**
  * Points a visitor is *guaranteed* to reach by stamping every site and finishing
  * every tour, claiming no perfect-quiz or spotlight bonus. Anything above this is
