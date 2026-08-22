@@ -95,6 +95,10 @@ function devApi() {
 }
 
 export default defineConfig({
+  // Let a phone reach the dev server through an HTTPS tunnel (cloudflared / ngrok)
+  // for on-device GPS + compass testing — Vite otherwise 403s unknown Host headers.
+  // Dev-only; the prod build ignores this.
+  server: { allowedHosts: ['.trycloudflare.com', '.ngrok-free.app', '.ngrok.io', '.ngrok.app'] },
   // MapLibre spawns its worker with `new URL('./maplibre-gl-worker.mjs',
   // import.meta.url)`. Pre-bundled into .vite/deps that path does not exist, so
   // the worker 404s in dev — serving the package unbundled keeps it resolvable.
@@ -114,8 +118,13 @@ export default defineConfig({
         display: 'standalone',
         start_url: base + '/',
         scope: base + '/',
-        // ponytail: SVG icon works on Android/Chrome installs. Add 192/512 PNGs for full iOS install fidelity.
-        icons: [{ src: base + '/icon.svg', sizes: 'any', type: 'image/svg+xml', purpose: 'any maskable' }]
+        icons: [
+          { src: base + '/icon.svg', sizes: 'any', type: 'image/svg+xml', purpose: 'any' },
+          // full-bleed square PNGs (no rounded corners) so the platform mask has no
+          // transparent corners to show through — see static/icon-maskable.svg
+          { src: base + '/icon-192.png', sizes: '192x192', type: 'image/png', purpose: 'any maskable' },
+          { src: base + '/icon-512.png', sizes: '512x512', type: 'image/png', purpose: 'any maskable' }
+        ]
       },
       workbox: {
         // Precache all built assets incl. the content JSON -> destinations/quizzes work fully offline.

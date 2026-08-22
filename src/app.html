@@ -3,14 +3,15 @@
   <head>
     <meta charset="utf-8" />
     <link rel="icon" href="%sveltekit.assets%/icon.svg" />
+    <!-- iOS home-screen install: it ignores the manifest icons, needs this opaque PNG. -->
+    <link rel="apple-touch-icon" href="%sveltekit.assets%/apple-touch-icon.png" />
     <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover" />
     <meta name="theme-color" content="#e85f34" />
-    <!-- Resolve theme before paint (no flash): stored choice, else system. -->
+    <!-- Resolve theme before paint (no flash): stored choice, else light default. -->
     <script>
       try {
         var t = localStorage.getItem('hacw_theme');
-        if (t !== 'light' && t !== 'dark')
-          t = matchMedia('(prefers-color-scheme: dark)').matches ? 'dark' : 'light';
+        if (t !== 'light' && t !== 'dark') t = 'light';
         document.documentElement.dataset.theme = t;
       } catch (e) {}
     </script>

@@ -25,6 +25,10 @@
     loadCounts();
   }
   onMount(() => {
+    // DEV-only: fake a Hội An GPS fix so the location dot + heading beam are visible
+    // on desktop. Stripped from the prod build (import.meta.env.DEV is false there).
+    if (import.meta.env.DEV) import('$lib/dev-geo.js').then((m) => m.installFakeGeo());
+
     unlockFromUrl($page.url);
     sync();
     window.addEventListener('online', sync);

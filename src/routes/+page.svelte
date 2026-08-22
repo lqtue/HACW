@@ -9,6 +9,7 @@
   import BuilderMap from '$lib/components/BuilderMap.svelte';
   import RouteMap from '$lib/components/RouteMap.svelte';
   import MatCua from '$lib/components/MatCua.svelte';
+  import StudyToggle from '$lib/components/StudyToggle.svelte';
   import { rankSets } from '$lib/advisor.js';
   import { isValidSet } from '$lib/ticket.js';
   import { weather } from '$lib/weather.svelte.js';
@@ -163,8 +164,7 @@
   const freeCats = categories.map((c) => c.id).filter((id) => groups.other.some((d) => d.category === id));
   let catFilter = $state(null);
 
-  const catOrder = Object.fromEntries(categories.map((c, i) => [c.id, i]));
-  let sortBy = $state('distance'); // 'distance' | 'name' | 'category'
+  let sortBy = $state('distance'); // 'distance' | 'name'
 
   const currentGroup = $derived(groups[STEPS[stepIdx].cls]);
   const eligibleIds = $derived(currentGroup.map((d) => d.id));
@@ -174,8 +174,6 @@
       .filter((d) => !onFree || !catFilter || d.category === catFilter)
       .map((d) => ({ d, m: distFor(d) }));
     if (sortBy === 'name') list.sort((a, b) => t(a.d.name).localeCompare(t(b.d.name), i18n.lang));
-    else if (sortBy === 'category')
-      list.sort((a, b) => (catOrder[a.d.category] - catOrder[b.d.category]) || a.m - b.m);
     else list.sort((a, b) => a.m - b.m);
     return list;
   });
@@ -322,6 +320,13 @@
     <p class="o-sub">{s('scan_why')}</p>
     <TicketScan onsaved={onScanned} hero />
     <button class="skip" onclick={finishOnboarding}>{s('scan_skip')}</button>
+
+    <!-- up-front: why we'll ask for GPS + the anonymous foot-traffic study (opt-out) -->
+    <div class="privacy">
+      <p class="p-why">{s('loc_note')}</p>
+      <p class="p-study">{s('study_note')}</p>
+      <StudyToggle />
+    </div>
   </section>
 {:else if step === 'done'}
   <section class="onboard done">
@@ -433,23 +438,17 @@
           {#if STEPS[stepIdx].cls === 'other'}{free.length}/3{:else if (STEPS[stepIdx].cls === 'monument' ? mono : museo)}✓{:else}{s('pick_one')}{/if}
         </span>
       </p>
-      <div class="sec-acts">
-        {#if onFree && free.length < 3}
-          <button class="mini" onclick={autoFree}>{s('auto_free')}</button>
-        {/if}
-      </div>
     </div>
 
     <div class="sortbar">
       <span class="sort-lbl">{s('sort_lbl')}</span>
-      <button class="mini" class:on={sortBy === 'distance'} onclick={() => (sortBy = 'distance')}>{s('sort_dist')}</button>
+      <!-- Nearest owns location: tapping it asks for a fix (once), then sorts by it.
+           No separate "my location" control, and no "by type" — the category chips
+           below already group by type. -->
+      <button class="mini" class:on={sortBy === 'distance'} onclick={() => { sortBy = 'distance'; if (!me) locate(); }}>
+        {me ? '📍 ' : ''}{locating ? s('locating_now') : s('sort_dist')}
+      </button>
       <button class="mini" class:on={sortBy === 'name'} onclick={() => (sortBy = 'name')}>{s('sort_name')}</button>
-      {#if onFree}
-        <button class="mini" class:on={sortBy === 'category'} onclick={() => (sortBy = 'category')}>{s('sort_cat')}</button>
-      {/if}
-      {#if sortBy === 'distance'}
-        <button class="mini loc" class:on={!!me} onclick={locate}>📍 {locating ? s('locating_now') : s('my_loc')}</button>
-      {/if}
     </div>
 
     {#if onFree}
@@ -490,6 +489,11 @@
         </li>
       {/each}
     </ul>
+
+    <!-- escape hatch, demoted below the list: reach for it after browsing, not before -->
+    {#if onFree && free.length < 3}
+      <button class="link fill-link" onclick={autoFree}>{s('auto_free')}</button>
+    {/if}
 
     <!-- map, secondary — mounted only while open so it never inits at 0×0 -->
     <details class="mapfold" bind:open={mapOpen}>
@@ -631,6 +635,15 @@
     cursor: pointer;
   }
 
+  .privacy {
+    margin: 26px auto 0;
+    max-width: 34ch;
+    display: flex; flex-direction: column; gap: 10px;
+    padding-top: 18px; border-top: 1px solid var(--line);
+  }
+  .privacy .p-why { margin: 0; color: var(--ink); font-size: 0.9rem; line-height: 1.45; }
+  .privacy .p-study { margin: 0; color: var(--muted); font-size: 0.84rem; line-height: 1.45; }
+
   /* ---- the 5 display slots (done screen snippet) ---- */
   .slots { display: flex; gap: 8px; }
   .slots .slot {
@@ -753,10 +766,14 @@
     color: var(--muted);
   }
   .sec-hint { color: var(--brand); }
-  .sec-acts { display: flex; gap: 8px; }
   .sortbar { display: flex; align-items: center; gap: 8px; flex-wrap: wrap; margin-top: -4px; }
   .sort-lbl { font-size: 0.72rem; font-weight: 700; letter-spacing: 0.06em; text-transform: uppercase; color: var(--muted); }
-  .sortbar .loc { margin-left: auto; }
+  .fill-link {
+    display: block; margin: 10px auto 0;
+    border: 0; background: none; padding: 6px;
+    color: var(--brand); font-family: var(--font-body); font-weight: 700; font-size: 0.9rem;
+    cursor: pointer; text-decoration: underline; text-underline-offset: 3px;
+  }
   .mini {
     border: 1px solid var(--line);
     background: var(--surface);

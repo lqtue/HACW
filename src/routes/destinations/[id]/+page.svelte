@@ -6,6 +6,7 @@
   import { hasStamp, addStamp, track, passport, prettyCode } from '$lib/passport.svelte.js';
   import { stats } from '$lib/stats.svelte.js';
   import { staff } from '$lib/staff.svelte.js';
+  import { recordCell } from '$lib/research.svelte.js';
   import { POINTS, spotlightIds, stampPoints } from '$lib/score.js';
   import destinations from '$lib/data/destinations.json';
   import { t } from '$lib/i18n.svelte.js';
@@ -46,6 +47,7 @@
     message = '';
     try {
       const here = await getPosition();
+      recordCell(here); // anonymous foot-traffic count when consent is on (research store)
       distance = Math.round(distanceMeters(here, { lat: dest.lat, lng: dest.lng }));
       if (distance <= dest.radius) startQuiz();
       else {

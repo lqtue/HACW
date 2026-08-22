@@ -6,29 +6,33 @@
   import categories from '$lib/data/categories.json';
   import tickets from '$lib/data/ticket-points.json';
   import Card from '$lib/components/Card.svelte';
+  import MapControls from '$lib/components/MapControls.svelte';
+  import { createHeadingCone } from '$lib/heading.js';
   import {
     BOUNDS,
-    PIN_DPR,
+    addCategoryPins,
     hidePois,
     hoianStyle,
     loadMap,
-    markSvg,
-    pinImage
+    markSvg
   } from '$lib/map-style.js';
   import { addLandmarks } from '$lib/landmarks.js';
   import { categoryLabel, mapsUrl, openLabel } from '$lib/util.js';
-  import { nearest, geohash } from '$lib/geo.js';
+  import { nearest } from '$lib/geo.js';
   import { formatDistance } from '$lib/route.js';
-  import { hasStamp, track } from '$lib/passport.svelte.js';
+  import { hasStamp } from '$lib/passport.svelte.js';
   import { stats } from '$lib/stats.svelte.js';
   import { spotlightIds } from '$lib/score.js';
   import { t, i18n } from '$lib/i18n.svelte.js';
   import { s } from '$lib/strings.js';
   import { theme } from '$lib/theme.svelte.js';
-  import { research, setResearch } from '$lib/research.svelte.js';
+  import { recordCell } from '$lib/research.svelte.js';
 
   let active = $state('all');
   let showTickets = $state(false);
+  // "where to buy?" opens the map as a pure counter-finder: booths only, the 25
+  // site pins + their filters/carousel hidden until the visitor asks for them.
+  let boothsOnly = $state(false);
   let openOnly = $state(false);
   let selected = $state(null); // pin tapped -> highlight its card below
   let rotated = $state(false); // map twisted off north -> show the reset-north chip
@@ -40,20 +44,9 @@
   let geoErr = $state('');
   const booth = $derived(me ? nearest(me, tickets) : null);
 
-  // Research footfall (opt-in). When consent is on, bucket the fix into a ~150 m
-  // geohash cell tagged with the device locale and count it — a heatmap sliceable by
-  // nationality. Throttled to ~30 s; only the cell id is ever sent, never the point
-  // or a path, so there is no trajectory. Off by default (research store).
-  let lastCellAt = 0;
-  function recordCell(pos) {
-    if (!research.on || !pos) return;
-    const now = Date.now();
-    if (now - lastCellAt < 30000) return;
-    lastCellAt = now;
-    const loc = (navigator.language || '').toLowerCase().split('-')[0];
-    const cell = geohash(pos.lat, pos.lng);
-    track('cell', /^[a-z]{2,3}$/.test(loc) ? `${cell}-${loc}` : cell);
-  }
+  // Research footfall: recordCell (shared with check-in, in research.svelte.js) buckets
+  // the fix into a coarse cell and counts it when consent is on. Called from the geolocate
+  // handler below. Consent lives in onboarding + the passport page, not on this map.
 
   // Sites open right now. Recomputed on filter changes only — good enough for a
   // walk-around app; nobody stares at this screen across an opening time.
@@ -144,13 +137,14 @@
   let el;
   let map;
   let geolocate;
+  let cone; // heading cone (created after load, in onMount)
   // map is a plain variable, so the effects below need one reactive signal
   // telling them the async MapLibre setup has finished.
   let ready = $state(false);
 
   onMount(async () => {
-    // ?tickets=1 — arriving from "where to buy?" opens with the counter layer on
-    if (new URLSearchParams(location.search).get('tickets') === '1') showTickets = true;
+    // ?tickets=1 — arriving from "where to buy?": counters on, sites hidden
+    if (new URLSearchParams(location.search).get('tickets') === '1') showTickets = boothsOnly = true;
 
     const maplibregl = await loadMap(base);
 
@@ -170,7 +164,8 @@
 
     // Attribution collapses to its ⓘ puck: legally it only has to be reachable,
     // and the expanded credit line eats the whole top edge on a phone.
-    map.addControl(new maplibregl.AttributionControl({ compact: true }), 'top-right');
+    // top-left: the control stack (MapControls) owns top-right now
+    map.addControl(new maplibregl.AttributionControl({ compact: true }), 'top-left');
     map.once('idle', () =>
       map
         .getContainer()
@@ -191,7 +186,7 @@
     geolocate = new maplibregl.GeolocateControl({
       positionOptions: { enableHighAccuracy: true, maximumAge: 5000, timeout: 15000 },
       trackUserLocation: true,
-      showAccuracyCircle: true,
+      showAccuracyCircle: false,
       fitBoundsOptions: { maxZoom: 17 }
     });
     map.addControl(geolocate, 'bottom-right');
@@ -204,6 +199,7 @@
         accuracy: Math.round(e.coords.accuracy)
       };
       recordCell(me);
+      cone?.onFix(e.coords);
     });
     geolocate.on('error', (e) => {
       locating = false;
@@ -212,25 +208,15 @@
     geolocate.on('trackuserlocationend', () => {
       me = null;
       locating = false;
+      cone?.hide();
     });
 
     await new Promise((done) => map.on('load', done));
+    cone = createHeadingCone(maplibregl, map);
 
-    // Pins are generated here, not shipped: one image per category (plus a gold
-    // spotlight variant) drawn from the same CSS vars the rest of the app uses.
-    const css = getComputedStyle(document.documentElement);
-    const gold = css.getPropertyValue('--gold').trim() || '#e0a83c';
-    // Keyline follows the basemap: dark ink on the light plan, a warm paper light
-    // on the dark one so the mark detaches from dark land. Pupil stays dark either
-    // way — it sits on the cream eye face, not on the land.
-    const dark = theme.mode === 'dark';
-    const ink = dark ? '#efe6d6' : '#1c1917';
-    const eye = '#1c1917';
-    for (const c of categories) {
-      const color = css.getPropertyValue(`--c-${c.id}`).trim() || '#bb4b2c';
-      map.addImage(`pin-${c.id}`, pinImage(color, ink, undefined, eye), { pixelRatio: PIN_DPR });
-      map.addImage(`pin-${c.id}-spot`, pinImage(color, ink, gold, eye), { pixelRatio: PIN_DPR });
-    }
+    // Pins are generated here, not shipped: one image per category (+ a gold spotlight
+    // variant), drawn from the app's CSS vars. Shared with the builder map.
+    const { gold, ink } = addCategoryPins(map, theme.mode === 'dark');
 
     hidePois(map);
 
@@ -375,10 +361,14 @@
   // map.remove() also removes the geolocate control, which clears its watch —
   // a watch that outlives the route is a battery leak. (An async onMount cannot
   // return a cleanup, so the teardown is explicit.)
-  onDestroy(() => map?.remove());
+  onDestroy(() => {
+    cone?.destroy();
+    map?.remove();
+  });
 
   function toggleLocate() {
     if (!ready) return;
+    cone?.enableCompass(); // this tap is the user gesture iOS needs for the compass
     // trigger() toggles: a second tap on an active lock switches tracking off.
     if (!me && !locating) {
       locating = true;
@@ -402,6 +392,11 @@
     if (ready) map.setLayoutProperty('booths', 'visibility', showTickets ? 'visible' : 'none');
   });
 
+  // booths-only mode hides the site pins (booths keep their own toggle above)
+  $effect(() => {
+    if (ready) map.setLayoutProperty('sites', 'visibility', boothsOnly ? 'none' : 'visible');
+  });
+
 </script>
 
 <div class="explore">
@@ -409,6 +404,8 @@
 
   <div class="wrap">
     <div bind:this={el} class="map"></div>
+    <!-- clear the fixed theme toggle (top-right, in the layout) -->
+    <MapControls located={!!me} {locating} {rotated} top="calc(env(safe-area-inset-top) + 56px)" onlocate={toggleLocate} onnorth={resetNorth} />
 
   <!-- bottom sheet floats over the map edge: filters, counter bar, site cards.
        Translucent so the plan reads through it — the map is the screen now. -->
@@ -427,29 +424,28 @@
   {/if}
 
   <div class="chips">
-    <button class="chip" aria-pressed={active === 'all'} onclick={() => (active = 'all')}>{s('all')}</button>
-    <!-- the filter row is also the legend: each chip carries its pins' colour -->
-    {#each categories as c}
-      <button
-        class="chip cat"
-        style="--c: var(--c-{c.id})"
-        aria-pressed={active === c.id}
-        onclick={() => (active = c.id)}
-      >
-        <i class="sw" aria-hidden="true"></i>{t(c.label)}
+    {#if boothsOnly}
+      <!-- counter-finder: no site filters, one way back to the full map -->
+      <button class="chip" onclick={() => (boothsOnly = false)}>🗺️ {s('show_all_sites')}</button>
+    {:else}
+      <button class="chip" aria-pressed={active === 'all'} onclick={() => (active = 'all')}>{s('all')}</button>
+      <!-- the filter row is also the legend: each chip carries its pins' colour -->
+      {#each categories as c}
+        <button
+          class="chip cat"
+          style="--c: var(--c-{c.id})"
+          aria-pressed={active === c.id}
+          onclick={() => (active = c.id)}
+        >
+          <i class="sw" aria-hidden="true"></i>{t(c.label)}
+        </button>
+      {/each}
+      <button class="chip" aria-pressed={openOnly} onclick={() => (openOnly = !openOnly)}>
+        🕑 {s('filter_open')}
       </button>
-    {/each}
-    <button class="chip" aria-pressed={openOnly} onclick={() => (openOnly = !openOnly)}>
-      🕑 {s('filter_open')}
-    </button>
-    <button class="chip" aria-pressed={showTickets} onclick={() => (showTickets = !showTickets)}>
-      🎟️ {s('ticket_points')}
-    </button>
-    <button class="chip" aria-pressed={!!me} onclick={toggleLocate}>
-      📍 {locating ? s('locating_now') : s('locate_me')}
-    </button>
-    {#if rotated}
-      <button class="chip" onclick={resetNorth}>🧭 {s('reset_north')}</button>
+      <button class="chip" aria-pressed={showTickets} onclick={() => (showTickets = !showTickets)}>
+        🎟️ {s('ticket_points')}
+      </button>
     {/if}
   </div>
 
@@ -464,23 +460,17 @@
     </p>
   {/if}
 
-  {#if me}
-    <!-- Opt-in research footfall: only shown while location is active, off by default.
-         Anonymous coarse cell counts (see research.svelte.js / recordCell), no path. -->
-    <button class="research" aria-pressed={research.on} onclick={() => setResearch(!research.on)}>
-      <span class="rbox" aria-hidden="true">{research.on ? '✓' : ''}</span>
-      <small>{s('research_optin')}</small>
-    </button>
-  {/if}
 
-  <div class="carousel">
-    {#each shown as dest}
-      <Card {dest} mark active={selected === dest.id} />
-    {/each}
-    {#if shown.length === 0}
-      <p class="muted empty">{s('no_sites')}</p>
-    {/if}
-  </div>
+  {#if !boothsOnly}
+    <div class="carousel">
+      {#each shown as dest}
+        <Card {dest} mark active={selected === dest.id} />
+      {/each}
+      {#if shown.length === 0}
+        <p class="muted empty">{s('no_sites')}</p>
+      {/if}
+    </div>
+  {/if}
   </div>
   </div>
 </div>
@@ -622,44 +612,13 @@
   .booth-bar a { color: var(--brand); font-weight: 600; white-space: nowrap; }
   .geo-err { color: var(--brand); }
 
-  /* opt-in research consent — quiet, a checkbox row, not a call to action */
-  .research {
-    flex: 0 0 auto;
-    margin: 0 18px 8px;
-    display: flex;
-    gap: 9px;
-    align-items: center;
-    width: calc(100% - 36px);
-    background: none;
-    border: 0;
-    padding: 2px 0;
-    text-align: left;
-    color: var(--muted);
-    cursor: pointer;
-  }
-  .research .rbox {
-    flex: 0 0 auto;
-    width: 18px; height: 18px;
-    display: grid; place-items: center;
-    border: 1px solid var(--line);
-    border-radius: 5px;
-    font-size: 0.7rem;
-    color: #fff;
-  }
-  .research[aria-pressed='true'] .rbox { background: var(--brand); border-color: var(--brand); }
-  .research[aria-pressed='true'] { color: var(--brand-dark); }
-
   /* live position: MapLibre's own dot + accuracy circle, in the teal that says
      "you", deliberately unlike the category pins. Its button is hidden — the
      📍 chip in the sheet triggers the control.
      MapLibre's stylesheet is imported at runtime, i.e. *after* these rules, so
      every override here has to out-specify it, not just follow it. */
   :global(.maplibregl-ctrl-group button.maplibregl-ctrl-geolocate) { display: none; }
-  :global(.maplibregl-map .maplibregl-user-location-dot),
-  :global(.maplibregl-map .maplibregl-user-location-dot::before) { background: var(--teal); }
-  :global(.maplibregl-map .maplibregl-user-location-accuracy-circle) {
-    background: color-mix(in srgb, var(--teal) 22%, transparent);
-  }
+  /* user-location dot tint is global now (app.css), shared with the builder map */
 
   /* proximity, not mandatory: mandatory snap fought the drag and left the last
      cards unreachable — the "can't scroll the locations" bug. touch-action pins

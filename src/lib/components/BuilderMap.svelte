@@ -2,11 +2,19 @@
   import { onMount, onDestroy } from 'svelte';
   import { base } from '$app/paths';
   import destinations from '$lib/data/destinations.json';
-  import categories from '$lib/data/categories.json';
-  import { BOUNDS, PIN_DPR, hidePois, hoianStyle, loadMap, pinImage } from '$lib/map-style.js';
+  import { BOUNDS, addCategoryPins, hidePois, hoianStyle, loadMap } from '$lib/map-style.js';
   import { optimizeRoute, stitchRoute } from '$lib/route.js';
   import { t, i18n } from '$lib/i18n.svelte.js';
   import { theme } from '$lib/theme.svelte.js';
+  import { categoryLabel } from '$lib/util.js';
+  import { s } from '$lib/strings.js';
+  import MapControls from './MapControls.svelte';
+  import { createHeadingCone } from '$lib/heading.js';
+
+  // Content goes into a popup via textContent (not innerHTML), so authored names
+  // can't inject — no escaping needed for those. The category label is the only
+  // interpolated-into-markup value; it's from our own categories.json.
+  const clamp = (str, n = 90) => (str.length > n ? str.slice(0, n - 1).trimEnd() + '…' : str);
 
   // A selection map for the 1+1+3 builder. The current step's eligible sites are
   // full-strength; picked sites wear the gold rim + a walk-order number and are joined
@@ -50,7 +58,22 @@
 
   let el;
   let map;
+  let geolocate;
+  let cone;
   let ready = $state(false);
+  let me = $state(null); // just drives the 📍 chip pressed state; the control draws the dot
+  let locating = $state(false);
+  let rotated = $state(false); // twisted off north -> reveal the reset chip
+
+  function toggleLocate() {
+    if (!ready) return;
+    cone?.enableCompass(); // this tap is the user gesture iOS needs for the compass
+    if (!me && !locating) locating = true;
+    geolocate.trigger(); // toggles: a second tap switches tracking off
+  }
+  function resetNorth() {
+    map?.easeTo({ bearing: BEARING, duration: 400 });
+  }
 
   onMount(async () => {
     const maplibregl = await loadMap(base);
@@ -65,33 +88,46 @@
       maxBounds: BOUNDS,
       attributionControl: false
     });
-    map.addControl(new maplibregl.AttributionControl({ compact: true }), 'top-right');
-    // opt-in location dot — helps place picks relative to where you stand
-    map.addControl(
-      new maplibregl.GeolocateControl({
-        positionOptions: { enableHighAccuracy: true },
-        trackUserLocation: true,
-        showAccuracyCircle: true
-      }),
-      'top-left'
+    map.addControl(new maplibregl.AttributionControl({ compact: true }), 'bottom-right');
+    // start collapsed to just the ⓘ puck (maplibre renders it open on wide maps)
+    map.once('idle', () =>
+      map.getContainer().querySelector('.maplibregl-ctrl-attrib')?.classList.remove('maplibregl-compact-show')
     );
 
-    await new Promise((done) => map.on('load', done));
+    // twist off north -> reveal the reset chip (opens north-up)
+    map.on('rotate', () => {
+      const b = ((map.getBearing() % 360) + 360) % 360;
+      rotated = b > 1 && b < 359;
+    });
 
-    const css = getComputedStyle(document.documentElement);
-    const gold = css.getPropertyValue('--gold').trim() || '#e0a83c';
-    // dark keyline on the light basemap, light on the dark one; pupil stays dark.
-    const ink = theme.mode === 'dark' ? '#efe6d6' : '#1c1917';
-    const eye = '#1c1917';
-    for (const c of categories) {
-      const color = css.getPropertyValue(`--c-${c.id}`).trim() || '#bb4b2c';
-      map.addImage(`pin-${c.id}`, pinImage(color, ink, undefined, eye), { pixelRatio: PIN_DPR });
-      map.addImage(`pin-${c.id}-spot`, pinImage(color, ink, gold, eye), { pixelRatio: PIN_DPR });
-    }
+    // location dot behind the 📍 chip — the raw control button is hidden (see CSS),
+    // the chip triggers it. Matches the discover map's affordance.
+    geolocate = new maplibregl.GeolocateControl({
+      positionOptions: { enableHighAccuracy: true },
+      trackUserLocation: true,
+      showAccuracyCircle: false
+    });
+    map.addControl(geolocate, 'top-left'); // button hidden; the 📍 button triggers it
+    geolocate.on('geolocate', (e) => {
+      locating = false;
+      me = { lat: e.coords.latitude, lng: e.coords.longitude };
+      cone?.onFix(e.coords);
+    });
+    geolocate.on('error', () => (locating = false));
+    geolocate.on('trackuserlocationend', () => {
+      me = null;
+      cone?.hide();
+    });
+
+    await new Promise((done) => map.on('load', done));
+    cone = createHeadingCone(maplibregl, map);
+
+    // per-category pins (plain + gold spotlight), shared with the discover map
+    addCategoryPins(map, theme.mode === 'dark');
     hidePois(map);
 
     // dashed walk-order route through the picks — drawn under the pins
-    const brand = css.getPropertyValue('--brand').trim() || '#e0542c';
+    const brand = getComputedStyle(document.documentElement).getPropertyValue('--brand').trim() || '#e0542c';
     map.addSource('route', { type: 'geojson', data: routeData });
     map.addLayer({
       id: 'route-line',
@@ -137,10 +173,37 @@
       }
     });
 
+    // Tapping a pin opens a paper-label popup with the site's info; picking is the
+    // explicit button inside it (Add, or Remove if already in the set). Context pins
+    // (wrong type this step) still show their info — just no button.
+    const popup = new maplibregl.Popup({ offset: [0, -22], closeButton: true, maxWidth: '240px', className: 'bpop-wrap' });
     map.on('click', 'sites', (e) => {
-      const id = e.features[0].properties.id;
-      // only eligible or already-picked pins respond; others are dimmed context
-      if (eligibleSet.has(id) || pickedSet.has(id)) onpick?.(id);
+      const d = byId[e.features[0].properties.id];
+      if (!d) return;
+      const picked = pickedSet.has(d.id);
+      const canPick = picked || eligibleSet.has(d.id);
+
+      const node = document.createElement('div');
+      node.className = 'bpop';
+      const cat = document.createElement('span');
+      cat.className = 'bpop-cat';
+      cat.style.color = `var(--c-${d.category})`;
+      cat.textContent = t(categoryLabel(d.category));
+      const title = document.createElement('strong');
+      title.textContent = t(d.name);
+      const sum = document.createElement('p');
+      sum.className = 'bpop-sum';
+      sum.textContent = clamp(t(d.description) || '');
+      node.append(cat, title, sum);
+
+      if (canPick) {
+        const btn = document.createElement('button');
+        btn.className = 'bpop-btn' + (picked ? ' rm' : '');
+        btn.textContent = picked ? s('pick_remove') : s('pick_do');
+        btn.addEventListener('click', () => { onpick?.(d.id); popup.remove(); });
+        node.append(btn);
+      }
+      popup.setLngLat([d.lng, d.lat]).setDOMContent(node).addTo(map);
     });
     map.on('mouseenter', 'sites', () => (map.getCanvas().style.cursor = 'pointer'));
     map.on('mouseleave', 'sites', () => (map.getCanvas().style.cursor = ''));
@@ -158,7 +221,10 @@
     ready = true;
   });
 
-  onDestroy(() => map?.remove());
+  onDestroy(() => {
+    cone?.destroy();
+    map?.remove();
+  });
 
   // eligible/picked/filter changes are one setData each, not a rebuild
   $effect(() => {
@@ -168,9 +234,16 @@
   });
 </script>
 
-<div bind:this={el} class="bmap"></div>
+<div class="bmap-wrap">
+  <div bind:this={el} class="bmap"></div>
+  <MapControls located={!!me} {locating} {rotated} onlocate={toggleLocate} onnorth={resetNorth} />
+</div>
 
 <style>
+  .bmap-wrap { position: relative; width: 100%; height: 100%; }
+  /* hide MapLibre's own geolocate button — MapControls' locate button triggers it */
+  :global(.bmap-wrap .maplibregl-ctrl-group button.maplibregl-ctrl-geolocate) { display: none; }
+
   .bmap {
     width: 100%;
     height: 100%;
@@ -180,4 +253,30 @@
     border: 1px solid var(--line);
   }
   :global(.bmap .maplibregl-map) { font-family: var(--font-body); }
+
+  /* selection popup — a small paper label. Portaled by MapLibre, so global. */
+  :global(.bpop-wrap .maplibregl-popup-content) {
+    padding: 12px 14px;
+    border-radius: 12px;
+    background: var(--surface);
+    border: 1px solid var(--line);
+    box-shadow: 0 6px 20px rgba(0, 0, 0, 0.18);
+    font-family: var(--font-body);
+  }
+  :global(.bpop-wrap .maplibregl-popup-tip) { border-top-color: var(--surface); }
+  :global(.bpop) { display: flex; flex-direction: column; gap: 4px; }
+  :global(.bpop-cat) {
+    font-size: 0.68rem; font-weight: 700; text-transform: uppercase; letter-spacing: 0.06em;
+  }
+  :global(.bpop strong) { color: var(--brand-dark); font-size: 0.98rem; line-height: 1.2; }
+  :global(.bpop-sum) { margin: 0; color: var(--muted); font-size: 0.82rem; line-height: 1.35; }
+  :global(.bpop-btn) {
+    margin-top: 8px;
+    padding: 9px 12px;
+    border: 0; border-radius: 9px;
+    background: var(--brand); color: #fff;
+    font-family: var(--font-body); font-weight: 700; font-size: 0.88rem;
+    cursor: pointer;
+  }
+  :global(.bpop-btn.rm) { background: var(--surface); color: var(--brand); border: 1px solid var(--brand); }
 </style>

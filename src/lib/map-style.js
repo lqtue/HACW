@@ -1,4 +1,5 @@
 import { DARK, LIGHT, layers } from '@protomaps/basemaps';
+import categories from './data/categories.json' with { type: 'json' };
 
 /**
  * "Giấy Hội An" — the basemap as *paper*, deliberately almost colourless.
@@ -440,4 +441,27 @@ export function pinImage(fill, ink, spark, eye = ink) {
   }
 
   return x.getImageData(0, 0, c.width, c.height);
+}
+
+/**
+ * Register the per-category pin images on a map: a plain + a gold-spotlight variant
+ * each, drawn from the app's `--c-<id>` CSS vars. This block was copied verbatim in
+ * the builder and discover maps — call it once, after the map's 'load'.
+ * @param {import('maplibre-gl').Map} map
+ * @param {boolean} dark  dark basemap active → flip the keyline to warm paper
+ * @returns {{ gold: string, ink: string, eye: string }} reused by callers for the
+ *   booth stroke, landmark ink, etc. — so they don't re-read the same CSS vars.
+ */
+export function addCategoryPins(map, dark) {
+  const css = getComputedStyle(document.documentElement);
+  const gold = css.getPropertyValue('--gold').trim() || '#e0a83c';
+  // keyline: dark ink on the light plan, warm paper on the dark one; pupil always dark
+  const ink = dark ? '#efe6d6' : '#1c1917';
+  const eye = '#1c1917';
+  for (const c of categories) {
+    const color = css.getPropertyValue(`--c-${c.id}`).trim() || '#bb4b2c';
+    map.addImage(`pin-${c.id}`, pinImage(color, ink, undefined, eye), { pixelRatio: PIN_DPR });
+    map.addImage(`pin-${c.id}-spot`, pinImage(color, ink, gold, eye), { pixelRatio: PIN_DPR });
+  }
+  return { gold, ink, eye };
 }

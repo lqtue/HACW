@@ -6,6 +6,7 @@
   import rewards from '$lib/data/rewards.json';
   import StaffConfirm from '$lib/components/StaffConfirm.svelte';
   import NearestBooth from '$lib/components/NearestBooth.svelte';
+  import StudyToggle from '$lib/components/StudyToggle.svelte';
   import MatCua from '$lib/components/MatCua.svelte';
   import {
     passport,
@@ -217,6 +218,12 @@
   </details>
 
   <NearestBooth />
+
+  <!-- study consent lives here too, always reachable + reversible -->
+  <details class="fold">
+    <summary>{s('study_note')}</summary>
+    <div class="study-fold"><StudyToggle /></div>
+  </details>
 </div>
 
 <style>

@@ -2,7 +2,7 @@ import { browser } from '$app/environment';
 
 // Light/dark toggle. The concrete theme is set on <html data-theme> by a tiny
 // inline script in app.html *before paint* (no flash), resolving a stored choice
-// or the system preference. This store just mirrors + flips that attribute.
+// or defaulting to light. This store just mirrors + flips that attribute.
 const KEY = 'hacw_theme';
 
 export const theme = $state({
