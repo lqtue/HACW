@@ -1,22 +1,14 @@
 <script>
-  import { onMount, onDestroy } from 'svelte';
+  import { onMount } from 'svelte';
   import { goto } from '$app/navigation';
   import { base } from '$app/paths';
   import destinations from '$lib/data/destinations.json';
   import categories from '$lib/data/categories.json';
   import tickets from '$lib/data/ticket-points.json';
   import Card from '$lib/components/Card.svelte';
-  import MapControls from '$lib/components/MapControls.svelte';
   import ViewToggle from '$lib/components/ViewToggle.svelte';
-  import { createHeadingCone } from '$lib/heading.js';
-  import {
-    BOUNDS,
-    addCategoryPins,
-    hidePois,
-    hoianStyle,
-    loadMap,
-    markSvg
-  } from '$lib/map-style.js';
+  import SiteMap from '$lib/components/SiteMap.svelte';
+  import { markSvg } from '$lib/map-style.js';
   import { addLandmarks } from '$lib/landmarks.js';
   import { categoryLabel, mapsUrl, openLabel } from '$lib/util.js';
   import { nearest } from '$lib/geo.js';
@@ -37,12 +29,10 @@
   let boothsOnly = $state(false);
   let openOnly = $state(false);
   let selected = $state(null); // pin tapped -> highlight its card below
-  let rotated = $state(false); // map twisted off north -> show the reset-north chip
 
-  // Location is opt-in: nothing is requested until the visitor taps the chip, so
-  // the permission prompt arrives with a reason attached instead of on page load.
+  // Location lives in SiteMap now; bound here so the booth bar + geo-error banner
+  // can read the fix. Requested only when the visitor taps locate.
   let me = $state(null); // { lat, lng, accuracy } once a fix arrives
-  let locating = $state(false);
   let geoErr = $state('');
   const booth = $derived(me ? nearest(me, tickets) : null);
 
@@ -119,111 +109,47 @@
   });
 
   const byId = new Map(destinations.map((d) => [d.id, d]));
-
-  // North up (true north). The old town is an east-west strip so a rotated map fills
-  // the phone better, but the user wants a conventional north-up orientation.
-  const BEARING = 0;
+  // open framed on all 25 pins, like before
+  const allBounds = destinations.reduce(
+    (b, d) => [
+      [Math.min(b[0][0], d.lng), Math.min(b[0][1], d.lat)],
+      [Math.max(b[1][0], d.lng), Math.max(b[1][1], d.lat)]
+    ],
+    [[180, 90], [-180, -90]]
+  );
 
   // Everything under the last tap, and where in it we are. One entry = an
   // ordinary pin tap; more than one = the ‹ › bar appears.
   let stack = $state([]);
   let stackAt = $state(0);
   let popup;
-  let openSite = () => {};
+  let dmap, dmgl;            // the map + maplibre namespace, handed over by SiteMap
+  let ready = $state(false); // the layer-visibility effects wait for the layers
 
   function step(delta) {
     stackAt = (stackAt + delta + stack.length) % stack.length;
     openSite(stack[stackAt]);
   }
 
-  let el;
-  let map;
-  let geolocate;
-  let cone; // heading cone (created after load, in onMount)
-  // map is a plain variable, so the effects below need one reactive signal
-  // telling them the async MapLibre setup has finished.
-  let ready = $state(false);
-
-  onMount(async () => {
-    // ?tickets=1 — arriving from "where to buy?": counters on, sites hidden
-    if (new URLSearchParams(location.search).get('tickets') === '1') showTickets = boothsOnly = true;
-
-    const maplibregl = await loadMap(base);
-
-    map = new maplibregl.Map({
-      container: el,
-      // ponytail: basemap labels are baked at the language the page loaded in —
-      // restyling mid-session would drop our own layers. Pin labels follow t().
-      style: hoianStyle(location.origin + base, i18n.lang, theme.mode === 'dark'),
-      center: [108.3275, 15.8772],
-      zoom: 16,
-      bearing: BEARING,
-      minZoom: 14,
-      maxZoom: 19, // the extract stops at z15; MapLibre overzooms vector cleanly
-      maxBounds: BOUNDS, // outside the archive there is nothing to draw
-      attributionControl: false // re-added top-right; the card sheet covers the default corner
+  // Paper-label popup for a site; the internal link goes through the router (base path).
+  function openSite(d) {
+    popup?.remove();
+    popup = new dmgl.Popup({ offset: [0, -24], closeButton: false, maxWidth: '260px' })
+      .setLngLat([d.lng, d.lat]).setHTML(popupHtml(d)).addTo(dmap);
+    popup.getElement()?.querySelector('[data-go]')?.addEventListener('click', (ev) => {
+      ev.preventDefault();
+      goto(`${base}/destinations/${d.id}`);
     });
+    selected = d.id;
+    document.getElementById(`card-${d.id}`)?.scrollIntoView({ behavior: 'smooth', block: 'nearest', inline: 'center' });
+  }
 
-    // Attribution collapses to its ⓘ puck: legally it only has to be reachable,
-    // and the expanded credit line eats the whole top edge on a phone.
-    // top-left: the control stack (MapControls) owns top-right now
-    map.addControl(new maplibregl.AttributionControl({ compact: true }), 'top-left');
-    map.once('idle', () =>
-      map
-        .getContainer()
-        .querySelector('.maplibregl-ctrl-attrib')
-        ?.classList.remove('maplibregl-compact-show')
-    );
-    // ponytail: no NavigationControl — pinch zooms, a two-finger twist rotates
-    // (the 🧭 chip resets north), and the bottom edge is needed for the ‹ ›
-    // pager. Add it back if testers ask for +/−.
-    map.on('rotate', () => {
-      const b = ((map.getBearing() % 360) + 360) % 360;
-      rotated = b > 1 && b < 359; // twisted off north -> reveal the reset chip
-    });
-
-    // MapLibre's own geolocate control already does watch + accuracy circle +
-    // permission errors, so the 📍 chip just triggers it and reads the fix back
-    // out. Its button is hidden in CSS — the chip is the affordance.
-    geolocate = new maplibregl.GeolocateControl({
-      positionOptions: { enableHighAccuracy: true, maximumAge: 5000, timeout: 15000 },
-      trackUserLocation: true,
-      showAccuracyCircle: false,
-      fitBoundsOptions: { maxZoom: 17 }
-    });
-    map.addControl(geolocate, 'bottom-right');
-    geolocate.on('geolocate', (e) => {
-      locating = false;
-      geoErr = '';
-      me = {
-        lat: e.coords.latitude,
-        lng: e.coords.longitude,
-        accuracy: Math.round(e.coords.accuracy)
-      };
-      recordCell(me);
-      cone?.onFix(e.coords);
-    });
-    geolocate.on('error', (e) => {
-      locating = false;
-      geoErr = e?.code === 1 ? s('geo_denied') : s('geo_fail');
-    });
-    geolocate.on('trackuserlocationend', () => {
-      me = null;
-      locating = false;
-      cone?.hide();
-    });
-
-    await new Promise((done) => map.on('load', done));
-    cone = createHeadingCone(maplibregl, map);
-
-    // Pins are generated here, not shipped: one image per category (+ a gold spotlight
-    // variant), drawn from the app's CSS vars. Shared with the builder map.
-    const { gold, ink } = addCategoryPins(map, theme.mode === 'dark');
-
-    hidePois(map);
-
-    // Ticket counters: small neutral dots, off by default so they don't crowd the
-    // pins. ponytail: a circle layer, not an image — the popup names the counter.
+  // Extra layers + map-level handlers SiteMap doesn't own: the ticket-counter dots, the
+  // landmark drawings, tap-empty-paper-to-clear, and the booth popup. Runs before the
+  // sites layer, so booths + landmarks sit under the pins.
+  function onInit(map, mgl, { gold, ink }) {
+    dmap = map;
+    dmgl = mgl;
     map.addSource('booths', {
       type: 'geojson',
       data: {
@@ -236,96 +162,12 @@
       }
     });
     map.addLayer({
-      id: 'booths',
-      type: 'circle',
-      source: 'booths',
+      id: 'booths', type: 'circle', source: 'booths',
       layout: { visibility: 'none' },
-      paint: {
-        'circle-radius': 6,
-        'circle-color': '#fffaf3',
-        'circle-stroke-width': 2,
-        'circle-stroke-color': gold
-      }
+      paint: { 'circle-radius': 6, 'circle-color': '#fffaf3', 'circle-stroke-width': 2, 'circle-stroke-color': gold }
     });
+    addLandmarks(map, byId, { ink, fill: '#fdf6e8' });
 
-    await addLandmarks(map, byId, { ink, fill: '#fdf6e8' });
-
-    map.addSource('sites', { type: 'geojson', data: siteData });
-    map.addLayer({
-      id: 'sites',
-      type: 'symbol',
-      source: 'sites',
-      layout: {
-        'icon-image': ['get', 'icon'],
-        'icon-allow-overlap': true,
-        // pins grow into the town as you zoom, and the tapped one lifts out of it.
-        // A "zoom" expression has to be the top-level input, hence the per-stop case.
-        'icon-size': [
-          'interpolate',
-          ['linear'],
-          ['zoom'],
-          14, ['case', ['==', ['get', 'sel'], true], 0.82, 0.6],
-          16, ['case', ['==', ['get', 'sel'], true], 1.15, 0.85],
-          18.5, ['case', ['==', ['get', 'sel'], true], 1.4, 1.05]
-        ],
-        'icon-ignore-placement': true, // every site must show; only labels may collide
-        'text-field': ['get', 'label'],
-        'text-font': ['Noto Sans Medium'],
-        'text-size': 11,
-        'text-anchor': 'top',
-        'text-offset': [0, 1.5], // clears the mark, which anchors at its centre
-        'text-optional': true,
-        'text-max-width': 8
-      },
-      paint: {
-        'icon-opacity': ['coalesce', ['get', 'dim'], 1],
-        'text-color': '#1c1917',
-        'text-halo-color': '#fff7ef',
-        'text-halo-width': 1.6,
-        // names only once the alleys are legible, otherwise it is a wall of text
-        'text-opacity': ['interpolate', ['linear'], ['zoom'], 16.2, 0, 16.8, 1]
-      }
-    });
-
-    // Sites in the old town sit metres apart — Trần Phú alone stacks several
-    // behind one mark. A tap therefore collects everything under the finger, not
-    // just the top feature, and the ‹ › bar pages through them in place. No
-    // zooming, no expanding cluster: the pin stays where the visitor put it.
-    openSite = (d) => {
-      popup?.remove();
-      popup = new maplibregl.Popup({ offset: [0, -24], closeButton: false, maxWidth: '260px' })
-        .setLngLat([d.lng, d.lat])
-        .setHTML(popupHtml(d))
-        .addTo(map);
-      // internal link must go through the router (and keep the base path)
-      popup.getElement()?.querySelector('[data-go]')?.addEventListener('click', (ev) => {
-        ev.preventDefault();
-        goto(`${base}/destinations/${d.id}`);
-      });
-      selected = d.id;
-      document
-        .getElementById(`card-${d.id}`)
-        ?.scrollIntoView({ behavior: 'smooth', block: 'nearest', inline: 'center' });
-    };
-
-    map.on('click', 'sites', (e) => {
-      const { x, y } = e.point;
-      const R = 26; // finger-sized: everything this close is "the same spot"
-      const near = map.queryRenderedFeatures(
-        [
-          [x - R, y - R],
-          [x + R, y + R]
-        ],
-        { layers: ['sites'] }
-      );
-      const tapped = e.features[0].properties.id;
-      const ids = [tapped, ...new Set(near.map((f) => f.properties.id))];
-      stack = [...new Set(ids)].map((id) => byId.get(id)).filter(Boolean);
-      stackAt = 0;
-      openSite(stack[0]);
-    });
-
-    // tap the paper: drop the selection and the bar with it
     map.on('click', (e) => {
       if (map.queryRenderedFeatures(e.point, { layers: ['sites', 'booths'] }).length) return;
       popup?.remove();
@@ -334,71 +176,32 @@
       selected = null;
     });
     map.on('click', 'booths', (e) => {
-      new maplibregl.Popup({ offset: 10, closeButton: false })
-        .setLngLat(e.lngLat)
-        .setHTML(e.features[0].properties.html)
-        .addTo(map);
+      new mgl.Popup({ offset: 10, closeButton: false }).setLngLat(e.lngLat).setHTML(e.features[0].properties.html).addTo(map);
     });
-    for (const id of ['sites', 'booths']) {
-      map.on('mouseenter', id, () => (map.getCanvas().style.cursor = 'pointer'));
-      map.on('mouseleave', id, () => (map.getCanvas().style.cursor = ''));
-    }
-
-    map.fitBounds(
-      destinations.reduce(
-        (b, d) => [
-          [Math.min(b[0][0], d.lng), Math.min(b[0][1], d.lat)],
-          [Math.max(b[1][0], d.lng), Math.max(b[1][1], d.lat)]
-        ],
-        [
-          [180, 90],
-          [-180, -90]
-        ]
-      ),
-      { padding: 40, bearing: BEARING, animate: false }
-    );
-    ready = true;
-  });
-
-  // map.remove() also removes the geolocate control, which clears its watch —
-  // a watch that outlives the route is a battery leak. (An async onMount cannot
-  // return a cleanup, so the teardown is explicit.)
-  onDestroy(() => {
-    cone?.destroy();
-    map?.remove();
-  });
-
-  function toggleLocate() {
-    if (!ready) return;
-    // trigger() toggles: a second tap on an active lock switches tracking off.
-    if (!me && !locating) {
-      locating = true;
-      geoErr = '';
-    }
-    geolocate.trigger(); // location first — the essential prompt
-    cone?.enableCompass(); // then compass (iOS: a 2nd prompt; Android: silent). Still
-    // inside this tap, the user gesture iOS requires for the motion prompt.
+    map.on('mouseenter', 'booths', () => (map.getCanvas().style.cursor = 'pointer'));
+    map.on('mouseleave', 'booths', () => (map.getCanvas().style.cursor = ''));
   }
 
-  // The map opens north-up, but a two-finger twist can leave it at any angle —
-  // this snaps the bearing back to north.
-  function resetNorth() {
-    map?.easeTo({ bearing: BEARING, duration: 400 });
+  // A tap gathers every pin within a finger's width -> the ‹ › pager steps them in place.
+  function onSite(id, feature, e, map) {
+    const { x, y } = e.point;
+    const R = 26;
+    const near = map.queryRenderedFeatures([[x - R, y - R], [x + R, y + R]], { layers: ['sites'] });
+    const ids = [id, ...new Set(near.map((f) => f.properties.id))];
+    stack = [...new Set(ids)].map((i) => byId.get(i)).filter(Boolean);
+    stackAt = 0;
+    openSite(stack[0]);
   }
 
-  // Filters, spotlight and opening hours all land as one setData.
-  $effect(() => {
-    if (ready) map.getSource('sites').setData(siteData);
+  onMount(() => {
+    // ?tickets=1 — arriving from "where to buy?": counters on, sites hidden
+    if (new URLSearchParams(location.search).get('tickets') === '1') showTickets = boothsOnly = true;
   });
 
-  $effect(() => {
-    if (ready) map.setLayoutProperty('booths', 'visibility', showTickets ? 'visible' : 'none');
-  });
-
-  // booths-only mode hides the site pins (booths keep their own toggle above)
-  $effect(() => {
-    if (ready) map.setLayoutProperty('sites', 'visibility', boothsOnly ? 'none' : 'visible');
-  });
+  // SiteMap pushes the sites *data*; these log footfall + toggle layer visibility.
+  $effect(() => { if (me) recordCell(me); });
+  $effect(() => { if (ready) dmap.setLayoutProperty('booths', 'visibility', showTickets ? 'visible' : 'none'); });
+  $effect(() => { if (ready) dmap.setLayoutProperty('sites', 'visibility', boothsOnly ? 'none' : 'visible'); });
 
 </script>
 
@@ -417,10 +220,36 @@
   {/snippet}
 
   <div class="wrap">
-    <div bind:this={el} class="map"></div>
-    {#if boothsOnly || view === 'map'}
-      <MapControls located={!!me} {locating} {rotated} top="calc(env(safe-area-inset-top) + 56px)" onlocate={toggleLocate} onnorth={resetNorth} />
-    {/if}
+    <SiteMap
+      {siteData}
+      bind:me
+      bind:geoErr
+      fitBounds={allBounds}
+      fitPadding={40}
+      controls={boothsOnly || view === 'map'}
+      controlsTop="calc(env(safe-area-inset-top) + 56px)"
+      attributionPos="top-left"
+      sitesLayout={{
+        'icon-size': ['interpolate', ['linear'], ['zoom'],
+          14, ['case', ['==', ['get', 'sel'], true], 0.82, 0.6],
+          16, ['case', ['==', ['get', 'sel'], true], 1.15, 0.85],
+          18.5, ['case', ['==', ['get', 'sel'], true], 1.4, 1.05]],
+        'text-field': ['get', 'label'],
+        'text-size': 11,
+        'text-anchor': 'top',
+        'text-offset': [0, 1.5],
+        'text-max-width': 8
+      }}
+      sitesPaint={{
+        'text-color': '#1c1917',
+        'text-halo-color': '#fff7ef',
+        'text-halo-width': 1.6,
+        'text-opacity': ['interpolate', ['linear'], ['zoom'], 16.2, 0, 16.8, 1]
+      }}
+      oninit={onInit}
+      onready={() => (ready = true)}
+      onsiteclick={onSite}
+    />
     {#if !boothsOnly}
       <div class="view-fab"><ViewToggle bind:mode={view} /></div>
     {/if}
@@ -488,7 +317,6 @@
      gets that strip of height back. */
   .explore { flex: 1; display: flex; flex-direction: column; min-height: 0; }
   .wrap { flex: 1; min-height: 0; position: relative; }
-  .map { position: absolute; inset: 0; background: var(--paper); }
 
   /* list|map toggle, floating top-centre over the map */
   .view-fab {
