@@ -7,6 +7,7 @@
   import StaffConfirm from '$lib/components/StaffConfirm.svelte';
   import NearestBooth from '$lib/components/NearestBooth.svelte';
   import StudyToggle from '$lib/components/StudyToggle.svelte';
+  import InstallApp from '$lib/components/InstallApp.svelte';
   import MatCua from '$lib/components/MatCua.svelte';
   import {
     passport,
@@ -225,6 +226,10 @@
     <summary>{s('study_note')}</summary>
     <div class="study-fold"><StudyToggle /></div>
   </details>
+
+  <!-- install to home screen: the passport is where the visitor's stamps + recovery
+       code live, so "keep it offline" belongs here (shows only when installable). -->
+  <InstallApp />
 </div>
 
 <style>

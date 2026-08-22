@@ -7,6 +7,7 @@
   import tickets from '$lib/data/ticket-points.json';
   import Card from '$lib/components/Card.svelte';
   import MapControls from '$lib/components/MapControls.svelte';
+  import ViewToggle from '$lib/components/ViewToggle.svelte';
   import { createHeadingCone } from '$lib/heading.js';
   import {
     BOUNDS,
@@ -29,6 +30,7 @@
   import { recordCell } from '$lib/research.svelte.js';
 
   let active = $state('all');
+  let view = $state('map'); // 'map' | 'list' — Explore offers both, like the picker
   let showTickets = $state(false);
   // "where to buy?" opens the map as a pure counter-finder: booths only, the 25
   // site pins + their filters/carousel hidden until the visitor asks for them.
@@ -403,76 +405,80 @@
 <div class="explore">
   <h1 class="sr-only">{s('explore')}</h1>
 
+  <!-- category filter, shared by the map sheet and the list view -->
+  {#snippet catChips()}
+    <button class="chip" aria-pressed={active === 'all'} onclick={() => (active = 'all')}>{s('all')}</button>
+    {#each categories as c}
+      <button class="chip cat" style="--c: var(--c-{c.id})" aria-pressed={active === c.id} onclick={() => (active = c.id)}>
+        <i class="sw" aria-hidden="true"></i>{t(c.label)}
+      </button>
+    {/each}
+    <button class="chip" aria-pressed={openOnly} onclick={() => (openOnly = !openOnly)}>🕑 {s('filter_open')}</button>
+  {/snippet}
+
   <div class="wrap">
     <div bind:this={el} class="map"></div>
-    <!-- clear the fixed theme toggle (top-right, in the layout) -->
-    <MapControls located={!!me} {locating} {rotated} top="calc(env(safe-area-inset-top) + 56px)" onlocate={toggleLocate} onnorth={resetNorth} />
-
-  <!-- bottom sheet floats over the map edge: filters, counter bar, site cards.
-       Translucent so the plan reads through it — the map is the screen now. -->
-  <div class="sheet">
-  <span class="handle" aria-hidden="true"></span>
-
-  <!-- several sites under one tap: page through them without moving the map -->
-  {#if stack.length > 1}
-    <div class="stack">
-      <button class="stack-nav" onclick={() => step(-1)} aria-label={s('prev_site')}>‹</button>
-      <span class="stack-label">
-        <b>{stackAt + 1}</b> / {stack.length} · {t(stack[stackAt].name)}
-      </span>
-      <button class="stack-nav" onclick={() => step(1)} aria-label={s('next_site')}>›</button>
-    </div>
-  {/if}
-
-  <div class="chips">
-    {#if boothsOnly}
-      <!-- counter-finder: no site filters, one way back to the full map -->
-      <button class="chip" onclick={() => (boothsOnly = false)}>🗺️ {s('show_all_sites')}</button>
-    {:else}
-      <button class="chip" aria-pressed={active === 'all'} onclick={() => (active = 'all')}>{s('all')}</button>
-      <!-- the filter row is also the legend: each chip carries its pins' colour -->
-      {#each categories as c}
-        <button
-          class="chip cat"
-          style="--c: var(--c-{c.id})"
-          aria-pressed={active === c.id}
-          onclick={() => (active = c.id)}
-        >
-          <i class="sw" aria-hidden="true"></i>{t(c.label)}
-        </button>
-      {/each}
-      <button class="chip" aria-pressed={openOnly} onclick={() => (openOnly = !openOnly)}>
-        🕑 {s('filter_open')}
-      </button>
-      <button class="chip" aria-pressed={showTickets} onclick={() => (showTickets = !showTickets)}>
-        🎟️ {s('ticket_points')}
-      </button>
+    {#if boothsOnly || view === 'map'}
+      <MapControls located={!!me} {locating} {rotated} top="calc(env(safe-area-inset-top) + 56px)" onlocate={toggleLocate} onnorth={resetNorth} />
     {/if}
-  </div>
+    {#if !boothsOnly}
+      <div class="view-fab"><ViewToggle bind:mode={view} /></div>
+    {/if}
 
-  {#if geoErr}
-    <p class="geo-err"><small>{geoErr}</small></p>
-  {:else if booth}
-    <!-- Once we know where the visitor is, the counter is the one thing the map
-         cannot answer by itself: it is where paper vouchers and staff live. -->
-    <p class="booth-bar">
-      <small>{s('booth_nearest', booth.point.id, formatDistance(booth.meters, i18n.lang))}</small>
-      <a href={mapsUrl(booth.point)} target="_blank" rel="noopener">{s('booth_dir')}</a>
-    </p>
-  {/if}
+    {#if !boothsOnly && view === 'list'}
+      <!-- list view: the same filtered sites as full-width cards; map stays mounted behind -->
+      <div class="listview">
+        <div class="chips">{@render catChips()}</div>
+        <div class="vlist">
+          {#each shown as dest}
+            <Card {dest} mark active={selected === dest.id} />
+          {/each}
+          {#if shown.length === 0}<p class="muted empty">{s('no_sites')}</p>{/if}
+        </div>
+      </div>
+    {/if}
 
+    {#if boothsOnly || view === 'map'}
+      <!-- bottom sheet floats over the map edge: filters, counter bar, site cards. -->
+      <div class="sheet">
+        <span class="handle" aria-hidden="true"></span>
 
-  {#if !boothsOnly}
-    <div class="carousel">
-      {#each shown as dest}
-        <Card {dest} mark active={selected === dest.id} />
-      {/each}
-      {#if shown.length === 0}
-        <p class="muted empty">{s('no_sites')}</p>
-      {/if}
-    </div>
-  {/if}
-  </div>
+        {#if stack.length > 1}
+          <div class="stack">
+            <button class="stack-nav" onclick={() => step(-1)} aria-label={s('prev_site')}>‹</button>
+            <span class="stack-label"><b>{stackAt + 1}</b> / {stack.length} · {t(stack[stackAt].name)}</span>
+            <button class="stack-nav" onclick={() => step(1)} aria-label={s('next_site')}>›</button>
+          </div>
+        {/if}
+
+        <div class="chips">
+          {#if boothsOnly}
+            <button class="chip" onclick={() => (boothsOnly = false)}>🗺️ {s('show_all_sites')}</button>
+          {:else}
+            {@render catChips()}
+            <button class="chip" aria-pressed={showTickets} onclick={() => (showTickets = !showTickets)}>🎟️ {s('ticket_points')}</button>
+          {/if}
+        </div>
+
+        {#if geoErr}
+          <p class="geo-err"><small>{geoErr}</small></p>
+        {:else if booth}
+          <p class="booth-bar">
+            <small>{s('booth_nearest', booth.point.id, formatDistance(booth.meters, i18n.lang))}</small>
+            <a href={mapsUrl(booth.point)} target="_blank" rel="noopener">{s('booth_dir')}</a>
+          </p>
+        {/if}
+
+        {#if !boothsOnly}
+          <div class="carousel">
+            {#each shown as dest}
+              <Card {dest} mark active={selected === dest.id} />
+            {/each}
+            {#if shown.length === 0}<p class="muted empty">{s('no_sites')}</p>{/if}
+          </div>
+        {/if}
+      </div>
+    {/if}
   </div>
 </div>
 
@@ -483,6 +489,23 @@
   .explore { flex: 1; display: flex; flex-direction: column; min-height: 0; }
   .wrap { flex: 1; min-height: 0; position: relative; }
   .map { position: absolute; inset: 0; background: var(--paper); }
+
+  /* list|map toggle, floating top-centre over the map */
+  .view-fab {
+    position: absolute; z-index: 620;
+    top: calc(env(safe-area-inset-top) + 14px); left: 50%; transform: translateX(-50%);
+    width: min(260px, 64%);
+    box-shadow: var(--shadow); border-radius: 999px;
+  }
+  /* list view: full-height panel over the (still-mounted) map */
+  .listview {
+    position: absolute; inset: 0; z-index: 610;
+    background: var(--bg); overflow-y: auto;
+    padding: calc(env(safe-area-inset-top) + 66px) 14px calc(90px + env(safe-area-inset-bottom));
+    display: flex; flex-direction: column; gap: 12px;
+  }
+  .listview .chips { flex: 0 0 auto; }
+  .vlist { display: flex; flex-direction: column; gap: 10px; }
 
   .sr-only {
     position: absolute; width: 1px; height: 1px;

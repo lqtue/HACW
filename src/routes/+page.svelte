@@ -7,6 +7,7 @@
   import event from '$lib/data/event.json';
   import TicketScan from '$lib/components/TicketScan.svelte';
   import BuilderMap from '$lib/components/BuilderMap.svelte';
+  import ViewToggle from '$lib/components/ViewToggle.svelte';
   import RouteMap from '$lib/components/RouteMap.svelte';
   import MatCua from '$lib/components/MatCua.svelte';
   import StudyToggle from '$lib/components/StudyToggle.svelte';
@@ -438,10 +439,7 @@
     </div>
 
     <!-- balance list vs map: pick a mode instead of scrolling past both -->
-    <div class="viewtabs" role="tablist" aria-label={s('view_mode')}>
-      <button class="vtab" class:on={viewMode === 'list'} role="tab" aria-selected={viewMode === 'list'} onclick={() => (viewMode = 'list')}>{s('view_list')}</button>
-      <button class="vtab" class:on={viewMode === 'map'} role="tab" aria-selected={viewMode === 'map'} onclick={() => (viewMode = 'map')}>{s('view_map')}</button>
-    </div>
+    <ViewToggle bind:mode={viewMode} />
 
     {#if onFree}
       <!-- free pool is large; category chips double as a legend -->
@@ -828,19 +826,6 @@
   }
   .add.on { background: var(--brand); border-color: var(--brand); color: #fff; }
 
-  /* list|map segmented control */
-  .viewtabs {
-    display: flex; gap: 4px; padding: 4px;
-    background: var(--surface); border: 1px solid var(--line); border-radius: 999px;
-    margin-bottom: 2px;
-  }
-  .vtab {
-    flex: 1; padding: 9px 12px; border: 0; border-radius: 999px;
-    background: none; color: var(--muted);
-    font-family: var(--font-body); font-weight: 700; font-size: 0.9rem; cursor: pointer;
-  }
-  .vtab.on { background: var(--brand); color: #fff; }
-  .vtab:focus-visible { outline: 2px solid var(--brand); outline-offset: 2px; }
   .mapwrap {
     height: 56vh; min-height: 320px;
     border: 1px solid var(--line); border-radius: var(--radius); overflow: hidden;

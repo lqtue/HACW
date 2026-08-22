@@ -3,6 +3,7 @@
   import PageShell from '$lib/components/PageShell.svelte';
   import StaffConfirm from '$lib/components/StaffConfirm.svelte';
   import RouteMap from '$lib/components/RouteMap.svelte';
+  import TourNav from '$lib/components/TourNav.svelte';
   import NearestBooth from '$lib/components/NearestBooth.svelte';
   import { isSetComplete, isRedeemed, redeemSet } from '$lib/passport.svelte.js';
   import { POINTS } from '$lib/score.js';
@@ -16,6 +17,7 @@
 
   const complete = $derived(isSetComplete(tour.stops));
   const redeemed = $derived(isRedeemed(tour.id));
+  let navOpen = $state(false);
 </script>
 
 <PageShell title={t(tour.title)} sub={t(tour.theme)}>
@@ -23,6 +25,7 @@
   <p class="muted walkline">
     <small>{s('stops', data.stops.length)} · {s('walk', formatDistance(walk.meters, i18n.lang), walk.minutes)}</small>
   </p>
+  <button class="btn nav-start" onclick={() => (navOpen = true)}>🧭 {s('nav_start')}</button>
   <p>{t(tour.description)}</p>
 
   {#if redeemed}
@@ -42,6 +45,10 @@
   {/each}
 </PageShell>
 
+{#if navOpen}
+  <TourNav stops={data.stops} title={tour.title} onclose={() => (navOpen = false)} />
+{/if}
+
 <style>
   .redeem {
     background: color-mix(in srgb, var(--gold) 14%, var(--surface));
@@ -54,4 +61,5 @@
   }
   .redeem .done { margin: 0; font-weight: 600; }
   .walkline { margin: 8px 0 0; }
+  .nav-start { width: 100%; margin: 12px 0 4px; }
 </style>
