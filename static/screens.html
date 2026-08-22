@@ -1,0 +1,182 @@
+<!doctype html>
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>HACW — screens</title>
+<!--
+  Visual board of every screen, like Figma. Dev-only tool.
+  Open http://localhost:5173/screens.html while `npm run dev` runs.
+  Screen list comes from static/screens.json (node scripts/gen-screens.mjs).
+  "Edit text" flips designMode on every frame — click any text and type.
+  "Show quizzes" clicks the 🧪 button in each destination frame to reveal its quiz.
+  "Save to JSON" downloads board-edits.json (the edited destination/tour/quiz text)
+  to send to the maintainer, who applies it with `node scripts/apply-edits.mjs`.
+  No backend — works on the dev server, a tunnel, or a static deploy.
+  Same-origin (served by the dev server) is what lets us reach into the frames;
+  vite.config.js devFrames() relaxes frame-ancestors in dev only. Prod stays 'none'.
+  ponytail: unsaved edits are browser-local; Save is the only way out. Reload = reset.
+  ponytail: the quiz draws a random 3 of the bank and hides answers — to edit the
+    FULL question bank + answers, use /organizer (admin) → Destinations → a row's ⌄.
+-->
+<style>
+  body { margin: 0; background: #111; color: #eee; font: 14px/1.4 system-ui, sans-serif; }
+  header {
+    position: sticky; top: 0; z-index: 10; display: flex; gap: 14px; align-items: center;
+    flex-wrap: wrap; padding: 14px 24px; background: #000d; backdrop-filter: blur(8px);
+    border-bottom: 1px solid #333;
+  }
+  h1 { font-size: 16px; font-weight: 800; margin: 0; }
+  h2 { font-size: 14px; font-weight: 800; color: #ff8a7d; margin: 40px 40px 0; text-transform: uppercase; letter-spacing: .04em; }
+  .note { color: #888; font-size: 12px; }
+  button {
+    font: inherit; font-weight: 700; color: #111; background: #eee; border: 0;
+    padding: 8px 14px; border-radius: 8px; cursor: pointer;
+  }
+  button.on { background: #ff5a4d; color: #fff; }
+  .board { display: flex; flex-wrap: wrap; gap: 40px; padding: 24px 40px 40px; align-items: flex-start; }
+  figure { margin: 0; }
+  .phone {
+    width: 390px; height: 844px; border-radius: 32px; overflow: hidden;
+    background: #fff; box-shadow: 0 12px 48px #000a; border: 4px solid #222;
+  }
+  iframe { width: 390px; height: 844px; border: 0; display: block; }
+  figcaption { padding: 12px 4px; display: flex; flex-direction: column; }
+  figcaption b { font-size: 14px; }
+  figcaption span { color: #888; font-size: 12px; }
+  body.editing .phone { outline: 2px dashed #ff5a4d; outline-offset: 6px; }
+</style>
+
+<header>
+  <h1>HACW — screens</h1>
+  <button id="edit">✎ Edit text</button>
+  <button id="quiz">🧪 Show quizzes</button>
+  <button id="save">💾 Save to JSON</button>
+  <span class="note" id="hint">Press “Edit text” to type over any text. Nothing is saved (reload resets).</span>
+</header>
+
+<div id="root"></div>
+
+<script>
+  let editing = false;
+  const frames = [];
+  const ORIG = new WeakMap(); // text node -> its original value (the save baseline)
+
+  const apply = (f) => {
+    try { f.contentDocument.designMode = editing ? 'on' : 'off'; } catch (e) {}
+  };
+  // record the baseline for every text node not seen yet (call before edits and
+  // again after the DOM grows, e.g. once a quiz is revealed)
+  const capture = (f) => {
+    try {
+      const w = f.contentDocument.createTreeWalker(f.contentDocument.body, NodeFilter.SHOW_TEXT);
+      for (let n = w.nextNode(); n; n = w.nextNode()) if (!ORIG.has(n)) ORIG.set(n, n.nodeValue);
+    } catch (e) {}
+  };
+  // collect {original, edited} for changed text nodes in a savable frame
+  const diffFrame = (f) => {
+    const out = [];
+    try {
+      const w = f.contentDocument.createTreeWalker(f.contentDocument.body, NodeFilter.SHOW_TEXT);
+      for (let n = w.nextNode(); n; n = w.nextNode()) {
+        const orig = ORIG.get(n);
+        if (orig == null) continue;
+        const o = orig.trim(), e = (n.nodeValue || '').trim();
+        if (o && o !== e) out.push({ file: f.dataset.file, id: f.dataset.id, original: o, edited: e });
+      }
+    } catch (e) {}
+    return out;
+  };
+  // click the 🧪 simulate button inside a destination frame to render its quiz
+  const showQuiz = (f) => {
+    try {
+      const btn = [...f.contentDocument.querySelectorAll('button')]
+        .find((b) => b.textContent.includes('🧪'));
+      if (btn) btn.click();
+    } catch (e) {}
+  };
+
+  // this file is served at <base>/screens.html, so strip that to recover the
+  // deploy base path ('' at the domain root, '/HACW' under a subpath preview).
+  const BASE = location.pathname.replace(/\/screens\.html$/, '').replace(/\/$/, '');
+  // staff code comes from THIS page's url (screens.html?staff=CODE), never from
+  // screens.json — so no code is ever shipped. Only quiz frames get it, to unlock
+  // the 🧪 simulate button. No code → quizzes just won't reveal (harmless).
+  const STAFF = new URLSearchParams(location.search).get('staff') || '';
+  const srcFor = (sc) => {
+    let p = BASE + sc.path;
+    if (sc.quiz && STAFF) p += (p.includes('?') ? '&' : '?') + 'staff=' + encodeURIComponent(STAFF);
+    return p;
+  };
+
+  (async () => {
+    const groups = await fetch('screens.json').then((r) => r.json());
+    const root = document.getElementById('root');
+    for (const g of groups) {
+      const h = document.createElement('h2');
+      h.textContent = g.title;
+      root.appendChild(h);
+      const board = document.createElement('div');
+      board.className = 'board';
+      root.appendChild(board);
+      for (const sc of g.screens) {
+        const fig = document.createElement('figure');
+        fig.innerHTML =
+          `<div class="phone"><iframe src="${srcFor(sc)}" loading="lazy"></iframe></div>` +
+          `<figcaption><b>${sc.label}</b><span>${sc.path}</span></figcaption>`;
+        board.appendChild(fig);
+        const f = fig.querySelector('iframe');
+        f.dataset.quiz = sc.quiz ? '1' : '';
+        // savable frames: /destinations/<id> and /tours/<id>
+        const t = sc.path.match(/^\/(destinations|tours)\/([^?]+)/);
+        if (t) { f.dataset.file = t[1]; f.dataset.id = decodeURIComponent(t[2]); }
+        f.addEventListener('load', () => {
+          apply(f);
+          capture(f);
+          if (quizOn && f.dataset.quiz) setTimeout(() => { showQuiz(f); setTimeout(() => capture(f), 500); }, 300);
+        });
+        frames.push(f);
+      }
+    }
+  })();
+
+  const editBtn = document.getElementById('edit');
+  const hint = document.getElementById('hint');
+  editBtn.onclick = () => {
+    editing = !editing;
+    document.body.classList.toggle('editing', editing);
+    editBtn.classList.toggle('on', editing);
+    editBtn.textContent = editing ? '✓ Editing — click text' : '✎ Edit text';
+    hint.textContent = editing
+      ? 'Click any text and type. Edits are local only — screenshot to share, reload to reset.'
+      : 'Press “Edit text” to type over any text. Nothing is saved (reload resets).';
+    frames.forEach(apply);
+  };
+
+  let quizOn = false;
+  const quizBtn = document.getElementById('quiz');
+  quizBtn.onclick = () => {
+    quizOn = !quizOn;
+    quizBtn.classList.toggle('on', quizOn);
+    quizBtn.textContent = quizOn ? '🧪 Quizzes shown' : '🧪 Show quizzes';
+    if (quizOn) frames.filter((f) => f.dataset.quiz).forEach((f) => { showQuiz(f); setTimeout(() => capture(f), 500); });
+    // turning off: reload those frames back to the check-in screen
+    else frames.filter((f) => f.dataset.quiz).forEach((f) => (f.src = f.src));
+  };
+
+  const saveBtn = document.getElementById('save');
+  saveBtn.onclick = () => {
+    const edits = frames.filter((f) => f.dataset.file).flatMap(diffFrame);
+    if (!edits.length) {
+      hint.textContent = 'No content edits yet — only destination / tour / quiz text is saved (edit it, then Save).';
+      return;
+    }
+    // download an edits file to send back; no server needed, works on any host.
+    const blob = new Blob([JSON.stringify({ edits }, null, 2)], { type: 'application/json' });
+    const a = document.createElement('a');
+    a.href = URL.createObjectURL(blob);
+    a.download = 'board-edits.json';
+    a.click();
+    URL.revokeObjectURL(a.href);
+    const sites = new Set(edits.map((e) => `${e.file}/${e.id}`)).size;
+    hint.textContent = `Downloaded board-edits.json — ${edits.length} edit(s) across ${sites} record(s). Send it to the maintainer to apply.`;
+  };
+</script>

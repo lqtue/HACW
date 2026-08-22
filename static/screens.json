@@ -1,0 +1,184 @@
+[
+  {
+    "title": "Core",
+    "screens": [
+      {
+        "label": "Home",
+        "path": "/"
+      },
+      {
+        "label": "Explore (map)",
+        "path": "/destinations",
+        "map": true
+      },
+      {
+        "label": "Tours",
+        "path": "/tours"
+      },
+      {
+        "label": "Passport",
+        "path": "/passport"
+      }
+    ]
+  },
+  {
+    "title": "Destinations (25) — \"Show quizzes\" (needs screens.html?staff=CODE)",
+    "screens": [
+      {
+        "label": "Chùa Cầu (Cầu Nhật Bản)",
+        "path": "/destinations/chua-cau",
+        "quiz": true
+      },
+      {
+        "label": "Chùa Quan Âm",
+        "path": "/destinations/chua-quan-am",
+        "quiz": true
+      },
+      {
+        "label": "Miếu Quan Công",
+        "path": "/destinations/mieu-quan-cong",
+        "quiz": true
+      },
+      {
+        "label": "Bảo tàng Gốm sứ mậu dịch",
+        "path": "/destinations/bao-tang-gom-su-mau-dich",
+        "quiz": true
+      },
+      {
+        "label": "Bảo tàng Hội An",
+        "path": "/destinations/bao-tang-hoi-an",
+        "quiz": true
+      },
+      {
+        "label": "Bảo tàng Văn hóa Sa Huỳnh",
+        "path": "/destinations/bao-tang-sa-huynh",
+        "quiz": true
+      },
+      {
+        "label": "Bảo tàng Văn hóa dân gian",
+        "path": "/destinations/bao-tang-van-hoa-dan-gian",
+        "quiz": true
+      },
+      {
+        "label": "Bảo tàng nghề Y truyền thống",
+        "path": "/destinations/bao-tang-nghe-y",
+        "quiz": true
+      },
+      {
+        "label": "Bảo tàng Thổ sản",
+        "path": "/destinations/bao-tang-tho-san",
+        "quiz": true
+      },
+      {
+        "label": "Nhà trưng bày Văn hóa Nhật Bản",
+        "path": "/destinations/nha-trung-bay-nhat-ban",
+        "quiz": true
+      },
+      {
+        "label": "Nhà biểu diễn nghệ thuật cổ truyền Hội An",
+        "path": "/destinations/nha-bieu-dien-nghe-thuat",
+        "quiz": true
+      },
+      {
+        "label": "Nhà thờ tộc Trần",
+        "path": "/destinations/nha-tho-toc-tran",
+        "quiz": true
+      },
+      {
+        "label": "Nhà thờ tộc Nguyễn Tường",
+        "path": "/destinations/nha-tho-toc-nguyen-tuong",
+        "quiz": true
+      },
+      {
+        "label": "Nhà cổ Phùng Hưng",
+        "path": "/destinations/nha-co-phung-hung",
+        "quiz": true
+      },
+      {
+        "label": "Nhà cổ Quân Thắng",
+        "path": "/destinations/nha-co-quan-thang",
+        "quiz": true
+      },
+      {
+        "label": "Nhà cổ Đức An",
+        "path": "/destinations/nha-co-duc-an",
+        "quiz": true
+      },
+      {
+        "label": "Nhà cổ Tấn Ký",
+        "path": "/destinations/nha-co-tan-ky",
+        "quiz": true
+      },
+      {
+        "label": "Hội quán Quảng Triệu",
+        "path": "/destinations/hoi-quan-quang-trieu",
+        "quiz": true
+      },
+      {
+        "label": "Hội quán Phúc Kiến",
+        "path": "/destinations/hoi-quan-phuc-kien",
+        "quiz": true
+      },
+      {
+        "label": "Hội quán Hải Nam",
+        "path": "/destinations/hoi-quan-hai-nam",
+        "quiz": true
+      },
+      {
+        "label": "Hội quán Triều Châu",
+        "path": "/destinations/hoi-quan-trieu-chau",
+        "quiz": true
+      },
+      {
+        "label": "Đình Cẩm Phô",
+        "path": "/destinations/dinh-cam-pho",
+        "quiz": true
+      },
+      {
+        "label": "Tụy Tiên Đường Minh Hương",
+        "path": "/destinations/tuy-tien-duong-minh-huong",
+        "quiz": true
+      },
+      {
+        "label": "Đình Hội An",
+        "path": "/destinations/dinh-hoi-an",
+        "quiz": true
+      },
+      {
+        "label": "Điểm tham quan trình nghề Xí Mà",
+        "path": "/destinations/trinh-nghe-xi-ma",
+        "quiz": true
+      }
+    ]
+  },
+  {
+    "title": "Tours (5)",
+    "screens": [
+      {
+        "label": "Nhà cổ & nghề xưa",
+        "path": "/tours/nha-co-va-nghe-xua",
+        "map": true
+      },
+      {
+        "label": "Chùa Cầu & Cẩm Phô",
+        "path": "/tours/chua-cau-va-cam-pho",
+        "map": true
+      },
+      {
+        "label": "Kiến trúc phố cổ",
+        "path": "/tours/set-kien-truc",
+        "map": true
+      },
+      {
+        "label": "Nghề xưa & thủ công",
+        "path": "/tours/set-nghe-xua",
+        "map": true
+      },
+      {
+        "label": "Tín ngưỡng & cộng đồng",
+        "path": "/tours/set-cong-dong",
+        "map": true
+      }
+    ]
+  }
+]

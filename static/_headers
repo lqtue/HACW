@@ -1,8 +1,11 @@
 # Cloudflare Pages reads this from the build output root (static/ is copied there).
 # CSP lives in svelte.config.js (kit.csp) so it can hash the inline bootstrap; the
 # rest are the cheap, can't-break-anything headers.
+# X-Frame-Options is SAMEORIGIN (not DENY) so the /screens.html editing board can
+# frame the app's own pages. Cross-site framing is still blocked, so clickjacking
+# protection stands — only same-origin embedding is allowed.
 /*
   X-Content-Type-Options: nosniff
-  X-Frame-Options: DENY
+  X-Frame-Options: SAMEORIGIN
   Referrer-Policy: strict-origin-when-cross-origin
   Permissions-Policy: geolocation=(self), camera=(), microphone=(), interest-cohort=()

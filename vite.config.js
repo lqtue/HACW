@@ -94,6 +94,29 @@ function devApi() {
   };
 }
 
+// Dev-only: allow same-origin framing so /screens.html can embed the app routes
+// in a visual editable board. Prod CSP stays `frame-ancestors 'none'` (see
+// svelte.config.js) — this only rewrites the header on the dev server.
+// ponytail: dev tool; delete this + static/screens.html if the board goes away.
+function devFrames() {
+  return {
+    name: 'hacw-dev-frames',
+    apply: 'serve',
+    configureServer(server) {
+      server.middlewares.use((req, res, next) => {
+        const orig = res.setHeader.bind(res);
+        res.setHeader = (name, value) => {
+          if (String(name).toLowerCase() === 'content-security-policy' && typeof value === 'string') {
+            value = value.replace("frame-ancestors 'none'", "frame-ancestors 'self'");
+          }
+          return orig(name, value);
+        };
+        next();
+      });
+    }
+  };
+}
+
 export default defineConfig({
   // Let a phone reach the dev server through an HTTPS tunnel (cloudflared / ngrok)
   // for on-device GPS + compass testing — Vite otherwise 403s unknown Host headers.
@@ -105,6 +128,7 @@ export default defineConfig({
   optimizeDeps: { exclude: ['maplibre-gl'] },
   plugins: [
     devApi(),
+    devFrames(),
     sveltekit(),
     SvelteKitPWA({
       registerType: 'autoUpdate',
