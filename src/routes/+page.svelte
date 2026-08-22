@@ -8,6 +8,7 @@
   import TicketScan from '$lib/components/TicketScan.svelte';
   import BuilderMap from '$lib/components/BuilderMap.svelte';
   import ViewToggle from '$lib/components/ViewToggle.svelte';
+  import TourNav from '$lib/components/TourNav.svelte';
   import RouteMap from '$lib/components/RouteMap.svelte';
   import MatCua from '$lib/components/MatCua.svelte';
   import StudyToggle from '$lib/components/StudyToggle.svelte';
@@ -162,6 +163,7 @@
   let showAll = $state(false);
   // list (scan names/status) vs map (spatial pick) — one at a time, not stacked
   let viewMode = $state('list'); // 'list' | 'map'
+  let navOpen = $state(false); // plan done -> tour focus/follow map for the 5
 
   const currentGroup = $derived(groups[STEPS[stepIdx].cls]);
   const eligibleIds = $derived(currentGroup.map((d) => d.id));
@@ -342,7 +344,8 @@
     </ol>
 
     <p class="o-sub">{s('done_sub')}</p>
-    <a class="btn" href="{base}/destinations">{s('go_checkin')}</a>
+    <!-- open the tour focus/follow map for these 5 (route + your dot), not the full map -->
+    <button class="btn" onclick={() => (navOpen = true)}>{s('go_checkin')}</button>
     <button class="skip" onclick={editPlan}>{s('edit_plan')}</button>
   </section>
 {:else if mode === 'recommend'}
@@ -500,6 +503,10 @@
       <button class="btn done-cta" onclick={finish}>{s('build_done')} →</button>
     {/if}
   </div>
+{/if}
+
+{#if navOpen}
+  <TourNav stops={orderedPlan} title={s('route_label')} onclose={() => (navOpen = false)} />
 {/if}
 
 <style>

@@ -1,6 +1,7 @@
 <script>
   import { onMount, onDestroy } from 'svelte';
   import { base } from '$app/paths';
+  import { goto } from '$app/navigation';
   import destinations from '$lib/data/destinations.json';
   import { BOUNDS, addCategoryPins, hidePois, hoianStyle, loadMap } from '$lib/map-style.js';
   import { stitchRoute } from '$lib/route.js';
@@ -39,6 +40,7 @@
         type: 'Feature',
         geometry: { type: 'Point', coordinates: [d.lng, d.lat] },
         properties: {
+          id: d.id,
           icon: `pin-${d.category}${on ? '-spot' : ''}`,
           label: on ? String(numById[d.id]) : '',
           on,
@@ -134,6 +136,11 @@
         'text-halo-width': 2
       }
     });
+
+    // tap a pin -> its check-in page (the stops are why you're here)
+    map.on('click', 'sites', (e) => goto(`${base}/destinations/${e.features[0].properties.id}`));
+    map.on('mouseenter', 'sites', () => (map.getCanvas().style.cursor = 'pointer'));
+    map.on('mouseleave', 'sites', () => (map.getCanvas().style.cursor = ''));
 
     // this IS an explicit navigate action, so ask for location on entry (clear reason)
     geolocate.trigger();
