@@ -78,10 +78,10 @@
       "en": "Gift voucher (name TBD)"
     },
     "stops": [
-      "chua-cau",
-      "bao-tang-gom-su-mau-dich",
-      "nha-co-tan-ky",
       "nha-co-phung-hung",
+      "chua-cau",
+      "nha-co-tan-ky",
+      "bao-tang-gom-su-mau-dich",
       "hoi-quan-phuc-kien"
     ]
   },

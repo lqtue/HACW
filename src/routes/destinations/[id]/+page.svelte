@@ -139,7 +139,8 @@
   {#if spotlight && step !== 'done'}
     <span class="tag spot">⭐ {s('spotlight')} {s('earned', POINTS.spotlight)}</span>
   {/if}
-  {#if dest.short}<p class="lead">{t(dest.short)}</p>{/if}
+  <!-- dest.short is the map-popup snippet only; on the detail page it just
+       duplicated the intro below, so it's not rendered here. -->
   <p>{t(dest.description)}</p>
   {#if dest.highlights?.length}
     <div class="highlights">

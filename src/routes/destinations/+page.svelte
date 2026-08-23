@@ -74,6 +74,7 @@
           <strong>${esc(t(d.name))}</strong>
         </span>
       </div>
+      ${d.short ? `<p class="pop-snip">${esc(t(d.short))}</p>` : ''}
       <dl class="pop-meta">
         <dt>${s('hours_label')}</dt>
         <dd>${esc(t(d.hours))}${open ? ` <em class="${open.status}">${open.text}</em>` : ''}</dd>
@@ -568,6 +569,12 @@
   }
 
   /* facts as a two-column index: hairline keys, values in ink */
+  :global(.pop .pop-snip) {
+    margin: 8px 0 0;
+    font-size: 0.82rem;
+    line-height: 1.35;
+    color: var(--brand-dark);
+  }
   :global(.pop .pop-meta) {
     display: grid;
     grid-template-columns: auto 1fr;
