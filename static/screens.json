@@ -21,10 +21,6 @@
         "map": true
       },
       {
-        "label": "Home",
-        "path": "/"
-      },
-      {
         "label": "Explore (map)",
         "path": "/destinations",
         "map": true
