@@ -19,6 +19,10 @@ const groups = [
     // the 🧪 quiz reveal for maintainers; nothing secret is stored here.
     title: 'Core',
     screens: [
+      { label: 'Welcome (lang)', path: '/?step=welcome' },
+      { label: 'Scan ticket', path: '/?step=scan' },
+      { label: 'Gợi ý (suggested sets)', path: '/?step=recommend', map: true },
+      { label: 'Pick my own', path: '/?step=manual', map: true },
       { label: 'Home', path: '/' },
       { label: 'Explore (map)', path: '/destinations', map: true },
       { label: 'Tours', path: '/tours' },

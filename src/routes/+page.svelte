@@ -37,7 +37,19 @@
   const ticketSets = tours.filter((tr) => tr.ticket);
 
   // ---- onboarding: welcome -> scan -> build -> done ----
-  let step = $state(plan.onboarded ? 'build' : 'welcome');
+  // ?step=welcome|scan|recommend|manual|done forces a screen regardless of the
+  // onboarded/plan flags, so the /screens board (and testers) can open each one
+  // directly — otherwise they're internal state, unreachable once localStorage
+  // has onboarded:true. recommend/manual map to build + the two build modes.
+  const forced =
+    (typeof location !== 'undefined' &&
+      /^(welcome|scan|recommend|manual|done)$/.exec(
+        new URLSearchParams(location.search).get('step') || ''
+      )?.[0]) ||
+    '';
+  let step = $state(
+    /^(welcome|scan|done)$/.test(forced) ? forced : forced ? 'build' : plan.onboarded ? 'build' : 'welcome'
+  );
 
   // The welcome screen's greetings ARE the language picker. Official locales are
   // vi/en (other languages ride the browser's translate — see CLAUDE.md), so those
@@ -63,6 +75,9 @@
 
   onMount(() => {
     if (step === 'welcome') track('welcome');
+    // board preview (?step=recommend): expand the top set so the frame shows its
+    // map + stops, not just collapsed titles.
+    if (forced === 'recommend' && recommended.length) openSet = recommended[0].id;
   });
 
   // Record the language signal for the nationality study (see counts.js): the
@@ -201,7 +216,9 @@
 
 
   // recommend the prebuilt sets first; manual builder is opt-in behind "pick my own"
-  let mode = $state(plan.set.length ? 'manual' : 'recommend');
+  let mode = $state(
+    forced === 'recommend' || forced === 'manual' ? forced : plan.set.length ? 'manual' : 'recommend'
+  );
   let openSet = $state(null); // single-open accordion; one RouteMap (WebGL) alive at a time
   const ctx = () => ({ weather: weather.now, now: new Date(), counts: stats.counts });
   const recommended = $derived(
