@@ -1,6 +1,13 @@
 import assert from 'node:assert';
 import { readFileSync } from 'node:fs';
-import { distanceMeters, nearest, geohash, geohashDecode } from './geo.js';
+import { distanceMeters, nearest, geohash, geohashDecode, bearing } from './geo.js';
+
+// --- bearing(): the /go "walk this way" arrow ---
+const o = { lat: 15.877, lng: 108.327 };
+assert.ok(Math.abs(bearing(o, { lat: 15.887, lng: 108.327 }) - 0) < 1, 'due north ≈ 0°');
+assert.ok(Math.abs(bearing(o, { lat: 15.877, lng: 108.337 }) - 90) < 1, 'due east ≈ 90°');
+assert.ok(Math.abs(bearing(o, { lat: 15.867, lng: 108.327 }) - 180) < 1, 'due south ≈ 180°');
+assert.ok(Math.abs(bearing(o, { lat: 15.877, lng: 108.317 }) - 270) < 1, 'due west ≈ 270°');
 
 // Same point -> 0 m
 assert.equal(Math.round(distanceMeters({ lat: 15.877, lng: 108.327 }, { lat: 15.877, lng: 108.327 })), 0);

@@ -1,7 +1,7 @@
 import { sveltekit } from '@sveltejs/kit/vite';
 import { SvelteKitPWA } from '@vite-pwa/sveltekit';
 import { defineConfig } from 'vite';
-import { readFileSync } from 'node:fs';
+import { readFileSync, existsSync } from 'node:fs';
 import { tally, totals } from './src/lib/counts.js';
 import { flagPassport } from './src/lib/fraud.js';
 
@@ -94,6 +94,32 @@ function devApi() {
   };
 }
 
+// Missing basemap glyph range -> empty glyphs, not a 404. Our glyph set is trimmed
+// to Latin+Vietnamese (static/map/fonts) to keep the offline bundle tiny; a
+// foreign-script label in the basemap (Cyrillic/Thai/CJK) then asks for a range we
+// don't ship. An empty 200 lets MapLibre fall back to rendering that codepoint
+// locally, silently, instead of throwing an AJAXError per glyph. Mirrors the prod
+// fallback in src/hooks.server.js.
+const GLYPH_RE = /\/map\/fonts\/[^/]+\/\d+-\d+\.pbf$/;
+function devGlyphs() {
+  return {
+    name: 'hacw-dev-glyphs',
+    apply: 'serve',
+    configureServer(server) {
+      server.middlewares.use((req, res, next) => {
+        const path = decodeURIComponent(new URL(req.url, 'http://localhost').pathname.replace(base, ''));
+        if (GLYPH_RE.test(path) && !existsSync('./static' + path)) {
+          res.statusCode = 200;
+          res.setHeader('content-type', 'application/x-protobuf');
+          res.end(); // empty body -> render locally, no 404
+          return;
+        }
+        next();
+      });
+    }
+  };
+}
+
 // Dev-only: allow same-origin framing so /screens.html can embed the app routes
 // in a visual editable board. Prod CSP stays `frame-ancestors 'none'` (see
 // svelte.config.js) — this only rewrites the header on the dev server.
@@ -128,6 +154,7 @@ export default defineConfig({
   optimizeDeps: { exclude: ['maplibre-gl'] },
   plugins: [
     devApi(),
+    devGlyphs(),
     devFrames(),
     sveltekit(),
     SvelteKitPWA({

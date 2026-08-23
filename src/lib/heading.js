@@ -18,8 +18,10 @@ const css = () => getComputedStyle(document.documentElement);
 /**
  * @param {typeof import('maplibre-gl')} maplibregl
  * @param {import('maplibre-gl').Map} map
+ * @param {(deg: number|null) => void} [onHeading] called with the current heading
+ *   (degrees CW from north, or null when unknown) — lets a screen do heading-up rotation
  */
-export function createHeadingCone(maplibregl, map) {
+export function createHeadingCone(maplibregl, map, onHeading) {
   const teal = css().getPropertyValue('--teal').trim() || '#2f7d76';
   // The apex sits at the ELEMENT CENTRE (80,80) — MapLibre rotates a marker around its
   // centre, so apex-at-centre makes the fan pivot on the GPS point (default anchor),
@@ -50,6 +52,7 @@ export function createHeadingCone(maplibregl, map) {
     const h = compass ?? gps;
     el.style.visibility = h == null ? 'hidden' : 'visible';
     if (h != null) marker.setRotation(h);
+    onHeading?.(h);
   }
 
   function onOrient(e) {

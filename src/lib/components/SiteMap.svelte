@@ -21,6 +21,7 @@
     routeData = null,         // optional GeoJSON Feature (LineString) to draw under the pins
     routePaint = null,        // optional line paint (defaults to a teal dashed line)
     follow = false,           // camera recenters on each fix until the user pans away
+    followZoom = 16.5,        // min zoom the follow camera snaps to on each fix
     autoLocate = false,       // trigger geolocation on mount (explicit-navigate screens)
     controls = true,          // show the built-in locate + reset-north MapControls
     controlsTop = '10px',
@@ -35,6 +36,7 @@
     onready = null,           // (map, maplibregl) => void — fired once the sites layer is up
     onsiteclick = null,       // (id, feature, e, map, maplibregl) => void
     me = $bindable(null),     // the current GPS fix, readable by the parent (booth bar etc)
+    heading = $bindable(null),// live device heading (compass, else GPS course), deg CW from N
     geoErr = $bindable(''),   // last geolocation error message (denied / unavailable)
     children = null           // overlay snippet, called with { me, located, toggleLocate, resetNorth, recenter, following }
   } = $props();
@@ -103,7 +105,7 @@
       geoErr = '';
       me = { lat: e.coords.latitude, lng: e.coords.longitude, accuracy: Math.round(e.coords.accuracy) };
       cone?.onFix(e.coords);
-      if (following) map.easeTo({ center: [e.coords.longitude, e.coords.latitude], zoom: Math.max(map.getZoom(), 16.5), duration: 600 });
+      if (following) map.easeTo({ center: [e.coords.longitude, e.coords.latitude], zoom: Math.max(map.getZoom(), followZoom), duration: 600 });
     });
     geolocate.on('error', (e) => {
       locating = false;
@@ -112,7 +114,7 @@
     geolocate.on('trackuserlocationend', () => { me = null; cone?.hide(); });
 
     await new Promise((done) => map.on('load', done));
-    cone = createHeadingCone(maplibregl, map);
+    cone = createHeadingCone(maplibregl, map, (h) => (heading = h));
     const colors = addCategoryPins(map, theme.mode === 'dark');
     hidePois(map);
 
@@ -165,7 +167,7 @@
   {#if controls}
     <MapControls located={!!me} {locating} {rotated} top={controlsTop} onlocate={toggleLocate} onnorth={resetNorth} />
   {/if}
-  {@render children?.({ me, located, following, toggleLocate, resetNorth, recenter })}
+  {@render children?.({ me, located, following, heading, toggleLocate, resetNorth, recenter, getMap })}
 </div>
 
 <style>

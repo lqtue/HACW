@@ -16,8 +16,23 @@ const json429 = () =>
     headers: { 'content-type': 'application/json' }
   });
 
+// Missing basemap glyph range -> empty glyphs, not a 404. Our glyph set is trimmed
+// to Latin+Vietnamese (static/map/fonts) to keep the offline bundle small; a
+// foreign-script basemap label (Cyrillic/Thai/CJK) then asks for a range we don't
+// ship. An empty 200 lets MapLibre render that codepoint locally, silently, instead
+// of throwing an AJAXError per glyph. Existing ranges are served as static assets
+// before SvelteKit, so only a genuinely-missing range ever reaches this handler.
+// Mirrors the dev fallback in vite.config.js (devGlyphs).
+const GLYPH_RE = /\/map\/fonts\/[^/]+\/\d+-\d+\.pbf$/;
+
 export async function handle({ event, resolve }) {
   const { url, request, platform } = event;
+  if (GLYPH_RE.test(url.pathname)) {
+    return new Response(new Uint8Array(0), {
+      status: 200,
+      headers: { 'content-type': 'application/x-protobuf', 'cache-control': 'public, max-age=604800' }
+    });
+  }
   const bad = apiGuard({
     pathname: url.pathname,
     method: request.method,

@@ -11,6 +11,19 @@ export function distanceMeters(a, b) {
 }
 
 /**
+ * Initial great-circle bearing from `a` to `b`, degrees clockwise from north
+ * (0 = north, 90 = east). Feeds the "walk this way" arrow in /go — the arrow is
+ * then rotated by the map's own bearing so it points correctly on the rotated map.
+ */
+export function bearing(a, b) {
+  const toRad = (d) => (d * Math.PI) / 180;
+  const φ1 = toRad(a.lat), φ2 = toRad(b.lat), dλ = toRad(b.lng - a.lng);
+  const y = Math.sin(dλ) * Math.cos(φ2);
+  const x = Math.cos(φ1) * Math.sin(φ2) - Math.sin(φ1) * Math.cos(φ2) * Math.cos(dλ);
+  return (Math.atan2(y, x) * 180 / Math.PI + 360) % 360;
+}
+
+/**
  * Closest of `points` to `from`. Straight-line, like everything else here — over
  * a few hundred metres of old town that ranks the same as walking distance.
  * Callers pass the JSON in, so this module stays import-free and node-testable.
