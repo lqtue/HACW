@@ -47,7 +47,7 @@
   }
   onDestroy(stop);
 
-  async function start() {
+  export async function start() {
     if (!supported) {
       note = s('scan_unsupported');
       return;
@@ -122,14 +122,6 @@
   }
 </script>
 
-{#snippet buyLink()}
-  <!-- The counters are a map answer, not a list: one tap opens Khám phá showing
-       only the ticket-counter pins (nearest-counter + directions live there). -->
-  <button class="link buy" onclick={() => goto(`${base}/destinations?tickets=1`)}>
-    🗺️ {s('buy_ticket')}
-  </button>
-{/snippet}
-
 <!-- QR viewfinder mark: corner brackets + three finder squares, drawn in ink so it
      reads as "scan here" without a raster asset. Also the empty-state illustration. -->
 {#snippet viewfinder()}
@@ -160,28 +152,24 @@
     <button class="btn secondary close" onclick={stop}>{s('scan_close')}</button>
   </div>
 {:else if hero}
+  <!-- viewfinder mark only; the buy / scan / continue buttons are the page's footer
+       (it drives start() via bind:this) so every onboarding screen shares one layout -->
   <div class="hero">
     <div class="vf-wrap" class:done={saved}>{@render viewfinder()}</div>
-    {#if saved}
-      <span class="ok">{s('scan_saved')}</span>
-    {:else if supported}
-      <button class="btn scan-cta" onclick={start}>{s('scan_btn')}</button>
-    {:else}
-      <!-- no BarcodeDetector (iOS Safari): scanning can't work, so don't dangle a
-           dead button — say so and lean on skip / "where to buy". -->
-      <p class="note">{s('scan_unsupported')}</p>
-    {/if}
-    {#if !saved}{@render buyLink()}{/if}
+    {#if saved}<span class="ok">{s('scan_saved')}</span>{/if}
+    {#if !supported}<p class="note">{s('scan_unsupported')}</p>{/if}
     {#if note}<p class="note">{note}</p>{/if}
   </div>
 {:else}
+  <!-- quiet "already have a ticket?" footer — same button language as onboarding:
+       white buy above, orange scan below -->
   <div class="strip">
     {#if saved}
       <span class="ok">{s('scan_saved')}</span>
     {:else}
       <span class="lbl">{s('plan_scan')}</span>
-      <button class="link" onclick={start}>{s('scan_btn')}</button>
-      {@render buyLink()}
+      <button class="btn ghost" onclick={() => goto(`${base}/destinations?tickets=1`)}>{s('buy_ticket')}</button>
+      <button class="btn" onclick={start}>{s('scan_btn')}</button>
     {/if}
   </div>
   {#if note}<p class="note">{note}</p>{/if}
@@ -192,30 +180,22 @@
      with the recommendation above it */
   .strip {
     display: flex;
-    align-items: center;
-    justify-content: center;
-    flex-wrap: wrap;
-    gap: 8px;
+    flex-direction: column;
+    align-items: stretch;
+    gap: 10px;
     margin-top: 28px;
     padding-top: 16px;
     border-top: 1px solid var(--line);
   }
-  .lbl { color: var(--muted); font-size: 0.85rem; }
-  .link {
-    border: 0;
-    background: none;
-    padding: 0;
-    color: var(--brand);
-    font-family: var(--font-body);
-    font-weight: 700;
-    font-size: 0.85rem;
-    cursor: pointer;
-  }
-  .ok { color: var(--brand-dark); font-weight: 700; font-size: 0.9rem; }
+  .lbl { color: var(--muted); font-size: 0.85rem; text-align: center; }
+  .strip .btn { width: 100%; }
+  .btn.ghost { background: var(--surface); color: var(--ink); border: 1px solid var(--line); }
+  .btn.ghost:hover { background: var(--paper-2); }
+  .ok { color: var(--brand-dark); font-weight: 700; font-size: 0.9rem; text-align: center; }
   .note { margin: 8px 0 0; text-align: center; color: var(--muted); font-size: 0.82rem; }
 
-  /* hero: the dedicated scan step. Viewfinder mark, then one real button. */
-  .hero { display: flex; flex-direction: column; align-items: center; gap: 16px; }
+  /* hero: just the viewfinder mark, centred; the buttons live in the page footer */
+  .hero { flex: 1 1 auto; width: 100%; display: flex; flex-direction: column; align-items: center; justify-content: center; gap: 12px; }
   .vf-wrap {
     width: 128px; height: 128px;
     display: grid; place-items: center;
@@ -228,8 +208,6 @@
   .vf-wrap.done { color: var(--brand-dark); background: color-mix(in srgb, var(--gold) 18%, var(--surface)); }
   .vf { width: 84px; height: 84px; }
   .vf-bracket { stroke: currentColor; }
-  .scan-cta { width: 100%; max-width: 300px; }
-  .hero .buy { font-size: 0.88rem; }
 
   .frame {
     position: relative;

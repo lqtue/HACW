@@ -29,6 +29,7 @@ const groups = [
       { label: 'Door (tap to enter)', path: '/?step=door' },
       { label: 'Language', path: '/?step=lang' },
       { label: 'Welcome', path: '/?step=welcome' },
+      { label: 'Location & motion', path: '/?step=perms' },
       { label: 'Scan ticket', path: '/?step=scan' },
     ],
   },

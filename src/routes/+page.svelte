@@ -1,6 +1,7 @@
 <script>
   import { base } from '$app/paths';
-  import { onMount } from 'svelte';
+  import { onMount, onDestroy } from 'svelte';
+  import { ui } from '$lib/ui.svelte.js';
   import destinations from '$lib/data/destinations.json';
   import categories from '$lib/data/categories.json';
   import tours from '$lib/data/tours.json';
@@ -11,8 +12,7 @@
   import RouteMap from '$lib/components/RouteMap.svelte';
   import MatCua from '$lib/components/MatCua.svelte';
   import Icon from '$lib/components/Icon.svelte';
-  import StudyToggle from '$lib/components/StudyToggle.svelte';
-  import JourneyToggle from '$lib/components/JourneyToggle.svelte';
+  import InstallApp from '$lib/components/InstallApp.svelte';
   import { rankSets } from '$lib/advisor.js';
   import { isValidSet } from '$lib/ticket.js';
   import { weather } from '$lib/weather.svelte.js';
@@ -47,12 +47,12 @@
   // has onboarded:true. recommend/manual map to build + the two build modes.
   const forced =
     (typeof location !== 'undefined' &&
-      /^(door|lang|welcome|scan|recommend|manual|done)$/.exec(
+      /^(door|lang|welcome|scan|perms|recommend|manual|done)$/.exec(
         new URLSearchParams(location.search).get('step') || ''
       )?.[0]) ||
     '';
   let step = $state(
-    /^(door|lang|welcome|scan|done)$/.test(forced) ? forced : forced ? 'build' : plan.onboarded ? 'build' : 'door'
+    /^(door|lang|welcome|scan|perms|done)$/.test(forced) ? forced : forced ? 'build' : plan.onboarded ? 'build' : 'door'
   );
   // the two door leaves swing open on tap, then the language screen appears
   let opening = $state(false);
@@ -137,7 +137,35 @@
       }
     }
     track('scan');
-    finishOnboarding();
+    scanned = true; // don't auto-advance — visitor taps Continue
+  }
+  // Continue (vs Skip) once a ticket exists — this session's scan OR one already
+  // saved on the device (TicketScan uses the same key).
+  let scanned = $state(typeof localStorage !== 'undefined' && !!localStorage.getItem('hacw_ticket_v1'));
+  let ticketScan = $state(); // bound child — page footer drives its start()
+
+  // hide the tab bar on the manual builder + plan-ready screens (their own back
+  // button is the way out); recommend keeps it. reset when leaving the route.
+  const STEP_SCREENS = ['door', 'lang', 'welcome', 'scan', 'perms', 'done'];
+  $effect(() => {
+    ui.hideNav = step === 'done' || (mode === 'manual' && !STEP_SCREENS.includes(step));
+  });
+  onDestroy(() => (ui.hideNav = false));
+  const scanSupported = typeof navigator !== 'undefined' && !!navigator.mediaDevices?.getUserMedia;
+
+  // Ask for GPS + motion up front (from this tap — iOS requires a user gesture for
+  // DeviceMotion/Orientation). Both prompts are best-effort; a denial is fine, the
+  // map re-asks for location later and the compass just stays off.
+  async function requestPerms() {
+    try {
+      navigator.geolocation?.getCurrentPosition(() => {}, () => {}, { timeout: 8000 });
+    } catch {}
+    try {
+      if (typeof DeviceMotionEvent !== 'undefined' && DeviceMotionEvent.requestPermission)
+        await DeviceMotionEvent.requestPermission();
+      if (typeof DeviceOrientationEvent !== 'undefined' && DeviceOrientationEvent.requestPermission)
+        await DeviceOrientationEvent.requestPermission();
+    } catch {}
   }
   function finishOnboarding() {
     setOnboarded();
@@ -333,9 +361,7 @@
   <!-- SCREEN 3 — welcome, in the chosen language, three lines + one CTA -->
   <section class="welcome intro">
     <div class="intro-head">
-      <p class="eyebrow"><span class="dot"></span>Hội An Creative Week · {event.year}</p>
-      <h1 class="w-title">{t(event.tagline)}</h1>
-      <p class="w-meta">{event.dates} · {t(event.venue)}</p>
+      <h1 class="w-title"><span class="w-pre">Thử thách</span><br />Xuyên Mạch Nghệ</h1>
     </div>
 
     <ul class="w-feats">
@@ -344,33 +370,51 @@
       {/each}
     </ul>
 
-    <button class="btn" onclick={() => (step = 'scan')}>{s('welcome_start')} →</button>
+    <div class="w-foot">
+      <button class="btn" onclick={() => (step = 'perms')}>{s('welcome_start')}</button>
+      <InstallApp />
+    </div>
   </section>
 {:else if step === 'scan'}
-  <section class="onboard">
-    <p class="eyebrow"><span class="dot"></span>{s('scan_step')}</p>
+  <section class="onboard scan">
     <h1>{s('scan_title')}</h1>
-    <p class="o-sub">{s('scan_why')}</p>
-    <TicketScan onsaved={onScanned} hero />
-    <button class="skip" onclick={finishOnboarding}>{s('scan_skip')}</button>
 
-    <!-- up-front: why we'll ask for GPS + the anonymous foot-traffic study (opt-out) -->
-    <div class="privacy">
-      <p class="p-why">{s('loc_note')}</p>
-      <p class="p-study">{s('study_note')}</p>
-      <StudyToggle />
-      <JourneyToggle />
+    <div class="scan-mid">
+      <TicketScan bind:this={ticketScan} onsaved={onScanned} hero />
+    </div>
+
+    <div class="scan-foot">
+      {#if scanned}
+        <button class="btn" onclick={finishOnboarding}>{s('scan_continue')}</button>
+      {:else}
+        <a class="btn ghost" href="{base}/destinations?tickets=1">{s('buy_ticket')}</a>
+        {#if scanSupported}<button class="btn" onclick={() => ticketScan?.start()}>{s('scan_btn')}</button>{/if}
+        <button class="skip" onclick={finishOnboarding}>{s('scan_skip')}</button>
+      {/if}
+    </div>
+  </section>
+{:else if step === 'perms'}
+  <section class="onboard scan">
+    <h1>{s('perm_title')}</h1>
+
+    <div class="scan-mid">
+      <ul class="w-feats">
+        <li><span class="fi"><Icon name="map" size={22} /></span><span class="ft">{s('perm_gps')}</span></li>
+        <li><span class="fi"><Icon name="compass" size={22} /></span><span class="ft">{s('perm_motion')}</span></li>
+      </ul>
+    </div>
+
+    <div class="scan-foot">
+      <!-- one button: Tiếp tục grants location + motion, then moves on -->
+      <button class="btn" onclick={() => { requestPerms(); step = 'scan'; }}>{s('scan_continue')}</button>
+      <p class="terms">{s('terms_pre')}<a href="{base}/terms">{s('terms_link')}</a>{s('terms_post')}</p>
     </div>
   </section>
 {:else if step === 'done'}
   <section class="onboard done">
-    <p class="eyebrow"><span class="dot"></span>{s('your_ticket')}</p>
+    <button class="backchip" onclick={editPlan} aria-label={s('back')}>←</button>
     <h1>{s('done_title')}</h1>
     {@render slots(slotList)}
-    <div class="done-meta">
-      <span class="comp fieldlabel">{s('comp_line', 1, 1, 3)} · {formatDistance(planWalk.meters, i18n.lang)} · {s('walk_time', planWalk.minutes)}</span>
-      <button class="link editlink" onclick={editPlan}>{s('edit_plan')}</button>
-    </div>
 
     <div class="donemap"><RouteMap stops={orderedPlan} height="200px" /></div>
     <ol class="doneroute">
@@ -388,7 +432,6 @@
   <div class="build">
     <header class="b-head">
       <h1>{s('rec_head')}</h1>
-      <p class="b-sub">{s('rec_sub')}</p>
     </header>
 
     <ul class="sets">
@@ -407,10 +450,6 @@
             <div class="set-body">
               <div class="chips">
                 <span class="chip dist">{formatDistance(set.walkM, i18n.lang)} · {s('walk_time', set.walkMin)}</span>
-                <span class="chip" class:warn={!set.openNow}>
-                  {set.openNow ? s('open_all') : s('n_closed', set.closedCount)}
-                </span>
-                {#if set.quiet}<span class="chip quiet">{s('quiet_pick')}</span>{/if}
               </div>
               <p class="narr">{t(set.description)}</p>
               <ul class="stops">
@@ -431,23 +470,15 @@
       {/each}
     </ul>
 
-    <button class="btn secondary" onclick={() => { mode = 'manual'; stepIdx = firstIncomplete(); }}>
+    <button class="skip" onclick={() => { mode = 'manual'; stepIdx = firstIncomplete(); }}>
       {s('pick_own')}
     </button>
-
-    <TicketScan onsaved={onScanned} />
   </div>
 {:else}
-  <div class="build" class:committing={valid}>
-    <div class="build-top">
-      <button class="link-back" onclick={() => (mode = 'recommend')}>{s('back_sugg')}</button>
-      {#if pickedIds.length}
-        <button class="link-back reset" onclick={resetPicks}>{s('reset_picks')}</button>
-      {/if}
-    </div>
+  <div class="build manual" class:committing={valid}>
+    <button class="backchip" onclick={() => (mode = 'recommend')} aria-label={s('back')}>←</button>
     <header class="b-head">
       <h1>{s('plan_title')}</h1>
-      <p class="b-sub">{s('comp_line', 1, 1, 3)}</p>
     </header>
 
     <!-- the 5 slots double as step navigation; tap one to edit that class -->
@@ -469,15 +500,9 @@
       {/each}
     </div>
 
-    <!-- current step -->
-    <div class="sec">
-      <p class="sec-label">
-        {s(STEPS[stepIdx].key)} ·
-        <span class="sec-hint">
-          {#if STEPS[stepIdx].cls === 'other'}{free.length}/3{:else if (STEPS[stepIdx].cls === 'monument' ? mono : museo)}✓{:else}{s('pick_one')}{/if}
-        </span>
-      </p>
-    </div>
+    {#if pickedIds.length}
+      <button class="link reset-link" onclick={resetPicks}>{s('reset_picks')}</button>
+    {/if}
 
     <!-- balance list vs map: pick a mode instead of scrolling past both -->
     <ViewToggle bind:mode={viewMode} />
@@ -541,8 +566,8 @@
     <!-- picking happens on the map (56vh), so the finish CTA can't live below it —
          dock it above the tab bar the moment 5 are picked, always in reach -->
     <div class="commitbar">
+      <button class="btn done-cta" onclick={finish}>{s('build_done')}</button>
       <span class="walk-note">{s('route_walk', formatDistance(planWalk.meters, i18n.lang), planWalk.minutes)}</span>
-      <button class="btn done-cta" onclick={finish}>{s('build_done')} →</button>
     </div>
   {/if}
 {/if}
@@ -557,11 +582,9 @@
     flex-direction: column;
     justify-content: center;
     padding: 32px 26px calc(32px + env(safe-area-inset-bottom));
-    padding-top: max(48px, calc(env(safe-area-inset-top) + 40px));
+    padding-top: max(30px, calc(env(safe-area-inset-top) + 20px));
   }
   .welcome { justify-content: flex-start; min-height: 100dvh; }
-  .welcome .eyebrow,
-  .onboard .eyebrow { margin-bottom: 14px; }
   /* intro fills the screen: brand at top, features centred, CTA at the bottom —
      so it reads as a full panel on a phone and spreads gracefully on a tablet,
      instead of a small block adrift in the middle. */
@@ -660,6 +683,7 @@
     line-height: 1.05;
     letter-spacing: -0.02em;
   }
+  .w-title .w-pre { font-weight: 400; }
   .w-meta { margin: 0 0 26px; color: var(--muted); font-size: 0.85rem; }
 
   .w-feats { list-style: none; margin: 0 0 8px; padding: 0; display: flex; flex-direction: column; gap: 16px; }
@@ -667,25 +691,24 @@
   .w-feats .fi { flex: none; display: grid; place-items: center; width: 34px; height: 34px; border-radius: 10px; background: color-mix(in srgb, var(--brand) 10%, transparent); color: var(--brand); }
   .w-feats .ft { color: var(--ink); font-weight: 600; font-size: 0.98rem; line-height: 1.35; }
   .intro .btn { width: 100%; }
+  /* 50px lifts Bắt đầu to the same offset the perms/scan main sits at (their 40px
+     sub slot + gap), so the primary button lands at one height across onboarding */
+  .w-foot { display: flex; flex-direction: column; gap: 4px; margin-bottom: 50px; }
 
   .onboard h1 {
     margin: 0 0 8px;
     font-family: var(--font-display);
-    font-weight: 700;
+    font-weight: 800;
     color: var(--ink);
     font-size: clamp(1.7rem, 7vw, 2.2rem);
     line-height: 1.1;
   }
-  .o-sub { margin: 0 0 24px; max-width: 30ch; color: var(--muted); line-height: 1.5; }
-  .onboard.done { padding-bottom: calc(150px + env(safe-area-inset-bottom)); justify-content: flex-start; padding-top: max(40px, calc(env(safe-area-inset-top) + 32px)); }
-  .done-meta { display: flex; align-items: baseline; justify-content: space-between; gap: 12px; flex-wrap: wrap; margin: 14px 0 4px; }
-  .done-meta .comp { margin: 0; }
-  .editlink {
-    border: 0; background: none; padding: 0; cursor: pointer;
-    color: var(--brand); font-family: var(--font-body); font-weight: 600; font-size: 0.85rem;
-    text-decoration: underline; text-underline-offset: 3px; flex: none;
-  }
+  .onboard.done { padding-bottom: calc(100px + env(safe-area-inset-bottom)); justify-content: flex-start; padding-top: max(30px, calc(env(safe-area-inset-top) + 20px)); }
+  .onboard.done > h1 { padding-left: 44px; } /* clear the fixed back chip */
   .commitbar.solo .done-cta { flex: 1 1 auto; width: 100%; }
+  /* solo (no sub text) sits at the same button height as screen 7's Tiếp tục, whose
+     walk-note sub slot (20px) + gap (8px) lift its button 28px off the bottom */
+  .commitbar.solo { bottom: calc(44px + env(safe-area-inset-bottom)); }
   .donemap { width: 100%; margin: 14px 0 12px; border-radius: 12px; overflow: hidden; border: 1px solid var(--line); }
   .doneroute { list-style: none; margin: 0 0 8px; padding: 0; display: flex; flex-direction: column; gap: 8px; width: 100%; }
   .doneroute li { display: flex; align-items: center; gap: 10px; font-size: 0.95rem; }
@@ -713,14 +736,30 @@
     cursor: pointer;
   }
 
-  .privacy {
-    margin: 26px auto 0;
-    max-width: 34ch;
-    display: flex; flex-direction: column; gap: 10px;
-    padding-top: 18px; border-top: 1px solid var(--line);
+  /* scan step: title top, QR + toggles centred, action docked at the bottom
+     like the welcome Start button */
+  .onboard.scan { min-height: 100dvh; justify-content: space-between; }
+  .scan-mid { flex: 1 1 auto; display: flex; flex-direction: column; justify-content: center; gap: 22px; }
+  /* shared footer: secondary (ghost/white) above, main (orange) below, sub last */
+  .scan-foot { display: flex; flex-direction: column; gap: 10px; }
+  .scan-foot .btn { width: 100%; }
+  .btn.ghost {
+    background: var(--surface);
+    color: var(--ink);
+    border: 1px solid var(--line);
   }
-  .privacy .p-why { margin: 0; color: var(--ink); font-size: 0.9rem; line-height: 1.45; }
-  .privacy .p-study { margin: 0; color: var(--muted); font-size: 0.84rem; line-height: 1.45; }
+  .btn.ghost:hover { background: var(--paper-2); }
+  .btn.ghost:disabled { opacity: 0.5; }
+  /* fixed-height sub slot so the main button lands at the same offset on every
+     onboarding screen, whether the sub is a one-line skip or a two-line terms note */
+  .scan-foot .skip {
+    margin: 0 auto; min-height: 40px; display: flex; align-items: center; justify-content: center;
+  }
+  .scan-foot .terms {
+    margin: 0 auto; min-height: 40px; max-width: 34ch;
+    text-align: center; color: var(--muted); font-size: 0.8rem; line-height: 1.4;
+  }
+
 
   /* ---- the 5 display slots (done screen snippet) ---- */
   .slots { display: flex; gap: 8px; }
@@ -732,14 +771,19 @@
 
   /* ---- build screen ---- */
   .build {
+    min-height: calc(100dvh - 88px); /* fill above the tab bar so the footer link can dock */
     padding: 18px 18px 8px;
-    padding-top: max(28px, calc(env(safe-area-inset-top) + 22px));
+    padding-top: max(30px, calc(env(safe-area-inset-top) + 20px));
     display: flex;
     flex-direction: column;
     gap: 14px;
   }
+  /* recommend: push "Tự chọn 5 điểm" to the bottom of the screen */
+  .build .skip { margin-top: auto; padding-top: 20px; }
+  /* manual: title shares the fixed back/theme chip row; indent past the back chip */
+  .build.manual .b-head { padding-left: 44px; }
   .b-head { display: flex; flex-direction: column; gap: 3px; }
-  .b-head h1 { margin: 0; font-size: clamp(1.9rem, 7vw, 2.4rem); font-weight: 700; letter-spacing: -0.02em; }
+  .b-head h1 { margin: 0; font-size: clamp(1.9rem, 7vw, 2.4rem); font-weight: 800; letter-spacing: -0.02em; }
   .b-sub { margin: 0; color: var(--muted); font-size: 0.95rem; }
 
   /* slots double as step nav */
@@ -760,18 +804,24 @@
   .slotbtns .slot.on { border-color: var(--brand); }
 
 
-  .build-top { display: flex; align-items: center; justify-content: space-between; }
-  .link-back.reset { color: var(--brand); }
-  .link-back {
-    align-self: flex-start;
-    border: 0;
-    background: none;
-    color: var(--muted);
-    font-family: var(--font-body);
-    font-weight: 600;
-    font-size: 0.85rem;
-    padding: 0;
-    cursor: pointer;
+  /* universal back button — fixed top-left, mirroring the layout's theme chip
+     (top-right) so the two line up on one row above the title */
+  .backchip {
+    position: fixed; z-index: 1100;
+    top: max(30px, calc(env(safe-area-inset-top) + 20px));
+    left: 14px;
+    width: 40px; height: 34px; border-radius: 999px;
+    display: grid; place-items: center; cursor: pointer;
+    border: 1px solid var(--line);
+    background: color-mix(in srgb, var(--surface) 80%, transparent);
+    backdrop-filter: blur(10px);
+    color: var(--ink); font-size: 1.2rem; line-height: 1;
+  }
+  .backchip:focus-visible { outline: 2px solid var(--brand); outline-offset: 2px; }
+  .reset-link {
+    align-self: flex-end; margin-top: -4px;
+    border: 0; background: none; padding: 0; cursor: pointer;
+    color: var(--brand); font-family: var(--font-body); font-weight: 600; font-size: 0.85rem;
   }
 
   /* ---- recommend view ---- */
@@ -826,21 +876,8 @@
     border-radius: 999px;
     padding: 4px 10px;
   }
-  .chip.warn { color: var(--brand-dark); background: color-mix(in srgb, var(--gold) 22%, transparent); }
-  .chip.quiet { color: var(--teal); background: color-mix(in srgb, var(--teal) 14%, transparent); }
   .setcard .btn { margin-top: 2px; }
 
-  /* current-step label + actions */
-  .sec { display: flex; align-items: center; justify-content: space-between; gap: 10px; flex-wrap: wrap; margin-top: 4px; }
-  .sec-label {
-    margin: 0;
-    font-size: 0.72rem;
-    font-weight: 700;
-    letter-spacing: 0.08em;
-    text-transform: uppercase;
-    color: var(--muted);
-  }
-  .sec-hint { color: var(--brand); }
   .fill-link {
     display: block; margin: 10px auto 0;
     border: 0; background: none; padding: 6px;
@@ -923,23 +960,22 @@
 
   /* docked finish bar — sits above the tab bar so the commit CTA is reachable the
      instant 5 are picked, instead of below the 56vh picking map */
-  .build.committing { padding-bottom: 88px; }
+  .build.committing { padding-bottom: 120px; }
+  /* flush footer, onboarding-style: full-width CTA docked at the true bottom (nav is
+     hidden on these screens) with the walk-note as plain sub text below it */
   .commitbar {
     position: fixed;
     left: 12px; right: 12px;
-    bottom: calc(84px + env(safe-area-inset-bottom));
-    max-width: 516px; margin: 0 auto;
-    display: flex; align-items: center; gap: 12px;
-    padding: 8px 8px 8px 16px;
-    background: color-mix(in srgb, var(--surface) 92%, transparent);
-    backdrop-filter: saturate(1.3) blur(14px);
-    border: 1px solid var(--line);
-    border-radius: 18px;
-    box-shadow: var(--shadow-lift);
+    bottom: calc(16px + env(safe-area-inset-bottom));
+    max-width: 460px; margin: 0 auto;
+    display: flex; flex-direction: column; gap: 8px;
     z-index: 900;
     animation: rise 0.3s cubic-bezier(0.2, 0.7, 0.2, 1) both;
   }
-  .commitbar .walk-note { flex: 1 1 auto; margin: 0; text-align: left; }
-  .commitbar .done-cta { flex: 0 0 auto; width: auto; margin: 0; }
+  .commitbar .done-cta { width: 100%; margin: 0; }
+  .commitbar .walk-note {
+    margin: 0 auto; min-height: 20px; white-space: nowrap;
+    text-align: center; color: var(--muted); font-size: 0.8rem;
+  }
   @media (prefers-reduced-motion: reduce) { .commitbar { animation: none; } }
 </style>

@@ -15,6 +15,10 @@
         "path": "/?step=welcome"
       },
       {
+        "label": "Location & motion",
+        "path": "/?step=perms"
+      },
+      {
         "label": "Scan ticket",
         "path": "/?step=scan"
       }

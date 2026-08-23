@@ -7,6 +7,7 @@
   import { loadCounts } from '$lib/stats.svelte.js';
   import { unlockFromUrl } from '$lib/staff.svelte.js';
   import { plan } from '$lib/plan.svelte.js';
+  import { ui } from '$lib/ui.svelte.js';
   import { theme, toggleTheme } from '$lib/theme.svelte.js';
   import { s } from '$lib/strings.js';
 
@@ -53,7 +54,7 @@
   // has onboarded (e.g. the /screens board frames) shows the bar on those previews.
   const stepParam = $derived($page.url.searchParams.get('step') || '');
   const onboarding = $derived(
-    rel === '/' && (!plan.onboarded || /^(door|lang|welcome|scan)$/.test(stepParam))
+    rel === '/' && (!plan.onboarded || /^(door|lang|welcome|scan|perms)$/.test(stepParam))
   );
 </script>
 
@@ -65,7 +66,7 @@
   {@render children()}
 </div>
 
-{#if !wide && !onboarding}
+{#if !wide && !onboarding && !ui.hideNav}
   <nav class="nav" aria-label="Main">
     {#each tabs as t (t.path)}
       <a href={href(t.path)} aria-current={isActive(t.path) ? 'page' : undefined}>
@@ -87,7 +88,7 @@
 <style>
   .chip-fab {
     position: fixed;
-    top: max(14px, calc(env(safe-area-inset-top) + 6px));
+    top: max(30px, calc(env(safe-area-inset-top) + 20px));
     z-index: 1100;
     border: 1px solid var(--line);
     background: color-mix(in srgb, var(--surface) 80%, transparent);

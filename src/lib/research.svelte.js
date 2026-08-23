@@ -2,18 +2,16 @@ import { browser } from '$app/environment';
 import { geohash } from './geo.js';
 import { track } from './passport.svelte.js';
 
-// Consent for the anonymous foot-traffic study. ON by default (opt-out): the
-// visitor is told up front (onboarding scan step) and can turn it off there or on
-// the passport page. Even when on, only coarse geohash CELL COUNTS are sent (no
-// point, no time, no path, no device id), so there is no trajectory and nothing
-// that re-identifies a device — closer to a footfall counter than tracking.
-// ponytail: opt-out is defensible only while the data stays this anonymous; if it
-// ever carries a point/time/id, switch to opt-in (see CONCERNS.md threat model).
+// Consent for the anonymous foot-traffic study. OFF by default (opt-in): the
+// visitor turns it on at the onboarding scan step or on the passport page. Even
+// when on, only coarse geohash CELL COUNTS are sent (no point, no time, no path,
+// no device id), so there is no trajectory and nothing that re-identifies a
+// device — closer to a footfall counter than tracking.
 const KEY = 'hacw_research_v1';
 
 export const research = $state({
-  // no stored value -> on; explicit '0' -> off. SSR/prerender defaults on too.
-  on: browser ? localStorage.getItem(KEY) !== '0' : true
+  // explicit '1' -> on; anything else (incl. no stored value / SSR) -> off.
+  on: browser ? localStorage.getItem(KEY) === '1' : false
 });
 
 export function setResearch(on) {
