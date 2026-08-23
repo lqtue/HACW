@@ -2,7 +2,7 @@ import { sveltekit } from '@sveltejs/kit/vite';
 import { SvelteKitPWA } from '@vite-pwa/sveltekit';
 import { defineConfig } from 'vite';
 import { readFileSync, existsSync } from 'node:fs';
-import { tally, totals } from './src/lib/counts.js';
+import { tally, totals, natTotals, journeyRows } from './src/lib/counts.js';
 import { flagPassport } from './src/lib/fraud.js';
 
 const destinations = JSON.parse(readFileSync('./src/lib/data/destinations.json', 'utf8'));
@@ -21,6 +21,7 @@ function devApi() {
   const counters = {};
   const passports = {};
   const flags = {};
+  const journeys = [];
   const send = (res, obj, status = 200) => {
     res.statusCode = status;
     res.setHeader('content-type', 'application/json');
@@ -48,16 +49,19 @@ function devApi() {
         const path = url.pathname.replace(base, '');
         if (path === '/api/checkin') {
           if (req.method === 'GET') {
+            if (url.searchParams.has('journeys')) return send(res, { rows: journeys.slice(-20000).reverse() });
+            if (url.searchParams.has('nat')) return send(res, natTotals(Object.entries(counters)));
             return send(res, totals(Object.entries(counters), url.searchParams.has('events')));
           }
           if (req.method === 'POST') {
             // Same validation and key layout as the real endpoint, so dev shows
             // exactly what production would store — this stands in for the
-            // `counters` table, upsert and all.
+            // `counters` table (upsert) and the `journeys` table.
             const events = (await body(req))?.events ?? [];
             for (const [k, n] of Object.entries(tally(events))) {
               counters[k] = (counters[k] ?? 0) + n;
             }
+            journeys.push(...journeyRows(events));
             return send(res, { ok: true, counted: events.length });
           }
         }

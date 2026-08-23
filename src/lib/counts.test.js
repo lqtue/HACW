@@ -1,5 +1,5 @@
 import assert from 'node:assert';
-import { countKey, eventKey, tally, totals, MAX_EVENTS } from './counts.js';
+import { countKey, eventKey, tally, totals, natTotals, journeyRows, MAX_EVENTS } from './counts.js';
 
 // --- key layout ---
 assert.equal(countKey('chua-cau'), 'count:chua-cau');
@@ -116,11 +116,72 @@ assert.deepEqual(totals(rows, true), {
   redeem: 2
 });
 assert.deepEqual(totals([]), {});
+// nat: cross-tab rows must never leak into the public counts or the event tallies
+assert.deepEqual(
+  totals([['count:a', 3], ['nat:checkin:a:ko', 1], ['ev:redeem', 2]]),
+  { a: 3 },
+  'count path takes only count: rows'
+);
+assert.deepEqual(
+  totals([['ev:redeem', 2], ['nat:welcome:_:ko', 9]], true),
+  { redeem: 2 },
+  'event path takes only ev: rows'
+);
 
 // Round-trip: what tally() writes is what totals() reads back.
 assert.deepEqual(totals(Object.entries(tally([{ id: 'a' }, { id: 'a' }, { id: 'b' }]))), {
   a: 2,
   b: 1
 });
+
+// --- nationality cross-tab: a nat code tags whitelisted behaviour, alongside the
+//     plain counter (which must be untouched so the spotlight is unaffected) ---
+assert.deepEqual(
+  tally([{ t: 'checkin', id: 'chua-cau', nat: 'ko' }], real),
+  { 'count:chua-cau': 1, 'nat:checkin:chua-cau:ko': 1 },
+  'check-in also bumps a nationality-crossed key'
+);
+assert.deepEqual(
+  tally([{ t: 'welcome', nat: 'ja' }]),
+  { 'ev:welcome': 1, 'nat:welcome:_:ja': 1 },
+  'site-less funnel step crosses under id "_"'
+);
+assert.deepEqual(
+  tally([{ t: 'checkin', id: 'chua-cau', nat: 'BAD-CODE' }], real),
+  { 'count:chua-cau': 1 },
+  'a bad nat code is ignored, plain counter still bumps'
+);
+assert.deepEqual(
+  tally([{ t: 'lang', id: 'ko', nat: 'ko' }]),
+  { 'ev:lang:ko': 1 },
+  'lang/pick are the signal, not crossed by it'
+);
+assert.deepEqual(
+  natTotals([
+    ['nat:checkin:chua-cau:ko', 5],
+    ['nat:checkin:chua-cau:ja', 2],
+    ['nat:welcome:_:ko', 9],
+    ['count:chua-cau', 7]
+  ]),
+  { checkin: { 'chua-cau': { ko: 5, ja: 2 } }, welcome: { _: { ko: 9 } } },
+  'nat rows fold into {type:{id:{code:n}}}, ignoring non-nat rows'
+);
+
+// --- journey rows: only sid-carrying events, dest kept only for real sites ---
+const jr = journeyRows(
+  [
+    { t: 'checkin', id: 'chua-cau', nat: 'ko', sid: 'a1b2c3d4', seq: 0, at: 1000 },
+    { t: 'scan', sid: 'a1b2c3d4', seq: 1, at: 1001 },
+    { t: 'checkin', id: 'not-real', sid: 'a1b2c3d4', seq: 2, at: 1002 },
+    { t: 'checkin', id: 'chua-cau', at: 1003 } // no sid -> not a journey row
+  ],
+  real
+);
+assert.deepEqual(jr, [
+  { sid: 'a1b2c3d4', seq: 0, nat: 'ko', t: 'checkin', dest: 'chua-cau', ts: 1000 },
+  { sid: 'a1b2c3d4', seq: 1, nat: null, t: 'scan', dest: null, ts: 1001 },
+  { sid: 'a1b2c3d4', seq: 2, nat: null, t: 'checkin', dest: null, ts: 1002 }
+]);
+assert.deepEqual(journeyRows([{ t: 'checkin', id: 'chua-cau', sid: 'nope!' }]), [], 'bad sid is not logged');
 
 console.log('counts.test.js ok');

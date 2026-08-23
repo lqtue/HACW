@@ -3,7 +3,15 @@
     "title": "1 · Onboarding",
     "screens": [
       {
-        "label": "Welcome + language",
+        "label": "Door (tap to enter)",
+        "path": "/?step=door"
+      },
+      {
+        "label": "Language",
+        "path": "/?step=lang"
+      },
+      {
+        "label": "Welcome",
         "path": "/?step=welcome"
       },
       {
@@ -47,6 +55,14 @@
       {
         "label": "Quiz",
         "path": "/destinations/chua-cau?demo=quiz"
+      },
+      {
+        "label": "Result — correct",
+        "path": "/destinations/chua-cau?demo=correct"
+      },
+      {
+        "label": "Result — wrong",
+        "path": "/destinations/chua-cau?demo=wrong"
       },
       {
         "label": "Checked in + stamp",

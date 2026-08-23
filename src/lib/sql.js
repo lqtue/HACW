@@ -23,3 +23,10 @@ export const UPSERT_PASSPORT = `INSERT INTO passports (pid, snapshot, updated, f
 /** Organizer review list. No bind params; pids are masked before they leave the endpoint. */
 export const SELECT_FLAGGED = `SELECT pid, flags, updated FROM passports
    WHERE flags > 0 ORDER BY flags DESC, updated DESC LIMIT 50`;
+
+/** (sid, seq, nat, t, dest, ts) — one opt-in journey event. */
+export const INSERT_JOURNEY = `INSERT INTO journeys (sid, seq, nat, t, dest, ts) VALUES (?, ?, ?, ?, ?, ?)`;
+
+/** (limit) — newest journey rows for the organizer CSV export. */
+export const SELECT_JOURNEYS = `SELECT sid, seq, nat, t, dest, ts FROM journeys
+   ORDER BY id DESC LIMIT ?`;

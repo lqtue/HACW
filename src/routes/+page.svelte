@@ -10,7 +10,9 @@
   import ViewToggle from '$lib/components/ViewToggle.svelte';
   import RouteMap from '$lib/components/RouteMap.svelte';
   import MatCua from '$lib/components/MatCua.svelte';
+  import Icon from '$lib/components/Icon.svelte';
   import StudyToggle from '$lib/components/StudyToggle.svelte';
+  import JourneyToggle from '$lib/components/JourneyToggle.svelte';
   import { rankSets } from '$lib/advisor.js';
   import { isValidSet } from '$lib/ticket.js';
   import { weather } from '$lib/weather.svelte.js';
@@ -21,6 +23,7 @@
   import { hasStamp, adoptCode, restore, track } from '$lib/passport.svelte.js';
   import { codeFromTicket } from '$lib/backup.js';
   import { plan, setOnboarded, setTicketCode, setPlanSet } from '$lib/plan.svelte.js';
+  import { setNat } from '$lib/study.svelte.js';
   import { openLabel, categoryLabel, categoryIcon } from '$lib/util.js';
   import { i18n, t, setLang } from '$lib/i18n.svelte.js';
   import { s } from '$lib/strings.js';
@@ -43,34 +46,49 @@
   // has onboarded:true. recommend/manual map to build + the two build modes.
   const forced =
     (typeof location !== 'undefined' &&
-      /^(welcome|scan|recommend|manual|done)$/.exec(
+      /^(door|lang|welcome|scan|recommend|manual|done)$/.exec(
         new URLSearchParams(location.search).get('step') || ''
       )?.[0]) ||
     '';
   let step = $state(
-    /^(welcome|scan|done)$/.test(forced) ? forced : forced ? 'build' : plan.onboarded ? 'build' : 'welcome'
+    /^(door|lang|welcome|scan|done)$/.test(forced) ? forced : forced ? 'build' : plan.onboarded ? 'build' : 'door'
   );
+  // the two door leaves swing open on tap, then the language screen appears
+  let opening = $state(false);
+  function openDoor() {
+    if (typeof matchMedia !== 'undefined' && matchMedia('(prefers-reduced-motion: reduce)').matches) {
+      step = 'lang';
+      return;
+    }
+    opening = true;
+    setTimeout(() => (step = 'lang'), 620);
+  }
 
-  // The welcome screen's greetings ARE the language picker. Official locales are
-  // vi/en (other languages ride the browser's translate — see CLAUDE.md), so those
-  // are the two the app actually switches; tapping one sets it and moves on.
+  // App-value lines, shown on the (now post-language) welcome screen so they read
+  // in the visitor's chosen locale. ponytail: inline, not strings.js — three lines,
+  // one caller.
+  const FEATURES = [
+    { name: 'map', vi: 'Khám phá 25 điểm di sản', en: 'Explore 25 heritage sites on an offline map' },
+    { name: 'ticket', vi: 'Nhận tem tại mỗi điểm', en: 'Check in and collect passport stamps' },
+    { name: 'compass', vi: 'Lên lịch 5 điểm cho vé của bạn', en: 'Plan the 5 sites your ticket covers' }
+  ];
+
+  // The greeting IS the picker — a visitor taps the hello in their own language, no
+  // instructions needed. vi/en have built-in locale files (display set); the rest
+  // have none, so they display English and ride the browser's page-translate
+  // (CLAUDE.md: built locales are vi/en only). Ordered by Hội An / Da Nang arrival
+  // volume (VNAT + Da Nang tourism 2024–25): VN, EN, then Korea, China+Taiwan (one
+  // 中文), Japan, Thailand, and the leading European markets; anything else is "Other".
+  // ponytail: this set follows the tourism-stats research — edit if the mix shifts.
   const LANGS = [
     { code: 'vi', hello: 'Xin chào', name: 'Tiếng Việt', display: 'vi' },
-    { code: 'en', hello: 'Hello', name: 'English', display: 'en' }
-  ];
-  // Extra languages have no built-in locale file — they display English and ride the
-  // browser's page-translate. Ordered by Hội An / Da Nang arrival volume (VNAT + Da
-  // Nang tourism 2024–25): Korea dominates, then China+Taiwan (one 中文 button),
-  // Japan, Thailand, then the leading European markets. English (a primary card
-  // above) already covers US / UK / Australia / India; anything else is "Other".
-  // ponytail: this set follows the tourism-stats research — edit if the mix shifts.
-  const MORE = [
-    { code: 'ko', name: '한국어' },
-    { code: 'zh', name: '中文' },
-    { code: 'ja', name: '日本語' },
-    { code: 'th', name: 'ไทย' },
-    { code: 'fr', name: 'Français' },
-    { code: 'de', name: 'Deutsch' }
+    { code: 'en', hello: 'Hello', name: 'English', display: 'en' },
+    { code: 'ko', hello: '안녕하세요', name: '한국어' },
+    { code: 'zh', hello: '你好', name: '中文' },
+    { code: 'ja', hello: 'こんにちは', name: '日本語' },
+    { code: 'th', hello: 'สวัสดี', name: 'ไทย' },
+    { code: 'fr', hello: 'Bonjour', name: 'Français' },
+    { code: 'de', hello: 'Hallo', name: 'Deutsch' }
   ];
 
   onMount(() => {
@@ -100,13 +118,17 @@
   // vi/en only.) The pick is still recorded, which is the point of the study.
   function chooseLang(l) {
     setLang(l.display ?? 'en');
+    setNat(l.code); // nationality proxy for the study — tag events from here on
     trackLang(l.code);
-    step = 'scan';
+    track('welcome');
+    step = 'welcome';
   }
   function otherLang() {
     setLang('en');
+    setNat('other');
     trackLang('other');
-    step = 'scan';
+    track('welcome');
+    step = 'welcome';
   }
   async function onScanned(raw) {
     setTicketCode(raw);
@@ -290,47 +312,53 @@
   </div>
 {/snippet}
 
-{#if step === 'welcome'}
-  <section class="welcome">
-    <p class="eyebrow"><span class="dot"></span>Hội An Creative Week · {event.year}</p>
-    <!-- pre-language screen: everything here reads in both vi + en at once -->
-    <h1 class="w-title">{event.tagline.vi}</h1>
-    <p class="w-tagline-en">{event.tagline.en}</p>
-    <p class="w-meta">{event.dates} · {event.venue.en}</p>
-
-    <!-- what the app is for, three lines, bilingual -->
-    <ul class="w-feats">
-      <li><span class="fi" aria-hidden="true">🗺️</span><span><b>Khám phá 25 điểm di sản</b><small>Explore 25 heritage sites on an offline map</small></span></li>
-      <li><span class="fi" aria-hidden="true">🎫</span><span><b>Nhận tem tại mỗi điểm</b><small>Check in and collect creative-passport stamps</small></span></li>
-      <li><span class="fi" aria-hidden="true">🧭</span><span><b>Lên lịch 5 điểm cho vé của bạn</b><small>Plan the 5 sites your ticket covers</small></span></li>
-    </ul>
-
-    <p class="w-lead">Chọn ngôn ngữ · Choose your language</p>
-    <ul class="langs">
+{#if step === 'door'}
+  <!-- SCREEN 1 — the door of Hội An. Tap the mắt cửa and the leaves swing open. -->
+  <section class="door" class:opening>
+    <button class="door-tap" onclick={openDoor} aria-label="Bắt đầu · Enter">
+      <span class="frame">
+        <span class="leaf left"></span>
+        <span class="leaf right"></span>
+        <span class="seam"></span>
+        <span class="eye"><MatCua size={92} color="var(--brand)" inner="var(--paper)" /></span>
+      </span>
+      <span class="door-hint">Chạm để mở<small>Tap to enter</small></span>
+    </button>
+    <p class="door-brand">Hội An Creative Week · {event.year}</p>
+  </section>
+{:else if step === 'lang'}
+  <!-- SCREEN 2 — the greeting IS the picker: no headings, no instructions, just a
+       grid of hellos anyone recognises in their own language. -->
+  <section class="langscreen">
+    <div class="glangs">
       {#each LANGS as l (l.code)}
-        <li>
-          <button class="lang-pick" onclick={() => chooseLang(l)}>
-            <span class="hello">{l.hello}</span>
-            <span class="lang-name">{l.name} <span aria-hidden="true">→</span></span>
-          </button>
-        </li>
+        <button class="glang" onclick={() => chooseLang(l)} aria-label={l.name}>
+          <span class="g-hello" lang={l.code}>{l.hello}</span>
+          <span class="g-name">{l.name}</span>
+        </button>
+      {/each}
+      <button class="glang other" onclick={otherLang} aria-label="Other language">
+        <span class="g-hello"><Icon name="globe" size={28} /></span>
+        <span class="g-name">Other</span>
+      </button>
+    </div>
+  </section>
+{:else if step === 'welcome'}
+  <!-- SCREEN 3 — welcome, in the chosen language, three lines + one CTA -->
+  <section class="welcome intro">
+    <div class="intro-head">
+      <p class="eyebrow"><span class="dot"></span>Hội An Creative Week · {event.year}</p>
+      <h1 class="w-title">{t(event.tagline)}</h1>
+      <p class="w-meta">{event.dates} · {t(event.venue)}</p>
+    </div>
+
+    <ul class="w-feats">
+      {#each FEATURES as f (f.name)}
+        <li><span class="fi"><Icon name={f.name} size={22} /></span><span class="ft">{t(f)}</span></li>
       {/each}
     </ul>
 
-    <!-- more languages: no locale file, so these display English and ride the
-         browser's own page-translate. Grid of the top nationalities + a catch-all. -->
-    <p class="w-more-lead">Ngôn ngữ khác · More languages</p>
-    <div class="more">
-      {#each MORE as l (l.code)}
-        <button class="lang-chip" onclick={() => chooseLang(l)}>{l.name}</button>
-      {/each}
-      <button class="lang-chip other" onclick={otherLang}>🌐 Other →</button>
-    </div>
-    <p class="w-sub">
-      Các ngôn ngữ này hiển thị tiếng Anh — dùng tính năng Dịch của trình duyệt để chuyển ngữ.
-      <br />
-      These show English — use your browser's built-in Translate to convert the page.
-    </p>
+    <button class="btn" onclick={() => (step = 'scan')}>{s('welcome_start')} →</button>
   </section>
 {:else if step === 'scan'}
   <section class="onboard">
@@ -345,6 +373,7 @@
       <p class="p-why">{s('loc_note')}</p>
       <p class="p-study">{s('study_note')}</p>
       <StudyToggle />
+      <JourneyToggle />
     </div>
   </section>
 {:else if step === 'done'}
@@ -352,20 +381,23 @@
     <p class="eyebrow"><span class="dot"></span>{s('your_ticket')}</p>
     <h1>{s('done_title')}</h1>
     {@render slots(slotList)}
-    <p class="comp fieldlabel">{s('comp_line', 1, 1, 3)} · {formatDistance(planWalk.meters, i18n.lang)} · {s('walk_time', planWalk.minutes)}</p>
+    <div class="done-meta">
+      <span class="comp fieldlabel">{s('comp_line', 1, 1, 3)} · {formatDistance(planWalk.meters, i18n.lang)} · {s('walk_time', planWalk.minutes)}</span>
+      <button class="link editlink" onclick={editPlan}>{s('edit_plan')}</button>
+    </div>
 
-    <div class="donemap"><RouteMap stops={orderedPlan} height="240px" /></div>
+    <div class="donemap"><RouteMap stops={orderedPlan} height="200px" /></div>
     <ol class="doneroute">
       {#each orderedPlan as d, i (d.id)}
         <li><span class="n" style="--cat: var(--c-{d.category})">{i + 1}</span> {t(d.name)}</li>
       {/each}
     </ol>
-
-    <p class="o-sub">{s('done_sub')}</p>
-    <!-- tour focus/follow map for these 5 (route + your dot), not the full map -->
-    <a class="btn" href="{base}/go">{s('go_checkin')}</a>
-    <button class="skip" onclick={editPlan}>{s('edit_plan')}</button>
   </section>
+  <!-- primary CTA docked above the tab bar: the map + 5-stop list are taller than
+       the screen, so it can't sit in flow below them -->
+  <div class="commitbar solo">
+    <a class="btn done-cta" href="{base}/go">{s('go_checkin')}</a>
+  </div>
 {:else if mode === 'recommend'}
   <div class="build">
     <header class="b-head">
@@ -403,8 +435,10 @@
                   </li>
                 {/each}
               </ul>
-              <div class="setmap"><RouteMap stops={set.stops} height="200px" /></div>
+              <!-- commit CTA above the map: reachable without scrolling past the
+                   route preview, which stays below as supporting detail -->
               <button class="btn" onclick={() => useSet(set)}>{s('use_set')}</button>
+              <div class="setmap"><RouteMap stops={set.stops} height="200px" /></div>
             </div>
           {/if}
         </li>
@@ -418,7 +452,7 @@
     <TicketScan onsaved={onScanned} />
   </div>
 {:else}
-  <div class="build">
+  <div class="build" class:committing={valid}>
     <div class="build-top">
       <button class="link-back" onclick={() => (mode = 'recommend')}>{s('back_sugg')}</button>
       {#if pickedIds.length}
@@ -516,11 +550,15 @@
       <button class="link fill-link" onclick={autoFree}>{s('auto_free')}</button>
     {/if}
 
-    {#if valid}
-      <p class="walk-note">{s('route_walk', formatDistance(planWalk.meters, i18n.lang), planWalk.minutes)}</p>
-      <button class="btn done-cta" onclick={finish}>{s('build_done')} →</button>
-    {/if}
   </div>
+  {#if valid}
+    <!-- picking happens on the map (56vh), so the finish CTA can't live below it —
+         dock it above the tab bar the moment 5 are picked, always in reach -->
+    <div class="commitbar">
+      <span class="walk-note">{s('route_walk', formatDistance(planWalk.meters, i18n.lang), planWalk.minutes)}</span>
+      <button class="btn done-cta" onclick={finish}>{s('build_done')} →</button>
+    </div>
+  {/if}
 {/if}
 
 <style>
@@ -535,13 +573,100 @@
     padding: 32px 26px calc(32px + env(safe-area-inset-bottom));
     padding-top: max(48px, calc(env(safe-area-inset-top) + 40px));
   }
-  /* welcome now carries an intro, so it flows from the top rather than centring */
-  .welcome { justify-content: flex-start; min-height: 100vh; }
+  .welcome { justify-content: flex-start; min-height: 100dvh; }
   .welcome .eyebrow,
   .onboard .eyebrow { margin-bottom: 14px; }
+  /* intro fills the screen: brand at top, features centred, CTA at the bottom —
+     so it reads as a full panel on a phone and spreads gracefully on a tablet,
+     instead of a small block adrift in the middle. */
+  .intro { justify-content: space-between; gap: 28px; }
+  .intro-head { display: flex; flex-direction: column; }
+
+  /* language screen: a full-bleed grid of greetings, nothing else */
+  .langscreen {
+    min-height: 100dvh;
+    display: flex; flex-direction: column; justify-content: center;
+    padding: 32px 22px calc(32px + env(safe-area-inset-bottom));
+  }
+  .glangs { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; }
+  .glang {
+    display: flex; flex-direction: column; gap: 6px;
+    min-height: 92px; padding: 16px 14px;
+    border: 1px solid var(--line); background: var(--surface);
+    border-radius: var(--radius); cursor: pointer; text-align: left;
+    transition: border-color 0.14s ease, background 0.14s ease, transform 0.06s ease;
+  }
+  .glang:hover { border-color: color-mix(in srgb, var(--brand) 55%, var(--line)); }
+  .glang:active { transform: translateY(1px); }
+  .glang:focus-visible { outline: 2px solid var(--brand); outline-offset: 2px; }
+  .g-hello {
+    font-family: var(--font-display); font-weight: 700; color: var(--ink);
+    font-size: clamp(1.25rem, 5.5vw, 1.7rem); line-height: 1.05; letter-spacing: -0.02em;
+  }
+  .g-name { color: var(--muted); font-weight: 600; font-size: 0.82rem; }
+  .glang.other { align-items: flex-start; }
+  .glang.other .g-hello { color: var(--brand); }
+
+  /* ---- door screen ---- */
+  .door {
+    position: relative;
+    min-height: 100dvh;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    gap: 26px;
+    padding: 32px 26px calc(32px + env(safe-area-inset-bottom));
+  }
+  .door-tap {
+    display: flex; flex-direction: column; align-items: center; gap: 26px;
+    border: 0; background: none; cursor: pointer; padding: 0;
+  }
+  .frame {
+    position: relative;
+    width: min(64vw, 250px);
+    aspect-ratio: 3 / 4;
+    border-radius: 140px 140px 14px 14px;
+    border: 3px solid var(--brand-dark);
+    background: var(--paper-2);
+    overflow: hidden;
+    box-shadow: 0 24px 50px -20px rgba(126, 31, 19, 0.35);
+  }
+  /* two wooden leaves, faint plank lines, meeting at a centre seam */
+  .leaf {
+    position: absolute; top: 0; bottom: 0; width: 50%;
+    background:
+      repeating-linear-gradient(90deg, transparent 0 22px, color-mix(in srgb, var(--brand-dark) 12%, transparent) 22px 23px),
+      linear-gradient(160deg, color-mix(in srgb, var(--brand) 22%, var(--paper-2)), var(--paper-2));
+    transition: transform 0.6s cubic-bezier(0.4, 0, 0.2, 1), opacity 0.6s ease;
+  }
+  .leaf.left { left: 0; border-right: 1.5px solid color-mix(in srgb, var(--brand-dark) 30%, transparent); border-radius: 140px 0 0 12px; }
+  .leaf.right { right: 0; border-radius: 0 140px 12px 0; }
+  .seam { position: absolute; top: 0; bottom: 0; left: 50%; width: 2px; transform: translateX(-1px); background: color-mix(in srgb, var(--brand-dark) 26%, transparent); }
+  .eye {
+    position: absolute; left: 50%; top: 30%; transform: translate(-50%, -50%);
+    z-index: 2; filter: drop-shadow(0 6px 12px rgba(126, 31, 19, 0.28));
+    transition: opacity 0.4s ease, transform 0.4s ease;
+  }
+  /* opening: leaves swing apart, eye fades back into the doorway */
+  .door.opening .leaf.left { transform: translateX(-102%); opacity: 0.15; }
+  .door.opening .leaf.right { transform: translateX(102%); opacity: 0.15; }
+  .door.opening .seam { opacity: 0; }
+  .door.opening .eye { opacity: 0; transform: translate(-50%, -50%) scale(0.8); }
+  .door-hint {
+    display: flex; flex-direction: column; align-items: center; gap: 2px;
+    font-family: var(--font-display); font-weight: 700; font-size: 1.25rem;
+    color: var(--brand-dark); letter-spacing: -0.01em;
+  }
+  .door-hint small { font-family: var(--font-body); font-weight: 500; font-size: 0.85rem; color: var(--muted); letter-spacing: 0; }
+  .door.opening .door-hint { opacity: 0.4; transition: opacity 0.3s ease; }
+  .door-brand { margin: 0; color: var(--muted); font-size: 0.8rem; letter-spacing: 0.04em; }
+  @media (prefers-reduced-motion: reduce) {
+    .leaf, .eye { transition: none; }
+  }
 
   .w-title {
-    margin: 0 0 4px;
+    margin: 0 0 10px;
     font-family: var(--font-display);
     font-weight: 800;
     color: var(--ink);
@@ -549,65 +674,14 @@
     line-height: 1.05;
     letter-spacing: -0.02em;
   }
-  .w-tagline-en { margin: 0 0 10px; color: var(--brand-dark); font-weight: 600; font-size: 1rem; }
-  .w-meta { margin: 0 0 24px; color: var(--muted); font-size: 0.85rem; }
+  .w-meta { margin: 0 0 26px; color: var(--muted); font-size: 0.85rem; }
 
-  .w-feats { list-style: none; margin: 0 0 30px; padding: 0; display: flex; flex-direction: column; gap: 14px; }
-  .w-feats li { display: flex; align-items: flex-start; gap: 13px; }
-  .w-feats .fi { font-size: 1.4rem; line-height: 1.2; flex: none; }
-  .w-feats li span:last-child { display: flex; flex-direction: column; gap: 1px; }
-  .w-feats b { color: var(--ink); font-weight: 700; font-size: 0.95rem; }
-  .w-feats small { color: var(--muted); font-size: 0.82rem; }
+  .w-feats { list-style: none; margin: 0 0 8px; padding: 0; display: flex; flex-direction: column; gap: 16px; }
+  .w-feats li { display: flex; align-items: center; gap: 13px; }
+  .w-feats .fi { flex: none; display: grid; place-items: center; width: 34px; height: 34px; border-radius: 10px; background: color-mix(in srgb, var(--brand) 10%, transparent); color: var(--brand); }
+  .w-feats .ft { color: var(--ink); font-weight: 600; font-size: 0.98rem; line-height: 1.35; }
+  .intro .btn { width: 100%; }
 
-  .w-lead { margin: 0 0 14px; color: var(--muted); font-size: 0.9rem; font-weight: 500; }
-
-  /* the greetings are the language picker */
-  .langs { list-style: none; margin: 0; padding: 0; display: flex; flex-direction: column; gap: 12px; }
-  .lang-pick {
-    width: 100%;
-    display: flex;
-    align-items: baseline;
-    justify-content: space-between;
-    gap: 14px;
-    text-align: left;
-    border: 1px solid var(--line);
-    background: var(--surface);
-    border-radius: var(--radius);
-    padding: 18px 20px;
-    cursor: pointer;
-    transition: border-color 0.14s ease, background 0.14s ease;
-  }
-  .lang-pick:hover { border-color: color-mix(in srgb, var(--brand) 55%, var(--line)); }
-  .lang-pick:focus-visible { outline: 2px solid var(--brand); outline-offset: 2px; }
-  .hello {
-    font-family: var(--font-display);
-    font-weight: 700;
-    color: var(--ink);
-    font-size: clamp(1.9rem, 8vw, 2.5rem);
-    line-height: 1;
-    letter-spacing: -0.03em;
-  }
-  .lang-name { flex: 0 0 auto; color: var(--brand); font-weight: 600; font-size: 0.9rem; }
-
-  /* more languages: quieter than the two real picks — a wrap of chips, not cards */
-  .w-more-lead { margin: 22px 0 12px; color: var(--muted); font-size: 0.9rem; font-weight: 500; }
-  .more { display: flex; flex-wrap: wrap; gap: 10px; }
-  .lang-chip {
-    border: 1px dashed var(--line);
-    background: none;
-    border-radius: 999px;
-    padding: 10px 16px;
-    color: var(--brand-dark);
-    font-family: var(--font-body);
-    font-weight: 600;
-    font-size: 0.92rem;
-    cursor: pointer;
-    transition: border-color 0.14s ease, background 0.14s ease;
-  }
-  .lang-chip:hover { border-color: color-mix(in srgb, var(--brand) 55%, var(--line)); }
-  .lang-chip:focus-visible { outline: 2px solid var(--brand); outline-offset: 2px; }
-  .lang-chip.other { color: var(--muted); }
-  .w-sub { margin: 14px 0 0; color: var(--muted); font-size: 0.82rem; line-height: 1.5; }
   .onboard h1 {
     margin: 0 0 8px;
     font-family: var(--font-display);
@@ -617,8 +691,15 @@
     line-height: 1.1;
   }
   .o-sub { margin: 0 0 24px; max-width: 30ch; color: var(--muted); line-height: 1.5; }
-  .onboard.done .comp { margin: 14px 0 4px; }
-  .onboard.done .btn { align-self: flex-start; margin-top: 6px; }
+  .onboard.done { padding-bottom: calc(150px + env(safe-area-inset-bottom)); justify-content: flex-start; padding-top: max(40px, calc(env(safe-area-inset-top) + 32px)); }
+  .done-meta { display: flex; align-items: baseline; justify-content: space-between; gap: 12px; flex-wrap: wrap; margin: 14px 0 4px; }
+  .done-meta .comp { margin: 0; }
+  .editlink {
+    border: 0; background: none; padding: 0; cursor: pointer;
+    color: var(--brand); font-family: var(--font-body); font-weight: 600; font-size: 0.85rem;
+    text-decoration: underline; text-underline-offset: 3px; flex: none;
+  }
+  .commitbar.solo .done-cta { flex: 1 1 auto; width: 100%; }
   .donemap { width: 100%; margin: 14px 0 12px; border-radius: 12px; overflow: hidden; border: 1px solid var(--line); }
   .doneroute { list-style: none; margin: 0 0 8px; padding: 0; display: flex; flex-direction: column; gap: 8px; width: 100%; }
   .doneroute li { display: flex; align-items: center; gap: 10px; font-size: 0.95rem; }
@@ -744,7 +825,6 @@
     border-radius: 999px;
     margin-bottom: 2px;
   }
-  .setcard h2 { margin: 0; font-size: 1.15rem; font-weight: 700; letter-spacing: -0.01em; }
   .setcard .narr { margin: 0; color: var(--muted); font-size: 0.9rem; line-height: 1.5; }
   .chip.dist { color: var(--ink); background: var(--bg); }
   .stops { list-style: none; margin: 0; padding: 8px 0 0; border-top: 1px solid var(--line); display: flex; flex-direction: column; gap: 8px; }
@@ -854,4 +934,26 @@
 
   .walk-note { margin: 4px 0 0; color: var(--muted); font-size: 0.85rem; font-weight: 600; text-align: center; }
   .done-cta { width: 100%; margin-top: 4px; }
+
+  /* docked finish bar — sits above the tab bar so the commit CTA is reachable the
+     instant 5 are picked, instead of below the 56vh picking map */
+  .build.committing { padding-bottom: 88px; }
+  .commitbar {
+    position: fixed;
+    left: 12px; right: 12px;
+    bottom: calc(84px + env(safe-area-inset-bottom));
+    max-width: 516px; margin: 0 auto;
+    display: flex; align-items: center; gap: 12px;
+    padding: 8px 8px 8px 16px;
+    background: color-mix(in srgb, var(--surface) 92%, transparent);
+    backdrop-filter: saturate(1.3) blur(14px);
+    border: 1px solid var(--line);
+    border-radius: 18px;
+    box-shadow: var(--shadow-lift);
+    z-index: 900;
+    animation: rise 0.3s cubic-bezier(0.2, 0.7, 0.2, 1) both;
+  }
+  .commitbar .walk-note { flex: 1 1 auto; margin: 0; text-align: left; }
+  .commitbar .done-cta { flex: 0 0 auto; width: auto; margin: 0; }
+  @media (prefers-reduced-motion: reduce) { .commitbar { animation: none; } }
 </style>

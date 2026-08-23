@@ -26,3 +26,22 @@ CREATE TABLE IF NOT EXISTS passports (
   updated INTEGER NOT NULL,
   flags INTEGER NOT NULL DEFAULT 0
 );
+
+-- Opt-in journey study: one row PER event (the exception to the aggregates-only
+-- rule), so a visit's ORDER of sites can be reconstructed per nationality. `sid`
+-- is an ephemeral per-session id (not the device pid) — resets each visit, links
+-- nothing across visits. Written only when the visitor opted in (the client sends
+-- `sid` only then); reads are organizer CSV export, never a live dashboard, so the
+-- per-event rows don't blow the D1 read allowance.
+-- ponytail: no retention job — TRUNCATE / drop the table after the event. Add a
+-- date-partition purge only if this ever runs longer than one festival.
+CREATE TABLE IF NOT EXISTS journeys (
+  id INTEGER PRIMARY KEY AUTOINCREMENT,
+  sid TEXT NOT NULL,      -- ephemeral session id (per visit), not a device id
+  seq INTEGER NOT NULL,   -- order within the session
+  nat TEXT,               -- nationality code (chosen language), or NULL
+  t TEXT NOT NULL,        -- event type (checkin, scan, …)
+  dest TEXT,              -- destination id, or NULL for site-less events
+  ts INTEGER NOT NULL     -- client timestamp (ms)
+);
+CREATE INDEX IF NOT EXISTS journeys_sid ON journeys (sid, seq);

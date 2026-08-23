@@ -21,6 +21,13 @@ export const TYPES = new Set([
 ]);
 export const MAX_EVENTS = 50; // one dead-spot queue, not a firehose
 
+// Behaviour crossed BY nationality, keyed `nat:<type>:<id|_>:<code>` (aggregate,
+// alongside the plain counters, which stay untouched so the spotlight is unaffected).
+// Only these types are worth slicing; lang/pick ARE the nationality signal and cell
+// already carries its own locale, so none of those cross.
+const NAT_CROSS = new Set(['checkin', 'gps_far', 'quiz_wrong', 'redeem', 'welcome', 'scan', 'plan_built']);
+const SID = /^[a-f0-9]{8,24}$/i; // ephemeral session id (study.svelte.js)
+
 const ID = /^[a-z0-9-]{1,32}$/;
 // A language code (ISO 639 subtag, or 'other'). Its own bounded alphabet caps how
 // many distinct rows it can mint, so unlike a free destination id it needs no
@@ -78,6 +85,12 @@ export function tally(events, validIds = null) {
     // gps_far/quiz_wrong are per-site diagnostics; the rest are plain totals.
     const key = type === 'checkin' ? countKey(id) : eventKey(type, id);
     bump[key] = (bump[key] ?? 0) + 1;
+    // cross this behaviour by nationality when the event carries a valid code
+    const nat = typeof e?.nat === 'string' && LANGCODE.test(e.nat) ? e.nat : null;
+    if (nat && NAT_CROSS.has(type)) {
+      const nk = `nat:${type}:${id ?? '_'}:${nat}`;
+      bump[nk] = (bump[nk] ?? 0) + 1;
+    }
     // Metres overshot, summed: `gps_far_m / gps_far` is the average overshoot per
     // site, which is the number that says what its radius should have been.
     if (type === 'gps_far' && id && Number.isFinite(e.n) && e.n > 0) {
@@ -88,12 +101,65 @@ export function tally(events, validIds = null) {
   return bump;
 }
 
-/** `[key, n]` rows -> totals per destination (count keys) or per event name. */
+/**
+ * `[key, n]` rows -> totals per destination (count keys) or per event name.
+ * Matches the exact prefix so the `nat:` cross-tab rows never leak into either
+ * bucket (they read via natTotals). Production also binds the prefix in SQL, but
+ * keeping this strict means the dev stand-in and any future caller are safe too.
+ */
 export function totals(rows, events = false) {
+  const prefix = events ? 'ev:' : 'count:';
   const out = {};
   for (const [key, n] of rows) {
-    if (events !== key.startsWith('ev:')) continue;
-    out[events ? key.slice(3) : key.slice(6)] = n;
+    if (!key.startsWith(prefix)) continue;
+    out[key.slice(prefix.length)] = n;
   }
   return out;
+}
+
+/**
+ * `nat:<type>:<id|_>:<code>` rows -> `{ [type]: { [id]: { [code]: n } } }`.
+ * Behaviour crossed by nationality, for the organizer's per-nationality tables.
+ */
+export function natTotals(rows) {
+  const out = {};
+  for (const [key, n] of rows) {
+    if (!key.startsWith('nat:')) continue;
+    const rest = key.slice(4);
+    const a = rest.indexOf(':');
+    const b = rest.lastIndexOf(':');
+    if (a < 0 || b <= a) continue;
+    const type = rest.slice(0, a);
+    const id = rest.slice(a + 1, b);
+    const code = rest.slice(b + 1);
+    ((out[type] ??= {})[id] ??= {})[code] = n;
+  }
+  return out;
+}
+
+/**
+ * Queued events -> journey rows for the (opt-in) sequence log. Only events that
+ * carry an ephemeral `sid` are logged; `dest` is kept only when it names a real
+ * site. Pure so sql.test.js / counts.test.js can exercise it.
+ * @param {Iterable<object>} events
+ * @param {Set<string>|null} [validIds]
+ */
+export function journeyRows(events, validIds = null) {
+  const rows = [];
+  for (const e of (events ?? []).slice(0, MAX_EVENTS)) {
+    if (typeof e?.sid !== 'string' || !SID.test(e.sid)) continue;
+    const type = e?.t ?? 'checkin';
+    if (!TYPES.has(type)) continue;
+    const dest = typeof e?.id === 'string' && ID.test(e.id) && (!validIds || validIds.has(e.id)) ? e.id : null;
+    const nat = typeof e?.nat === 'string' && LANGCODE.test(e.nat) ? e.nat : null;
+    rows.push({
+      sid: e.sid,
+      seq: Number.isInteger(e.seq) ? e.seq : 0,
+      nat,
+      t: type,
+      dest,
+      ts: Number.isFinite(e.at) ? e.at : 0
+    });
+  }
+  return rows;
 }

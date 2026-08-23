@@ -1,6 +1,7 @@
 import { browser } from '$app/environment';
 import { base } from '$app/paths';
 import { mergeStamps, encodeSnapshot, decodeSnapshot, normalizeCode, isValidCode } from './backup.js';
+import { study, journeyTag } from './study.svelte.js';
 
 const KEY = 'hacw_passport_v1';
 const QUEUE = 'hacw_checkin_queue_v1';
@@ -127,7 +128,16 @@ function soon(key, fn, ms) {
 export function track(type, id, n) {
   if (!browser) return;
   const q = read(QUEUE);
-  q.push({ t: type, id, n, at: Date.now() });
+  const e = { t: type, id, n, at: Date.now() };
+  // nationality tag → the server crosses whitelisted behaviour with it (aggregate)
+  if (study.nat) e.nat = study.nat;
+  // journey stamp only when the visitor opted into the sequence study
+  const j = journeyTag();
+  if (j) {
+    e.sid = j.sid;
+    e.seq = j.seq;
+  }
+  q.push(e);
   localStorage.setItem(QUEUE, JSON.stringify(q));
   soon('flush', flush, 5000);
 }

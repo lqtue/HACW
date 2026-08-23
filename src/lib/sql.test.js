@@ -11,9 +11,11 @@ import {
   SELECT_COUNTERS,
   SELECT_PASSPORT,
   UPSERT_PASSPORT,
-  SELECT_FLAGGED
+  SELECT_FLAGGED,
+  INSERT_JOURNEY,
+  SELECT_JOURNEYS
 } from './sql.js';
-import { tally, totals } from './counts.js';
+import { tally, totals, natTotals, journeyRows } from './counts.js';
 import { mergeSnapshots } from './backup.js';
 
 const root = join(dirname(fileURLToPath(import.meta.url)), '../..');
@@ -77,5 +79,39 @@ put('GG22GG22', first, 1);
 put('AB12CD34', first, 0); // re-backing-up a clean passport clears its old flags
 const review = db.prepare(SELECT_FLAGGED).all();
 assert.deepEqual(review.map((r) => [r.pid, r.flags]), [['FF11FF11', 3], ['GG22GG22', 1]]);
+
+// --- nationality cross-tab rides the same counters table, read by prefix ---
+for (const [k, n] of Object.entries(
+  tally([
+    { t: 'checkin', id: 'chua-cau', nat: 'ko' },
+    { t: 'checkin', id: 'chua-cau', nat: 'ko' },
+    { t: 'welcome', nat: 'ja' }
+  ])
+)) {
+  bump(k, n);
+}
+assert.deepEqual(
+  natTotals(read('nat:%')),
+  { checkin: { 'chua-cau': { ko: 2 } }, welcome: { _: { ja: 1 } } },
+  'nat: keys accumulate and read back as the cross-tab'
+);
+assert.deepEqual(totals(read('count:%')).a, 2, 'plain counters untouched by nat crossing');
+
+// --- opt-in journey log: one row per event, read back newest-first for export ---
+const jrows = journeyRows(
+  [
+    { t: 'checkin', id: 'chua-cau', nat: 'ko', sid: 'abc12345', seq: 0, at: 1000 },
+    { t: 'checkin', id: 'nha-co-tan-ky', nat: 'ko', sid: 'abc12345', seq: 1, at: 2000 }
+  ],
+  new Set(['chua-cau', 'nha-co-tan-ky'])
+);
+for (const r of jrows) db.prepare(INSERT_JOURNEY).run(r.sid, r.seq, r.nat, r.t, r.dest, r.ts);
+const got = db.prepare(SELECT_JOURNEYS).all(10);
+assert.equal(got.length, 2, 'both journey rows stored');
+assert.deepEqual(
+  got.map((r) => [r.seq, r.dest]).sort((a, b) => a[0] - b[0]),
+  [[0, 'chua-cau'], [1, 'nha-co-tan-ky']],
+  'sequence + destination preserved for the researcher CSV'
+);
 
 console.log('sql.test.js ok');

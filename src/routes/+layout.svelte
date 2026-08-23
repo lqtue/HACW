@@ -6,6 +6,7 @@
   import { flush, backup } from '$lib/passport.svelte.js';
   import { loadCounts } from '$lib/stats.svelte.js';
   import { unlockFromUrl } from '$lib/staff.svelte.js';
+  import { plan } from '$lib/plan.svelte.js';
   import { theme, toggleTheme } from '$lib/theme.svelte.js';
   import { s } from '$lib/strings.js';
 
@@ -46,6 +47,9 @@
   const rel = $derived($page.url.pathname.slice(base.length) || '/');
   const isActive = (p) => (p === '/' ? rel === '/' : rel.startsWith(p));
   const wide = $derived(rel.startsWith('/organizer'));
+  // hide the tab bar through the pre-onboarding door/language/welcome/scan run, so
+  // those read as full-screen single-job screens (the door isn't skippable past)
+  const onboarding = $derived(rel === '/' && !plan.onboarded);
 </script>
 
 <button class="chip-fab theme" onclick={toggleTheme} aria-label="Theme" title="Theme">
@@ -56,7 +60,7 @@
   {@render children()}
 </div>
 
-{#if !wide}
+{#if !wide && !onboarding}
   <nav class="nav" aria-label="Main">
     {#each tabs as t (t.path)}
       <a href={href(t.path)} aria-current={isActive(t.path) ? 'page' : undefined}>

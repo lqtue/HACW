@@ -26,7 +26,9 @@ const groups = [
   {
     title: '1 · Onboarding',
     screens: [
-      { label: 'Welcome + language', path: '/?step=welcome' },
+      { label: 'Door (tap to enter)', path: '/?step=door' },
+      { label: 'Language', path: '/?step=lang' },
+      { label: 'Welcome', path: '/?step=welcome' },
       { label: 'Scan ticket', path: '/?step=scan' },
     ],
   },
@@ -44,6 +46,8 @@ const groups = [
       { label: 'Routing (nav)', path: `/go?set=${tours[0].id}`, map: true },
       { label: 'At a site', path: `/destinations/${SAMPLE}?demo=idle` },
       { label: 'Quiz', path: `/destinations/${SAMPLE}?demo=quiz` },
+      { label: 'Result — correct', path: `/destinations/${SAMPLE}?demo=correct` },
+      { label: 'Result — wrong', path: `/destinations/${SAMPLE}?demo=wrong` },
       { label: 'Checked in + stamp', path: `/destinations/${SAMPLE}?demo=done` },
     ],
   },

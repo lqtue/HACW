@@ -95,6 +95,30 @@
   const hasCells = $derived(Object.keys(cells).length > 0);
   let heatLocale = $state('all');
 
+  // Behaviour crossed by nationality: nat = { checkin: { destId: { code: n } }, ... }.
+  // The headline table is check-ins per site × nationality; the funnel steps are
+  // site-less (keyed '_'). Columns are the nationalities present, busiest first.
+  let nat = $state({});
+  const natCheckin = $derived(nat.checkin ?? {});
+  const natCodes = $derived.by(() => {
+    const tot = {};
+    for (const per of Object.values(nat)) {
+      for (const byCode of Object.values(per)) {
+        for (const [c, n] of Object.entries(byCode)) tot[c] = (tot[c] ?? 0) + n;
+      }
+    }
+    return Object.keys(tot).sort((a, b) => tot[b] - tot[a]);
+  });
+  const hasNat = $derived(natCodes.length > 0);
+  const FUNNEL = [
+    ['welcome', 'app opened'],
+    ['scan', 'ticket scanned'],
+    ['plan_built', 'plan built']
+  ];
+  const natCell = (type, id, code) => nat[type]?.[id]?.[code] ?? 0;
+
+  let journeyN = $state(null);
+
   // Cold sites are worth a flyer at the nearest counter — this is that mapping.
   const nearestCounter = (d) => nearest(d, tickets);
 
@@ -103,12 +127,14 @@
     busy = true;
     await loadCounts(true);
     try {
-      const [ev, fl] = await Promise.all([
+      const [ev, fl, nt] = await Promise.all([
         fetch(`${base}/api/checkin?events=1`),
-        fetch(`${base}/api/passport?flagged=1`)
+        fetch(`${base}/api/passport?flagged=1`),
+        fetch(`${base}/api/checkin?nat=1`)
       ]);
       if (ev.ok) events = await ev.json();
       if (fl.ok) flagged = await fl.json();
+      if (nt.ok) nat = await nt.json();
     } catch {
       // no endpoint / offline -> keep whatever we had
     }
@@ -133,6 +159,24 @@
       );
     }
     download(`hacw-checkins-${new Date().toISOString().slice(0, 10)}.csv`, lines.join('\n'), 'text/csv');
+  }
+
+  // Journey study export: pull the raw opt-in sequence rows and hand the researcher
+  // a CSV (sid, seq, nat, type, dest, ISO time). One-shot heavy read, on demand only.
+  async function exportJourneys() {
+    try {
+      const r = await fetch(`${base}/api/checkin?journeys=1`);
+      if (!r.ok) return;
+      const { rows: jr } = await r.json();
+      journeyN = jr.length;
+      const lines = [['sid', 'seq', 'nat', 'type', 'dest', 'ts_iso'].join(',')];
+      for (const j of jr) {
+        lines.push([j.sid, j.seq, j.nat ?? '', j.t, j.dest ?? '', new Date(j.ts).toISOString()].join(','));
+      }
+      download(`hacw-journeys-${new Date().toISOString().slice(0, 10)}.csv`, lines.join('\n'), 'text/csv');
+    } catch {
+      // no endpoint / offline — nothing to export
+    }
   }
 </script>
 
@@ -251,6 +295,44 @@
     </div>
   </div>
 
+  <h2>{s('org_nat')}</h2>
+  <p class="muted"><small>{s('org_nat_hint')}</small></p>
+  {#if hasNat}
+    <div class="nattable">
+      <table>
+        <thead>
+          <tr>
+            <th>{s('org_nat_metric')}</th>
+            {#each natCodes as code (code)}<th class="num">{langName(code)}</th>{/each}
+          </tr>
+        </thead>
+        <tbody>
+          {#each FUNNEL as [type, label] (type)}
+            <tr class="funnel">
+              <td>{label}</td>
+              {#each natCodes as code (code)}<td class="num">{natCell(type, '_', code) || ''}</td>{/each}
+            </tr>
+          {/each}
+          {#each rows as { d } (d.id)}
+            <tr>
+              <td><a href="{base}/destinations/{d.id}">{t(d.name)}</a></td>
+              {#each natCodes as code (code)}<td class="num">{natCell('checkin', d.id, code) || ''}</td>{/each}
+            </tr>
+          {/each}
+        </tbody>
+      </table>
+    </div>
+  {:else}
+    <p class="muted"><small>{s('org_nat_none')}</small></p>
+  {/if}
+
+  <h2>{s('org_journeys')}</h2>
+  <p class="muted"><small>{s('org_journeys_hint')}</small></p>
+  <div class="actions">
+    <button class="btn secondary" onclick={exportJourneys}>{s('org_journeys_export')}</button>
+    {#if journeyN != null}<small class="muted">{s('org_journeys_count', journeyN)}</small>{/if}
+  </div>
+
   {#if hasCells}
     <h2>{s('org_heat')}</h2>
     <p class="muted"><small>{s('org_heat_hint')}</small></p>
@@ -359,6 +441,12 @@
   h2 { margin: 20px 0 6px; }
   .dash { max-width: 900px; }
   table { width: 100%; border-collapse: collapse; }
+  /* nationality matrix can be wider than the column — scroll it, never the page */
+  .nattable { overflow-x: auto; }
+  .nattable table { min-width: max-content; }
+  .nattable th, .nattable td { padding: 6px 10px; white-space: nowrap; text-align: left; border-bottom: 1px solid var(--line); }
+  .nattable th.num, .nattable td.num { text-align: right; }
+  .nattable tr.funnel { color: var(--muted); font-size: 0.9em; }
   th, td { text-align: left; padding: 8px 6px; border-bottom: 1px solid var(--line); vertical-align: top; }
   .num { text-align: right; }
   tr.boost td { background: color-mix(in srgb, var(--gold) 10%, transparent); }
