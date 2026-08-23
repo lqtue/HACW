@@ -1,15 +1,16 @@
 <script>
   import { s } from '$lib/strings.js';
-  // Danh sách | Bản đồ segmented control, shared by the picker and the Explore tab.
-  let { mode = $bindable('list') } = $props();
+  // Bản đồ | Danh sách segmented control, shared by the picker and the Explore tab.
+  // Map first + default: the map is the primary way to choose/browse sites.
+  let { mode = $bindable('map') } = $props();
 </script>
 
 <div class="viewtabs" role="tablist" aria-label={s('view_mode')}>
-  <button class="vtab" class:on={mode === 'list'} role="tab" aria-selected={mode === 'list'} onclick={() => (mode = 'list')}>
-    {s('view_list')}
-  </button>
   <button class="vtab" class:on={mode === 'map'} role="tab" aria-selected={mode === 'map'} onclick={() => (mode = 'map')}>
     {s('view_map')}
+  </button>
+  <button class="vtab" class:on={mode === 'list'} role="tab" aria-selected={mode === 'list'} onclick={() => (mode = 'list')}>
+    {s('view_list')}
   </button>
 </div>
 

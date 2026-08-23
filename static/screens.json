@@ -21,8 +21,35 @@
         "map": true
       },
       {
+        "label": "Travel plan (ready)",
+        "path": "/?step=done",
+        "map": true
+      },
+      {
+        "label": "Routing (nav)",
+        "path": "/go?set=nha-co-va-nghe-xua",
+        "map": true
+      },
+      {
+        "label": "Destination (check-in)",
+        "path": "/destinations/chua-cau?demo=idle"
+      },
+      {
+        "label": "Quiz",
+        "path": "/destinations/chua-cau?demo=quiz"
+      },
+      {
+        "label": "Checked in",
+        "path": "/destinations/chua-cau?demo=done"
+      },
+      {
         "label": "Explore (map)",
         "path": "/destinations",
+        "map": true
+      },
+      {
+        "label": "Tour (route)",
+        "path": "/tours/nha-co-va-nghe-xua",
         "map": true
       },
       {
@@ -32,13 +59,8 @@
     ]
   },
   {
-    "title": "Destinations (25) — \"Show quizzes\" (needs screens.html?staff=CODE)",
+    "title": "Destinations (24) — \"Show quizzes\" (needs screens.html?staff=CODE)",
     "screens": [
-      {
-        "label": "Chùa Cầu (Cầu Nhật Bản)",
-        "path": "/destinations/chua-cau",
-        "quiz": true
-      },
       {
         "label": "Chùa Quan Âm",
         "path": "/destinations/chua-quan-am",
@@ -162,13 +184,8 @@
     ]
   },
   {
-    "title": "Tours (5)",
+    "title": "Tours (4)",
     "screens": [
-      {
-        "label": "Nhà cổ & nghề xưa",
-        "path": "/tours/nha-co-va-nghe-xua",
-        "map": true
-      },
       {
         "label": "Chùa Cầu & Cẩm Phô",
         "path": "/tours/chua-cau-va-cam-pho",

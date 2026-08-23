@@ -10,6 +10,8 @@ const root = join(dirname(fileURLToPath(import.meta.url)), '..');
 const load = (f) => JSON.parse(readFileSync(join(root, 'src/lib/data', f), 'utf8'));
 const dests = (d => d.destinations || d)(load('destinations.json'));
 const tours = (t => t.tours || t)(load('tours.json'));
+// iconic, real (non-generated) quiz bank, has landmark art — the Core sample.
+const SAMPLE = dests.some((d) => d.id === 'chua-cau') ? 'chua-cau' : dests[0].id;
 
 const groups = [
   {
@@ -23,21 +25,34 @@ const groups = [
       { label: 'Scan ticket', path: '/?step=scan' },
       { label: 'Gợi ý (suggested sets)', path: '/?step=recommend', map: true },
       { label: 'Pick my own', path: '/?step=manual', map: true },
+      { label: 'Travel plan (ready)', path: '/?step=done', map: true },
+      { label: 'Routing (nav)', path: `/go?set=${tours[0].id}`, map: true },
+      { label: 'Destination (check-in)', path: `/destinations/${SAMPLE}?demo=idle` },
+      { label: 'Quiz', path: `/destinations/${SAMPLE}?demo=quiz` },
+      { label: 'Checked in', path: `/destinations/${SAMPLE}?demo=done` },
       { label: 'Explore (map)', path: '/destinations', map: true },
+      { label: 'Tour (route)', path: `/tours/${tours[0].id}`, map: true },
       { label: 'Passport', path: '/passport' },
     ],
   },
   {
-    title: `Destinations (${dests.length}) — "Show quizzes" (needs screens.html?staff=CODE)`,
-    screens: dests.map((d) => ({
-      label: d.name?.vi || d.code || d.id,
-      path: `/destinations/${d.id}`,
-      quiz: true,
-    })),
+    // SAMPLE is already the Core check-in/quiz/done frames — drop it here so the
+    // catalog (and its compact first-frame) isn't a duplicate.
+    title: `Destinations (${dests.length - 1}) — "Show quizzes" (needs screens.html?staff=CODE)`,
+    screens: dests
+      .filter((d) => d.id !== SAMPLE)
+      .map((d) => ({
+        label: d.name?.vi || d.code || d.id,
+        path: `/destinations/${d.id}`,
+        quiz: true,
+      })),
   },
   {
-    title: `Tours (${tours.length})`,
-    screens: tours.map((t) => ({ label: t.title?.vi || t.id, path: `/tours/${t.id}`, map: true })),
+    // tours[0] is already the Core "Tour (route)" frame — drop it here too.
+    title: `Tours (${tours.length - 1})`,
+    screens: tours
+      .filter((t) => t.id !== tours[0].id)
+      .map((t) => ({ label: t.title?.vi || t.id, path: `/tours/${t.id}`, map: true })),
   },
 ];
 

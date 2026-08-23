@@ -78,6 +78,9 @@
     // board preview (?step=recommend): expand the top set so the frame shows its
     // map + stops, not just collapsed titles.
     if (forced === 'recommend' && recommended.length) openSet = recommended[0].id;
+    // board preview (?step=done): the done summary needs a plan to render — seed
+    // one from the first ticket set if the device has none.
+    if (forced === 'done' && !pickedIds.length && ticketSets.length) applySet(ticketSets[0].stops);
   });
 
   // Record the language signal for the nationality study (see counts.js): the
@@ -176,7 +179,7 @@
   const CAP = 8;
   let showAll = $state(false);
   // list (scan names/status) vs map (spatial pick) — one at a time, not stacked
-  let viewMode = $state('list'); // 'list' | 'map'
+  let viewMode = $state('map'); // 'map' | 'list' — map first + default
 
   const currentGroup = $derived(groups[STEPS[stepIdx].cls]);
   const eligibleIds = $derived(currentGroup.map((d) => d.id));

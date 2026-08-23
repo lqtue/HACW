@@ -43,10 +43,20 @@
   figcaption b { font-size: 14px; }
   figcaption span { color: #888; font-size: 12px; }
   body.editing .phone { outline: 2px dashed #ff5a4d; outline-offset: 6px; }
+  /* compact: one route + one location — hide all but the first frame of the
+     Destinations/Tours catalogs (Core keeps every screen), and flatten every
+     group into a single wrapping grid so the surviving dest+tour fill the last
+     slots of Core's rows (a clean 4×2) instead of sitting in their own sections. */
+  body.compact .board[data-trim='1'] figure:not(:first-child) { display: none; }
+  body.compact #root { display: flex; flex-wrap: wrap; gap: 40px; padding: 24px 40px 40px; align-items: flex-start; }
+  body.compact #root h2 { display: none; }
+  body.compact .board { display: contents; }
 </style>
 
 <header>
   <h1>HACW — screens</h1>
+  <button id="compact">▦ Show all</button>
+  <button id="lang">🌐 EN</button>
   <button id="edit">✎ Edit text</button>
   <button id="quiz">🧪 Show quizzes</button>
   <button id="theme">☾ Dark</button>
@@ -115,6 +125,10 @@
       if (m) m.content = theme === 'dark' ? '#0c0b0a' : '#fbf1ea';
     } catch (e) {}
   };
+  // Board language: frames read hacw_lang before boot (i18n.svelte.js), so switch
+  // by writing it and reloading the frames. vi is the app default.
+  let lang = 'vi';
+  try { localStorage.setItem('hacw_lang', lang); } catch (e) {}
   const srcFor = (sc) => {
     let p = BASE + sc.path;
     if (sc.quiz && STAFF) p += (p.includes('?') ? '&' : '?') + 'staff=' + encodeURIComponent(STAFF);
@@ -130,6 +144,10 @@
       root.appendChild(h);
       const board = document.createElement('div');
       board.className = 'board';
+      // big catalog groups (Destinations, Tours) collapse to one frame in compact
+      // mode; Core keeps every screen. The <h2> hides with its board.
+      const trim = /^(Destinations|Tours) /.test(g.title);
+      board.dataset.trim = trim ? '1' : '';
       root.appendChild(board);
       for (const sc of g.screens) {
         const fig = document.createElement('figure');
@@ -175,6 +193,25 @@
     if (quizOn) frames.filter((f) => f.dataset.quiz).forEach((f) => { showQuiz(f); setTimeout(() => capture(f), 500); });
     // turning off: reload those frames back to the check-in screen
     else frames.filter((f) => f.dataset.quiz).forEach((f) => (f.src = f.src));
+  };
+
+  // compact (one route + one location) is the default view; toggle full back on
+  let compact = true;
+  document.body.classList.add('compact');
+  const compactBtn = document.getElementById('compact');
+  compactBtn.onclick = () => {
+    compact = !compact;
+    document.body.classList.toggle('compact', compact);
+    compactBtn.classList.toggle('on', !compact);
+    compactBtn.textContent = compact ? '▦ Show all' : '🎯 One each';
+  };
+
+  const langBtn = document.getElementById('lang');
+  langBtn.onclick = () => {
+    lang = lang === 'vi' ? 'en' : 'vi';
+    try { localStorage.setItem('hacw_lang', lang); } catch (e) {}
+    langBtn.textContent = lang === 'vi' ? '🌐 EN' : '🌐 VI';
+    frames.forEach((f) => (f.src = f.src)); // re-read lang on boot
   };
 
   const themeBtn = document.getElementById('theme');

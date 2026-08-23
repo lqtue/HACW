@@ -14,9 +14,16 @@
   import MatCua from '$lib/components/MatCua.svelte';
   import StampPress from '$lib/components/StampPress.svelte';
   import PageShell from '$lib/components/PageShell.svelte';
+  import { onMount } from 'svelte';
 
   let { data } = $props();
   const dest = data.dest;
+
+  // ?demo=idle|quiz|done forces a check-in step for the /screens board (and
+  // testers), independent of GPS and whether this device already has the stamp —
+  // otherwise a stamped device only ever shows 'done'. Never mutates the passport.
+  const demo =
+    (typeof location !== 'undefined' && new URLSearchParams(location.search).get('demo')) || '';
 
   // Quieter sites earn a bonus — this is what pulls the crowd off Chùa Cầu.
   const spotlight = $derived(spotlightIds(stats.counts, destinations).has(dest.id));
@@ -30,7 +37,7 @@
   const COOLDOWN = 20;
 
   // idle -> locating -> (far | quiz | cooldown) -> done ; or error
-  let step = $state(hasStamp(dest.id) ? 'done' : 'idle');
+  let step = $state(demo === 'idle' || demo === 'done' ? demo : hasStamp(dest.id) ? 'done' : 'idle');
   let message = $state('');
   let distance = $state(0);
   let cool = $state(0);
@@ -68,6 +75,13 @@
     message = '';
     step = 'quiz';
   }
+
+  // board preview: draw the quiz, or fill the done panel with sample values so the
+  // "checked in" frame shows the full success state (stamp + points + keep-code).
+  onMount(() => {
+    if (demo === 'quiz') startQuiz();
+    else if (demo === 'done') { earned = 15; missed = false; firstStamp = true; }
+  });
 
   // Wrong answer throws the whole draw away and locks for COOLDOWN seconds, so
   // guessing costs time and the perfect-answer bonus instead of one extra tap.
