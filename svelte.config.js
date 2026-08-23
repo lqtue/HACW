@@ -35,7 +35,7 @@ export default {
         // injects, so this one needs an explicit hash.
         // ponytail: recompute if that <script> changes —
         //   node -e 'const f=require("fs"),c=require("crypto");const m=f.readFileSync("src/app.html","utf8").match(/<script>([\s\S]*?)<\/script>/);console.log("sha256-"+c.createHash("sha256").update(m[1]).digest("base64"))'
-        'script-src': ['self', 'sha256-8s7nGt+v2XDjY4FUSwxPjMlAaIMq+9FEgu6A3rURRbQ='],
+        'script-src': ['self', 'sha256-Bhz2/L1eokORL/FpoDEGO+x0UT0OS0OLLLJ63ZUG4nk='],
         'style-src': ['self', 'unsafe-inline'],
         'img-src': ['self', 'data:', 'blob:'],
         'font-src': ['self'],

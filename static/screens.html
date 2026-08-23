@@ -49,6 +49,7 @@
   <h1>HACW — screens</h1>
   <button id="edit">✎ Edit text</button>
   <button id="quiz">🧪 Show quizzes</button>
+  <button id="theme">☾ Dark</button>
   <button id="save">💾 Save to JSON</button>
   <span class="note" id="hint">Press “Edit text” to type over any text. Nothing is saved (reload resets).</span>
 </header>
@@ -102,6 +103,18 @@
   // screens.json — so no code is ever shipped. Only quiz frames get it, to unlock
   // the 🧪 simulate button. No code → quizzes just won't reveal (harmless).
   const STAFF = new URLSearchParams(location.search).get('staff') || '';
+  // Board theme: one switch for every frame. Frames read hacw_theme (same origin)
+  // before paint, so we set the default here BEFORE any iframe loads — the board
+  // opens light regardless of what a prior app session left in localStorage.
+  let theme = 'light';
+  try { localStorage.setItem('hacw_theme', theme); } catch (e) {}
+  const applyTheme = (f) => {
+    try {
+      f.contentDocument.documentElement.dataset.theme = theme;
+      const m = f.contentDocument.querySelector('meta[name="theme-color"]');
+      if (m) m.content = theme === 'dark' ? '#0c0b0a' : '#fbf1ea';
+    } catch (e) {}
+  };
   const srcFor = (sc) => {
     let p = BASE + sc.path;
     if (sc.quiz && STAFF) p += (p.includes('?') ? '&' : '?') + 'staff=' + encodeURIComponent(STAFF);
@@ -131,6 +144,7 @@
         if (t) { f.dataset.file = t[1]; f.dataset.id = decodeURIComponent(t[2]); }
         f.addEventListener('load', () => {
           apply(f);
+          applyTheme(f);
           capture(f);
           if (quizOn && f.dataset.quiz) setTimeout(() => { showQuiz(f); setTimeout(() => capture(f), 500); }, 300);
         });
@@ -161,6 +175,15 @@
     if (quizOn) frames.filter((f) => f.dataset.quiz).forEach((f) => { showQuiz(f); setTimeout(() => capture(f), 500); });
     // turning off: reload those frames back to the check-in screen
     else frames.filter((f) => f.dataset.quiz).forEach((f) => (f.src = f.src));
+  };
+
+  const themeBtn = document.getElementById('theme');
+  themeBtn.onclick = () => {
+    theme = theme === 'dark' ? 'light' : 'dark';
+    try { localStorage.setItem('hacw_theme', theme); } catch (e) {}
+    themeBtn.classList.toggle('on', theme === 'dark');
+    themeBtn.textContent = theme === 'dark' ? '☀ Light' : '☾ Dark';
+    frames.forEach(applyTheme);
   };
 
   const saveBtn = document.getElementById('save');
