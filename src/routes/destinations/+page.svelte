@@ -298,15 +298,6 @@
             <a href={mapsUrl(booth.point)} target="_blank" rel="noopener">{s('booth_dir')}</a>
           </p>
         {/if}
-
-        {#if !boothsOnly}
-          <div class="carousel">
-            {#each shown as dest}
-              <Card {dest} mark active={selected === dest.id} />
-            {/each}
-            {#if shown.length === 0}<p class="muted empty">{s('no_sites')}</p>{/if}
-          </div>
-        {/if}
       </div>
     {/if}
   </div>
@@ -472,53 +463,6 @@
      every override here has to out-specify it, not just follow it. */
   :global(.maplibregl-ctrl-group button.maplibregl-ctrl-geolocate) { display: none; }
   /* user-location dot tint is global now (app.css), shared with the builder map */
-
-  /* proximity, not mandatory: mandatory snap fought the drag and left the last
-     cards unreachable — the "can't scroll the locations" bug. touch-action pins
-     the gesture to this row so a horizontal swipe never bubbles to the map. */
-  .carousel {
-    flex: 0 0 auto;
-    display: flex;
-    gap: 12px;
-    overflow-x: auto;
-    scroll-snap-type: x proximity;
-    touch-action: pan-x;
-    -webkit-overflow-scrolling: touch;
-    padding: 4px 18px 14px;
-    scrollbar-width: none;
-  }
-  .carousel::-webkit-scrollbar { display: none; }
-  /* each card becomes a snap item; ~82% leaves a peek of the next */
-  :global(.carousel .card) {
-    flex: 0 0 82%;
-    margin-bottom: 0;
-    scroll-snap-align: center;
-    border-radius: 10px;
-    border-color: color-mix(in srgb, var(--brand-dark) 16%, transparent);
-    box-shadow: none;
-  }
-  /* the pin's own site: ink keyline, matching the mark's outline on the map */
-  :global(.carousel .card.active) {
-    border-color: var(--brand-dark);
-    box-shadow: 0 0 0 1px var(--brand-dark);
-  }
-  :global(.carousel .card .thumb) { border-radius: 8px; width: 46px; height: 46px; }
-  /* merged category labels are long; one line on the card keeps the rhythm */
-  :global(.carousel .card .tag) { white-space: nowrap; font-size: 0.58rem; }
-  /* This card is a pointer at the pin, not the detail page. At 82% of a phone
-     column every line wrapped — name over two lines, address over three — and a
-     250px-tall card left the map about a third of the screen. One line each, no
-     address (the popup and the detail page both carry it), and the height goes
-     back to the map. */
-  :global(.carousel .card) { padding: 10px; gap: 10px; }
-  :global(.carousel .card h3),
-  :global(.carousel .card small) {
-    white-space: nowrap;
-    overflow: hidden;
-    text-overflow: ellipsis;
-  }
-  :global(.carousel .card .addr) { display: none; }
-  .empty { padding: 8px 0; }
 
   /* pins and the paper palette are drawn by the map itself now — the basemap is
      our own vector style (src/lib/map-style.js), the pins are canvas images, so

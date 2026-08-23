@@ -48,8 +48,13 @@
   const isActive = (p) => (p === '/' ? rel === '/' : rel.startsWith(p));
   const wide = $derived(rel.startsWith('/organizer'));
   // hide the tab bar through the pre-onboarding door/language/welcome/scan run, so
-  // those read as full-screen single-job screens (the door isn't skippable past)
-  const onboarding = $derived(rel === '/' && !plan.onboarded);
+  // those read as full-screen single-job screens (the door isn't skippable past).
+  // Gate on the forced ?step too, not just plan.onboarded — otherwise a device that
+  // has onboarded (e.g. the /screens board frames) shows the bar on those previews.
+  const stepParam = $derived($page.url.searchParams.get('step') || '');
+  const onboarding = $derived(
+    rel === '/' && (!plan.onboarded || /^(door|lang|welcome|scan)$/.test(stepParam))
+  );
 </script>
 
 <button class="chip-fab theme" onclick={toggleTheme} aria-label="Theme" title="Theme">
@@ -70,7 +75,7 @@
           {:else if t.icon === 'map'}
             <svg viewBox="0 0 24 24" width="22" height="22" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M9 4 3.5 6v14L9 18l6 2 5.5-2V4L15 6 9 4Z" stroke-linejoin="round" /><path d="M9 4v14M15 6v14" /></svg>
           {:else}
-            <svg viewBox="0 0 24 24" width="22" height="22" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M12 3 20 12 12 21 4 12 12 3Z" stroke-linejoin="round" /></svg>
+            <svg viewBox="0 0 24 24" width="22" height="22" fill="none" stroke="currentColor" stroke-width="1.8"><circle cx="12" cy="8" r="3.6" /><path d="M5.5 20c0-3.7 2.9-6 6.5-6s6.5 2.3 6.5 6" stroke-linecap="round" /></svg>
           {/if}
         </span>
         {s(t.key)}

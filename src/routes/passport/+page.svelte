@@ -7,6 +7,7 @@
   import StaffConfirm from '$lib/components/StaffConfirm.svelte';
   import NearestBooth from '$lib/components/NearestBooth.svelte';
   import StudyToggle from '$lib/components/StudyToggle.svelte';
+  import LangSwitch from '$lib/components/LangSwitch.svelte';
   import InstallApp from '$lib/components/InstallApp.svelte';
   import MatCua from '$lib/components/MatCua.svelte';
   import {
@@ -22,7 +23,7 @@
   } from '$lib/passport.svelte.js';
   import { plan } from '$lib/plan.svelte.js';
   import { POINTS, breakdown, tierFor, nextTier } from '$lib/score.js';
-  import { t } from '$lib/i18n.svelte.js';
+  import { t, i18n } from '$lib/i18n.svelte.js';
   import { s } from '$lib/strings.js';
 
   const total = destinations.length;
@@ -48,6 +49,13 @@
       complete: isSetComplete(tour.stops)
     }))
   );
+
+  // Minimal-scroll passport: progress + points sit up top; the reward ladder and the
+  // tour list fold away. They auto-OPEN only when something is claimable, so an action
+  // the visitor needs (claim a reward, redeem a completed set) is never hidden.
+  const claimableRewards = $derived(rewards.filter((r) => score.total >= r.points && !isRedeemed(r.id)));
+  const claimableTours = $derived(setRows.filter((x) => x.complete && !isRedeemed(x.tour.id)));
+  const toursDone = $derived(setRows.filter((x) => x.complete).length);
 
   // --- backup & recovery ---
   let notice = $state('');
@@ -94,6 +102,12 @@
     <p class="code">{prettyCode()}</p>
   </header>
 
+  <!-- change display language here (vi/en switch content; others use browser Translate) -->
+  <details class="fold">
+    <summary>{s('lang_switch')} · {i18n.lang.toUpperCase()}</summary>
+    <LangSwitch />
+  </details>
+
   <!-- Your route (the built 5) -->
   <section class="rcard">
     <div class="rhead">
@@ -120,30 +134,7 @@
     {/if}
   </section>
 
-  <!-- Rewards -->
-  <p class="label">{s('rewards_title')}</p>
-  <div class="list">
-    {#each rewards as r (r.id)}
-      {@const unlocked = score.total >= r.points}
-      {@const taken = isRedeemed(r.id)}
-      <div class="row">
-        <span class="rbody">
-          <b>{t(r.reward)}</b>
-          <small>{s('reward_locked', r.points)}</small>
-        </span>
-        {#if taken}
-          <span class="pill good">✓ {s('reward_taken')}</span>
-        {:else if unlocked}
-          <StaffConfirm label={s('claim')} onconfirm={() => redeemSet(r.id)} />
-        {:else}
-          <span class="pill muted">{s('r_locked')}</span>
-        {/if}
-      </div>
-    {/each}
-  </div>
-
-  <!-- Points -->
-  <p class="label">{s('points')}</p>
+  <!-- Points — the headline metric, up top -->
   <div class="list">
     <div class="row">
       <span class="rbody">
@@ -164,26 +155,52 @@
     </details>
   </div>
 
-  <!-- Sets / tours -->
-  <p class="label">{s('tours')}</p>
-  <div class="list">
-    {#each setRows as { tour, stops, done, complete } (tour.id)}
-      <a class="row" href="{base}/tours/{tour.id}">
-        <span class="dots" aria-hidden="true">
-          {#each stops as d (d.id)}<i style="background: var(--c-{d.category}); opacity: {hasStamp(d.id) ? 1 : 0.3}"></i>{/each}
-        </span>
-        <span class="rbody">
-          <b>{t(tour.title)}</b>
-          <small>{done}/{stops.length}{#if complete} · {isRedeemed(tour.id) ? s('reward_taken') : s('set_complete')}{/if}</small>
-        </span>
-        {#if isRedeemed(tour.id)}
-          <span class="pill good">✓</span>
-        {:else if complete}
-          <span class="pill gold">🎁</span>
-        {/if}
-      </a>
-    {/each}
-  </div>
+  <!-- Rewards ladder — folded; opens itself when a tier is claimable -->
+  <details class="fold" open={claimableRewards.length > 0}>
+    <summary>{s('rewards_title')}{#if claimableRewards.length} · {claimableRewards.length} ✓{/if}</summary>
+    <div class="list flush">
+      {#each rewards as r (r.id)}
+        {@const unlocked = score.total >= r.points}
+        {@const taken = isRedeemed(r.id)}
+        <div class="row">
+          <span class="rbody">
+            <b>{t(r.reward)}</b>
+            <small>{s('reward_locked', r.points)}</small>
+          </span>
+          {#if taken}
+            <span class="pill good">✓ {s('reward_taken')}</span>
+          {:else if unlocked}
+            <StaffConfirm label={s('claim')} onconfirm={() => redeemSet(r.id)} />
+          {:else}
+            <span class="pill muted">{s('r_locked')}</span>
+          {/if}
+        </div>
+      {/each}
+    </div>
+  </details>
+
+  <!-- Tour sets — folded; opens itself when a completed set can be redeemed -->
+  <details class="fold" open={claimableTours.length > 0}>
+    <summary>{s('tours')} · {toursDone}/{tours.length}</summary>
+    <div class="list flush">
+      {#each setRows as { tour, stops, done, complete } (tour.id)}
+        <a class="row" href="{base}/tours/{tour.id}">
+          <span class="dots" aria-hidden="true">
+            {#each stops as d (d.id)}<i style="background: var(--c-{d.category}); opacity: {hasStamp(d.id) ? 1 : 0.3}"></i>{/each}
+          </span>
+          <span class="rbody">
+            <b>{t(tour.title)}</b>
+            <small>{done}/{stops.length}{#if complete} · {isRedeemed(tour.id) ? s('reward_taken') : s('set_complete')}{/if}</small>
+          </span>
+          {#if isRedeemed(tour.id)}
+            <span class="pill good">✓</span>
+          {:else if complete}
+            <span class="pill gold">🎁</span>
+          {/if}
+        </a>
+      {/each}
+    </div>
+  </details>
 
   <!-- All sites (secondary) -->
   <details class="fold">
@@ -279,16 +296,6 @@
   .slot.empty { border: 1.5px dashed color-mix(in srgb, var(--ink) 22%, transparent); }
   .route-empty { color: var(--brand); font-weight: 600; }
 
-  /* section label */
-  .label {
-    margin: 6px 4px -6px;
-    font-size: 0.72rem;
-    font-weight: 600;
-    letter-spacing: 0.09em;
-    text-transform: uppercase;
-    color: var(--muted);
-  }
-
   /* grouped list (rewards, points, sets) */
   .list {
     background: var(--surface);
@@ -341,6 +348,9 @@
   .fold > summary::-webkit-details-marker { display: none; }
   .fold > summary::after { content: '▸'; float: right; color: var(--muted); }
   .fold[open] > summary::after { content: '▾'; }
+
+  /* a grouped list nested inside a fold: drop its own box, let the fold be the box */
+  .fold .list.flush { border: 0; border-radius: 0; background: none; border-top: 1px solid var(--line); }
 
   .grid { display: grid; grid-template-columns: repeat(4, 1fr); gap: 10px; padding: 4px 16px 16px; }
   .stamp { display: grid; justify-items: center; gap: 4px; text-decoration: none; color: inherit; }

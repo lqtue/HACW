@@ -24,6 +24,7 @@
   import { codeFromTicket } from '$lib/backup.js';
   import { plan, setOnboarded, setTicketCode, setPlanSet } from '$lib/plan.svelte.js';
   import { setNat } from '$lib/study.svelte.js';
+  import { LANGS } from '$lib/languages.js';
   import { openLabel, categoryLabel, categoryIcon } from '$lib/util.js';
   import { i18n, t, setLang } from '$lib/i18n.svelte.js';
   import { s } from '$lib/strings.js';
@@ -74,22 +75,7 @@
   ];
 
   // The greeting IS the picker — a visitor taps the hello in their own language, no
-  // instructions needed. vi/en have built-in locale files (display set); the rest
-  // have none, so they display English and ride the browser's page-translate
-  // (CLAUDE.md: built locales are vi/en only). Ordered by Hội An / Da Nang arrival
-  // volume (VNAT + Da Nang tourism 2024–25): VN, EN, then Korea, China+Taiwan (one
-  // 中文), Japan, Thailand, and the leading European markets; anything else is "Other".
-  // ponytail: this set follows the tourism-stats research — edit if the mix shifts.
-  const LANGS = [
-    { code: 'vi', hello: 'Xin chào', name: 'Tiếng Việt', display: 'vi' },
-    { code: 'en', hello: 'Hello', name: 'English', display: 'en' },
-    { code: 'ko', hello: '안녕하세요', name: '한국어' },
-    { code: 'zh', hello: '你好', name: '中文' },
-    { code: 'ja', hello: 'こんにちは', name: '日本語' },
-    { code: 'th', hello: 'สวัสดี', name: 'ไทย' },
-    { code: 'fr', hello: 'Bonjour', name: 'Français' },
-    { code: 'de', hello: 'Hallo', name: 'Deutsch' }
-  ];
+  // instructions needed. Shared list (also the passport switcher) lives in languages.js.
 
   onMount(() => {
     if (step === 'welcome') track('welcome');
