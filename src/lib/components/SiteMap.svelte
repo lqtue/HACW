@@ -1,5 +1,5 @@
 <script>
-  import { onMount, onDestroy } from 'svelte';
+  import { onMount, onDestroy, untrack } from 'svelte';
   import { base } from '$app/paths';
   import { BOUNDS, addCategoryPins, hidePois, hoianStyle, loadMap } from '$lib/map-style.js';
   import { createHeadingCone } from '$lib/heading.js';
@@ -45,7 +45,7 @@
   let locating = $state(false);
   let rotated = $state(false);
   let located = $state(false);
-  let following = $state(follow);
+  let following = $state(untrack(() => follow)); // seed once; drag/recenter drive it after
   let ready = $state(false);
 
   export const getMap = () => map; // parents that need the raw map (rare)

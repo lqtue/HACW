@@ -98,8 +98,8 @@
       "en": "Old trades & craft"
     },
     "theme": {
-      "vi": "Miếu Quan Công → Xí Mà",
-      "en": "Quan Cong temple → Xi Ma craft"
+      "vi": "Nguyễn Tường → Xí Mà",
+      "en": "Nguyen Tuong chapel → Xi Ma craft"
     },
     "description": {
       "vi": "Bộ 5 điểm hợp lệ (1 di tích + 1 bảo tàng + 3 điểm tự do), xoay quanh nghề truyền thống và nhà thờ tộc. BẢN NHÁP — cần đội nội dung viết lại narrative và xếp thứ tự theo tuyến đã khảo sát.",
@@ -110,10 +110,10 @@
       "en": "Gift voucher (name TBD)"
     },
     "stops": [
-      "mieu-quan-cong",
-      "bao-tang-nghe-y",
-      "nha-co-duc-an",
       "nha-tho-toc-nguyen-tuong",
+      "nha-co-duc-an",
+      "bao-tang-nghe-y",
+      "mieu-quan-cong",
       "trinh-nghe-xi-ma"
     ]
   },
@@ -130,8 +130,8 @@
       "en": "Belief & community"
     },
     "theme": {
-      "vi": "Chùa Quan Âm → Minh Hương",
-      "en": "Quan Am pagoda → Minh Huong hall"
+      "vi": "Đình Cẩm Phô → Minh Hương",
+      "en": "Cam Pho house → Minh Huong hall"
     },
     "description": {
       "vi": "Bộ 5 điểm hợp lệ (1 di tích + 1 bảo tàng + 3 điểm tự do), gồm chùa, hội quán và đình làng — thường vắng hơn, dễ chịu hơn. BẢN NHÁP — cần đội nội dung viết lại narrative và xếp thứ tự theo tuyến đã khảo sát.",
@@ -142,10 +142,10 @@
       "en": "Gift voucher (name TBD)"
     },
     "stops": [
-      "chua-quan-am",
-      "bao-tang-van-hoa-dan-gian",
-      "hoi-quan-quang-trieu",
       "dinh-cam-pho",
+      "hoi-quan-quang-trieu",
+      "bao-tang-van-hoa-dan-gian",
+      "chua-quan-am",
       "tuy-tien-duong-minh-huong"
     ]
   }

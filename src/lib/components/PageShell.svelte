@@ -1,6 +1,6 @@
 <script>
   import { base } from '$app/paths';
-  import { goto } from '$app/navigation';
+  import { goto, afterNavigate } from '$app/navigation';
   import { s } from '$lib/strings.js';
   // The one piece of chrome every content page shares: the brand-strip topbar
   // (title + optional subtitle) and the scrolling `.page` column under it.
@@ -9,9 +9,15 @@
   // (falls back to the map on a deep link), or a path string to go somewhere specific.
   let { title, sub = '', back = null, children } = $props();
 
+  // `history.length > 1` also counts the tab's blank entry / an external referrer, so
+  // history.back() there walks out of the app to a blank page. `nav.from` is set only
+  // on in-app client navigation (null on a fresh load or deep link) — the real signal.
+  let cameFromApp = false;
+  afterNavigate((nav) => { cameFromApp = nav.from != null; });
+
   function goBack() {
     if (typeof back === 'string') goto(base + back);
-    else if (typeof history !== 'undefined' && history.length > 1) history.back();
+    else if (cameFromApp) history.back();
     else goto(base + '/destinations');
   }
 </script>

@@ -13,32 +13,53 @@ const tours = (t => t.tours || t)(load('tours.json'));
 // iconic, real (non-generated) quiz bank, has landmark art — the Core sample.
 const SAMPLE = dests.some((d) => d.id === 'chua-cau') ? 'chua-cau' : dests[0].id;
 
+// The board reads these groups in order. The four journey phases below ARE the
+// app flow, top to bottom; the board numbers their frames 1..N and keeps them
+// laid out even in compact view. The two reference catalogs (`catalog: true`)
+// collapse to one representative in compact — they're the 25 sites / 5 tours,
+// not steps in the flow.
+// No Organizer screen and no ?staff= code in here on purpose: this file ships to
+// the deployed board, and a staff code in it would be public. The board reads a
+// code from its OWN url (screens.html?staff=CODE) at runtime to unlock the 🧪
+// quiz reveal; nothing secret is stored here.
 const groups = [
   {
-    // No Organizer screen and no ?staff= code in here on purpose: this file ships
-    // to the deployed board, and a staff code in it would be public. The board
-    // reads a code from its OWN url (screens.html?staff=CODE) at runtime to unlock
-    // the 🧪 quiz reveal for maintainers; nothing secret is stored here.
-    title: 'Core',
+    title: '1 · Onboarding',
     screens: [
-      { label: 'Welcome (lang)', path: '/?step=welcome' },
+      { label: 'Welcome + language', path: '/?step=welcome' },
       { label: 'Scan ticket', path: '/?step=scan' },
-      { label: 'Gợi ý (suggested sets)', path: '/?step=recommend', map: true },
-      { label: 'Pick my own', path: '/?step=manual', map: true },
-      { label: 'Travel plan (ready)', path: '/?step=done', map: true },
-      { label: 'Routing (nav)', path: `/go?set=${tours[0].id}`, map: true },
-      { label: 'Destination (check-in)', path: `/destinations/${SAMPLE}?demo=idle` },
-      { label: 'Quiz', path: `/destinations/${SAMPLE}?demo=quiz` },
-      { label: 'Checked in', path: `/destinations/${SAMPLE}?demo=done` },
-      { label: 'Explore (map)', path: '/destinations', map: true },
-      { label: 'Tour (route)', path: `/tours/${tours[0].id}`, map: true },
-      { label: 'Passport', path: '/passport' },
     ],
   },
   {
-    // SAMPLE is already the Core check-in/quiz/done frames — drop it here so the
+    title: '2 · Plan the 5-site ticket',
+    screens: [
+      { label: 'Suggested sets', path: '/?step=recommend', map: true },
+      { label: 'Pick my own', path: '/?step=manual', map: true },
+      { label: 'Plan ready', path: '/?step=done', map: true },
+    ],
+  },
+  {
+    title: '3 · Walk & check in',
+    screens: [
+      { label: 'Routing (nav)', path: `/go?set=${tours[0].id}`, map: true },
+      { label: 'At a site', path: `/destinations/${SAMPLE}?demo=idle` },
+      { label: 'Quiz', path: `/destinations/${SAMPLE}?demo=quiz` },
+      { label: 'Checked in + stamp', path: `/destinations/${SAMPLE}?demo=done` },
+    ],
+  },
+  {
+    title: '4 · Collect & browse',
+    screens: [
+      { label: 'Passport', path: '/passport' },
+      { label: 'Explore (map)', path: '/destinations', map: true },
+      { label: 'Tour (route)', path: `/tours/${tours[0].id}`, map: true },
+    ],
+  },
+  {
+    // SAMPLE is already the phase-3 check-in/quiz/done frames — drop it here so the
     // catalog (and its compact first-frame) isn't a duplicate.
-    title: `Destinations (${dests.length - 1}) — "Show quizzes" (needs screens.html?staff=CODE)`,
+    catalog: true,
+    title: `Every destination (${dests.length - 1}) — “Show quizzes” to reveal each quiz`,
     screens: dests
       .filter((d) => d.id !== SAMPLE)
       .map((d) => ({
@@ -48,8 +69,9 @@ const groups = [
       })),
   },
   {
-    // tours[0] is already the Core "Tour (route)" frame — drop it here too.
-    title: `Tours (${tours.length - 1})`,
+    // tours[0] is already the phase-4 "Tour (route)" frame — drop it here too.
+    catalog: true,
+    title: `Every tour (${tours.length - 1})`,
     screens: tours
       .filter((t) => t.id !== tours[0].id)
       .map((t) => ({ label: t.title?.vi || t.id, path: `/tours/${t.id}`, map: true })),

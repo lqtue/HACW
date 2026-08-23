@@ -20,17 +20,17 @@
   /** @type {{ stops: any[], title?: any, onclose: () => void }} */
   let { stops, title, onclose } = $props();
 
-  const stopIds = new Set(stops.map((d) => d.id));
-  const numById = Object.fromEntries(stops.map((d, i) => [d.id, i + 1]));
+  const stopIds = $derived(new Set(stops.map((d) => d.id)));
+  const numById = $derived(Object.fromEntries(stops.map((d, i) => [d.id, i + 1])));
 
-  const routeData = { type: 'Feature', geometry: { type: 'LineString', coordinates: stitchRoute(stops) } };
-  const bounds = routeData.geometry.coordinates.reduce(
+  const routeData = $derived({ type: 'Feature', geometry: { type: 'LineString', coordinates: stitchRoute(stops) } });
+  const bounds = $derived(routeData.geometry.coordinates.reduce(
     (b, [lng, lat]) => [
       [Math.min(b[0][0], lng), Math.min(b[0][1], lat)],
       [Math.max(b[1][0], lng), Math.max(b[1][1], lat)]
     ],
     [[180, 90], [-180, -90]]
-  );
+  ));
 
   // stamped stops show a ✓ and quiet down; re-derived so a check-in updates the map live
   const siteData = $derived({
@@ -145,28 +145,30 @@
         {:else if target}
           {@const d = dist(me)}
           {@const here = arrived(me)}
-          <button class="tn-step" onclick={() => stepIdx(-1)} disabled={idx === 0} aria-label="‹">‹</button>
-          <div class="tn-dir" class:here>
-            {#if here}
-              <span class="tn-check">✓</span>
-            {:else}
-              <svg viewBox="0 0 24 24" width="26" height="26" style="transform: rotate({arrowDeg(me)}deg)" aria-hidden="true">
-                <path d="M12 3 L19 20 L12 16 L5 20 Z" fill="currentColor" />
-              </svg>
-            {/if}
-          </div>
-          <div class="tn-info">
-            <div class="tn-label">
-              {here ? s('nav_arrived') : s('nav_next')}
-              <span class="tn-left">· {s('nav_stops_left', stops.filter((x) => !hasStamp(x.id)).length)}</span>
+          <div class="tn-row">
+            <button class="tn-step" onclick={() => stepIdx(-1)} disabled={idx === 0} aria-label="‹">‹</button>
+            <div class="tn-dir" class:here>
+              {#if here}
+                <span class="tn-check">✓</span>
+              {:else}
+                <svg viewBox="0 0 24 24" width="26" height="26" style="transform: rotate({arrowDeg(me)}deg)" aria-hidden="true">
+                  <path d="M12 3 L19 20 L12 16 L5 20 Z" fill="currentColor" />
+                </svg>
+              {/if}
             </div>
-            <div class="tn-name">{numById[target.id]}. {t(target.name)}</div>
-            <div class="tn-dist">
-              {#if d != null}{formatDistance(Math.round(d * 1.3), i18n.lang)}{:else}{s('nav_locate_prompt')}{/if}
+            <div class="tn-info">
+              <div class="tn-label">
+                {here ? s('nav_arrived') : s('nav_next')}
+                <span class="tn-left">· {s('nav_stops_left', stops.filter((x) => !hasStamp(x.id)).length)}</span>
+              </div>
+              <div class="tn-name">{numById[target.id]}. {t(target.name)}</div>
+              <div class="tn-dist">
+                {#if d != null}{formatDistance(Math.round(d * 1.3), i18n.lang)}{:else}{s('nav_locate_prompt')}{/if}
+              </div>
             </div>
+            <button class="tn-step" onclick={() => stepIdx(1)} disabled={idx === stops.length - 1} aria-label="›">›</button>
           </div>
           <a class="tn-go" href="{base}/destinations/{target.id}">{s('nav_here')}</a>
-          <button class="tn-step" onclick={() => stepIdx(1)} disabled={idx === stops.length - 1} aria-label="›">›</button>
         {/if}
       </div>
     {/snippet}
@@ -214,10 +216,11 @@
   .tn-card {
     position: absolute; z-index: 5;
     left: 12px; right: 12px; bottom: calc(env(safe-area-inset-bottom) + 14px);
-    display: flex; align-items: center; gap: 10px;
+    display: flex; flex-direction: column; gap: 8px;
     padding: 10px 8px; border-radius: 16px;
     background: var(--surface); box-shadow: 0 2px 12px rgba(0, 0, 0, 0.28);
   }
+  .tn-row { display: flex; align-items: center; gap: 10px; }
   .tn-done {
     flex: 1; text-align: center; font-weight: 800; color: var(--brand-dark); padding: 6px;
   }
@@ -242,8 +245,8 @@
   }
   .tn-dist { font-size: 0.85rem; color: var(--brand-dark); font-weight: 600; }
   .tn-go {
-    flex: 0 0 auto; padding: 10px 12px; border-radius: 12px;
-    background: var(--brand); color: #fff; font-weight: 700; font-size: 0.85rem;
-    text-decoration: none; white-space: nowrap;
+    display: block; width: 100%; padding: 11px 12px; border-radius: 12px;
+    background: var(--brand); color: #fff; font-weight: 700; font-size: 0.9rem;
+    text-decoration: none; text-align: center;
   }
 </style>

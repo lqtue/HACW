@@ -43,19 +43,35 @@
   figcaption b { font-size: 14px; }
   figcaption span { color: #888; font-size: 12px; }
   body.editing .phone { outline: 2px dashed #ff5a4d; outline-offset: 6px; }
-  /* compact: one route + one location — hide all but the first frame of the
-     Destinations/Tours catalogs (Core keeps every screen), and flatten every
-     group into a single wrapping grid so the surviving dest+tour fill the last
-     slots of Core's rows (a clean 4×2) instead of sitting in their own sections. */
+  /* number the journey frames 1..N across the four phases, so the flow reads in
+     order even where a phase row wraps. Catalogs (data-trim) aren't numbered. */
+  #root { counter-reset: step; }
+  .board:not([data-trim='1']) figure { counter-increment: step; }
+  .board:not([data-trim='1']) figcaption b::before { content: counter(step) '. '; color: #ff8a7d; }
+  /* flow view (default): the four journey phases stay as labeled rows in order;
+     the two catalogs collapse to one representative + a "+N more" count.
+     ("Show all" expands the catalogs to every screen.) */
   body.compact .board[data-trim='1'] figure:not(:first-child) { display: none; }
-  body.compact #root { display: flex; flex-wrap: wrap; gap: 40px; padding: 24px 40px 40px; align-items: flex-start; }
-  body.compact #root h2 { display: none; }
-  body.compact .board { display: contents; }
+  body.compact .board[data-trim='1']::after {
+    content: attr(data-more); align-self: center; color: #888; font-size: 13px; white-space: nowrap;
+  }
+  /* password gate: covers the board until a valid staff code is entered */
+  #gate {
+    position: fixed; inset: 0; z-index: 100; display: grid; place-items: center;
+    background: #111; padding: 24px;
+  }
+  #gate form { display: flex; flex-direction: column; gap: 12px; width: min(320px, 100%); text-align: center; }
+  #gate p { color: #aaa; margin: 0; font-size: 13px; }
+  #gate input {
+    font: inherit; padding: 12px 14px; border-radius: 8px; border: 1px solid #444;
+    background: #1c1c1c; color: #eee; text-align: center; letter-spacing: .1em;
+  }
+  #gate .err { color: #ff8a7d; font-size: 12px; min-height: 14px; }
 </style>
 
 <header>
   <h1>HACW — screens</h1>
-  <button id="compact">▦ Show all</button>
+  <button id="compact">▦ Show all screens</button>
   <button id="lang">🌐 EN</button>
   <button id="edit">✎ Edit text</button>
   <button id="quiz">🧪 Show quizzes</button>
@@ -63,6 +79,16 @@
   <button id="save">💾 Save to JSON</button>
   <span class="note" id="hint">Press “Edit text” to type over any text. Nothing is saved (reload resets).</span>
 </header>
+
+<div id="gate">
+  <form id="gateForm">
+    <h1>HACW — screens</h1>
+    <p>Nhập mã ban tổ chức để xem bảng màn hình.</p>
+    <input id="gatePass" type="password" autocomplete="current-password" placeholder="Mã" autofocus />
+    <button type="submit">Mở bảng</button>
+    <span class="err" id="gateErr"></span>
+  </form>
+</div>
 
 <div id="root"></div>
 
@@ -109,10 +135,11 @@
   // that to the clean URL <base>/screens or <base>/screens/. Strip any of those
   // to recover the deploy base ('' at the domain root, '/HACW' under a subpath).
   const BASE = location.pathname.replace(/\/screens(\.html)?\/?$/, '');
-  // staff code comes from THIS page's url (screens.html?staff=CODE), never from
-  // screens.json — so no code is ever shipped. Only quiz frames get it, to unlock
-  // the 🧪 simulate button. No code → quizzes just won't reveal (harmless).
-  const STAFF = new URLSearchParams(location.search).get('staff') || '';
+  // staff code is entered at the password gate below (never shipped: only its
+  // SHA-256 is in this file). It's the app staff code, so it both opens the board
+  // AND unlocks the 🧪 simulate button in each quiz frame. A ?staff= URL param
+  // still works as a bypass. No code → quizzes just won't reveal (harmless).
+  let STAFF = new URLSearchParams(location.search).get('staff') || '';
   // Board theme: one switch for every frame. Frames read hacw_theme (same origin)
   // before paint, so we set the default here BEFORE any iframe loads — the board
   // opens light regardless of what a prior app session left in localStorage.
@@ -135,7 +162,7 @@
     return p;
   };
 
-  (async () => {
+  async function bootBoard() {
     const groups = await fetch(`${BASE}/screens.json`).then((r) => r.json());
     const root = document.getElementById('root');
     for (const g of groups) {
@@ -144,10 +171,11 @@
       root.appendChild(h);
       const board = document.createElement('div');
       board.className = 'board';
-      // big catalog groups (Destinations, Tours) collapse to one frame in compact
-      // mode; Core keeps every screen. The <h2> hides with its board.
-      const trim = /^(Destinations|Tours) /.test(g.title);
+      // catalog groups (every destination / every tour) collapse to one frame in
+      // the flow view; the four journey phases keep every screen. The <h2> stays.
+      const trim = !!g.catalog;
       board.dataset.trim = trim ? '1' : '';
+      if (trim) board.dataset.more = `+${g.screens.length - 1} more — “Show all”`;
       root.appendChild(board);
       for (const sc of g.screens) {
         const fig = document.createElement('figure');
@@ -169,7 +197,7 @@
         frames.push(f);
       }
     }
-  })();
+  }
 
   const editBtn = document.getElementById('edit');
   const hint = document.getElementById('hint');
@@ -203,7 +231,7 @@
     compact = !compact;
     document.body.classList.toggle('compact', compact);
     compactBtn.classList.toggle('on', !compact);
-    compactBtn.textContent = compact ? '▦ Show all' : '🎯 One each';
+    compactBtn.textContent = compact ? '▦ Show all screens' : '◱ Flow view';
   };
 
   const langBtn = document.getElementById('lang');
@@ -240,4 +268,36 @@
     const sites = new Set(edits.map((e) => `${e.file}/${e.id}`)).size;
     hint.textContent = `Downloaded board-edits.json — ${edits.length} edit(s) across ${sites} record(s). Send it to the maintainer to apply.`;
   };
+
+  // --- password gate ---
+  // The board is public at /screens; require a valid app staff code before it loads.
+  // Only SHA-256 hashes ship (no plaintext code) — same threat model as staff.svelte.js:
+  // a mis-tap / nosy-visitor guard, not real auth. The entered code becomes STAFF and
+  // is fed to the quiz frames, so unlocking the board also reveals every quiz.
+  // Update these hashes if the app staff codes in staff.svelte.js change.
+  const GATE_HASHES = [
+    '0400953503268ef9bc524e7aa54217d9cf1d8d33900d8aa9fb75bd1707690179', // ORGANIZER
+    '158a323a7ba44870f23d96f1516dd70aa48e9a72db4ebb026b0a89e212a208ab'  // VOLUNTEER
+  ];
+  const sha256hex = async (s) => {
+    const buf = await crypto.subtle.digest('SHA-256', new TextEncoder().encode(s));
+    return [...new Uint8Array(buf)].map((b) => b.toString(16).padStart(2, '0')).join('');
+  };
+  const gate = document.getElementById('gate');
+  const unlock = (code) => {
+    STAFF = code;
+    quizOn = true; // default the board to quizzes-shown once unlocked
+    quizBtn.classList.add('on');
+    quizBtn.textContent = '🧪 Quizzes shown';
+    gate.remove();
+    bootBoard();
+  };
+  document.getElementById('gateForm').addEventListener('submit', async (e) => {
+    e.preventDefault();
+    const v = document.getElementById('gatePass').value.trim();
+    if (GATE_HASHES.includes(await sha256hex(v))) unlock(v);
+    else document.getElementById('gateErr').textContent = 'Sai mã.';
+  });
+  // a valid ?staff= already in the URL skips the prompt
+  (async () => { if (STAFF && GATE_HASHES.includes(await sha256hex(STAFF))) unlock(STAFF); })();
 </script>

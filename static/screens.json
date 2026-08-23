@@ -1,17 +1,22 @@
 [
   {
-    "title": "Core",
+    "title": "1 · Onboarding",
     "screens": [
       {
-        "label": "Welcome (lang)",
+        "label": "Welcome + language",
         "path": "/?step=welcome"
       },
       {
         "label": "Scan ticket",
         "path": "/?step=scan"
-      },
+      }
+    ]
+  },
+  {
+    "title": "2 · Plan the 5-site ticket",
+    "screens": [
       {
-        "label": "Gợi ý (suggested sets)",
+        "label": "Suggested sets",
         "path": "/?step=recommend",
         "map": true
       },
@@ -21,17 +26,22 @@
         "map": true
       },
       {
-        "label": "Travel plan (ready)",
+        "label": "Plan ready",
         "path": "/?step=done",
         "map": true
-      },
+      }
+    ]
+  },
+  {
+    "title": "3 · Walk & check in",
+    "screens": [
       {
         "label": "Routing (nav)",
         "path": "/go?set=nha-co-va-nghe-xua",
         "map": true
       },
       {
-        "label": "Destination (check-in)",
+        "label": "At a site",
         "path": "/destinations/chua-cau?demo=idle"
       },
       {
@@ -39,8 +49,17 @@
         "path": "/destinations/chua-cau?demo=quiz"
       },
       {
-        "label": "Checked in",
+        "label": "Checked in + stamp",
         "path": "/destinations/chua-cau?demo=done"
+      }
+    ]
+  },
+  {
+    "title": "4 · Collect & browse",
+    "screens": [
+      {
+        "label": "Passport",
+        "path": "/passport"
       },
       {
         "label": "Explore (map)",
@@ -51,15 +70,12 @@
         "label": "Tour (route)",
         "path": "/tours/nha-co-va-nghe-xua",
         "map": true
-      },
-      {
-        "label": "Passport",
-        "path": "/passport"
       }
     ]
   },
   {
-    "title": "Destinations (24) — \"Show quizzes\" (needs screens.html?staff=CODE)",
+    "catalog": true,
+    "title": "Every destination (24) — “Show quizzes” to reveal each quiz",
     "screens": [
       {
         "label": "Chùa Quan Âm",
@@ -184,7 +200,8 @@
     ]
   },
   {
-    "title": "Tours (4)",
+    "catalog": true,
+    "title": "Every tour (4)",
     "screens": [
       {
         "label": "Chùa Cầu & Cẩm Phô",
