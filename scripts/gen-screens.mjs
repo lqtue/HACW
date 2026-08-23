@@ -25,7 +25,6 @@ const groups = [
       { label: 'Pick my own', path: '/?step=manual', map: true },
       { label: 'Home', path: '/' },
       { label: 'Explore (map)', path: '/destinations', map: true },
-      { label: 'Tours', path: '/tours' },
       { label: 'Passport', path: '/passport' },
     ],
   },
