@@ -29,6 +29,7 @@ const groups = [
       { label: 'Door (tap to enter)', path: '/?step=door' },
       { label: 'Language', path: '/?step=lang' },
       { label: 'Welcome', path: '/?step=welcome' },
+      { label: 'Install app', path: '/?step=install' },
       { label: 'Location & motion', path: '/?step=perms' },
       { label: 'Scan ticket', path: '/?step=scan' },
     ],
@@ -36,24 +37,39 @@ const groups = [
   {
     title: '2 · Plan the 5-site ticket',
     screens: [
+      { label: 'Suggested sets (collapsed)', path: '/?step=recommend&open=0', map: true },
       { label: 'Suggested sets', path: '/?step=recommend', map: true },
-      { label: 'Pick my own', path: '/?step=manual', map: true },
+      { label: 'Pick 1st / 2nd — map view', path: '/?step=manual&pick=first&view=map', map: true },
+      { label: 'Pick last 3 — map view', path: '/?step=manual&pick=last&view=map', map: true },
+      { label: 'Pick 1st / 2nd — list view', path: '/?step=manual&pick=first&view=list' },
+      { label: 'Pick last 3 — list view', path: '/?step=manual&pick=last&view=list' },
       { label: 'Plan ready', path: '/?step=done', map: true },
     ],
   },
   {
-    title: '3 · Walk & check in',
+    title: '3 · Walk & navigate',
     screens: [
-      { label: 'Routing (nav)', path: `/go?set=${tours[0].id}`, map: true },
+      { label: 'Nav — needs GPS', path: `/go?set=${tours[0].id}`, map: true },
+      { label: 'Nav — en route', path: `/go?set=${tours[0].id}&demo=far&idx=1`, map: true },
+      { label: 'Nav — arrived', path: `/go?set=${tours[0].id}&demo=arrive&idx=1`, map: true },
+      { label: 'Nav — set complete', path: `/go?set=${tours[0].id}&demo=done`, map: true },
+    ],
+  },
+  {
+    title: '4 · Location & quiz',
+    screens: [
       { label: 'At a site', path: `/destinations/${SAMPLE}?demo=idle` },
+      { label: 'Locating (GPS)', path: `/destinations/${SAMPLE}?demo=locating` },
+      { label: 'Too far', path: `/destinations/${SAMPLE}?demo=far` },
+      { label: 'GPS error', path: `/destinations/${SAMPLE}?demo=error` },
       { label: 'Quiz', path: `/destinations/${SAMPLE}?demo=quiz` },
       { label: 'Result — correct', path: `/destinations/${SAMPLE}?demo=correct` },
-      { label: 'Result — wrong', path: `/destinations/${SAMPLE}?demo=wrong` },
+      { label: 'Result — wrong (cooldown)', path: `/destinations/${SAMPLE}?demo=wrong` },
       { label: 'Checked in + stamp', path: `/destinations/${SAMPLE}?demo=done` },
     ],
   },
   {
-    title: '4 · Collect & browse',
+    title: '5 · Collect & browse',
     screens: [
       { label: 'Passport', path: '/passport' },
       { label: 'Explore (map)', path: '/destinations', map: true },
@@ -61,7 +77,7 @@ const groups = [
     ],
   },
   {
-    // SAMPLE is already the phase-3 check-in/quiz/done frames — drop it here so the
+    // SAMPLE is already the phase-4 check-in/quiz/done frames — drop it here so the
     // catalog (and its compact first-frame) isn't a duplicate.
     catalog: true,
     title: `Every destination (${dests.length - 1}) — “Show quizzes” to reveal each quiz`,

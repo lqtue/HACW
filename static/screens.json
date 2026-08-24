@@ -15,6 +15,10 @@
         "path": "/?step=welcome"
       },
       {
+        "label": "Install app",
+        "path": "/?step=install"
+      },
+      {
         "label": "Location & motion",
         "path": "/?step=perms"
       },
@@ -28,14 +32,32 @@
     "title": "2 · Plan the 5-site ticket",
     "screens": [
       {
+        "label": "Suggested sets (collapsed)",
+        "path": "/?step=recommend&open=0",
+        "map": true
+      },
+      {
         "label": "Suggested sets",
         "path": "/?step=recommend",
         "map": true
       },
       {
-        "label": "Pick my own",
-        "path": "/?step=manual",
+        "label": "Pick 1st / 2nd — map view",
+        "path": "/?step=manual&pick=first&view=map",
         "map": true
+      },
+      {
+        "label": "Pick last 3 — map view",
+        "path": "/?step=manual&pick=last&view=map",
+        "map": true
+      },
+      {
+        "label": "Pick 1st / 2nd — list view",
+        "path": "/?step=manual&pick=first&view=list"
+      },
+      {
+        "label": "Pick last 3 — list view",
+        "path": "/?step=manual&pick=last&view=list"
       },
       {
         "label": "Plan ready",
@@ -45,16 +67,48 @@
     ]
   },
   {
-    "title": "3 · Walk & check in",
+    "title": "3 · Walk & navigate",
     "screens": [
       {
-        "label": "Routing (nav)",
+        "label": "Nav — needs GPS",
         "path": "/go?set=nha-co-va-nghe-xua",
         "map": true
       },
       {
+        "label": "Nav — en route",
+        "path": "/go?set=nha-co-va-nghe-xua&demo=far&idx=1",
+        "map": true
+      },
+      {
+        "label": "Nav — arrived",
+        "path": "/go?set=nha-co-va-nghe-xua&demo=arrive&idx=1",
+        "map": true
+      },
+      {
+        "label": "Nav — set complete",
+        "path": "/go?set=nha-co-va-nghe-xua&demo=done",
+        "map": true
+      }
+    ]
+  },
+  {
+    "title": "4 · Location & quiz",
+    "screens": [
+      {
         "label": "At a site",
         "path": "/destinations/chua-cau?demo=idle"
+      },
+      {
+        "label": "Locating (GPS)",
+        "path": "/destinations/chua-cau?demo=locating"
+      },
+      {
+        "label": "Too far",
+        "path": "/destinations/chua-cau?demo=far"
+      },
+      {
+        "label": "GPS error",
+        "path": "/destinations/chua-cau?demo=error"
       },
       {
         "label": "Quiz",
@@ -65,7 +119,7 @@
         "path": "/destinations/chua-cau?demo=correct"
       },
       {
-        "label": "Result — wrong",
+        "label": "Result — wrong (cooldown)",
         "path": "/destinations/chua-cau?demo=wrong"
       },
       {
@@ -75,7 +129,7 @@
     ]
   },
   {
-    "title": "4 · Collect & browse",
+    "title": "5 · Collect & browse",
     "screens": [
       {
         "label": "Passport",

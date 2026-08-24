@@ -7,39 +7,49 @@
   import { s } from '$lib/strings.js';
   import SiteMap from './SiteMap.svelte';
 
-  // Selection map for the 1+1+3 builder. Eligible sites are full-strength; picked sites
-  // wear the gold rim + a walk-order number and are joined by a dashed route line;
-  // everything else dims back. Tap a pin → a popup with Add / Remove. All the map
-  // machinery is SiteMap; this supplies the highlighting + the pick popup.
+  // Selection map for the 1+1+3 builder, focused on the CURRENT slot: the sites you
+  // can pick right now are full-strength; the plan you've already built — earlier
+  // picks (gold rim) and the dashed route joining them — sits dimmed as context.
+  // Tap a pin → a popup with Add / Remove. All the map machinery is SiteMap.
   const clamp = (str, n = 90) => (str.length > n ? str.slice(0, n - 1).trimEnd() + '…' : str);
-  let { eligible = [], picked = [], catFilter = null, onpick } = $props();
+  let { eligible = [], picked = [], catFilter = null, onpick, controlsTop = '10px' } = $props();
 
   const byId = Object.fromEntries(destinations.map((d) => [d.id, d]));
   const eligibleSet = $derived(new Set(eligible));
   const pickedSet = $derived(new Set(picked));
 
   const orderedPicks = $derived(optimizeRoute(picked.map((id) => byId[id]).filter(Boolean)));
-  const numById = $derived(Object.fromEntries(orderedPicks.map((d, i) => [d.id, i + 1])));
   const routeData = $derived({ type: 'Feature', geometry: { type: 'LineString', coordinates: stitchRoute(orderedPicks) } });
 
+  // This map is the PICKER, not the route preview: it shows what's choosable and
+  // what's selected — nothing more. The numbered walk route lives on the "Plan
+  // ready" screen (RouteMap), where the order is final and there's nothing to pick.
+  // Only this step's choosable sites are drawn (plus whatever is already picked, so
+  // de-select stays possible). A category filter narrows it further.
   const siteData = $derived({
     type: 'FeatureCollection',
-    features: destinations.map((d) => {
-      const on = pickedSet.has(d.id);
-      const usable = on || eligibleSet.has(d.id);
-      const matches = !catFilter || d.category === catFilter;
-      return {
-        type: 'Feature',
-        geometry: { type: 'Point', coordinates: [d.lng, d.lat] },
-        properties: {
-          id: d.id,
-          icon: `pin-${d.category}${on ? '-spot' : ''}`,
-          label: on ? String(numById[d.id] ?? '') : t(d.name),
-          sel: on,
-          dim: usable ? (matches ? 1 : 0.4) : 0.25
-        }
-      };
-    })
+    features: destinations
+      .filter((d) => {
+        if (pickedSet.has(d.id)) return true;
+        if (!eligibleSet.has(d.id)) return false;
+        return !catFilter || d.category === catFilter;
+      })
+      .map((d) => {
+        const on = pickedSet.has(d.id);
+        return {
+          type: 'Feature',
+          geometry: { type: 'Point', coordinates: [d.lng, d.lat] },
+          properties: {
+            id: d.id,
+            icon: `pin-${d.category}${on ? '-spot' : ''}`,
+            // no labels: names crowd at this zoom; the name lives in the popup + list
+            label: '',
+            sel: on,
+            // this slot's choosable sites are full-strength; already-picked context dims
+            dim: on ? 0.4 : 1
+          }
+        };
+      })
   });
 
   const bounds = destinations.reduce(
@@ -54,11 +64,14 @@
   const ink = dark ? '#efe6d6' : '#1c1917';
 
   let popup;
-  function onPin(id, feature, e, map, mgl) {
-    const d = byId[id];
+  let bmap, bmgl;           // map + maplibre namespace, kept so the pager can reopen popups
+  let stack = $state([]);   // sites gathered under one tap (dest objects)
+  let stackAt = $state(0);
+
+  function openPick(d) {
     if (!d) return;
-    const isPicked = pickedSet.has(id);
-    const canPick = isPicked || eligibleSet.has(id);
+    const isPicked = pickedSet.has(d.id);
+    const canPick = isPicked || eligibleSet.has(d.id);
 
     const node = document.createElement('div');
     node.className = 'bpop';
@@ -77,11 +90,37 @@
       const btn = document.createElement('button');
       btn.className = 'bpop-btn' + (isPicked ? ' rm' : '');
       btn.textContent = isPicked ? s('pick_remove') : s('pick_do');
-      btn.addEventListener('click', () => { onpick?.(id); popup.remove(); });
+      btn.addEventListener('click', () => { onpick?.(d.id); popup?.remove(); });
       node.append(btn);
     }
-    popup ??= new mgl.Popup({ offset: [0, -22], closeButton: true, maxWidth: '240px', className: 'bpop-wrap' });
-    popup.setLngLat([d.lng, d.lat]).setDOMContent(node).addTo(map);
+    popup ??= new bmgl.Popup({ offset: [0, -22], closeButton: true, maxWidth: '240px', className: 'bpop-wrap' });
+    popup.setLngLat([d.lng, d.lat]).setDOMContent(node).addTo(bmap);
+  }
+
+  // sites here sit metres apart — a tap collects every pin within a finger's width and
+  // the ‹ › pager steps them in place, exactly like the Explore map.
+  function onSite(id, feature, e, map, mgl) {
+    bmap = map; bmgl = mgl;
+    const { x, y } = e.point;
+    const R = 26;
+    const near = map.queryRenderedFeatures([[x - R, y - R], [x + R, y + R]], { layers: ['sites'] });
+    const ids = [...new Set([id, ...near.map((f) => f.properties.id)])];
+    stack = ids.map((i) => byId[i]).filter(Boolean);
+    stackAt = 0;
+    openPick(stack[0]);
+  }
+  function step(delta) {
+    if (!stack.length) return;
+    stackAt = (stackAt + delta + stack.length) % stack.length;
+    openPick(stack[stackAt]);
+  }
+  function onMapInit(map) {
+    bmap = map;
+    // tap empty paper -> dismiss the pager + popup
+    map.on('click', (e) => {
+      if (map.queryRenderedFeatures(e.point, { layers: ['sites'] }).length) return;
+      popup?.remove(); popup = null; stack = [];
+    });
   }
 </script>
 
@@ -89,14 +128,15 @@
   <SiteMap
     {siteData}
     {routeData}
+    {controlsTop}
     fitBounds={bounds}
     fitPadding={34}
-    routePaint={{ 'line-color': brand, 'line-width': 3, 'line-dasharray': [1.6, 1.4], 'line-opacity': 0.9 }}
+    routePaint={{ 'line-color': brand, 'line-width': 3, 'line-dasharray': [1.6, 1.4], 'line-opacity': 0.35 }}
     sitesLayout={{
       'icon-size': ['interpolate', ['linear'], ['zoom'],
-        14, ['case', ['get', 'sel'], 0.8, 0.55],
-        16, ['case', ['get', 'sel'], 1.15, 0.8],
-        18, ['case', ['get', 'sel'], 1.35, 0.95]],
+        14, ['case', ['get', 'sel'], 0.5, 0.7],
+        16, ['case', ['get', 'sel'], 0.7, 1.0],
+        18, ['case', ['get', 'sel'], 0.85, 1.15]],
       'text-field': ['get', 'label'],
       'text-size': ['case', ['get', 'sel'], 15, 11],
       'text-anchor': 'top',
@@ -109,8 +149,17 @@
       'text-halo-width': ['case', ['get', 'sel'], 2, 1.6],
       'text-opacity': ['case', ['>=', ['coalesce', ['get', 'dim'], 1], 0.4], 1, 0]
     }}
-    onsiteclick={onPin}
+    oninit={onMapInit}
+    onsiteclick={onSite}
   />
+
+  {#if stack.length > 1}
+    <div class="stack">
+      <button class="stack-nav" onclick={() => step(-1)} aria-label={s('prev_site')}>‹</button>
+      <span class="stack-label"><b>{stackAt + 1}</b> / {stack.length} · {t(stack[stackAt].name)}</span>
+      <button class="stack-nav" onclick={() => step(1)} aria-label={s('next_site')}>›</button>
+    </div>
+  {/if}
 </div>
 
 <style>
@@ -119,6 +168,29 @@
     width: 100%; height: 100%;
     border-radius: 16px; overflow: hidden;
     background: var(--paper); border: 1px solid var(--line);
+  }
+
+  /* stack pager: "1 / N in this area" — floats over the map's bottom edge, matching
+     the Explore map's pager so overlapping sites step in place instead of clustering */
+  .stack {
+    position: absolute; z-index: 8;
+    left: 12px; right: 12px; bottom: 12px;
+    display: flex; align-items: center; gap: 10px; padding: 6px;
+    border-radius: 999px;
+    background: var(--brand-dark); color: var(--paper);
+    box-shadow: 0 10px 24px -12px rgba(40, 12, 6, 0.9);
+  }
+  .stack-label {
+    flex: 1; min-width: 0; text-align: center;
+    font-size: 0.82rem; font-weight: 600;
+    white-space: nowrap; overflow: hidden; text-overflow: ellipsis;
+  }
+  .stack-label b { color: var(--gold); }
+  .stack-nav {
+    flex: 0 0 auto; width: 34px; height: 34px;
+    border: 0; border-radius: 50%;
+    background: var(--paper); color: var(--brand-dark);
+    font-size: 1.2rem; line-height: 1; cursor: pointer;
   }
 
   /* selection popup — a small paper label; MapLibre portals it, so global */

@@ -1,6 +1,6 @@
 <script>
   import { base } from '$app/paths';
-  import { onMount, onDestroy } from 'svelte';
+  import { onMount, onDestroy, untrack } from 'svelte';
   import { ui } from '$lib/ui.svelte.js';
   import destinations from '$lib/data/destinations.json';
   import categories from '$lib/data/categories.json';
@@ -12,7 +12,6 @@
   import RouteMap from '$lib/components/RouteMap.svelte';
   import MatCua from '$lib/components/MatCua.svelte';
   import Icon from '$lib/components/Icon.svelte';
-  import InstallApp from '$lib/components/InstallApp.svelte';
   import { rankSets } from '$lib/advisor.js';
   import { isValidSet } from '$lib/ticket.js';
   import { weather } from '$lib/weather.svelte.js';
@@ -47,12 +46,14 @@
   // has onboarded:true. recommend/manual map to build + the two build modes.
   const forced =
     (typeof location !== 'undefined' &&
-      /^(door|lang|welcome|scan|perms|recommend|manual|done)$/.exec(
+      /^(door|lang|welcome|install|scan|perms|recommend|manual|done)$/.exec(
         new URLSearchParams(location.search).get('step') || ''
       )?.[0]) ||
     '';
+  // the board's manual deep-link params (?view=, ?pick=), read synchronously
+  const q0 = typeof location !== 'undefined' ? new URLSearchParams(location.search) : null;
   let step = $state(
-    /^(door|lang|welcome|scan|perms|done)$/.test(forced) ? forced : forced ? 'build' : plan.onboarded ? 'build' : 'door'
+    /^(door|lang|welcome|install|scan|perms|done)$/.test(forced) ? forced : forced ? 'build' : plan.onboarded ? 'build' : 'door'
   );
   // the two door leaves swing open on tap, then the language screen appears
   let opening = $state(false);
@@ -71,20 +72,29 @@
   const FEATURES = [
     { name: 'map', vi: 'Khám phá 25 điểm di sản', en: 'Explore 25 heritage sites on an offline map' },
     { name: 'ticket', vi: 'Nhận tem tại mỗi điểm', en: 'Check in and collect passport stamps' },
-    { name: 'compass', vi: 'Lên lịch 5 điểm cho vé của bạn', en: 'Plan the 5 sites your ticket covers' }
+    { name: 'compass', vi: 'Tạo lịch trình 5 điểm cho vé của bạn', en: 'Plan the 5 sites your ticket covers' }
   ];
 
   // The greeting IS the picker — a visitor taps the hello in their own language, no
   // instructions needed. Shared list (also the passport switcher) lives in languages.js.
 
+  // iOS gets the Share-sheet steps, everything else the browser-menu steps. Set
+  // on mount because navigator is absent during prerender.
+  let ios = $state(false);
+
   onMount(() => {
     if (step === 'welcome') track('welcome');
+    ios = /iphone|ipad|ipod/i.test(navigator.userAgent);
     // board preview (?step=recommend): expand the top set so the frame shows its
     // map + stops, not just collapsed titles.
-    if (forced === 'recommend' && recommended.length) openSet = recommended[0].id;
+    // board preview: expand the top set by default; ?open=0 keeps all collapsed.
+    if (forced === 'recommend' && recommended.length &&
+        new URLSearchParams(location.search).get('open') !== '0') openSet = recommended[0].id;
     // board preview (?step=done): the done summary needs a plan to render — seed
     // one from the first ticket set if the device has none.
     if (forced === 'done' && !pickedIds.length && ticketSets.length) applySet(ticketSets[0].stops);
+    // board preview (?step=manual): view + pick are read synchronously at init (see
+    // viewMode / stepIdx above) so the list deep-link never transiently mounts the map
   });
 
   // Record the language signal for the nationality study (see counts.js): the
@@ -146,7 +156,7 @@
 
   // hide the tab bar on the manual builder + plan-ready screens (their own back
   // button is the way out); recommend keeps it. reset when leaving the route.
-  const STEP_SCREENS = ['door', 'lang', 'welcome', 'scan', 'perms', 'done'];
+  const STEP_SCREENS = ['door', 'lang', 'welcome', 'install', 'scan', 'perms', 'done'];
   $effect(() => {
     ui.hideNav = step === 'done' || (mode === 'manual' && !STEP_SCREENS.includes(step));
   });
@@ -178,13 +188,30 @@
     { cls: 'museum', key: 'step_museum' },
     { cls: 'other', key: 'step_free' }
   ];
-  let stepIdx = $state(0);
-  let mono = $state(plan.set.find((id) => byId[id]?.ticketClass === 'monument') ?? null);
-  let museo = $state(plan.set.find((id) => byId[id]?.ticketClass === 'museum') ?? null);
-  let free = $state(plan.set.filter((id) => byId[id]?.ticketClass === 'other'));
+  // ?pick=last opens on the free step, else the first (monument) — read synchronously
+  // (same reason as viewMode) so the correct step renders on the first paint
+  const boardManual = forced === 'manual';
+  const boardLast = boardManual && q0?.get('pick') === 'last';
+  let stepIdx = $state(boardLast ? 2 : 0);
+  // Board-preview frames share localStorage, so they must NOT read (or write) the real
+  // stored plan — otherwise a later frame's full 5-pick set leaks into "Pick 1st/2nd".
+  // Seed a clean per-frame demo: first-step = nothing picked; last-step = the 1st+2nd
+  // already chosen, picking the free 3. Real app (forced === '') restores from plan.set.
+  let mono = $state(boardManual ? (boardLast ? groups.monument[0]?.id ?? null : null) : plan.set.find((id) => byId[id]?.ticketClass === 'monument') ?? null);
+  let museo = $state(boardManual ? (boardLast ? groups.museum[0]?.id ?? null : null) : plan.set.find((id) => byId[id]?.ticketClass === 'museum') ?? null);
+  let free = $state(boardManual ? [] : plan.set.filter((id) => byId[id]?.ticketClass === 'other'));
 
   const pickedIds = $derived([mono, museo, ...free].filter(Boolean));
   const valid = $derived(isValidSet(pickedIds, destinations, 5));
+  // persist the working set live, so tapping a list card through to a site's detail
+  // page (and back) doesn't drop the picks — mono/museo/free re-init from plan.set.
+  // untrack the write: setPlanSet → save() reads plan.set, which would otherwise make
+  // this effect depend on the very state it writes (infinite loop). Skipped in board
+  // preview so demo frames never contaminate each other's shared localStorage.
+  $effect(() => {
+    const ids = pickedIds;
+    if (!forced) untrack(() => setPlanSet(ids));
+  });
   const slotList = $derived([
     { cls: 'monument', id: mono },
     { cls: 'museum', id: museo },
@@ -209,13 +236,22 @@
   const freeCats = categories.map((c) => c.id).filter((id) => groups.other.some((d) => d.category === id));
   let catFilter = $state(null);
 
-  // The free pool is 16+ sites; show the closest handful and hide the rest behind
-  // "show more" so the picker isn't a marathon scroll. The sort ranks by distance, so
-  // the visible ones are the realistic (compact-walk) picks.
-  const CAP = 8;
+  // The free pool is 16+ sites; show as many as fit the list viewport and hide the
+  // rest behind "show more" so the picker never overflows into a marathon scroll.
+  // The sort ranks by distance, so the visible ones are the realistic (compact-walk)
+  // picks. CAP tracks the measured list height (bound below) — ~62px/row, less the
+  // top offset and a slot for the see-more link. ponytail: fixed row height guess;
+  // fine unless the row layout changes.
+  let listH = $state(0);
+  const CAP = $derived(
+    listH ? Math.max(3, Math.floor((listH - (onFree ? 104 : 62) - 44) / 62)) : 8
+  );
   let showAll = $state(false);
-  // list (scan names/status) vs map (spatial pick) — one at a time, not stacked
-  let viewMode = $state('map'); // 'map' | 'list' — map first + default
+  let openRow = $state(null); // list row expanded inline (accordion), like the suggested sets
+  // list (scan names/status) vs map (spatial pick) — one at a time, not stacked. Read
+  // the board's ?view= synchronously so a list-view deep-link never briefly mounts the
+  // map (its async init would then fire on a torn-down container and blank the render).
+  let viewMode = $state(forced === 'manual' && q0?.get('view') === 'list' ? 'list' : 'map');
 
   const currentGroup = $derived(groups[STEPS[stepIdx].cls]);
   const eligibleIds = $derived(currentGroup.map((d) => d.id));
@@ -278,14 +314,25 @@
     finish();
   }
 
-  function autoFree() {
+  const remaining = $derived(5 - pickedIds.length);
+  // fill quiet sites first (dispersal), then organizer priority, then nearest the origin
+  function bestFrom(pool, n) {
     const spot = spotlightIds(stats.counts, destinations);
-    // auto-pick favours quiet sites (dispersal), then the organizer's priority, then near
-    const pool = groups.other
-      .filter((d) => !free.includes(d.id))
+    return pool
       .map((d) => ({ id: d.id, quiet: spot.has(d.id) ? 0 : 1, prio: prioRank(d), m: distanceMeters(origin, d) }))
-      .sort((a, b) => a.quiet - b.quiet || a.prio - b.prio || a.m - b.m);
-    free = [...free, ...pool.slice(0, 3 - free.length).map((x) => x.id)];
+      .sort((a, b) => a.quiet - b.quiet || a.prio - b.prio || a.m - b.m)
+      .slice(0, n)
+      .map((x) => x.id);
+  }
+  function autoFree() {
+    free = [...free, ...bestFrom(groups.other.filter((d) => !free.includes(d.id)), 3 - free.length)];
+  }
+  // "pick the rest for me" — fills every empty slot (monument, museum, free)
+  function autoComplete() {
+    if (!mono) mono = bestFrom(groups.monument, 1)[0] ?? null;
+    if (!museo) museo = bestFrom(groups.museum, 1)[0] ?? null;
+    if (free.length < 3) autoFree();
+    stepIdx = firstIncomplete();
   }
 
   const orderedPlan = $derived(optimizeRoute(pickedIds.map((id) => byId[id])));
@@ -310,21 +357,6 @@
     stepIdx = 0;
   }
 </script>
-
-{#snippet slots(list)}
-  <div class="slots" aria-hidden="true">
-    {#each list as slot, i (i)}
-      {@const d = slot.id ? byId[slot.id] : null}
-      {#if d}
-        <span class="slot filled" style="--cat: var(--c-{d.category})">
-          <MatCua size={30} color="var(--cat)" inner="var(--surface)" />
-        </span>
-      {:else}
-        <span class="slot empty" data-k={s(STEPS[i < 2 ? i : 2].key)}></span>
-      {/if}
-    {/each}
-  </div>
-{/snippet}
 
 {#if step === 'door'}
   <!-- SCREEN 1 — the door of Hội An. Tap the mắt cửa and the leaves swing open. -->
@@ -371,8 +403,26 @@
     </ul>
 
     <div class="w-foot">
+      <button class="btn ghost" onclick={() => (step = 'install')}>{s('install')}</button>
       <button class="btn" onclick={() => (step = 'perms')}>{s('welcome_start')}</button>
-      <InstallApp />
+    </div>
+  </section>
+{:else if step === 'install'}
+  <section class="onboard scan">
+    <h1>{s('install_title')}</h1>
+
+    <div class="scan-mid">
+      <p class="lead">{s('install_why')}</p>
+      <ol class="isteps">
+        {#each ios ? [s('install_ios_1'), s('install_ios_2')] : [s('install_android_1'), s('install_android_2')] as st, i (i)}
+          <li>{st}</li>
+        {/each}
+      </ol>
+    </div>
+
+    <div class="scan-foot">
+      <button class="btn" onclick={() => (step = 'perms')}>{s('install_next')}</button>
+      <div class="subpad" aria-hidden="true"></div>
     </div>
   </section>
 {:else if step === 'scan'}
@@ -412,9 +462,8 @@
   </section>
 {:else if step === 'done'}
   <section class="onboard done">
-    <button class="backchip" onclick={editPlan} aria-label={s('back')}>←</button>
     <h1>{s('done_title')}</h1>
-    {@render slots(slotList)}
+    <p class="walk-sum">{s('route_walk', formatDistance(planWalk.meters, i18n.lang), planWalk.minutes)}</p>
 
     <div class="donemap"><RouteMap stops={orderedPlan} height="200px" /></div>
     <ol class="doneroute">
@@ -423,10 +472,11 @@
       {/each}
     </ol>
   </section>
-  <!-- primary CTA docked above the tab bar: the map + 5-stop list are taller than
-       the screen, so it can't sit in flow below them -->
-  <div class="commitbar solo">
+  <!-- primary CTA docked above the tab bar; the edit-plan action rides below it as a
+       secondary button (replacing the old top back chip) -->
+  <div class="commitbar">
     <a class="btn done-cta" href="{base}/go">{s('go_checkin')}</a>
+    <button class="skip" onclick={editPlan}>{s('edit_plan')}</button>
   </div>
 {:else if mode === 'recommend'}
   <div class="build">
@@ -443,27 +493,22 @@
               {#if i === 0}<span class="rec-badge">✦ {s('rec_badge')}</span>{/if}
               <b>{t(set.title)}</b>
               <small>{t(set.theme)}</small>
+              {#if !open}<small class="set-dist">{formatDistance(set.walkM, i18n.lang)} · {s('walk_time', set.walkMin)}</small>{/if}
             </span>
             <span class="caret" aria-hidden="true">{open ? '▾' : '▸'}</span>
           </button>
           {#if open}
             <div class="set-body">
-              <div class="chips">
-                <span class="chip dist">{formatDistance(set.walkM, i18n.lang)} · {s('walk_time', set.walkMin)}</span>
-              </div>
               <p class="narr">{t(set.description)}</p>
               <ul class="stops">
-                {#each set.stops as d (d.id)}
+                {#each set.stops as d, si (d.id)}
                   <li>
-                    <span class="mark"><MatCua size={22} color="var(--c-{d.category})" inner="var(--surface)" /></span>
+                    <span class="n" style="--cat: var(--c-{d.category})">{si + 1}</span>
                     <b>{t(d.name)}</b>
                   </li>
                 {/each}
               </ul>
-              <!-- commit CTA above the map: reachable without scrolling past the
-                   route preview, which stays below as supporting detail -->
               <button class="btn" onclick={() => useSet(set)}>{s('use_set')}</button>
-              <div class="setmap"><RouteMap stops={set.stops} height="200px" /></div>
             </div>
           {/if}
         </li>
@@ -475,13 +520,81 @@
     </button>
   </div>
 {:else}
-  <div class="build manual" class:committing={valid}>
+  <div class="build manual committing">
     <button class="backchip" onclick={() => (mode = 'recommend')} aria-label={s('back')}>←</button>
     <header class="b-head">
       <h1>{s('plan_title')}</h1>
     </header>
 
-    <!-- the 5 slots double as step navigation; tap one to edit that class -->
+    <!-- map/list view; the switch hovers top-centre over the map, like Explore -->
+    <div class="viewregion" class:ismap={viewMode === 'map'} class:free={onFree}>
+      <div class="viewfloat"><ViewToggle bind:mode={viewMode} /></div>
+
+      {#if onFree}
+        <!-- free pool is large; category chips double as a legend -->
+        <div class="catfilter">
+          <button class="fchip" class:on={!catFilter} onclick={() => (catFilter = null)}>{s('all_cats')}</button>
+          {#each freeCats as c (c)}
+            <button
+              class="fchip"
+              class:on={catFilter === c}
+              style="--c: var(--c-{c})"
+              onclick={() => (catFilter = catFilter === c ? null : c)}
+            >
+              {categoryIcon(c)} {t(categoryLabel(c))}
+            </button>
+          {/each}
+        </div>
+      {/if}
+
+      {#if viewMode === 'list'}
+        <ul class="list" bind:clientHeight={listH}>
+          {#each shownList as { d, m } (d.id)}
+            {@const picked = isPicked(d.id)}
+            {@const oh = openLabel(d)}
+            {@const open = openRow === d.id}
+            <li class="row" class:picked class:open>
+              <!-- tap the card to expand details inline (like the suggested sets); the + picks -->
+              <div class="row-main">
+                <button class="row-tap" onclick={() => (openRow = open ? null : d.id)} aria-expanded={open}>
+                  <span class="mark" style="--cat: var(--c-{d.category})">
+                    <MatCua size={30} color="var(--cat)" inner="var(--surface)" ghost={!picked} />
+                  </span>
+                  <span class="body">
+                    <b>{t(d.name)}</b>
+                    <small class="meta">
+                      {t(categoryLabel(d.category))}{#if oh} · <em class={oh.status}>{oh.text}</em>{/if}
+                    </small>
+                  </span>
+                  <span class="caret" aria-hidden="true">{open ? '▾' : '▸'}</span>
+                </button>
+                <button class="add" class:on={picked} onclick={() => pick(d.id)} aria-pressed={picked} aria-label={picked ? s('pick_remove') : s('pick_do')}>{picked ? '✓' : '+'}</button>
+              </div>
+              {#if open}
+                <div class="row-detail">
+                  <p class="rd-desc">{t(d.description)}</p>
+                  <p class="rd-addr">📍 {t(d.address)}</p>
+                  <a class="rd-link" href="{base}/destinations/{d.id}">{s('see_site')}</a>
+                </div>
+              {/if}
+            </li>
+          {/each}
+        </ul>
+
+        {#if onFree && rankedList.length > CAP}
+          {#if showAll}
+            <button class="link fill-link" onclick={() => (showAll = false)}>{s('list_less')}</button>
+          {:else}
+            <button class="link fill-link" onclick={() => (showAll = true)}>{s('list_more', rankedList.length - CAP)}</button>
+          {/if}
+        {/if}
+      {:else}
+        <!-- map mode: tap a pin to add/remove; mounted only in this branch so it never inits at 0×0 -->
+        <div class="mapwrap"><BuilderMap eligible={eligibleIds} picked={pickedIds} catFilter={onFree ? catFilter : null} onpick={pick} controlsTop={onFree ? '104px' : '64px'} /></div>
+      {/if}
+    </div>
+
+    <!-- progress: the 5 slots double as step nav; tap one to edit that class -->
     <div class="slotbtns" role="group" aria-label={s('your_ticket')}>
       {#each slotList as slot, i (i)}
         {@const si = i < 2 ? i : 2}
@@ -500,76 +613,22 @@
       {/each}
     </div>
 
-    {#if pickedIds.length}
-      <button class="link reset-link" onclick={resetPicks}>{s('reset_picks')}</button>
-    {/if}
-
-    <!-- balance list vs map: pick a mode instead of scrolling past both -->
-    <ViewToggle bind:mode={viewMode} />
-
-    {#if onFree}
-      <!-- free pool is large; category chips double as a legend -->
-      <div class="catfilter">
-        <button class="fchip" class:on={!catFilter} onclick={() => (catFilter = null)}>{s('all_cats')}</button>
-        {#each freeCats as c (c)}
-          <button
-            class="fchip"
-            class:on={catFilter === c}
-            style="--c: var(--c-{c})"
-            onclick={() => (catFilter = catFilter === c ? null : c)}
-          >
-            {categoryIcon(c)} {t(categoryLabel(c))}
-          </button>
-        {/each}
-      </div>
-    {/if}
-
-    {#if viewMode === 'list'}
-      <ul class="list">
-        {#each shownList as { d, m } (d.id)}
-          {@const picked = isPicked(d.id)}
-          {@const oh = openLabel(d)}
-          <li class="row" class:picked>
-            <button class="row-tap" onclick={() => pick(d.id)} aria-pressed={picked} aria-label={picked ? s('picked_lbl') : s('pick_do')}>
-              <span class="mark" style="--cat: var(--c-{d.category})">
-                <MatCua size={30} color="var(--cat)" inner="var(--surface)" ghost={!picked} />
-              </span>
-              <span class="body">
-                <b>{t(d.name)}</b>
-                <!-- picker row: identity + status only. The description is a detail-page
-                     thing, not a pick criterion — dropping it halves the row height. -->
-                <small class="meta">
-                  {t(categoryLabel(d.category))}{#if oh} · <em class={oh.status}>{oh.text}</em>{/if}
-                </small>
-              </span>
-              <span class="add" class:on={picked} aria-hidden="true">{picked ? '✓' : '+'}</span>
-            </button>
-          </li>
-        {/each}
-      </ul>
-
-      {#if onFree && !showAll && rankedList.length > CAP}
-        <button class="link fill-link" onclick={() => (showAll = true)}>{s('list_more', rankedList.length - CAP)}</button>
-      {/if}
-    {:else}
-      <!-- map mode: tap a pin to add/remove; mounted only in this branch so it never inits at 0×0 -->
-      <div class="mapwrap"><BuilderMap eligible={eligibleIds} picked={pickedIds} catFilter={onFree ? catFilter : null} onpick={pick} /></div>
-    {/if}
-
-    <!-- escape hatch, at the bottom in both modes: reach for it after browsing -->
-    {#if onFree && free.length < 3}
-      <button class="link fill-link" onclick={autoFree}>{s('auto_free')}</button>
-    {/if}
 
   </div>
-  {#if valid}
-    <!-- picking happens on the map (56vh), so the finish CTA can't live below it —
-         dock it above the tab bar the moment 5 are picked, always in reach -->
-    <div class="commitbar">
+  <!-- one docked footer for every state: a primary action on top, a sub line below.
+       empty → "tap a point" hint; picking → auto-fill + clear-all; full → continue. -->
+  <div class="commitbar">
+    {#if valid}
       <button class="btn done-cta" onclick={finish}>{s('build_done')}</button>
-      <span class="walk-note">{s('route_walk', formatDistance(planWalk.meters, i18n.lang), planWalk.minutes)}</span>
-    </div>
-  {/if}
+    {:else}
+      <button class="btn done-cta" onclick={autoComplete}>{s('auto_pick', remaining)}</button>
+    {/if}
+    {#if pickedIds.length}
+      <button class="skip" onclick={resetPicks}>{s('reset_picks')}</button>
+    {:else}
+      <span class="pick-hint">{s('pick_hint')}</span>
+    {/if}
+  </div>
 {/if}
 
 <style>
@@ -693,7 +752,8 @@
   .intro .btn { width: 100%; }
   /* 50px lifts Bắt đầu to the same offset the perms/scan main sits at (their 40px
      sub slot + gap), so the primary button lands at one height across onboarding */
-  .w-foot { display: flex; flex-direction: column; gap: 4px; margin-bottom: 50px; }
+  .w-foot { display: flex; flex-direction: column; gap: 10px; margin-bottom: 50px; }
+  .w-foot .btn { width: 100%; }
 
   .onboard h1 {
     margin: 0 0 8px;
@@ -703,16 +763,13 @@
     font-size: clamp(1.7rem, 7vw, 2.2rem);
     line-height: 1.1;
   }
-  .onboard.done { padding-bottom: calc(100px + env(safe-area-inset-bottom)); justify-content: flex-start; padding-top: max(30px, calc(env(safe-area-inset-top) + 20px)); }
-  .onboard.done > h1 { padding-left: 44px; } /* clear the fixed back chip */
-  .commitbar.solo .done-cta { flex: 1 1 auto; width: 100%; }
-  /* solo (no sub text) sits at the same button height as screen 7's Tiếp tục, whose
-     walk-note sub slot (20px) + gap (8px) lift its button 28px off the bottom */
-  .commitbar.solo { bottom: calc(44px + env(safe-area-inset-bottom)); }
+  .onboard.done { padding-bottom: calc(130px + env(safe-area-inset-bottom)); justify-content: flex-start; padding-top: max(30px, calc(env(safe-area-inset-top) + 20px)); }
+  /* total walk under the title */
+  .walk-sum { margin: 4px 0 0; color: var(--muted); font-size: 0.95rem; font-weight: 600; }
   .donemap { width: 100%; margin: 14px 0 12px; border-radius: 12px; overflow: hidden; border: 1px solid var(--line); }
   .doneroute { list-style: none; margin: 0 0 8px; padding: 0; display: flex; flex-direction: column; gap: 8px; width: 100%; }
   .doneroute li { display: flex; align-items: center; gap: 10px; font-size: 0.95rem; }
-  .doneroute .n {
+  .doneroute .n, .stops .n {
     flex: 0 0 auto;
     width: 24px; height: 24px;
     display: grid; place-items: center;
@@ -740,16 +797,23 @@
      like the welcome Start button */
   .onboard.scan { min-height: 100dvh; justify-content: space-between; }
   .scan-mid { flex: 1 1 auto; display: flex; flex-direction: column; justify-content: center; gap: 22px; }
+  .scan-mid .lead { margin: 0; text-align: center; color: var(--ink); font-size: 1.05rem; line-height: 1.5; }
+  .isteps {
+    margin: 0 auto; padding: 0; max-width: 34ch; list-style: none; counter-reset: istep;
+    display: flex; flex-direction: column; gap: 14px;
+  }
+  .isteps li {
+    counter-increment: istep; position: relative; padding-left: 40px; line-height: 1.5; color: var(--ink);
+  }
+  .isteps li::before {
+    content: counter(istep); position: absolute; left: 0; top: 0;
+    width: 28px; height: 28px; border-radius: 50%; display: grid; place-items: center;
+    background: var(--grad-brand, var(--brand)); color: #fff; font-weight: 800; font-size: 0.9rem;
+  }
   /* shared footer: secondary (ghost/white) above, main (orange) below, sub last */
   .scan-foot { display: flex; flex-direction: column; gap: 10px; }
   .scan-foot .btn { width: 100%; }
-  .btn.ghost {
-    background: var(--surface);
-    color: var(--ink);
-    border: 1px solid var(--line);
-  }
-  .btn.ghost:hover { background: var(--paper-2); }
-  .btn.ghost:disabled { opacity: 0.5; }
+  /* .btn.ghost is global (app.css) — shared with InstallApp on the welcome screen */
   /* fixed-height sub slot so the main button lands at the same offset on every
      onboarding screen, whether the sub is a one-line skip or a two-line terms note */
   .scan-foot .skip {
@@ -759,15 +823,10 @@
     margin: 0 auto; min-height: 40px; max-width: 34ch;
     text-align: center; color: var(--muted); font-size: 0.8rem; line-height: 1.4;
   }
+  /* install screen has its sub above the main (Need help?), so this empty slot
+     below Next keeps the main button at the same offset as the other screens */
+  .scan-foot .subpad { min-height: 40px; }
 
-
-  /* ---- the 5 display slots (done screen snippet) ---- */
-  .slots { display: flex; gap: 8px; }
-  .slots .slot {
-    width: 44px; height: 44px; display: grid; place-items: center; border-radius: 12px;
-  }
-  .slots .slot.empty { border: 1.5px dashed color-mix(in srgb, var(--ink) 22%, transparent); }
-  .slots .slot.filled { background: color-mix(in srgb, var(--gold) 16%, transparent); }
 
   /* ---- build screen ---- */
   .build {
@@ -780,14 +839,18 @@
   }
   /* recommend: push "Tự chọn 5 điểm" to the bottom of the screen */
   .build .skip { margin-top: auto; padding-top: 20px; }
+  /* manual: lock to the viewport so the list scrolls INSIDE its region — the
+     flowers stay docked above the CTA instead of scrolling onto it (screen 12) */
+  .build.manual { height: 100dvh; min-height: 0; overflow: hidden; }
   /* manual: title shares the fixed back/theme chip row; indent past the back chip */
   .build.manual .b-head { padding-left: 44px; }
   .b-head { display: flex; flex-direction: column; gap: 3px; }
   .b-head h1 { margin: 0; font-size: clamp(1.9rem, 7vw, 2.4rem); font-weight: 800; letter-spacing: -0.02em; }
   .b-sub { margin: 0; color: var(--muted); font-size: 0.95rem; }
 
-  /* slots double as step nav */
-  .slotbtns { display: flex; gap: 8px; }
+  /* slots double as step nav; bottom-anchored, sitting just above the docked
+     CTA/clear-all like a secondary control row */
+  .slotbtns { display: flex; gap: 8px; margin-top: auto; }
   .slotbtns .slot {
     flex: 1 1 0;
     aspect-ratio: 1;
@@ -818,11 +881,27 @@
     color: var(--ink); font-size: 1.2rem; line-height: 1;
   }
   .backchip:focus-visible { outline: 2px solid var(--brand); outline-offset: 2px; }
-  .reset-link {
-    align-self: flex-end; margin-top: -4px;
-    border: 0; background: none; padding: 0; cursor: pointer;
-    color: var(--brand); font-family: var(--font-body); font-weight: 600; font-size: 0.85rem;
+  /* view region: the map fills the top and the switch (and, on the free step, the
+     category chips) hover over it — the same device as the Explore tab, and the
+     SAME in both map and list mode so screens 9 and 10 line up. */
+  .viewregion { position: relative; flex: 1 1 auto; min-height: 0; display: flex; flex-direction: column; }
+  .viewfloat {
+    position: absolute; z-index: 7;
+    top: 8px; left: 0; right: 0;
+    box-shadow: 0 2px 10px rgba(60, 30, 20, 0.12); border-radius: 999px;
   }
+  /* chips ride just under the switch, over the view (free step only) — each a soft
+     floating pill so the row reads cleanly over the map, not as a heavy band */
+  .viewregion.free .catfilter {
+    position: absolute; z-index: 6; top: 56px; left: 0; right: 0;
+    margin: 0; padding: 2px 2px 4px; gap: 6px;
+  }
+  .viewregion.free .catfilter .fchip { box-shadow: 0 2px 8px rgba(60, 30, 20, 0.1); }
+  /* the list scrolls inside the region, under the pinned switch/chips */
+  .viewregion .list { flex: 1 1 auto; min-height: 0; overflow-y: auto; padding-top: 62px; }
+  .viewregion.free .list { padding-top: 104px; }
+  /* map fills the region rather than a fixed 56vh */
+  .viewregion .mapwrap { flex: 1 1 auto; height: auto; min-height: 260px; }
 
   /* ---- recommend view ---- */
   .sets { list-style: none; margin: 0; padding: 0; display: flex; flex-direction: column; gap: 14px; }
@@ -848,6 +927,7 @@
   .set-h-body { flex: 1 1 auto; min-width: 0; display: grid; gap: 2px; }
   .set-h-body b { font-size: 1.1rem; font-weight: 700; letter-spacing: -0.01em; }
   .set-h-body small { color: var(--muted); font-size: 0.85rem; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+  .set-h-body .set-dist { color: var(--ink); font-weight: 600; margin-top: 2px; }
   .caret { flex: 0 0 auto; color: var(--muted); }
   .set-body { padding: 0 16px 16px; display: flex; flex-direction: column; gap: 10px; }
   .rec-badge {
@@ -862,20 +942,9 @@
     margin-bottom: 2px;
   }
   .setcard .narr { margin: 0; color: var(--muted); font-size: 0.9rem; line-height: 1.5; }
-  .chip.dist { color: var(--ink); background: var(--bg); }
   .stops { list-style: none; margin: 0; padding: 8px 0 0; border-top: 1px solid var(--line); display: flex; flex-direction: column; gap: 8px; }
   .stops li { display: flex; align-items: center; gap: 10px; min-width: 0; }
   .stops b { font-weight: 600; font-size: 0.92rem; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
-  .setmap { border-radius: 12px; overflow: hidden; border: 1px solid var(--line); }
-  .chips { display: flex; flex-wrap: wrap; gap: 6px; }
-  .chip {
-    font-size: 0.72rem;
-    font-weight: 600;
-    color: var(--muted);
-    background: var(--bg);
-    border-radius: 999px;
-    padding: 4px 10px;
-  }
   .setcard .btn { margin-top: 2px; }
 
   .fill-link {
@@ -908,23 +977,37 @@
     background: color-mix(in srgb, var(--c, var(--brand)) 16%, transparent);
   }
 
-  /* grouped list, sample style */
+  /* borderless soft-shadow cards on the paper, matching the language screen */
   .list {
     list-style: none;
     margin: 0;
     padding: 0;
-    background: var(--surface);
-    border: 1px solid var(--line);
-    border-radius: var(--radius);
-    overflow: hidden;
+    display: flex; flex-direction: column; gap: 8px;
   }
-  .row { border-top: 1px solid var(--line); }
-  .row:first-child { border-top: 0; }
-  .row.picked { background: color-mix(in srgb, var(--brand) 8%, transparent); }
+  .row {
+    flex: 0 0 auto; /* don't shrink in the scrolling flex column — rows keep height */
+    border: 0; border-radius: 16px; overflow: hidden;
+    background: var(--surface);
+    box-shadow: 0 1px 2px rgba(0, 0, 0, 0.04), 0 6px 16px rgba(0, 0, 0, 0.05);
+  }
+  .row.picked { background: color-mix(in srgb, var(--brand) 8%, var(--surface)); }
+  .row-main { display: flex; align-items: center; }
   .row-tap {
-    width: 100%; min-width: 0;
+    flex: 1 1 auto; min-width: 0;
     display: flex; align-items: center; gap: 12px;
-    border: 0; background: none; padding: 12px 14px; cursor: pointer; text-align: left;
+    border: 0; background: none; padding: 12px 14px; cursor: pointer;
+    text-align: left; text-decoration: none; color: inherit;
+  }
+  .caret { flex: 0 0 auto; color: var(--muted); font-size: 0.8rem; }
+  /* inline detail, opened accordion-style like the suggested sets */
+  .row-detail {
+    padding: 0 14px 14px 56px; display: flex; flex-direction: column; gap: 6px;
+  }
+  .rd-desc { margin: 0; color: var(--muted); font-size: 0.86rem; line-height: 1.5; }
+  .rd-addr { margin: 0; color: var(--ink); font-size: 0.82rem; }
+  .rd-link {
+    align-self: flex-start; color: var(--brand); font-weight: 700;
+    font-size: 0.85rem; text-decoration: none;
   }
   .mark { flex: 0 0 auto; display: grid; place-items: center; }
   .body { min-width: 0; flex: 1 1 auto; display: grid; gap: 1px; }
@@ -938,6 +1021,7 @@
   .body em.soon { color: var(--gold); }
   .add {
     flex: 0 0 auto;
+    margin-right: 12px; cursor: pointer;
     width: 32px; height: 32px;
     border-radius: 999px;
     border: 1.5px solid var(--line);
@@ -955,27 +1039,25 @@
     border: 1px solid var(--line); border-radius: var(--radius); overflow: hidden;
   }
 
-  .walk-note { margin: 4px 0 0; color: var(--muted); font-size: 0.85rem; font-weight: 600; text-align: center; }
   .done-cta { width: 100%; margin-top: 4px; }
 
   /* docked finish bar — sits above the tab bar so the commit CTA is reachable the
      instant 5 are picked, instead of below the 56vh picking map */
   .build.committing { padding-bottom: 120px; }
   /* flush footer, onboarding-style: full-width CTA docked at the true bottom (nav is
-     hidden on these screens) with the walk-note as plain sub text below it */
+     hidden on these screens) with the clear-all link below it */
   .commitbar {
     position: fixed;
     left: 12px; right: 12px;
     bottom: calc(16px + env(safe-area-inset-bottom));
     max-width: 460px; margin: 0 auto;
-    display: flex; flex-direction: column; gap: 8px;
+    display: flex; flex-direction: column; gap: 4px;
     z-index: 900;
     animation: rise 0.3s cubic-bezier(0.2, 0.7, 0.2, 1) both;
   }
   .commitbar .done-cta { width: 100%; margin: 0; }
-  .commitbar .walk-note {
-    margin: 0 auto; min-height: 20px; white-space: nowrap;
-    text-align: center; color: var(--muted); font-size: 0.8rem;
-  }
+  .commitbar .skip { margin: 4px auto 0; }
+  /* empty-state hint occupies the same sub slot as the clear-all button */
+  .pick-hint { margin: 8px auto 2px; color: var(--muted); font-size: 0.9rem; font-weight: 600; }
   @media (prefers-reduced-motion: reduce) { .commitbar { animation: none; } }
 </style>

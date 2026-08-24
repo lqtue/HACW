@@ -15,7 +15,8 @@
   import Icon from '$lib/components/Icon.svelte';
   import StampPress from '$lib/components/StampPress.svelte';
   import PageShell from '$lib/components/PageShell.svelte';
-  import { onMount } from 'svelte';
+  import { onMount, onDestroy } from 'svelte';
+  import { ui } from '$lib/ui.svelte.js';
 
   let { data } = $props();
   const dest = data.dest;
@@ -40,7 +41,9 @@
   // Each step is its own full-viewport screen, one job: info → quiz → result → done.
   //   info states: idle -> locating -> (far | error) ; then quiz
   //   quiz -> result (correct or wrong) -> quiz|done ; wrong locks for COOLDOWN
-  let step = $state(demo === 'idle' || demo === 'done' ? demo : hasStamp(dest.id) ? 'done' : 'idle');
+  let step = $state(
+    ['idle', 'locating', 'far', 'error', 'done'].includes(demo) ? demo : hasStamp(dest.id) ? 'done' : 'idle'
+  );
   const onInfo = $derived(step === 'idle' || step === 'locating' || step === 'far' || step === 'error');
   let message = $state('');
   let distance = $state(0);
@@ -83,6 +86,10 @@
 
   // board preview: draw the quiz, or fill the done panel with sample values so the
   // "checked in" frame shows the full success state (stamp + points + keep-code).
+  // single-job screen: its own back button is the way out, so hide the tab bar
+  ui.hideNav = true;
+  onDestroy(() => (ui.hideNav = false));
+
   onMount(() => {
     if (demo === 'quiz') startQuiz();
     else if (demo === 'correct' || demo === 'wrong') {
@@ -95,6 +102,8 @@
       if (demo === 'wrong') { missed = true; cool = COOLDOWN; }
       step = 'result';
     } else if (demo === 'done') { earned = 15; missed = false; firstStamp = true; }
+    else if (demo === 'far') { distance = dest.radius + 120; } // sample "too far" banner
+    else if (demo === 'error') { message = s('geo_denied'); } // sample GPS-denied banner
   });
 
   // Every answer lands on the result screen. A wrong tap throws the whole draw
@@ -175,6 +184,8 @@
           <div class="banner spot-note">{s('spotlight_hint', POINTS.spotlight)}</div>
         {/if}
 
+        <!-- secondary (ghost) above, primary (coral) below, sub (link) last —
+             the app-wide docked-footer structure -->
         <a class="btn ghost" href={mapsUrl(dest)} target="_blank" rel="noopener"><Icon name="arrow" size={16} /> {s('directions')}</a>
 
         {#if step === 'locating'}
@@ -183,9 +194,9 @@
           <button class="btn" onclick={checkIn}>{s('retry')}</button>
         {:else}
           <button class="btn" onclick={checkIn}><Icon name="pin" size={17} /> {s('checkin')}</button>
-          {#if staff.on}
-            <button class="btn secondary" onclick={startQuiz}>{s('simulate')}</button>
-          {/if}
+        {/if}
+        {#if staff.on && (step === 'idle' || step === 'error')}
+          <button class="skip" onclick={startQuiz}>{s('simulate')}</button>
         {/if}
       </div>
     </section>
@@ -225,16 +236,16 @@
         <span class="rmark" aria-hidden="true">{lastCorrect ? '✓' : '✕'}</span>
         <h2>{lastCorrect ? s('correct_title') : s('wrong_title')}</h2>
         {#if q?.explain}<p class="explain">{t(q.explain)}</p>{/if}
+        <!-- cooldown note lives with the verdict, so the primary button stays at the
+             same docked height as every other screen -->
+        {#if !lastCorrect && cool > 0}<p class="wait-note">{s('wrong_wait', cool)}</p>{/if}
       </div>
 
-      <div class="dock right">
+      <div class="dock">
         {#if lastCorrect}
           <button class="btn" onclick={advance}>{s('quiz_continue')}</button>
-        {:else if cool > 0}
-          <p class="wait">{s('wrong_wait', cool)}</p>
-          <button class="btn" disabled>{s('retry')}</button>
         {:else}
-          <button class="btn" onclick={startQuiz}>{s('retry')}</button>
+          <button class="btn" onclick={startQuiz} disabled={cool > 0}>{s('retry')}</button>
         {/if}
       </div>
     </section>
@@ -275,14 +286,23 @@
   .screen {
     display: flex;
     flex-direction: column;
-    /* leaves room for the topbar above and the floating tab bar below, so the
-       docked CTA lands in reach and never hides behind the nav pill */
-    min-height: calc(100dvh - 232px);
+    /* FIXED height (not min-): the docked CTA then lands at the SAME y on every step,
+       so the primary buttons line up screen-to-screen — a longer body (e.g. the "too
+       far" banner) scrolls instead of growing the screen and pushing the dock down. */
+    height: calc(100dvh - 232px);
   }
-  .dock { margin-top: auto; padding-top: 18px; display: grid; gap: 10px; }
-  .dock.right { justify-items: end; }
-  .dock.right .btn { width: auto; min-width: 160px; }
+  /* info body takes the slack and scrolls; the dock stays pinned at the bottom */
+  .info-body { flex: 1 1 auto; min-height: 0; overflow-y: auto; }
+  .dock { flex: 0 0 auto; margin-top: auto; padding-top: 18px; display: grid; gap: 10px; }
   .btn { width: 100%; }
+  /* sub action — the app-wide underlined muted link under the primary button */
+  .skip {
+    justify-self: center; margin: 2px 0 0;
+    border: 0; background: none; padding: 4px; cursor: pointer;
+    color: var(--muted); font-family: var(--font-body); font-weight: 600;
+    font-size: 0.9rem; text-decoration: underline; text-underline-offset: 3px;
+  }
+  .skip.note { text-decoration: none; } /* cooldown countdown: sub text, not a link */
   .btn.ghost {
     background: none;
     color: var(--muted);
@@ -381,9 +401,9 @@
   }
   .result.ok .rmark { background: color-mix(in srgb, var(--teal) 16%, transparent); color: var(--teal); }
   .verdict h2 { margin: 0; font-size: 1.6rem; }
+  .wait-note { margin: 4px 0 0; color: var(--muted); font-size: 0.86rem; }
   .result.ok .verdict h2 { color: var(--teal); }
   .explain { margin: 0; max-width: 34ch; color: var(--ink); line-height: 1.55; }
-  .wait { margin: 0 0 2px; color: var(--muted); font-size: 0.86rem; }
 
   /* ---- done screen ---- */
   .done { align-items: center; text-align: center; }

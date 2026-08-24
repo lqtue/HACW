@@ -2,9 +2,8 @@
   import { base } from '$app/paths';
   import { goto } from '$app/navigation';
   import destinations from '$lib/data/destinations.json';
-  import { stitchRoute } from '$lib/route.js';
+  import { stitchRoute, formatDistance } from '$lib/route.js';
   import { distanceMeters, bearing } from '$lib/geo.js';
-  import { formatDistance } from '$lib/route.js';
   import { hasStamp } from '$lib/passport.svelte.js';
   import { t, i18n } from '$lib/i18n.svelte.js';
   import { theme } from '$lib/theme.svelte.js';
@@ -18,7 +17,10 @@
   // de-rotated by the map so "up" is up). "Next" = first un-stamped stop, so checking one
   // in advances the guidance on its own; the ‹ › let you override.
   /** @type {{ stops: any[], title?: any, onclose: () => void }} */
-  let { stops, title, onclose } = $props();
+  // demo (board only): fake the visitor's position so the nav card can be shown in each
+  // state without GPS. 'far' = en route (arrow + distance), 'arrive' = at the stop
+  // (✓ + check-in), 'done' = whole set finished. demoIdx picks which stop to target.
+  let { stops, title, onclose, demo = '', demoIdx = 0 } = $props();
 
   const stopIds = $derived(new Set(stops.map((d) => d.id)));
   const numById = $derived(Object.fromEntries(stops.map((d, i) => [d.id, i + 1])));
@@ -55,7 +57,7 @@
   const dark = theme.mode === 'dark';
 
   // --- next-stop guidance ---
-  let manualIdx = $state(null); // set by the ‹ › chevrons; null = auto (first un-stamped)
+  let manualIdx = $state(demo ? demoIdx : null); // ‹ › chevrons; null = auto (first un-stamped)
   let mapBearing = $state(0);
   let heading = $state(null);   // bound from SiteMap: device heading, deg CW from N
   let headingUp = $state(false);// opt-in: rotate the map to face the way you walk (Google-style)
@@ -64,7 +66,6 @@
   const allDone = $derived(stops.length > 0 && stops.every((d) => hasStamp(d.id)));
   const idx = $derived(manualIdx != null ? Math.min(manualIdx, stops.length - 1) : autoIdx);
   const target = $derived(stops[idx]);
-  const stepIdx = (delta) => (manualIdx = Math.max(0, Math.min(stops.length - 1, idx + delta)));
 
   function dist(me) {
     return me && target ? distanceMeters(me, { lat: target.lat, lng: target.lng }) : null;
@@ -74,6 +75,13 @@
     return d != null && d <= (target?.radius ?? 75);
   };
   const arrowDeg = (me) => (me && target ? bearing(me, { lat: target.lat, lng: target.lng }) - mapBearing : 0);
+  // board demo: a fake "me" so the card renders each state without a GPS fix
+  const demoMe = $derived.by(() => {
+    if (!demo || !target) return null;
+    if (demo === 'arrive') return { lat: target.lat, lng: target.lng };
+    if (demo === 'far') return { lat: target.lat + 0.003, lng: target.lng + 0.0012 }; // ~350 m off
+    return null;
+  });
 
   function onmapready(map) {
     navMap = map;
@@ -122,16 +130,35 @@
     onsiteclick={(id) => goto(`${base}/destinations/${id}`)}
   >
     {#snippet children({ me, located, following, recenter })}
-      <div class="tn-bar">
-        <button class="tn-btn" onclick={onclose} aria-label={s('nav_close')}>✕</button>
-        <span class="tn-title">{t(title)}</span>
+      {@const m = demo ? demoMe : me}
+      {@const d = dist(m)}
+      {@const here = arrived(m)}
+      {@const finished = allDone || demo === 'done'}
+
+      <!-- TOP: one notification line — "X to <stop>" while walking, "reached <stop>"
+           on arrival, "tour complete" at the end -->
+      <div class="tn-note">
+        {#if finished}
+          <span class="tn-ic">✓</span><span class="tn-msg">{s('nav_done')}</span>
+        {:else if here}
+          <span class="tn-ic">✓</span><span class="tn-msg">{s('nav_arrived_at', t(target.name))}</span>
+        {:else if target}
+          <span class="tn-ic">
+            <svg viewBox="0 0 24 24" width="26" height="26" style="transform: rotate({arrowDeg(m)}deg)" aria-hidden="true">
+              <path d="M12 3 L19 20 L12 16 L5 20 Z" fill="currentColor" />
+            </svg>
+          </span>
+          <span class="tn-msg">{#if d != null}{s('nav_to', formatDistance(Math.round(d * 1.3), i18n.lang), t(target.name))}{:else}{s('nav_locate_prompt')}{/if}</span>
+        {/if}
       </div>
-      <button class="tn-headingup" class:on={headingUp} onclick={toggleHeadingUp} aria-pressed={headingUp} aria-label={s('nav_headingup')} title={s('nav_headingup')}>
+
+      <!-- right-edge controls: heading-up + recenter -->
+      <button class="tn-fab tn-headingup" class:on={headingUp} onclick={toggleHeadingUp} aria-pressed={headingUp} aria-label={s('nav_headingup')} title={s('nav_headingup')}>
         <svg viewBox="0 0 24 24" width="22" height="22" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true">
           <path d="M12 2 L19 21 L12 17 L5 21 Z" fill={headingUp ? 'currentColor' : 'none'} stroke-linejoin="round" />
         </svg>
       </button>
-      <button class="tn-recenter" class:on={following && located} onclick={recenter} aria-label={s('locate_me')} title={s('locate_me')}>
+      <button class="tn-fab tn-recenter" class:on={following && located} onclick={recenter} aria-label={s('locate_me')} title={s('locate_me')}>
         <svg viewBox="0 0 24 24" width="22" height="22" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true">
           <circle cx="12" cy="12" r="4" /><circle cx="12" cy="12" r="1.4" fill="currentColor" stroke="none" />
           <line x1="12" y1="2" x2="12" y2="5" stroke-linecap="round" /><line x1="12" y1="19" x2="12" y2="22" stroke-linecap="round" />
@@ -139,37 +166,23 @@
         </svg>
       </button>
 
-      <div class="tn-card">
-        {#if allDone}
-          <div class="tn-done">{s('nav_done')}</div>
-        {:else if target}
-          {@const d = dist(me)}
-          {@const here = arrived(me)}
-          <div class="tn-row">
-            <button class="tn-step" onclick={() => stepIdx(-1)} disabled={idx === 0} aria-label="‹">‹</button>
-            <div class="tn-dir" class:here>
-              {#if here}
-                <span class="tn-check">✓</span>
-              {:else}
-                <svg viewBox="0 0 24 24" width="26" height="26" style="transform: rotate({arrowDeg(me)}deg)" aria-hidden="true">
-                  <path d="M12 3 L19 20 L12 16 L5 20 Z" fill="currentColor" />
-                </svg>
-              {/if}
-            </div>
-            <div class="tn-info">
-              <div class="tn-label">
-                {here ? s('nav_arrived') : s('nav_next')}
-                <span class="tn-left">· {s('nav_stops_left', stops.filter((x) => !hasStamp(x.id)).length)}</span>
-              </div>
-              <div class="tn-name">{numById[target.id]}. {t(target.name)}</div>
-              <div class="tn-dist">
-                {#if d != null}{formatDistance(Math.round(d * 1.3), i18n.lang)}{:else}{s('nav_locate_prompt')}{/if}
-              </div>
-            </div>
-            <button class="tn-step" onclick={() => stepIdx(1)} disabled={idx === stops.length - 1} aria-label="›">›</button>
-          </div>
-          <a class="tn-go" href="{base}/destinations/{target.id}">{s('nav_here')}</a>
+      <!-- BOTTOM: two buttons floating on the map (no sheet). Check-in lights up only
+           within range; Exit always. -->
+      <div class="tn-actions">
+        {#if !finished && target}
+          {#if d == null}
+            <!-- no fix yet: routing needs GPS — offer to turn it on -->
+            <button class="tn-checkin lit" onclick={recenter}>{s('nav_enable')}</button>
+          {:else}
+            <button
+              class="tn-checkin"
+              class:lit={here}
+              disabled={!here}
+              onclick={() => goto(`${base}/destinations/${target.id}`)}
+            >{s('nav_here')}</button>
+          {/if}
         {/if}
+        <button class="tn-exit" onclick={onclose}>{s('nav_exit')}</button>
       </div>
     {/snippet}
   </SiteMap>
@@ -177,76 +190,65 @@
 
 <style>
   .tournav { position: fixed; inset: 0; z-index: 2000; background: var(--paper); }
-  .tn-bar {
+
+  /* ---- top notification pill (orange, one line) ---- */
+  .tn-note {
     position: absolute; z-index: 5;
-    top: calc(env(safe-area-inset-top) + 12px); left: 12px; right: 12px;
-    display: flex; align-items: center; gap: 10px;
+    top: calc(env(safe-area-inset-top) + 10px); left: 12px; right: 12px;
+    display: flex; align-items: center; gap: 12px;
+    padding: 14px 18px; border-radius: 16px;
+    background: var(--brand); color: #fff;
+    box-shadow: 0 6px 22px -8px rgba(20, 10, 6, 0.6);
   }
-  .tn-btn, .tn-recenter, .tn-headingup {
-    width: 44px; height: 44px; flex: 0 0 auto;
-    display: grid; place-items: center; cursor: pointer;
-    border-radius: 12px; border: 0; color: var(--ink);
-    background: var(--surface); box-shadow: 0 1px 4px rgba(0, 0, 0, 0.3);
-    font-size: 1.1rem; font-weight: 700;
+  .tn-ic {
+    flex: 0 0 auto; width: 30px; height: 30px;
+    display: grid; place-items: center; font-size: 1.5rem; font-weight: 800;
   }
-  .tn-title {
-    font-weight: 800; color: var(--brand-dark); font-size: 1rem;
-    background: color-mix(in srgb, var(--surface) 88%, transparent);
-    padding: 8px 14px; border-radius: 999px; box-shadow: 0 1px 4px rgba(0, 0, 0, 0.2);
-    -webkit-backdrop-filter: blur(6px); backdrop-filter: blur(6px);
-    white-space: nowrap; overflow: hidden; text-overflow: ellipsis;
+  .tn-ic svg { transition: transform 0.3s ease; }
+  .tn-msg { font-size: 1.15rem; font-weight: 700; line-height: 1.25; }
+
+  /* ---- right-edge round controls ---- */
+  .tn-fab {
+    position: absolute; z-index: 5; right: 14px;
+    width: 46px; height: 46px; display: grid; place-items: center; cursor: pointer;
+    border: 0; border-radius: 50%; color: var(--muted);
+    background: var(--surface); box-shadow: 0 2px 8px rgba(0, 0, 0, 0.3);
   }
-  .tn-recenter {
-    position: absolute; z-index: 5;
-    right: 14px; bottom: calc(env(safe-area-inset-bottom) + 118px);
-    color: var(--muted);
-  }
-  .tn-recenter.on { color: var(--brand); }
-  .tn-headingup {
-    position: absolute; z-index: 5;
-    right: 14px; bottom: calc(env(safe-area-inset-bottom) + 170px);
-    color: var(--muted);
-  }
-  .tn-headingup.on { color: var(--brand); }
-  .tn-recenter:focus-visible, .tn-btn:focus-visible, .tn-step:focus-visible, .tn-go:focus-visible, .tn-headingup:focus-visible {
+  .tn-recenter { bottom: calc(env(safe-area-inset-bottom) + 96px); }
+  .tn-headingup { bottom: calc(env(safe-area-inset-bottom) + 150px); }
+  .tn-recenter.on, .tn-headingup.on { color: var(--brand); }
+  .tn-fab:focus-visible, .tn-exit:focus-visible, .tn-checkin:focus-visible {
     outline: 2px solid var(--brand); outline-offset: 2px;
   }
 
-  /* bottom next-stop guidance card */
-  .tn-card {
+  /* ---- bottom: two buttons floating on the map, no container ---- */
+  .tn-actions {
     position: absolute; z-index: 5;
-    left: 12px; right: 12px; bottom: calc(env(safe-area-inset-bottom) + 14px);
-    display: flex; flex-direction: column; gap: 8px;
-    padding: 10px 8px; border-radius: 16px;
-    background: var(--surface); box-shadow: 0 2px 12px rgba(0, 0, 0, 0.28);
+    left: 12px; right: 12px; bottom: calc(env(safe-area-inset-bottom) + 16px);
+    display: flex; align-items: center; justify-content: flex-end; gap: 10px;
   }
-  .tn-row { display: flex; align-items: center; gap: 10px; }
-  .tn-done {
-    flex: 1; text-align: center; font-weight: 800; color: var(--brand-dark); padding: 6px;
+  /* check-in: dim + not tappable until in range, lights up (full brand) when here */
+  .tn-checkin {
+    flex: 1 1 auto; border: 0; cursor: pointer;
+    padding: 15px 22px; border-radius: 999px;
+    font-family: var(--font-body); font-weight: 700; font-size: 1rem;
+    color: #fff; background: var(--brand);
+    box-shadow: 0 4px 16px -4px rgba(20, 10, 6, 0.5);
+    transition: opacity 0.2s, transform 0.15s;
   }
-  .tn-step {
-    width: 34px; height: 44px; flex: 0 0 auto; border: 0; background: transparent;
-    color: var(--muted); font-size: 1.5rem; font-weight: 700; cursor: pointer; border-radius: 10px;
+  .tn-checkin:disabled {
+    cursor: default; color: color-mix(in srgb, #fff 75%, transparent);
+    background: color-mix(in srgb, var(--brand) 42%, var(--surface));
+    box-shadow: none;
   }
-  .tn-step:disabled { opacity: 0.25; cursor: default; }
-  .tn-dir {
-    width: 44px; height: 44px; flex: 0 0 auto; display: grid; place-items: center;
-    border-radius: 50%; background: var(--grad-brand, var(--brand)); color: #fff;
-  }
-  .tn-dir.here { background: var(--gold, #d9a441); }
-  .tn-dir svg { transition: transform 0.3s ease; }
-  .tn-check { font-size: 1.4rem; font-weight: 800; }
-  .tn-info { flex: 1; min-width: 0; }
-  .tn-label { font-size: 0.72rem; text-transform: uppercase; letter-spacing: 0.04em; color: var(--muted); }
-  .tn-left { text-transform: none; letter-spacing: 0; }
-  .tn-name {
-    font-weight: 800; color: var(--ink); font-size: 0.98rem;
-    white-space: nowrap; overflow: hidden; text-overflow: ellipsis;
-  }
-  .tn-dist { font-size: 0.85rem; color: var(--brand-dark); font-weight: 600; }
-  .tn-go {
-    display: block; width: 100%; padding: 11px 12px; border-radius: 12px;
-    background: var(--brand); color: #fff; font-weight: 700; font-size: 0.9rem;
-    text-decoration: none; text-align: center;
+  .tn-checkin.lit { animation: tn-pop 0.3s ease; }
+  @keyframes tn-pop { 0% { transform: scale(0.96); } 60% { transform: scale(1.03); } 100% { transform: scale(1); } }
+  @media (prefers-reduced-motion: reduce) { .tn-checkin.lit { animation: none; } }
+  /* exit: secondary, surface fill */
+  .tn-exit {
+    flex: 0 0 auto; border: 0; cursor: pointer;
+    padding: 15px 24px; border-radius: 999px;
+    background: var(--surface); color: var(--ink); font-family: var(--font-body);
+    font-weight: 700; font-size: 1rem; box-shadow: 0 2px 10px -2px rgba(0, 0, 0, 0.35);
   }
 </style>

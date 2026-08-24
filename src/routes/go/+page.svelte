@@ -17,6 +17,9 @@
   const byId = Object.fromEntries(destinations.map((d) => [d.id, d]));
 
   const setId = $derived($page.url.searchParams.get('set'));
+  // board-only: fake nav state (far | arrive | done) + which stop to target
+  const demo = $derived($page.url.searchParams.get('demo') || '');
+  const demoIdx = $derived(Number($page.url.searchParams.get('idx')) || 0);
   const tour = $derived(setId ? tours.find((t) => t.id === setId) : null);
   const stops = $derived.by(() => {
     const ids = tour ? tour.stops : plan.set;
@@ -32,7 +35,7 @@
 </script>
 
 {#if browser && stops.length}
-  <TourNav {stops} {title} onclose={close} />
+  <TourNav {stops} {title} {demo} {demoIdx} onclose={close} />
 {:else if browser}
   <!-- no ?set and an empty saved plan: send them to build one -->
   <div class="go-empty">

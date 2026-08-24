@@ -242,6 +242,11 @@ a { color: inherit; text-decoration: none; }
    that is used at a desk, on a laptop, with 25 rows of data on it — so it gets
    the whole window instead of a 540px slot in the middle of it. */
 .app.wide { max-width: min(1600px, 100%); }
+/* the nav pill is hidden through onboarding AND on the manual builder / plan-ready
+   screens (ui.hideNav) — its 86px clearance would then just push the 100dvh screens
+   into a scroll, so drop it whenever the nav is actually hidden */
+.app.onboarding,
+.app.nonav { padding-bottom: 0; }
 
 .page { padding: 18px 18px 8px; animation: rise 0.45s cubic-bezier(0.2, 0.7, 0.2, 1) both; }
 
@@ -365,6 +370,14 @@ p { line-height: 1.6; }
   box-shadow: none;
 }
 .btn.secondary:hover { background: var(--paper-2); }
+/* secondary/ghost action — surface fill + hairline, sits above the main orange btn */
+.btn.ghost {
+  background: var(--surface);
+  color: var(--ink);
+  border: 1px solid var(--line);
+}
+.btn.ghost:hover { background: var(--paper-2); }
+.btn.ghost:disabled { opacity: 0.5; }
 
 /* staff-code entry — same field in /organizer and in StaffConfirm */
 .code {

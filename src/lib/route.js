@@ -8,9 +8,13 @@ import LEGS from './data/legs.js';
 export const DETOUR = 1.3; // fallback detour factor for off-matrix points
 export const WALK_M_PER_MIN = 75; // ≈ 4.5 km/h, tourist pace
 // A baked leg is drawn only if it's within this × the crow-flies distance. Hội An's
-// pedestrian core is patchily mapped in OSM, so ORS sometimes loops a leg around the
+// pedestrian core is patchily mapped in OSM, so ORS *can* loop a leg around the
 // perimeter roads — past this ratio we draw a straight segment instead of the loop.
-const DRAW_DETOUR_CAP = 1.6;
+// The dense old-town grid legitimately doglegs up to ~2.5× (you can't walk through a
+// block), and the current baked data tops out at 2.49 with no pathological loops, so
+// 1.6 was suppressing real street paths (e.g. dinh-hoi-an→hoi-quan-phuc-kien, 1.85).
+// ponytail: bump the cap if a matrix rebuild ever bakes a genuine >2.6 loop-around.
+const DRAW_DETOUR_CAP = 2.6;
 
 const IDX = Object.fromEntries((DIST.ids ?? []).map((id, i) => [id, i]));
 

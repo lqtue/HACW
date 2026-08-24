@@ -54,7 +54,7 @@
   // has onboarded (e.g. the /screens board frames) shows the bar on those previews.
   const stepParam = $derived($page.url.searchParams.get('step') || '');
   const onboarding = $derived(
-    rel === '/' && (!plan.onboarded || /^(door|lang|welcome|scan|perms)$/.test(stepParam))
+    rel === '/' && (!plan.onboarded || /^(door|lang|welcome|install|scan|perms)$/.test(stepParam))
   );
 </script>
 
@@ -62,7 +62,7 @@
   {theme.mode === 'dark' ? '☀' : '☾'}
 </button>
 
-<div class="app" class:wide>
+<div class="app" class:wide class:onboarding class:nonav={ui.hideNav}>
   {@render children()}
 </div>
 

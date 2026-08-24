@@ -42,9 +42,10 @@ assert.equal(legMeters({ id: idA }, { id: idB }), DIST.m[0][1], 'matrix lookup b
 assert.equal(legMeters(a, b), Math.round(routeStats([a, b]).meters), 'off-matrix leg = fallback');
 assert.equal(legMeters({ id: idA }, { id: idA }), DIST.m[0][0], 'self distance from matrix (0)');
 
-// legPath detour cap: every DRAWN leg must be within 1.6× crow-flies (a baked ORS
+// legPath detour cap: every DRAWN leg must be within 2.6× crow-flies (a baked ORS
 // loop past that is replaced by a straight segment), so the map never shows a leg
-// that wanders far off the direct line. Very short legs are exempt (noisy ratio).
+// that wanders far off the direct line. The dense old-town grid legitimately doglegs
+// up to ~2.5×. Very short legs are exempt (noisy ratio).
 const byId = Object.fromEntries(destinations.map((d) => [d.id, d]));
 const polyLen = (path) => {
   let m = 0;
@@ -60,7 +61,7 @@ for (let x = 0; x < DIST.ids.length; x++) {
     const straight = distanceMeters(A, B);
     const drawn = polyLen(legPath(A, B));
     assert.ok(
-      straight < 40 || drawn <= straight * 1.6 + 1,
+      straight < 40 || drawn <= straight * 2.6 + 1,
       `drawn leg ${A.id}->${B.id} = ${Math.round(drawn)} m exceeds cap for straight ${Math.round(straight)} m`
     );
   }
