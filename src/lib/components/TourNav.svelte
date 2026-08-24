@@ -90,8 +90,6 @@
   let manualIdx = $state(demo ? demoIdx : null); // ‹ › chevrons; null = auto (first un-stamped)
   let mapBearing = $state(0);
   let heading = $state(null);   // bound from SiteMap: device heading, deg CW from N
-  let headingUp = $state(false);// opt-in: rotate the map to face the way you walk (Google-style)
-  let navMap = $state(null);
   const autoIdx = $derived(Math.max(0, ordered.findIndex((d) => !hasStamp(d.id))));
   const allDone = $derived(stops.length > 0 && stops.every((d) => hasStamp(d.id)));
   const idx = $derived(manualIdx != null ? Math.min(manualIdx, ordered.length - 1) : autoIdx);
@@ -113,25 +111,12 @@
     return null;
   });
 
+  // track the map bearing so the top arrow points the right way (the locate button's
+  // compass mode does the heading-up rotation now — same as every other map)
   function onmapready(map) {
-    navMap = map;
     mapBearing = map.getBearing();
     map.on('rotate', () => (mapBearing = map.getBearing()));
   }
-
-  function toggleHeadingUp() {
-    headingUp = !headingUp;
-    if (!headingUp) navMap?.easeTo({ bearing: 0, duration: 400 }); // back to north when off
-  }
-
-  // Heading-up rotation: ease the map toward the device heading, but only past an 8°
-  // change so noisy old-town GPS/compass can't spin it. ponytail: fixed threshold +
-  // easeTo smoothing; swap for a proper low-pass filter if it still feels jittery.
-  $effect(() => {
-    if (!headingUp || heading == null || !navMap) return;
-    const delta = ((heading - navMap.getBearing() + 540) % 360) - 180;
-    if (Math.abs(delta) > 8) navMap.easeTo({ bearing: heading, duration: 300 });
-  });
 </script>
 
 <div class="tournav">
@@ -161,7 +146,7 @@
     }}
     onsiteclick={(id) => goto(checkinUrl(id))}
   >
-    {#snippet children({ located, following, recenter })}
+    {#snippet children({ compass, recenter, locate3d })}
       {@const m = demo ? demoMe : me}
       {@const d = dist(m)}
       {@const here = arrived(m)}
@@ -184,13 +169,9 @@
         {/if}
       </div>
 
-      <!-- right-edge controls: heading-up + recenter -->
-      <button class="tn-fab tn-headingup" class:on={headingUp} onclick={toggleHeadingUp} aria-pressed={headingUp} aria-label={s('nav_headingup')} title={s('nav_headingup')}>
-        <svg viewBox="0 0 24 24" width="22" height="22" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true">
-          <path d="M12 2 L19 21 L12 17 L5 21 Z" fill={headingUp ? 'currentColor' : 'none'} stroke-linejoin="round" />
-        </svg>
-      </button>
-      <button class="tn-fab tn-recenter" class:on={following && located} onclick={recenter} aria-label={s('locate_me')} title={s('locate_me')}>
+      <!-- right-edge control: the one locate button (center + zoom + 3D + heading-up),
+           same behaviour as every other map -->
+      <button class="tn-fab tn-recenter" class:on={compass} onclick={locate3d} aria-label={s('locate_me')} title={s('locate_me')}>
         <svg viewBox="0 0 24 24" width="22" height="22" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true">
           <circle cx="12" cy="12" r="4" /><circle cx="12" cy="12" r="1.4" fill="currentColor" stroke="none" />
           <line x1="12" y1="2" x2="12" y2="5" stroke-linecap="round" /><line x1="12" y1="19" x2="12" y2="22" stroke-linecap="round" />
@@ -252,8 +233,7 @@
     background: var(--surface); box-shadow: 0 2px 8px rgba(0, 0, 0, 0.3);
   }
   .tn-recenter { bottom: calc(env(safe-area-inset-bottom) + 96px); }
-  .tn-headingup { bottom: calc(env(safe-area-inset-bottom) + 150px); }
-  .tn-recenter.on, .tn-headingup.on { color: var(--brand); }
+  .tn-recenter.on { color: var(--brand); }
   .tn-fab:focus-visible, .tn-exit:focus-visible, .tn-checkin:focus-visible {
     outline: 2px solid var(--brand); outline-offset: 2px;
   }

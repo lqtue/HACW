@@ -271,7 +271,7 @@
   let listH = $state(0);
   // cap the list at 6 rows (rest behind "see more"); still shrinks on short screens
   const CAP = $derived(
-    Math.min(6, listH ? Math.max(3, Math.floor((listH - (onFree ? 118 : 76) - 44) / 62)) : 6)
+    Math.min(6, listH ? Math.max(3, Math.floor((listH - 124 - 44) / 62)) : 6)
   );
   let showAll = $state(false);
   let openRow = $state(null); // list row expanded inline (accordion), like the suggested sets
@@ -921,14 +921,14 @@
   }
   /* one floating block at the bottom: dots + prim/sec row + sub line */
   .buildbar {
-    position: absolute; z-index: 8;
+    position: absolute; z-index: 8; overflow: hidden;
     left: 12px; right: 12px; bottom: calc(14px + env(safe-area-inset-bottom));
     max-width: 460px; margin: 0 auto;
     display: flex; flex-direction: column; gap: 10px;
     padding: 12px; border-radius: 20px;
-    background: color-mix(in srgb, var(--surface) 92%, transparent);
-    backdrop-filter: blur(12px);
-    box-shadow: var(--shadow-lift);
+    background: var(--surface);
+    border: 1px solid color-mix(in srgb, var(--brand-dark) 12%, transparent);
+    box-shadow: 0 20px 48px -18px rgba(60, 30, 20, 0.5), 0 3px 10px rgba(60, 30, 20, 0.14);
   }
   .buildbar .slotbtns { margin: 0; justify-content: center; }
   /* prim + sec side by side, nav-style (primary flexes, secondary sits beside it) */
@@ -992,14 +992,14 @@
   /* switch + filter share --map-topbar-w (nav-pill width) and centre — same as Explore */
   .viewfloat {
     position: absolute; z-index: 7;
-    top: 8px; left: 0; right: 0;
+    top: max(20px, calc(env(safe-area-inset-top) + 14px)); left: 0; right: 0;
     margin-inline: auto; width: var(--map-topbar-w);
     box-shadow: 0 2px 10px rgba(60, 30, 20, 0.12); border-radius: 999px;
   }
   /* chips ride just under the switch, over the view (free step only) — each a soft
      floating pill so the row reads cleanly over the map, not as a heavy band */
   .viewregion.free .catfilterwrap {
-    position: absolute; z-index: 6; top: 56px; left: 0; right: 0;
+    position: absolute; z-index: 6; top: max(68px, calc(env(safe-area-inset-top) + 62px)); left: 0; right: 0;
     margin-inline: auto; max-width: var(--map-topbar-w);
   }
   .viewregion.free .catfilter { padding: 2px 2px 4px; gap: 6px; }
@@ -1018,8 +1018,9 @@
   .catfilterwrap .fmore:focus-visible { outline: 2px solid var(--brand); outline-offset: 2px; }
   .viewregion.free .catfilter .fchip { box-shadow: 0 2px 8px rgba(60, 30, 20, 0.1); }
   /* the list scrolls inside the region, under the pinned switch/chips */
-  .viewregion .list { flex: 1 1 auto; min-height: 0; overflow-y: auto; padding-top: 76px; }
-  .viewregion.free .list { padding-top: 118px; }
+  /* same top anchor on every step — the 1+1 steps leave the filter-bar gap empty so the
+     first card lines up with the pick-3 (free) step, which has the filter bar */
+  .viewregion .list { flex: 1 1 auto; min-height: 0; overflow-y: auto; padding-top: max(130px, calc(env(safe-area-inset-top) + 124px)); }
   /* map fills the region rather than a fixed 56vh */
   .viewregion .mapwrap { flex: 1 1 auto; height: auto; min-height: 260px; }
 

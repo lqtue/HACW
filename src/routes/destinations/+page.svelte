@@ -11,12 +11,10 @@
   import { markSvg } from '$lib/map-style.js';
   import { addLandmarks } from '$lib/landmarks.js';
   import { categoryLabel, mapsUrl, openLabel } from '$lib/util.js';
-  import { nearest } from '$lib/geo.js';
-  import { formatDistance } from '$lib/route.js';
   import { hasStamp } from '$lib/passport.svelte.js';
   import { stats } from '$lib/stats.svelte.js';
   import { spotlightIds } from '$lib/score.js';
-  import { t, i18n } from '$lib/i18n.svelte.js';
+  import { t } from '$lib/i18n.svelte.js';
   import { s } from '$lib/strings.js';
   import { theme } from '$lib/theme.svelte.js';
   import { recordCell } from '$lib/research.svelte.js';
@@ -36,7 +34,6 @@
   let me = $state(null); // { lat, lng, accuracy } once a fix arrives
   let geoErr = $state('');
   let compass = $state(false); // 3D heading-up locate active → hide the map chrome
-  const booth = $derived(me ? nearest(me, tickets) : null);
 
   // Research footfall: recordCell (shared with check-in, in research.svelte.js) buckets
   // the fix into a coarse cell and counts it when consent is on. Called from the geolocate
@@ -330,25 +327,14 @@
       </div>
     {/if}
 
-    {#if (boothsOnly || view === 'map') && (stack.length > 1 || geoErr || booth)}
-      <!-- thin bottom bar: only the site pager + nearest-counter line (filters moved up) -->
+    {#if (boothsOnly || view === 'map') && stack.length > 1}
+      <!-- thin bottom bar: the site pager for overlapping pins -->
       <div class="sheet">
-        {#if stack.length > 1}
-          <div class="stack">
-            <button class="stack-nav" onclick={() => step(-1)} aria-label={s('prev_site')}>‹</button>
-            <span class="stack-label"><b>{stackAt + 1}</b> / {stack.length} · {t(stack[stackAt].name)}</span>
-            <button class="stack-nav" onclick={() => step(1)} aria-label={s('next_site')}>›</button>
-          </div>
-        {/if}
-
-        {#if geoErr}
-          <p class="geo-err"><small>{geoErr}</small></p>
-        {:else if booth}
-          <p class="booth-bar">
-            <small>{s('booth_nearest', booth.point.id, formatDistance(booth.meters, i18n.lang))}</small>
-            <a href={mapsUrl(booth.point)} target="_blank" rel="noopener">{s('booth_dir')}</a>
-          </p>
-        {/if}
+        <div class="stack">
+          <button class="stack-nav" onclick={() => step(-1)} aria-label={s('prev_site')}>‹</button>
+          <span class="stack-label"><b>{stackAt + 1}</b> / {stack.length} · {t(stack[stackAt].name)}</span>
+          <button class="stack-nav" onclick={() => step(1)} aria-label={s('next_site')}>›</button>
+        </div>
       </div>
     {/if}
     {/if}
@@ -522,22 +508,6 @@
     line-height: 1;
     cursor: pointer;
   }
-
-  .booth-bar, .geo-err {
-    flex: 0 0 auto;
-    margin: 0 18px 8px;
-    display: flex;
-    gap: 10px;
-    align-items: center;
-    justify-content: space-between;
-    background: var(--surface);
-    border: 1px solid var(--line);
-    border-radius: 12px;
-    padding: 8px 12px;
-    font-size: 0.85rem;
-  }
-  .booth-bar a { color: var(--brand); font-weight: 600; white-space: nowrap; }
-  .geo-err { color: var(--brand); }
 
   /* live position: MapLibre's own dot + accuracy circle, in the teal that says
      "you", deliberately unlike the category pins. Its button is hidden — the

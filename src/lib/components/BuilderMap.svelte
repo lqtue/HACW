@@ -130,6 +130,8 @@
     {routeData}
     {controlsTop}
     {controlsBottom}
+    locateCompass
+    followZoom={17.5}
     attributionPos="bottom-left"
     fitBounds={bounds}
     fitPadding={34}

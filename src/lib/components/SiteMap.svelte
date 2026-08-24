@@ -195,7 +195,7 @@
   {#if controls}
     <MapControls located={compass || !!me} {locating} {rotated} top={controlsTop} bottom={controlsBottom} onlocate={locateCompass ? locate3d : toggleLocate} onnorth={resetNorth} />
   {/if}
-  {@render children?.({ me, located, following, heading, toggleLocate, resetNorth, recenter, getMap })}
+  {@render children?.({ me, located, following, compass, heading, toggleLocate, resetNorth, recenter, locate3d, getMap })}
 </div>
 
 <style>
