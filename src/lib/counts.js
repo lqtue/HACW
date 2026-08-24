@@ -17,7 +17,12 @@ export const TYPES = new Set([
   // research heatmap (opt-in): `cell` = a geohash cell, optionally suffixed with the
   // device locale (`w3gv5k2-ko`), so footfall can be sliced by nationality. Only the
   // per-cell COUNT is kept — never a point or a path. Bounded id, skips the guard.
-  'cell'
+  'cell',
+  // pageviews: `view` id = a route key (home, explore, site, …), crossed by nationality
+  // so the organizer sees which pages each nationality uses. `plan_mode` id = how the
+  // 5-site plan was assembled (recommend | manual | mixed); its `n` = slots the visitor
+  // let the app auto-fill. Both take bounded-alphabet ids, so they skip the dest guard.
+  'view', 'plan_mode'
 ]);
 export const MAX_EVENTS = 50; // one dead-spot queue, not a firehose
 
@@ -38,6 +43,11 @@ const LANGCODE = /^[a-z]{2,8}$/;
 // argument: the old town is a few dozen cells × a handful of locales, not a flood.
 const CELL = /^[0-9b-hjkmnp-z]{5,9}(-[a-z]{2,3})?$/;
 const LANG_TYPES = new Set(['lang', 'pick']);
+// Fixed, closed vocabularies — a `view` id is one of the app's routes, a `plan_mode`
+// id is one of three build modes. Both bounded by an allowlist (not just a regex), so
+// like the language keys they can't mint unbounded rows and skip the dest-id guard.
+const VIEWS = new Set(['home', 'explore', 'site', 'tours', 'tour', 'passport', 'organizer', 'terms']);
+const PLAN_MODES = new Set(['recommend', 'manual', 'mixed']);
 
 export const countKey = (id) => `count:${id}`;
 
@@ -76,6 +86,26 @@ export function tally(events, validIds = null) {
       if (!cell) continue;
       const key = eventKey(type, cell);
       bump[key] = (bump[key] ?? 0) + 1;
+      continue;
+    }
+    // pageview: bounded route key, crossed by nationality (nat:view:<page>:<code>).
+    if (type === 'view') {
+      const pg = typeof e?.id === 'string' && VIEWS.has(e.id) ? e.id : null;
+      if (!pg) continue;
+      bump[eventKey('view', pg)] = (bump[eventKey('view', pg)] ?? 0) + 1;
+      const nat = typeof e?.nat === 'string' && LANGCODE.test(e.nat) ? e.nat : null;
+      if (nat) bump[`nat:view:${pg}:${nat}`] = (bump[`nat:view:${pg}:${nat}`] ?? 0) + 1;
+      continue;
+    }
+    // plan build: which mode, crossed by nationality; `n` = auto-filled slots, summed
+    // into ev:plan_auto_m so plan_auto_m / plan_mode:mixed = avg slots left to the app.
+    if (type === 'plan_mode') {
+      const mode = typeof e?.id === 'string' && PLAN_MODES.has(e.id) ? e.id : null;
+      if (!mode) continue;
+      bump[eventKey('plan_mode', mode)] = (bump[eventKey('plan_mode', mode)] ?? 0) + 1;
+      const nat = typeof e?.nat === 'string' && LANGCODE.test(e.nat) ? e.nat : null;
+      if (nat) bump[`nat:plan_mode:${mode}:${nat}`] = (bump[`nat:plan_mode:${mode}:${nat}`] ?? 0) + 1;
+      if (Number.isFinite(e.n) && e.n > 0) bump['ev:plan_auto_m'] = (bump['ev:plan_auto_m'] ?? 0) + Math.min(Math.round(e.n), 5);
       continue;
     }
     const id = typeof e?.id === 'string' && ID.test(e.id) ? e.id : null;

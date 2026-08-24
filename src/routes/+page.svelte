@@ -337,9 +337,15 @@
     free = ids.filter((i) => i !== mono && i !== museo).slice(0, 3);
   }
   function useSet(set) {
+    usedRecommend = true;
     applySet(set.stops.map((d) => d.id));
     finish();
   }
+
+  // how the plan got assembled, for the organizer: took a whole themed set (recommend),
+  // hand-picked every slot (manual), or picked some and let the app fill the rest (mixed).
+  let usedRecommend = false;
+  let autoSlots = 0; // slots the app auto-filled this build ("how many left" to it)
 
   const remaining = $derived(5 - pickedIds.length);
   // fill quiet sites first (dispersal), then organizer priority, then nearest the origin
@@ -352,13 +358,15 @@
       .map((x) => x.id);
   }
   function autoFree() {
+    const before = free.length;
     free = [...free, ...bestFrom(groups.other.filter((d) => !free.includes(d.id)), 3 - free.length)];
+    autoSlots += free.length - before;
   }
   // "pick the rest for me" — fills every empty slot (monument, museum, free)
   function autoComplete() {
-    if (!mono) mono = bestFrom(groups.monument, 1)[0] ?? null;
-    if (!museo) museo = bestFrom(groups.museum, 1)[0] ?? null;
-    if (free.length < 3) autoFree();
+    if (!mono) { mono = bestFrom(groups.monument, 1)[0] ?? null; autoSlots++; }
+    if (!museo) { museo = bestFrom(groups.museum, 1)[0] ?? null; autoSlots++; }
+    if (free.length < 3) autoFree(); // counts its own slots
     stepIdx = firstIncomplete();
   }
 
@@ -372,11 +380,14 @@
     if (!valid) return;
     setPlanSet(orderedPlan.map((d) => d.id)); // closest-first, shortest walk from `here`
     track('plan_built');
+    const buildMode = usedRecommend ? 'recommend' : autoSlots > 0 ? 'mixed' : 'manual';
+    track('plan_mode', buildMode, buildMode === 'mixed' ? autoSlots : undefined);
     step = 'done';
   }
   function editPlan() {
     step = 'build';
     mode = 'manual';
+    usedRecommend = false; // hand-editing a recommended set makes it a manual/mixed build
     stepIdx = firstIncomplete();
   }
   function resetPicks() {
@@ -385,6 +396,8 @@
     free = [];
     catFilter = null;
     stepIdx = 0;
+    usedRecommend = false;
+    autoSlots = 0;
   }
 </script>
 

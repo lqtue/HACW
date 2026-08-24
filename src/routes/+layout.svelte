@@ -3,7 +3,7 @@
   import { page } from '$app/stores';
   import { base } from '$app/paths';
   import { onMount } from 'svelte';
-  import { flush, backup } from '$lib/passport.svelte.js';
+  import { flush, backup, track } from '$lib/passport.svelte.js';
   import { loadCounts } from '$lib/stats.svelte.js';
   import { unlockFromUrl } from '$lib/staff.svelte.js';
   import { plan } from '$lib/plan.svelte.js';
@@ -61,6 +61,25 @@
   // It also drops the app's bottom nav-clearance padding so the map runs edge-to-edge
   // under the floating nav (the nav + list view float/pad over it themselves).
   const onExplore = $derived(rel.startsWith('/destinations'));
+
+  // Pageview: one bounded route key per navigation (nat-tagged in track()). Skip the
+  // home hits during onboarding — `welcome` already marks app-open, and counting the
+  // door/scan run as home visits would inflate it. `/go` and unknowns map to null.
+  function pageKey(r) {
+    if (r === '/') return onboarding ? null : 'home';
+    if (r.startsWith('/destinations/')) return 'site';
+    if (r.startsWith('/destinations')) return 'explore';
+    if (r.startsWith('/tours/')) return 'tour';
+    if (r.startsWith('/tours')) return 'tours';
+    if (r.startsWith('/passport')) return 'passport';
+    if (r.startsWith('/organizer')) return 'organizer';
+    if (r.startsWith('/terms')) return 'terms';
+    return null;
+  }
+  $effect(() => {
+    const k = pageKey(rel);
+    if (k) track('view', k);
+  });
 </script>
 
 {#if !onExplore && !ui.hideTheme}

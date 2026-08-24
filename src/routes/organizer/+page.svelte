@@ -117,6 +117,23 @@
   ];
   const natCell = (type, id, code) => nat[type]?.[id]?.[code] ?? 0;
 
+  // App usage: pageviews per route (ev:view:<page>) and how the plan got built
+  // (ev:plan_mode:<mode> + ev:plan_auto_m). Labels are English — desk-only tool.
+  const VIEW_LABELS = {
+    home: 'Home', explore: 'Explore map', site: 'Site detail', tours: 'Tours list',
+    tour: 'Tour detail', passport: 'Passport', organizer: 'Organizer', terms: 'Terms'
+  };
+  const viewRows = $derived(langRows('view:').map(([k, n]) => [VIEW_LABELS[k] ?? k, n, k]));
+  const hasViews = $derived(viewRows.length > 0);
+  const viewPages = $derived(viewRows.map(([, , k]) => k)); // for the ×nationality table
+  const PLAN_LABELS = { recommend: 'Took a suggested set', manual: 'Picked all by hand', mixed: 'Picked some + auto-filled' };
+  const planRows = $derived(
+    ['recommend', 'manual', 'mixed'].map((m) => [PLAN_LABELS[m], events[`plan_mode:${m}`] ?? 0, m])
+  );
+  const planTotal = $derived(planRows.reduce((a, [, n]) => a + n, 0));
+  const mixedN = $derived(events['plan_mode:mixed'] ?? 0);
+  const avgAuto = $derived(mixedN ? (events['plan_auto_m'] ?? 0) / mixedN : 0);
+
   let journeyN = $state(null);
 
   // Cold sites are worth a flyer at the nearest counter — this is that mapping.
@@ -324,6 +341,60 @@
     </div>
   {:else}
     <p class="muted"><small>{s('org_nat_none')}</small></p>
+  {/if}
+
+  <!-- App usage: pageviews + how the plan gets built. Desk-only, English labels. -->
+  <h2>App usage</h2>
+  {#if hasViews}
+    <div class="nattable">
+      <table>
+        <thead>
+          <tr>
+            <th>Page</th>
+            <th class="num">Views</th>
+            {#each natCodes as code (code)}<th class="num">{langName(code)}</th>{/each}
+          </tr>
+        </thead>
+        <tbody>
+          {#each viewRows as [label, n, key] (key)}
+            <tr>
+              <td>{label}</td>
+              <td class="num">{n}</td>
+              {#each natCodes as code (code)}<td class="num">{natCell('view', key, code) || ''}</td>{/each}
+            </tr>
+          {/each}
+        </tbody>
+      </table>
+    </div>
+  {:else}
+    <p class="muted"><small>No pageviews recorded yet.</small></p>
+  {/if}
+
+  <h3>Plan picking</h3>
+  {#if planTotal}
+    <div class="nattable">
+      <table>
+        <thead>
+          <tr>
+            <th>How the plan was built</th>
+            <th class="num">Plans</th>
+            {#each natCodes as code (code)}<th class="num">{langName(code)}</th>{/each}
+          </tr>
+        </thead>
+        <tbody>
+          {#each planRows as [label, n, mode] (mode)}
+            <tr>
+              <td>{label}</td>
+              <td class="num">{n || ''}</td>
+              {#each natCodes as code (code)}<td class="num">{natCell('plan_mode', mode, code) || ''}</td>{/each}
+            </tr>
+          {/each}
+        </tbody>
+      </table>
+    </div>
+    <p class="muted"><small>Of the partial builds, the app filled {avgAuto.toFixed(1)} of 5 slots on average.</small></p>
+  {:else}
+    <p class="muted"><small>No plans built yet.</small></p>
   {/if}
 
   <h2>{s('org_journeys')}</h2>

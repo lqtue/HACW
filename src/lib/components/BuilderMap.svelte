@@ -158,7 +158,8 @@
   />
 
   {#if stack.length > 1}
-    <div class="stack">
+    <!-- ride just above the docked plan panel, at the same offset its map controls use -->
+    <div class="stack" style="bottom: {controlsBottom ? `calc(${controlsBottom} + 8px)` : '12px'}">
       <button class="stack-nav" onclick={() => step(-1)} aria-label={s('prev_site')}>‹</button>
       <span class="stack-label"><b>{stackAt + 1}</b> / {stack.length} · {t(stack[stackAt].name)}</span>
       <button class="stack-nav" onclick={() => step(1)} aria-label={s('next_site')}>›</button>
@@ -180,11 +181,12 @@
      the Explore map's pager so overlapping sites step in place instead of clustering */
   .stack {
     position: absolute; z-index: 8;
-    left: 12px; right: 12px; bottom: 12px;
+    /* same width as the nav pill / top switch, centred (bottom offset set inline) */
+    left: 0; right: 0; margin-inline: auto; width: var(--map-topbar-w);
     display: flex; align-items: center; gap: 10px; padding: 6px;
     border-radius: 999px;
-    background: var(--brand-dark); color: var(--paper);
-    box-shadow: 0 10px 24px -12px rgba(40, 12, 6, 0.9);
+    background: var(--brand); color: #fff;
+    box-shadow: 0 10px 24px -12px rgba(40, 12, 6, 0.6);
   }
   .stack-label {
     flex: 1; min-width: 0; text-align: center;
@@ -195,7 +197,7 @@
   .stack-nav {
     flex: 0 0 auto; width: 34px; height: 34px;
     border: 0; border-radius: 50%;
-    background: var(--paper); color: var(--brand-dark);
+    background: #fff; color: var(--brand);
     font-size: 1.2rem; line-height: 1; cursor: pointer;
   }
 

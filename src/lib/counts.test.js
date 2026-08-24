@@ -184,4 +184,23 @@ assert.deepEqual(jr, [
 ]);
 assert.deepEqual(journeyRows([{ t: 'checkin', id: 'chua-cau', sid: 'nope!' }]), [], 'bad sid is not logged');
 
+// --- pageviews: bounded route keys, crossed by nationality; junk pages dropped ---
+assert.deepEqual(tally([{ t: 'view', id: 'explore' }]), { 'ev:view:explore': 1 });
+assert.deepEqual(
+  tally([{ t: 'view', id: 'passport', nat: 'ko' }]),
+  { 'ev:view:passport': 1, 'nat:view:passport:ko': 1 },
+  'pageview crosses by nationality'
+);
+assert.deepEqual(tally([{ t: 'view', id: 'not-a-page' }]), {}, 'unknown route key is dropped');
+assert.deepEqual(tally([{ t: 'view', id: 'ev:redeem' }]), {}, 'view id cannot forge another key');
+
+// --- plan mode: which build path, + auto-filled slots summed (avg = /mixed count) ---
+assert.deepEqual(tally([{ t: 'plan_mode', id: 'manual' }]), { 'ev:plan_mode:manual': 1 });
+assert.deepEqual(
+  tally([{ t: 'plan_mode', id: 'mixed', n: 3, nat: 'ja' }]),
+  { 'ev:plan_mode:mixed': 1, 'nat:plan_mode:mixed:ja': 1, 'ev:plan_auto_m': 3 },
+  'mixed build records mode, nationality, and slots left to the app'
+);
+assert.deepEqual(tally([{ t: 'plan_mode', id: 'nope' }]), {}, 'unknown build mode is dropped');
+
 console.log('counts.test.js ok');
