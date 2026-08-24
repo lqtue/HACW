@@ -56,13 +56,20 @@
   const onboarding = $derived(
     rel === '/' && (!plan.onboarded || /^(door|lang|welcome|install|scan|perms)$/.test(stepParam))
   );
+  // explore is a full-bleed map with its own floating switch top-centre — the moon
+  // toggle would crowd that corner, and the map has no light/dark of its own to flip.
+  // It also drops the app's bottom nav-clearance padding so the map runs edge-to-edge
+  // under the floating nav (the nav + list view float/pad over it themselves).
+  const onExplore = $derived(rel.startsWith('/destinations'));
 </script>
 
-<button class="chip-fab theme" onclick={toggleTheme} aria-label="Theme" title="Theme">
-  {theme.mode === 'dark' ? '☀' : '☾'}
-</button>
+{#if !onExplore && !ui.hideTheme}
+  <button class="chip-fab theme" onclick={toggleTheme} aria-label="Theme" title="Theme">
+    {theme.mode === 'dark' ? '☀' : '☾'}
+  </button>
+{/if}
 
-<div class="app" class:wide class:onboarding class:nonav={ui.hideNav}>
+<div class="app" class:wide class:onboarding class:nonav={ui.hideNav} class:mapfull={onExplore}>
   {@render children()}
 </div>
 

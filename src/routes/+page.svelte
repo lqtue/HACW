@@ -17,14 +17,14 @@
   import { weather } from '$lib/weather.svelte.js';
   import { stats } from '$lib/stats.svelte.js';
   import { spotlightIds } from '$lib/score.js';
-  import { distanceMeters } from '$lib/geo.js';
+  import { distanceMeters, getPosition } from '$lib/geo.js';
   import { formatDistance, optimizeRoute, routeStats } from '$lib/route.js';
   import { hasStamp, adoptCode, restore, track } from '$lib/passport.svelte.js';
   import { codeFromTicket } from '$lib/backup.js';
   import { plan, setOnboarded, setTicketCode, setPlanSet } from '$lib/plan.svelte.js';
   import { setNat } from '$lib/study.svelte.js';
   import { LANGS } from '$lib/languages.js';
-  import { openLabel, categoryLabel, categoryIcon } from '$lib/util.js';
+  import { openLabel, categoryLabel } from '$lib/util.js';
   import { i18n, t, setLang } from '$lib/i18n.svelte.js';
   import { s } from '$lib/strings.js';
 
@@ -84,6 +84,9 @@
 
   onMount(() => {
     if (step === 'welcome') track('welcome');
+    // returning visitors skip the perms step — grab a fix here so their plan still
+    // orders from where they stand (first-timers get it at requestPerms()).
+    if (plan.onboarded) locate();
     ios = /iphone|ipad|ipod/i.test(navigator.userAgent);
     // board preview (?step=recommend): expand the top set so the frame shows its
     // map + stops, not just collapsed titles.
@@ -159,17 +162,16 @@
   const STEP_SCREENS = ['door', 'lang', 'welcome', 'install', 'scan', 'perms', 'done'];
   $effect(() => {
     ui.hideNav = step === 'done' || (mode === 'manual' && !STEP_SCREENS.includes(step));
+    ui.hideTheme = ui.hideNav; // full-map builder + plan-ready drop the moon toggle too
   });
-  onDestroy(() => (ui.hideNav = false));
+  onDestroy(() => { ui.hideNav = false; ui.hideTheme = false; });
   const scanSupported = typeof navigator !== 'undefined' && !!navigator.mediaDevices?.getUserMedia;
 
   // Ask for GPS + motion up front (from this tap — iOS requires a user gesture for
   // DeviceMotion/Orientation). Both prompts are best-effort; a denial is fine, the
   // map re-asks for location later and the compass just stays off.
   async function requestPerms() {
-    try {
-      navigator.geolocation?.getCurrentPosition(() => {}, () => {}, { timeout: 8000 });
-    } catch {}
+    locate(); // capture a fix for location-aware planning (non-blocking; denial is fine)
     try {
       if (typeof DeviceMotionEvent !== 'undefined' && DeviceMotionEvent.requestPermission)
         await DeviceMotionEvent.requestPermission();
@@ -220,21 +222,45 @@
     { cls: 'other', id: free[2] ?? null }
   ]);
 
-  // "nearest" reference: the cluster of sites already picked (so the next pick keeps
-  // the walk compact), else the town centre. No GPS here — the picker sorts by these,
-  // and location is requested at check-in / on the map, where it actually matters.
+  // Location-aware planning: one GPS fix (`here`), asked for at the perms step and on
+  // entering the planner, anchors everything — the free list sorts nearest-you first,
+  // "pick the rest for me" fills the closest quiet sites, and the saved route starts at
+  // the stop closest to you then takes the shortest walk (optimizeRoute(picks, here)).
+  // Fully offline: every distance is the baked walk matrix + haversine, no routing server.
+  // No fix (denied / indoors / returning user who skips) → falls back to the town centre.
   const TOWN_CENTRE = { lat: 15.8772, lng: 108.3275 };
-  const origin = TOWN_CENTRE;
+  let here = $state(null);
+  const origin = $derived(here ?? TOWN_CENTRE);
+  async function locate() {
+    if (forced) return; // board previews never touch real GPS
+    // one retry: a fresh GPS often reports "unavailable" for a beat before the first fix
+    // (and in dev the fake-geo shim installs a tick after mount). A hard denial still
+    // just falls through to the town centre. ponytail: 2 tries is plenty; not a loop.
+    for (let i = 0; i < 2; i++) {
+      try { here = await getPosition(); return; }
+      catch { await new Promise((r) => setTimeout(r, 600)); }
+    }
+  }
   const picks = $derived(pickedIds.map((id) => byId[id]).filter(Boolean));
   function distFor(d) {
     if (picks.length) return Math.min(...picks.filter((p) => p.id !== d.id).map((p) => distanceMeters(p, d)).concat(Infinity));
-    return distanceMeters(TOWN_CENTRE, d);
+    return distanceMeters(origin, d);
   }
 
   // the free pool is big (16+) vs 3 monuments / 6 museums — a category filter makes it browsable
   // chip order follows categories.json (di-tich, hoi-quan, nha-co, trai-nghiem), present-only
   const freeCats = categories.map((c) => c.id).filter((id) => groups.other.some((d) => d.category === id));
   let catFilter = $state(null);
+  // filter row scroll affordance: ‹ when scrolled right, › while more chips sit off-screen
+  let pmEl = $state();
+  let pmMore = $state(false);
+  let pmLess = $state(false);
+  function pmRefresh() {
+    if (!pmEl) { pmMore = pmLess = false; return; }
+    pmLess = pmEl.scrollLeft > 4;
+    pmMore = pmEl.scrollLeft + pmEl.clientWidth < pmEl.scrollWidth - 4;
+  }
+  $effect(() => { stepIdx; if (pmEl) pmRefresh(); });
 
   // The free pool is 16+ sites; show as many as fit the list viewport and hide the
   // rest behind "show more" so the picker never overflows into a marathon scroll.
@@ -243,8 +269,9 @@
   // top offset and a slot for the see-more link. ponytail: fixed row height guess;
   // fine unless the row layout changes.
   let listH = $state(0);
+  // cap the list at 6 rows (rest behind "see more"); still shrinks on short screens
   const CAP = $derived(
-    listH ? Math.max(3, Math.floor((listH - (onFree ? 104 : 62) - 44) / 62)) : 8
+    Math.min(6, listH ? Math.max(3, Math.floor((listH - (onFree ? 118 : 76) - 44) / 62)) : 6)
   );
   let showAll = $state(false);
   let openRow = $state(null); // list row expanded inline (accordion), like the suggested sets
@@ -335,12 +362,15 @@
     stepIdx = firstIncomplete();
   }
 
-  const orderedPlan = $derived(optimizeRoute(pickedIds.map((id) => byId[id])));
+  // Closest stop first, then the shortest walk through the rest — anchored to `here` when
+  // a fix is in, else the plain shortest chain. Reactive, so it re-orders the moment the
+  // GPS fix arrives during the build.
+  const orderedPlan = $derived(optimizeRoute(pickedIds.map((id) => byId[id]), here ?? undefined));
   const planWalk = $derived(routeStats(orderedPlan));
 
   function finish() {
     if (!valid) return;
-    setPlanSet(orderedPlan.map((d) => d.id)); // save in shortest-walk order
+    setPlanSet(orderedPlan.map((d) => d.id)); // closest-first, shortest walk from `here`
     track('plan_built');
     step = 'done';
   }
@@ -461,17 +491,21 @@
     </div>
   </section>
 {:else if step === 'done'}
-  <section class="onboard done">
-    <h1>{s('done_title')}</h1>
-    <p class="walk-sum">{s('route_walk', formatDistance(planWalk.meters, i18n.lang), planWalk.minutes)}</p>
-
-    <div class="donemap"><RouteMap stops={orderedPlan} height="200px" /></div>
-    <ol class="doneroute">
-      {#each orderedPlan as d, i (d.id)}
-        <li><span class="n" style="--cat: var(--c-{d.category})">{i + 1}</span> {t(d.name)}</li>
-      {/each}
-    </ol>
-  </section>
+  <div class="donefull">
+    <!-- full-bleed route map; summary floats top, the stop list rides a bottom sheet -->
+    <div class="donemap-full"><RouteMap stops={orderedPlan} height="100%" /></div>
+    <header class="done-head">
+      <h1>{s('done_title')}</h1>
+      <p class="walk-sum">{s('route_walk', formatDistance(planWalk.meters, i18n.lang), planWalk.minutes)}</p>
+    </header>
+    <div class="donesheet">
+      <ol class="doneroute">
+        {#each orderedPlan as d, i (d.id)}
+          <li><span class="n" style="--cat: var(--c-{d.category})">{i + 1}</span> {t(d.name)}</li>
+        {/each}
+      </ol>
+    </div>
+  </div>
   <!-- primary CTA docked above the tab bar; the edit-plan action rides below it as a
        secondary button (replacing the old top back chip) -->
   <div class="commitbar">
@@ -521,7 +555,6 @@
   </div>
 {:else}
   <div class="build manual committing">
-    <button class="backchip" onclick={() => (mode = 'recommend')} aria-label={s('back')}>←</button>
     <header class="b-head">
       <h1>{s('plan_title')}</h1>
     </header>
@@ -531,19 +564,28 @@
       <div class="viewfloat"><ViewToggle bind:mode={viewMode} /></div>
 
       {#if onFree}
-        <!-- free pool is large; category chips double as a legend -->
-        <div class="catfilter">
-          <button class="fchip" class:on={!catFilter} onclick={() => (catFilter = null)}>{s('all_cats')}</button>
-          {#each freeCats as c (c)}
-            <button
-              class="fchip"
-              class:on={catFilter === c}
-              style="--c: var(--c-{c})"
-              onclick={() => (catFilter = catFilter === c ? null : c)}
-            >
-              {categoryIcon(c)} {t(categoryLabel(c))}
-            </button>
-          {/each}
+        <!-- free pool is large; category chips double as a legend — same swatch
+             chips as the Explore tab so the two filters read identically -->
+        <div class="catfilterwrap">
+          {#if pmLess}
+            <button class="fmore fless" aria-label={s('back')} onclick={() => pmEl?.scrollBy({ left: -160, behavior: 'smooth' })}>‹</button>
+          {/if}
+          <div class="catfilter" bind:this={pmEl} onscroll={pmRefresh}>
+            <button class="fchip" aria-pressed={!catFilter} onclick={() => (catFilter = null)}>{s('all')}</button>
+            {#each freeCats as c (c)}
+              <button
+                class="fchip cat"
+                aria-pressed={catFilter === c}
+                style="--c: var(--c-{c})"
+                onclick={() => (catFilter = catFilter === c ? null : c)}
+              >
+                <i class="sw" aria-hidden="true"></i>{t(categoryLabel(c))}
+              </button>
+            {/each}
+          </div>
+          {#if pmMore}
+            <button class="fmore" aria-label={s('scroll_more')} onclick={() => pmEl?.scrollBy({ left: 160, behavior: 'smooth' })}>›</button>
+          {/if}
         </div>
       {/if}
 
@@ -579,55 +621,59 @@
               {/if}
             </li>
           {/each}
-        </ul>
-
-        {#if onFree && rankedList.length > CAP}
-          {#if showAll}
-            <button class="link fill-link" onclick={() => (showAll = false)}>{s('list_less')}</button>
-          {:else}
-            <button class="link fill-link" onclick={() => (showAll = true)}>{s('list_more', rankedList.length - CAP)}</button>
+          <!-- show-more lives inside the scroll so it clears the floating bottom block -->
+          {#if onFree && rankedList.length > CAP}
+            <li class="moreli">
+              {#if showAll}
+                <button class="link fill-link" onclick={() => (showAll = false)}>{s('list_less')}</button>
+              {:else}
+                <button class="link fill-link" onclick={() => (showAll = true)}>{s('list_more', rankedList.length - CAP)}</button>
+              {/if}
+            </li>
           {/if}
-        {/if}
+        </ul>
       {:else}
         <!-- map mode: tap a pin to add/remove; mounted only in this branch so it never inits at 0×0 -->
-        <div class="mapwrap"><BuilderMap eligible={eligibleIds} picked={pickedIds} catFilter={onFree ? catFilter : null} onpick={pick} controlsTop={onFree ? '104px' : '64px'} /></div>
+        <div class="mapwrap"><BuilderMap eligible={eligibleIds} picked={pickedIds} catFilter={onFree ? catFilter : null} onpick={pick} controlsBottom="calc(196px + env(safe-area-inset-bottom))" /></div>
       {/if}
     </div>
 
-    <!-- progress: the 5 slots double as step nav; tap one to edit that class -->
-    <div class="slotbtns" role="group" aria-label={s('your_ticket')}>
-      {#each slotList as slot, i (i)}
-        {@const si = i < 2 ? i : 2}
-        {@const d = slot.id ? byId[slot.id] : null}
-        <button
-          class="slot"
-          class:filled={d}
-          class:on={stepIdx === si}
-          onclick={() => (stepIdx = si)}
-          aria-label={s(STEPS[si].key)}
-        >
-          {#if d}
-            <MatCua size={28} color="var(--c-{d.category})" inner="var(--surface)" />
-          {/if}
-        </button>
-      {/each}
+    <!-- one floating block: progress dots, the prim/sec action row (nav-style, side by
+         side), and the sub line under it -->
+    <div class="buildbar">
+      <div class="slotbtns" role="group" aria-label={s('your_ticket')}>
+        {#each slotList as slot, i (i)}
+          {@const si = i < 2 ? i : 2}
+          {@const d = slot.id ? byId[slot.id] : null}
+          <button
+            class="slot"
+            class:filled={d}
+            class:on={stepIdx === si}
+            onclick={() => (stepIdx = si)}
+            aria-label={s(STEPS[si].key)}
+          >
+            {#if d}
+              <MatCua size={28} color="var(--c-{d.category})" inner="var(--surface)" />
+            {/if}
+          </button>
+        {/each}
+      </div>
+
+      <div class="bb-actions">
+        {#if valid}
+          <button class="btn prim" onclick={finish}>{s('build_done')}</button>
+        {:else}
+          <button class="btn prim" onclick={autoComplete}>{s('auto_pick')}</button>
+        {/if}
+        <button class="sec" onclick={() => (mode = 'recommend')}>{s('nav_exit')}</button>
+      </div>
+
+      {#if pickedIds.length}
+        <button class="bb-sub" onclick={resetPicks}>{s('reset_picks')}</button>
+      {:else}
+        <span class="bb-sub hint">{s('pick_hint')}</span>
+      {/if}
     </div>
-
-
-  </div>
-  <!-- one docked footer for every state: a primary action on top, a sub line below.
-       empty → "tap a point" hint; picking → auto-fill + clear-all; full → continue. -->
-  <div class="commitbar">
-    {#if valid}
-      <button class="btn done-cta" onclick={finish}>{s('build_done')}</button>
-    {:else}
-      <button class="btn done-cta" onclick={autoComplete}>{s('auto_pick', remaining)}</button>
-    {/if}
-    {#if pickedIds.length}
-      <button class="skip" onclick={resetPicks}>{s('reset_picks')}</button>
-    {:else}
-      <span class="pick-hint">{s('pick_hint')}</span>
-    {/if}
   </div>
 {/if}
 
@@ -763,10 +809,27 @@
     font-size: clamp(1.7rem, 7vw, 2.2rem);
     line-height: 1.1;
   }
-  .onboard.done { padding-bottom: calc(130px + env(safe-area-inset-bottom)); justify-content: flex-start; padding-top: max(30px, calc(env(safe-area-inset-top) + 20px)); }
+  /* plan-ready: full-bleed route map with floating summary + stop-list sheet */
+  .donefull { position: relative; height: 100dvh; overflow: hidden; }
+  .donemap-full { position: absolute; inset: 0; }
+  .donemap-full :global(.routemap) { height: 100%; border: 0; border-radius: 0; }
+  .done-head {
+    position: absolute; z-index: 8; top: 0; left: 0; right: 0;
+    padding: max(28px, calc(env(safe-area-inset-top) + 20px)) 18px 22px;
+    background: linear-gradient(color-mix(in srgb, var(--bg) 88%, transparent), transparent);
+    pointer-events: none;
+  }
   /* total walk under the title */
   .walk-sum { margin: 4px 0 0; color: var(--muted); font-size: 0.95rem; font-weight: 600; }
-  .donemap { width: 100%; margin: 14px 0 12px; border-radius: 12px; overflow: hidden; border: 1px solid var(--line); }
+  .donesheet {
+    position: absolute; z-index: 8;
+    left: 12px; right: 12px; bottom: calc(112px + env(safe-area-inset-bottom));
+    max-width: 460px; margin: 0 auto; max-height: 38vh; overflow-y: auto;
+    padding: 12px 14px; border-radius: 16px;
+    background: color-mix(in srgb, var(--surface) 92%, transparent);
+    backdrop-filter: blur(12px);
+    box-shadow: var(--shadow-lift);
+  }
   .doneroute { list-style: none; margin: 0 0 8px; padding: 0; display: flex; flex-direction: column; gap: 8px; width: 100%; }
   .doneroute li { display: flex; align-items: center; gap: 10px; font-size: 0.95rem; }
   .doneroute .n, .stops .n {
@@ -841,9 +904,50 @@
   .build .skip { margin-top: auto; padding-top: 20px; }
   /* manual: lock to the viewport so the list scrolls INSIDE its region — the
      flowers stay docked above the CTA instead of scrolling onto it (screen 12) */
-  .build.manual { height: 100dvh; min-height: 0; overflow: hidden; }
-  /* manual: title shares the fixed back/theme chip row; indent past the back chip */
-  .build.manual .b-head { padding-left: 44px; }
+  /* manual builder is a full-bleed map: the region fills the screen, everything else
+     floats over it (explore pattern). */
+  .build.manual { height: 100dvh; min-height: 0; overflow: hidden; position: relative; padding: 0; }
+  /* title is sr-only here — the map is the screen; the back chip is the only top chrome */
+  .build.manual .b-head {
+    position: absolute; width: 1px; height: 1px;
+    padding: 0; margin: -1px; overflow: hidden; clip: rect(0 0 0 0); white-space: nowrap;
+  }
+  .build.manual .viewregion { position: absolute; inset: 0; }
+  /* list keeps the suggested-sets card width (18px page gutter) and scrolls clear of
+     the floating bottom block */
+  .build.manual .viewregion .list {
+    padding-left: 18px; padding-right: 18px;
+    padding-bottom: calc(210px + env(safe-area-inset-bottom));
+  }
+  /* one floating block at the bottom: dots + prim/sec row + sub line */
+  .buildbar {
+    position: absolute; z-index: 8;
+    left: 12px; right: 12px; bottom: calc(14px + env(safe-area-inset-bottom));
+    max-width: 460px; margin: 0 auto;
+    display: flex; flex-direction: column; gap: 10px;
+    padding: 12px; border-radius: 20px;
+    background: color-mix(in srgb, var(--surface) 92%, transparent);
+    backdrop-filter: blur(12px);
+    box-shadow: var(--shadow-lift);
+  }
+  .buildbar .slotbtns { margin: 0; justify-content: center; }
+  /* prim + sec side by side, nav-style (primary flexes, secondary sits beside it) */
+  .bb-actions { display: flex; gap: 10px; align-items: stretch; }
+  .bb-actions .prim { flex: 1 1 auto; margin: 0; }
+  .bb-actions .prim:disabled { opacity: 0.5; cursor: not-allowed; }
+  .bb-actions .sec {
+    flex: 0 0 auto; margin: 0; cursor: pointer;
+    padding: 0 18px; border-radius: 999px;
+    border: 1.5px solid var(--brand); background: transparent; color: var(--brand);
+    font-family: var(--font-body); font-weight: 700; font-size: 0.95rem;
+    white-space: nowrap;
+  }
+  .bb-sub {
+    display: block; margin: 0 auto; border: 0; background: none; padding: 2px;
+    color: var(--muted); font-family: var(--font-body); font-weight: 600; font-size: 0.85rem;
+    cursor: pointer;
+  }
+  .bb-sub.hint { cursor: default; }
   .b-head { display: flex; flex-direction: column; gap: 3px; }
   .b-head h1 { margin: 0; font-size: clamp(1.9rem, 7vw, 2.4rem); font-weight: 800; letter-spacing: -0.02em; }
   .b-sub { margin: 0; color: var(--muted); font-size: 0.95rem; }
@@ -885,21 +989,37 @@
      category chips) hover over it — the same device as the Explore tab, and the
      SAME in both map and list mode so screens 9 and 10 line up. */
   .viewregion { position: relative; flex: 1 1 auto; min-height: 0; display: flex; flex-direction: column; }
+  /* switch + filter share --map-topbar-w (nav-pill width) and centre — same as Explore */
   .viewfloat {
     position: absolute; z-index: 7;
     top: 8px; left: 0; right: 0;
+    margin-inline: auto; width: var(--map-topbar-w);
     box-shadow: 0 2px 10px rgba(60, 30, 20, 0.12); border-radius: 999px;
   }
   /* chips ride just under the switch, over the view (free step only) — each a soft
      floating pill so the row reads cleanly over the map, not as a heavy band */
-  .viewregion.free .catfilter {
+  .viewregion.free .catfilterwrap {
     position: absolute; z-index: 6; top: 56px; left: 0; right: 0;
-    margin: 0; padding: 2px 2px 4px; gap: 6px;
+    margin-inline: auto; max-width: var(--map-topbar-w);
   }
+  .viewregion.free .catfilter { padding: 2px 2px 4px; gap: 6px; }
+  /* ‹ › scroll affordances, pinned over a fade, shown only when the row can scroll that way */
+  .catfilterwrap .fmore {
+    position: absolute; top: 0; bottom: 4px; right: 0; z-index: 2;
+    width: 40px; border: 0; cursor: pointer;
+    display: grid; place-items: center;
+    font-size: 1.4rem; font-weight: 700; line-height: 1; color: var(--brand-dark);
+    background: linear-gradient(to right, transparent, var(--surface) 55%);
+  }
+  .catfilterwrap .fmore.fless {
+    right: auto; left: 0;
+    background: linear-gradient(to left, transparent, var(--surface) 55%);
+  }
+  .catfilterwrap .fmore:focus-visible { outline: 2px solid var(--brand); outline-offset: 2px; }
   .viewregion.free .catfilter .fchip { box-shadow: 0 2px 8px rgba(60, 30, 20, 0.1); }
   /* the list scrolls inside the region, under the pinned switch/chips */
-  .viewregion .list { flex: 1 1 auto; min-height: 0; overflow-y: auto; padding-top: 62px; }
-  .viewregion.free .list { padding-top: 104px; }
+  .viewregion .list { flex: 1 1 auto; min-height: 0; overflow-y: auto; padding-top: 76px; }
+  .viewregion.free .list { padding-top: 118px; }
   /* map fills the region rather than a fixed 56vh */
   .viewregion .mapwrap { flex: 1 1 auto; height: auto; min-height: 260px; }
 
@@ -954,28 +1074,44 @@
     cursor: pointer; text-decoration: underline; text-underline-offset: 3px;
   }
 
-  /* free-pool category filter — chips carry each category's accent (also the legend) */
+  /* free-pool category filter — the SAME swatch chips as the Explore tab (printed-label
+     look: hairline keyline, uppercase, dot swatch). Resting fill is opaque --surface, not
+     transparent like Explore's, because here the row floats over the map and must stay legible. */
   .catfilter { display: flex; gap: 8px; overflow-x: auto; padding-bottom: 2px; scrollbar-width: none; }
   .catfilter::-webkit-scrollbar { display: none; }
   .fchip {
     flex: 0 0 auto;
-    border: 1.5px solid var(--line);
-    background: var(--surface);
-    color: var(--muted);
-    border-radius: 999px;
-    padding: 6px 12px;
-    font-family: var(--font-body);
-    font-weight: 600;
-    font-size: 0.8rem;
     white-space: nowrap;
+    border: 1px solid color-mix(in srgb, var(--brand-dark) 20%, transparent);
+    background: var(--surface);
+    color: var(--brand-dark);
+    border-radius: 6px;
+    padding: 7px 12px;
+    font-family: var(--font-body);
+    font-weight: 700;
+    font-size: 0.72rem;
+    letter-spacing: 0.06em;
+    text-transform: uppercase;
     cursor: pointer;
     transition: border-color 0.14s, color 0.14s, background 0.14s;
   }
-  .fchip.on {
-    color: var(--ink);
-    border-color: var(--c, var(--brand));
-    background: color-mix(in srgb, var(--c, var(--brand)) 16%, transparent);
+  /* pressed cat chip wears its own accent (fill + paper text). The "all" chip is
+     neutral by design — no category colour — so its pressed state stays on the chip's
+     own bg, marked only by a solid ink keyline. */
+  .fchip.cat[aria-pressed='true'] {
+    background: var(--c);
+    border-color: var(--c);
+    color: var(--paper);
   }
+  .fchip[aria-pressed='true'] { border-color: var(--ink); color: var(--ink); }
+  .fchip.cat { display: inline-flex; align-items: center; gap: 7px; }
+  .fchip .sw {
+    width: 10px; height: 10px;
+    border-radius: 50%;
+    background: var(--c);
+    border: 1px solid color-mix(in srgb, var(--brand-dark) 45%, transparent);
+  }
+  .fchip[aria-pressed='true'] .sw { background: var(--paper); border-color: var(--paper); }
 
   /* borderless soft-shadow cards on the paper, matching the language screen */
   .list {

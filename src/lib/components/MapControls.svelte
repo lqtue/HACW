@@ -1,14 +1,16 @@
 <script>
   import { s } from '$lib/strings.js';
-  // Google-Maps-style map controls: white rounded-square buttons, top-right stack.
+  // Map controls: round surface FABs (same as the tour-nav locate button), top-right stack.
   // Locate + (when the map is twisted off north) reset-north. Shared by the discover
   // and builder maps so the two look identical. Parent must be position: relative.
   // `top` shifts the stack down — the full-screen discover map passes a value that
   // clears the fixed theme toggle in the layout (which also lives top-right).
-  let { located = false, locating = false, rotated = false, top = '10px', onlocate, onnorth } = $props();
+  // `bottom` (when set) anchors the stack to the bottom-right instead of top — the
+  // explore map wants the locate FAB just above the floating nav, tour-nav style.
+  let { located = false, locating = false, rotated = false, top = '10px', bottom = null, onlocate, onnorth } = $props();
 </script>
 
-<div class="mapctrls" style="top: {top}">
+<div class="mapctrls" class:up={bottom} style={bottom ? `bottom: ${bottom}` : `top: ${top}`}>
   <button
     class="mbtn"
     class:on={located}
@@ -44,11 +46,15 @@
     position: absolute; right: 10px; z-index: 5;
     display: flex; flex-direction: column; gap: 10px;
   }
+  /* bottom-anchored: stack upward so the locate FAB stays at the very bottom, with
+     the same clear gap between the two round FABs as the tour-nav screen */
+  .mapctrls.up { flex-direction: column-reverse; gap: 14px; }
+  /* same round FAB as the tour-nav locate button, so all three maps share one control */
   .mbtn {
-    width: 40px; height: 40px; border-radius: 8px; border: 0;
+    width: 46px; height: 46px; border-radius: 50%; border: 0;
     display: grid; place-items: center; cursor: pointer;
     background: var(--surface); color: var(--muted);
-    box-shadow: 0 1px 4px rgba(0, 0, 0, 0.3);
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.3);
   }
   .mbtn.on { color: var(--brand); }
   .mbtn.busy { animation: mpulse 1s ease-in-out infinite; }

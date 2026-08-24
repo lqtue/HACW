@@ -25,6 +25,9 @@
     autoLocate = false,       // trigger geolocation on mount (explicit-navigate screens)
     controls = true,          // show the built-in locate + reset-north MapControls
     controlsTop = '10px',
+    controlsBottom = null,    // anchor the controls to the bottom-right instead of top
+    locateCompass = false,    // Google-Maps locate: center+zoom, tilt to 3D, face heading
+    locatePitch = 55,         // pitch used by the compass-locate mode
     attributionPos = 'bottom-right', // 'top-left' where a bottom sheet covers the corner
     interactive = true,
     bearing = 0,
@@ -35,6 +38,7 @@
     oninit = null,            // (map, maplibregl, { gold, ink }) => void — extra layers/handlers
     onready = null,           // (map, maplibregl) => void — fired once the sites layer is up
     onsiteclick = null,       // (id, feature, e, map, maplibregl) => void
+    compass = $bindable(false),// true while the Google-Maps 3D heading-up locate is engaged
     me = $bindable(null),     // the current GPS fix, readable by the parent (booth bar etc)
     heading = $bindable(null),// live device heading (compass, else GPS course), deg CW from N
     geoErr = $bindable(''),   // last geolocation error message (denied / unavailable)
@@ -62,6 +66,22 @@
   function recenter() {
     following = true;
     geolocate?.trigger();
+  }
+  // Google-Maps locate: tap once → center+zoom, tilt to 3D, rotate to face your heading
+  // (the $effect below keeps the bearing on your heading); tap again → back to the flat
+  // north-ish plan. Dragging the map exits compass (handled in the dragstart below).
+  function locate3d() {
+    if (!ready) return;
+    if (compass) { // toggle off: flatten + re-aim to the map's home bearing
+      compass = false; following = false;
+      map?.easeTo({ pitch: 0, bearing, duration: 400 });
+      return;
+    }
+    compass = true; following = true;
+    if (!me && !locating) locating = true;
+    geolocate.trigger();
+    cone?.enableCompass();
+    map?.easeTo({ pitch: locatePitch, zoom: Math.max(map.getZoom(), followZoom), duration: 500 });
   }
 
   onDestroy(() => {
@@ -91,7 +111,7 @@
       const b = ((map.getBearing() % 360) + 360) % 360;
       rotated = b > 1 && b < 359;
     });
-    if (follow) map.on('dragstart', () => (following = false));
+    map.on('dragstart', () => { if (follow) following = false; if (compass) { compass = false; following = false; } });
 
     geolocate = new maplibregl.GeolocateControl({
       positionOptions: { enableHighAccuracy: true, maximumAge: 5000, timeout: 15000 },
@@ -105,7 +125,7 @@
       geoErr = '';
       me = { lat: e.coords.latitude, lng: e.coords.longitude, accuracy: Math.round(e.coords.accuracy) };
       cone?.onFix(e.coords);
-      if (following) map.easeTo({ center: [e.coords.longitude, e.coords.latitude], zoom: Math.max(map.getZoom(), followZoom), duration: 600 });
+      if (following) map.easeTo({ center: [e.coords.longitude, e.coords.latitude], zoom: Math.max(map.getZoom(), followZoom), ...(compass ? { pitch: locatePitch } : {}), duration: 600 });
     });
     geolocate.on('error', (e) => {
       locating = false;
@@ -157,6 +177,14 @@
     if (autoLocate) { geolocate.trigger(); cone.enableCompass(); }
   });
 
+  // compass mode: ease the map bearing toward the device heading, past an 8° change so
+  // noisy old-town compass can't spin it (same threshold as the tour-nav heading-up)
+  $effect(() => {
+    if (!compass || heading == null || !map) return;
+    const delta = ((heading - map.getBearing() + 540) % 360) - 180;
+    if (Math.abs(delta) > 8) map.easeTo({ bearing: heading, duration: 300 });
+  });
+
   // reactive data pushes (no rebuild)
   $effect(() => { if (ready) map.getSource('sites')?.setData(siteData); });
   $effect(() => { if (ready && routeData) map.getSource('route')?.setData(routeData); });
@@ -165,7 +193,7 @@
 <div class="sm-wrap">
   <div bind:this={el} class="sm-map"></div>
   {#if controls}
-    <MapControls located={!!me} {locating} {rotated} top={controlsTop} onlocate={toggleLocate} onnorth={resetNorth} />
+    <MapControls located={compass || !!me} {locating} {rotated} top={controlsTop} bottom={controlsBottom} onlocate={locateCompass ? locate3d : toggleLocate} onnorth={resetNorth} />
   {/if}
   {@render children?.({ me, located, following, heading, toggleLocate, resetNorth, recenter, getMap })}
 </div>

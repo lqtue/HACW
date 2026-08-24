@@ -1,5 +1,5 @@
 import assert from 'node:assert';
-import { routeStats, formatDistance, optimizeRoute, legMeters, legPath, DETOUR, WALK_M_PER_MIN } from './route.js';
+import { routeStats, formatDistance, optimizeRoute, planOrder, legMeters, legPath, DETOUR, WALK_M_PER_MIN } from './route.js';
 import { distanceMeters } from './geo.js';
 import DIST from './data/distances.js';
 import destinations from './data/destinations.json' with { type: 'json' };
@@ -35,6 +35,45 @@ assert.ok(
   'collinear optimum is monotonic (either direction)'
 );
 assert.equal(best.length, line.length); // no stop dropped or duplicated
+
+// optimizeRoute with a start anchor: the walk begins from where you stand. Anchor at the
+// HIGH end of the collinear line → optimal order runs high→low; anchor is never returned.
+const hiEnd = { lat: 15.87, lng: 108.33 + 3 * 0.01 };
+const fromHi = optimizeRoute(line, hiEnd);
+assert.equal(fromHi.length, line.length, 'anchor not added to or dropped from result');
+assert.ok(!fromHi.includes(hiEnd), 'anchor is virtual, never in the result');
+assert.deepEqual(fromHi.map((p) => p.lng), [3, 2, 1, 0].map((k) => 108.33 + k * 0.01), 'starts nearest the anchor');
+// and the anchored total (anchor→chain) is no longer than the same chain unanchored+prefixed
+assert.ok(
+  routeStats([hiEnd, ...fromHi]).meters <= routeStats([hiEnd, ...best]).meters,
+  'anchored order is the shortest walk from the anchor'
+);
+// 2 stops: unanchored is already optimal (returned as-is); anchored still picks the near one first
+assert.equal(optimizeRoute(line.slice(0, 2)).length, 2, '2 stops unanchored: unchanged');
+assert.deepEqual(
+  optimizeRoute([line[0], line[3]], hiEnd).map((p) => p.lng),
+  [108.33 + 3 * 0.01, 108.33],
+  '2 stops anchored: nearest the anchor first'
+);
+
+// planOrder: the live-nav composition. Stops carry ids; "done" is a Set here (passport in app).
+const P = [0, 1, 2, 3].map((k) => ({ id: `s${k}`, lat: 15.87, lng: 108.33 + k * 0.01 }));
+// no anchor yet (no GPS fix) → untouched, same order
+assert.deepEqual(planOrder(P, () => false, undefined).map((s) => s.id), ['s0', 's1', 's2', 's3'], 'no anchor: as-is');
+// anchor at high end, nothing visited → whole chain reordered high→low
+assert.deepEqual(
+  planOrder(P, () => false, hiEnd).map((s) => s.id),
+  ['s3', 's2', 's1', 's0'],
+  'anchor reorders the todo nearest-first'
+);
+// s0 and s1 already visited → they stay put at the FRONT, only the un-visited rest reorders
+const done = new Set(['s0', 's1']);
+assert.deepEqual(
+  planOrder(P, (s) => done.has(s.id), hiEnd).map((s) => s.id),
+  ['s0', 's1', 's3', 's2'],
+  'visited stops kept in place; remaining reorder from the anchor'
+);
+assert.equal(planOrder(P, () => false, hiEnd).length, P.length, 'no stop dropped or duplicated');
 
 // legMeters: known ids resolve to the baked matrix; off-matrix points fall back to haversine×detour.
 const [idA, idB] = DIST.ids;

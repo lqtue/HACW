@@ -11,7 +11,7 @@
    * object seen twice.
    * @type {{ dest: any, index?: number, active?: boolean, mark?: boolean }}
    */
-  let { dest, index, active = false, mark = false } = $props();
+  let { dest, index, active = false, mark = false, query = '' } = $props();
 
   const open = $derived(openLabel(dest));
 </script>
@@ -20,14 +20,14 @@
   <a
     class="thumb"
     class:mark
-    href="{base}/destinations/{dest.id}"
+    href="{base}/destinations/{dest.id}{query}"
     style={mark ? '' : `background: var(--c-${dest.category})`}
   >
     {#if mark}
       <MatCua size={38} color="var(--c-{dest.category})" inner="#fdf6e8" ink="var(--brand-dark)" />
     {:else if index != null}{index}{:else}{categoryIcon(dest.category)}{/if}
   </a>
-  <a class="body" href="{base}/destinations/{dest.id}">
+  <a class="body" href="{base}/destinations/{dest.id}{query}">
     <span class="tag" style="background: var(--c-{dest.category})">{t(categoryLabel(dest.category))}</span>
     <h3>{t(dest.name)} {#if hasStamp(dest.id)}✅{/if}</h3>
     <small>

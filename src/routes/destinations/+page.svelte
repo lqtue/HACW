@@ -23,17 +23,19 @@
 
   let active = $state('all');
   let view = $state('map'); // 'map' | 'list' — Explore offers both, like the picker
-  let showTickets = $state(false);
+  // 'open' and 'tickets' are just other values of `active` (one-click, mutually
+  // exclusive with the categories) — not separate on/off toggles
+  const showTickets = $derived(active === 'tickets');
   // "where to buy?" opens the map as a pure counter-finder: booths only, the 25
   // site pins + their filters/carousel hidden until the visitor asks for them.
   let boothsOnly = $state(false);
-  let openOnly = $state(false);
   let selected = $state(null); // pin tapped -> highlight its card below
 
   // Location lives in SiteMap now; bound here so the booth bar + geo-error banner
   // can read the fix. Requested only when the visitor taps locate.
   let me = $state(null); // { lat, lng, accuracy } once a fix arrives
   let geoErr = $state('');
+  let compass = $state(false); // 3D heading-up locate active → hide the map chrome
   const booth = $derived(me ? nearest(me, tickets) : null);
 
   // Research footfall: recordCell (shared with check-in, in research.svelte.js) buckets
@@ -44,8 +46,8 @@
   // walk-around app; nobody stares at this screen across an opening time.
   const isOpen = (d) => openLabel(d)?.status !== 'closed';
   const shown = $derived(
-    destinations.filter(
-      (d) => (active === 'all' || d.category === active) && (!openOnly || isOpen(d))
+    destinations.filter((d) =>
+      active === 'open' ? isOpen(d) : active === 'all' || active === 'tickets' || d.category === active
     )
   );
   const spotlight = $derived(spotlightIds(stats.counts, destinations));
@@ -83,7 +85,7 @@
       </dl>
       ${badges ? `<div class="badges">${badges}</div>` : ''}
       <div class="acts">
-        <a data-go class="go" href="${base}/destinations/${d.id}">${s('popup_detail')}</a>
+        <a data-go class="go" href="${base}/destinations/${d.id}?from=map">${s('popup_detail')}</a>
         <a class="dir" href="${mapsUrl(d)}" target="_blank" rel="noopener">${s('popup_dir')}</a>
       </div>
     </div>`;
@@ -103,6 +105,7 @@
         label: t(d.name),
         spot: spotlight.has(d.id),
         sel: selected === d.id,
+        done: hasStamp(d.id), // already checked in → ✓ badge
         // closed right now -> faded pin, still tappable
         dim: openLabel(d)?.status === 'closed' ? 0.45 : 1
       }
@@ -139,7 +142,7 @@
       .setLngLat([d.lng, d.lat]).setHTML(popupHtml(d)).addTo(dmap);
     popup.getElement()?.querySelector('[data-go]')?.addEventListener('click', (ev) => {
       ev.preventDefault();
-      goto(`${base}/destinations/${d.id}`);
+      goto(`${base}/destinations/${d.id}?from=map`);
     });
     selected = d.id;
     document.getElementById(`card-${d.id}`)?.scrollIntoView({ behavior: 'smooth', block: 'nearest', inline: 'center' });
@@ -165,7 +168,7 @@
     map.addLayer({
       id: 'booths', type: 'circle', source: 'booths',
       layout: { visibility: 'none' },
-      paint: { 'circle-radius': 6, 'circle-color': '#fffaf3', 'circle-stroke-width': 2, 'circle-stroke-color': gold }
+      paint: { 'circle-radius': 6, 'circle-color': gold, 'circle-stroke-width': 0 }
     });
     addLandmarks(map, byId, { ink, fill: '#fdf6e8' });
 
@@ -183,6 +186,21 @@
     map.on('mouseleave', 'booths', () => (map.getCanvas().style.cursor = ''));
   }
 
+  // ✓ badge on already-checked-in pins — its own symbol layer off the sites source,
+  // so it updates with the same setData and shows at every zoom
+  function onReady(map) {
+    ready = true;
+    map.addLayer({
+      id: 'sites-check', type: 'symbol', source: 'sites',
+      filter: ['==', ['get', 'done'], true],
+      layout: {
+        'text-field': '✓', 'text-font': ['Noto Sans Medium'], 'text-size': 12,
+        'text-offset': [0.85, -0.9], 'text-allow-overlap': true, 'text-ignore-placement': true
+      },
+      paint: { 'text-color': '#fff', 'text-halo-color': '#2f7d76', 'text-halo-width': 2.6 }
+    });
+  }
+
   // A tap gathers every pin within a finger's width -> the ‹ › pager steps them in place.
   function onSite(id, feature, e, map) {
     const { x, y } = e.point;
@@ -195,13 +213,32 @@
   }
 
   onMount(() => {
+    const q = new URLSearchParams(location.search);
     // ?tickets=1 — arriving from "where to buy?": counters on, sites hidden
-    if (new URLSearchParams(location.search).get('tickets') === '1') showTickets = boothsOnly = true;
+    if (q.get('tickets') === '1') boothsOnly = true;
+    // ?view=list — returning from a site opened while in list view
+    if (q.get('view') === 'list') view = 'list';
+    addEventListener('resize', filterMoreRefresh);
+    return () => removeEventListener('resize', filterMoreRefresh);
   });
+
+  // filter row scroll affordance: ‹ when scrolled right, › while more chips sit off-screen
+  let filterEl = $state();
+  let filterMore = $state(false);
+  let filterLess = $state(false);
+  function filterMoreRefresh() {
+    if (!filterEl) { filterMore = filterLess = false; return; }
+    filterLess = filterEl.scrollLeft > 4;
+    filterMore = filterEl.scrollLeft + filterEl.clientWidth < filterEl.scrollWidth - 4;
+  }
+  // recompute when the chip set changes (tickets chip, booths mode) or on first mount
+  $effect(() => { active; view; showTickets; boothsOnly; if (filterEl) filterMoreRefresh(); });
 
   // SiteMap pushes the sites *data*; these log footfall + toggle layer visibility.
   $effect(() => { if (me) recordCell(me); });
-  $effect(() => { if (ready) dmap.setLayoutProperty('booths', 'visibility', showTickets ? 'visible' : 'none'); });
+  $effect(() => { if (ready) dmap.setLayoutProperty('booths', 'visibility', showTickets || boothsOnly ? 'visible' : 'none'); });
+  // showing the counters dims the 25 site pins so the gold booths read
+  $effect(() => { if (ready) dmap.setPaintProperty('sites', 'icon-opacity', showTickets ? 0.2 : ['coalesce', ['get', 'dim'], 1]); });
   $effect(() => { if (ready) dmap.setLayoutProperty('sites', 'visibility', boothsOnly ? 'none' : 'visible'); });
 
 </script>
@@ -217,7 +254,7 @@
         <i class="sw" aria-hidden="true"></i>{t(c.label)}
       </button>
     {/each}
-    <button class="chip" aria-pressed={openOnly} onclick={() => (openOnly = !openOnly)}>🕑 {s('filter_open')}</button>
+    <button class="chip" aria-pressed={active === 'open'} onclick={() => (active = 'open')}>{s('filter_open')}</button>
   {/snippet}
 
   <div class="wrap">
@@ -225,11 +262,14 @@
       {siteData}
       bind:me
       bind:geoErr
+      bind:compass
       fitBounds={allBounds}
       fitPadding={40}
       controls={boothsOnly || view === 'map'}
-      controlsTop="calc(env(safe-area-inset-top) + 56px)"
-      attributionPos="top-left"
+      controlsBottom="calc(env(safe-area-inset-bottom) + 88px)"
+      locateCompass
+      followZoom={17.5}
+      attributionPos="bottom-left"
       sitesLayout={{
         'icon-size': ['interpolate', ['linear'], ['zoom'],
           14, ['case', ['==', ['get', 'sel'], true], 0.82, 0.6],
@@ -248,31 +288,51 @@
         'text-opacity': ['interpolate', ['linear'], ['zoom'], 16.2, 0, 16.8, 1]
       }}
       oninit={onInit}
-      onready={() => (ready = true)}
+      onready={onReady}
       onsiteclick={onSite}
     />
+    <!-- switch + filter bar float top-centre over the full-page map in BOTH modes,
+         exactly like the pick last-3 view. Hidden while the 3D locate is engaged so
+         the map reads clean, Google-Maps style. -->
+    {#if !compass}
     {#if !boothsOnly}
       <div class="view-fab"><ViewToggle bind:mode={view} /></div>
     {/if}
 
+    <div class="filterbar">
+      {#if filterLess}
+        <button class="fmore fless" aria-label={s('back')} onclick={() => filterEl?.scrollBy({ left: -160, behavior: 'smooth' })}>‹</button>
+      {/if}
+      <div class="chips" bind:this={filterEl} onscroll={filterMoreRefresh}>
+        {#if boothsOnly}
+          <button class="chip" onclick={() => (boothsOnly = false)}>🗺️ {s('show_all_sites')}</button>
+        {:else}
+          {@render catChips()}
+          {#if view === 'map'}
+            <button class="chip cat" style="--c: var(--gold)" aria-pressed={active === 'tickets'} onclick={() => (active = 'tickets')}>{s('ticket_points')}</button>
+          {/if}
+        {/if}
+      </div>
+      {#if filterMore}
+        <button class="fmore" aria-label={s('scroll_more')} onclick={() => filterEl?.scrollBy({ left: 160, behavior: 'smooth' })}>›</button>
+      {/if}
+    </div>
+
     {#if !boothsOnly && view === 'list'}
-      <!-- list view: the same filtered sites as full-width cards; map stays mounted behind -->
+      <!-- list view: cards scroll under the floating switch/filter; map stays mounted behind -->
       <div class="listview">
-        <div class="chips">{@render catChips()}</div>
         <div class="vlist">
           {#each shown as dest}
-            <Card {dest} mark active={selected === dest.id} />
+            <Card {dest} mark active={selected === dest.id} query="?from=list" />
           {/each}
           {#if shown.length === 0}<p class="muted empty">{s('no_sites')}</p>{/if}
         </div>
       </div>
     {/if}
 
-    {#if boothsOnly || view === 'map'}
-      <!-- bottom sheet floats over the map edge: filters, counter bar, site cards. -->
+    {#if (boothsOnly || view === 'map') && (stack.length > 1 || geoErr || booth)}
+      <!-- thin bottom bar: only the site pager + nearest-counter line (filters moved up) -->
       <div class="sheet">
-        <span class="handle" aria-hidden="true"></span>
-
         {#if stack.length > 1}
           <div class="stack">
             <button class="stack-nav" onclick={() => step(-1)} aria-label={s('prev_site')}>‹</button>
@@ -280,15 +340,6 @@
             <button class="stack-nav" onclick={() => step(1)} aria-label={s('next_site')}>›</button>
           </div>
         {/if}
-
-        <div class="chips">
-          {#if boothsOnly}
-            <button class="chip" onclick={() => (boothsOnly = false)}>🗺️ {s('show_all_sites')}</button>
-          {:else}
-            {@render catChips()}
-            <button class="chip" aria-pressed={showTickets} onclick={() => (showTickets = !showTickets)}>🎟️ {s('ticket_points')}</button>
-          {/if}
-        </div>
 
         {#if geoErr}
           <p class="geo-err"><small>{geoErr}</small></p>
@@ -300,6 +351,7 @@
         {/if}
       </div>
     {/if}
+    {/if}
   </div>
 </div>
 
@@ -309,22 +361,54 @@
      gets that strip of height back. */
   .explore { flex: 1; display: flex; flex-direction: column; min-height: 0; }
   .wrap { flex: 1; min-height: 0; position: relative; }
+  /* keep the ⓘ credit clear of the floating nav pill (bottom-left, above the nav) */
+  .wrap :global(.maplibregl-ctrl-bottom-left) { bottom: calc(env(safe-area-inset-bottom) + 80px); }
 
   /* list|map toggle, floating top-centre over the map */
+  /* switch + filter share --map-topbar-w (nav-pill width) and centre — edit the token */
   .view-fab {
     position: absolute; z-index: 620;
-    top: calc(env(safe-area-inset-top) + 14px); left: 50%; transform: translateX(-50%);
-    width: min(260px, 64%);
+    top: calc(env(safe-area-inset-top) + 14px); left: 0; right: 0;
+    margin-inline: auto; width: var(--map-topbar-w);
     box-shadow: var(--shadow); border-radius: 999px;
   }
-  /* list view: full-height panel over the (still-mounted) map */
+  /* filter bar floats just under the switch, over the map, in both modes (like pick).
+     One scrolling row; chips get an opaque fill + soft shadow so they read over the map. */
+  .filterbar {
+    position: absolute; z-index: 615;
+    top: calc(env(safe-area-inset-top) + 60px); left: 0; right: 0;
+    margin-inline: auto; max-width: var(--map-topbar-w);
+  }
+  .filterbar .chips { padding: 2px 2px 4px; }
+  /* › scroll affordance — pinned to the right edge over a fade, shown only when more
+     chips sit off-screen (filterMore) */
+  .fmore {
+    position: absolute; top: 0; bottom: 4px; right: 0;
+    width: 40px; border: 0; cursor: pointer;
+    display: grid; place-items: center;
+    font-size: 1.4rem; font-weight: 700; line-height: 1; color: var(--brand-dark);
+    padding-right: 2px;
+    background: linear-gradient(to right, transparent, var(--surface) 55%);
+  }
+  .fmore.fless {
+    right: auto; left: 0; padding-right: 0; padding-left: 2px;
+    background: linear-gradient(to left, transparent, var(--surface) 55%);
+  }
+  .fmore:focus-visible { outline: 2px solid var(--brand); outline-offset: 2px; }
+  /* higher specificity than the base .chips .chip (defined later) so resting chips
+     get an opaque fill over the map; the pressed-fill rules still win over this */
+  .filterbar .chips :global(.chip) {
+    background: var(--surface);
+    box-shadow: 0 2px 8px rgba(60, 30, 20, 0.14);
+  }
+  /* list view: full-height panel over the (still-mounted) map, scrolling under the
+     floating switch + filter row */
   .listview {
     position: absolute; inset: 0; z-index: 610;
     background: var(--bg); overflow-y: auto;
-    padding: calc(env(safe-area-inset-top) + 66px) 14px calc(90px + env(safe-area-inset-bottom));
+    padding: calc(env(safe-area-inset-top) + 112px) 14px calc(90px + env(safe-area-inset-bottom));
     display: flex; flex-direction: column; gap: 12px;
   }
-  .listview .chips { flex: 0 0 auto; }
   .vlist { display: flex; flex-direction: column; gap: 10px; }
 
   .sr-only {
@@ -335,29 +419,21 @@
 
   /* clears the fixed language pill (top-right) and the notch */
 
-  /* The map is a printed plan, so the sheet is the sheet of paper it is printed
-     on: flat stock, a hairline rule instead of frosted glass and a soft glow.
-     Scoped overrides only — .chip and .card keep their app-wide look elsewhere. */
+  /* thin floating bar (pager + nearest-counter line) — sits above the floating nav
+     pill, centred to match it. Filters live in the top floating bar now. */
   .sheet {
     position: absolute;
-    left: 0; right: 0; bottom: 0;
+    left: 12px; right: 12px; bottom: calc(env(safe-area-inset-bottom) + 74px);
+    max-width: 460px; margin: 0 auto;
     z-index: 600; /* above the map canvas and its controls */
     display: flex;
     flex-direction: column;
-    max-height: 62%;
-    background: color-mix(in srgb, var(--surface) 86%, transparent);
+    background: color-mix(in srgb, var(--surface) 92%, transparent);
     backdrop-filter: blur(14px) saturate(1.2);
-    border-top: 1px solid color-mix(in srgb, var(--brand-dark) 22%, transparent);
-    border-radius: 18px 18px 0 0;
-    box-shadow: 0 -8px 30px -22px rgba(40, 12, 6, 0.75);
-    padding-bottom: max(2px, env(safe-area-inset-bottom));
-  }
-  .handle {
-    display: block;
-    width: 34px; height: 2px;
-    margin: 7px auto 0;
-    border-radius: 0;
-    background: color-mix(in srgb, var(--brand-dark) 25%, transparent);
+    border: 1px solid color-mix(in srgb, var(--brand-dark) 18%, transparent);
+    border-radius: 14px;
+    box-shadow: var(--shadow-lift);
+    overflow: hidden;
   }
   /* one scrolling row, not a wrapping block — wrapping ate three lines of height
      and shoved the map off the top. Now the filters read like a map app's. */
@@ -388,10 +464,17 @@
     text-transform: uppercase;
     color: var(--brand-dark);
   }
-  .chips :global(.chip[aria-pressed='true']) {
-    background: var(--c, var(--brand-dark));
-    border-color: var(--c, var(--brand-dark));
+  /* pressed cat chip wears its own accent; the neutral chips (all / open filter) have
+     no category colour, so their pressed state stays on the chip's own bg with a solid
+     ink keyline — a brand-dark fill read as if "all" carried the di-tich accent */
+  .chips :global(.chip.cat[aria-pressed='true']) {
+    background: var(--c);
+    border-color: var(--c);
     color: var(--paper);
+  }
+  .chips :global(.chip[aria-pressed='true']) {
+    border-color: var(--brand-dark);
+    color: var(--brand-dark);
   }
   /* the legend swatch: same colour the site's mark is drawn in on the map */
   .chips :global(.chip.cat) { display: inline-flex; align-items: center; gap: 7px; }

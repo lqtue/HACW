@@ -12,7 +12,7 @@
   // picks (gold rim) and the dashed route joining them — sits dimmed as context.
   // Tap a pin → a popup with Add / Remove. All the map machinery is SiteMap.
   const clamp = (str, n = 90) => (str.length > n ? str.slice(0, n - 1).trimEnd() + '…' : str);
-  let { eligible = [], picked = [], catFilter = null, onpick, controlsTop = '10px' } = $props();
+  let { eligible = [], picked = [], catFilter = null, onpick, controlsTop = '10px', controlsBottom = null } = $props();
 
   const byId = Object.fromEntries(destinations.map((d) => [d.id, d]));
   const eligibleSet = $derived(new Set(eligible));
@@ -129,6 +129,8 @@
     {siteData}
     {routeData}
     {controlsTop}
+    {controlsBottom}
+    attributionPos="bottom-left"
     fitBounds={bounds}
     fitPadding={34}
     routePaint={{ 'line-color': brand, 'line-width': 3, 'line-dasharray': [1.6, 1.4], 'line-opacity': 0.35 }}
@@ -166,9 +168,11 @@
   .bmap-wrap {
     position: relative;
     width: 100%; height: 100%;
-    border-radius: 16px; overflow: hidden;
-    background: var(--paper); border: 1px solid var(--line);
+    overflow: hidden;
+    background: var(--paper);
   }
+  /* ⓘ credit rides just above the floating bottom block */
+  .bmap-wrap :global(.maplibregl-ctrl-bottom-left) { bottom: calc(196px + env(safe-area-inset-bottom)); }
 
   /* stack pager: "1 / N in this area" — floats over the map's bottom edge, matching
      the Explore map's pager so overlapping sites step in place instead of clustering */

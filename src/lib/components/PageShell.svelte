@@ -7,7 +7,9 @@
   // Styling is the global `.topbar` / `.page` in app.css.
   // `back` opts a page into a ← button: pass `true` to go back in history
   // (falls back to the map on a deep link), or a path string to go somewhere specific.
-  let { title, sub = '', back = null, children } = $props();
+  // `fill`: make the page column grow to the viewport bottom, so a child with
+  // flex:1 can pin its footer to the bottom edge (destination check-in screen).
+  let { title, sub = '', back = null, fill = false, children } = $props();
 
   // `history.length > 1` also counts the tab's blank entry / an external referrer, so
   // history.back() there walks out of the app to a blank page. `nav.from` is set only
@@ -22,14 +24,16 @@
   }
 </script>
 
-<div class="topbar" class:has-back={back}>
-  {#if back}
-    <button class="tb-back" onclick={goBack} aria-label={s('back')}>←</button>
-  {/if}
-  <h1>{title}</h1>
-  {#if sub}<small>{sub}</small>{/if}
-</div>
-<div class="page">{@render children()}</div>
+{#if title || sub || back}
+  <div class="topbar" class:has-back={back}>
+    {#if back}
+      <button class="tb-back" onclick={goBack} aria-label={s('back')}>←</button>
+    {/if}
+    <h1>{title}</h1>
+    {#if sub}<small>{sub}</small>{/if}
+  </div>
+{/if}
+<div class="page" class:fill>{@render children()}</div>
 
 <style>
   .topbar.has-back { display: grid; grid-template-columns: auto 1fr; column-gap: 12px; align-items: center; }
@@ -42,4 +46,6 @@
     font-size: 1.3rem; line-height: 1;
   }
   .tb-back:focus-visible { outline: 2px solid var(--brand); outline-offset: 2px; }
+  /* fill the rest of the 100dvh .app column, so a flex:1 child docks its footer at the bottom */
+  :global(.page).fill { flex: 1 1 auto; min-height: 0; display: flex; flex-direction: column; }
 </style>

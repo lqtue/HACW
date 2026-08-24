@@ -27,15 +27,18 @@
     return tour ? ds : optimizeRoute(ds); // a saved plan is already ordered; belt + braces
   });
   const title = $derived(tour ? tour.title : s('route_label'));
+  // where a check-in should return to continue the route (this /go screen), so the
+  // stamp screen's primary button resumes the tour instead of going to the passport
+  const returnTo = $derived(`${base}/go${setId ? `?set=${setId}` : ''}`);
 
   function close() {
-    if (browser && history.length > 1) history.back();
-    else goto(base + (tour ? `/tours/${tour.id}` : '/'));
+    goto(base + '/passport'); // Thoát → Sổ tay
   }
 </script>
 
 {#if browser && stops.length}
-  <TourNav {stops} {title} {demo} {demoIdx} onclose={close} />
+  <!-- reorder: the saved plan re-optimizes from live GPS; a curated tour keeps its order -->
+  <TourNav {stops} {title} {demo} {demoIdx} {returnTo} reorder={!tour && !demo} onclose={close} />
 {:else if browser}
   <!-- no ?set and an empty saved plan: send them to build one -->
   <div class="go-empty">

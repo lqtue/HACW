@@ -125,6 +125,10 @@
       {
         "label": "Checked in + stamp",
         "path": "/destinations/chua-cau?demo=done"
+      },
+      {
+        "label": "Checked in — in a tour",
+        "path": "/destinations/chua-cau?demo=done&nav=%2Fgo%3Fset%3Dnha-co-va-nghe-xua"
       }
     ]
   },

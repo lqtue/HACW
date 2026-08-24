@@ -2,7 +2,7 @@
   import { base } from '$app/paths';
   import { goto } from '$app/navigation';
   import destinations from '$lib/data/destinations.json';
-  import { stitchRoute, formatDistance } from '$lib/route.js';
+  import { stitchRoute, formatDistance, planOrder } from '$lib/route.js';
   import { distanceMeters, bearing } from '$lib/geo.js';
   import { hasStamp } from '$lib/passport.svelte.js';
   import { t, i18n } from '$lib/i18n.svelte.js';
@@ -16,16 +16,46 @@
   // straight-line distance down live, and an arrow points the way (bearing to the stop,
   // de-rotated by the map so "up" is up). "Next" = first un-stamped stop, so checking one
   // in advances the guidance on its own; the ‹ › let you override.
-  /** @type {{ stops: any[], title?: any, onclose: () => void }} */
+  /** @type {{ stops: any[], title?: any, onclose: () => void, reorder?: boolean }} */
   // demo (board only): fake the visitor's position so the nav card can be shown in each
   // state without GPS. 'far' = en route (arrow + distance), 'arrive' = at the stop
   // (✓ + check-in), 'done' = whole set finished. demoIdx picks which stop to target.
-  let { stops, title, onclose, demo = '', demoIdx = 0 } = $props();
+  // reorder: re-optimize the *remaining* stops from the visitor's live position (the
+  // saved plan — a curated tour keeps its authored order, so /go passes reorder=false).
+  let { stops, title, onclose, demo = '', demoIdx = 0, reorder = false, returnTo = '' } = $props();
+
+  // check-in target URL, carrying where to return so the stamp screen can resume the route
+  const checkinUrl = (id) => `${base}/destinations/${id}${returnTo ? `?nav=${encodeURIComponent(returnTo)}` : ''}`;
+
+  let me = $state(null); // live GPS fix, bound from SiteMap (also used for the anchor below)
+
+  // Re-anchor point for the reorder: set on the first fix and again after each check-in
+  // (the done-count changes), never on every GPS tick — otherwise noisy old-town GPS
+  // would flip-flop the stop order under the visitor's finger. Stable between check-ins.
+  let anchor = $state(null);
+  let anchoredAt = $state(-1); // done-count when `anchor` was last set
+  const doneCount = $derived(stops.filter((d) => hasStamp(d.id)).length);
+  $effect(() => {
+    if (!reorder || !me) return;
+    if (anchor == null || doneCount !== anchoredAt) {
+      anchor = { lat: me.lat, lng: me.lng };
+      anchoredAt = doneCount;
+    }
+  });
+
+  // ordered = the walking sequence. Curated tour (reorder=false) → authored order as-is.
+  // Plan with a fix → already-stamped stops kept in place, remaining re-optimized from
+  // the anchor so "next" is the closest sensible stop from where you stand.
+  const ordered = $derived(reorder ? planOrder(stops, (d) => hasStamp(d.id), anchor) : stops);
 
   const stopIds = $derived(new Set(stops.map((d) => d.id)));
-  const numById = $derived(Object.fromEntries(stops.map((d, i) => [d.id, i + 1])));
+  const numById = $derived(Object.fromEntries(ordered.map((d, i) => [d.id, i + 1])));
 
-  const routeData = $derived({ type: 'Feature', geometry: { type: 'LineString', coordinates: stitchRoute(stops) } });
+  // The drawn line follows the route itself — the stops in order, along real streets (the
+  // baked ORS geometry). It does NOT connect to the GPS dot: an off-route straight slash
+  // from your position to a far stop is noise. Just show where you are and let the fixed
+  // line guide you; the top card's arrow + distance handle "which way from here".
+  const routeData = $derived({ type: 'Feature', geometry: { type: 'LineString', coordinates: stitchRoute(ordered) } });
   const bounds = $derived(routeData.geometry.coordinates.reduce(
     (b, [lng, lat]) => [
       [Math.min(b[0][0], lng), Math.min(b[0][1], lat)],
@@ -48,7 +78,7 @@
           icon: `pin-${d.category}${on ? '-spot' : ''}`,
           label: on ? (done ? '✓' : String(numById[d.id])) : '',
           on,
-          dim: on ? (done ? 0.55 : 1) : 0.28
+          dim: on ? (done ? 0.35 : 1) : 0.28
         }
       };
     })
@@ -62,10 +92,10 @@
   let heading = $state(null);   // bound from SiteMap: device heading, deg CW from N
   let headingUp = $state(false);// opt-in: rotate the map to face the way you walk (Google-style)
   let navMap = $state(null);
-  const autoIdx = $derived(Math.max(0, stops.findIndex((d) => !hasStamp(d.id))));
+  const autoIdx = $derived(Math.max(0, ordered.findIndex((d) => !hasStamp(d.id))));
   const allDone = $derived(stops.length > 0 && stops.every((d) => hasStamp(d.id)));
-  const idx = $derived(manualIdx != null ? Math.min(manualIdx, stops.length - 1) : autoIdx);
-  const target = $derived(stops[idx]);
+  const idx = $derived(manualIdx != null ? Math.min(manualIdx, ordered.length - 1) : autoIdx);
+  const target = $derived(ordered[idx]);
 
   function dist(me) {
     return me && target ? distanceMeters(me, { lat: target.lat, lng: target.lng }) : null;
@@ -114,6 +144,8 @@
     followZoom={17.5}
     autoLocate
     controls={false}
+    attributionPos="bottom-left"
+    bind:me
     bind:heading
     onready={onmapready}
     sitesLayout={{
@@ -127,9 +159,9 @@
       'text-halo-color': dark ? '#241a16' : '#fff7ef',
       'text-halo-width': 2
     }}
-    onsiteclick={(id) => goto(`${base}/destinations/${id}`)}
+    onsiteclick={(id) => goto(checkinUrl(id))}
   >
-    {#snippet children({ me, located, following, recenter })}
+    {#snippet children({ located, following, recenter })}
       {@const m = demo ? demoMe : me}
       {@const d = dist(m)}
       {@const here = arrived(m)}
@@ -169,20 +201,25 @@
       <!-- BOTTOM: two buttons floating on the map (no sheet). Check-in lights up only
            within range; Exit always. -->
       <div class="tn-actions">
-        {#if !finished && target}
-          {#if d == null}
-            <!-- no fix yet: routing needs GPS — offer to turn it on -->
-            <button class="tn-checkin lit" onclick={recenter}>{s('nav_enable')}</button>
-          {:else}
-            <button
-              class="tn-checkin"
-              class:lit={here}
-              disabled={!here}
-              onclick={() => goto(`${base}/destinations/${target.id}`)}
-            >{s('nav_here')}</button>
+        {#if finished}
+          <!-- whole set done: one full-width primary to the passport -->
+          <button class="tn-checkin lit" onclick={() => goto(base + '/passport')}>{s('nav_seepassport')}</button>
+        {:else}
+          {#if target}
+            {#if d == null}
+              <!-- no fix yet: routing needs GPS — offer to turn it on -->
+              <button class="tn-checkin lit" onclick={recenter}>{s('nav_enable')}</button>
+            {:else}
+              <button
+                class="tn-checkin"
+                class:lit={here}
+                disabled={!here}
+                onclick={() => goto(checkinUrl(target.id))}
+              >{s('nav_here')}</button>
+            {/if}
           {/if}
+          <button class="tn-exit" onclick={onclose}>{s('nav_exit')}</button>
         {/if}
-        <button class="tn-exit" onclick={onclose}>{s('nav_exit')}</button>
       </div>
     {/snippet}
   </SiteMap>
@@ -227,6 +264,8 @@
     left: 12px; right: 12px; bottom: calc(env(safe-area-inset-bottom) + 16px);
     display: flex; align-items: center; justify-content: flex-end; gap: 10px;
   }
+  /* ⓘ credit rides just above the check-in button, bottom-left */
+  .tournav :global(.maplibregl-ctrl-bottom-left) { bottom: calc(env(safe-area-inset-bottom) + 76px); }
   /* check-in: dim + not tappable until in range, lights up (full brand) when here */
   .tn-checkin {
     flex: 1 1 auto; border: 0; cursor: pointer;

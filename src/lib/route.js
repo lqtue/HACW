@@ -85,14 +85,23 @@ export function routeStats(stops) {
  * Reorder stops for the shortest walk (open path — you don't loop back to the start).
  * A 5-stop ticket is a tiny TSP: brute-force every permutation is exact and instant.
  * Every caller feeds ≤5 stops (1+1+3 ticket, themed sets); n! is fine at that size.
- * @param {{lat:number,lng:number}[]} stops
+ *
+ * Pass `start` (e.g. a live GPS fix) to anchor the walk to where the visitor stands:
+ * it's pinned as a virtual node 0 that costs distance but is never permuted or
+ * returned — so the result is the shortest order *from your current position*.
+ * `start` need not be in the distance matrix; `legMeters` falls back to straight-line.
+ * @param {{lat:number,lng:number,id?:string}[]} stops
+ * @param {{lat:number,lng:number}} [start] optional anchor, not included in the result
  */
-export function optimizeRoute(stops) {
-  if (stops.length <= 2) return stops.slice();
-  let best = stops, bestD = pathLen(stops);
+export function optimizeRoute(stops, start) {
+  const pin = start ? [start] : [];
+  if (stops.length <= 1) return stops.slice();
+  // with an anchor even 2 stops have two distinct orders; without one, ≤2 is already optimal
+  if (!start && stops.length <= 2) return stops.slice();
+  let best = stops, bestD = pathLen([...pin, ...stops]);
   const perm = (arr, cur) => {
     if (!arr.length) {
-      const d = pathLen(cur);
+      const d = pathLen([...pin, ...cur]);
       if (d < bestD) { bestD = d; best = cur; }
       return;
     }
@@ -100,6 +109,21 @@ export function optimizeRoute(stops) {
   };
   perm(stops, []);
   return best;
+}
+
+/**
+ * Walking order for the live nav (the saved plan). Already-visited stops stay put at the
+ * front (you've been there); the rest are re-optimized from `anchor` (your GPS fix) so the
+ * next target is the closest sensible stop from where you stand. No anchor → order as-is.
+ * `isDone(stop)` is the visited test (passport in the app, a Set in the test) — kept as a
+ * param so this stays pure and node-testable.
+ * @param {any[]} stops @param {(s:any)=>boolean} isDone @param {{lat:number,lng:number}} [anchor]
+ */
+export function planOrder(stops, isDone, anchor) {
+  if (!anchor) return stops.slice();
+  const done = stops.filter(isDone);
+  const todo = stops.filter((s) => !isDone(s));
+  return [...done, ...optimizeRoute(todo, anchor)];
 }
 
 /** "1,2 km" / "450 m" */

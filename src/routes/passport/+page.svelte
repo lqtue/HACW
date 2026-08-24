@@ -10,6 +10,7 @@
   import LangSwitch from '$lib/components/LangSwitch.svelte';
   import InstallApp from '$lib/components/InstallApp.svelte';
   import MatCua from '$lib/components/MatCua.svelte';
+  import Icon from '$lib/components/Icon.svelte';
   import {
     passport,
     hasStamp,
@@ -22,7 +23,7 @@
     restoreFromHash
   } from '$lib/passport.svelte.js';
   import { plan } from '$lib/plan.svelte.js';
-  import { POINTS, breakdown, tierFor, nextTier } from '$lib/score.js';
+  import { POINTS, breakdown } from '$lib/score.js';
   import { t, i18n } from '$lib/i18n.svelte.js';
   import { s } from '$lib/strings.js';
 
@@ -31,13 +32,12 @@
 
   const count = $derived(passport.stamps.length);
   const score = $derived(breakdown(passport.stamps, tours, total));
-  const rank = $derived(tierFor(score.total, rewards));
-  const next = $derived(nextTier(score.total, rewards));
 
   // Your route = the 5 you built (plan.set). Progress is against it, not all 25.
   const routeSize = $derived(plan.set.length || 5);
   const routeDone = $derived(plan.set.filter((id) => hasStamp(id)).length);
   const routePct = $derived(Math.round((routeDone / routeSize) * 100));
+  const routeComplete = $derived(plan.set.length > 0 && routeDone >= plan.set.length);
   const slotList = $derived(Array.from({ length: 5 }, (_, i) => plan.set[i] ?? null));
 
   // Tour/set progress rows (grouped list) — a set is what earns a voucher.
@@ -54,8 +54,9 @@
   // tour list fold away. They auto-OPEN only when something is claimable, so an action
   // the visitor needs (claim a reward, redeem a completed set) is never hidden.
   const claimableRewards = $derived(rewards.filter((r) => score.total >= r.points && !isRedeemed(r.id)));
+  // cheapest reward still out of reach → how many points to the next one
+  const nextReward = $derived([...rewards].filter((r) => r.points > score.total).sort((a, b) => a.points - b.points)[0]);
   const claimableTours = $derived(setRows.filter((x) => x.complete && !isRedeemed(x.tour.id)));
-  const toursDone = $derived(setRows.filter((x) => x.complete).length);
 
   // --- backup & recovery ---
   let notice = $state('');
@@ -98,24 +99,16 @@
 <div class="pp">
   <header class="head">
     <h1>{s('passport_title')}</h1>
-    <p class="code-label">{s('code_label')}</p>
-    <p class="code">{prettyCode()}</p>
   </header>
 
-  <!-- change display language here (vi/en switch content; others use browser Translate) -->
-  <details class="fold">
-    <summary>{s('lang_switch')} · {i18n.lang.toUpperCase()}</summary>
-    <LangSwitch />
-  </details>
-
-  <!-- Your route (the built 5) -->
-  <section class="rcard">
-    <div class="rhead">
-      <strong>{s('route_label')}</strong>
-      <span class="rprog">{routeDone} / {routeSize}</span>
-    </div>
-    <div class="pbar"><i style="width: {routePct}%"></i></div>
-    {#if plan.set.length}
+  <!-- Your route (the built 5) — tap to resume the walking nav -->
+  {#if plan.set.length}
+    <a class="rcard" href="{base}{routeComplete ? '/tours' : '/go'}">
+      <div class="rhead">
+        <strong>{routeComplete ? s('route_more') : s('route_resume')}</strong>
+        <span class="rprog">{routeDone} / {routeSize}</span>
+      </div>
+      <div class="pbar"><i style="width: {routePct}%"></i></div>
       <div class="slots" aria-hidden="true">
         {#each slotList as id, i (i)}
           {#if id}
@@ -129,19 +122,44 @@
           {/if}
         {/each}
       </div>
-    {:else}
-      <a class="route-empty" href="{base}/">{s('route_empty')} →</a>
-    {/if}
-  </section>
+    </a>
+  {:else}
+    <section class="rcard">
+      <div class="rhead">
+        <strong>{s('route_label')}</strong>
+        <span class="rprog">{routeDone} / {routeSize}</span>
+      </div>
+      <div class="pbar"><i style="width: {routePct}%"></i></div>
+      <a class="route-empty" href="{base}/">{s('route_empty')}</a>
+    </section>
+  {/if}
 
-  <!-- Points — the headline metric, up top -->
-  <div class="list">
-    <div class="row">
-      <span class="rbody">
-        <b>{score.total} {s('points')}</b>
-        <small>{rank ? t(rank.title) : s('no_rank')}{#if next} · {s('next_rank', next.points - score.total, t(next.title))}{/if}</small>
-      </span>
-      <span class="pill muted">{count}/{total} ✓</span>
+  <!-- Rewards — points headline merged in. Summary counts down to the next reward;
+       opens itself when a tier is claimable. How points work lives here too. -->
+  <details class="fold" open={claimableRewards.length > 0}>
+    <summary>{nextReward ? s('pts_to_reward', nextReward.points - score.total) : s('rewards_title')}{#if claimableRewards.length} · {claimableRewards.length} ✓{/if}</summary>
+    <div class="list flush">
+      <div class="row">
+        <span class="rbody"><b>{score.total} {s('points')}</b></span>
+        <span class="pill muted">{count}/{total} ✓</span>
+      </div>
+      {#each rewards as r (r.id)}
+        {@const unlocked = score.total >= r.points}
+        {@const taken = isRedeemed(r.id)}
+        <div class="row">
+          <span class="rbody">
+            <b>{t(r.reward)}</b>
+            <small>{s('reward_locked', r.points)}</small>
+          </span>
+          {#if taken}
+            <span class="pill good"><Icon name="check" size={13} /> {s('reward_taken')}</span>
+          {:else if unlocked}
+            <StaffConfirm label={s('claim')} onconfirm={() => redeemSet(r.id)} />
+          {:else}
+            <span class="pill muted">{s('r_locked')}</span>
+          {/if}
+        </div>
+      {/each}
     </div>
     <details class="row-details">
       <summary>{s('score_how')}</summary>
@@ -153,35 +171,11 @@
         <li><b>{s('earned', POINTS.allSites)}</b> · {s('pt_all', total)}</li>
       </ul>
     </details>
-  </div>
-
-  <!-- Rewards ladder — folded; opens itself when a tier is claimable -->
-  <details class="fold" open={claimableRewards.length > 0}>
-    <summary>{s('rewards_title')}{#if claimableRewards.length} · {claimableRewards.length} ✓{/if}</summary>
-    <div class="list flush">
-      {#each rewards as r (r.id)}
-        {@const unlocked = score.total >= r.points}
-        {@const taken = isRedeemed(r.id)}
-        <div class="row">
-          <span class="rbody">
-            <b>{t(r.reward)}</b>
-            <small>{s('reward_locked', r.points)}</small>
-          </span>
-          {#if taken}
-            <span class="pill good">✓ {s('reward_taken')}</span>
-          {:else if unlocked}
-            <StaffConfirm label={s('claim')} onconfirm={() => redeemSet(r.id)} />
-          {:else}
-            <span class="pill muted">{s('r_locked')}</span>
-          {/if}
-        </div>
-      {/each}
-    </div>
   </details>
 
   <!-- Tour sets — folded; opens itself when a completed set can be redeemed -->
   <details class="fold" open={claimableTours.length > 0}>
-    <summary>{s('tours')} · {toursDone}/{tours.length}</summary>
+    <summary>{s('tours')}</summary>
     <div class="list flush">
       {#each setRows as { tour, stops, done, complete } (tour.id)}
         <a class="row" href="{base}/tours/{tour.id}">
@@ -193,9 +187,9 @@
             <small>{done}/{stops.length}{#if complete} · {isRedeemed(tour.id) ? s('reward_taken') : s('set_complete')}{/if}</small>
           </span>
           {#if isRedeemed(tour.id)}
-            <span class="pill good">✓</span>
+            <span class="pill good"><Icon name="check" size={13} /></span>
           {:else if complete}
-            <span class="pill gold">🎁</span>
+            <span class="pill gold"><Icon name="ticket" size={14} /></span>
           {/if}
         </a>
       {/each}
@@ -204,7 +198,7 @@
 
   <!-- All sites (secondary) -->
   <details class="fold">
-    <summary>{s('all_sites')} · {count}/{total}</summary>
+    <summary>{s('all_sites')}</summary>
     <div class="grid">
       {#each destinations as d (d.id)}
         {@const got = hasStamp(d.id)}
@@ -216,37 +210,45 @@
     </div>
   </details>
 
-  <!-- Recovery (secondary) -->
+  <!-- Settings: language, recovery, study consent, install -->
   <details class="fold">
-    <summary>{s('backup_title')}</summary>
-    <div class="backup">
-      <p class="hint">{s('backup_hint')}</p>
-      <div class="codebox">
-        <span class="pid">{prettyCode()}</span>
-        <button class="btn secondary" onclick={() => copy(prettyCode(), s('copied'))}>{s('copy')}</button>
-      </div>
-      <button class="btn secondary wide" onclick={() => copy(backupLink(), s('copied'))}>🔗 {s('copy_link')}</button>
-      <details>
-        <summary>{s('restore')}</summary>
-        <input class="code-in" bind:value={code} placeholder="XXXX-XXXX" autocapitalize="characters" />
-        <button class="btn wide" onclick={doRestore} disabled={busy}>{s('restore_do')}</button>
+    <summary>{s('pp_more')}</summary>
+    <div class="settings">
+      <details class="sub">
+        <summary>{s('lang_switch')} · {i18n.lang.toUpperCase()}</summary>
+        <LangSwitch />
       </details>
-      {#if notice}<p class="notice">{notice}</p>{/if}
-      <p class="hint">{s('offline_ok')}</p>
+
+      <details class="sub">
+        <summary>{s('backup_title')}</summary>
+        <div class="backup">
+          <p class="hint">{s('backup_hint')}</p>
+          <p class="code-label">{s('code_label')}</p>
+          <div class="codebox">
+            <span class="pid">{prettyCode()}</span>
+            <button class="btn secondary" onclick={() => copy(prettyCode(), s('copied'))}>{s('copy')}</button>
+          </div>
+          <button class="btn secondary wide" onclick={() => copy(backupLink(), s('copied'))}>{s('copy_link')}</button>
+          <details>
+            <summary>{s('restore')}</summary>
+            <input class="code-in" bind:value={code} placeholder="XXXX-XXXX" autocapitalize="characters" />
+            <button class="btn wide" onclick={doRestore} disabled={busy}>{s('restore_do')}</button>
+          </details>
+          {#if notice}<p class="notice">{notice}</p>{/if}
+          <p class="hint">{s('offline_ok')}</p>
+        </div>
+      </details>
+
+      <details class="sub">
+        <summary>{s('study_note')}</summary>
+        <div class="study-fold"><StudyToggle /></div>
+      </details>
+
+      <InstallApp />
     </div>
   </details>
 
   <NearestBooth />
-
-  <!-- study consent lives here too, always reachable + reversible -->
-  <details class="fold">
-    <summary>{s('study_note')}</summary>
-    <div class="study-fold"><StudyToggle /></div>
-  </details>
-
-  <!-- install to home screen: the passport is where the visitor's stamps + recovery
-       code live, so "keep it offline" belongs here (shows only when installable). -->
-  <InstallApp />
 </div>
 
 <style>
@@ -258,21 +260,14 @@
     gap: 18px;
   }
   .head { display: flex; flex-direction: column; gap: 2px; }
-  .head h1 { margin: 0; font-size: clamp(1.9rem, 7vw, 2.3rem); font-weight: 700; letter-spacing: -0.02em; }
+  .head h1 { margin: 0; font-size: clamp(1.9rem, 7vw, 2.3rem); font-weight: 800; letter-spacing: -0.02em; }
   .code-label {
-    margin: 6px 0 0;
+    margin: 2px 0 -4px;
     font-size: 0.7rem;
     font-weight: 700;
     letter-spacing: 0.08em;
     text-transform: uppercase;
     color: var(--muted);
-  }
-  .code {
-    margin: 0;
-    color: var(--muted);
-    font-weight: 600;
-    letter-spacing: 0.12em;
-    font-variant-numeric: tabular-nums;
   }
 
   /* Your route card */
@@ -284,6 +279,8 @@
     display: flex;
     flex-direction: column;
     gap: 12px;
+    text-decoration: none;
+    color: inherit;
   }
   .rhead { display: flex; align-items: baseline; justify-content: space-between; }
   .rhead strong { font-size: 1.1rem; font-weight: 700; }
@@ -351,6 +348,17 @@
 
   /* a grouped list nested inside a fold: drop its own box, let the fold be the box */
   .fold .list.flush { border: 0; border-radius: 0; background: none; border-top: 1px solid var(--line); }
+
+  /* Settings fold: light sub-folds, dividers instead of nested cards */
+  .settings { border-top: 1px solid var(--line); }
+  .settings .sub { border-top: 1px solid var(--line); }
+  .settings .sub:first-child { border-top: 0; }
+  .settings .sub > summary {
+    padding: 12px 16px; cursor: pointer; font-weight: 600; font-size: 0.92rem; list-style: none;
+  }
+  .settings .sub > summary::-webkit-details-marker { display: none; }
+  .settings .sub > summary::after { content: '▸'; float: right; color: var(--muted); }
+  .settings .sub[open] > summary::after { content: '▾'; }
 
   .grid { display: grid; grid-template-columns: repeat(4, 1fr); gap: 10px; padding: 4px 16px 16px; }
   .stamp { display: grid; justify-items: center; gap: 4px; text-decoration: none; color: inherit; }

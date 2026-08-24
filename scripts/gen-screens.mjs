@@ -66,6 +66,7 @@ const groups = [
       { label: 'Result — correct', path: `/destinations/${SAMPLE}?demo=correct` },
       { label: 'Result — wrong (cooldown)', path: `/destinations/${SAMPLE}?demo=wrong` },
       { label: 'Checked in + stamp', path: `/destinations/${SAMPLE}?demo=done` },
+      { label: 'Checked in — in a tour', path: `/destinations/${SAMPLE}?demo=done&nav=${encodeURIComponent(`/go?set=${tours[0].id}`)}` },
     ],
   },
   {

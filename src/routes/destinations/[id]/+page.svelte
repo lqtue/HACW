@@ -2,10 +2,9 @@
   import { base } from '$app/paths';
   import { getPosition, distanceMeters } from '$lib/geo.js';
   import { pickQuestions } from '$lib/quiz.js';
-  import { categoryLabel, mapsUrl, openLabel } from '$lib/util.js';
-  import { hasStamp, addStamp, track, passport, prettyCode } from '$lib/passport.svelte.js';
+  import { mapsUrl, openLabel } from '$lib/util.js';
+  import { hasStamp, addStamp, track } from '$lib/passport.svelte.js';
   import { stats } from '$lib/stats.svelte.js';
-  import { staff } from '$lib/staff.svelte.js';
   import { recordCell } from '$lib/research.svelte.js';
   import { POINTS, spotlightIds, stampPoints } from '$lib/score.js';
   import destinations from '$lib/data/destinations.json';
@@ -16,10 +15,27 @@
   import StampPress from '$lib/components/StampPress.svelte';
   import PageShell from '$lib/components/PageShell.svelte';
   import { onMount, onDestroy } from 'svelte';
+  import { goto } from '$app/navigation';
   import { ui } from '$lib/ui.svelte.js';
+
+  // back now lives as the sub-action under the check-in button (not a top-bar arrow).
+  // deterministic back (history.back is unreliable / inert in the screens board):
+  // from the tour-nav (?nav set) → back to the nav; else → explore, in the same
+  // view (map/list) the visitor came from (?from)
+  const fromView = typeof location !== 'undefined' ? new URLSearchParams(location.search).get('from') : '';
+  function goBack() {
+    if (navBack) return goto(navBack);
+    goto(base + '/destinations' + (fromView === 'list' ? '?view=list' : ''));
+  }
 
   let { data } = $props();
   const dest = data.dest;
+
+  // ?nav=<url> is set when the check-in was launched from the route screen (/go). If
+  // present, the stamp screen resumes the tour instead of sending the visitor to the
+  // passport — /go auto-advances to the next un-stamped stop on arrival.
+  const navBack =
+    (typeof location !== 'undefined' && new URLSearchParams(location.search).get('nav')) || '';
 
   // ?demo=idle|quiz|done forces a check-in step for the /screens board (and
   // testers), independent of GPS and whether this device already has the stamp —
@@ -31,12 +47,14 @@
   const spotlight = $derived(spotlightIds(stats.counts, destinations).has(dest.id));
   const open = openLabel(dest);
 
-  // Wrong answer costs this many seconds before the quiz can be re-drawn. Makes
-  // tapping through all options slower than walking in and reading the sign.
+  // Wrong answer locks the quiz for a bit before it can be re-drawn — and the lock
+  // GROWS each time (5 s on the 1st wrong, 10 s on the 2nd, +5 s each after) so
+  // guessing gets progressively slower than walking in and reading the sign. Capped.
   // ponytail: client-side only — the answers ship in destinations.json, so a
   // determined visitor can always read them. The real gate is that vouchers are
   // handed over by staff. Move answer-checking into functions/api/ if that changes.
-  const COOLDOWN = 20;
+  const COOLDOWN_STEP = 5;
+  const COOLDOWN_MAX = 30;
 
   // Each step is its own full-viewport screen, one job: info → quiz → result → done.
   //   info states: idle -> locating -> (far | error) ; then quiz
@@ -48,6 +66,7 @@
   let message = $state('');
   let distance = $state(0);
   let cool = $state(0);
+  let wrongCount = $state(0); // wrong taps this visit — drives the escalating cooldown
 
   // quiz bank: draw 2 easy + 1 hard, answer all correctly to earn the stamp
   let questions = $state([]);
@@ -55,7 +74,6 @@
   let lastCorrect = $state(false); // drives the result screen
   let missed = $state(false); // any wrong tap this visit -> no perfect bonus
   let earned = $state(0);
-  let firstStamp = $state(false); // show the recovery code right after stamp #1
 
   async function checkIn() {
     step = 'locating';
@@ -99,28 +117,29 @@
       qIndex = questions.findIndex((q) => q.explain);
       if (qIndex < 0) qIndex = 0;
       lastCorrect = demo === 'correct';
-      if (demo === 'wrong') { missed = true; cool = COOLDOWN; }
+      if (demo === 'wrong') { missed = true; cool = COOLDOWN_STEP; } // sample: first-wrong wait
       step = 'result';
-    } else if (demo === 'done') { earned = 15; missed = false; firstStamp = true; }
+    } else if (demo === 'done') { earned = 15; missed = false; }
     else if (demo === 'far') { distance = dest.radius + 120; } // sample "too far" banner
     else if (demo === 'error') { message = s('geo_denied'); } // sample GPS-denied banner
   });
 
   // Every answer lands on the result screen. A wrong tap throws the whole draw
-  // away and locks the site for COOLDOWN seconds (guessing costs time + the
+  // away and locks the site for an escalating cooldown (guessing costs time + the
   // perfect bonus); the explanation is shown either way.
   function answer(i) {
     lastCorrect = i === questions[qIndex].answer;
     if (!lastCorrect) {
       track('quiz_wrong', dest.id, qIndex);
       missed = true;
+      wrongCount += 1;
       startCooldown();
     }
     step = 'result';
   }
 
   function startCooldown() {
-    cool = COOLDOWN;
+    cool = Math.min(wrongCount * COOLDOWN_STEP, COOLDOWN_MAX); // 5s, 10s, 15s … capped
     const iv = setInterval(() => {
       cool -= 1;
       if (cool <= 0) clearInterval(iv);
@@ -133,7 +152,6 @@
       step = 'quiz';
     } else {
       earned = stampPoints({ perfect: !missed, spotlight });
-      firstStamp = passport.stamps.length === 0;
       addStamp(dest.id, earned);
       step = 'done';
       // the seal lands; give the phone the thump too (no-op where unsupported)
@@ -142,7 +160,9 @@
   }
 </script>
 
-<PageShell title={t(dest.name)} back>
+<!-- no top-bar back anywhere here; only the info screen shows the title — quiz, result
+     and done carry their own heading (question / verdict / stamp), so no top bar there -->
+<PageShell title={onInfo ? t(dest.name) : ''} fill>
   {#if onInfo}
     <!-- SCREEN 1 — the destination: image, name (topbar), description, one CTA -->
     <section class="screen info">
@@ -154,21 +174,13 @@
           </div>
         </div>
 
-        <div class="tags">
-          <span class="tag" style="background: var(--c-{dest.category})">{t(categoryLabel(dest.category))}</span>
-          {#if spotlight}
+        {#if spotlight}
+          <div class="tags">
             <span class="tag spot"><Icon name="spark" size={14} /> {s('spotlight')} {s('earned', POINTS.spotlight)}</span>
-          {/if}
-        </div>
+          </div>
+        {/if}
 
         <p class="desc">{t(dest.description)}</p>
-
-        <!-- info screen does one job: identity + the check-in CTA. Highlights,
-             quiz hints etc. belong to the steps that follow, not this first screen. -->
-        <p class="meta">
-          <span><Icon name="clock" size={15} /> {#if open}<span class="open {open.status}">{open.text}</span> · {/if}{t(dest.hours)}</span>
-          <span><Icon name="pin" size={15} /> {t(dest.address)}</span>
-        </p>
       </div>
 
       <!-- CTA dock: pushed to the bottom of the first screen, always in reach -->
@@ -186,18 +198,18 @@
 
         <!-- secondary (ghost) above, primary (coral) below, sub (link) last —
              the app-wide docked-footer structure -->
-        <a class="btn ghost" href={mapsUrl(dest)} target="_blank" rel="noopener"><Icon name="arrow" size={16} /> {s('directions')}</a>
+        <a class="btn ghost" href={mapsUrl(dest)} target="_blank" rel="noopener">{s('directions')}</a>
 
         {#if step === 'locating'}
           <button class="btn" disabled>{s('locating')}</button>
         {:else if step === 'far'}
           <button class="btn" onclick={checkIn}>{s('retry')}</button>
+        {:else if step === 'error'}
+          <button class="btn" onclick={checkIn}>{s('allow_location')}</button>
         {:else}
-          <button class="btn" onclick={checkIn}><Icon name="pin" size={17} /> {s('checkin')}</button>
+          <button class="btn" onclick={checkIn}>{s('checkin')}</button>
         {/if}
-        {#if staff.on && (step === 'idle' || step === 'error')}
-          <button class="skip" onclick={startQuiz}>{s('simulate')}</button>
-        {/if}
+        <button class="skip" onclick={goBack}>{s('back')}</button>
       </div>
     </section>
   {:else if step === 'quiz'}
@@ -232,13 +244,18 @@
     <!-- SCREEN 3 — the result: right/wrong, why, and Next -->
     {@const q = questions[qIndex]}
     <section class="screen result" class:ok={lastCorrect}>
+      <!-- icon + title are the centered anchor; the explanation/cooldown hang BELOW it
+           (absolute) so the ✓/✕ + title sit at the SAME height whether or not there's
+           explain text (correct screen has none, wrong screen does). -->
       <div class="verdict">
         <span class="rmark" aria-hidden="true">{lastCorrect ? '✓' : '✕'}</span>
         <h2>{lastCorrect ? s('correct_title') : s('wrong_title')}</h2>
-        {#if q?.explain}<p class="explain">{t(q.explain)}</p>{/if}
-        <!-- cooldown note lives with the verdict, so the primary button stays at the
-             same docked height as every other screen -->
-        {#if !lastCorrect && cool > 0}<p class="wait-note">{s('wrong_wait', cool)}</p>{/if}
+        {#if q?.explain || (!lastCorrect && cool > 0)}
+          <div class="verdict-sub">
+            {#if q?.explain}<p class="explain">{t(q.explain)}</p>{/if}
+            {#if !lastCorrect && cool > 0}<p class="wait-note">{s('wrong_wait', cool)}</p>{/if}
+          </div>
+        {/if}
       </div>
 
       <div class="dock">
@@ -247,6 +264,9 @@
         {:else}
           <button class="btn" onclick={startQuiz} disabled={cool > 0}>{s('retry')}</button>
         {/if}
+        <!-- reserve the sub-link row so this primary lands at the SAME height as the
+             info screen's (which has a back link under it) -->
+        <span class="skip sub-ph" aria-hidden="true">&nbsp;</span>
       </div>
     </section>
   {:else if step === 'done'}
@@ -264,17 +284,14 @@
         {#if earned}
           <p class="pts">{s('earned', earned)}{#if !missed} · {s('perfect_bonus')}{/if}</p>
         {/if}
-        {#if firstStamp}
-          <!-- First stamp = the moment the recovery code becomes worth keeping.
-               Screenshotting it is the only backup that survives a cleared browser. -->
-          <div class="banner keepcode">
-            <span class="kc-head"><Icon name="camera" size={16} /> {s('keep_code')}</span>
-            <div class="pid">{prettyCode()}</div>
-          </div>
-        {/if}
       </div>
       <div class="dock">
-        <a class="btn" href="{base}/passport">{s('passport')}</a>
+        {#if navBack}
+          <button class="btn" onclick={() => goto(navBack)}>{s('continue_tour')}</button>
+        {:else}
+          <a class="btn" href="{base}/passport">{s('passport')}</a>
+        {/if}
+        <span class="skip sub-ph" aria-hidden="true">&nbsp;</span>
       </div>
     </section>
   {/if}
@@ -286,15 +303,23 @@
   .screen {
     display: flex;
     flex-direction: column;
-    /* FIXED height (not min-): the docked CTA then lands at the SAME y on every step,
-       so the primary buttons line up screen-to-screen — a longer body (e.g. the "too
-       far" banner) scrolls instead of growing the screen and pushing the dock down. */
-    height: calc(100dvh - 232px);
+    /* fill the (now flex:1) .page column so the docked CTA sits on the bottom edge on
+       every step; a longer body (e.g. the "too far" banner) scrolls inside .info-body
+       instead of pushing the dock off-screen. */
+    flex: 1 1 auto;
+    min-height: 0;
   }
   /* info body takes the slack and scrolls; the dock stays pinned at the bottom */
   .info-body { flex: 1 1 auto; min-height: 0; overflow-y: auto; }
-  .dock { flex: 0 0 auto; margin-top: auto; padding-top: 18px; display: grid; gap: 10px; }
+  /* bottom clearance matches the onboarding screens (32px + safe area) so the docked
+     buttons sit at the same height, not flush against the phone's bottom edge */
+  .dock {
+    flex: 0 0 auto; margin-top: auto;
+    padding-top: 18px; padding-bottom: calc(32px + env(safe-area-inset-bottom));
+    display: grid; gap: 10px;
+  }
   .btn { width: 100%; }
+  .sub-ph { visibility: hidden; } /* invisible spacer: reserves the back-link row height */
   /* sub action — the app-wide underlined muted link under the primary button */
   .skip {
     justify-self: center; margin: 2px 0 0;
@@ -302,10 +327,9 @@
     color: var(--muted); font-family: var(--font-body); font-weight: 600;
     font-size: 0.9rem; text-decoration: underline; text-underline-offset: 3px;
   }
-  .skip.note { text-decoration: none; } /* cooldown countdown: sub text, not a link */
   .btn.ghost {
-    background: none;
-    color: var(--muted);
+    background: var(--surface);
+    color: var(--ink);
     border: 1px solid var(--line);
     font-weight: 600;
   }
@@ -316,6 +340,7 @@
   .hero {
     position: relative;
     height: 160px;
+    flex: 0 0 auto; /* never let the flex column shrink the image when a banner appears */
     border-radius: var(--radius);
     overflow: hidden;
     margin-bottom: 14px;
@@ -346,14 +371,6 @@
   .tags { display: flex; flex-wrap: wrap; gap: 6px; margin-bottom: 12px; }
   .tag.spot { background: var(--gold); color: #4a2f06; }
   .desc { margin: 0 0 4px; font-size: 1.02rem; line-height: 1.6; }
-  .meta {
-    margin: 14px 0 0; display: flex; flex-direction: column; gap: 3px;
-    color: var(--muted); font-size: 0.86rem; line-height: 1.4;
-  }
-  .open { font-weight: 700; }
-  .open.open { color: var(--teal); }
-  .open.soon { color: var(--gold); }
-  .open.closed { color: var(--brand); }
   .spot-note { border-color: color-mix(in srgb, var(--gold) 55%, var(--line)); }
 
   /* ---- quiz screen ---- */
@@ -370,7 +387,7 @@
     border: 1px solid color-mix(in srgb, var(--gold) 30%, var(--line));
     border-radius: var(--radius-sm);
   }
-  .opts { margin-top: auto; display: grid; gap: 10px; }
+  .opts { margin: auto 0; display: grid; gap: 10px; } /* centered mid-page, not pinned to the bottom */
   .opt {
     display: block; width: 100%; text-align: left;
     padding: 16px 18px;
@@ -393,7 +410,12 @@
 
   /* ---- result screen ---- */
   .result { justify-content: center; text-align: center; }
-  .verdict { margin: auto 0; display: flex; flex-direction: column; align-items: center; gap: 12px; }
+  .verdict { margin: auto 0; position: relative; display: flex; flex-direction: column; align-items: center; gap: 12px; }
+  /* explanation + cooldown hang below the anchor without changing its centered height */
+  .verdict-sub {
+    position: absolute; top: calc(100% + 8px); left: 50%; transform: translateX(-50%);
+    width: 100%; display: flex; flex-direction: column; align-items: center; gap: 4px;
+  }
   .rmark {
     width: 76px; height: 76px; display: grid; place-items: center;
     border-radius: 999px; font-size: 2.2rem; line-height: 1; font-weight: 700;
@@ -410,12 +432,6 @@
   .done-body { margin: auto 0; display: flex; flex-direction: column; align-items: center; gap: 12px; }
   .success { margin: 0; font-size: 1.15rem; font-weight: 600; }
   .ok-mark { color: var(--teal); }
-  .kc-head { display: inline-flex; align-items: baseline; gap: 6px; }
   .pts { margin: 0; font-weight: 700; color: var(--teal); }
   .done .dock { width: 100%; }
-  .keepcode { text-align: left; }
-  .keepcode .pid {
-    font-family: var(--font-display);
-    font-size: 1.6rem; letter-spacing: 0.15em; margin-top: 6px;
-  }
 </style>
