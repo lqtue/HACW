@@ -6,14 +6,21 @@
   import { i18n } from '$lib/i18n.svelte.js';
   import { theme } from '$lib/theme.svelte.js';
   import { s } from '$lib/strings.js';
+  import { t } from '$lib/i18n.svelte.js';
+  import destinations from '$lib/data/destinations.json';
+  import { sitePopup } from '$lib/map-popup.js';
   import MapControls from './MapControls.svelte';
 
   // The one map. Everything identical across the picker / discover / nav screens lives
   // here: creation, style, category pins, hidePois, the geolocate control + heading cone,
-  // the `sites` symbol layer, an optional route line, MapControls, attribution, teardown.
-  // Each screen passes only what differs — its reactive `siteData`, the sites-layer spec,
-  // a route, pin-click behaviour, extra layers (via `oninit`), follow/controls, and an
-  // overlay `children` snippet. No `if mode` branches — just props.
+  // the `sites` symbol layer, an optional route line, MapControls, attribution, teardown —
+  // and the pin tap itself: sites here sit metres apart, so a tap gathers every pin under
+  // a finger (`stack`), opens ONE popup (name, one line, one button) for the first, and
+  // the ‹ › pager steps through the rest in place. Each screen passes only what differs —
+  // its reactive `siteData`, the sites-layer spec, a route, what the popup's button does
+  // (`popupAction`), extra layers (via `oninit`), follow/controls, and an overlay
+  // `children` snippet. No `if mode` branches — just props.
+  const byId = Object.fromEntries(destinations.map((d) => [d.id, d]));
   let {
     siteData,                 // reactive GeoJSON FeatureCollection for the sites layer
     sitesLayout = {},         // extra layout for the sites symbol layer (merged over defaults)
@@ -37,7 +44,10 @@
     fitPadding = 40,
     oninit = null,            // (map, maplibregl, { gold, ink }) => void — extra layers/handlers
     onready = null,           // (map, maplibregl) => void — fired once the sites layer is up
-    onsiteclick = null,       // (id, feature, e, map, maplibregl) => void
+    onsiteclick = null,       // (id) => void — a tap goes straight to the caller, no popup (tour nav)
+    popupAction = null,       // (dest) => { label, onclick, secondary? } | null — the popup's one button
+    onselect = null,          // (id | null) => void — which site the popup shows, null when dismissed
+    pagerBottom = '12px',     // where the ‹ › stack pager sits (above the caller's bottom chrome)
     compass = $bindable(false),// true while the Google-Maps 3D heading-up locate is engaged
     me = $bindable(null),     // the current GPS fix, readable by the parent (booth bar etc)
     heading = $bindable(null),// live device heading (compass, else GPS course), deg CW from N
@@ -72,9 +82,10 @@
   // north-ish plan. Dragging the map exits compass (handled in the dragstart below).
   function locate3d() {
     if (!ready) return;
-    if (compass) { // toggle off: flatten + re-aim to the map's home bearing
+    if (compass) { // toggle off: flatten, re-aim, and zoom back out to the home frame
       compass = false; following = false;
-      map?.easeTo({ pitch: 0, bearing, duration: 400 });
+      if (fitBounds) map?.fitBounds(fitBounds, { padding: fitPadding, maxZoom: 17, bearing, pitch: 0, duration: 500 });
+      else map?.easeTo({ center, zoom, pitch: 0, bearing, duration: 500 });
       return;
     }
     compass = true; following = true;
@@ -82,6 +93,40 @@
     geolocate.trigger();
     cone?.enableCompass();
     map?.easeTo({ pitch: locatePitch, zoom: Math.max(map.getZoom(), followZoom), duration: 500 });
+  }
+
+  // ---- pin tap: stack + popup + pager ----
+  let popup;
+  let stack = $state([]);   // destinations under the last tap; > 1 shows the pager
+  let stackAt = $state(0);
+
+  function closePopup() {
+    popup?.remove(); popup = null;
+  }
+  function clearStack() {
+    closePopup(); stack = []; onselect?.(null);
+  }
+  // the shared site popup ($lib/map-popup.js); its one button is the screen's popupAction
+  // (Explore: see more → site page; Builder: pick/remove)
+  function openPopup(d) {
+    closePopup();
+    popup = sitePopup(mgl, map, d, popupAction?.(d));
+    onselect?.(d.id);
+  }
+  function onPinTap(e) {
+    const id = e.features[0].properties.id;
+    if (onsiteclick) return onsiteclick(id);
+    const { x, y } = e.point;
+    const R = 26; // a finger's width — pins on Trần Phú sit closer than that
+    const near = map.queryRenderedFeatures([[x - R, y - R], [x + R, y + R]], { layers: ['sites'] });
+    stack = [...new Set([id, ...near.map((f) => f.properties.id)])].map((i) => byId[i]).filter(Boolean);
+    stackAt = 0;
+    openPopup(stack[0]);
+  }
+  function step(delta) {
+    if (!stack.length) return;
+    stackAt = (stackAt + delta + stack.length) % stack.length;
+    openPopup(stack[stackAt]);
   }
 
   onDestroy(() => {
@@ -166,10 +211,15 @@
       paint: { 'icon-opacity': ['coalesce', ['get', 'dim'], 1], ...sitesPaint }
     });
 
-    if (onsiteclick) {
-      map.on('click', 'sites', (e) => onsiteclick(e.features[0].properties.id, e.features[0], e, map, mgl));
+    if (onsiteclick || popupAction) {
+      map.on('click', 'sites', onPinTap);
       map.on('mouseenter', 'sites', () => (map.getCanvas().style.cursor = 'pointer'));
       map.on('mouseleave', 'sites', () => (map.getCanvas().style.cursor = ''));
+      // tap empty paper → dismiss popup + pager
+      if (popupAction) map.on('click', (e) => {
+        if (map.queryRenderedFeatures(e.point, { layers: ['sites'] }).length) return;
+        clearStack();
+      });
     }
 
     ready = true;
@@ -196,6 +246,14 @@
     <MapControls located={compass || !!me} {locating} {rotated} top={controlsTop} bottom={controlsBottom} onlocate={locateCompass ? locate3d : toggleLocate} onnorth={resetNorth} />
   {/if}
   {@render children?.({ me, located, following, compass, heading, toggleLocate, resetNorth, recenter, locate3d, getMap })}
+  {#if stack.length > 1}
+    <!-- "1 / N in this area" — overlapping pins page in place instead of clustering -->
+    <div class="stack" style="bottom: {pagerBottom}">
+      <button class="stack-nav" onclick={() => step(-1)} aria-label={s('prev_site')}>‹</button>
+      <span class="stack-label"><b>{stackAt + 1}</b> / {stack.length} · {t(stack[stackAt].name)}</span>
+      <button class="stack-nav" onclick={() => step(1)} aria-label={s('next_site')}>›</button>
+    </div>
+  {/if}
 </div>
 
 <style>
@@ -204,4 +262,27 @@
   .sm-wrap { position: absolute; inset: 0; }
   .sm-map { position: absolute; inset: 0; }
   :global(.sm-wrap .maplibregl-ctrl-group button.maplibregl-ctrl-geolocate) { display: none; }
+
+  /* stack pager: ink pill, nav-pill width, centred; bottom offset set inline */
+  .stack {
+    position: absolute; z-index: 8;
+    left: 0; right: 0; margin-inline: auto; width: var(--map-topbar-w);
+    display: flex; align-items: center; gap: 10px; padding: 6px;
+    border-radius: 999px;
+    background: var(--brand-dark); color: var(--paper);
+    box-shadow: 0 10px 24px -16px rgba(40, 12, 6, 0.9);
+  }
+  .stack-label {
+    flex: 1; min-width: 0; text-align: center;
+    font-size: 0.82rem; font-weight: 600;
+    white-space: nowrap; overflow: hidden; text-overflow: ellipsis;
+  }
+  .stack-label b { color: var(--gold); }
+  .stack-nav {
+    flex: 0 0 auto; width: 34px; height: 34px;
+    border: 0; border-radius: 50%;
+    background: var(--paper); color: var(--brand-dark);
+    font-size: 1.2rem; line-height: 1; cursor: pointer;
+  }
+  /* popup look: .map-pop* in app.css (shared with RouteMap) */
 </style>

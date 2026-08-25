@@ -29,7 +29,7 @@
     {#if back}
       <button class="tb-back" onclick={goBack} aria-label={s('back')}>←</button>
     {/if}
-    <h1>{title}</h1>
+    <h1 class="ptitle">{title}</h1>
     {#if sub}<small>{sub}</small>{/if}
   </div>
 {/if}

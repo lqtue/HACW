@@ -102,7 +102,7 @@
 
 <div class="pp">
   <header class="head">
-    <h1>{s('passport_title')}</h1>
+    <h1 class="ptitle">{s('passport_title')}</h1>
   </header>
 
   <!-- Your route (the built 5) — tap to resume the walking nav -->
@@ -206,7 +206,7 @@
     <div class="grid">
       {#each destinations as d (d.id)}
         {@const got = hasStamp(d.id)}
-        <a class="stamp" class:got href="{base}/destinations/{d.id}" style="--cat: var(--c-{d.category})">
+        <a class="stamp" class:got href="{base}/destinations/{d.id}?from=passport" style="--cat: var(--c-{d.category})">
           <MatCua size={40} color="var(--cat)" inner="var(--surface)" ghost={!got} />
           <small>{t(d.name)}</small>
         </a>
@@ -257,14 +257,13 @@
 
 <style>
   .pp {
-    padding: 18px 18px 8px;
-    padding-top: max(28px, calc(env(safe-area-inset-top) + 22px));
+    padding: 18px var(--gutter) 8px;
+    padding-top: var(--pad-top);
     display: flex;
     flex-direction: column;
     gap: 18px;
   }
   .head { display: flex; flex-direction: column; gap: 2px; }
-  .head h1 { margin: 0; font-size: clamp(1.9rem, 7vw, 2.3rem); font-weight: 800; letter-spacing: -0.02em; }
   .code-label {
     margin: 2px 0 -4px;
     font-size: 0.7rem;

@@ -17,6 +17,7 @@
   const walk = routeStats(data.stops);
 
   const complete = $derived(isSetComplete(tour.stops));
+  let openRow = $state(null); // stop row expanded inline (single-open)
 
   // this screen owns its bottom bar (Start / Exit), so drop the tab bar
   onMount(() => (ui.hideNav = true));
@@ -47,26 +48,34 @@
       </div>
     {/if}
 
-    <!-- compact numbered route: one row per stop instead of a full card, so the whole
-         tour fits a screen; tap a stop for its detail page -->
+    <!-- compact numbered route: one row per stop so the whole tour fits a screen; tap a
+         row to expand its blurb + address inline (like the planner's list) — it does not
+         leave the page -->
     <ol class="stops">
-      {#each data.stops as dest, i}
-        <li>
-          <a href="{base}/destinations/{dest.id}">
+      {#each data.stops as dest, i (dest.id)}
+        {@const open = openRow === dest.id}
+        <li class:open>
+          <button class="row" onclick={() => (openRow = open ? null : dest.id)} aria-expanded={open}>
             <span class="n" style="--cat: var(--c-{dest.category})">{i + 1}</span>
             <b>{t(dest.name)}</b>
-            <span class="go" aria-hidden="true">›</span>
-          </a>
+            <span class="go" aria-hidden="true">{open ? '▾' : '▸'}</span>
+          </button>
+          {#if open}
+            <div class="detail">
+              <p class="d-desc">{t(dest.description)}</p>
+              <p class="d-addr">📍 {t(dest.address)}</p>
+            </div>
+          {/if}
         </li>
       {/each}
     </ol>
   </div>
 </PageShell>
 
-<!-- docked actions, side by side (nav style): Start primary, Exit secondary -->
-<div class="tourbar">
-  <a class="btn prim" href="{base}/go?set={tour.id}">{s('nav_start')}</a>
-  <button class="sec" onclick={exit}>{s('nav_exit')}</button>
+<!-- docked actions, side by side: Start primary, Exit secondary (app.css .dock) -->
+<div class="dock row fixed">
+  <a class="btn" href="{base}/go?set={tour.id}">{s('nav_start')}</a>
+  <button class="btn sec" onclick={exit}>{s('nav_exit')}</button>
 </div>
 
 <style>
@@ -85,25 +94,16 @@
   /* clear the fixed bottom bar */
   .tour { padding-bottom: calc(90px + env(safe-area-inset-bottom)); }
 
-  /* docked Start / Exit — side by side like the tour-nav actions */
-  .tourbar {
-    position: fixed; left: 12px; right: 12px; bottom: calc(14px + env(safe-area-inset-bottom));
-    max-width: 460px; margin: 0 auto; z-index: 900;
-    display: flex; gap: 10px; align-items: stretch;
-  }
-  .tourbar .prim { flex: 1 1 auto; margin: 0; }
-  .tourbar .sec {
-    flex: 0 0 auto; margin: 0; cursor: pointer;
-    padding: 0 20px; border-radius: 999px;
-    border: 1.5px solid var(--brand); background: transparent; color: var(--brand);
-    font-family: var(--font-body); font-weight: 700; font-size: 0.95rem;
-  }
-  .tourbar .sec:focus-visible { outline: 2px solid var(--brand); outline-offset: 2px; }
-
   .stops { list-style: none; margin: 0; padding: 0; border: 1px solid var(--line); border-radius: var(--radius); overflow: hidden; background: var(--surface); }
   .stops li { border-top: 1px solid var(--line); }
   .stops li:first-child { border-top: 0; }
-  .stops a { display: flex; align-items: center; gap: 12px; padding: 12px 14px; text-decoration: none; color: inherit; }
+  .stops .row {
+    width: 100%; display: flex; align-items: center; gap: 12px; padding: 12px 14px;
+    border: 0; background: none; color: inherit; font: inherit; text-align: left; cursor: pointer;
+  }
+  .stops .detail { padding: 0 14px 14px 52px; display: flex; flex-direction: column; gap: 6px; }
+  .stops .d-desc { margin: 0; color: var(--muted); font-size: 0.86rem; line-height: 1.5; }
+  .stops .d-addr { margin: 0; color: var(--ink); font-size: 0.82rem; }
   .stops .n {
     flex: 0 0 auto; width: 26px; height: 26px; display: grid; place-items: center;
     border-radius: 999px; background: var(--cat); color: #fff; font-size: 0.8rem; font-weight: 700;

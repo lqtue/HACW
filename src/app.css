@@ -168,6 +168,12 @@
   /* map top-bar (map/list switch + category filter) width — one knob for both the
      Explore and pick screens; matches the bottom nav pill so they line up */
   --map-topbar-w: min(460px, calc(100% - 24px));
+  /* page skeleton tokens — every screen pads with these, so gutters and the notch
+     clearance line up from onboarding to passport (see .screen / .page / .float-top) */
+  --gutter: 18px;
+  --pad-top: max(28px, calc(env(safe-area-inset-top) + 20px));
+  --float-top: calc(env(safe-area-inset-top) + 14px);   /* map view switch */
+  --float-top-2: calc(env(safe-area-inset-top) + 60px); /* filter chips under it */
 
   --grain: none; /* no ornament */
 
@@ -227,6 +233,13 @@ html, body {
   background-color: var(--paper);
   -webkit-font-smoothing: antialiased;
   text-rendering: optimizeLegibility;
+  /* Lock the document to one viewport so iOS Safari never grows a page scroll
+     (a scrolling document is what keeps its top+bottom chrome on screen). The
+     .app becomes the scroller instead — every screen then reads full-bleed like
+     the nav-hidden onboarding/plan screens already do. */
+  height: 100%;
+  overflow: hidden;
+  overscroll-behavior: none;
 }
 
 a { color: inherit; text-decoration: none; }
@@ -234,12 +247,22 @@ a { color: inherit; text-decoration: none; }
 .app {
   max-width: 540px;
   margin: 0 auto;
-  min-height: 100dvh;
+  /* the shell IS the scroll container now (html/body are locked to 100dvh) —
+     content taller than the screen scrolls here, the document stays put */
+  height: 100dvh;
+  overflow-y: auto;
+  -webkit-overflow-scrolling: touch;
   display: flex;
   flex-direction: column;
   /* clears the floating nav pill */
   padding-bottom: calc(86px + env(safe-area-inset-bottom));
 }
+/* A flex column with a fixed height SHRINKS its children to fit, so a page taller than
+   the viewport overflowed past the nav clearance above (its content spilled out of the
+   shrunken page box, and the scroll end landed under the nav pill — tapping the pill's
+   rounded corner hit the last card). Pages must keep their natural height and scroll
+   the shell instead. flex:1 pages (explore) still grow: basis 0 + grow 1 is unaffected. */
+.app > * { flex-shrink: 0; }
 
 /* The visitor app is a phone column on purpose. /organizer is the one screen
    that is used at a desk, on a laptop, with 25 rows of data on it — so it gets
@@ -253,7 +276,39 @@ a { color: inherit; text-decoration: none; }
 /* explore: full-bleed map runs under the floating nav, so no bottom clearance */
 .app.mapfull { padding-bottom: 0; }
 
-.page { padding: 18px 18px 8px; animation: rise 0.45s cubic-bezier(0.2, 0.7, 0.2, 1) both; }
+.page { padding: 18px var(--gutter) 8px; animation: rise 0.45s cubic-bezier(0.2, 0.7, 0.2, 1) both; }
+
+/* ---- page skeleton ----
+   Three page types share these (the board's 34 screens are all one of them):
+     .screen      full-height single-job page: .ptitle top → .mid (centred) → .dock bottom
+                  (onboarding, check-in steps). Standalone it fills 100dvh and pads
+                  itself; inside a PageShell .page it just fills the column.
+     PageShell    scrolling content page: sticky .topbar with a .ptitle, then .page
+     .float-top   the top-centre overlay on a full-bleed map (view switch; .row2 = the
+                  chip row under it), same width as the nav pill.
+   One title style (.ptitle) for all of them — five sizes used to drift apart. */
+.ptitle {
+  margin: 0;
+  font-family: var(--font-display); font-weight: 800; letter-spacing: -0.02em;
+  font-size: clamp(1.7rem, 7vw, 2.2rem); line-height: 1.1; color: var(--ink);
+}
+.screen {
+  display: flex; flex-direction: column;
+  flex: 1 1 auto; min-height: 100dvh;
+  padding: var(--pad-top) var(--gutter) 0;
+}
+.page .screen { min-height: 0; padding: 0; } /* the .page already pads and fills */
+.screen > .mid {
+  flex: 1 1 auto; min-height: 0;
+  display: flex; flex-direction: column; justify-content: center; gap: 22px;
+}
+.float-top {
+  position: absolute; z-index: 620;
+  top: var(--float-top); left: 0; right: 0;
+  margin-inline: auto; width: var(--map-topbar-w);
+}
+.float-top.pill { box-shadow: var(--shadow); border-radius: 999px; }
+.float-top.row2 { z-index: 615; top: var(--float-top-2); width: auto; max-width: var(--map-topbar-w); }
 
 @keyframes rise {
   from { opacity: 0; transform: translateY(10px); }
@@ -339,11 +394,10 @@ p { line-height: 1.6; }
   background: color-mix(in srgb, var(--paper) 82%, transparent);
   backdrop-filter: saturate(1.1) blur(12px);
   border-bottom: 1px solid var(--line);
-  padding: 16px 18px 14px;
+  padding: 16px var(--gutter) 14px;
   padding-top: max(16px, env(safe-area-inset-top));
 }
 .topbar::before, .topbar::after { content: none; }
-.topbar h1 { font-size: 1.55rem; }
 .topbar small { color: var(--muted); display: block; margin-top: 2px; }
 
 /* ---- buttons: flat coral primary, neutral secondary ---- */
@@ -383,6 +437,53 @@ p { line-height: 1.6; }
 }
 .btn.ghost:hover { background: var(--paper-2); }
 .btn.ghost:disabled { opacity: 0.5; }
+/* outline pill — the secondary in a side-by-side row (Exit next to Start) */
+.btn.sec {
+  background: transparent;
+  color: var(--brand);
+  border: 1.5px solid var(--brand);
+  font-weight: 700;
+  font-size: 0.95rem;
+  padding: 0 20px;
+}
+.btn.sec:hover { background: color-mix(in srgb, var(--brand) 8%, transparent); }
+
+/* ---- docked action footers ----
+   Every screen ends in one of two shapes, so they share one vocabulary (global, like
+   the editor CSS: Svelte scopes styles and there were six copies of this).
+     .dock          stacked, in-flow at the bottom of a full-height screen:
+                    [.btn.ghost secondary]? / .btn primary / .sub link (or .sub.ph spacer)
+     .dock.row      primary + .btn.sec side by side; a .sub under them spans the row
+     .dock.fixed    pinned to the bottom edge, for screens whose body scrolls under it
+   The dock owns the bottom clearance (32px + safe area) — screens don't add their own.
+   The .sub row is a fixed 40px slot so the primary lands at the same height on every
+   screen, whether the sub is a one-line link, a two-line note, or nothing (.ph). */
+.dock {
+  display: flex; flex-direction: column; gap: 8px;
+  margin-top: auto;
+  padding-top: 18px; padding-bottom: calc(18px + env(safe-area-inset-bottom));
+}
+.dock > .btn { width: 100%; }
+.dock.row { flex-direction: row; flex-wrap: wrap; align-items: stretch; }
+.dock.row > .btn { flex: 1 1 auto; width: auto; }
+.dock.row > .btn.sec { flex: 0 0 auto; }
+.dock.row > .sub { flex: 1 1 100%; }
+.dock.fixed {
+  position: fixed; left: 12px; right: 12px;
+  bottom: calc(16px + env(safe-area-inset-bottom));
+  max-width: 460px; margin: 0 auto; z-index: 900;
+  padding: 0;
+}
+.sub {
+  display: flex; align-items: center; justify-content: center;
+  min-height: 32px; margin: 0 auto; padding: 0 4px;
+  border: 0; background: none; cursor: pointer;
+  color: var(--muted); font-family: var(--font-body); font-weight: 600; font-size: 0.9rem;
+  text-align: center; text-decoration: underline; text-underline-offset: 3px;
+}
+.sub:focus-visible { outline: 2px solid var(--brand); outline-offset: 2px; border-radius: 6px; }
+.sub.hint { text-decoration: none; cursor: default; }
+.sub.ph { visibility: hidden; } /* keeps the slot, shows nothing */
 
 /* staff-code entry — same field in /organizer and in StaffConfirm */
 .code {
@@ -466,6 +567,35 @@ p { line-height: 1.6; }
   border-radius: 999px;
   color: #fff;
 }
+
+/* ---- map popup ($lib/map-popup.js) — a paper label pinned to the map: ink keyline,
+   hard little shadow, solid ink pointer, the same drawing language as the marks.
+   MapLibre portals popups and imports its stylesheet at runtime, so these are global
+   and out-specify it. One look on every map (explore, builder, plan ready). ---- */
+.map-pop-wrap .maplibregl-popup-content {
+  border-radius: 12px;
+  background: var(--surface);
+  border: 1.5px solid var(--brand-dark);
+  color: var(--ink);
+  font-family: var(--font-body);
+  padding: 12px 14px 10px;
+  box-shadow: 0 10px 22px -18px rgba(40, 12, 6, 0.9);
+}
+.map-pop-wrap.maplibregl-popup-anchor-bottom .maplibregl-popup-tip { border-top-color: var(--brand-dark); }
+.map-pop-wrap.maplibregl-popup-anchor-top .maplibregl-popup-tip { border-bottom-color: var(--brand-dark); }
+.map-pop-wrap.maplibregl-popup-anchor-left .maplibregl-popup-tip { border-right-color: var(--brand-dark); }
+.map-pop-wrap.maplibregl-popup-anchor-right .maplibregl-popup-tip { border-left-color: var(--brand-dark); }
+.map-pop { display: grid; gap: 6px; line-height: 1.35; min-width: 180px; }
+.map-pop strong { font-family: var(--font-display); font-size: 1rem; line-height: 1.15; color: var(--brand-dark); }
+.map-pop p { margin: 0; font-size: 0.82rem; color: var(--brand-dark); }
+.map-pop-btn {
+  margin-top: 4px; padding: 8px 10px; border: 1.5px solid var(--brand-dark); border-radius: 7px;
+  background: var(--brand-dark); color: var(--paper);
+  font-family: var(--font-body); font-weight: 700; font-size: 0.78rem; cursor: pointer;
+}
+.map-pop-btn.sec { background: var(--surface); color: var(--brand-dark); }
+.maplibregl-map { font-family: var(--font-body); }
+.maplibregl-map .maplibregl-ctrl-attrib { border-radius: 0 0 0 8px; }
 
 /* ---- bottom nav: floating capsule bar ---- */
 .nav {

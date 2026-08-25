@@ -114,7 +114,7 @@
 <style>
   .chip-fab {
     position: fixed;
-    top: max(30px, calc(env(safe-area-inset-top) + 20px));
+    top: var(--pad-top); /* same notch clearance as every page title */
     z-index: 1100;
     border: 1px solid var(--line);
     background: color-mix(in srgb, var(--surface) 80%, transparent);

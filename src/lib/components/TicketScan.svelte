@@ -189,8 +189,6 @@
   }
   .lbl { color: var(--muted); font-size: 0.85rem; text-align: center; }
   .strip .btn { width: 100%; }
-  .btn.ghost { background: var(--surface); color: var(--ink); border: 1px solid var(--line); }
-  .btn.ghost:hover { background: var(--paper-2); }
   .ok { color: var(--brand-dark); font-weight: 700; font-size: 0.9rem; text-align: center; }
   .note { margin: 8px 0 0; text-align: center; color: var(--muted); font-size: 0.82rem; }
 
