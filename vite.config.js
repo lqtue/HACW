@@ -194,7 +194,7 @@ export default defineConfig({
         // precache the app makes no request the network could fail. The only
         // outbound links left are the Google Maps directions hand-offs, which
         // leave the app entirely.
-        globPatterns: ['**/*.{js,css,html,json,svg,png,webmanifest,woff2}', 'client/map/**/*'],
+        globPatterns: ['**/*.{js,css,html,json,svg,png,webp,webmanifest,woff2}', 'client/map/**/*'],
         // The .pmtiles archive alone is 1.2 MB; the default 2 MB cap would skip it.
         maximumFileSizeToCacheInBytes: 4 * 1024 * 1024
       }

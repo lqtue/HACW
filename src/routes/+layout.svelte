@@ -2,6 +2,7 @@
   import '../app.css';
   import { page } from '$app/stores';
   import { base } from '$app/paths';
+  import { browser } from '$app/environment';
   import { onMount } from 'svelte';
   import { flush, backup, track } from '$lib/passport.svelte.js';
   import { loadCounts } from '$lib/stats.svelte.js';
@@ -61,6 +62,10 @@
   // It also drops the app's bottom nav-clearance padding so the map runs edge-to-edge
   // under the floating nav (the nav + list view float/pad over it themselves).
   const onExplore = $derived(rel.startsWith('/destinations'));
+  // the very first screen: a forced ?step=door, or a fresh device opening the home route
+  // browser-only: searchParams is off-limits while prerendering, and the hint is a
+  // client-side flourish anyway
+  const onDoor = $derived(browser && rel === '/' && (stepParam === 'door' || (!stepParam && !plan.onboarded)));
 
   // Pageview: one bounded route key per navigation (nat-tagged in track()). Skip the
   // home hits during onboarding — `welcome` already marks app-open, and counting the
@@ -86,6 +91,11 @@
   <button class="chip-fab theme" onclick={toggleTheme} aria-label="Theme" title="Theme">
     {theme.mode === 'dark' ? '☀' : '☾'}
   </button>
+  {#if onDoor && theme.mode === 'light'}
+    <!-- one-shot nudge on the door: slides out from behind the moon, holds, slides back
+         (pure CSS, no timer). Pre-language, so both languages inline like the door hint. -->
+    <span class="theme-hint" aria-hidden="true">Thử chế độ tối · Try dark mode</span>
+  {/if}
 {/if}
 
 <div class="app" class:wide class:onboarding class:nonav={ui.hideNav} class:mapfull={onExplore}>
@@ -129,4 +139,24 @@
     backdrop-filter: blur(10px);
   }
   .theme { right: 14px; width: 40px; font-size: 1rem; }
+  /* rides at the moon's height, tucked behind it (z below), then peeks out to its left */
+  .theme-hint {
+    position: fixed; z-index: 1099;
+    top: var(--pad-top); right: 58px;
+    height: 34px; display: flex; align-items: center;
+    padding: 0 14px; border-radius: 999px;
+    border: 1px solid var(--line);
+    background: color-mix(in srgb, var(--surface) 92%, transparent);
+    color: var(--muted); font-size: 0.78rem; font-weight: 600; white-space: nowrap;
+    backdrop-filter: blur(10px);
+    pointer-events: none;
+    transform: translateX(110%); opacity: 0;
+    animation: peek 4.2s cubic-bezier(0.2, 0.7, 0.2, 1) 0.9s both;
+  }
+  @keyframes peek {
+    0%        { transform: translateX(110%); opacity: 0; }
+    12%, 82%  { transform: none; opacity: 1; }
+    100%      { transform: translateX(110%); opacity: 0; }
+  }
+  @media (prefers-reduced-motion: reduce) { .theme-hint { animation: none; opacity: 1; transform: none; } }
 </style>

@@ -218,12 +218,12 @@
   <details class="fold">
     <summary>{s('pp_more')}</summary>
     <div class="settings">
-      <details class="sub">
+      <details class="fold">
         <summary>{s('lang_switch')} · {i18n.lang.toUpperCase()}</summary>
         <LangSwitch />
       </details>
 
-      <details class="sub">
+      <details class="fold">
         <summary>{s('backup_title')}</summary>
         <div class="backup">
           <p class="hint">{s('backup_hint')}</p>
@@ -243,7 +243,7 @@
         </div>
       </details>
 
-      <details class="sub">
+      <details class="fold">
         <summary>{s('study_note')}</summary>
         <div class="study-fold"><StudyToggle /></div>
       </details>
@@ -354,14 +354,14 @@
 
   /* Settings fold: light sub-folds, dividers instead of nested cards */
   .settings { border-top: 1px solid var(--line); }
-  .settings .sub { border-top: 1px solid var(--line); }
-  .settings .sub:first-child { border-top: 0; }
-  .settings .sub > summary {
+  .settings .fold { border-top: 1px solid var(--line); }
+  .settings .fold:first-child { border-top: 0; }
+  .settings .fold > summary {
     padding: 12px 16px; cursor: pointer; font-weight: 600; font-size: 0.92rem; list-style: none;
   }
-  .settings .sub > summary::-webkit-details-marker { display: none; }
-  .settings .sub > summary::after { content: '▸'; float: right; color: var(--muted); }
-  .settings .sub[open] > summary::after { content: '▾'; }
+  .settings .fold > summary::-webkit-details-marker { display: none; }
+  .settings .fold > summary::after { content: '▸'; float: right; color: var(--muted); }
+  .settings .fold[open] > summary::after { content: '▾'; }
 
   .grid { display: grid; grid-template-columns: repeat(4, 1fr); gap: 10px; padding: 4px 16px 16px; }
   .stamp { display: grid; justify-items: center; gap: 4px; text-decoration: none; color: inherit; }

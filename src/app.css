@@ -575,25 +575,25 @@ p { line-height: 1.6; }
 .map-pop-wrap .maplibregl-popup-content {
   border-radius: 12px;
   background: var(--surface);
-  border: 1.5px solid var(--brand-dark);
+  border: 1.5px solid var(--brand);
   color: var(--ink);
   font-family: var(--font-body);
   padding: 12px 14px 10px;
   box-shadow: 0 10px 22px -18px rgba(40, 12, 6, 0.9);
 }
-.map-pop-wrap.maplibregl-popup-anchor-bottom .maplibregl-popup-tip { border-top-color: var(--brand-dark); }
-.map-pop-wrap.maplibregl-popup-anchor-top .maplibregl-popup-tip { border-bottom-color: var(--brand-dark); }
-.map-pop-wrap.maplibregl-popup-anchor-left .maplibregl-popup-tip { border-right-color: var(--brand-dark); }
-.map-pop-wrap.maplibregl-popup-anchor-right .maplibregl-popup-tip { border-left-color: var(--brand-dark); }
+.map-pop-wrap.maplibregl-popup-anchor-bottom .maplibregl-popup-tip { border-top-color: var(--brand); }
+.map-pop-wrap.maplibregl-popup-anchor-top .maplibregl-popup-tip { border-bottom-color: var(--brand); }
+.map-pop-wrap.maplibregl-popup-anchor-left .maplibregl-popup-tip { border-right-color: var(--brand); }
+.map-pop-wrap.maplibregl-popup-anchor-right .maplibregl-popup-tip { border-left-color: var(--brand); }
 .map-pop { display: grid; gap: 6px; line-height: 1.35; min-width: 180px; }
-.map-pop strong { font-family: var(--font-display); font-size: 1rem; line-height: 1.15; color: var(--brand-dark); }
-.map-pop p { margin: 0; font-size: 0.82rem; color: var(--brand-dark); }
+.map-pop strong { font-family: var(--font-display); font-size: 1rem; line-height: 1.15; color: var(--ink); }
+.map-pop p { margin: 0; font-size: 0.82rem; color: var(--muted); }
 .map-pop-btn {
-  margin-top: 4px; padding: 8px 10px; border: 1.5px solid var(--brand-dark); border-radius: 7px;
-  background: var(--brand-dark); color: var(--paper);
+  margin-top: 4px; padding: 8px 10px; border: 1.5px solid var(--brand); border-radius: 7px;
+  background: var(--brand); color: #fff;
   font-family: var(--font-body); font-weight: 700; font-size: 0.78rem; cursor: pointer;
 }
-.map-pop-btn.sec { background: var(--surface); color: var(--brand-dark); }
+.map-pop-btn.sec { background: var(--surface); color: var(--brand); }
 .maplibregl-map { font-family: var(--font-body); }
 .maplibregl-map .maplibregl-ctrl-attrib { border-radius: 0 0 0 8px; }
 

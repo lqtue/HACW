@@ -153,28 +153,6 @@ export function hidePois(map) {
 export const TILT_LAYERS = ['buildings', 'buildings-3d'];
 
 /**
- * The mắt cửa mark as an SVG string, for places that build HTML rather than draw
- * on a canvas (the map popup). Same construction as `pinImage`, including the
- * keyline by underprint, so a popup shows the very mark its pin is drawn with.
- * @param {string} fill category accent (a CSS colour or var())
- * @param {string} ink keyline colour
- * @param {number} [size] rendered px
- */
-export function markSvg(fill, ink, size = 26) {
-  const petals = Array.from({ length: 9 }, (_, i) => {
-    const a = (i / 9) * Math.PI * 2 - Math.PI / 2;
-    return `<circle cx="${(50 + 31 * Math.cos(a)).toFixed(1)}" cy="${(50 + 31 * Math.sin(a)).toFixed(1)}" r="13"/>`;
-  }).join('');
-  const body = (c) => `<g fill="${c}">${petals}<circle cx="50" cy="50" r="33"/></g>`;
-  return `<svg width="${size}" height="${size}" viewBox="0 0 100 100" aria-hidden="true">
-    <g transform="translate(50 50) scale(1.08) translate(-50 -50)">${body(ink)}</g>
-    ${body(fill)}
-    <circle cx="50" cy="50" r="20" fill="#fdf6e8"/>
-    <circle cx="50" cy="50" r="8" fill="${ink}"/>
-  </svg>`;
-}
-
-/**
  * Compass bearing of the long axis of a set of points, so the map can be rotated
  * to put that axis up the screen. Hội An's sites run almost due east–west
  * (965 × 462 m); on a portrait phone that wastes half the screen, and turning the
@@ -358,15 +336,18 @@ export const PIN_DPR = 2;
 const PIN = 34;
 
 /** Petal rim of the mắt cửa, as a canvas path. Mirrors `MatCua.svelte`. */
-function markPath(x, r, petals = 9) {
+// The SAME rosette as MatCua.svelte (8 petals on a 13.5/24 ring, r 6.4/24, centre
+// 12.5/24) so the pin and every other mark in the app are one drawing, not two.
+function markPath(x, r, petals = 8) {
   x.beginPath();
   for (let i = 0; i < petals; i++) {
     const a = (i / petals) * Math.PI * 2 - Math.PI / 2;
-    x.moveTo(r * 0.62 * Math.cos(a) + r * 0.26, r * 0.62 * Math.sin(a));
-    x.arc(r * 0.62 * Math.cos(a), r * 0.62 * Math.sin(a), r * 0.26, 0, Math.PI * 2);
+    const cx = r * 0.5625 * Math.cos(a), cy = r * 0.5625 * Math.sin(a);
+    x.moveTo(cx + r * 0.267, cy);
+    x.arc(cx, cy, r * 0.267, 0, Math.PI * 2);
   }
-  x.moveTo(r * 0.66, 0);
-  x.arc(0, 0, r * 0.66, 0, Math.PI * 2);
+  x.moveTo(r * 0.52, 0);
+  x.arc(0, 0, r * 0.52, 0, Math.PI * 2);
 }
 
 /**
@@ -396,23 +377,25 @@ export function pinImage(fill, ink, spark, eye = ink) {
   x.translate(PIN / 2, PIN / 2);
 
   const R = PIN / 2 - 2;
-  // Keyline by underprint: the same path, ink, a hair larger. Canvas can't union
-  // the petals into one outline, and stroking each would draw the seams.
+  // Hairline keyline by underprint: the same path, ink, a hair larger — just enough
+  // to lift the mark off the basemap. Canvas can't union the petals into one
+  // outline, and stroking each would draw the seams.
   markPath(x, R);
   x.fillStyle = ink;
   x.fill();
-  markPath(x, R - 1.6);
+  markPath(x, R - 0.9);
   x.fillStyle = fill;
   x.fill();
 
-  // the eye: cream face, ink pupil — the spiral centre is mush below ~60 px
+  // the centre, as MatCua draws it: a hole in the surface colour with a dot of the
+  // category colour — not a white eye with a black pupil
   x.beginPath();
-  x.arc(0, 0, R * 0.42, 0, Math.PI * 2);
-  x.fillStyle = '#fdf6e8';
+  x.arc(0, 0, R * 0.29, 0, Math.PI * 2);
+  x.fillStyle = eye;
   x.fill();
   x.beginPath();
-  x.arc(0, 0, R * 0.17, 0, Math.PI * 2);
-  x.fillStyle = eye;
+  x.arc(0, 0, R * 0.125, 0, Math.PI * 2);
+  x.fillStyle = fill;
   x.fill();
 
   // spotlight badge: the four-petal spark from the key visual, top-right
@@ -455,13 +438,17 @@ export function pinImage(fill, ink, spark, eye = ink) {
 export function addCategoryPins(map, dark) {
   const css = getComputedStyle(document.documentElement);
   const gold = css.getPropertyValue('--gold').trim() || '#e0a83c';
-  // keyline: dark ink on the light plan, warm paper on the dark one; pupil always dark
+  // keyline: dark ink on the light plan, warm paper on the dark one. The centre hole
+  // is the surface colour (as MatCua's `inner`), so the basemap shows through it.
   const ink = dark ? '#efe6d6' : '#1c1917';
-  const eye = '#1c1917';
+  const eye = css.getPropertyValue('--surface').trim() || (dark ? '#1b1a17' : '#ffffff');
   for (const c of categories) {
     const color = css.getPropertyValue(`--c-${c.id}`).trim() || '#bb4b2c';
     map.addImage(`pin-${c.id}`, pinImage(color, ink, undefined, eye), { pixelRatio: PIN_DPR });
     map.addImage(`pin-${c.id}-spot`, pinImage(color, ink, gold, eye), { pixelRatio: PIN_DPR });
   }
+  // the walk's NEXT stop, in the brand orange regardless of category (tour nav)
+  const brand = css.getPropertyValue('--brand').trim() || '#e0542c';
+  map.addImage('pin-next', pinImage(brand, ink, gold, eye), { pixelRatio: PIN_DPR });
   return { gold, ink, eye };
 }

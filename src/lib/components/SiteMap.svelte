@@ -263,26 +263,34 @@
   .sm-map { position: absolute; inset: 0; }
   :global(.sm-wrap .maplibregl-ctrl-group button.maplibregl-ctrl-geolocate) { display: none; }
 
-  /* stack pager: ink pill, nav-pill width, centred; bottom offset set inline */
+  /* stack pager: the same floating pill as the nav bar / chip-fab — surface, hairline,
+     blur — with the count in brand orange. Centred; bottom set inline by the caller to
+     ride at the same height as the round map fabs (locate / recenter, 46 px, 14 px in
+     from the edge), so it is capped to leave that corner free on both sides. */
   .stack {
     position: absolute; z-index: 8;
-    left: 0; right: 0; margin-inline: auto; width: var(--map-topbar-w);
-    display: flex; align-items: center; gap: 10px; padding: 6px;
+    left: 0; right: 0; margin-inline: auto;
+    width: min(var(--map-topbar-w), calc(100% - 2 * 72px));
+    display: flex; align-items: center; gap: 8px; padding: 5px;
     border-radius: 999px;
-    background: var(--brand-dark); color: var(--paper);
-    box-shadow: 0 10px 24px -16px rgba(40, 12, 6, 0.9);
+    background: color-mix(in srgb, var(--surface) 88%, transparent);
+    backdrop-filter: blur(12px);
+    border: 1px solid color-mix(in srgb, var(--brand-dark) 12%, transparent);
+    color: var(--ink);
+    box-shadow: var(--shadow-lift);
   }
   .stack-label {
     flex: 1; min-width: 0; text-align: center;
     font-size: 0.82rem; font-weight: 600;
     white-space: nowrap; overflow: hidden; text-overflow: ellipsis;
   }
-  .stack-label b { color: var(--gold); }
+  .stack-label b { color: var(--brand); }
   .stack-nav {
     flex: 0 0 auto; width: 34px; height: 34px;
     border: 0; border-radius: 50%;
-    background: var(--paper); color: var(--brand-dark);
+    background: color-mix(in srgb, var(--brand) 12%, transparent); color: var(--brand);
     font-size: 1.2rem; line-height: 1; cursor: pointer;
   }
+  .stack-nav:focus-visible { outline: 2px solid var(--brand); outline-offset: 2px; }
   /* popup look: .map-pop* in app.css (shared with RouteMap) */
 </style>

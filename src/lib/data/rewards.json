@@ -4,12 +4,12 @@
     "points": 20,
     "icon": "🎟️",
     "title": {
-      "vi": "Voucher hạng 1",
-      "en": "Voucher tier 1"
+      "vi": "Quà đầu tiên",
+      "en": "First gift"
     },
     "reward": {
-      "vi": "Chọn 1 voucher: Vigift 50.000đ hoặc giảm 10% VAN•HOA — đổi tại quầy, hết quà thì thôi",
-      "en": "Pick one voucher: Vigift 50,000đ or VAN•HOA 10% off — at the counter, first come first served"
+      "vi": "Voucher Vigift 50.000đ, hoặc giảm 10% ở VAN•HOA — bạn chọn một. Đổi ở quầy, còn quà là còn đổi.",
+      "en": "A 50,000đ Vigift voucher, or 10% off at VAN•HOA — your pick. Collect at any counter while they last."
     }
   },
   {
@@ -17,12 +17,12 @@
     "points": 50,
     "icon": "🎟️",
     "title": {
-      "vi": "Voucher hạng 2",
-      "en": "Voucher tier 2"
+      "vi": "Voucher lớn hơn",
+      "en": "Bigger voucher"
     },
     "reward": {
-      "vi": "Chọn 1 voucher: Vigift 100.000đ hoặc giảm 15% VAN•HOA — đổi tại quầy, hết quà thì thôi",
-      "en": "Pick one voucher: Vigift 100,000đ or VAN•HOA 15% off — at the counter, first come first served"
+      "vi": "Voucher Vigift 100.000đ, hoặc giảm 15% ở VAN•HOA — bạn chọn một. Đổi ở quầy, còn quà là còn đổi.",
+      "en": "A 100,000đ Vigift voucher, or 15% off at VAN•HOA — your pick. Collect at any counter while they last."
     }
   },
   {
@@ -30,12 +30,12 @@
     "points": 150,
     "icon": "🎁",
     "title": {
-      "vi": "Quà vật lý hạng 1",
-      "en": "Physical gift tier 1"
+      "vi": "Món quà cầm tay",
+      "en": "Something to hold"
     },
     "reward": {
-      "vi": "Bốc thăm tại quầy: set charm DIY Trung Thu hoặc quạt Tuần lễ — số lượng có hạn",
-      "en": "Draw at the counter: Mid-Autumn DIY charm set or festival fan — limited stock"
+      "vi": "Bốc thăm ở quầy: set charm DIY Trung Thu, hoặc chiếc quạt của Tuần lễ. Số lượng có hạn.",
+      "en": "A draw at the counter: a Mid-Autumn DIY charm set, or the festival fan. Limited numbers."
     }
   },
   {
@@ -43,12 +43,12 @@
     "points": 250,
     "icon": "🧣",
     "title": {
-      "vi": "Quà vật lý hạng 2",
-      "en": "Physical gift tier 2"
+      "vi": "Chiếc khăn Tuần lễ",
+      "en": "The festival scarf"
     },
     "reward": {
-      "vi": "Bốc thăm tại quầy: khăn Tuần lễ Sáng tạo Hội An — số lượng có hạn",
-      "en": "Draw at the counter: Hội An Creative Week scarf — limited stock"
+      "vi": "Bốc thăm ở quầy: chiếc khăn Tuần lễ Sáng tạo Hội An. Số lượng có hạn.",
+      "en": "A draw at the counter: the Hội An Creative Week scarf. Limited numbers."
     }
   },
   {
@@ -56,12 +56,12 @@
     "points": 400,
     "icon": "🎁",
     "title": {
-      "vi": "Quà vật lý hạng 3",
-      "en": "Physical gift tier 3"
+      "vi": "Quà lớn nhất",
+      "en": "The big one"
     },
     "reward": {
-      "vi": "Bốc thăm tại quầy: set quà Vigift Đà Nẵng — số lượng rất có hạn",
-      "en": "Draw at the counter: Vigift Đà Nẵng gift set — very limited stock"
+      "vi": "Bốc thăm ở quầy: set quà Vigift Đà Nẵng. Rất ít, nên đừng để đến ngày cuối.",
+      "en": "A draw at the counter: a Vigift Đà Nẵng gift set. Very few, so don't leave it to the last day."
     }
   }
 ]

@@ -75,7 +75,8 @@
         geometry: { type: 'Point', coordinates: [d.lng, d.lat] },
         properties: {
           id: d.id,
-          icon: `pin-${d.category}${on ? '-spot' : ''}`,
+          // the next stop wears the brand orange; other stops their category, gold rim
+          icon: d.id === target?.id ? 'pin-next' : `pin-${d.category}${on ? '-spot' : ''}`,
           label: on ? (done ? '✓' : String(numById[d.id])) : '',
           on,
           dim: on ? (done ? 0.35 : 1) : 0.28
@@ -144,7 +145,8 @@
       'text-halo-color': dark ? '#241a16' : '#fff7ef',
       'text-halo-width': 2
     }}
-    onsiteclick={(id) => goto(checkinUrl(id))}
+    popupAction={() => null}
+    pagerBottom="calc(env(safe-area-inset-bottom) + 96px)"
   >
     {#snippet children({ compass, recenter, locate3d })}
       {@const m = demo ? demoMe : me}

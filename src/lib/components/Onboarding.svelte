@@ -10,7 +10,6 @@
   import MatCua from '$lib/components/MatCua.svelte';
   import Icon from '$lib/components/Icon.svelte';
   import IconList from '$lib/components/IconList.svelte';
-  import event from '$lib/data/event.json';
   import { LANGS } from '$lib/languages.js';
   import { codeFromTicket } from '$lib/backup.js';
   import { adoptCode, restore, track } from '$lib/passport.svelte.js';
@@ -32,8 +31,16 @@
       return;
     }
     opening = true;
-    setTimeout(() => (step = 'lang'), 620);
+    setTimeout(() => (step = 'lang'), 840); // matches the leaf slide below
   }
+
+  // the door's greeting cycles through the languages, one every 2.4 s, until tapped
+  let hintAt = $state(0);
+  $effect(() => {
+    if (step !== 'door' || opening) return;
+    const iv = setInterval(() => (hintAt = (hintAt + 1) % LANGS.length), 2400);
+    return () => clearInterval(iv);
+  });
 
   // iOS gets the Share-sheet steps, everything else the browser-menu steps. Set on
   // mount because navigator is absent during prerender.
@@ -116,18 +123,24 @@
 </script>
 
 {#if step === 'door'}
-  <!-- SCREEN 1 — the door of Hội An. Tap the mắt cửa and the leaves swing open. -->
-  <section class="door" class:opening>
-    <button class="door-tap" onclick={openDoor} aria-label="Bắt đầu · Enter">
-      <span class="frame">
-        <span class="leaf left"></span>
-        <span class="leaf right"></span>
-        <span class="seam"></span>
-        <span class="eye"><MatCua size={92} color="var(--brand)" inner="var(--paper)" /></span>
+  <!-- SCREEN 1 — the dragon door of Chùa Ông (the organiser's own photo, static/door.webp),
+       filling the screen. It is split down the seam into two leaves that slide apart on
+       tap, revealing the paper (the next screen) behind. The one line of text cycles
+       through every language the app offers — nobody has chosen one yet, so the door
+       greets everyone in turn. -->
+  <section class="door" class:opening style="--door: url('{base}/door.webp')">
+    <button class="door-tap" onclick={openDoor} aria-label="Mở cửa · Open the door">
+      <span class="leaf left"></span>
+      <span class="leaf right"></span>
+      <span class="door-hint">
+        {#key hintAt}
+          <span class="hint-line" lang={LANGS[hintAt].code}>
+            <b>{LANGS[hintAt].hello}</b>
+            <small>{LANGS[hintAt].open}</small>
+          </span>
+        {/key}
       </span>
-      <span class="door-hint">Chạm để mở<small>Tap to enter</small></span>
     </button>
-    <p class="door-brand">Hội An Creative Week · {event.year}</p>
   </section>
 {:else if step === 'lang'}
   <!-- SCREEN 2 — the greeting IS the picker: no headings, no instructions, just a
@@ -247,62 +260,64 @@
   .glang.other { align-items: flex-start; }
   .glang.other .g-hello { color: var(--brand); }
 
-  /* ---- door screen ---- */
+
+
+  /* ---- door screen: the photo, full-bleed, split at the seam ----
+     Both leaves are full-viewport boxes drawing the whole photo (cover, centred — so the
+     painted seam stays on the screen's centre line), each clipped to its own half. Sliding
+     them apart therefore opens the real door onto the paper behind. One image, precached. */
   .door {
-    position: relative;
-    min-height: 100dvh;
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    justify-content: center;
-    gap: 26px;
-    padding: var(--pad-top) var(--gutter) calc(32px + env(safe-area-inset-bottom));
+    position: fixed; inset: 0; z-index: 900;
+    background: var(--paper); /* what shows once the leaves part */
+    overflow: hidden;
   }
   .door-tap {
-    display: flex; flex-direction: column; align-items: center; gap: 26px;
+    position: absolute; inset: 0; display: block;
     border: 0; background: none; cursor: pointer; padding: 0;
+    -webkit-tap-highlight-color: transparent;
   }
-  .frame {
-    position: relative;
-    width: min(64vw, 250px);
-    aspect-ratio: 3 / 4;
-    border-radius: 140px 140px 14px 14px;
-    border: 3px solid var(--brand-dark);
-    background: var(--paper-2);
-    overflow: hidden;
-    box-shadow: 0 24px 50px -20px rgba(126, 31, 19, 0.35);
-  }
-  /* two wooden leaves, faint plank lines, meeting at a centre seam */
+  .door-tap:focus-visible { outline: 3px solid var(--brand); outline-offset: -3px; }
   .leaf {
-    position: absolute; top: 0; bottom: 0; width: 50%;
-    background:
-      repeating-linear-gradient(90deg, transparent 0 22px, color-mix(in srgb, var(--brand-dark) 12%, transparent) 22px 23px),
-      linear-gradient(160deg, color-mix(in srgb, var(--brand) 22%, var(--paper-2)), var(--paper-2));
-    transition: transform 0.6s cubic-bezier(0.4, 0, 0.2, 1), opacity 0.6s ease;
+    position: absolute; inset: 0;
+    background-image: var(--door);
+    background-size: cover;
+    background-position: center;
+    background-repeat: no-repeat;
+    transition: transform 0.8s cubic-bezier(0.55, 0.05, 0.3, 1);
+    animation: breathe 10s ease-in-out infinite alternate; /* the door waits, barely moving */
   }
-  .leaf.left { left: 0; border-right: 1.5px solid color-mix(in srgb, var(--brand-dark) 30%, transparent); border-radius: 140px 0 0 12px; }
-  .leaf.right { right: 0; border-radius: 0 140px 12px 0; }
-  .seam { position: absolute; top: 0; bottom: 0; left: 50%; width: 2px; transform: translateX(-1px); background: color-mix(in srgb, var(--brand-dark) 26%, transparent); }
-  .eye {
-    position: absolute; left: 50%; top: 30%; transform: translate(-50%, -50%);
-    z-index: 2; filter: drop-shadow(0 6px 12px rgba(126, 31, 19, 0.28));
-    transition: opacity 0.4s ease, transform 0.4s ease;
-  }
-  /* opening: leaves swing apart, eye fades back into the doorway */
-  .door.opening .leaf.left { transform: translateX(-102%); opacity: 0.15; }
-  .door.opening .leaf.right { transform: translateX(102%); opacity: 0.15; }
-  .door.opening .seam { opacity: 0; }
-  .door.opening .eye { opacity: 0; transform: translate(-50%, -50%) scale(0.8); }
+  .leaf.left { clip-path: inset(0 50% 0 0); }
+  .leaf.right { clip-path: inset(0 0 0 50%); }
+  /* dark mode: the photo keeps its own light — a slight dim so it sits with the night UI */
+  :global([data-theme='dark']) .leaf { filter: brightness(0.82); }
+
+  .door.opening .leaf { animation: none; }
+  .door.opening .leaf.left { transform: translateX(-52%); }
+  .door.opening .leaf.right { transform: translateX(52%); }
+  .door.opening .door-hint { opacity: 0; }
+
+  @keyframes breathe { from { transform: scale(1); } to { transform: scale(1.03); } }
+
+  /* the greeting rides the bottom of the door on a fade to the paper colour; each
+     language fades in as {#key} remounts the line */
   .door-hint {
-    display: flex; flex-direction: column; align-items: center; gap: 2px;
-    font-family: var(--font-display); font-weight: 700; font-size: 1.25rem;
-    color: var(--brand-dark); letter-spacing: -0.01em;
+    position: absolute; left: 0; right: 0; bottom: 0; z-index: 2;
+    padding: 80px var(--gutter) calc(40px + env(safe-area-inset-bottom));
+    display: grid; place-items: center;
+    background: linear-gradient(to top, rgba(20, 8, 4, 0.78), rgba(20, 8, 4, 0.35) 55%, transparent);
+    pointer-events: none;
+    transition: opacity 0.3s ease;
   }
-  .door-hint small { font-family: var(--font-body); font-weight: 500; font-size: 0.85rem; color: var(--muted); letter-spacing: 0; }
-  .door.opening .door-hint { opacity: 0.4; transition: opacity 0.3s ease; }
-  .door-brand { margin: 0; color: var(--muted); font-size: 0.8rem; letter-spacing: 0.04em; }
+  .hint-line {
+    display: grid; gap: 4px; text-align: center; color: #fff;
+    animation: hintin 0.6s cubic-bezier(0.2, 0.7, 0.2, 1) both;
+  }
+  .hint-line b { font-family: var(--font-display); font-weight: 800; font-size: clamp(1.6rem, 7vw, 2.2rem); line-height: 1.1; letter-spacing: -0.01em; }
+  .hint-line small { font-family: var(--font-body); font-weight: 600; font-size: 0.95rem; opacity: 0.85; }
+  @keyframes hintin { from { opacity: 0; transform: translateY(8px); } to { opacity: 1; transform: none; } }
   @media (prefers-reduced-motion: reduce) {
-    .leaf, .eye { transition: none; }
+    .leaf { transition: none; animation: none; }
+    .hint-line { animation: none; }
   }
 
   /* the welcome title's first line is the light "Thử thách" over the bold event name */
