@@ -70,6 +70,27 @@ export function maxPossiblePoints(siteCount, tourCount) {
   return siteCount * POINTS.stamp + tourCount * POINTS.tour + POINTS.allSites;
 }
 
+// Gifts are physically stocked at the ticket counters only during the festival,
+// so redemption is closed before and after — even for staff. Dates are Hội An
+// local (ICT). ponytail: window hardcoded here; event.json.dates is display copy,
+// not machine-parseable, so there's nothing to derive it from. If the festival
+// moves, edit these two lines.
+export const REDEEM_FROM = '2026-08-28';
+export const REDEEM_TO = '2026-09-02';
+
+/**
+ * Is gift redemption open? Compares the device's *local* calendar date to the
+ * festival window, so a phone in Hội An (ICT) sees the right day without any
+ * timezone maths. ponytail: date-only, inclusive both ends; a device with a
+ * badly wrong clock is out of scope (staff eyeball the counter anyway).
+ * @param {Date} now
+ */
+export function redeemOpen(now) {
+  const p = (n) => String(n).padStart(2, '0');
+  const d = `${now.getFullYear()}-${p(now.getMonth() + 1)}-${p(now.getDate())}`;
+  return d >= REDEEM_FROM && d <= REDEEM_TO;
+}
+
 /**
  * Tiers gate on **points**, not stamp count — that is what makes the quiz,
  * spotlight and tour bonuses worth chasing rather than decorative.

@@ -1,13 +1,12 @@
 <script>
   import PageShell from '$lib/components/PageShell.svelte';
-  import StaffConfirm from '$lib/components/StaffConfirm.svelte';
   import RouteMap from '$lib/components/RouteMap.svelte';
   import NearestBooth from '$lib/components/NearestBooth.svelte';
   import { base } from '$app/paths';
   import { goto } from '$app/navigation';
   import { onMount, onDestroy } from 'svelte';
   import { ui } from '$lib/ui.svelte.js';
-  import { isSetComplete, isRedeemed, redeemSet } from '$lib/passport.svelte.js';
+  import { isSetComplete } from '$lib/passport.svelte.js';
   import { POINTS } from '$lib/score.js';
   import { routeStats, formatDistance } from '$lib/route.js';
   import { i18n, t } from '$lib/i18n.svelte.js';
@@ -18,7 +17,6 @@
   const walk = routeStats(data.stops);
 
   const complete = $derived(isSetComplete(tour.stops));
-  const redeemed = $derived(isRedeemed(tour.id));
 
   // this screen owns its bottom bar (Start / Exit), so drop the tab bar
   onMount(() => (ui.hideNav = true));
@@ -39,13 +37,12 @@
       <small>{s('stops', data.stops.length)} · {s('walk', formatDistance(walk.meters, i18n.lang), walk.minutes)}</small>
     </p>
 
-    {#if redeemed}
-      <div class="success">{s('redeemed')}</div>
-    {:else if complete}
+    {#if complete}
+      <!-- Tours award points only (+30); the gift is claimed once on the passport,
+           one per account. The counter finder still helps — that's where the gift is. -->
       <div class="redeem">
         <p class="done">{s('set_complete')} · {s('earned', POINTS.tour)}</p>
-        <StaffConfirm label={s('redeem')} onconfirm={() => redeemSet(tour.id)} />
-        <!-- The voucher is paper and lives at a counter, so say which one is closest. -->
+        <p class="muted"><small>{s('tour_to_passport')}</small></p>
         <NearestBooth />
       </div>
     {/if}

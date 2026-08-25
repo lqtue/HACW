@@ -1,54 +1,67 @@
 [
   {
-    "id": "tier-dao-pho",
-    "points": 40,
-    "icon": "🥉",
+    "id": "rw-voucher-1",
+    "points": 20,
+    "icon": "🎟️",
     "title": {
-      "vi": "Người dạo phố",
-      "en": "Wanderer"
+      "vi": "Voucher hạng 1",
+      "en": "Voucher tier 1"
     },
     "reward": {
-      "vi": "Sticker Hội An Creative Week",
-      "en": "Hoi An Creative Week sticker"
+      "vi": "Chọn 1 voucher: Vigift 50.000đ hoặc giảm 10% VAN•HOA — đổi tại quầy, hết quà thì thôi",
+      "en": "Pick one voucher: Vigift 50,000đ or VAN•HOA 10% off — at the counter, first come first served"
     }
   },
   {
-    "id": "tier-kham-pha",
-    "points": 120,
-    "icon": "🥈",
+    "id": "rw-voucher-2",
+    "points": 50,
+    "icon": "🎟️",
     "title": {
-      "vi": "Người khám phá",
-      "en": "Explorer"
+      "vi": "Voucher hạng 2",
+      "en": "Voucher tier 2"
     },
     "reward": {
-      "vi": "Bưu thiếp in tại chỗ",
-      "en": "Printed postcard"
+      "vi": "Chọn 1 voucher: Vigift 100.000đ hoặc giảm 15% VAN•HOA — đổi tại quầy, hết quà thì thôi",
+      "en": "Pick one voucher: Vigift 100,000đ or VAN•HOA 15% off — at the counter, first come first served"
     }
   },
   {
-    "id": "tier-suu-tam",
+    "id": "rw-charm-fan",
+    "points": 150,
+    "icon": "🎁",
+    "title": {
+      "vi": "Quà vật lý hạng 1",
+      "en": "Physical gift tier 1"
+    },
+    "reward": {
+      "vi": "Bốc thăm tại quầy: set charm DIY Trung Thu hoặc quạt Tuần lễ — số lượng có hạn",
+      "en": "Draw at the counter: Mid-Autumn DIY charm set or festival fan — limited stock"
+    }
+  },
+  {
+    "id": "rw-khan",
     "points": 250,
-    "icon": "🥇",
+    "icon": "🧣",
     "title": {
-      "vi": "Nhà sưu tầm",
-      "en": "Collector"
+      "vi": "Quà vật lý hạng 2",
+      "en": "Physical gift tier 2"
     },
     "reward": {
-      "vi": "Voucher quà tặng (chốt tên sau)",
-      "en": "Gift voucher (name TBD)"
+      "vi": "Bốc thăm tại quầy: khăn Tuần lễ Sáng tạo Hội An — số lượng có hạn",
+      "en": "Draw at the counter: Hội An Creative Week scarf — limited stock"
     }
   },
   {
-    "id": "tier-dai-su",
+    "id": "rw-vigift-set",
     "points": 400,
-    "icon": "🏆",
+    "icon": "🎁",
     "title": {
-      "vi": "Đại sứ Hội An",
-      "en": "Hoi An Ambassador"
+      "vi": "Quà vật lý hạng 3",
+      "en": "Physical gift tier 3"
     },
     "reward": {
-      "vi": "Quà lưu niệm đặc biệt",
-      "en": "Special souvenir"
+      "vi": "Bốc thăm tại quầy: set quà Vigift Đà Nẵng — số lượng rất có hạn",
+      "en": "Draw at the counter: Vigift Đà Nẵng gift set — very limited stock"
     }
   }
 ]

@@ -7,7 +7,10 @@ import {
   maxPossiblePoints,
   tierFor,
   nextTier,
-  evenness
+  evenness,
+  redeemOpen,
+  REDEEM_FROM,
+  REDEEM_TO
 } from './score.js';
 
 // --- per-check-in points ---
@@ -75,5 +78,13 @@ assert.equal(evenness({}, dests), 1, 'no data reads as even');
 assert.equal(evenness({ a: 5, b: 5, c: 5, d: 5 }, dests), 1);
 assert.ok(evenness({ a: 20, b: 0, c: 0, d: 0 }, dests) < 0.01, 'one hot site reads as uneven');
 assert.ok(evenness({ a: 10, b: 8, c: 6, d: 4 }, dests) > 0.95);
+
+// --- redemption window (gifts only during the festival) ---
+// local-date constructor so the test matches the device-local compare in redeemOpen
+const day = (iso) => new Date(`${iso}T12:00:00`);
+assert.equal(redeemOpen(day(REDEEM_FROM)), true, 'opens on the first festival day');
+assert.equal(redeemOpen(day(REDEEM_TO)), true, 'still open on the last day');
+assert.equal(redeemOpen(day('2026-08-27')), false, 'closed the day before');
+assert.equal(redeemOpen(day('2026-09-03')), false, 'closed the day after');
 
 console.log('score.test.js ok');

@@ -3,7 +3,13 @@
   import { staff, unlock } from '$lib/staff.svelte.js';
   import { passport } from '$lib/passport.svelte.js';
   import { flagPassport } from '$lib/fraud.js';
+  import { redeemOpen } from '$lib/score.js';
   import destinations from '$lib/data/destinations.json';
+
+  // Gifts are only at the counters during the festival — no early or late claims,
+  // staff included. Evaluated once per mount; nobody sits on this screen across
+  // the midnight that opens the window.
+  const canRedeem = redeemOpen(new Date());
 
   // Shown to the staff member holding the phone, not to the visitor's advantage:
   // a passport whose stamps couldn't have been walked. Advisory — it never blocks
@@ -32,7 +38,9 @@
   }
 </script>
 
-{#if open}
+{#if !canRedeem}
+  <p class="muted"><small>{s('redeem_closed')}</small></p>
+{:else if open}
   <p class="muted"><small>{s('redeem_intro')}</small></p>
   {#if suspicious}<p class="warn">{s('flag_warn')}</p>{/if}
   {#if !staff.on}

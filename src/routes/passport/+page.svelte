@@ -53,7 +53,11 @@
   // Minimal-scroll passport: progress + points sit up top; the reward ladder and the
   // tour list fold away. They auto-OPEN only when something is claimable, so an action
   // the visitor needs (claim a reward, redeem a completed set) is never hidden.
-  const claimableRewards = $derived(rewards.filter((r) => score.total >= r.points && !isRedeemed(r.id)));
+  // One gift per account (easier counter control): a visitor claims a single
+  // reward tier — the best one unlocked — and once any is taken, no more. The
+  // list is ascending, so the last unlocked entry is the highest tier reached.
+  const rewardClaimed = $derived(rewards.find((r) => isRedeemed(r.id)) ?? null);
+  const offer = $derived(rewardClaimed ? null : (rewards.filter((r) => score.total >= r.points).at(-1) ?? null));
   // cheapest reward still out of reach → how many points to the next one
   const nextReward = $derived([...rewards].filter((r) => r.points > score.total).sort((a, b) => a.points - b.points)[0]);
   const claimableTours = $derived(setRows.filter((x) => x.complete && !isRedeemed(x.tour.id)));
@@ -136,11 +140,11 @@
 
   <!-- Rewards — points headline merged in. Summary counts down to the next reward;
        opens itself when a tier is claimable. How points work lives here too. -->
-  <details class="fold" open={claimableRewards.length > 0}>
-    <summary>{nextReward ? s('pts_to_reward', nextReward.points - score.total) : s('rewards_title')}{#if claimableRewards.length} · {claimableRewards.length} ✓{/if}</summary>
+  <details class="fold" open={offer != null}>
+    <summary>{nextReward ? s('pts_to_reward', nextReward.points - score.total) : s('rewards_title')}{#if offer} · 1 ✓{/if}</summary>
     <div class="list flush">
       <div class="row">
-        <span class="rbody"><b>{score.total} {s('points')}</b></span>
+        <span class="rbody"><b>{score.total} {s('points')}</b><small>{s('reward_one')}</small></span>
         <span class="pill muted">{count}/{total} ✓</span>
       </div>
       {#each rewards as r (r.id)}
@@ -153,8 +157,10 @@
           </span>
           {#if taken}
             <span class="pill good"><Icon name="check" size={13} /> {s('reward_taken')}</span>
-          {:else if unlocked}
+          {:else if offer?.id === r.id}
             <StaffConfirm label={s('claim')} onconfirm={() => redeemSet(r.id)} />
+          {:else if unlocked}
+            <span class="pill muted">{s('r_higher')}</span>
           {:else}
             <span class="pill muted">{s('r_locked')}</span>
           {/if}
@@ -184,12 +190,10 @@
           </span>
           <span class="rbody">
             <b>{t(tour.title)}</b>
-            <small>{done}/{stops.length}{#if complete} · {isRedeemed(tour.id) ? s('reward_taken') : s('set_complete')}{/if}</small>
+            <small>{done}/{stops.length}{#if complete} · {s('set_complete')}{/if}</small>
           </span>
-          {#if isRedeemed(tour.id)}
+          {#if complete}
             <span class="pill good"><Icon name="check" size={13} /></span>
-          {:else if complete}
-            <span class="pill gold"><Icon name="ticket" size={14} /></span>
           {/if}
         </a>
       {/each}
