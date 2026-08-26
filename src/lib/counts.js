@@ -29,21 +29,31 @@ export const TYPES = new Set([
   'view', 'plan_mode',
   // behaviour detail (per-site, dest-guarded like checkin): `plan_pick` = a site put
   // in the 5-site plan (`n` = its position), `arrive` = GPS fix inside the radius
-  // (`n` = metres), `quiz_ok` = a right answer (`n` = question index), `view_site` =
+  // (`n` = metres), `quiz_done` = quiz passed (`n` = wrong taps it took), `view_site` =
   // the site page opened. With `sid` these give plan adherence, arrivals that never
   // stamped, per-question difficulty and "looked but never went".
-  'plan_pick', 'arrive', 'quiz_ok', 'view_site',
+  'plan_pick', 'arrive', 'quiz_done', 'view_site',
   // "pick for me" A/B: which arm filled a slot with which site (`spot` = quiet then).
   // Per sid, joined with plan_pick / checkin: does the steer move anyone?
   'auto_steer', 'auto_random'
 ]);
 export const MAX_EVENTS = 50; // one dead-spot queue, not a firehose
 
+// Logged to `events` only — no counter row. These are per-DESTINATION types, so each
+// one mints its own key and they were most of the write cost (~18 of 89 row-writes a
+// visit) while nothing reads them live: /organizer shows check-ins, the funnel, views
+// and the GPS/quiz to-do lists, all of which keep their counters. Everything here is
+// answered after the event by a GROUP BY over `events`, which is where it already is.
+const EVENTS_ONLY = new Set(['arrive', 'quiz_done', 'plan_pick', 'auto_steer', 'auto_random']);
+
 // Behaviour crossed BY nationality, keyed `nat:<type>:<id|_>:<code>` (aggregate,
 // alongside the plain counters, which stay untouched so the spotlight is unaffected).
-// Only these types are worth slicing; lang/pick ARE the nationality signal and cell
-// already carries its own locale, so none of those cross.
-const NAT_CROSS = new Set(['checkin', 'gps_far', 'quiz_wrong', 'redeem', 'welcome', 'scan', 'plan_built']);
+// EXACTLY what /organizer renders live — the check-ins table and the three funnel
+// rows — and nothing else: every event row already carries `nat`, so crossing a type
+// nobody watches during the festival just spends write quota on a row read after the
+// event by a GROUP BY instead. lang/pick ARE the nationality signal; cell carries its
+// own locale; neither crosses.
+const NAT_CROSS = new Set(['checkin', 'welcome', 'scan', 'plan_built']);
 const SID = /^[a-f0-9]{8,24}$/i; // ephemeral session id (study.svelte.js)
 
 const ID = /^[a-z0-9-]{1,32}$/;
@@ -85,7 +95,7 @@ export function tally(events, validIds = null) {
   const bump = {};
   for (const e of (events ?? []).slice(0, MAX_EVENTS)) {
     const type = e?.t ?? 'checkin';
-    if (!TYPES.has(type)) continue;
+    if (!TYPES.has(type) || EVENTS_ONLY.has(type)) continue;
     // language events carry a language code, not a destination id: validate against
     // LANGCODE and skip the dest-id allowlist (the code alphabet is its own bound).
     if (LANG_TYPES.has(type)) {

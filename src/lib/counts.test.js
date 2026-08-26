@@ -196,10 +196,12 @@ assert.equal(eventRows([{ eid: 'AB12CD34', t: 'welcome' }], real, T0)[0].eid, 'a
 assert.deepEqual(eventRows([{ eid: 'zz', t: 'welcome' }], real, T0), [], 'malformed eid is not logged');
 assert.equal(eventRows([{ eid: 'a1b2c3d4', t: 'welcome', tk: 7 }], real, T0)[0].tk, null, 'ticket type is 5 or 3 only');
 // behaviour-detail types take the dest guard like checkin does
-assert.deepEqual(tally([{ t: 'plan_pick', id: 'chua-cau', n: 2 }], real), { 'ev:plan_pick:chua-cau': 1 });
-assert.deepEqual(tally([{ t: 'arrive', id: 'nope' }], real), {}, 'arrive at an unknown site is dropped');
-assert.deepEqual(tally([{ t: 'auto_steer', id: 'chua-cau' }, { t: 'auto_random', id: 'nope' }], real), { 'ev:auto_steer:chua-cau': 1 });
-assert.equal(eventRows([{ eid: 'a1b2c3d4', t: 'quiz_ok', id: 'chua-cau', n: 1 }], real, T0)[0].n, 1);
+// per-site behaviour detail lives in `events` only — it mints no counter row
+for (const t of ['arrive', 'quiz_done', 'plan_pick', 'auto_steer', 'auto_random']) {
+  assert.deepEqual(tally([{ t, id: 'chua-cau', n: 2 }], real), {}, `${t} writes no counter`);
+  assert.equal(eventRows([{ eid: 'b1b2b3b4', t, id: 'chua-cau' }], real, T0).length, 1, `${t} is still logged`);
+}
+assert.equal(eventRows([{ eid: 'a1b2c3d4', t: 'quiz_done', id: 'chua-cau', n: 2 }], real, T0)[0].n, 2);
 assert.equal(eventRows([{ eid: 'a1b2c3d4', t: 'view_site', id: 'chua-cau' }], real, T0)[0].dest, 'chua-cau');
 assert.equal(eventRows([{ eid: 'a1b2c3d4', t: 'checkin', id: 'chua-cau' }], real, Date.parse('2026-08-28T09:00+07:00'))[0].nudge, 1);
 
@@ -213,6 +215,14 @@ assert.deepEqual(
   tally([{ t: 'view', id: 'passport', nat: 'ko' }]),
   { 'ev:view:passport': 1, 'nat:view:passport:ko': 1 },
   'pageview crosses by nationality'
+);
+// nat crossing is only what /organizer renders live; everything else reads events.nat
+assert.deepEqual(tally([{ t: 'checkin', id: 'a', nat: 'ko' }]), { 'count:a': 1, 'nat:checkin:a:ko': 1 });
+assert.deepEqual(tally([{ t: 'welcome', nat: 'ko' }]), { 'ev:welcome': 1, 'nat:welcome:_:ko': 1 });
+assert.deepEqual(
+  tally([{ t: 'quiz_wrong', id: 'a', nat: 'ko' }, { t: 'redeem', id: 'b', nat: 'ko' }]),
+  { 'ev:quiz_wrong:a': 1, 'ev:redeem:b': 1 },
+  'types nobody watches live do not mint a nat: row'
 );
 assert.deepEqual(tally([{ t: 'view', id: 'not-a-page' }]), {}, 'unknown route key is dropped');
 assert.deepEqual(tally([{ t: 'view', id: 'ev:redeem' }]), {}, 'view id cannot forge another key');

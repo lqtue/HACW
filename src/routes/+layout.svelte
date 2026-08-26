@@ -87,9 +87,10 @@
   }
   $effect(() => {
     const k = pageKey(rel);
-    if (k) track('view', k);
-    // which site was looked at (a `view` id is a bounded route key, so dest rides its own event)
+    // A site page emits view_site (which site) INSTEAD of view:site, not as well as —
+    // the pair was two rows saying one thing. /organizer sums view_site for the total.
     if (k === 'site') track('view_site', rel.split('/')[2]?.split(/[?#]/)[0]);
+    else if (k) track('view', k);
   });
 </script>
 

@@ -57,7 +57,6 @@
   // perfect bonus), and gets no explanation — that would answer the retry.
   function answer(i) {
     lastCorrect = i === questions[qIndex].answer;
-    if (lastCorrect) track('quiz_ok', destId, qIndex); // with quiz_wrong: per-question difficulty
     if (!lastCorrect) {
       track('quiz_wrong', destId, qIndex);
       missed = true;
@@ -80,6 +79,10 @@
       qIndex += 1;
       step = 'quiz';
     } else {
+      // One event per passed quiz, `n` = wrong taps it took. A per-question event for
+      // every CORRECT answer was ~15 rows a visit and said nothing quiz_wrong doesn't:
+      // difficulty lives in the wrong answers, which are still logged per question.
+      track('quiz_done', destId, wrongCount);
       onpass?.({ missed });
     }
   }

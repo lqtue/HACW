@@ -121,7 +121,20 @@
     home: 'Home', explore: 'Explore map', site: 'Site detail', tours: 'Tours list',
     tour: 'Tour detail', passport: 'Passport', organizer: 'Organizer', terms: 'Terms'
   };
-  const viewRows = $derived(langRows('view:').map(([k, n]) => [VIEW_LABELS[k] ?? k, n, k]));
+  // 'site' has no view: counter of its own — the site page logs view_site:<destId>
+  // (one row instead of two), so its total is the sum of those.
+  // D1 free-tier budget: the endpoint counts the row-writes it spends per day into
+  // ev:rows:<YYYY-MM-DD>, so this is exact and costs no extra read. Over the cap D1
+  // refuses writes and the phones queue until midnight UTC — visible here first.
+  const DAY_CAP = 100000;
+  const today = new Date(Date.now() + 7 * 3600 * 1000).toISOString().slice(0, 10);
+  const writes = $derived(events[`rows:${today}`] ?? 0);
+  const writePct = $derived(Math.min(100, Math.round((writes / DAY_CAP) * 100)));
+  const siteViews = $derived(langRows('view_site:').reduce((a, [, n]) => a + n, 0));
+  const viewRows = $derived(
+    [...langRows('view:').map(([k, n]) => [VIEW_LABELS[k] ?? k, n, k]),
+     ...(siteViews ? [[VIEW_LABELS.site, siteViews, 'site']] : [])].sort((a, b) => b[1] - a[1])
+  );
   const hasViews = $derived(viewRows.length > 0);
   const viewPages = $derived(viewRows.map(([, , k]) => k)); // for the ×nationality table
   const PLAN_LABELS = { recommend: 'Took a suggested set', manual: 'Picked all by hand', mixed: 'Picked some + auto-filled' };
@@ -228,6 +241,15 @@
     <div class="kpi"><strong>{covered}/{destinations.length}</strong><small>{s('org_covered')}</small></div>
     <div class="kpi"><strong>{spread}%</strong><small>{s('org_evenness')}</small></div>
   </div>
+
+  <!-- Write budget. Amber at 70%, red at 90%: past 100% D1 rejects writes and the
+       day's remaining behaviour data waits on the phones until the quota resets. -->
+  {#if writes}
+    <div class="quota" class:warn={writePct >= 70} class:over={writePct >= 90}>
+      <div class="qbar"><span style="width:{writePct}%"></span></div>
+      <small>{s('org_quota', writes.toLocaleString(), writePct)}</small>
+    </div>
+  {/if}
 
   <h2>{s('org_spotlight_now')} ({boosted.size})</h2>
   <p class="muted"><small>{s('spotlight_hint', 10)}</small></p>
@@ -465,6 +487,14 @@
 </PageShell>
 
 <style>
+  .quota { margin: 10px 0 4px; }
+  .quota .qbar { height: 6px; border-radius: 999px; background: var(--line); overflow: hidden; }
+  .quota .qbar span { display: block; height: 100%; background: var(--teal); }
+  .quota.warn .qbar span { background: var(--gold); }
+  .quota.over .qbar span { background: var(--brand); }
+  .quota small { color: var(--muted); }
+  .quota.over small { color: var(--brand-dark); font-weight: 600; }
+
   .langgrid { display: grid; grid-template-columns: 1fr 1fr; gap: 18px; margin-bottom: 8px; }
   .langlist { list-style: none; margin: 0; padding: 0; }
   .langlist li {

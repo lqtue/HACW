@@ -195,9 +195,20 @@ Do not edit the table during the event — it is the pre-registration.
 **Study consent** is one toggle (`research.svelte.js`, default **on**, shown on
 the scan step and the passport page) covering the footfall `cell` counts and the
 per-visit `sid`. The terms page and `research_optin` list exactly what is sent.
-Behaviour-detail events (`plan_pick` with position + spot, `arrive`, `quiz_ok`,
+Behaviour-detail events (`plan_pick` with position + spot, `arrive`, `quiz_done`,
 `view_site`) exist so that, per `sid`, plan adherence, arrivals that never
-stamped, per-question difficulty and looked-but-never-went are all answerable.
+stamped, per-site quiz difficulty and looked-but-never-went are all answerable.
+
+**Counters are only what `/organizer` renders live**; everything else is
+`events`-only (`EVENTS_ONLY` in `counts.js`). The per-destination detail types
+each mint their own counter key, which was most of the write cost while nothing
+read them during the festival. Same reasoning trimmed `NAT_CROSS` to the four
+types the dashboard's cross-tab actually shows, and a site page now logs
+`view_site` *instead of* `view:site` rather than both. Measured on a realistic
+visit: **41 events, 73 row-writes — a free-tier ceiling of ~1,380 visitors/day**
+(was ~960). The endpoint counts its own spend into `ev:rows:<YYYY-MM-DD>`, one
+upsert per request, and `/organizer` shows it as a budget bar (amber 70%, red
+90%) so the cap is visible before it bites.
 **"Pick for me" is an A/B** (`bestFrom` in the home page): one coin flip per
 build, `steer` = quiet → priority → nearest, `random` = uniform from the same
 valid pool; each filled slot logs `auto_steer`/`auto_random` with the site and

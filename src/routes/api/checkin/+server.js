@@ -13,6 +13,7 @@
 
 import { json } from '@sveltejs/kit';
 import { tally, totals, natTotals, eventRows } from '$lib/counts.js';
+import { unit } from '$lib/switchback.js';
 import { isSameOrigin } from '$lib/guard.js';
 import { UPSERT_COUNTER, SELECT_COUNTERS, INSERT_EVENT, SELECT_JOURNEYS, prefixRange } from '$lib/sql.js';
 import destinations from '$lib/data/destinations.json';
@@ -39,6 +40,13 @@ export async function POST({ request, platform }) {
   // clocks drift. `INSERT OR IGNORE` on eid keeps a retried chunk exactly-once.
   const now = Date.now();
   const rows = eventRows(body.events, VALID_IDS, now);
+  // Row-writes spent today, so /organizer can show the D1 free-tier budget (100k
+  // rows/day) before it runs out mid-festival. One extra upsert per REQUEST — not
+  // per event — and it counts itself. Free to read: it rides the ev: prefix the
+  // dashboard already fetches.
+  if (db && (Object.keys(bump).length || rows.length)) {
+    bump[`ev:rows:${unit(now).day}`] = Object.keys(bump).length + rows.length + 1;
+  }
   if (db && (Object.keys(bump).length || rows.length)) {
     // One batch = one transaction: the counters and the log cannot disagree
     // because the second half failed after the first committed.
