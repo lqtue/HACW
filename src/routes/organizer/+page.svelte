@@ -13,7 +13,6 @@
   import DataEditor from '$lib/components/DataEditor.svelte';
   import TourEditor from '$lib/components/TourEditor.svelte';
   import RewardEditor from '$lib/components/RewardEditor.svelte';
-  import EventEditor from '$lib/components/EventEditor.svelte';
   import PageShell from '$lib/components/PageShell.svelte';
   import HeatMap from '$lib/components/HeatMap.svelte';
 
@@ -23,8 +22,7 @@
   const TABS = [
     ['dest', 'org_tab_dest'],
     ['tours', 'org_tab_tours'],
-    ['rewards', 'org_tab_rewards'],
-    ['event', 'org_tab_event']
+    ['rewards', 'org_tab_rewards']
   ];
 
   let gate = $state('');
@@ -447,10 +445,8 @@
       <DataEditor />
     {:else if tab === 'tours'}
       <TourEditor />
-    {:else if tab === 'rewards'}
-      <RewardEditor />
     {:else}
-      <EventEditor />
+      <RewardEditor />
     {/if}
   {:else}
     <!-- A volunteer gets the numbers but not the editor. Without this block the

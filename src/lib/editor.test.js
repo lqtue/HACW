@@ -1,7 +1,7 @@
 // Run: node src/lib/editor.test.js
 import assert from 'node:assert';
 import { readFileSync } from 'node:fs';
-import { checkDestination, checkDestinations, checkTours, checkRewards, checkEvent } from './editor.js';
+import { checkDestination, checkDestinations, checkTours, checkRewards } from './editor.js';
 import { maxPossiblePoints } from './score.js';
 
 const good = {
@@ -75,22 +75,6 @@ assert.equal(checkRewards([{ ...tiers[0], points: undefined }], 500).length, 1, 
 assert.equal(checkRewards([]).length, 1);
 
 // --- event ---------------------------------------------------------------
-const ev = {
-  title: 'T',
-  year: '2026',
-  dates: 'D',
-  tagline: bi,
-  subtitle: bi,
-  venue: bi,
-  intro: bi,
-  note: bi,
-  howItWorks: [bi]
-};
-assert.deepEqual(checkEvent(ev), []);
-assert.equal(checkEvent({ ...ev, title: '  ' }).length, 1);
-assert.equal(checkEvent({ ...ev, howItWorks: [] }).length, 1);
-assert.equal(checkEvent({ ...ev, howItWorks: [{ vi: 'a' }] }).length, 1);
-assert.deepEqual(checkEvent(null), ['event.json: not an object']);
 
 // and the shipped files are clean by the same rules the editor enforces
 const load = (f) => JSON.parse(readFileSync(new URL(`./data/${f}`, import.meta.url), 'utf8'));
@@ -104,6 +88,5 @@ assert.deepEqual(
 );
 assert.deepEqual(checkTours(load('tours.json'), ids), []);
 assert.deepEqual(checkRewards(load('rewards.json'), maxPossiblePoints(ids.length, load('tours.json').length)), []);
-assert.deepEqual(checkEvent(load('event.json')), []);
 
 console.log('editor.test.js OK');

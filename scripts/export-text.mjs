@@ -38,16 +38,6 @@ for (const c of load('categories.json')) bi('category', c.id, 'label', c.label);
 // ticket counters — where
 for (const p of load('ticket-points.json')) bi('ticket-point', p.id, 'where', p.where);
 
-// event / home copy
-const e = load('event.json');
-for (const f of ['title', 'year', 'dates']) plain('event', 'event', f, e[f]); // one-language
-for (const f of ['tagline', 'subtitle', 'venue', 'intro', 'note', 'programmeTitle']) bi('event', 'event', f, e[f]);
-(e.howItWorks ?? []).forEach((step, i) => bi('event', 'event', `howItWorks[${i}]`, step));
-(e.programme ?? []).forEach((ev, i) => {
-  plain('event', 'event', `programme[${i}].date`, ev.date);
-  plain('event', 'event', `programme[${i}].time`, ev.time);
-  bi('event', 'event', `programme[${i}].title`, ev.title);
-});
 
 // RFC-4180 CSV: quote every field, double internal quotes. BOM so Excel reads UTF-8.
 const csv =

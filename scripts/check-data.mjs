@@ -9,7 +9,7 @@ import assert from 'node:assert';
 import { readFileSync } from 'node:fs';
 import { fileURLToPath } from 'node:url';
 import { dirname, join } from 'node:path';
-import { BOX, checkDestinations, checkTours, checkRewards, checkEvent } from '../src/lib/editor.js';
+import { BOX, checkDestinations, checkTours, checkRewards } from '../src/lib/editor.js';
 import { maxPossiblePoints } from '../src/lib/score.js';
 
 const DATA = join(dirname(fileURLToPath(import.meta.url)), '..', 'src/lib/data');
@@ -20,7 +20,6 @@ const tours = load('tours.json');
 const rewards = load('rewards.json');
 const tickets = load('ticket-points.json');
 const categories = load('categories.json');
-const event = load('event.json');
 
 const ids = destinations.map((d) => d.id);
 const ok = (problems, file) => assert.ok(problems.length === 0, `\n${file}:\n${problems.join('\n')}`);
@@ -56,7 +55,6 @@ if (draftSets.length) console.warn(`  ⚠ ${draftSets.length} draft ticket sets 
 // Tiers gate on points, so the ceiling is the score a visitor is guaranteed to
 // reach — not the number of sites.
 ok(checkRewards(rewards, maxPossiblePoints(destinations.length, tours.length)), 'rewards.json');
-ok(checkEvent(event), 'event.json');
 
 // distance matrix must match the current destination set (stale after add/remove/move → rebuild it)
 const { default: DIST } = await import('../src/lib/data/distances.js');

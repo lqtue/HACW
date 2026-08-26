@@ -119,20 +119,22 @@ confirm, `/organizer` read-only. `ORGANIZER` (`2026hacw`) → `staff.on` *and*
 stops mis-taps and curious visitors, not fraud.
 
 **Content editors** (`staff.admin` only, tabbed at the bottom of `/organizer`):
-four editable files, one shell. `JsonFile.svelte` owns the whole flow — clone the
+three editable files, one shell. `JsonFile.svelte` owns the whole flow — clone the
 shipped JSON, validate on every keystroke, **download** it, read an edited file
 back in, reset — and renders a `children(data)` snippet with the working copy.
-The four bodies are `DataEditor` (destinations), `TourEditor` (tours),
-`RewardEditor` (tiers) and `EventEditor` (home page copy). `Bi.svelte` is the
-`{ vi, en }` field pair they all use. Nothing is written server-side; the file is
-committed and redeployed.
+The three bodies are `DataEditor` (destinations), `TourEditor` (tours) and
+`RewardEditor` (tiers). `Bi.svelte` is the `{ vi, en }` field pair they all use.
+Nothing is written server-side; the file is committed and redeployed.
 
-The three list files edit as **tables** (`.ed-table`) — one row per record, one
-input per cell, so 25 sites are comparable at a glance and the survey-critical
-numbers (lat/lng/radius) line up in columns. Fields too long for a cell (intro
-copy, quiz banks, tour stops) live in a detail row that opens under the record,
-tracked by a plain `$state({})` id map so several can be open at once. `event.json`
-is one object, not rows, so it stays a form.
+All three edit as **tables** (`.ed-table`) — one row per record, one input per
+cell, so 25 sites are comparable at a glance and the survey-critical numbers
+(lat/lng/radius) line up in columns. Fields too long for a cell (intro copy, quiz
+banks, tour stops) live in a detail row that opens under the record, tracked by a
+plain `$state({})` id map so several can be open at once.
+
+There was a fourth editor, `EventEditor` over `event.json` (home hero copy). Both
+are gone: the rebuilt home page is the planner and imports no event copy, so the
+tab edited text nothing rendered.
 
 A volunteer-tier device sees the dashboard but no editor. That branch renders an
 explanation *and* a code box, because once any code is accepted the gate box at the
@@ -143,9 +145,8 @@ the URL, and the missing editor reads as a broken page.
 `.app` for it, lifting the 540px phone column to 1600px. The dashboard half keeps
 a 900px `.dash` cap — only the editors want the full width.
 
-Validation lives in `src/lib/editor.js` — `checkDestinations`, `checkTours`,
-`checkRewards`, `checkEvent` — and `scripts/check-data.mjs` runs those same four
-in `npm test`, so the download button is disabled on anything the repo would
+Validation lives in `src/lib/editor.js` — `checkDestinations`, `checkTours` and
+`checkRewards` — and `scripts/check-data.mjs` runs those same three in `npm test`, so the download button is disabled on anything the repo would
 reject. Cross-file rules that a single editor cannot see stay in `check-data.mjs`;
 "no two tours claim the same stop" and "no tour points at an unknown id" are
 enforced by passing the destination ids into `checkTours`. A site in **no** tour
@@ -209,10 +210,7 @@ content JSON fields are `{ vi, en }` objects — resolve them in markup with
 (some are functions for interpolation). Reactive `$state` language toggle is in
 the layout. Official languages are vi/en; other languages rely on the user's
 browser Google Translate (don't build more locales). When adding content,
-**every translatable field must be `{ vi, en }`**. `event.json` drives the home
-hero: `tagline`/`subtitle`/`venue`/`intro`/`note` are `{ vi, en }`, while
-`title`, `year` and `dates` are deliberately one-language (proper noun, a year,
-a date range) — `checkEvent` in `editor.js` enforces exactly that split.
+**every translatable field must be `{ vi, en }`**.
 
 **Voucher redemption** (`src/routes/tours/[id]/+page.svelte` + the reward tiers on
 the passport page, both via `src/lib/components/StaffConfirm.svelte`): a "set" =
@@ -359,8 +357,9 @@ same roofs was not. `map-style.test.js` asserts every layer draws from
 stylesheet is imported at **runtime**, i.e. after component CSS, so every
 override in the page has to out-specify it (hence `.maplibregl-map …`).
 
-**Tours** (`src/routes/tours/+page.svelte`): single-open accordion — expanding a
-tour renders `RouteMap.svelte` (dashed line + numbered stops, all native layers
+**Tours** (`src/routes/tours/[id]/+page.svelte`, reached from the passport's set
+list — there is no `/tours` index): the page renders `RouteMap.svelte` (dashed
+line + numbered stops, all native layers
 filtered by `['==', ['geometry-type'], …]` off one source) plus walking cost from
 `src/lib/route.js` (`routeStats` = straight-line chain × 1.3 detour factor,
 75 m/min). It is `interactive: false` and has no popups; the stop names are

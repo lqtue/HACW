@@ -11,7 +11,7 @@
 import { readFileSync, writeFileSync } from 'node:fs';
 
 const DATA = new URL('../src/lib/data/', import.meta.url);
-const CONTENT = ['destinations.json','tours.json','rewards.json','event.json','categories.json','ticket-points.json'];
+const CONTENT = ['destinations.json','tours.json','rewards.json','categories.json','ticket-points.json'];
 const SKIP = /\.(address|hours)$/; // VN street names + "7:00-22:00" — not translatable
 
 const rows = [];       // { file, path, skip, vals: {vi, en, …} }

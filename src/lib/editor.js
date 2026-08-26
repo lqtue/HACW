@@ -153,14 +153,3 @@ export function checkRewards(list, maxPoints = null) {
   return out;
 }
 
-/** Event copy on the home page. `title`, `year` and `dates` are deliberately one-language. */
-export function checkEvent(ev) {
-  if (!ev || typeof ev !== 'object' || Array.isArray(ev)) return ['event.json: not an object'];
-  const out = [];
-  if (!String(ev.title ?? '').trim()) out.push('event.title: empty');
-  if (!String(ev.dates ?? '').trim()) out.push('event.dates: empty');
-  for (const f of ['tagline', 'subtitle', 'venue', 'intro', 'note']) bilingual(ev[f], `event.${f}`, out);
-  if (!Array.isArray(ev.howItWorks) || !ev.howItWorks.length) out.push('event.howItWorks: needs at least one step');
-  else ev.howItWorks.forEach((step, i) => bilingual(step, `event.howItWorks[${i}]`, out));
-  return out;
-}
