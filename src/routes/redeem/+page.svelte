@@ -10,7 +10,7 @@
   import { onMount, onDestroy } from 'svelte';
   import rewards from '$lib/data/rewards.json';
   import tours from '$lib/data/tours.json';
-  import destinations from '$lib/data/destinations.json';
+  import destinations from '$lib/data/sites.js';
   import StaffConfirm from '$lib/components/StaffConfirm.svelte';
   import TicketScan from '$lib/components/TicketScan.svelte';
   import { passport, isRedeemed, redeemSet, restoreFromTicket } from '$lib/passport.svelte.js';

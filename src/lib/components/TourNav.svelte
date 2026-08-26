@@ -1,7 +1,7 @@
 <script>
   import { base } from '$app/paths';
   import { goto } from '$app/navigation';
-  import destinations from '$lib/data/destinations.json';
+  import destinations from '$lib/data/sites.js';
   import { stitchRoute, formatDistance, planOrder } from '$lib/route.js';
   import { distanceMeters, bearing } from '$lib/geo.js';
   import { hasStamp } from '$lib/passport.svelte.js';

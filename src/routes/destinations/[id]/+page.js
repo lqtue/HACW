@@ -1,4 +1,4 @@
-import destinations from '$lib/data/destinations.json';
+import destinations from '$lib/data/sites.js';
 import { error } from '@sveltejs/kit';
 
 export const prerender = true;

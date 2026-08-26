@@ -7,7 +7,7 @@
   import { theme } from '$lib/theme.svelte.js';
   import { s } from '$lib/strings.js';
   import { t } from '$lib/i18n.svelte.js';
-  import destinations from '$lib/data/destinations.json';
+  import destinations from '$lib/data/sites.js';
   import { sitePopup } from '$lib/map-popup.js';
   import MapControls from './MapControls.svelte';
 

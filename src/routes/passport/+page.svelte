@@ -1,7 +1,7 @@
 <script>
   import { onMount } from 'svelte';
   import { base } from '$app/paths';
-  import destinations from '$lib/data/destinations.json';
+  import destinations from '$lib/data/sites.js';
   import tours from '$lib/data/tours.json';
   import rewards from '$lib/data/rewards.json';
   import StudyToggle from '$lib/components/StudyToggle.svelte';
@@ -156,7 +156,7 @@
       <div class="pbar"><i style="width: {routePct}%"></i></div>
       <div class="slots" aria-hidden="true">
         {#each slotList as id, i (i)}
-          {#if id}
+          {#if id && byId[id]}
             {@const d = byId[id]}
             {@const got = hasStamp(id)}
             <span class="slot" class:filled={got} style="--cat: var(--c-{d.category})">

@@ -6,7 +6,7 @@
   import { redeemOpen } from '$lib/score.js';
   import { plan } from '$lib/plan.svelte.js';
   import { parseTicket } from '$lib/ticket.js';
-  import destinations from '$lib/data/destinations.json';
+  import destinations from '$lib/data/sites.js';
 
   // Shown to the staff member holding the phone, not to the visitor's advantage:
   // a passport whose stamps couldn't have been walked. Advisory — it never blocks

@@ -211,8 +211,6 @@
         {#if scanSupported}<button class="btn" onclick={() => ticketScan?.start()}>{s('scan_btn')}</button>{/if}
         <button class="sub" onclick={() => onDone?.()}>{s('scan_skip')}</button>
       {/if}
-      <!-- study consent: default on, shown where the visit starts so it is seen, not buried -->
-      <StudyToggle />
     </div>
   </section>
 {:else if step === 'perms'}
@@ -222,14 +220,16 @@
     <div class="mid">
       <IconList items={[
         { icon: 'map', text: s('perm_gps') },
-        { icon: 'compass', text: s('perm_motion') }
+        { icon: 'compass', text: s('perm_motion') },
+        { icon: 'chart', text: s('perm_study') }
       ]} />
     </div>
 
     <div class="dock">
       <!-- one button: Tiếp tục grants location + motion, then moves on -->
       <button class="btn" onclick={() => { requestPerms(); step = 'scan'; }}>{s('continue_btn')}</button>
-      <p class="terms">{s('terms_pre')}<a href="{base}/terms">{s('terms_link')}</a>{s('terms_post')}</p>
+      <!-- study consent: default on, next to the permissions it rides on, reversible on the passport -->
+      <StudyToggle label={s('study_agree')} sub />
     </div>
   </section>
 {/if}
@@ -329,9 +329,4 @@
 
 
   .mid .lead { margin: 0; text-align: center; color: var(--ink); font-size: 1.05rem; line-height: 1.5; }
-  /* the terms note fills the dock's 32px sub slot (two lines, not a link row) */
-  .terms {
-    margin: 0 auto; min-height: 32px; max-width: 34ch;
-    text-align: center; color: var(--muted); font-size: 0.8rem; line-height: 1.4;
-  }
 </style>

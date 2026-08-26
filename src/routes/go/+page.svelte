@@ -8,7 +8,7 @@
   import { base } from '$app/paths';
   import { goto } from '$app/navigation';
   import tours from '$lib/data/tours.json';
-  import destinations from '$lib/data/destinations.json';
+  import destinations from '$lib/data/sites.js';
   import { plan } from '$lib/plan.svelte.js';
   import { optimizeRoute } from '$lib/route.js';
   import TourNav from '$lib/components/TourNav.svelte';

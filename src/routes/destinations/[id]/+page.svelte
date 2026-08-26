@@ -7,7 +7,7 @@
   import { recordCell } from '$lib/research.svelte.js';
   import { POINTS, spotlightIds, stampPoints } from '$lib/score.js';
   import { nudgeOn } from '$lib/switchback.js';
-  import destinations from '$lib/data/destinations.json';
+  import destinations from '$lib/data/sites.js';
   import { t } from '$lib/i18n.svelte.js';
   import { s } from '$lib/strings.js';
   import MatCua from '$lib/components/MatCua.svelte';

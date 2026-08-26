@@ -254,6 +254,7 @@ for (const [i, row] of rows.entries()) {
     lat: latlng[0],
     lng: latlng[1],
     radius: prev.radius ?? 75,
+    ...(prev.closed ? { closed: true } : {}),
     // approximate coordinate -> shows up in the organizer survey checklist
     ...(APPROX.has(code) ? { needsSurvey: true } : {}),
     address: {

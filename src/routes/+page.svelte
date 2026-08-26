@@ -2,7 +2,7 @@
   import { base } from '$app/paths';
   import { onMount, onDestroy, untrack } from 'svelte';
   import { ui } from '$lib/ui.svelte.js';
-  import destinations from '$lib/data/destinations.json';
+  import destinations from '$lib/data/sites.js';
   import categories from '$lib/data/categories.json';
   import tours from '$lib/data/tours.json';
   import Onboarding from '$lib/components/Onboarding.svelte';

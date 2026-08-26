@@ -1,5 +1,5 @@
 <script>
-  import destinations from '$lib/data/destinations.json';
+  import destinations from '$lib/data/sites.js';
   import { optimizeRoute, stitchRoute } from '$lib/route.js';
   import { theme } from '$lib/theme.svelte.js';
   import { s } from '$lib/strings.js';

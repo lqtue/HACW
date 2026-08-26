@@ -19,6 +19,8 @@ export function categoryIcon(id) {
  * @returns {{ status: 'open'|'soon'|'closed', text: string } | null}
  */
 export function openLabel(dest, now = new Date()) {
+  // `closed: true` = shut for the whole festival (organiser's word), whatever the hours say
+  if (dest?.closed) return { status: 'closed', text: s('closed_now') };
   const st = openState(dest?.hours?.vi ?? '', now);
   if (st.status === 'unknown') return null;
   if (st.status === 'closed') {

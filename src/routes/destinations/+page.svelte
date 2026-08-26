@@ -2,7 +2,7 @@
   import { onMount, onDestroy } from 'svelte';
   import { goto, afterNavigate } from '$app/navigation';
   import { base } from '$app/paths';
-  import destinations from '$lib/data/destinations.json';
+  import destinations from '$lib/data/sites.js';
   import categories from '$lib/data/categories.json';
   import tickets from '$lib/data/ticket-points.json';
   import Card from '$lib/components/Card.svelte';

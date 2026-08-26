@@ -576,7 +576,8 @@
         "answer": 0
       }
     ],
-    "ticketClass": "museum"
+    "ticketClass": "museum",
+    "closed": true
   },
   {
     "id": "bao-tang-sa-huynh",
@@ -1107,7 +1108,8 @@
         "answer": 2
       }
     ],
-    "ticketClass": "other"
+    "ticketClass": "other",
+    "closed": true
   },
   {
     "id": "nha-tho-toc-tran",
@@ -2395,7 +2397,8 @@
         "answer": 0
       }
     ],
-    "ticketClass": "other"
+    "ticketClass": "other",
+    "closed": true
   },
   {
     "id": "trinh-nghe-xi-ma",

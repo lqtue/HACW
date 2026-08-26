@@ -10,8 +10,9 @@ import { track } from './passport.svelte.js';
 const KEY = 'hacw_research_v1';
 
 export const research = $state({
-  // explicit '0' -> off; anything else (incl. no stored value) -> on. SSR: off.
-  on: browser ? localStorage.getItem(KEY) !== '0' : false
+  // explicit '0' -> off; anything else (incl. no stored value) -> on. SSR: on, so the
+  // prerendered page already shows the default ticked box (no flash on hydrate).
+  on: browser ? localStorage.getItem(KEY) !== '0' : true
 });
 
 export function setResearch(on) {

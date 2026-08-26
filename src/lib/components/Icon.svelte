@@ -35,6 +35,8 @@
   {:else if name === 'compass'}
     <circle cx="12" cy="12" r="8.5" />
     <path d="M15 9 10.5 10.5 9 15 13.5 13.5Z" fill="currentColor" stroke="none" />
+  {:else if name === 'chart'}
+    <path d="M4 20h16M7 16v-5M12 16V6M17 16v-8" />
   {:else if name === 'map'}
     <path d="M9 4 3.5 6v14L9 18l6 2 5.5-2V4L15 6 9 4Z" />
     <path d="M9 4v14M15 6v14" />
