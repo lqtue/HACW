@@ -66,20 +66,39 @@ adapter are mutually exclusive; the endpoints are ordinary SvelteKit
 writes, 16 KB body cap (rules in `$lib/guard.js`, unit-tested). Per-IP rate
 limiting is a Cloudflare dashboard rule, not code.
 
-### Storage: D1, aggregates only
+### Storage: D1 — aggregates for ops, one event log for the study
 
-`schema.sql` has two tables and no event log. `counters` holds one row per key —
-`count:<destId>` for check-ins, `ev:<type>[:<destId>]` for everything else — and
-writes are `INSERT … ON CONFLICT DO UPDATE SET n = n + ?`, i.e. **atomic**, which
-is why there is no sharding and no lost-update caveat. A dashboard read is ~50
-rows, which is what keeps the whole event inside D1's free tier (~100k row writes
-/day, 5M reads/day). Storing one row per check-in instead would blow the read
-allowance on the first dashboard refresh.
+`schema.sql` has three tables. `counters` holds one row per key — `count:<destId>`
+for check-ins, `ev:<type>[:<destId>]` for everything else, `nat:<type>:<id>:<code>`
+for the nationality cross-tab — and writes are `INSERT … ON CONFLICT DO UPDATE SET
+n = n + ?`, i.e. **atomic**, which is why there is no sharding and no lost-update
+caveat. It is the **ops** store: spotlight and the dashboard read only it. The read
+is a primary-key **range** (`k >= ? AND k < ?` via `prefixRange()`), not `LIKE` —
+LIKE can't use the index and the table is a few thousand rows now, not 50.
 
-The four statements live in `src/lib/sql.js` so `sql.test.js` can run them
-against a real SQLite (`node:sqlite`) — D1 *is* SQLite, so the upsert arithmetic
-is verified, not assumed. Bind order is documented on each export; they use plain
-`?` placeholders so the same string binds positionally in both D1 and the test.
+`events` is the **study** store (`src/lib/switchback.js`, `eventRows()` in
+`counts.js`): one row per accepted event, stamped with the *server* clock, the
+half-day switchback unit (`day`, `half`, `nudge` from the pre-registered
+`SCHEDULE`), whether the site was spotlight on the client (`spot`), nationality,
+and — only for visitors who opted into the journey study — an ephemeral `sid`/`seq`.
+**Device-free by design**: no pid, no device id. Per-device questions (plan
+adherence) are answered from `passports.snapshot`, which now carries `plan` (the
+5 chosen ids) and `spot` on each stamp. Each client event has a random `eid`;
+`INSERT OR IGNORE` on it makes a re-sent queue chunk exactly-once in the log (the
+counters still double-bump on a retry — ops only, accepted). Both stores are
+written in **one `db.batch`** so they cannot disagree. Nobody reads `events` live:
+it is for SQL / CSV after the festival — the queries it exists to answer are listed
+in `schema.sql`. Write volume (~2 rows per event) needs the **paid Workers plan**;
+the free tier's 100k rows/day is not enough for a festival day.
+
+The statements live in `src/lib/sql.js` so `sql.test.js` can run them against a
+real SQLite (`node:sqlite`) — D1 *is* SQLite, so the upsert arithmetic, the
+dedupe, the index usage (`EXPLAIN QUERY PLAN`) and the switchback stamping are
+verified, not assumed. Bind order is documented on each export.
+
+The client queue (`flush()` in `passport.svelte.js`) drains in chunks of 50 =
+server `MAX_EVENTS`; sending the whole queue silently lost everything past 50 and
+wedged past ~160 events on the 16 KB body guard.
 
 ### Base path — the #1 way to break this
 
@@ -161,6 +180,15 @@ in `passports.flags`. Shown as a masked review list in `/organizer` and as a
 warning inside `StaffConfirm`. **Advisory by design — never blocks a redemption.**
 The app cannot prevent faked check-ins (GPS is self-reported, quiz answers ship in
 the JSON); this makes cheating visible instead. Threat model: `CONCERNS.md` §3b.
+
+**Switchback** (`src/lib/switchback.js`, pure): the dispersal study's on/off
+schedule — 28 Aug–2 Sep 2026, half-day units switching at 13:00 local, days 1–4
+alternating (AM and PM each 2 on / 2 off), days 5–6 off as the persistence tail.
+Outside the table every unit is **on**, so dev/preview and any other date behave
+as today. The server stamps `nudge` on every logged event from it; the client
+side (hide spotlight + drop the ranker's crowd term on off units) is the next
+step and not wired yet. Do not edit the table during the event — it is the
+pre-registration.
 
 **Scoring & spotlight** (`src/lib/score.js`, pure — no imports, so `node` can
 test it; callers pass the JSON in): 10 pts per check-in, +5 for a quiz with no

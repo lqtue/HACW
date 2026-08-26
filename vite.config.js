@@ -2,10 +2,12 @@ import { sveltekit } from '@sveltejs/kit/vite';
 import { SvelteKitPWA } from '@vite-pwa/sveltekit';
 import { defineConfig } from 'vite';
 import { readFileSync, existsSync } from 'node:fs';
-import { tally, totals, natTotals, journeyRows } from './src/lib/counts.js';
+import { tally, totals, natTotals, eventRows } from './src/lib/counts.js';
 import { flagPassport } from './src/lib/fraud.js';
+import { mergeSnapshots } from './src/lib/backup.js';
 
 const destinations = JSON.parse(readFileSync('./src/lib/data/destinations.json', 'utf8'));
+const VALID_IDS = new Set(destinations.map((d) => d.id));
 
 // Match SvelteKit's base path so the PWA manifest/SW resolve under /<repo> on GitHub Pages.
 const base = process.env.BASE_PATH ?? '';
@@ -21,7 +23,8 @@ function devApi() {
   const counters = {};
   const passports = {};
   const flags = {};
-  const journeys = [];
+  const events = [];
+  const owners = {};
   const send = (res, obj, status = 200) => {
     res.statusCode = status;
     res.setHeader('content-type', 'application/json');
@@ -49,7 +52,7 @@ function devApi() {
         const path = url.pathname.replace(base, '');
         if (path === '/api/checkin') {
           if (req.method === 'GET') {
-            if (url.searchParams.has('journeys')) return send(res, { rows: journeys.slice(-20000).reverse() });
+            if (url.searchParams.has('journeys')) return send(res, { rows: events.filter((e) => e.sid).slice(-20000).reverse() });
             if (url.searchParams.has('nat')) return send(res, natTotals(Object.entries(counters)));
             return send(res, totals(Object.entries(counters), url.searchParams.has('events')));
           }
@@ -57,20 +60,27 @@ function devApi() {
             // Same validation and key layout as the real endpoint, so dev shows
             // exactly what production would store — this stands in for the
             // `counters` table (upsert) and the `journeys` table.
-            const events = (await body(req))?.events ?? [];
-            for (const [k, n] of Object.entries(tally(events))) {
+            const evs = (await body(req))?.events ?? [];
+            for (const [k, n] of Object.entries(tally(evs, VALID_IDS))) {
               counters[k] = (counters[k] ?? 0) + n;
             }
-            journeys.push(...journeyRows(events));
-            return send(res, { ok: true, counted: events.length });
+            const seen = new Set(events.map((e) => e.eid));
+            events.push(...eventRows(evs, VALID_IDS).filter((r) => !seen.has(r.eid)));
+            return send(res, { ok: true, stored: true, counted: evs.length });
           }
         }
         if (path === '/api/passport') {
           if (req.method === 'PUT') {
+            // same merge + ticket lock as the real endpoint, so the two paths that
+            // are hardest to get right are reproducible in dev
             const snap = await body(req);
             if (snap?.pid) {
-              passports[snap.pid] = snap;
-              flags[snap.pid] = flagPassport(snap.stamps, destinations).length;
+              const held = owners[snap.pid] ?? '';
+              const did = typeof snap.did === 'string' ? snap.did : '';
+              if (held && held !== did && !snap.claim) return send(res, { error: 'ticket-in-use' }, 409);
+              owners[snap.pid] = did || held;
+              passports[snap.pid] = mergeSnapshots(passports[snap.pid] ?? null, snap);
+              flags[snap.pid] = flagPassport(passports[snap.pid].stamps, destinations).length;
             }
             return send(res, { ok: true });
           }

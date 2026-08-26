@@ -38,6 +38,11 @@ assert.deepEqual(mergeSnapshots(stored, incoming).redeemed, both.redeemed, 'no d
 assert.equal(mergeSnapshots(null, incoming).stamps.length, 2, 'first ever backup has no prev');
 assert.equal(mergeSnapshots(stored, { pid: 'AB12CD34' }).stamps.length, 1, 'empty PUT removes nothing');
 assert.equal(both.pid, 'AB12CD34');
+// plan (study field) is a choice: latest non-empty wins, empty never erases
+assert.deepEqual(mergeSnapshots(stored, { pid: 'AB12CD34', plan: ['a', 'b'] }).plan, ['a', 'b']);
+assert.deepEqual(mergeSnapshots({ ...stored, plan: ['a'] }, { pid: 'AB12CD34', plan: [] }).plan, ['a']);
+assert.ok(!('plan' in mergeSnapshots(stored, incoming)), 'no plan anywhere -> field absent');
+assert.deepEqual(mergeStamps([], [{ id: 'z', at: 'x', spot: 1 }])[0].spot, 1, 'spot survives the merge');
 
 // --- backup link round-trip (this is the no-server recovery path) ---
 const snap = { v: 1, pid: 'AB12CD34', stamps: remote, redeemed: ['tier-dao-pho'] };

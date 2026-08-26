@@ -2,7 +2,8 @@
 // Counts check-ins per destination plus a few event tallies in the D1 database
 // bound as DB (Pages project → Settings → Bindings → D1). Schema: schema.sql.
 //
-//   POST /api/checkin  { pid, events: [{ t, id, n, at }] }
+//   POST /api/checkin  { events: [{ eid, t, id, n, at, nat?, spot?, sid?, seq? }] }
+//     -> counters (ops aggregates) + one `events` row per event (study log)
 //   GET  /api/checkin           -> { "<destId>": <count> }   (drives the spotlight)
 //   GET  /api/checkin?events=1  -> { "<type>": <count>, "gps_far:<id>": <count> }
 //
@@ -11,9 +12,9 @@
 // Validation and key layout are in $lib/counts.js so node can test them.
 
 import { json } from '@sveltejs/kit';
-import { tally, totals, natTotals, journeyRows } from '$lib/counts.js';
+import { tally, totals, natTotals, eventRows } from '$lib/counts.js';
 import { isSameOrigin } from '$lib/guard.js';
-import { UPSERT_COUNTER, SELECT_COUNTERS, INSERT_JOURNEY, SELECT_JOURNEYS } from '$lib/sql.js';
+import { UPSERT_COUNTER, SELECT_COUNTERS, INSERT_EVENT, SELECT_JOURNEYS, prefixRange } from '$lib/sql.js';
 import destinations from '$lib/data/destinations.json';
 
 export const prerender = false;
@@ -31,25 +32,25 @@ export async function POST({ request, platform }) {
   }
   if (!Array.isArray(body?.events)) return json({ error: 'events[] required' }, { status: 400 });
 
-  // Tally in memory first: one row per key per request instead of per event.
-  const bump = tally(body.events, VALID_IDS);
   const db = platform?.env?.DB;
-  if (db && Object.keys(bump).length) {
-    const now = Date.now();
-    // Atomic increments — the reason for moving off KV. No shards, no lost updates.
-    await db.batch(
-      Object.entries(bump).map(([k, n]) => db.prepare(UPSERT_COUNTER).bind(k, n, now, n, now))
-    );
+  // Tally in memory first: one counter row per key per request instead of per event.
+  const bump = tally(body.events, VALID_IDS);
+  // Study rows use the SERVER clock: it stamps the switchback unit, and phone
+  // clocks drift. `INSERT OR IGNORE` on eid keeps a retried chunk exactly-once.
+  const now = Date.now();
+  const rows = eventRows(body.events, VALID_IDS, now);
+  if (db && (Object.keys(bump).length || rows.length)) {
+    // One batch = one transaction: the counters and the log cannot disagree
+    // because the second half failed after the first committed.
+    await db.batch([
+      ...Object.entries(bump).map(([k, n]) => db.prepare(UPSERT_COUNTER).bind(k, n, now, n, now)),
+      ...rows.map((r) =>
+        db.prepare(INSERT_EVENT).bind(r.eid, r.ts, r.day, r.half, r.nudge, r.t, r.dest, r.spot, r.nat, r.n, r.sid, r.seq)
+      )
+    ]);
   }
-  // Opt-in journey rows: only events the client stamped with an `sid` (i.e. the
-  // visitor opted into the sequence study) become rows — one INSERT each.
-  const jrows = db ? journeyRows(body.events, VALID_IDS) : [];
-  if (jrows.length) {
-    await db.batch(
-      jrows.map((r) => db.prepare(INSERT_JOURNEY).bind(r.sid, r.seq, r.nat, r.t, r.dest, r.ts))
-    );
-  }
-  return json({ ok: true, counted: Object.values(bump).reduce((a, b) => a + b, 0) });
+  // stored:false = no D1 bound; the organizer page surfaces it, the client still drains.
+  return json({ ok: true, stored: !!db, counted: Object.values(bump).reduce((a, b) => a + b, 0) });
 }
 
 export async function GET({ url, platform, request }) {
@@ -64,8 +65,8 @@ export async function GET({ url, platform, request }) {
   const db = platform?.env?.DB;
   if (!db) return json(wantJourneys ? { rows: [] } : {});
 
-  // Journey export: raw per-event rows (opt-in study). Capped — a researcher pulls
-  // this occasionally as CSV, so the per-event read cost is bounded and infrequent.
+  // Journey export: the opt-in rows of the study log (those carrying a sid). Capped —
+  // a researcher pulls this occasionally as CSV, so the read cost is bounded.
   // ponytail: LIMIT 20000; page by `id` if the event ever outgrows one pull.
   if (wantJourneys) {
     const { results } = await db.prepare(SELECT_JOURNEYS).bind(20000).all();
@@ -74,7 +75,7 @@ export async function GET({ url, platform, request }) {
 
   // Nationality cross-tab: nat:<type>:<id>:<code> rows -> {type:{id:{code:n}}}.
   if (wantNat) {
-    const { results } = await db.prepare(SELECT_COUNTERS).bind('nat:%').all();
+    const { results } = await db.prepare(SELECT_COUNTERS).bind(...prefixRange('nat:')).all();
     return json(natTotals((results ?? []).map((r) => [r.k, r.n])));
   }
 
@@ -82,7 +83,7 @@ export async function GET({ url, platform, request }) {
   // event log is that this stays a trivial read.
   const { results } = await db
     .prepare(SELECT_COUNTERS)
-    .bind(wantEvents ? 'ev:%' : 'count:%')
+    .bind(...prefixRange(wantEvents ? 'ev:' : 'count:'))
     .all();
   const rows = (results ?? []).map((r) => [r.k, r.n]);
   // The spotlight only needs to drift a few times a day; let the edge absorb the reads.

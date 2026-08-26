@@ -1,4 +1,4 @@
-// The four statements the API runs against D1. Kept here so `sql.test.js` can
+// The statements the API runs against D1. Kept here so `sql.test.js` can
 // execute them against a real SQLite (node:sqlite) — the SQL is the part where a
 // silent mistake would quietly stop counting.
 //
@@ -10,8 +10,12 @@
 export const UPSERT_COUNTER = `INSERT INTO counters (k, n, updated) VALUES (?, ?, ?)
    ON CONFLICT(k) DO UPDATE SET n = n + ?, updated = ?`;
 
-/** (likePattern) — 'count:%' or 'ev:%' */
-export const SELECT_COUNTERS = `SELECT k, n FROM counters WHERE k LIKE ?`;
+/** (prefix, prefixEnd) — e.g. ('count:', 'count;'): a range on the primary key.
+ *  `LIKE 'count:%'` cannot use the index (BINARY collation vs case-insensitive
+ *  LIKE) and became a full scan once the nat:/view: keys grew the table. */
+export const SELECT_COUNTERS = `SELECT k, n FROM counters WHERE k >= ? AND k < ?`;
+/** The two bind values for SELECT_COUNTERS: ':' + 1 = ';' bounds the prefix. */
+export const prefixRange = (prefix) => [prefix, prefix.slice(0, -1) + String.fromCharCode(prefix.charCodeAt(prefix.length - 1) + 1)];
 
 /** (pid) */
 export const SELECT_PASSPORT = `SELECT snapshot, owner FROM passports WHERE pid = ?`;
@@ -26,9 +30,11 @@ export const UPSERT_PASSPORT = `INSERT INTO passports (pid, snapshot, updated, f
 export const SELECT_FLAGGED = `SELECT pid, flags, updated FROM passports
    WHERE flags > 0 ORDER BY flags DESC, updated DESC LIMIT 50`;
 
-/** (sid, seq, nat, t, dest, ts) — one opt-in journey event. */
-export const INSERT_JOURNEY = `INSERT INTO journeys (sid, seq, nat, t, dest, ts) VALUES (?, ?, ?, ?, ?, ?)`;
+/** (eid, ts, day, half, nudge, t, dest, spot, nat, n, sid, seq) — one study row.
+ *  OR IGNORE on the eid: a re-sent queue chunk stores nothing twice. */
+export const INSERT_EVENT = `INSERT OR IGNORE INTO events (eid, ts, day, half, nudge, t, dest, spot, nat, n, sid, seq)
+   VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)`;
 
-/** (limit) — newest journey rows for the organizer CSV export. */
-export const SELECT_JOURNEYS = `SELECT sid, seq, nat, t, dest, ts FROM journeys
-   ORDER BY id DESC LIMIT ?`;
+/** (limit) — newest opt-in journey rows (events carrying a sid) for the organizer CSV. */
+export const SELECT_JOURNEYS = `SELECT sid, seq, nat, t, dest, ts FROM events
+   WHERE sid IS NOT NULL ORDER BY id DESC LIMIT ?`;

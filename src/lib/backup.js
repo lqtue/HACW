@@ -9,22 +9,27 @@ export function mergeStamps(local, incoming) {
   for (const s of incoming ?? []) {
     if (!s?.id) continue;
     const mine = out.find((x) => x.id === s.id);
-    if (!mine) out.push({ id: s.id, at: s.at, pts: s.pts ?? 10 });
+    if (!mine) out.push({ id: s.id, at: s.at, pts: s.pts ?? 10, ...(s.spot != null ? { spot: s.spot } : {}) });
     else {
       if (s.at && (!mine.at || s.at < mine.at)) mine.at = s.at;
       if ((s.pts ?? 0) > (mine.pts ?? 0)) mine.pts = s.pts;
+      if (mine.spot == null && s.spot != null) mine.spot = s.spot; // study field, never cleared
     }
   }
   return out;
 }
 
-/** Whole-passport union, as stored server-side. Same rule: add, never remove. */
+/** Whole-passport union, as stored server-side. Same rule: add, never remove.
+ *  `plan` (the 5 sites chosen, study: adherence = plan ∩ stamps) is the latest
+ *  non-empty list — it is a choice, not a collection, so it does replace. */
 export function mergeSnapshots(prev, next) {
+  const plan = Array.isArray(next.plan) && next.plan.length ? next.plan : prev?.plan;
   return {
     v: 1,
     pid: next.pid,
     stamps: mergeStamps(prev?.stamps ?? [], next.stamps ?? []),
-    redeemed: [...new Set([...(prev?.redeemed ?? []), ...(next.redeemed ?? [])])]
+    redeemed: [...new Set([...(prev?.redeemed ?? []), ...(next.redeemed ?? [])])],
+    ...(Array.isArray(plan) && plan.length ? { plan: plan.filter((x) => typeof x === 'string').slice(0, 25) } : {})
   };
 }
 

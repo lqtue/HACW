@@ -36,21 +36,45 @@ CREATE TABLE IF NOT EXISTS passports (
 --   npx wrangler d1 execute hacw --remote --command "ALTER TABLE passports ADD COLUMN owner TEXT"
 
 
--- Opt-in journey study: one row PER event (the exception to the aggregates-only
--- rule), so a visit's ORDER of sites can be reconstructed per nationality. `sid`
--- is an ephemeral per-session id (not the device pid) — resets each visit, links
--- nothing across visits. Written only when the visitor opted in (the client sends
--- `sid` only then); reads are organizer CSV export, never a live dashboard, so the
--- per-event rows don't blow the D1 read allowance.
--- ponytail: no retention job — TRUNCATE / drop the table after the event. Add a
--- date-partition purge only if this ever runs longer than one festival.
-CREATE TABLE IF NOT EXISTS journeys (
-  id INTEGER PRIMARY KEY AUTOINCREMENT,
-  sid TEXT NOT NULL,      -- ephemeral session id (per visit), not a device id
-  seq INTEGER NOT NULL,   -- order within the session
-  nat TEXT,               -- nationality code (chosen language), or NULL
-  t TEXT NOT NULL,        -- event type (checkin, scan, …)
-  dest TEXT,              -- destination id, or NULL for site-less events
-  ts INTEGER NOT NULL     -- client timestamp (ms)
+-- Study log: one row PER event (the exception to the aggregates-only rule).
+-- `counters` above stays the ops store (spotlight, dashboard); this table is what
+-- the dispersal study and the behaviour analysis read, later, by SQL / CSV pull.
+-- Device-free by design: no pid, no device id, so it is the same anonymous
+-- posture as the counters, just not pre-summed. Per-device questions (plan
+-- adherence) are answered from `passports.snapshot` (stamps + plan) instead.
+--   eid          client-minted random id; INSERT OR IGNORE makes a retried queue
+--                flush exactly-once (the counters above still double-bump — ops only)
+--   ts/day/half  SERVER time (phone clocks drift); half-day is the switchback unit
+--   nudge        src/lib/switchback.js schedule value for (day, half)
+--   spot         the client saw this dest as spotlight at the time (quiet half)
+--   sid/seq      only for visitors who opted into the journey study (ordered
+--                sequence under an ephemeral per-visit id); NULL otherwise
+-- Analysis this schema is built to answer (run after the event):
+--   evenness per unit:  SELECT day, half, nudge, dest, COUNT(*) FROM events
+--                       WHERE t='checkin' GROUP BY 1,2,3,4      -> Gini/entropy on vs off
+--   spotlight uptake:   AVG(spot) of check-ins, on vs off
+--   funnel by nat/hour: GROUP BY nat, half, t
+--   tail:               days 5–6 (nudge=0) vs off-units of days 1–4
+-- ponytail: no retention job — drop the table after the event (CONCERNS.md §3b).
+CREATE TABLE IF NOT EXISTS events (
+  id    INTEGER PRIMARY KEY,
+  eid   TEXT NOT NULL UNIQUE,
+  ts    INTEGER NOT NULL,
+  day   TEXT NOT NULL,
+  half  TEXT NOT NULL,
+  nudge INTEGER NOT NULL,
+  t     TEXT NOT NULL,
+  dest  TEXT,
+  spot  INTEGER,
+  nat   TEXT,
+  n     REAL,
+  sid   TEXT,
+  seq   INTEGER
 );
-CREATE INDEX IF NOT EXISTS journeys_sid ON journeys (sid, seq);
+CREATE INDEX IF NOT EXISTS events_unit ON events (day, half, t);
+-- The organizer review list is `WHERE flags > 0 ORDER BY flags, updated`; without
+-- this it is a full scan of every passport plus a sort on each dashboard load.
+CREATE INDEX IF NOT EXISTS passports_flagged ON passports (flags DESC, updated DESC) WHERE flags > 0;
+
+-- `journeys` (the earlier opt-in log) is superseded by `events.sid`; existing
+-- deployments can drop it after the event:  DROP TABLE IF EXISTS journeys;

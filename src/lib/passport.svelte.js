@@ -2,6 +2,7 @@ import { browser } from '$app/environment';
 import { base } from '$app/paths';
 import { mergeStamps, encodeSnapshot, decodeSnapshot, normalizeCode, isValidCode, codeFromTicket } from './backup.js';
 import { study, journeyTag } from './study.svelte.js';
+import { plan } from './plan.svelte.js';
 
 const KEY = 'hacw_passport_v1';
 const QUEUE = 'hacw_checkin_queue_v1';
@@ -124,11 +125,12 @@ export function redeemSet(id) {
   soon('backup', backup, 10000);
 }
 
-export function addStamp(id, pts = 10) {
+/** @param {boolean} [spot] the site was spotlight (quiet half) at check-in — study field */
+export function addStamp(id, pts = 10, spot) {
   if (hasStamp(id)) return;
-  passport.stamps.push({ id, at: new Date().toISOString(), pts });
+  passport.stamps.push({ id, at: new Date().toISOString(), pts, ...(spot != null ? { spot: spot ? 1 : 0 } : {}) });
   persist();
-  track('checkin', id);
+  track('checkin', id, undefined, spot);
   soon('backup', backup, 10000);
 }
 
@@ -150,11 +152,15 @@ function soon(key, fn, ms) {
 /** @param {string} type checkin | gps_far | gps_fail | quiz_wrong | redeem |
  *    welcome | scan | plan_built | lang | pick
  *  @param {string} [id] destination / tour id — or, for lang/pick, a language code
- *  @param {number} [n] optional measurement (metres off, question index) */
-export function track(type, id, n) {
+ *  @param {number} [n] optional measurement (metres off, question index)
+ *  @param {boolean} [spot] the site was spotlight at the time (study: nudge uptake) */
+export function track(type, id, n, spot) {
   if (!browser) return;
   const q = read(QUEUE);
-  const e = { t: type, id, n, at: Date.now() };
+  // eid: random per event so the server's INSERT OR IGNORE makes a re-sent chunk
+  // exactly-once in the study log (a lost response must not double-log).
+  const eid = [...crypto.getRandomValues(new Uint8Array(6))].map((b) => b.toString(16).padStart(2, '0')).join('');
+  const e = { eid, t: type, id, n, at: Date.now(), ...(spot != null ? { spot: spot ? 1 : 0 } : {}) };
   // nationality tag → the server crosses whitelisted behaviour with it (aggregate)
   if (study.nat) e.nat = study.nat;
   // journey stamp only when the visitor opted into the sequence study
@@ -170,19 +176,26 @@ export function track(type, id, n) {
 
 let flushing = false;
 
+// Server accepts MAX_EVENTS (counts.js) per POST and the guard caps the body at
+// 16 KB; a long offline visit exceeds both, so drain in chunks. Sending the whole
+// queue used to drop everything past 50 silently, and past ~160 wedged forever.
+const CHUNK = 50;
+
 export async function flush() {
   if (!browser || !navigator.onLine || flushing) return;
-  const q = read(QUEUE);
-  if (!q.length) return;
   flushing = true;
   try {
-    const res = await fetch(`${base}/api/checkin`, {
-      method: 'POST',
-      headers: { 'content-type': 'application/json' },
-      body: JSON.stringify({ pid: passport.pid, events: q })
-    });
-    // drop only what we actually sent — check-ins made during the request stay queued
-    if (res.ok) localStorage.setItem(QUEUE, JSON.stringify(read(QUEUE).slice(q.length)));
+    for (let q = read(QUEUE); q.length; q = read(QUEUE)) {
+      const chunk = q.slice(0, CHUNK);
+      const res = await fetch(`${base}/api/checkin`, {
+        method: 'POST',
+        headers: { 'content-type': 'application/json' },
+        body: JSON.stringify({ events: chunk })
+      });
+      if (!res.ok) break; // server down -> keep the queue, retry next flush
+      // drop only what we actually sent — check-ins made during the request stay queued
+      localStorage.setItem(QUEUE, JSON.stringify(read(QUEUE).slice(chunk.length)));
+    }
   } catch {
     // still offline / server down -> keep queue, retry next flush
   } finally {
@@ -209,7 +222,8 @@ export function merge(incoming) {
 }
 
 export function snapshot() {
-  return { v: 1, pid: passport.pid, stamps: passport.stamps, redeemed: passport.redeemed };
+  // `plan` rides along for the study (adherence = planned ∩ stamped); not restored.
+  return { v: 1, pid: passport.pid, stamps: passport.stamps, redeemed: passport.redeemed, plan: plan.set };
 }
 
 /** Self-contained backup link — everything is in the fragment, no server needed. */

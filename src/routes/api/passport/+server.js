@@ -13,9 +13,12 @@
 // old phone learns it lost it on its next write), while two people collecting in
 // parallel on one shared ticket does not.
 //
-// ponytail: no auth beyond knowing the code, and codes are guessable at 32^8.
-// Fine for stamp collections (no PII, worst case someone gifts themselves stamps).
-// Anything with real value needs a signed token instead.
+// ponytail: no auth beyond knowing the code. A ticket-derived code is a hash of
+// a *sequential* serial (see codeFromTicket), so the real keyspace is the serial
+// range, not 32^8: someone can enumerate passports (no PII in them) and, with
+// `claim`, take a ticket over — the victim's phone then gets 409 and stops
+// syncing. Tolerated for stamp collections; anything with value needs a signed
+// token, and the UI must offer "scan your ticket again" as the way back.
 
 import { json } from '@sveltejs/kit';
 import { mergeSnapshots, isValidCode } from '$lib/backup.js';
@@ -46,10 +49,12 @@ export async function PUT({ request, platform }) {
 
   const row = await db.prepare(SELECT_PASSPORT).bind(body.pid).first();
   // ticket lock: an unclaimed row is claimed by this device; a foreign one is
-  // refused unless this write is an explicit claim (see the header comment)
+  // refused unless this write is an explicit claim (see the header comment).
+  // A write with NO did counts as foreign too — otherwise omitting the field is
+  // the bypass.
   const did = typeof body?.did === 'string' && body.did.length <= 32 ? body.did : '';
   const held = row?.owner ?? '';
-  if (held && did && held !== did && !body?.claim) {
+  if (held && held !== did && !body?.claim) {
     return json({ error: 'ticket-in-use' }, { status: 409 });
   }
   const owner = did || held || null;

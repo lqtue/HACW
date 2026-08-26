@@ -75,7 +75,7 @@
       else {
         step = 'far';
         // how far off people actually are -> whether this radius needs widening
-        track('gps_far', dest.id, distance);
+        track('gps_far', dest.id, distance, spotlight);
       }
     } catch (e) {
       step = 'error';
@@ -88,7 +88,7 @@
   function onPass(r) {
     missed = r.missed;
     earned = stampPoints({ perfect: !missed, spotlight });
-    addStamp(dest.id, earned);
+    addStamp(dest.id, earned, spotlight);
     step = 'done';
     // the seal lands; give the phone the thump too (no-op where unsupported)
     navigator.vibrate?.(28);

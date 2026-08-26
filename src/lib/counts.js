@@ -1,8 +1,12 @@
 // Everything the check-in endpoint does that isn't storage: what counts as a
-// valid event, and how events map onto counter keys. Pure, so node can test it.
+// valid event, how events map onto counter keys (ops) and onto study rows. Pure,
+// so node can test it.
 //
 //   count:<destId>         check-ins
 //   ev:<type>[:<destId>]   everything that isn't a check-in
+//   events table           one row per accepted event (eventRows)
+
+import { unit, nudgeOn } from './switchback.js';
 
 export const TYPES = new Set([
   'checkin', 'gps_far', 'gps_fail', 'quiz_wrong', 'redeem',
@@ -15,7 +19,7 @@ export const TYPES = new Set([
   // destination id, so they take the LANGCODE path below and skip the dest-id guard.
   'lang', 'pick',
   // research heatmap (opt-in): `cell` = a geohash cell, optionally suffixed with the
-  // device locale (`w3gv5k2-ko`), so footfall can be sliced by nationality. Only the
+  // device locale (`w6v45k2-ko`), so footfall can be sliced by nationality. Only the
   // per-cell COUNT is kept — never a point or a path. Bounded id, skips the guard.
   'cell',
   // pageviews: `view` id = a route key (home, explore, site, …), crossed by nationality
@@ -39,9 +43,11 @@ const ID = /^[a-z0-9-]{1,32}$/;
 // allowlist — a flood tops out at a few thousand real codes, not the unbounded
 // junk the dest-id guard exists to stop.
 const LANGCODE = /^[a-z]{2,8}$/;
-// A geohash cell (base32, no a/i/l/o), optionally `-<langcode>`. Same bounded-alphabet
-// argument: the old town is a few dozen cells × a handful of locales, not a flood.
-const CELL = /^[0-9b-hjkmnp-z]{5,9}(-[a-z]{2,3})?$/;
+// A geohash cell, optionally `-<langcode>`. Pinned to the `w6v4` prefix — the whole
+// old town sits in that one 4-char cell — so at most 32^5 cells can ever exist; an
+// unpinned 9-char geohash would let a script mint millions of counter rows.
+const CELL = /^w6v4[0-9b-hjkmnp-z]{1,5}(-[a-z]{2,3})?$/;
+const EID = /^[a-f0-9]{8,16}$/i; // client-minted event id (passport.svelte.js track)
 const LANG_TYPES = new Set(['lang', 'pick']);
 // Fixed, closed vocabularies — a `view` id is one of the app's routes, a `plan_mode`
 // id is one of three build modes. Both bounded by an allowlist (not just a regex), so
@@ -168,27 +174,47 @@ export function natTotals(rows) {
 }
 
 /**
- * Queued events -> journey rows for the (opt-in) sequence log. Only events that
- * carry an ephemeral `sid` are logged; `dest` is kept only when it names a real
- * site. Pure so sql.test.js / counts.test.js can exercise it.
+ * Queued events -> rows for the `events` study table: every accepted event, with
+ * the server's clock and the switchback unit stamped on. Same acceptance rules as
+ * tally() (type known, dest a real site when present) so the two stores agree,
+ * except the nat/lang/cell/view/plan_mode specifics collapse into `dest`/`n`.
+ * An event without a valid `eid` is skipped: without it a re-sent chunk would
+ * double-log, and that is exactly what the UNIQUE(eid) exists to stop.
  * @param {Iterable<object>} events
- * @param {Set<string>|null} [validIds]
+ * @param {Set<string>|null} validIds
+ * @param {number} now server ms
  */
-export function journeyRows(events, validIds = null) {
+export function eventRows(events, validIds = null, now = Date.now()) {
+  const { day, half } = unit(now);
+  const nudge = nudgeOn(now);
   const rows = [];
   for (const e of (events ?? []).slice(0, MAX_EVENTS)) {
-    if (typeof e?.sid !== 'string' || !SID.test(e.sid)) continue;
+    const eid = typeof e?.eid === 'string' && EID.test(e.eid) ? e.eid.toLowerCase() : null;
+    if (!eid) continue;
     const type = e?.t ?? 'checkin';
     if (!TYPES.has(type)) continue;
-    const dest = typeof e?.id === 'string' && ID.test(e.id) && (!validIds || validIds.has(e.id)) ? e.id : null;
-    const nat = typeof e?.nat === 'string' && LANGCODE.test(e.nat) ? e.nat : null;
+    let dest = null;
+    if (typeof e?.id === 'string') {
+      if (LANG_TYPES.has(type)) dest = LANGCODE.test(e.id) ? e.id : null;
+      else if (type === 'cell') dest = CELL.test(e.id) ? e.id : null;
+      else if (type === 'view') dest = VIEWS.has(e.id) ? e.id : null;
+      else if (type === 'plan_mode') dest = PLAN_MODES.has(e.id) ? e.id : null;
+      else dest = ID.test(e.id) && (!validIds || validIds.has(e.id)) ? e.id : null;
+      if (!dest) continue; // an id was given and it is junk: drop, same as tally()
+    } else if (type === 'checkin') continue;
     rows.push({
-      sid: e.sid,
-      seq: Number.isInteger(e.seq) ? e.seq : 0,
-      nat,
+      eid,
+      ts: now,
+      day,
+      half,
+      nudge,
       t: type,
       dest,
-      ts: Number.isFinite(e.at) ? e.at : 0
+      spot: e?.spot === 1 || e?.spot === true ? 1 : e?.spot === 0 || e?.spot === false ? 0 : null,
+      nat: typeof e?.nat === 'string' && LANGCODE.test(e.nat) ? e.nat : null,
+      n: Number.isFinite(e?.n) ? e.n : null,
+      sid: typeof e?.sid === 'string' && SID.test(e.sid) ? e.sid : null,
+      seq: Number.isInteger(e?.seq) ? e.seq : null
     });
   }
   return rows;

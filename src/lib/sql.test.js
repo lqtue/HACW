@@ -12,10 +12,11 @@ import {
   SELECT_PASSPORT,
   UPSERT_PASSPORT,
   SELECT_FLAGGED,
-  INSERT_JOURNEY,
-  SELECT_JOURNEYS
+  INSERT_EVENT,
+  SELECT_JOURNEYS,
+  prefixRange
 } from './sql.js';
-import { tally, totals, natTotals, journeyRows } from './counts.js';
+import { tally, totals, natTotals, eventRows } from './counts.js';
 import { mergeSnapshots } from './backup.js';
 
 const root = join(dirname(fileURLToPath(import.meta.url)), '../..');
@@ -23,7 +24,7 @@ const db = new DatabaseSync(':memory:');
 db.exec(readFileSync(join(root, 'schema.sql'), 'utf8'));
 
 const bump = (k, n, at = Date.now()) => db.prepare(UPSERT_COUNTER).run(k, n, at, n, at);
-const read = (like) => db.prepare(SELECT_COUNTERS).all(like).map((r) => [r.k, r.n]);
+const read = (like) => db.prepare(SELECT_COUNTERS).all(...prefixRange(like.replace('%', ''))).map((r) => [r.k, r.n]);
 
 // --- counters accumulate instead of overwriting (the whole reason for D1) ---
 bump('count:chua-cau', 1);
@@ -106,21 +107,59 @@ assert.deepEqual(
 );
 assert.deepEqual(totals(read('count:%')).a, 2, 'plain counters untouched by nat crossing');
 
-// --- opt-in journey log: one row per event, read back newest-first for export ---
-const jrows = journeyRows(
-  [
-    { t: 'checkin', id: 'chua-cau', nat: 'ko', sid: 'abc12345', seq: 0, at: 1000 },
-    { t: 'checkin', id: 'nha-co-tan-ky', nat: 'ko', sid: 'abc12345', seq: 1, at: 2000 }
-  ],
-  new Set(['chua-cau', 'nha-co-tan-ky'])
+// --- the counter read is an index range, not a LIKE scan; the range is exact ---
+bump('count;leak', 1); // ';' is the byte after ':' — must NOT be inside the count: range
+assert.ok(!('leak' in totals(read('count:%'))), 'range upper bound excludes the next byte');
+assert.equal(
+  db.prepare('EXPLAIN QUERY PLAN ' + SELECT_COUNTERS).get(...prefixRange('count:')).detail.startsWith('SEARCH'),
+  true,
+  'counter read uses the primary-key index'
 );
-for (const r of jrows) db.prepare(INSERT_JOURNEY).run(r.sid, r.seq, r.nat, r.t, r.dest, r.ts);
+
+// --- study log: one row per accepted event, server clock, exactly-once on retry ---
+const T0 = Date.parse('2026-08-28T15:00:00+07:00'); // day 1 pm: nudge off
+const real = new Set(['chua-cau', 'nha-co-tan-ky']);
+const batch = [
+  { eid: 'aa11bb22cc33', t: 'checkin', id: 'chua-cau', nat: 'ko', spot: 1, sid: 'abc12345', seq: 0, at: 1000 },
+  { eid: 'aa11bb22cc34', t: 'checkin', id: 'nha-co-tan-ky', nat: 'ko', sid: 'abc12345', seq: 1, at: 2000 },
+  { eid: 'aa11bb22cc35', t: 'gps_far', id: 'chua-cau', n: 90 }, // no sid: logged, not a journey row
+  { eid: 'aa11bb22cc36', t: 'checkin', id: 'not-real' }, // junk dest: dropped
+  { t: 'checkin', id: 'chua-cau' } // no eid: dropped (would double-log on retry)
+];
+const ins = (rows) =>
+  rows.forEach((r) =>
+    db.prepare(INSERT_EVENT).run(r.eid, r.ts, r.day, r.half, r.nudge, r.t, r.dest, r.spot, r.nat, r.n, r.sid, r.seq)
+  );
+ins(eventRows(batch, real, T0));
+ins(eventRows(batch, real, T0 + 5000)); // the client re-sends the same chunk
+const all = db.prepare('SELECT * FROM events ORDER BY id').all();
+assert.equal(all.length, 3, 'one row per accepted event, none twice');
+assert.deepEqual(
+  all.map((r) => [r.day, r.half, r.nudge, r.t, r.dest, r.spot, r.nat, r.n, r.sid, r.seq]),
+  [
+    ['2026-08-28', 'pm', 0, 'checkin', 'chua-cau', 1, 'ko', null, 'abc12345', 0],
+    ['2026-08-28', 'pm', 0, 'checkin', 'nha-co-tan-ky', null, 'ko', null, 'abc12345', 1],
+    ['2026-08-28', 'pm', 0, 'gps_far', 'chua-cau', null, null, 90, null, null]
+  ]
+);
+assert.ok(all.every((r) => r.ts === T0), 'server clock, not the phone\'s `at`');
 const got = db.prepare(SELECT_JOURNEYS).all(10);
-assert.equal(got.length, 2, 'both journey rows stored');
 assert.deepEqual(
   got.map((r) => [r.seq, r.dest]).sort((a, b) => a[0] - b[0]),
   [[0, 'chua-cau'], [1, 'nha-co-tan-ky']],
-  'sequence + destination preserved for the researcher CSV'
+  'journey export = the sid-carrying rows only'
+);
+// the analysis query the schema exists for
+const per = db.prepare("SELECT day, half, nudge, dest, COUNT(*) AS c FROM events WHERE t='checkin' GROUP BY 1,2,3,4").all();
+assert.equal(per.length, 2);
+assert.equal(
+  db.prepare("EXPLAIN QUERY PLAN SELECT * FROM events WHERE day=? AND half=? AND t='checkin'").get('2026-08-28', 'pm').detail.includes('events_unit'),
+  true,
+  'per-unit analysis uses its index'
+);
+assert.ok(
+  db.prepare('EXPLAIN QUERY PLAN ' + SELECT_FLAGGED).all().some((r) => r.detail.includes('passports_flagged')),
+  'review list uses the partial index'
 );
 
 console.log('sql.test.js ok');

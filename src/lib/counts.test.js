@@ -1,5 +1,5 @@
 import assert from 'node:assert';
-import { countKey, eventKey, tally, totals, natTotals, journeyRows, MAX_EVENTS } from './counts.js';
+import { countKey, eventKey, tally, totals, natTotals, eventRows, MAX_EVENTS } from './counts.js';
 
 // --- key layout ---
 assert.equal(countKey('chua-cau'), 'count:chua-cau');
@@ -87,14 +87,14 @@ assert.deepEqual(tally([{ t: 'lang' }]), {}, 'a language event with no code is d
 assert.deepEqual(tally([{ t: 'lang', id: 'DROP' }]), {}, 'codes are lowercase letters, not SQL');
 
 // --- heatmap cells: geohash, optionally -locale; bounded, bypasses the site guard ---
-assert.deepEqual(tally([{ t: 'cell', id: 'w3gv5k2' }]), { 'ev:cell:w3gv5k2': 1 }, 'a bare cell counts');
+assert.deepEqual(tally([{ t: 'cell', id: 'w6v45k2' }]), { 'ev:cell:w6v45k2': 1 }, 'a bare cell counts');
 assert.deepEqual(
-  tally([{ t: 'cell', id: 'w3gv5k2-ko' }], real),
-  { 'ev:cell:w3gv5k2-ko': 1 },
+  tally([{ t: 'cell', id: 'w6v45k2-ko' }], real),
+  { 'ev:cell:w6v45k2-ko': 1 },
   'a cell+locale is not a dest id — it bypasses the allowlist'
 );
-assert.deepEqual(tally([{ t: 'cell', id: 'w3gvaik' }]), {}, 'a/i/l/o are not geohash chars — rejected');
-assert.deepEqual(tally([{ t: 'cell', id: 'w3gv5k2-KO' }]), {}, 'locale suffix is lowercase');
+assert.deepEqual(tally([{ t: 'cell', id: 'w6v4aik' }]), {}, 'a/i/l/o are not geohash chars — rejected');
+assert.deepEqual(tally([{ t: 'cell', id: 'w6v45k2-KO' }]), {}, 'locale suffix is lowercase');
 assert.deepEqual(tally([{ t: 'cell' }]), {}, 'a cell with no id is dropped');
 
 // A replayed offline queue is capped, so one phone can't spend the whole day's writes.
@@ -168,21 +168,37 @@ assert.deepEqual(
 );
 
 // --- journey rows: only sid-carrying events, dest kept only for real sites ---
-const jr = journeyRows(
+const T0 = Date.parse('2026-08-29T09:00:00+07:00'); // day 2 am: nudge off
+const jr = eventRows(
   [
-    { t: 'checkin', id: 'chua-cau', nat: 'ko', sid: 'a1b2c3d4', seq: 0, at: 1000 },
-    { t: 'scan', sid: 'a1b2c3d4', seq: 1, at: 1001 },
-    { t: 'checkin', id: 'not-real', sid: 'a1b2c3d4', seq: 2, at: 1002 },
-    { t: 'checkin', id: 'chua-cau', at: 1003 } // no sid -> not a journey row
+    { eid: 'a1b2c3d4e5f6', t: 'checkin', id: 'chua-cau', nat: 'ko', spot: true, sid: 'a1b2c3d4', seq: 0, at: 1000 },
+    { eid: 'a1b2c3d4e5f7', t: 'scan', at: 1001 },
+    { eid: 'a1b2c3d4e5f8', t: 'checkin', id: 'not-real', at: 1002 }, // junk dest -> dropped
+    { eid: 'a1b2c3d4e5f9', t: 'view', id: 'explore', nat: 'ja' },
+    { eid: 'a1b2c3d4e5fa', t: 'cell', id: 'w6v434x-ko' },
+    { eid: 'a1b2c3d4e5fb', t: 'pick', id: 'ko' },
+    { eid: 'a1b2c3d4e5fc', t: 'quiz_wrong', id: 'chua-cau', n: 2, sid: 'nope!' }, // bad sid -> row, no sid
+    { t: 'checkin', id: 'chua-cau', at: 1003 } // no eid -> dropped
   ],
-  real
+  real,
+  T0
 );
+const unitOf = { ts: T0, day: '2026-08-29', half: 'am', nudge: 0 };
 assert.deepEqual(jr, [
-  { sid: 'a1b2c3d4', seq: 0, nat: 'ko', t: 'checkin', dest: 'chua-cau', ts: 1000 },
-  { sid: 'a1b2c3d4', seq: 1, nat: null, t: 'scan', dest: null, ts: 1001 },
-  { sid: 'a1b2c3d4', seq: 2, nat: null, t: 'checkin', dest: null, ts: 1002 }
+  { eid: 'a1b2c3d4e5f6', ...unitOf, t: 'checkin', dest: 'chua-cau', spot: 1, nat: 'ko', n: null, sid: 'a1b2c3d4', seq: 0 },
+  { eid: 'a1b2c3d4e5f7', ...unitOf, t: 'scan', dest: null, spot: null, nat: null, n: null, sid: null, seq: null },
+  { eid: 'a1b2c3d4e5f9', ...unitOf, t: 'view', dest: 'explore', spot: null, nat: 'ja', n: null, sid: null, seq: null },
+  { eid: 'a1b2c3d4e5fa', ...unitOf, t: 'cell', dest: 'w6v434x-ko', spot: null, nat: null, n: null, sid: null, seq: null },
+  { eid: 'a1b2c3d4e5fb', ...unitOf, t: 'pick', dest: 'ko', spot: null, nat: null, n: null, sid: null, seq: null },
+  { eid: 'a1b2c3d4e5fc', ...unitOf, t: 'quiz_wrong', dest: 'chua-cau', spot: null, nat: null, n: 2, sid: null, seq: null }
 ]);
-assert.deepEqual(journeyRows([{ t: 'checkin', id: 'chua-cau', sid: 'nope!' }]), [], 'bad sid is not logged');
+assert.equal(eventRows([{ eid: 'AB12CD34', t: 'welcome' }], real, T0)[0].eid, 'ab12cd34', 'eid normalised');
+assert.deepEqual(eventRows([{ eid: 'zz', t: 'welcome' }], real, T0), [], 'malformed eid is not logged');
+assert.equal(eventRows([{ eid: 'a1b2c3d4', t: 'checkin', id: 'chua-cau' }], real, Date.parse('2026-08-28T09:00+07:00'))[0].nudge, 1);
+
+// --- heatmap cells are pinned to the old town's geohash prefix ---
+assert.deepEqual(tally([{ t: 'cell', id: 'w6v434x' }]), { 'ev:cell:w6v434x': 1 });
+assert.deepEqual(tally([{ t: 'cell', id: 'u4pruyd' }]), {}, 'a cell outside Hội An cannot mint a row');
 
 // --- pageviews: bounded route keys, crossed by nationality; junk pages dropped ---
 assert.deepEqual(tally([{ t: 'view', id: 'explore' }]), { 'ev:view:explore': 1 });
