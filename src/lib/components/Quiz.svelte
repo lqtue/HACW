@@ -57,6 +57,7 @@
   // perfect bonus), and gets no explanation — that would answer the retry.
   function answer(i) {
     lastCorrect = i === questions[qIndex].answer;
+    if (lastCorrect) track('quiz_ok', destId, qIndex); // with quiz_wrong: per-question difficulty
     if (!lastCorrect) {
       track('quiz_wrong', destId, qIndex);
       missed = true;

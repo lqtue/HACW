@@ -15,7 +15,10 @@ CREATE TABLE IF NOT EXISTS events (
   nat   TEXT,
   n     REAL,
   sid   TEXT,
-  seq   INTEGER
+  seq   INTEGER,
+  tk    INTEGER
 );
 CREATE INDEX IF NOT EXISTS events_unit ON events (day, half, t);
 CREATE INDEX IF NOT EXISTS passports_flagged ON passports (flags DESC, updated DESC) WHERE flags > 0;
+-- Existing `events` (created before tk): ignore 'duplicate column' if already applied.
+ALTER TABLE events ADD COLUMN tk INTEGER;

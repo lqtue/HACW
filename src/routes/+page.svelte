@@ -284,6 +284,10 @@
     if (!valid) return;
     setPlanSet(orderedPlan.map((d) => d.id)); // closest-first, shortest walk from `here`
     track('plan_built');
+    // the decision itself: each chosen site, its position, and whether it was a quiet
+    // (spotlight) site at the time -> adherence (vs checkin) and nudge uptake per sid
+    const spotNow = spotlightIds(stats.counts, destinations);
+    orderedPlan.forEach((d, i) => track('plan_pick', d.id, i + 1, spotNow.has(d.id)));
     const buildMode = usedRecommend ? 'recommend' : autoSlots > 0 ? 'mixed' : 'manual';
     track('plan_mode', buildMode, buildMode === 'mixed' ? autoSlots : undefined);
     step = 'done';

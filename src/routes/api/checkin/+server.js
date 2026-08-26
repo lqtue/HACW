@@ -45,7 +45,7 @@ export async function POST({ request, platform }) {
     await db.batch([
       ...Object.entries(bump).map(([k, n]) => db.prepare(UPSERT_COUNTER).bind(k, n, now, n, now)),
       ...rows.map((r) =>
-        db.prepare(INSERT_EVENT).bind(r.eid, r.ts, r.day, r.half, r.nudge, r.t, r.dest, r.spot, r.nat, r.n, r.sid, r.seq)
+        db.prepare(INSERT_EVENT).bind(r.eid, r.ts, r.day, r.half, r.nudge, r.t, r.dest, r.spot, r.nat, r.n, r.sid, r.seq, r.tk)
       )
     ]);
   }

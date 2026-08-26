@@ -80,7 +80,8 @@ LIKE can't use the index and the table is a few thousand rows now, not 50.
 `counts.js`): one row per accepted event, stamped with the *server* clock, the
 half-day switchback unit (`day`, `half`, `nudge` from the pre-registered
 `SCHEDULE`), whether the site was spotlight on the client (`spot`), nationality,
-and — only for visitors who opted into the journey study — an ephemeral `sid`/`seq`.
+an ephemeral per-visit `sid`/`seq` (dies with the tab; absent only when the visitor
+switched the study off), and `tk` = ticket type (5 | 3), the cheapest segment.
 **Device-free by design**: no pid, no device id. Per-device questions (plan
 adherence) are answered from `passports.snapshot`, which now carries `plan` (the
 5 chosen ids) and `spot` on each stamp. Each client event has a random `eid`;
@@ -185,10 +186,18 @@ the JSON); this makes cheating visible instead. Threat model: `CONCERNS.md` §3b
 schedule — 28 Aug–2 Sep 2026, half-day units switching at 13:00 local, days 1–4
 alternating (AM and PM each 2 on / 2 off), days 5–6 off as the persistence tail.
 Outside the table every unit is **on**, so dev/preview and any other date behave
-as today. The server stamps `nudge` on every logged event from it; the client
-side (hide spotlight + drop the ranker's crowd term on off units) is the next
-step and not wired yet. Do not edit the table during the event — it is the
-pre-registration.
+as today. The server stamps `nudge` on every logged event from it and the client obeys it:
+on an off unit the spotlight is hidden on the map and site page, and the planner
+(`rankSets` `ctx.nudge`, `bestFrom`) drops the crowd term. Points are identical
+either way and the logged `spot` is the *true* quiet state, not what was shown.
+Do not edit the table during the event — it is the pre-registration.
+
+**Study consent** is one toggle (`research.svelte.js`, default **on**, shown on
+the scan step and the passport page) covering the footfall `cell` counts and the
+per-visit `sid`. The terms page and `research_optin` list exactly what is sent.
+Behaviour-detail events (`plan_pick` with position + spot, `arrive`, `quiz_ok`,
+`view_site`) exist so that, per `sid`, plan adherence, arrivals that never
+stamped, per-question difficulty and looked-but-never-went are all answerable.
 
 **Scoring & spotlight** (`src/lib/score.js`, pure — no imports, so `node` can
 test it; callers pass the JSON in): 10 pts per check-in, +5 for a quiz with no

@@ -26,7 +26,13 @@ export const TYPES = new Set([
   // so the organizer sees which pages each nationality uses. `plan_mode` id = how the
   // 5-site plan was assembled (recommend | manual | mixed); its `n` = slots the visitor
   // let the app auto-fill. Both take bounded-alphabet ids, so they skip the dest guard.
-  'view', 'plan_mode'
+  'view', 'plan_mode',
+  // behaviour detail (per-site, dest-guarded like checkin): `plan_pick` = a site put
+  // in the 5-site plan (`n` = its position), `arrive` = GPS fix inside the radius
+  // (`n` = metres), `quiz_ok` = a right answer (`n` = question index), `view_site` =
+  // the site page opened. With `sid` these give plan adherence, arrivals that never
+  // stamped, per-question difficulty and "looked but never went".
+  'plan_pick', 'arrive', 'quiz_ok', 'view_site'
 ]);
 export const MAX_EVENTS = 50; // one dead-spot queue, not a firehose
 
@@ -214,7 +220,8 @@ export function eventRows(events, validIds = null, now = Date.now()) {
       nat: typeof e?.nat === 'string' && LANGCODE.test(e.nat) ? e.nat : null,
       n: Number.isFinite(e?.n) ? e.n : null,
       sid: typeof e?.sid === 'string' && SID.test(e.sid) ? e.sid : null,
-      seq: Number.isInteger(e?.seq) ? e.seq : null
+      seq: Number.isInteger(e?.seq) ? e.seq : null,
+      tk: e?.tk === 5 || e?.tk === 3 ? e.tk : null
     });
   }
   return rows;

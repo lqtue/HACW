@@ -76,7 +76,10 @@
       const here = await getPosition();
       recordCell(here); // anonymous foot-traffic count when consent is on (research store)
       distance = Math.round(distanceMeters(here, { lat: dest.lat, lng: dest.lng }));
-      if (distance <= dest.radius) step = 'quiz';
+      if (distance <= dest.radius) {
+        step = 'quiz';
+        track('arrive', dest.id, distance, quiet); // arrival; a missing checkin after = gave up
+      }
       else {
         step = 'far';
         // how far off people actually are -> whether this radius needs widening

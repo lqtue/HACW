@@ -171,7 +171,7 @@ assert.deepEqual(
 const T0 = Date.parse('2026-08-29T09:00:00+07:00'); // day 2 am: nudge off
 const jr = eventRows(
   [
-    { eid: 'a1b2c3d4e5f6', t: 'checkin', id: 'chua-cau', nat: 'ko', spot: true, sid: 'a1b2c3d4', seq: 0, at: 1000 },
+    { eid: 'a1b2c3d4e5f6', t: 'checkin', id: 'chua-cau', nat: 'ko', spot: true, sid: 'a1b2c3d4', seq: 0, at: 1000, tk: 5 },
     { eid: 'a1b2c3d4e5f7', t: 'scan', at: 1001 },
     { eid: 'a1b2c3d4e5f8', t: 'checkin', id: 'not-real', at: 1002 }, // junk dest -> dropped
     { eid: 'a1b2c3d4e5f9', t: 'view', id: 'explore', nat: 'ja' },
@@ -183,9 +183,9 @@ const jr = eventRows(
   real,
   T0
 );
-const unitOf = { ts: T0, day: '2026-08-29', half: 'am', nudge: 0 };
+const unitOf = { ts: T0, day: '2026-08-29', half: 'am', nudge: 0, tk: null };
 assert.deepEqual(jr, [
-  { eid: 'a1b2c3d4e5f6', ...unitOf, t: 'checkin', dest: 'chua-cau', spot: 1, nat: 'ko', n: null, sid: 'a1b2c3d4', seq: 0 },
+  { eid: 'a1b2c3d4e5f6', ...unitOf, tk: 5, t: 'checkin', dest: 'chua-cau', spot: 1, nat: 'ko', n: null, sid: 'a1b2c3d4', seq: 0 },
   { eid: 'a1b2c3d4e5f7', ...unitOf, t: 'scan', dest: null, spot: null, nat: null, n: null, sid: null, seq: null },
   { eid: 'a1b2c3d4e5f9', ...unitOf, t: 'view', dest: 'explore', spot: null, nat: 'ja', n: null, sid: null, seq: null },
   { eid: 'a1b2c3d4e5fa', ...unitOf, t: 'cell', dest: 'w6v434x-ko', spot: null, nat: null, n: null, sid: null, seq: null },
@@ -194,6 +194,12 @@ assert.deepEqual(jr, [
 ]);
 assert.equal(eventRows([{ eid: 'AB12CD34', t: 'welcome' }], real, T0)[0].eid, 'ab12cd34', 'eid normalised');
 assert.deepEqual(eventRows([{ eid: 'zz', t: 'welcome' }], real, T0), [], 'malformed eid is not logged');
+assert.equal(eventRows([{ eid: 'a1b2c3d4', t: 'welcome', tk: 7 }], real, T0)[0].tk, null, 'ticket type is 5 or 3 only');
+// behaviour-detail types take the dest guard like checkin does
+assert.deepEqual(tally([{ t: 'plan_pick', id: 'chua-cau', n: 2 }], real), { 'ev:plan_pick:chua-cau': 1 });
+assert.deepEqual(tally([{ t: 'arrive', id: 'nope' }], real), {}, 'arrive at an unknown site is dropped');
+assert.equal(eventRows([{ eid: 'a1b2c3d4', t: 'quiz_ok', id: 'chua-cau', n: 1 }], real, T0)[0].n, 1);
+assert.equal(eventRows([{ eid: 'a1b2c3d4', t: 'view_site', id: 'chua-cau' }], real, T0)[0].dest, 'chua-cau');
 assert.equal(eventRows([{ eid: 'a1b2c3d4', t: 'checkin', id: 'chua-cau' }], real, Date.parse('2026-08-28T09:00+07:00'))[0].nudge, 1);
 
 // --- heatmap cells are pinned to the old town's geohash prefix ---

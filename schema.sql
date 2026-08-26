@@ -47,13 +47,16 @@ CREATE TABLE IF NOT EXISTS passports (
 --   ts/day/half  SERVER time (phone clocks drift); half-day is the switchback unit
 --   nudge        src/lib/switchback.js schedule value for (day, half)
 --   spot         the client saw this dest as spotlight at the time (quiet half)
---   sid/seq      only for visitors who opted into the journey study (ordered
---                sequence under an ephemeral per-visit id); NULL otherwise
+--   sid/seq      per-visit sequence (ephemeral id, dies with the tab) unless the
+--                visitor switched the study off; NULL then
+--   tk           ticket type held (5 | 3), the cheapest visitor segment we have
 -- Analysis this schema is built to answer (run after the event):
 --   evenness per unit:  SELECT day, half, nudge, dest, COUNT(*) FROM events
 --                       WHERE t='checkin' GROUP BY 1,2,3,4      -> Gini/entropy on vs off
 --   spotlight uptake:   AVG(spot) of check-ins, on vs off
---   funnel by nat/hour: GROUP BY nat, half, t
+--   funnel by segment:  GROUP BY nat, tk, half, t
+--   per visit:          GROUP BY sid -> sites, order (seq), length (max ts - min ts),
+--                       plan_pick vs checkin = adherence, arrive w/o checkin = gave up
 --   tail:               days 5–6 (nudge=0) vs off-units of days 1–4
 -- ponytail: no retention job — drop the table after the event (CONCERNS.md §3b).
 CREATE TABLE IF NOT EXISTS events (
@@ -69,7 +72,8 @@ CREATE TABLE IF NOT EXISTS events (
   nat   TEXT,
   n     REAL,
   sid   TEXT,
-  seq   INTEGER
+  seq   INTEGER,
+  tk    INTEGER
 );
 CREATE INDEX IF NOT EXISTS events_unit ON events (day, half, t);
 -- The organizer review list is `WHERE flags > 0 ORDER BY flags, updated`; without

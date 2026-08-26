@@ -84,6 +84,8 @@
   $effect(() => {
     const k = pageKey(rel);
     if (k) track('view', k);
+    // which site was looked at (a `view` id is a bounded route key, so dest rides its own event)
+    if (k === 'site') track('view_site', rel.split('/')[2]?.split(/[?#]/)[0]);
   });
 </script>
 

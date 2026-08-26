@@ -161,6 +161,8 @@ export function track(type, id, n, spot) {
   // exactly-once in the study log (a lost response must not double-log).
   const eid = [...crypto.getRandomValues(new Uint8Array(6))].map((b) => b.toString(16).padStart(2, '0')).join('');
   const e = { eid, t: type, id, n, at: Date.now(), ...(spot != null ? { spot: spot ? 1 : 0 } : {}) };
+  // ticket type (5 | 3) = the visitor segment every event can carry for free
+  if (plan.ticketCode) e.tk = plan.size;
   // nationality tag → the server crosses whitelisted behaviour with it (aggregate)
   if (study.nat) e.nat = study.nat;
   // journey stamp only when the visitor opted into the sequence study

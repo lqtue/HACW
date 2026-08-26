@@ -120,7 +120,7 @@ assert.equal(
 const T0 = Date.parse('2026-08-28T15:00:00+07:00'); // day 1 pm: nudge off
 const real = new Set(['chua-cau', 'nha-co-tan-ky']);
 const batch = [
-  { eid: 'aa11bb22cc33', t: 'checkin', id: 'chua-cau', nat: 'ko', spot: 1, sid: 'abc12345', seq: 0, at: 1000 },
+  { eid: 'aa11bb22cc33', t: 'checkin', id: 'chua-cau', nat: 'ko', spot: 1, sid: 'abc12345', seq: 0, at: 1000, tk: 3 },
   { eid: 'aa11bb22cc34', t: 'checkin', id: 'nha-co-tan-ky', nat: 'ko', sid: 'abc12345', seq: 1, at: 2000 },
   { eid: 'aa11bb22cc35', t: 'gps_far', id: 'chua-cau', n: 90 }, // no sid: logged, not a journey row
   { eid: 'aa11bb22cc36', t: 'checkin', id: 'not-real' }, // junk dest: dropped
@@ -128,7 +128,7 @@ const batch = [
 ];
 const ins = (rows) =>
   rows.forEach((r) =>
-    db.prepare(INSERT_EVENT).run(r.eid, r.ts, r.day, r.half, r.nudge, r.t, r.dest, r.spot, r.nat, r.n, r.sid, r.seq)
+    db.prepare(INSERT_EVENT).run(r.eid, r.ts, r.day, r.half, r.nudge, r.t, r.dest, r.spot, r.nat, r.n, r.sid, r.seq, r.tk)
   );
 ins(eventRows(batch, real, T0));
 ins(eventRows(batch, real, T0 + 5000)); // the client re-sends the same chunk
@@ -143,6 +143,7 @@ assert.deepEqual(
   ]
 );
 assert.ok(all.every((r) => r.ts === T0), 'server clock, not the phone\'s `at`');
+assert.deepEqual(all.map((r) => r.tk), [3, null, null], 'ticket type stored per row');
 const got = db.prepare(SELECT_JOURNEYS).all(10);
 assert.deepEqual(
   got.map((r) => [r.seq, r.dest]).sort((a, b) => a[0] - b[0]),
