@@ -4,9 +4,10 @@
 // split — the "free" slots may be any class, including a second monument.
 //
 //   5-site: ≥1 of 3 monuments + ≥1 of 6 museums + 3 free  (total 5)
+//   3-site: any 3
 //
-// ponytail: only the 5-site ticket is wired. Add a 3-site recipe to TICKETS
-// (data, not code) if that ticket type ships.
+// ponytail: the 3-site recipe is "any 3" — the printed ticket states no class
+// minimum. Add minimums to TICKETS (data, not code) if the organiser sets them.
 
 // The Hội An ticket's QR is a Vietnamese e-invoice lookup. Confirmed from a real 2026
 // ticket: it prints "https://tracuuhddt7…com.vn" + lookup code "EBL0226T1490955889", so
@@ -33,8 +34,35 @@ export function isTicketQr(raw) {
 
 /** size -> { size, min: { class: minCount } } */
 export const TICKETS = {
-  5: { size: 5, min: { monument: 1, museum: 1 } }
+  5: { size: 5, min: { monument: 1, museum: 1 } },
+  3: { size: 3, min: {} }
 };
+
+/**
+ * Read a Hội An ticket's printed lookup code. Confirmed from 2026 tickets:
+ *
+ *   EBL0226T 14 90955889
+ *   └ batch  │  └ serial (runs continuously)
+ *            └ ticket type: 14 = 5-site, 15 = 3-site
+ *
+ * The QR encodes the invoice-portal URL with the same code in it, so scanning
+ * and typing the code both land here. Everything before the type digits varies
+ * by invoice batch, so only the `T<type><serial>` tail is matched.
+ *
+ * @param {string} raw  a scanned QR payload or a typed lookup code
+ * @returns {{ code: string, size: number, serial: string } | null}
+ */
+const TYPE_SIZE = { 14: 5, 15: 3 };
+export function parseTicket(raw) {
+  if (typeof raw !== 'string') return null;
+  const m = /T(1[45])(\d{6,})/i.exec(raw.trim());
+  if (!m) return null;
+  const [, type, serial] = m;
+  return { code: `T${type}${serial}`.toUpperCase(), size: TYPE_SIZE[type], serial };
+}
+
+/** How many sites this ticket admits; 5 when the code can't be read. */
+export const ticketSize = (raw) => parseTicket(raw)?.size ?? 5;
 
 /** @param {string[]} stopIds @param {Record<string,any>} byId */
 function classCounts(stopIds, byId) {

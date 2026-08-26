@@ -1,4 +1,5 @@
 import { browser } from '$app/environment';
+import { ticketSize } from './ticket.js';
 
 // The visitor's active ticket: how far through onboarding they are, the ticket
 // code they scanned, and the 5 sites they chose (their route). Reactive $state
@@ -27,8 +28,14 @@ export function setOnboarded(v = true) {
   save();
 }
 
+/**
+ * Remember the scanned ticket and how many sites it admits. The printed code says
+ * which type it is (T14 = 5 sites, T15 = 3) — see parseTicket; an unreadable code
+ * falls back to 5, the common ticket.
+ */
 export function setTicketCode(code) {
   plan.ticketCode = code;
+  plan.size = ticketSize(code);
   save();
 }
 

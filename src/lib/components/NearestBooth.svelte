@@ -33,11 +33,10 @@
   {#if found}
     <strong>{s('booth_nearest', found.point.id, formatDistance(found.meters, i18n.lang))}</strong>
     <small class="muted">{t(found.point.where)}</small>
-    <a class="btn secondary" href={mapsUrl(found.point)} target="_blank" rel="noopener">{s('booth_dir')}</a>
+    <a class="btn secondary" href={mapsUrl(found.point)} target="_blank" rel="noopener">{s('directions')}</a>
   {:else}
-    <small class="muted">{s('booth_hint')}</small>
     <button class="btn secondary" onclick={find} disabled={busy}>
-      {busy ? s('locating_now') : s('booth_find')}
+      {busy ? s('locating') : s('booth_find')}
     </button>
     {#if err}<small class="err">{err}</small>{/if}
   {/if}

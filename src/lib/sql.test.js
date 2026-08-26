@@ -52,14 +52,15 @@ assert.equal(totals(read('count:%')).a, 2);
 assert.equal(totals(read('ev:%'), true)['gps_far_m:a'], 40);
 
 // --- passports: second PUT updates the row, and merging never drops a stamp ---
-const put = (pid, snap, flags = 0) => {
+const put = (pid, snap, flags = 0, owner = null) => {
   const [text, at] = [JSON.stringify(snap), Date.now()];
-  db.prepare(UPSERT_PASSPORT).run(pid, text, at, flags, text, at, flags);
+  db.prepare(UPSERT_PASSPORT).run(pid, text, at, flags, owner, text, at, flags, owner);
 };
 const get = (pid) => {
   const row = db.prepare(SELECT_PASSPORT).get(pid);
   return row ? JSON.parse(row.snapshot) : null;
 };
+const owner = (pid) => db.prepare(SELECT_PASSPORT).get(pid)?.owner ?? null;
 
 const first = { v: 1, pid: 'AB12CD34', stamps: [{ id: 'a', at: 'x', pts: 10 }], redeemed: [] };
 put('AB12CD34', first);
@@ -71,6 +72,14 @@ assert.deepEqual(stored.stamps.map((s) => s.id).sort(), ['a', 'b'], 'the earlier
 assert.deepEqual(stored.redeemed, ['tour-a']);
 assert.equal(db.prepare('SELECT COUNT(*) AS c FROM passports').get().c, 1, 'upsert, not insert');
 assert.equal(get('ZZZZZZZZ'), null, 'unknown code reads as missing, not as an error');
+
+// --- one ticket, one active device: the owner is stored and transfers on a claim ---
+const snap = { v: 1, pid: 'TICKET01', stamps: [{ id: 'a', at: 'x', pts: 10 }], redeemed: [] };
+put('TICKET01', snap, 0, 'device-a');
+assert.equal(owner('TICKET01'), 'device-a', 'first writer claims the ticket');
+put('TICKET01', snap, 0, 'device-b'); // an explicit claim (the endpoint gates this)
+assert.equal(owner('TICKET01'), 'device-b', 'a claim transfers the ticket');
+assert.deepEqual(get('TICKET01').stamps.map((s) => s.id), ['a'], 'a transfer keeps the stamps');
 
 // --- the review list: only flagged rows, worst first, clean passports invisible ---
 assert.deepEqual(db.prepare(SELECT_FLAGGED).all(), [], 'a clean passport is not on the list');

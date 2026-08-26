@@ -340,7 +340,7 @@
       </table>
     </div>
   {:else}
-    <p class="muted"><small>{s('org_nat_none')}</small></p>
+    <p class="muted"><small>{s('org_no_data')}</small></p>
   {/if}
 
   <!-- App usage: pageviews + how the plan gets built. Desk-only, English labels. -->
@@ -410,7 +410,7 @@
     <label class="heatfilter">
       {s('org_heat_filter')}
       <select bind:value={heatLocale}>
-        <option value="all">{s('org_heat_all')}</option>
+        <option value="all">{s('all')}</option>
         {#each cellLocales as loc}
           <option value={loc}>{langName(loc)} ({loc})</option>
         {/each}

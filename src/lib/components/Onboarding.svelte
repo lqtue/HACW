@@ -181,7 +181,7 @@
   </section>
 {:else if step === 'install'}
   <section class="screen">
-    <h1 class="ptitle">{s('install_title')}</h1>
+    <h1 class="ptitle">{s('install')}</h1>
 
     <div class="mid">
       <p class="lead">{s('install_why')}</p>
@@ -203,7 +203,7 @@
 
     <div class="dock">
       {#if scanned}
-        <button class="btn" onclick={() => onDone?.()}>{s('scan_continue')}</button>
+        <button class="btn" onclick={() => onDone?.()}>{s('continue_btn')}</button>
         <span class="sub ph" aria-hidden="true"></span>
       {:else}
         <a class="btn ghost" href="{base}/destinations?tickets=1">{s('buy_ticket')}</a>
@@ -225,7 +225,7 @@
 
     <div class="dock">
       <!-- one button: Tiếp tục grants location + motion, then moves on -->
-      <button class="btn" onclick={() => { requestPerms(); step = 'scan'; }}>{s('scan_continue')}</button>
+      <button class="btn" onclick={() => { requestPerms(); step = 'scan'; }}>{s('continue_btn')}</button>
       <p class="terms">{s('terms_pre')}<a href="{base}/terms">{s('terms_link')}</a>{s('terms_post')}</p>
     </div>
   </section>

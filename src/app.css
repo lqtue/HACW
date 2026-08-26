@@ -150,7 +150,6 @@
 
   /* one accent */
   --brand: #e0542c;
-  --brand-soft: #f4a25a;
   --brand-dark: #8f2417; /* oxblood emphasis/headings on the light ground */
   --brand-mid: #c8461f; /* accent hover (darker) */
   --gold: #bd8420; /* "quieter" / spotlight highlight — darkened to read on white */
@@ -159,7 +158,6 @@
   /* buttons/chips/tabs are flat — these resolve to a solid colour, not a gradient */
   --grad-brand: #e0542c;
   --grad-warm: #bd8420;
-  --grad-strip: #e0542c;
 
   --radius: 16px;
   --radius-sm: 12px;
@@ -174,8 +172,6 @@
   --pad-top: max(28px, calc(env(safe-area-inset-top) + 20px));
   --float-top: calc(env(safe-area-inset-top) + 14px);   /* map view switch */
   --float-top-2: calc(env(safe-area-inset-top) + 60px); /* filter chips under it */
-
-  --grain: none; /* no ornament */
 
   --font-display: 'Be Vietnam Pro', ui-sans-serif, system-ui, -apple-system, sans-serif;
   --font-body: 'Be Vietnam Pro', ui-sans-serif, system-ui, -apple-system, sans-serif;
@@ -202,7 +198,6 @@
   --line: #2c2926; /* hairline on dark */
 
   --brand: #ec6238;
-  --brand-soft: #f4a25a;
   --brand-dark: #f6f4f1; /* emphasis/heading ink = near-white on the dark ground.
                             The map (light basemap) uses its own dark ink literal. */
   --brand-mid: #f0713f; /* accent hover (brighter) */
@@ -211,7 +206,6 @@
 
   --grad-brand: #ec6238;
   --grad-warm: #e6a53a;
-  --grad-strip: #ec6238;
 
   --shadow: 0 1px 2px rgba(0, 0, 0, 0.4), 0 10px 30px -18px rgba(0, 0, 0, 0.7);
   --shadow-lift: 0 16px 40px -20px rgba(0, 0, 0, 0.85);
@@ -331,16 +325,6 @@ p { line-height: 1.6; }
 
 .muted { color: var(--muted); }
 
-/* ---- brand motifs ------------------------------------------------------
-   The gold roof-tile scallop and the coral cloud-scroll capsules carry the
-   identity. Reused, not redrawn. The teal→gold→coral strip is drawn by the
-   topbar's own ::before below, so it needs no class of its own. */
-
-/* Ornament removed in the clean restyle — these motif hooks stay as no-ops so
-   existing markup keeps working without a peach scallop / gold eave. */
-.scallop { display: none; }
-.eave { display: none; }
-
 /* ---- surface language: a plain white card, hairline border, soft shadow ---- */
 .paper {
   position: relative;
@@ -362,30 +346,6 @@ p { line-height: 1.6; }
   letter-spacing: 0.16em;
   text-transform: uppercase;
   color: var(--muted);
-}
-.eyebrow {
-  font-family: var(--font-display);
-  font-weight: 600;
-  font-size: 0.7rem;
-  letter-spacing: 0.2em;
-  text-transform: uppercase;
-  color: var(--muted);
-  display: flex;
-  gap: 9px;
-  align-items: center;
-}
-.eyebrow .dot { width: 6px; height: 6px; border-radius: 50%; background: var(--teal); flex: 0 0 auto; }
-
-/* fingerprint fill for a display word — "chạm" (touch). The whorl texture is
-   painted onto the node by use:fingerprint; this only sets up the text clip. */
-@supports ((-webkit-background-clip: text) or (background-clip: text)) {
-  .fp-on {
-    color: transparent;
-    -webkit-background-clip: text;
-    background-clip: text;
-    background-repeat: repeat;
-    background-size: 150px 150px;
-  }
 }
 
 /* ---- topbar: clean sticky header, large title, hairline underline ---- */

@@ -1,12 +1,13 @@
 import { browser } from '$app/environment';
 import { base } from '$app/paths';
-import { mergeStamps, encodeSnapshot, decodeSnapshot, normalizeCode, isValidCode } from './backup.js';
+import { mergeStamps, encodeSnapshot, decodeSnapshot, normalizeCode, isValidCode, codeFromTicket } from './backup.js';
 import { study, journeyTag } from './study.svelte.js';
 
 const KEY = 'hacw_passport_v1';
 const QUEUE = 'hacw_checkin_queue_v1';
 const REDEEMED = 'hacw_redeemed_v1';
 const PID = 'hacw_pid_v1';
+const DID = 'hacw_did_v1';
 const HOLDER = 'hacw_holder_v1';
 
 function read(key) {
@@ -36,6 +37,19 @@ function loadPid() {
   return id;
 }
 
+// Device id: random, per install, and NEVER replaced by adoptCode. The pid can be
+// shared (everyone holding the same ticket derives it); this is what tells the
+// server which single device is currently using that ticket. See the passport API.
+function loadDid() {
+  if (!browser) return '';
+  let id = localStorage.getItem(DID);
+  if (!id) {
+    id = newPid();
+    localStorage.setItem(DID, id);
+  }
+  return id;
+}
+
 function loadHolder() {
   if (!browser) return '';
   try {
@@ -46,7 +60,16 @@ function loadHolder() {
 }
 
 // Reactive passport state, mirrored to localStorage. Mutate arrays, don't reassign.
-export const passport = $state({ stamps: read(KEY), redeemed: read(REDEEMED), pid: loadPid(), holder: loadHolder() });
+// `taken` = the server says another device now holds this ticket (see backup()).
+// Local stamps keep working; only syncing stops.
+export const passport = $state({
+  stamps: read(KEY),
+  redeemed: read(REDEEMED),
+  pid: loadPid(),
+  did: loadDid(),
+  holder: loadHolder(),
+  taken: false
+});
 
 /** Recovery code as shown to the visitor: ABCD-EFGH. */
 export const prettyCode = (pid = passport.pid) => (pid ? `${pid.slice(0, 4)}-${pid.slice(4)}` : '');
@@ -66,8 +89,11 @@ export function setHolder(name) {
 export function adoptCode(pid) {
   if (!isValidCode(pid) || pid === passport.pid) return;
   passport.pid = pid;
+  passport.taken = false; // this device is claiming the ticket now
   if (browser) localStorage.setItem(PID, pid);
-  soon('backup', backup, 2000);
+  // claim: the visitor scanned this ticket on THIS phone, so it takes the ticket
+  // over from whatever device held it (that one stops syncing on its next write)
+  soon('backup', () => backup({ claim: true }), 2000);
 }
 
 function persist() {
@@ -200,14 +226,19 @@ export function restoreFromHash(hash) {
 }
 
 /** Push a copy to the server so the code can restore it on another device. */
-export async function backup() {
+/** @param {{ claim?: boolean }} [opts] claim = take this ticket over (after a scan) */
+export async function backup(opts = {}) {
   if (!browser || !navigator.onLine || !passport.pid) return;
+  if (passport.taken && !opts.claim) return; // another device holds the ticket
   try {
-    await fetch(`${base}/api/passport`, {
+    const res = await fetch(`${base}/api/passport`, {
       method: 'PUT',
       headers: { 'content-type': 'application/json' },
-      body: JSON.stringify(snapshot())
+      body: JSON.stringify({ ...snapshot(), did: passport.did, ...(opts.claim ? { claim: true } : {}) })
     });
+    // 409: someone else scanned this ticket. Stop syncing and let the passport
+    // page say so — the stamps on this phone stay put and still show.
+    passport.taken = res.status === 409;
   } catch {
     // no server (static deploy) or offline -> the backup link still works
   }
@@ -220,4 +251,23 @@ export async function restore(code) {
   const res = await fetch(`${base}/api/passport?pid=${pid}`);
   if (!res.ok) throw new Error(res.status === 404 ? 'not-found' : 'server');
   merge(await res.json());
+}
+
+/**
+ * Recover from a scanned ticket: derive its code, adopt it (which claims the
+ * ticket for this device) and merge whatever was backed up under it. Missing or
+ * unreadable backups are not an error — the ticket is still adopted, so this
+ * phone becomes the one that ticket syncs to.
+ * @returns {Promise<number>} stamps on the passport after the merge
+ */
+export async function restoreFromTicket(raw) {
+  const code = codeFromTicket(raw);
+  if (!isValidCode(code)) throw new Error('bad-code');
+  adoptCode(code);
+  try {
+    await restore(code);
+  } catch (e) {
+    if (e.message === 'server') throw e; // offline / broken server is worth saying
+  }
+  return passport.stamps.length;
 }

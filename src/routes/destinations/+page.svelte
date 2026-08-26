@@ -1,6 +1,6 @@
 <script>
-  import { onMount } from 'svelte';
-  import { goto } from '$app/navigation';
+  import { onMount, onDestroy } from 'svelte';
+  import { goto, afterNavigate } from '$app/navigation';
   import { base } from '$app/paths';
   import destinations from '$lib/data/destinations.json';
   import categories from '$lib/data/categories.json';
@@ -18,6 +18,7 @@
   import { s } from '$lib/strings.js';
   import { theme } from '$lib/theme.svelte.js';
   import { recordCell } from '$lib/research.svelte.js';
+  import { ui } from '$lib/ui.svelte.js';
 
   let active = $state('all');
   let view = $state('map'); // 'map' | 'list' — Explore offers both, like the picker
@@ -48,10 +49,6 @@
     )
   );
   const spotlight = $derived(spotlightIds(stats.counts, destinations));
-
-  // booth popup HTML goes through setHTML — escape authored text at the sink
-  const esc = (v) =>
-    String(v).replace(/[&<>"]/g, (c) => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;' })[c]);
 
   // The sites layer is data-driven, so filters / spotlight / opening hours are
   // one GeoJSON rebuild rather than 25 marker mutations. Everything reactive the
@@ -85,6 +82,7 @@
   );
 
   let ready = $state(false); // the layer-visibility effects wait for the layers
+  let dmap; // the map itself, kept for the booth/sites visibility effects below
 
   // SiteMap owns the pin tap (stack, popup, pager); this screen just says what the
   // popup's button does and mirrors the shown site onto the list card.
@@ -94,10 +92,11 @@
     if (id) document.getElementById(`card-${id}`)?.scrollIntoView({ behavior: 'smooth', block: 'nearest', inline: 'center' });
   }
 
-  // Extra layers + map-level handlers SiteMap doesn't own: the ticket-counter dots, the
-  // landmark drawings, and the booth popup. Runs before the sites layer, so booths +
-  // landmarks sit under the pins.
+  // Extra layers SiteMap doesn't own: the ticket-counter dots and the landmark
+  // drawings. Runs before the sites layer, so both sit under the pins. The counters
+  // are plain markers — where to buy, nothing to tap.
   function onInit(map, mgl, { gold, ink }) {
+    dmap = map;
     map.addSource('booths', {
       type: 'geojson',
       data: {
@@ -105,7 +104,7 @@
         features: tickets.map((p) => ({
           type: 'Feature',
           geometry: { type: 'Point', coordinates: [p.lng, p.lat] },
-          properties: { html: `<strong>${esc(p.id)}</strong><br>${esc(t(p.where))}` }
+          properties: {}
         }))
       }
     });
@@ -115,12 +114,6 @@
       paint: { 'circle-radius': 6, 'circle-color': gold, 'circle-stroke-width': 0 }
     });
     addLandmarks(map, byId, { ink, fill: '#fdf6e8' });
-
-    map.on('click', 'booths', (e) => {
-      new mgl.Popup({ offset: 10, closeButton: false }).setLngLat(e.lngLat).setHTML(e.features[0].properties.html).addTo(map);
-    });
-    map.on('mouseenter', 'booths', () => (map.getCanvas().style.cursor = 'pointer'));
-    map.on('mouseleave', 'booths', () => (map.getCanvas().style.cursor = ''));
   }
 
   // ✓ badge on already-checked-in pins — its own symbol layer off the sites source,
@@ -137,6 +130,21 @@
       paint: { 'text-color': '#fff', 'text-halo-color': '#2f7d76', 'text-halo-width': 2.6 }
     });
   }
+
+  // "Mua vé ở đâu?" opens this map as a counter-finder from somewhere else (the gift
+  // screen, the scan step). The one chip there is the way back: to wherever they came
+  // from in the app, or — on a cold deep link, where there is nowhere to go back to —
+  // to the ordinary map of all 25 sites.
+  let cameFromApp = false;
+  afterNavigate((nav) => (cameFromApp = nav.from != null));
+  function leaveBooths() {
+    if (cameFromApp) history.back();
+    else boothsOnly = false;
+  }
+  // counter-finder mode is a single-job screen reached from somewhere else — its own
+  // back chip is the way out, so the tab bar would only offer a way to lose the thread
+  $effect(() => { ui.hideNav = boothsOnly; });
+  onDestroy(() => { ui.hideNav = false; });
 
   onMount(() => {
     const q = new URLSearchParams(location.search);
@@ -166,10 +174,10 @@
         <i class="sw" aria-hidden="true"></i>{t(c.label)}
       </button>
     {/each}
-    <button class="chip" aria-pressed={active === 'open'} onclick={() => (active = 'open')}>{s('filter_open')}</button>
+    <button class="chip" aria-pressed={active === 'open'} onclick={() => (active = 'open')}>{s('open_now')}</button>
   {/snippet}
 
-  <div class="wrap">
+  <div class="wrap" class:booths={boothsOnly}>
     <SiteMap
       {siteData}
       bind:me
@@ -178,7 +186,9 @@
       fitBounds={allBounds}
       fitPadding={40}
       controls={boothsOnly || view === 'map'}
-      controlsBottom="calc(env(safe-area-inset-bottom) + 88px)"
+      controlsBottom={boothsOnly
+        ? 'calc(env(safe-area-inset-bottom) + 16px)'
+        : 'calc(env(safe-area-inset-bottom) + 88px)'}
       locateCompass
       followZoom={17.5}
       attributionPos="bottom-left"
@@ -213,18 +223,21 @@
       <div class="float-top pill"><ViewToggle bind:mode={view} /></div>
     {/if}
 
-    <div class="float-top row2">
-      <ChipRow>
-        {#if boothsOnly}
-          <button class="chip" onclick={() => (boothsOnly = false)}>🗺️ {s('show_all_sites')}</button>
-        {:else}
+    <!-- counter-finder mode has no filters: its only control is the docked back link -->
+    {#if boothsOnly}
+      <div class="dock fixed backdock">
+        <button class="btn ghost" onclick={leaveBooths}>{s('back')}</button>
+      </div>
+    {:else}
+      <div class="float-top row2">
+        <ChipRow>
           {@render catChips()}
           {#if view === 'map'}
             <button class="chip cat" style="--c: var(--gold)" aria-pressed={active === 'tickets'} onclick={() => (active = 'tickets')}>{s('ticket_points')}</button>
           {/if}
-        {/if}
-      </ChipRow>
-    </div>
+        </ChipRow>
+      </div>
+    {/if}
 
     {#if !boothsOnly && view === 'list'}
       <!-- list view: cards scroll under the floating switch/filter; map stays mounted behind -->
@@ -249,6 +262,18 @@
   .wrap { flex: 1; min-height: 0; position: relative; }
   /* keep the ⓘ credit clear of the floating nav pill (bottom-left, above the nav) */
   .wrap :global(.maplibregl-ctrl-bottom-left) { bottom: calc(env(safe-area-inset-bottom) + 80px); }
+  /* The way out of the counter map: the same ghost button as "Tải ứng dụng" on the
+     welcome screen. Only two changes, both because it floats on a map rather than
+     sitting in a page footer — it stops short of the credit and locate controls in the
+     bottom corners, and it carries a shadow to lift it off the basemap. */
+  .backdock { z-index: 630; bottom: calc(18px + env(safe-area-inset-bottom)); }
+  .backdock .btn.ghost {
+    width: auto;
+    margin: 0 auto;
+    box-shadow: var(--shadow);
+  }
+  /* counter-finder mode has no tab bar, so the credit drops to the bottom edge too */
+  .wrap.booths :global(.maplibregl-ctrl-bottom-left) { bottom: calc(env(safe-area-inset-bottom) + 18px); }
 
   /* list|map toggle, floating top-centre over the map */
   /* switch + filter share --map-topbar-w (nav-pill width) and centre — edit the token */

@@ -20,7 +20,7 @@
   // `hero` is the dedicated onboarding scan step, where scanning IS the screen: a
   // viewfinder + a real button. Everywhere else (recommend / manual) it stays a quiet
   // one-line strip so it never competes with the plan above it.
-  let { onsaved, hero = false } = $props();
+  let { onsaved, hero = false, bare = false } = $props();
 
   // Any device with a camera can scan now — the decoder is chosen at start().
   const supported =
@@ -149,17 +149,21 @@
     <span class="corners" aria-hidden="true"></span>
     <span class="scanline" aria-hidden="true"></span>
     <p class="hint">{s('scan_point')}</p>
-    <button class="btn secondary close" onclick={stop}>{s('scan_close')}</button>
+    <button class="btn secondary close" onclick={stop}>{s('close_btn')}</button>
   </div>
 {:else if hero}
   <!-- viewfinder mark only; the buy / scan / continue buttons are the page's footer
-       (it drives start() via bind:this) so every onboarding screen shares one layout -->
-  <div class="hero">
-    <div class="vf-wrap" class:done={saved}>{@render viewfinder()}</div>
-    {#if saved}<span class="ok">{s('scan_saved')}</span>{/if}
-    {#if !supported}<p class="note">{s('scan_unsupported')}</p>{/if}
-    {#if note}<p class="note">{note}</p>{/if}
-  </div>
+       (it drives start() via bind:this) so every onboarding screen shares one layout.
+       `bare` drops the mark, and with nothing left to say draws nothing at all — an
+       empty hero would still claim the middle of the screen. -->
+  {#if !bare || saved || !supported || note}
+    <div class="hero" class:bare>
+      {#if !bare}<div class="vf-wrap" class:done={saved}>{@render viewfinder()}</div>{/if}
+      {#if saved}<span class="ok">{s('scan_saved')}</span>{/if}
+      {#if !supported}<p class="note">{s('scan_unsupported')}</p>{/if}
+      {#if note}<p class="note">{note}</p>{/if}
+    </div>
+  {/if}
 {:else}
   <!-- quiet "already have a ticket?" footer — same button language as onboarding:
        white buy above, orange scan below -->
@@ -176,6 +180,8 @@
 {/if}
 
 <style>
+  /* no mark: the page owns the middle, this only carries messages */
+  .hero.bare { flex: 0 0 auto; min-height: 0; }
   /* idle: a quiet strip, not a box — scanning is optional and must not compete
      with the recommendation above it */
   .strip {

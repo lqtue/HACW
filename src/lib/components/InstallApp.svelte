@@ -49,18 +49,18 @@
 {#if open}
   <div class="scrim" onclick={() => (open = false)} role="presentation">
     <div class="sheet" onclick={(e) => e.stopPropagation()} role="dialog" aria-modal="true">
-      <h2>{s('install_title')}</h2>
+      <h2>{s('install')}</h2>
       <ul class="steps">
-        {#if typeof navigator !== 'undefined' && isIos()}
-          <li>{s('install_ios')}</li>
-        {:else}
-          <li>{s('install_android')}</li>
-        {/if}
+        <!-- the same two steps the onboarding install screen lists; `install_ios` /
+             `install_android` never existed as keys, so this printed their names -->
+        {#each isIos() ? [s('install_ios_1'), s('install_ios_2')] : [s('install_android_1'), s('install_android_2')] as step (step)}
+          <li>{step}</li>
+        {/each}
       </ul>
       {#if prompt}
         <button class="btn" style="width: 100%" onclick={installNow}>{s('install_now')}</button>
       {/if}
-      <button class="btn ghost" style="width: 100%" onclick={() => (open = false)}>{s('install_close')}</button>
+      <button class="btn ghost" style="width: 100%" onclick={() => (open = false)}>{s('close_btn')}</button>
     </div>
   </div>
 {/if}

@@ -42,9 +42,10 @@
 
   onMount(() => {
     if (demo === 'correct' || demo === 'wrong') {
-      // static result preview for the /screens board: pick a question with an
-      // explanation, then jump to the result screen (no interval — the frame is a still)
-      qIndex = Math.max(0, questions.findIndex((q) => q.explain));
+      // static result preview for the /screens board: the "correct" frame wants a
+      // question that HAS an explanation (that screen's whole point); "wrong" shows
+      // no explanation at all, so any question does.
+      if (demo === 'correct') qIndex = Math.max(0, questions.findIndex((q) => q.explain));
       lastCorrect = demo === 'correct';
       if (demo === 'wrong') { missed = true; cool = COOLDOWN_STEP; } // sample: first-wrong wait
       step = 'result';
@@ -53,7 +54,7 @@
 
   // Every answer lands on the result screen. A wrong tap throws the whole draw
   // away and locks the site for an escalating cooldown (guessing costs time + the
-  // perfect bonus); the explanation is shown either way.
+  // perfect bonus), and gets no explanation — that would answer the retry.
   function answer(i) {
     lastCorrect = i === questions[qIndex].answer;
     if (!lastCorrect) {
@@ -115,14 +116,15 @@
   <!-- the result: right/wrong, why, and Next -->
   {@const q = questions[qIndex]}
   <section class="screen result" class:ok={lastCorrect}>
-    <!-- ✓/✕, title, then the explanation (shown on right AND wrong — it's the story the
-         visitor came for) and the cooldown note, centred as one block -->
+    <!-- ✓/✕, title, then the explanation and the cooldown note, centred as one block.
+         The explanation is the reward for getting it right: showing it after a WRONG
+         answer would hand over the answer to the retry. Wrong gets the wait, not the story. -->
     <div class="verdict">
       <span class="rmark" aria-hidden="true">{lastCorrect ? '✓' : '✕'}</span>
       <h2>{lastCorrect ? s('correct_title') : s('wrong_title')}</h2>
-      {#if q?.explain || (!lastCorrect && cool > 0)}
+      {#if (lastCorrect && q?.explain) || (!lastCorrect && cool > 0)}
         <div class="verdict-sub">
-          {#if q?.explain}<p class="explain">{t(q.explain)}</p>{/if}
+          {#if lastCorrect && q?.explain}<p class="explain">{t(q.explain)}</p>{/if}
           {#if !lastCorrect && cool > 0}<p class="wait-note">{s('wrong_wait', cool)}</p>{/if}
         </div>
       {/if}
@@ -130,7 +132,7 @@
 
     <div class="dock">
       {#if lastCorrect}
-        <button class="btn" onclick={advance}>{s('quiz_continue')}</button>
+        <button class="btn" onclick={advance}>{s('continue_btn')}</button>
       {:else}
         <button class="btn" onclick={startQuiz} disabled={cool > 0}>{s('retry')}</button>
       {/if}

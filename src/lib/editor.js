@@ -142,6 +142,10 @@ export function checkRewards(list, maxPoints = null) {
     if (!Number.isInteger(r?.points) || r.points <= prev) {
       out.push(`${at}: points must be a whole number above the previous tier (${prev})`);
     } else prev = r.points;
+    // physical gifts are handed over at a counter against a real ticket; vouchers are not
+    if (r?.needsTicket != null && typeof r.needsTicket !== 'boolean') {
+      out.push(`${at}.needsTicket: must be true or false`);
+    }
   }
   if (maxPoints != null && prev > maxPoints) {
     out.push(`top tier needs ${prev} points but only ${maxPoints} are reachable in total`);

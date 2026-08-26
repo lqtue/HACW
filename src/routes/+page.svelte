@@ -9,6 +9,7 @@
   import BuilderMap from '$lib/components/BuilderMap.svelte';
   import ViewToggle from '$lib/components/ViewToggle.svelte';
   import ChipRow from '$lib/components/ChipRow.svelte';
+  import SetList from '$lib/components/SetList.svelte';
   import RouteMap from '$lib/components/RouteMap.svelte';
   import MatCua from '$lib/components/MatCua.svelte';
   import { rankSets } from '$lib/advisor.js';
@@ -106,6 +107,10 @@
   let free = $state(boardManual ? [] : plan.set.filter((id) => byId[id]?.ticketClass === 'other'));
 
   const pickedIds = $derived([mono, museo, ...free].filter(Boolean));
+  // ponytail: the builder is the 5-site recipe (1 monument + 1 museum + 3 free), so
+  // it validates at 5 even though a scanned T15 ticket records plan.size = 3. Wiring
+  // the 3-site ticket means a slot row that is 3 wide with no class minimums —
+  // do that when the 3-site ticket actually ships.
   const valid = $derived(isValidSet(pickedIds, destinations, 5));
   // persist the working set live, so tapping a list card through to a site's detail
   // page (and back) doesn't drop the picks — mono/museo/free re-init from plan.set.
@@ -335,36 +340,13 @@
       <h1 class="ptitle">{s('rec_head')}</h1>
     </header>
 
-    <ul class="sets">
-      {#each recommended as set, i (set.id)}
-        {@const open = openSet === set.id}
-        <li class="setcard" class:top={i === 0}>
-          <button class="set-head" onclick={() => (openSet = open ? null : set.id)} aria-expanded={open}>
-            <span class="set-h-body">
-              {#if i === 0}<span class="rec-badge">✦ {s('rec_badge')}</span>{/if}
-              <b>{t(set.title)}</b>
-              <small>{t(set.theme)}</small>
-              {#if !open}<small class="set-dist">{formatDistance(set.walkM, i18n.lang)} · {s('walk_time', set.walkMin)}</small>{/if}
-            </span>
-            <span class="caret" aria-hidden="true">{open ? '▾' : '▸'}</span>
-          </button>
-          {#if open}
-            <div class="set-body">
-              <p class="narr">{t(set.description)}</p>
-              <ul class="stops">
-                {#each set.stops as d, si (d.id)}
-                  <li>
-                    <span class="n" style="--cat: var(--c-{d.category})">{si + 1}</span>
-                    <b>{t(d.name)}</b>
-                  </li>
-                {/each}
-              </ul>
-              <button class="btn" onclick={() => useSet(set)}>{s('use_set')}</button>
-            </div>
-          {/if}
-        </li>
-      {/each}
-    </ul>
+    <SetList
+      sets={recommended}
+      badge
+      bind:open={openSet}
+      actionLabel={s('use_set')}
+      onpick={useSet}
+    />
 
     <div class="dock">
       <button class="sub" onclick={() => { mode = 'manual'; stepIdx = firstIncomplete(); }}>
@@ -408,7 +390,7 @@
             {@const picked = isPicked(d.id)}
             {@const oh = openLabel(d)}
             {@const open = openRow === d.id}
-            <li class="row" class:picked class:open>
+            <li class="pickrow" class:picked class:open>
               <!-- tap the card to expand details inline (like the suggested sets); the + picks -->
               <div class="row-main">
                 <!-- collapsed: name + open/closed; expanded: the one-line intro -->
@@ -468,7 +450,7 @@
 
       <div class="dock row">
         {#if valid}
-          <button class="btn" onclick={finish}>{s('build_done')}</button>
+          <button class="btn" onclick={finish}>{s('continue_btn')}</button>
         {:else}
           <button class="btn" onclick={autoComplete}>{s('auto_pick')}</button>
         {/if}
@@ -595,7 +577,6 @@
     cursor: pointer;
     transition: border-color 0.14s, background 0.14s;
   }
-  .slotbtns .slot.filled { border-style: solid; border-color: transparent; background: color-mix(in srgb, var(--bg) 90%, transparent); }
   .slotbtns .slot.on { border-color: var(--brand); }
 
 
@@ -626,49 +607,7 @@
   /* map fills the region rather than a fixed 56vh */
   .viewregion .mapwrap { flex: 1 1 auto; height: auto; min-height: 260px; }
 
-  /* ---- recommend view ---- */
-  .sets { list-style: none; margin: 0; padding: 0; display: flex; flex-direction: column; gap: 14px; }
-  .setcard {
-    position: relative;
-    background: var(--surface);
-    border: 1px solid var(--line);
-    border-radius: var(--radius);
-    overflow: hidden;
-  }
-  .setcard.top { border-color: color-mix(in srgb, var(--brand) 55%, var(--line)); }
-  .set-head {
-    width: 100%;
-    display: flex;
-    align-items: center;
-    gap: 12px;
-    padding: 16px;
-    border: 0;
-    background: none;
-    cursor: pointer;
-    text-align: left;
-  }
-  .set-h-body { flex: 1 1 auto; min-width: 0; display: grid; gap: 2px; }
-  .set-h-body b { font-size: 1.1rem; font-weight: 700; letter-spacing: -0.01em; }
-  .set-h-body small { color: var(--muted); font-size: 0.85rem; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
-  .set-h-body .set-dist { color: var(--ink); font-weight: 600; margin-top: 2px; }
-  .caret { flex: 0 0 auto; color: var(--muted); }
-  .set-body { padding: 0 16px 16px; display: flex; flex-direction: column; gap: 10px; }
-  .rec-badge {
-    justify-self: start;
-    background: var(--brand);
-    color: #fff;
-    font-size: 0.68rem;
-    font-weight: 700;
-    letter-spacing: 0.04em;
-    padding: 2px 9px;
-    border-radius: 999px;
-    margin-bottom: 2px;
-  }
-  .setcard .narr { margin: 0; color: var(--muted); font-size: 0.9rem; line-height: 1.5; }
-  .stops { list-style: none; margin: 0; padding: 8px 0 0; border-top: 1px solid var(--line); display: flex; flex-direction: column; gap: 8px; }
-  .stops li { display: flex; align-items: center; gap: 10px; min-width: 0; }
-  .stops b { font-weight: 600; font-size: 0.92rem; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
-  .setcard .btn { margin-top: 2px; }
+  /* the themed-set accordion is SetList.svelte (shared with the passport) */
 
   .fill-link {
     display: block; margin: 10px auto 0;
@@ -684,13 +623,15 @@
     padding: 0;
     display: flex; flex-direction: column; gap: 8px;
   }
-  .row {
+  /* one card per site in the picker list. NOT `.row`: the global .dock.row modifier
+     would then inherit this card's fill, radius and shadow inside the build bar. */
+  .pickrow {
     flex: 0 0 auto; /* don't shrink in the scrolling flex column — rows keep height */
     border: 0; border-radius: 16px; overflow: hidden;
     background: var(--surface);
     box-shadow: 0 1px 2px rgba(0, 0, 0, 0.04), 0 6px 16px rgba(0, 0, 0, 0.05);
   }
-  .row.picked { background: color-mix(in srgb, var(--brand) 8%, var(--surface)); }
+  .pickrow.picked { background: color-mix(in srgb, var(--brand) 8%, var(--surface)); }
   .row-main { display: flex; align-items: center; }
   .row-tap {
     flex: 1 1 auto; min-width: 0;

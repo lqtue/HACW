@@ -8,8 +8,8 @@
       "en": "First gift"
     },
     "reward": {
-      "vi": "Voucher Vigift 50.000đ, hoặc giảm 10% ở VAN•HOA — bạn chọn một. Đổi ở quầy, còn quà là còn đổi.",
-      "en": "A 50,000đ Vigift voucher, or 10% off at VAN•HOA — your pick. Collect at any counter while they last."
+      "vi": "Voucher 50.000đ của Vigift hoặc giảm 10% ở VAN•HOA",
+      "en": "A 50,000đ Vigift voucher or 10% off at VAN•HOA"
     }
   },
   {
@@ -21,8 +21,8 @@
       "en": "Bigger voucher"
     },
     "reward": {
-      "vi": "Voucher Vigift 100.000đ, hoặc giảm 15% ở VAN•HOA — bạn chọn một. Đổi ở quầy, còn quà là còn đổi.",
-      "en": "A 100,000đ Vigift voucher, or 15% off at VAN•HOA — your pick. Collect at any counter while they last."
+      "vi": "Voucher 100.000đ của Vigift hoặc giảm 15% ở VAN•HOA",
+      "en": "A 100,000đ Vigift voucher or 15% off at VAN•HOA"
     }
   },
   {
@@ -34,9 +34,10 @@
       "en": "Something to hold"
     },
     "reward": {
-      "vi": "Bốc thăm ở quầy: set charm DIY Trung Thu, hoặc chiếc quạt của Tuần lễ. Số lượng có hạn.",
-      "en": "A draw at the counter: a Mid-Autumn DIY charm set, or the festival fan. Limited numbers."
-    }
+      "vi": "Set charm DIY hoạ tiết Trung thu hoặc quạt Tuần lễ Sáng tạo Hội An",
+      "en": "A Mid-Autumn motif DIY charm set or the Hội An Creative Week fan"
+    },
+    "needsTicket": true
   },
   {
     "id": "rw-khan",
@@ -47,9 +48,10 @@
       "en": "The festival scarf"
     },
     "reward": {
-      "vi": "Bốc thăm ở quầy: chiếc khăn Tuần lễ Sáng tạo Hội An. Số lượng có hạn.",
-      "en": "A draw at the counter: the Hội An Creative Week scarf. Limited numbers."
-    }
+      "vi": "Khăn Tuần lễ Sáng tạo Hội An",
+      "en": "The Hội An Creative Week scarf"
+    },
+    "needsTicket": true
   },
   {
     "id": "rw-vigift-set",
@@ -60,8 +62,9 @@
       "en": "The big one"
     },
     "reward": {
-      "vi": "Bốc thăm ở quầy: set quà Vigift Đà Nẵng. Rất ít, nên đừng để đến ngày cuối.",
-      "en": "A draw at the counter: a Vigift Đà Nẵng gift set. Very few, so don't leave it to the last day."
-    }
+      "vi": "Set quà Vigift Đà Nẵng",
+      "en": "A Vigift Đà Nẵng gift set"
+    },
+    "needsTicket": true
   }
 ]

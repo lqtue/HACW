@@ -1,6 +1,7 @@
 // Pure passport backup helpers — no runes, no $app imports, so they can be
 // unit-tested in node. Losing stamps is the one failure this app must not have,
 // so restore always *merges*: it can add, never remove.
+import { parseTicket } from './ticket.js';
 
 /** Union of two stamp lists. Earliest visit time and best points win. */
 export function mergeStamps(local, incoming) {
@@ -56,15 +57,20 @@ export function normalizeCode(code) {
 const CROCKFORD = '0123456789ABCDEFGHJKMNPQRSTVWXYZ';
 
 /**
- * Derive a stable 8-char recovery code from a scanned ticket string. The ticket
- * QR is a Vietnamese e-invoice code (e.g. "EBL0226T1490955889") — too long and
- * with letters isValidCode rejects — so we hash it into the code format instead.
+ * Derive a stable 8-char recovery code from a ticket. The ticket's lookup code
+ * ("EBL0226T1490955889") is too long and has letters isValidCode rejects, so it
+ * is hashed into the code format instead. Hashing the *canonical* `T<type><serial>`
+ * (see parseTicket) rather than the raw text means the printed code and the QR —
+ * which wraps the same code in an invoice-portal URL — derive the SAME passport.
  * Same ticket → same code → re-scanning on a new device restores (merge-only).
  * 64-bit FNV-1a for spread, then 40 bits → 8 base32 chars.
  * @returns {string} an 8-char code, or '' for empty input
  */
 export function codeFromTicket(raw) {
-  const s = normalizeCode(raw);
+  // normalize first: a code read aloud or typed with spaces/dashes must parse the
+  // same as the clean one printed on the ticket
+  const norm = normalizeCode(raw);
+  const s = parseTicket(norm)?.code ?? norm;
   if (!s) return '';
   const mask = (1n << 64n) - 1n;
   let h = 0xcbf29ce484222325n;

@@ -2,8 +2,16 @@
 // Anonymous: the only key is the 8-char code the app generated on the device.
 // Same D1 database as the check-in counter (binding: DB). Schema: schema.sql.
 //
-//   PUT /api/passport   { v, pid, stamps[], redeemed[] }
+//   PUT /api/passport   { v, pid, did, claim?, stamps[], redeemed[] }
 //   GET /api/passport?pid=XXXXXXXX -> the stored snapshot
+//
+// One ticket, one active device. A ticket-derived pid is shared by anyone holding
+// the same ticket, so the row records which device (`did`, random per install)
+// owns it. A write from another device is refused with 409 unless it sets
+// `claim` — which the app only does right after the visitor scanned the ticket
+// themselves. So recovery on a new phone works (it takes the ticket over, and the
+// old phone learns it lost it on its next write), while two people collecting in
+// parallel on one shared ticket does not.
 //
 // ponytail: no auth beyond knowing the code, and codes are guessable at 32^8.
 // Fine for stamp collections (no PII, worst case someone gifts themselves stamps).
@@ -37,6 +45,14 @@ export async function PUT({ request, platform }) {
   if (!db) return json({ ok: false, stored: false });
 
   const row = await db.prepare(SELECT_PASSPORT).bind(body.pid).first();
+  // ticket lock: an unclaimed row is claimed by this device; a foreign one is
+  // refused unless this write is an explicit claim (see the header comment)
+  const did = typeof body?.did === 'string' && body.did.length <= 32 ? body.did : '';
+  const held = row?.owner ?? '';
+  if (held && did && held !== did && !body?.claim) {
+    return json({ error: 'ticket-in-use' }, { status: 409 });
+  }
+  const owner = did || held || null;
   const merged = mergeSnapshots(row ? JSON.parse(row.snapshot) : null, body);
   const text = JSON.stringify(merged);
   if (text.length > MAX_BYTES) return json({ error: 'too large' }, { status: 413 });
@@ -44,7 +60,7 @@ export async function PUT({ request, platform }) {
   // counter, never used to refuse a backup or a voucher. See src/lib/fraud.js.
   const flags = flagPassport(merged.stamps, destinations).length;
   const now = Date.now();
-  await db.prepare(UPSERT_PASSPORT).bind(body.pid, text, now, flags, text, now, flags).run();
+  await db.prepare(UPSERT_PASSPORT).bind(body.pid, text, now, flags, owner, text, now, flags, owner).run();
   return json({ ok: true, stamps: merged.stamps.length });
 }
 

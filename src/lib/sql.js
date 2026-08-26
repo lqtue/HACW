@@ -14,11 +14,13 @@ export const UPSERT_COUNTER = `INSERT INTO counters (k, n, updated) VALUES (?, ?
 export const SELECT_COUNTERS = `SELECT k, n FROM counters WHERE k LIKE ?`;
 
 /** (pid) */
-export const SELECT_PASSPORT = `SELECT snapshot FROM passports WHERE pid = ?`;
+export const SELECT_PASSPORT = `SELECT snapshot, owner FROM passports WHERE pid = ?`;
 
-/** (pid, snapshot, updated, flags, snapshot, updated, flags) */
-export const UPSERT_PASSPORT = `INSERT INTO passports (pid, snapshot, updated, flags) VALUES (?, ?, ?, ?)
-   ON CONFLICT(pid) DO UPDATE SET snapshot = ?, updated = ?, flags = ?`;
+/** (pid, snapshot, updated, flags, owner, snapshot, updated, flags, owner) — the
+ *  repeat is the update branch. `owner` is the device holding the ticket; passing
+ *  the same value on both sides makes a claim/transfer one statement. */
+export const UPSERT_PASSPORT = `INSERT INTO passports (pid, snapshot, updated, flags, owner) VALUES (?, ?, ?, ?, ?)
+   ON CONFLICT(pid) DO UPDATE SET snapshot = ?, updated = ?, flags = ?, owner = ?`;
 
 /** Organizer review list. No bind params; pids are masked before they leave the endpoint. */
 export const SELECT_FLAGGED = `SELECT pid, flags, updated FROM passports

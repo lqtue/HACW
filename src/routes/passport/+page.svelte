@@ -4,25 +4,25 @@
   import destinations from '$lib/data/destinations.json';
   import tours from '$lib/data/tours.json';
   import rewards from '$lib/data/rewards.json';
-  import StaffConfirm from '$lib/components/StaffConfirm.svelte';
-  import NearestBooth from '$lib/components/NearestBooth.svelte';
   import StudyToggle from '$lib/components/StudyToggle.svelte';
   import LangSwitch from '$lib/components/LangSwitch.svelte';
   import InstallApp from '$lib/components/InstallApp.svelte';
   import MatCua from '$lib/components/MatCua.svelte';
+  import SetList from '$lib/components/SetList.svelte';
+  import TicketScan from '$lib/components/TicketScan.svelte';
   import Icon from '$lib/components/Icon.svelte';
   import {
     passport,
     hasStamp,
     isSetComplete,
     isRedeemed,
-    redeemSet,
     prettyCode,
     backupLink,
     restore,
+    restoreFromTicket,
     restoreFromHash
   } from '$lib/passport.svelte.js';
-  import { plan } from '$lib/plan.svelte.js';
+  import { plan, setTicketCode } from '$lib/plan.svelte.js';
   import { POINTS, breakdown } from '$lib/score.js';
   import { t, i18n } from '$lib/i18n.svelte.js';
   import { s } from '$lib/strings.js';
@@ -61,9 +61,35 @@
   // cheapest reward still out of reach → how many points to the next one
   const nextReward = $derived([...rewards].filter((r) => r.points > score.total).sort((a, b) => a.points - b.points)[0]);
   const claimableTours = $derived(setRows.filter((x) => x.complete && !isRedeemed(x.tour.id)));
+  // the same shape SetList takes on the planner: the tour with its stops resolved
+  const tourSets = $derived(setRows.map(({ tour, stops }) => ({ ...tour, stops })));
+  let openSet = $state(null);
+  // which milestone's reward is shown: a tapped one, else the next to reach, else the
+  // top tier once everything is passed
+  let selMile = $state(null);
+  // opened from an effect (not an `open={}` attribute): this page is prerendered, so
+  // the markup ships closed and only a post-hydration write reliably opens it
+  let rewardsOpen = $state(false);
+  $effect(() => {
+    if (offer != null) rewardsOpen = true;
+  });
+  const shown = $derived(
+    rewards.find((r) => r.id === selMile) ?? nextReward ?? rewards.at(-1) ?? null
+  );
+  // milestone bar fill: tiers sit at (i + 0.5) / n; fill covers every passed tier and
+  // interpolates toward the next by points, so it moves with each check-in
+  const milePct = $derived.by(() => {
+    const n = rewards.length;
+    const passed = rewards.filter((r) => score.total >= r.points).length;
+    if (passed >= n) return 100;
+    const prev = passed ? rewards[passed - 1].points : 0;
+    const frac = (score.total - prev) / (rewards[passed].points - prev);
+    return Math.max(0, ((passed - 0.5 + frac) / n) * 100);
+  });
 
   // --- backup & recovery ---
   let notice = $state('');
+  let rescan = $state(); // bound TicketScan — the restore panel drives its start()
   let code = $state('');
   let busy = $state(false);
 
@@ -82,6 +108,21 @@
       notice = text;
     }
   }
+  // scanned the ticket in the recovery panel: adopt its code (claiming the ticket
+  // for this phone) and merge whatever was backed up under it
+  async function onTicketScanned(raw) {
+    busy = true;
+    notice = '';
+    try {
+      await restoreFromTicket(raw);
+      setTicketCode(raw); // also unlocks the physical-gift tiers
+      notice = s('restore_ok');
+    } catch (e) {
+      notice = e.message === 'bad-code' ? s('restore_bad') : s('restore_offline');
+    } finally {
+      busy = false;
+    }
+  }
   async function doRestore() {
     busy = true;
     notice = '';
@@ -92,7 +133,7 @@
     } catch (e) {
       notice =
         e.message === 'bad-code' ? s('restore_bad')
-        : e.message === 'not-found' ? s('restore_missing')
+        : e.message === 'not-found' ? s('wrong_code')
         : s('restore_offline');
     } finally {
       busy = false;
@@ -102,7 +143,7 @@
 
 <div class="pp">
   <header class="head">
-    <h1 class="ptitle">{s('passport_title')}</h1>
+    <h1 class="ptitle">{s('passport')}</h1>
   </header>
 
   <!-- Your route (the built 5) — tap to resume the walking nav -->
@@ -140,33 +181,63 @@
 
   <!-- Rewards — points headline merged in. Summary counts down to the next reward;
        opens itself when a tier is claimable. How points work lives here too. -->
-  <details class="fold" open={offer != null}>
-    <summary>{nextReward ? s('pts_to_reward', nextReward.points - score.total) : s('rewards_title')}{#if offer} · 1 ✓{/if}</summary>
-    <div class="list flush">
-      <div class="row">
-        <span class="rbody"><b>{score.total} {s('points')}</b><small>{s('reward_one')}</small></span>
-        <span class="pill muted">{count}/{total} ✓</span>
+  <details class="fold" bind:open={rewardsOpen}>
+    <summary>{s('rewards_title')}{#if offer} · 1 ✓{/if}</summary>
+    <!-- milestone bar: every tier as a stop on one track, evenly spaced (the point
+         values are too uneven to plot to scale); the fill reaches the last tier you've
+         passed and creeps toward the next, which sits lifted in a bubble -->
+    <div class="mile">
+      <div class="mile-icons" style="--n: {rewards.length}">
+        {#each rewards as r, i (r.id)}
+          <button
+            class="m"
+            class:on={score.total >= r.points}
+            class:next={r.id === nextReward?.id}
+            class:sel={r.id === shown?.id}
+            style="--i: {i}"
+            onclick={() => (selMile = r.id)}
+            aria-pressed={r.id === shown?.id}
+            aria-label={`${r.points} ${s('points')} · ${t(r.title)}`}
+          >{r.icon}</button>
+        {/each}
       </div>
-      {#each rewards as r (r.id)}
-        {@const unlocked = score.total >= r.points}
-        {@const taken = isRedeemed(r.id)}
-        <div class="row">
-          <span class="rbody">
-            <b>{t(r.reward)}</b>
-            <small>{s('reward_locked', r.points)}</small>
-          </span>
-          {#if taken}
-            <span class="pill good"><Icon name="check" size={13} /> {s('reward_taken')}</span>
-          {:else if offer?.id === r.id}
-            <StaffConfirm label={s('claim')} onconfirm={() => redeemSet(r.id)} />
-          {:else if unlocked}
-            <span class="pill muted">{s('r_higher')}</span>
-          {:else}
-            <span class="pill muted">{s('r_locked')}</span>
-          {/if}
-        </div>
-      {/each}
+      <div class="mile-track"><i style="width: {milePct}%"></i></div>
+      <div class="mile-pts" style="--n: {rewards.length}">
+        {#each rewards as r, i (r.id)}<span style="--i: {i}">{r.points}</span>{/each}
+      </div>
     </div>
+    <!-- one card: the selected milestone (defaults to the next one to reach) -->
+    {#if shown}
+      {@const r = shown}
+      {@const unlocked = score.total >= r.points}
+      {@const taken = isRedeemed(r.id)}
+      <div class="list flush">
+        {#key r.id}
+          <div class="row mile-card">
+            <span class="rbody">
+              <b>{t(r.reward)}</b>
+              <small>
+                {unlocked ? s('reward_at', r.points) : s('pts_more', r.points - score.total)}
+                <!-- physical gifts are handed over against a real ticket (rewards.json:
+                     needsTicket) — say so on the ladder, not only at the counter -->
+                {#if r.needsTicket}<em class="tk-tag">· {s('needs_ticket_tag')}</em>{/if}
+              </small>
+            </span>
+            {#if taken}
+              <span class="pill good"><Icon name="check" size={13} /> {s('reward_taken')}</span>
+            {:else if offer?.id === r.id}
+              <!-- claiming is its own screen: a counter works it, not the visitor -->
+              <a class="btn claim" href="{base}/redeem">{s('redeem_title')}</a>
+            {:else if unlocked}
+              <span class="pill muted">{s('r_higher')}</span>
+            {/if}
+          </div>
+        {/key}
+      </div>
+    {/if}
+    <!-- the ladder reads as cumulative (five tiers, one bar) and isn't: claiming
+         spends the passport's single gift slot, not points -->
+    <p class="foot">{s('one_gift_note')}</p>
     <details class="row-details">
       <summary>{s('score_how')}</summary>
       <ul class="rules">
@@ -179,25 +250,16 @@
     </details>
   </details>
 
-  <!-- Tour sets — folded; opens itself when a completed set can be redeemed -->
+  <!-- Suggested journeys — the same accordion the planner shows, with stamp progress -->
   <details class="fold" open={claimableTours.length > 0}>
     <summary>{s('tours')}</summary>
-    <div class="list flush">
-      {#each setRows as { tour, stops, done, complete } (tour.id)}
-        <a class="row" href="{base}/tours/{tour.id}">
-          <span class="dots" aria-hidden="true">
-            {#each stops as d (d.id)}<i style="background: var(--c-{d.category}); opacity: {hasStamp(d.id) ? 1 : 0.3}"></i>{/each}
-          </span>
-          <span class="rbody">
-            <b>{t(tour.title)}</b>
-            <small>{done}/{stops.length}{#if complete} · {s('set_complete')}{/if}</small>
-          </span>
-          {#if complete}
-            <span class="pill good"><Icon name="check" size={13} /></span>
-          {/if}
-        </a>
-      {/each}
-    </div>
+    <SetList
+      sets={tourSets}
+      bind:open={openSet}
+      actionLabel={s('nav_start')}
+      hrefFor={(set) => `${base}/tours/${set.id}`}
+      stamped={hasStamp}
+    />
   </details>
 
   <!-- All sites (secondary) -->
@@ -226,8 +288,8 @@
       <details class="fold">
         <summary>{s('backup_title')}</summary>
         <div class="backup">
+          <!-- the code IS the backup: one line saying so, then the code itself -->
           <p class="hint">{s('backup_hint')}</p>
-          <p class="code-label">{s('code_label')}</p>
           <div class="codebox">
             <span class="pid">{prettyCode()}</span>
             <button class="btn secondary" onclick={() => copy(prettyCode(), s('copied'))}>{s('copy')}</button>
@@ -235,10 +297,18 @@
           <button class="btn secondary wide" onclick={() => copy(backupLink(), s('copied'))}>{s('copy_link')}</button>
           <details>
             <summary>{s('restore')}</summary>
+            <!-- Scanning the ticket is the easy path: it derives the same code the ticket
+                 minted in the first place. `bare` because this panel supplies its own
+                 button — TicketScan's own strip would add a "buy a ticket" prompt, which
+                 is the wrong offer to someone recovering a passport they already have. -->
+            <TicketScan bind:this={rescan} onsaved={onTicketScanned} hero bare />
+            <button class="btn wide" onclick={() => rescan?.start()}>{s('scan_btn')}</button>
+            <p class="hint or">{s('restore_or_code')}</p>
             <input class="code-in" bind:value={code} placeholder="XXXX-XXXX" autocapitalize="characters" />
-            <button class="btn wide" onclick={doRestore} disabled={busy}>{s('restore_do')}</button>
+            <button class="btn secondary wide" onclick={doRestore} disabled={busy}>{s('restore')}</button>
           </details>
           {#if notice}<p class="notice">{notice}</p>{/if}
+          {#if passport.taken}<p class="notice warn">{s('ticket_taken')}</p>{/if}
           <p class="hint">{s('offline_ok')}</p>
         </div>
       </details>
@@ -251,8 +321,6 @@
       <InstallApp />
     </div>
   </details>
-
-  <NearestBooth />
 </div>
 
 <style>
@@ -264,14 +332,6 @@
     gap: 18px;
   }
   .head { display: flex; flex-direction: column; gap: 2px; }
-  .code-label {
-    margin: 2px 0 -4px;
-    font-size: 0.7rem;
-    font-weight: 700;
-    letter-spacing: 0.08em;
-    text-transform: uppercase;
-    color: var(--muted);
-  }
 
   /* Your route card */
   .rcard {
@@ -313,11 +373,46 @@
     color: inherit;
   }
   .row:first-child { border-top: 0; }
+  /* same 16px gutter and muted register as the .row / .row-details text above it */
+  .foot { margin: 8px 0 2px; padding: 0 16px; font-size: 0.85rem; line-height: 1.5; color: var(--muted); }
+
+  /* ---- reward milestone bar ---- */
+  .mile { padding: 6px 4px 10px; display: grid; gap: 6px; }
+  .mile-icons, .mile-pts { position: relative; height: 44px; }
+  .mile-pts { height: 16px; }
+  .mile-icons .m, .mile-pts span {
+    position: absolute; top: 0;
+    left: calc((var(--i) + 0.5) / var(--n) * 100%); transform: translateX(-50%);
+  }
+  .mile-icons .m {
+    display: grid; place-items: center; width: 40px; height: 40px;
+    font-size: 1.35rem; line-height: 1;
+    border: 0; background: none; padding: 0; cursor: pointer;
+    border-radius: 12px; opacity: 0.45; filter: grayscale(0.4);
+    transition: opacity 0.2s, transform 0.2s;
+  }
+  .mile-icons .m:focus-visible { outline: 2px solid var(--brand); outline-offset: 2px; }
+  .mile-icons .m.on { opacity: 1; filter: none; }
+  /* the selected tier (defaults to the next one): lifted in a bubble with a pointer
+     down to its stop on the track; gold when it's the next to reach, ink otherwise */
+  .mile-icons .m.sel {
+    opacity: 1; filter: none;
+    background: var(--surface); border: 1.5px solid var(--line);
+    box-shadow: var(--shadow);
+    transform: translateX(-50%) translateY(-3px);
+  }
+  .mile-icons .m.sel.next { border-color: var(--gold); }
+  .mile-icons .m.sel::after {
+    content: ''; position: absolute; left: 50%; bottom: -7px; transform: translateX(-50%);
+    border: 6px solid transparent; border-bottom: 0; border-top-color: var(--line);
+  }
+  .mile-icons .m.sel.next::after { border-top-color: var(--gold); }
+  .mile-track { height: 8px; border-radius: 999px; background: var(--bg); overflow: hidden; }
+  .mile-track i { display: block; height: 100%; border-radius: 999px; background: var(--brand); transition: width 0.4s ease; }
+  .mile-pts span { font-size: 0.72rem; font-weight: 600; color: var(--muted); }
   .rbody { flex: 1 1 auto; min-width: 0; display: grid; gap: 2px; }
   .rbody b { font-weight: 600; font-size: 0.98rem; }
   .rbody small { color: var(--muted); font-size: 0.82rem; }
-  .dots { display: inline-flex; gap: 4px; flex: 0 0 auto; }
-  .dots i { width: 8px; height: 8px; border-radius: 50%; }
 
   .pill {
     flex: 0 0 auto;
@@ -400,4 +495,7 @@
   }
   .backup details summary { cursor: pointer; font-weight: 600; color: var(--muted); font-size: 0.88rem; }
   .notice { margin: 0; font-weight: 600; word-break: break-word; }
+  .notice.warn { color: var(--brand); font-weight: 600; }
+  .claim { flex: 0 0 auto; padding: 9px 16px; font-size: 0.9rem; }
+  .tk-tag { font-style: normal; font-weight: 700; color: var(--gold); }
 </style>

@@ -20,12 +20,21 @@ CREATE TABLE IF NOT EXISTS counters (
 -- `flags` is the count from src/lib/fraud.js: impossible travel between stamps,
 -- or a burst that isn't a walk. Advisory — it is shown to organizers and to the
 -- staff member confirming a voucher, and it never blocks a redemption by itself.
+-- `owner` is the device that currently holds this passport (a random per-device
+-- id, not the pid). One ticket = one active device: a second phone writing to a
+-- passport it does not own is refused, unless it is explicitly claiming it (the
+-- visitor scanned the ticket to recover), which transfers ownership. That makes
+-- recovery work while stopping two people collecting on one shared ticket.
 CREATE TABLE IF NOT EXISTS passports (
   pid TEXT PRIMARY KEY,
   snapshot TEXT NOT NULL,
   updated INTEGER NOT NULL,
-  flags INTEGER NOT NULL DEFAULT 0
+  flags INTEGER NOT NULL DEFAULT 0,
+  owner TEXT
 );
+-- Existing deployments: add the column once (safe to fail if already applied).
+--   npx wrangler d1 execute hacw --remote --command "ALTER TABLE passports ADD COLUMN owner TEXT"
+
 
 -- Opt-in journey study: one row PER event (the exception to the aggregates-only
 -- rule), so a visit's ORDER of sites can be reconstructed per nationality. `sid`
