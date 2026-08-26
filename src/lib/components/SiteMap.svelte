@@ -238,6 +238,8 @@
   // reactive data pushes (no rebuild)
   $effect(() => { if (ready) map.getSource('sites')?.setData(siteData); });
   $effect(() => { if (ready && routeData) map.getSource('route')?.setData(routeData); });
+  $effect(() => { if (ready && routePaint) for (const [k, v] of Object.entries(routePaint)) map.getLayer('route-line') && map.setPaintProperty('route-line', k, v); });
+  $effect(() => { if (ready && fitBounds && !compass) map.fitBounds(fitBounds, { padding: fitPadding, maxZoom: 17, bearing, pitch: 0, duration: 600 }); });
 </script>
 
 <div class="sm-wrap">

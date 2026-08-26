@@ -31,3 +31,19 @@ ranked = rankSets([longSet, shortSet], { weather: 'hot', now }, destinations);
 assert.equal(ranked[0].id, 'short', 'hot should favour the shorter walk');
 
 console.log('advisor.test.js ok');
+
+// --- switchback: on an off-unit the crowd term is gone, everything else still ranks ---
+{
+  // 3 sites, >= 20 check-ins so live counts decide: median 20 -> 'q' quiet, 'b2' busy
+  const dests = [near('q', 'di-tich'), near('b1', 'di-tich'), near('b2', 'di-tich')];
+  const counts = { q: 0, b1: 20, b2: 30 };
+  const quietSet = { id: 'qs', stops: [dests[0]] };
+  const busySet = { id: 'bs', stops: [dests[2]] };
+  const on = rankSets([busySet, quietSet], { weather: 'mild', now, counts, nudge: 1 }, dests);
+  assert.equal(on[0].id, 'qs', 'nudge on: the uncrowded set ranks first');
+  assert.equal(on[0].quiet, true);
+  const off = rankSets([busySet, quietSet], { weather: 'mild', now, counts, nudge: 0 }, dests);
+  assert.ok(off.every((x) => x.quiet === false), 'nudge off: no set is marked quiet');
+  assert.equal(off[0]._score, off[1]._score, 'nudge off: crowd no longer separates them');
+}
+console.log('advisor switchback ok');

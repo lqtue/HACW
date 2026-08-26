@@ -741,5 +741,5 @@ p { line-height: 1.6; }
    no pulse, no accuracy circle (that one is off at the control). Global so every map
    (discover + builder fold) shares it. MapLibre's stylesheet loads at runtime, after
    this, so the two `.maplibregl-map .…` classes are needed to out-specify its default. */
-.maplibregl-map .maplibregl-user-location-dot { background: var(--teal); }
+.maplibregl-map .maplibregl-user-location-dot { background: var(--teal); width: 22px; height: 22px; }
 .maplibregl-map .maplibregl-user-location-dot::before { display: none; } /* kill the pulse */

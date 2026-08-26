@@ -1,6 +1,7 @@
 import { routeStats, optimizeRoute } from './route.js';
 import { openState } from './hours.js';
 import { spotlightIds } from './score.js';
+import { nudgeOn } from './switchback.js';
 
 // Re-orders a handful of pre-baked themed sets for the current weather, clock and
 // crowd. This is a nudge, not a solver: coarse weights, always positive framing.
@@ -13,13 +14,16 @@ const INDOOR = new Set(['bao-tang', 'nha-co']);
 
 /**
  * @param {{ id:string, stops:any[], tags?:string[] }[]} sets  stop ids already resolved to dest objects
- * @param {{ weather?:'hot'|'mild'|'rain', now?:Date, counts?:Record<string,number> }} ctx
+ * @param {{ weather?:'hot'|'mild'|'rain', now?:Date, counts?:Record<string,number>, nudge?:0|1 }} ctx
+ *   nudge: switchback state (default: the schedule for `now`); 0 drops the crowd term
  * @param {any[]} destinations  full list, for the spotlight median
  * @returns annotated sets, best-first
  */
 export function rankSets(sets, ctx, destinations) {
   const { weather = 'mild', now = new Date(), counts = {} } = ctx ?? {};
-  const spot = spotlightIds(counts, destinations);
+  const nudge = ctx?.nudge ?? nudgeOn(now.getTime());
+  // switchback off-unit: no crowd steering at all — weather/hours/walk still rank
+  const spot = nudge ? spotlightIds(counts, destinations) : new Set();
 
   const scored = sets.map((set) => {
     // reorder for the shortest walk before costing/ranking, so walkM is the real minimum

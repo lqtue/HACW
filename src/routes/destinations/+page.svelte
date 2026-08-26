@@ -14,6 +14,7 @@
   import { hasStamp } from '$lib/passport.svelte.js';
   import { stats } from '$lib/stats.svelte.js';
   import { spotlightIds } from '$lib/score.js';
+  import { nudgeOn } from '$lib/switchback.js';
   import { t } from '$lib/i18n.svelte.js';
   import { s } from '$lib/strings.js';
   import { theme } from '$lib/theme.svelte.js';
@@ -48,7 +49,8 @@
       active === 'open' ? isOpen(d) : active === 'all' || active === 'tickets' || d.category === active
     )
   );
-  const spotlight = $derived(spotlightIds(stats.counts, destinations));
+  // switchback off-unit: no gold spark, no 'quiet' badge — the map shows no nudge
+  const spotlight = $derived(nudgeOn() ? spotlightIds(stats.counts, destinations) : new Set());
 
   // The sites layer is data-driven, so filters / spotlight / opening hours are
   // one GeoJSON rebuild rather than 25 marker mutations. Everything reactive the

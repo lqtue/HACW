@@ -7,6 +7,7 @@
   import { base } from '$app/paths';
   import { onMount } from 'svelte';
   import TicketScan from '$lib/components/TicketScan.svelte';
+  import StudyToggle from '$lib/components/StudyToggle.svelte';
   import MatCua from '$lib/components/MatCua.svelte';
   import Icon from '$lib/components/Icon.svelte';
   import IconList from '$lib/components/IconList.svelte';
@@ -210,6 +211,8 @@
         {#if scanSupported}<button class="btn" onclick={() => ticketScan?.start()}>{s('scan_btn')}</button>{/if}
         <button class="sub" onclick={() => onDone?.()}>{s('scan_skip')}</button>
       {/if}
+      <!-- study consent: default on, shown where the visit starts so it is seen, not buried -->
+      <StudyToggle />
     </div>
   </section>
 {:else if step === 'perms'}

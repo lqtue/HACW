@@ -6,6 +6,7 @@
   import { stats } from '$lib/stats.svelte.js';
   import { recordCell } from '$lib/research.svelte.js';
   import { POINTS, spotlightIds, stampPoints } from '$lib/score.js';
+  import { nudgeOn } from '$lib/switchback.js';
   import destinations from '$lib/data/destinations.json';
   import { t } from '$lib/i18n.svelte.js';
   import { s } from '$lib/strings.js';
@@ -47,7 +48,11 @@
     (typeof location !== 'undefined' && new URLSearchParams(location.search).get('demo')) || '';
 
   // Quieter sites earn a bonus — this is what pulls the crowd off Chùa Cầu.
-  const spotlight = $derived(spotlightIds(stats.counts, destinations).has(dest.id));
+  // Points are identical on and off (the visible steer is the treatment, not the
+  // bonus): `quiet` is the true spotlight state and drives stampPoints + the logged
+  // `spot`; `spotlight` is what the visitor SEES, hidden on switchback off-units.
+  const quiet = $derived(spotlightIds(stats.counts, destinations).has(dest.id));
+  const spotlight = $derived(nudgeOn() ? quiet : false);
   const open = openLabel(dest);
 
   // Each step is its own full-viewport screen, one job: info → quiz → done.
@@ -75,7 +80,7 @@
       else {
         step = 'far';
         // how far off people actually are -> whether this radius needs widening
-        track('gps_far', dest.id, distance, spotlight);
+        track('gps_far', dest.id, distance, quiet);
       }
     } catch (e) {
       step = 'error';
@@ -87,8 +92,8 @@
   // every drawn question answered right → the stamp lands
   function onPass(r) {
     missed = r.missed;
-    earned = stampPoints({ perfect: !missed, spotlight });
-    addStamp(dest.id, earned, spotlight);
+    earned = stampPoints({ perfect: !missed, spotlight: quiet });
+    addStamp(dest.id, earned, quiet);
     step = 'done';
     // the seal lands; give the phone the thump too (no-op where unsupported)
     navigator.vibrate?.(28);

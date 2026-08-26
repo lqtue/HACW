@@ -21,7 +21,7 @@
     onclick={onlocate}
   >
     <!-- locate reticle -->
-    <svg viewBox="0 0 24 24" width="22" height="22" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true">
+    <svg viewBox="0 0 24 24" width="28" height="28" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true">
       <circle cx="12" cy="12" r="4" />
       <circle cx="12" cy="12" r="1.4" fill="currentColor" stroke="none" />
       <line x1="12" y1="2" x2="12" y2="5" stroke-linecap="round" />

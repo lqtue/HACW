@@ -17,6 +17,9 @@
   const pickedSet = $derived(new Set(picked));
 
   const orderedPicks = $derived(optimizeRoute(picked.map((id) => byId[id]).filter(Boolean)));
+  // all 5 chosen: the picker becomes a preview — every other site dims, the plan is
+  // full-strength, the route reads solid, and the frame tightens onto the walk
+  const complete = $derived(picked.length >= 5);
   const routeData = $derived({ type: 'Feature', geometry: { type: 'LineString', coordinates: stitchRoute(orderedPicks) } });
 
   // This map is the PICKER, not the route preview: it shows what's choosable and
@@ -28,7 +31,7 @@
     type: 'FeatureCollection',
     features: destinations
       .filter((d) => {
-        if (pickedSet.has(d.id)) return true;
+        if (pickedSet.has(d.id) || complete) return true;
         if (!eligibleSet.has(d.id)) return false;
         return !catFilter || d.category === catFilter;
       })
@@ -44,19 +47,19 @@
             label: '',
             sel: on,
             // this slot's choosable sites are full-strength; already-picked context dims
-            dim: on ? 0.4 : 1
+            dim: complete ? (on ? 1 : 0.25) : on ? 0.4 : 1
           }
         };
       })
   });
 
-  const bounds = destinations.reduce(
+  const bounds = $derived((complete ? orderedPicks : destinations).reduce(
     (b, d) => [
       [Math.min(b[0][0], d.lng), Math.min(b[0][1], d.lat)],
       [Math.max(b[1][0], d.lng), Math.max(b[1][1], d.lat)]
     ],
     [[180, 90], [-180, -90]]
-  );
+  ));
   const dark = theme.mode === 'dark';
   const brand = (typeof document !== 'undefined' && getComputedStyle(document.documentElement).getPropertyValue('--brand').trim()) || '#e0542c';
   const ink = dark ? '#efe6d6' : '#1c1917';
@@ -81,7 +84,7 @@
     attributionPos="bottom-left"
     fitBounds={bounds}
     fitPadding={34}
-    routePaint={{ 'line-color': brand, 'line-width': 3, 'line-dasharray': [1.6, 1.4], 'line-opacity': 0.35 }}
+    routePaint={{ 'line-color': brand, 'line-width': 3, 'line-dasharray': [1.6, 1.4], 'line-opacity': complete ? 0.9 : 0.35 }}
     sitesLayout={{
       'icon-size': ['interpolate', ['linear'], ['zoom'],
         14, ['case', ['get', 'sel'], 0.5, 0.7],

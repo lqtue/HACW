@@ -8,29 +8,23 @@ import { browser } from '$app/environment';
 //              Tags aggregate behaviour counters (nat:<type>:<id>:<code>) so the
 //              organizer can slice check-ins/funnel/quiz BY nationality. Still just
 //              anonymous aggregate counts — same posture as the plain counters.
-//   journey  — OPT-IN (default off): logs the ORDERED sequence of a single visit
-//              (site A -> B -> C) under an ephemeral session id, so nationalities'
-//              routes can be compared. A sequence is closer to re-identifiable than
-//              a bucket count, so unlike the footfall opt-OUT this is an explicit
-//              opt-IN. See CONCERNS.md §3b and schema.sql `journeys`.
+//   journey  — logs the ORDERED sequence of a single visit (site A -> B -> C) under
+//              an ephemeral session id, so routes, dwell and plan adherence can be
+//              compared by segment. Governed by the ONE study consent in
+//              research.svelte.js (default on, toggle on scan step + passport):
+//              the earlier separate opt-in had no UI and produced no rows.
+//              See CONCERNS.md §3b and schema.sql `events.sid`.
 const NAT = 'hacw_nat';
-const JOURNEY = 'hacw_journey_v1';
 const SID = 'hacw_sid';
 
 export const study = $state({
-  nat: browser ? localStorage.getItem(NAT) || '' : '',
-  journey: browser ? localStorage.getItem(JOURNEY) === '1' : false
+  nat: browser ? localStorage.getItem(NAT) || '' : ''
 });
 
 export function setNat(code) {
   if (!code || study.nat === code) return;
   study.nat = code;
   if (browser) localStorage.setItem(NAT, code);
-}
-
-export function setJourney(on) {
-  study.journey = !!on;
-  if (browser) localStorage.setItem(JOURNEY, on ? '1' : '0');
 }
 
 // Ephemeral per-tab-session id: lives in sessionStorage, so it resets when the tab
@@ -45,11 +39,19 @@ function sessionId() {
   return s;
 }
 
-// Resets on reload (a reload starts a new session anyway); orders events within a visit.
-let seq = 0;
+// Orders events within a visit. Kept in sessionStorage next to the sid: a reload
+// keeps the sid, so a counter that restarted at 0 would collide.
+const SEQ = 'hacw_seq';
+function nextSeq() {
+  const n = Number(sessionStorage.getItem(SEQ) ?? 0);
+  sessionStorage.setItem(SEQ, String(n + 1));
+  return n;
+}
 
-/** Journey stamp for an outgoing event, or null when the visitor hasn't opted in. */
+/** Journey stamp for an outgoing event, or null when the study is switched off.
+ *  Consent is read lazily from localStorage (research.svelte.js owns the key) so
+ *  this module keeps importing nothing app-side. */
 export function journeyTag() {
-  if (!study.journey) return null;
-  return { sid: sessionId(), seq: seq++ };
+  if (!browser || localStorage.getItem('hacw_research_v1') === '0') return null;
+  return { sid: sessionId(), seq: nextSeq() };
 }

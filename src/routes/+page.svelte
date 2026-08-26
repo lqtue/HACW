@@ -17,6 +17,7 @@
   import { weather } from '$lib/weather.svelte.js';
   import { stats } from '$lib/stats.svelte.js';
   import { spotlightIds } from '$lib/score.js';
+  import { nudgeOn } from '$lib/switchback.js';
   import { distanceMeters, getPosition } from '$lib/geo.js';
   import { formatDistance, optimizeRoute, routeStats } from '$lib/route.js';
   import { track } from '$lib/passport.svelte.js';
@@ -219,7 +220,10 @@
     forced === 'recommend' || forced === 'manual' ? forced : plan.set.length ? 'manual' : 'recommend'
   );
   let openSet = $state(null); // single-open accordion; one RouteMap (WebGL) alive at a time
-  const ctx = () => ({ weather: weather.now, now: new Date(), counts: stats.counts });
+  // nudge: the switchback state for right now (src/lib/switchback.js). Off-units get
+  // no crowd steering anywhere on this page — the ranker, the auto-fill, the spark.
+  const nudge = nudgeOn();
+  const ctx = () => ({ weather: weather.now, now: new Date(), counts: stats.counts, nudge });
   const recommended = $derived(
     rankSets(
       ticketSets.map((tr) => ({ ...tr, stops: tr.stops.map((i) => byId[i]).filter(Boolean) })),
@@ -247,7 +251,7 @@
   const remaining = $derived(5 - pickedIds.length);
   // fill quiet sites first (dispersal), then organizer priority, then nearest the origin
   function bestFrom(pool, n) {
-    const spot = spotlightIds(stats.counts, destinations);
+    const spot = nudge ? spotlightIds(stats.counts, destinations) : new Set();
     return pool
       .map((d) => ({ id: d.id, quiet: spot.has(d.id) ? 0 : 1, prio: prioRank(d), m: distanceMeters(origin, d) }))
       .sort((a, b) => a.quiet - b.quiet || a.prio - b.prio || a.m - b.m)
