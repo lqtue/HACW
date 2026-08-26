@@ -159,9 +159,10 @@
   {#if !bare || saved || !supported || note}
     <div class="hero" class:bare>
       {#if !bare}<div class="vf-wrap" class:done={saved}>{@render viewfinder()}</div>{/if}
-      {#if saved}<span class="ok">{s('scan_saved')}</span>{/if}
-      {#if !supported}<p class="note">{s('scan_unsupported')}</p>{/if}
-      {#if note}<p class="note">{note}</p>{/if}
+      {#if saved}<p class="lead">{s('scan_saved')}</p>
+      {:else if !bare}<p class="lead">{s('scan_why')}</p>{/if}
+      {#if !supported}<p class="lead muted">{s('scan_unsupported')}</p>{/if}
+      {#if note}<p class="lead muted">{note}</p>{/if}
     </div>
   {/if}
 {:else}
@@ -169,7 +170,7 @@
        white buy above, orange scan below -->
   <div class="strip">
     {#if saved}
-      <span class="ok">{s('scan_saved')}</span>
+      <span class="ok">{s('scan_saved_short')}</span>
     {:else}
       <span class="lbl">{s('plan_scan')}</span>
       <button class="btn ghost" onclick={() => goto(`${base}/destinations?tickets=1`)}>{s('buy_ticket')}</button>
@@ -193,10 +194,10 @@
     padding-top: 16px;
     border-top: 1px solid var(--line);
   }
-  .lbl { color: var(--muted); font-size: 0.85rem; text-align: center; }
+  .lbl { color: var(--muted); font-size: var(--fs-sm); text-align: center; }
   .strip .btn { width: 100%; }
-  .ok { color: var(--brand-dark); font-weight: 700; font-size: 0.9rem; text-align: center; }
-  .note { margin: 8px 0 0; text-align: center; color: var(--muted); font-size: 0.82rem; }
+  .ok { color: var(--brand-dark); font-weight: 700; font-size: var(--fs-sm); text-align: center; }
+  .note { margin: 8px 0 0; text-align: center; color: var(--muted); font-size: var(--fs-sm); }
 
   /* hero: just the viewfinder mark, centred; the buttons live in the page footer */
   .hero { flex: 1 1 auto; width: 100%; display: flex; flex-direction: column; align-items: center; justify-content: center; gap: 12px; }
@@ -266,7 +267,7 @@
     margin: 0;
     text-align: center;
     color: #fff;
-    font-size: 0.85rem;
+    font-size: var(--fs-sm);
     text-shadow: 0 1px 3px rgba(0, 0, 0, 0.6);
   }
   .close { position: absolute; left: 50%; bottom: 14px; transform: translateX(-50%); }

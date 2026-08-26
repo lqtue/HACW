@@ -78,6 +78,6 @@
     padding: 24px 20px calc(24px + env(safe-area-inset-bottom));
     display: flex; flex-direction: column; gap: 12px;
   }
-  .sheet h2 { margin: 0; font-family: var(--font-display); font-size: 1.3rem; text-transform: uppercase; }
+  .sheet h2 { margin: 0; font-family: var(--font-display); font-size: var(--fs-xl); text-transform: uppercase; }
   .steps { margin: 0; padding-left: 20px; display: flex; flex-direction: column; gap: 8px; line-height: 1.5; }
 </style>

@@ -37,6 +37,6 @@
 
 <style>
   .terms-page { display: flex; flex-direction: column; gap: 20px; padding-bottom: 32px; max-width: 60ch; }
-  .terms-page h2 { margin: 0 0 6px; font-size: 1.05rem; font-weight: 700; color: var(--ink); }
+  .terms-page h2 { margin: 0 0 6px; font-size: var(--fs-md); font-weight: 700; color: var(--ink); }
   .terms-page p { margin: 0; color: var(--ink); line-height: 1.6; }
 </style>

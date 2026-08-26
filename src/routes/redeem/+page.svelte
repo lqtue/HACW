@@ -115,12 +115,12 @@
   .gift {
     margin: 0; text-align: center;
     font-family: var(--font-display); font-weight: 800;
-    font-size: clamp(1.25rem, 6vw, 1.6rem); line-height: 1.25; color: var(--ink);
+    font-size: var(--fs-lg); line-height: 1.25; color: var(--ink);
   }
-  .foot { margin: 0 auto; max-width: 32ch; text-align: center; font-size: 0.85rem; line-height: 1.5; color: var(--muted); }
-  .big.ok { margin: 0; text-align: center; font-size: 1.15rem; font-weight: 700; color: var(--teal); }
+  .foot { margin: 0 auto; max-width: 32ch; text-align: center; font-size: var(--fs-sm); line-height: 1.5; color: var(--muted); }
+  .big.ok { margin: 0; text-align: center; font-size: var(--fs-lg); font-weight: 700; color: var(--teal); }
   /* same body copy as the onboarding screens' .lead */
-  .note { margin: 0 auto; max-width: 32ch; text-align: center; color: var(--ink); font-size: 1.05rem; line-height: 1.5; }
+  .note { margin: 0 auto; max-width: 32ch; text-align: center; color: var(--ink); font-size: var(--fs-md); line-height: 1.5; }
   /* The four states have very different footers — a staff confirm panel is far taller
      than a lone back link — so a centred middle would sit at a different height on each.
      Anchor the text a fixed distance under the title instead: the title is at the same

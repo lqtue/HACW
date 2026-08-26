@@ -126,14 +126,14 @@
 
 <style>
   .stop { display: grid; grid-template-columns: 22px minmax(0, 380px) auto auto auto; gap: 6px; align-items: center; margin: 4px 0; }
-  .stop .n { font-size: 0.8rem; color: var(--muted); text-align: right; }
+  .stop .n { font-size: var(--fs-sm); color: var(--muted); text-align: right; }
   .stop select {
     width: 100%;
     padding: 6px 8px;
     border: 1px solid var(--line);
     border-radius: 8px;
     font-family: var(--font-body);
-    font-size: 0.9rem;
+    font-size: var(--fs-sm);
     background: var(--bg);
   }
 </style>

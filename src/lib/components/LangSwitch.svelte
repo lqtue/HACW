@@ -25,7 +25,7 @@
     padding: 8px 14px;
     font-family: var(--font-body);
     font-weight: 600;
-    font-size: 0.9rem;
+    font-size: var(--fs-sm);
     cursor: pointer;
     transition: border-color 0.14s, color 0.14s, background 0.14s;
   }

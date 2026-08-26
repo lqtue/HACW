@@ -222,10 +222,10 @@
   }
   .tn-ic {
     flex: 0 0 auto; width: 30px; height: 30px;
-    display: grid; place-items: center; font-size: 1.5rem; font-weight: 800;
+    display: grid; place-items: center; font-size: var(--fs-xl); font-weight: 800;
   }
   .tn-ic svg { transition: transform 0.3s ease; }
-  .tn-msg { font-size: 1.15rem; font-weight: 700; line-height: 1.25; }
+  .tn-msg { font-size: var(--fs-lg); font-weight: 700; line-height: 1.25; }
 
   /* ---- right-edge round controls ---- */
   .tn-fab {
@@ -252,7 +252,7 @@
   .tn-checkin {
     flex: 1 1 auto; border: 0; cursor: pointer;
     padding: 15px 22px; border-radius: 999px;
-    font-family: var(--font-body); font-weight: 700; font-size: 1rem;
+    font-family: var(--font-body); font-weight: 700; font-size: var(--fs-md);
     color: #fff; background: var(--brand);
     box-shadow: 0 4px 16px -4px rgba(20, 10, 6, 0.5);
     transition: opacity 0.2s, transform 0.15s;
@@ -270,6 +270,6 @@
     flex: 0 0 auto; border: 0; cursor: pointer;
     padding: 15px 24px; border-radius: 999px;
     background: var(--surface); color: var(--ink); font-family: var(--font-body);
-    font-weight: 700; font-size: 1rem; box-shadow: 0 2px 10px -2px rgba(0, 0, 0, 0.35);
+    font-weight: 700; font-size: var(--fs-md); box-shadow: 0 2px 10px -2px rgba(0, 0, 0, 0.35);
   }
 </style>

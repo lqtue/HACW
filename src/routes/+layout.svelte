@@ -62,6 +62,10 @@
   // It also drops the app's bottom nav-clearance padding so the map runs edge-to-edge
   // under the floating nav (the nav + list view float/pad over it themselves).
   const onExplore = $derived(rel.startsWith('/destinations'));
+  // site detail is a single-job screen (own back button); route-derived so the previous
+  // page's onDestroy reset of ui.hideNav can't race it back on
+  const onSite = $derived(/^\/destinations\/.+/.test(rel));
+  const noNav = $derived(ui.hideNav || onSite);
   // the very first screen: a forced ?step=door, or a fresh device opening the home route
   // browser-only: searchParams is off-limits while prerendering, and the hint is a
   // client-side flourish anyway
@@ -100,11 +104,11 @@
   {/if}
 {/if}
 
-<div class="app" class:wide class:onboarding class:nonav={ui.hideNav} class:mapfull={onExplore}>
+<div class="app" class:wide class:onboarding class:nonav={noNav} class:mapfull={onExplore}>
   {@render children()}
 </div>
 
-{#if !wide && !onboarding && !ui.hideNav}
+{#if !wide && !onboarding && !noNav}
   <nav class="nav" aria-label="Main">
     {#each tabs as t (t.path)}
       <a href={href(t.path)} aria-current={isActive(t.path) ? 'page' : undefined}>
@@ -134,13 +138,13 @@
     border-radius: 999px;
     height: 34px;
     font-family: var(--font-body);
-    font-size: 0.78rem;
+    font-size: var(--fs-sm);
     font-weight: 700;
     letter-spacing: 0.04em;
     cursor: pointer;
     backdrop-filter: blur(10px);
   }
-  .theme { right: 14px; width: 40px; font-size: 1rem; }
+  .theme { right: 14px; width: 40px; font-size: var(--fs-md); }
   /* rides at the moon's height, tucked behind it (z below), then peeks out to its left */
   .theme-hint {
     position: fixed; z-index: 1099;
@@ -149,7 +153,7 @@
     padding: 0 14px; border-radius: 999px;
     border: 1px solid var(--line);
     background: color-mix(in srgb, var(--surface) 92%, transparent);
-    color: var(--muted); font-size: 0.78rem; font-weight: 600; white-space: nowrap;
+    color: var(--muted); font-size: var(--fs-sm); font-weight: 600; white-space: nowrap;
     backdrop-filter: blur(10px);
     pointer-events: none;
     transform: translateX(110%); opacity: 0;

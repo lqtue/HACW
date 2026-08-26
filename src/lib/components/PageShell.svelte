@@ -43,7 +43,7 @@
     width: 40px; height: 40px; border-radius: 12px;
     display: grid; place-items: center; cursor: pointer;
     border: 1px solid var(--line); background: var(--surface); color: var(--ink);
-    font-size: 1.3rem; line-height: 1;
+    font-size: var(--fs-xl); line-height: 1;
   }
   .tb-back:focus-visible { outline: 2px solid var(--brand); outline-offset: 2px; }
   /* fill the rest of the 100dvh .app column, so a flex:1 child docks its footer at the bottom */

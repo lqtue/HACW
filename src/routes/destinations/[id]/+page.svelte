@@ -15,9 +15,8 @@
   import StampPress from '$lib/components/StampPress.svelte';
   import PageShell from '$lib/components/PageShell.svelte';
   import Quiz from '$lib/components/Quiz.svelte';
-  import { onMount, onDestroy } from 'svelte';
+  import { onMount } from 'svelte';
   import { goto } from '$app/navigation';
-  import { ui } from '$lib/ui.svelte.js';
 
   // back now lives as the sub-action under the check-in button (not a top-bar arrow).
   // deterministic back (history.back is unreliable / inert in the screens board):
@@ -102,9 +101,8 @@
     navigator.vibrate?.(28);
   }
 
-  // single-job screen: its own back button is the way out, so hide the tab bar
-  ui.hideNav = true;
-  onDestroy(() => (ui.hideNav = false));
+  // single-job screen: its own back button is the way out — the layout hides the tab
+  // bar for this route (`onSite`), no flag to set or reset here
 
   // board preview: fill the done panel with sample values so the "checked in" frame
   // shows the full success state; sample banners for the far / error stills.
@@ -140,15 +138,10 @@
 
       <!-- CTA dock: pushed to the bottom of the first screen, always in reach -->
       <div class="dock">
-        {#if open?.status === 'closed'}
-          <div class="banner">{s('closed_warning')}</div>
-        {/if}
         {#if step === 'far'}
           <div class="banner">{s('far', distance, dest.radius)}</div>
         {:else if step === 'error'}
           <div class="banner">{message}</div>
-        {:else if spotlight}
-          <div class="banner spot-note">{s('spotlight_hint', POINTS.spotlight)}</div>
         {/if}
 
         <!-- secondary (ghost) above, primary (coral) below, sub (link) last —
@@ -242,15 +235,14 @@
   }
   .tags { display: flex; flex-wrap: wrap; gap: 6px; margin-bottom: 12px; }
   .tag.spot { background: var(--gold); color: #4a2f06; }
-  .desc { margin: 0 0 4px; font-size: 1.02rem; line-height: 1.6; }
-  .spot-note { border-color: color-mix(in srgb, var(--gold) 55%, var(--line)); }
+  .desc { margin: 0 0 4px; font-size: var(--fs-md); line-height: 1.6; }
 
   /* quiz + result screens: Quiz.svelte */
 
   /* ---- done screen ---- */
   .done { align-items: center; text-align: center; }
   .done-body { margin: auto 0; display: flex; flex-direction: column; align-items: center; gap: 12px; }
-  .success { margin: 0; font-size: 1.15rem; font-weight: 600; }
+  .success { margin: 0; font-size: var(--fs-lg); font-weight: 600; }
   .ok-mark { color: var(--teal); }
   .pts { margin: 0; font-weight: 700; color: var(--teal); }
   .done .dock { width: 100%; }

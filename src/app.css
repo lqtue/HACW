@@ -135,6 +135,13 @@
    ========================================================================== */
 
 :root {
+  /* type scale — the only font sizes in the app. xs is for tracked caps labels, never sentences */
+  --fs-xs: 0.75rem;
+  --fs-sm: 0.875rem;
+  --fs-md: 1rem;
+  --fs-lg: 1.25rem;
+  --fs-xl: 1.5rem;
+  --fs-2xl: clamp(1.75rem, 7vw, 2.2rem);
   color-scheme: light;
 
   /* light canvas — warm ivory/peach paper (official key visual), one coral accent */
@@ -284,7 +291,7 @@ a { color: inherit; text-decoration: none; }
 .ptitle {
   margin: 0;
   font-family: var(--font-display); font-weight: 800; letter-spacing: -0.02em;
-  font-size: clamp(1.7rem, 7vw, 2.2rem); line-height: 1.1; color: var(--ink);
+  font-size: var(--fs-2xl); line-height: 1.1; color: var(--ink);
 }
 .screen {
   display: flex; flex-direction: column;
@@ -296,6 +303,9 @@ a { color: inherit; text-decoration: none; }
   flex: 1 1 auto; min-height: 0;
   display: flex; flex-direction: column; justify-content: center; gap: 22px;
 }
+/* the one body-copy style for onboarding screens (perms, scan result): big, centred */
+.lead { margin: 0; text-align: center; color: var(--ink); font-size: var(--fs-lg); line-height: 1.45; max-width: 30ch; margin-inline: auto; }
+.lead.muted { color: var(--muted); }
 .float-top {
   position: absolute; z-index: 620;
   top: var(--float-top); left: 0; right: 0;
@@ -318,8 +328,8 @@ h1, h2, h3 {
   letter-spacing: -0.02em;
   color: var(--ink);
 }
-h1 { font-size: 1.75rem; margin: 0 0 4px; line-height: 1.1; }
-h2 { font-size: 1.2rem; margin: 26px 0 10px; }
+h1 { font-size: var(--fs-2xl); margin: 0 0 4px; line-height: 1.1; }
+h2 { font-size: var(--fs-lg); margin: 26px 0 10px; }
 h3 { font-weight: 600; }
 p { line-height: 1.6; }
 
@@ -342,7 +352,7 @@ p { line-height: 1.6; }
 .fieldlabel {
   font-family: var(--font-display);
   font-weight: 600;
-  font-size: 0.6rem;
+  font-size: var(--fs-xs);
   letter-spacing: 0.16em;
   text-transform: uppercase;
   color: var(--muted);
@@ -370,7 +380,7 @@ p { line-height: 1.6; }
   border-radius: 999px;
   padding: 13px 22px;
   font-family: var(--font-body);
-  font-size: 1rem;
+  font-size: var(--fs-md);
   font-weight: 600;
   background: var(--brand);
   color: #fff;
@@ -403,7 +413,7 @@ p { line-height: 1.6; }
   color: var(--brand);
   border: 1.5px solid var(--brand);
   font-weight: 700;
-  font-size: 0.95rem;
+  font-size: var(--fs-md);
   padding: 0 20px;
 }
 .btn.sec:hover { background: color-mix(in srgb, var(--brand) 8%, transparent); }
@@ -438,7 +448,7 @@ p { line-height: 1.6; }
   display: flex; align-items: center; justify-content: center;
   min-height: 32px; margin: 0 auto; padding: 0 4px;
   border: 0; background: none; cursor: pointer;
-  color: var(--muted); font-family: var(--font-body); font-weight: 600; font-size: 0.9rem;
+  color: var(--muted); font-family: var(--font-body); font-weight: 600; font-size: var(--fs-sm);
   text-align: center; text-decoration: underline; text-underline-offset: 3px;
 }
 .sub:focus-visible { outline: 2px solid var(--brand); outline-offset: 2px; border-radius: 6px; }
@@ -452,7 +462,7 @@ p { line-height: 1.6; }
   border: 1px solid var(--line);
   border-radius: var(--radius-sm);
   font-family: var(--font-body);
-  font-size: 1.1rem;
+  font-size: var(--fs-lg);
   text-align: center;
   letter-spacing: 0.2em;
   background: var(--surface);
@@ -482,10 +492,10 @@ p { line-height: 1.6; }
   border-radius: 14px;
   flex: 0 0 auto;
   display: grid; place-items: center;
-  color: #fff; font-family: var(--font-display); font-weight: 700; font-size: 1.4rem;
+  color: #fff; font-family: var(--font-display); font-weight: 700; font-size: var(--fs-xl);
 }
 .card .body { flex: 1; min-width: 0; }
-.card .body h3 { margin: 0; font-size: 1.02rem; line-height: 1.25; color: var(--ink); }
+.card .body h3 { margin: 0; font-size: var(--fs-md); line-height: 1.25; color: var(--ink); }
 .card .body small { color: var(--muted); display: block; margin-top: 3px; }
 
 /* ---- category chips ---- */
@@ -504,7 +514,7 @@ p { line-height: 1.6; }
   padding: 9px 16px;
   font-family: var(--font-body);
   font-weight: 600;
-  font-size: 0.85rem;
+  font-size: var(--fs-sm);
   white-space: nowrap;
   cursor: pointer;
   box-shadow: none;
@@ -519,7 +529,7 @@ p { line-height: 1.6; }
 /* ---- tag ---- */
 .tag {
   display: inline-block;
-  font-size: 0.64rem;
+  font-size: var(--fs-xs);
   font-weight: 700;
   letter-spacing: 0.08em;
   text-transform: uppercase;
@@ -546,12 +556,12 @@ p { line-height: 1.6; }
 .map-pop-wrap.maplibregl-popup-anchor-left .maplibregl-popup-tip { border-right-color: var(--brand); }
 .map-pop-wrap.maplibregl-popup-anchor-right .maplibregl-popup-tip { border-left-color: var(--brand); }
 .map-pop { display: grid; gap: 6px; line-height: 1.35; min-width: 180px; }
-.map-pop strong { font-family: var(--font-display); font-size: 1rem; line-height: 1.15; color: var(--ink); }
-.map-pop p { margin: 0; font-size: 0.82rem; color: var(--muted); }
+.map-pop strong { font-family: var(--font-display); font-size: var(--fs-md); line-height: 1.15; color: var(--ink); }
+.map-pop p { margin: 0; font-size: var(--fs-md); color: var(--muted); }
 .map-pop-btn {
   margin-top: 4px; padding: 8px 10px; border: 1.5px solid var(--brand); border-radius: 7px;
   background: var(--brand); color: #fff;
-  font-family: var(--font-body); font-weight: 700; font-size: 0.78rem; cursor: pointer;
+  font-family: var(--font-body); font-weight: 700; font-size: var(--fs-sm); cursor: pointer;
 }
 .map-pop-btn.sec { background: var(--surface); color: var(--brand); }
 .maplibregl-map { font-family: var(--font-body); }
@@ -576,12 +586,12 @@ p { line-height: 1.6; }
   text-align: center;
   padding: 7px 0 6px;
   border-radius: 999px;
-  font-size: 0.66rem;
+  font-size: var(--fs-xs);
   font-weight: 600;
   color: var(--muted);
   transition: color 0.14s ease, background 0.14s ease;
 }
-.nav a .ico { font-size: 1.2rem; display: block; margin-bottom: 1px; }
+.nav a .ico { font-size: var(--fs-lg); display: block; margin-bottom: 1px; }
 .nav a[aria-current='page'] {
   background: color-mix(in srgb, var(--brand) 14%, transparent);
   color: var(--brand);
@@ -594,11 +604,11 @@ p { line-height: 1.6; }
 .ed-actions .btn { width: auto; padding: 10px 14px; }
 .ed-file { position: relative; overflow: hidden; display: inline-flex; align-items: center; cursor: pointer; }
 .ed-file input { position: absolute; inset: 0; opacity: 0; cursor: pointer; }
-.ed-err { color: var(--brand); font-size: 0.9rem; }
+.ed-err { color: var(--brand); font-size: var(--fs-sm); }
 .ed-ok { color: var(--brand); }
 
 .ed-problems { border: 1px solid var(--brand); border-radius: var(--radius); padding: 10px; margin-bottom: 10px; }
-.ed-problems ul { margin: 8px 0 0; padding-left: 18px; font-size: 0.85rem; }
+.ed-problems ul { margin: 8px 0 0; padding-left: 18px; font-size: var(--fs-sm); }
 
 .ed-item {
   border: 1px solid var(--line);
@@ -613,11 +623,11 @@ p { line-height: 1.6; }
   border-radius: 999px;
   padding: 1px 8px;
   margin-left: 6px;
-  font-size: 0.8rem;
+  font-size: var(--fs-sm);
 }
 
 .ed-row { display: grid; grid-template-columns: 130px 1fr; gap: 8px; align-items: start; margin: 6px 0; }
-.ed-row span { font-size: 0.85rem; padding-top: 8px; }
+.ed-row span { font-size: var(--fs-sm); padding-top: 8px; }
 .ed-row em { color: var(--brand); font-style: normal; }
 .ed-row.check { grid-template-columns: auto 1fr; align-items: center; }
 
@@ -627,7 +637,7 @@ p { line-height: 1.6; }
   border: 1px solid var(--line);
   border-radius: 8px;
   font-family: var(--font-body);
-  font-size: 0.9rem;
+  font-size: var(--fs-sm);
   background: var(--bg);
   color: var(--ink);
 }
@@ -635,7 +645,7 @@ p { line-height: 1.6; }
 .ed-row.check input { width: auto; }
 
 .ed-fieldset { border: 1px solid var(--line); border-radius: var(--radius); margin: 12px 0; padding: 8px 10px; }
-.ed-fieldset legend { font-size: 0.85rem; padding: 0 6px; }
+.ed-fieldset legend { font-size: var(--fs-sm); padding: 0 6px; }
 .ed-opt { display: grid; grid-template-columns: auto 1fr 1fr auto; gap: 6px; align-items: center; margin: 4px 0; }
 .ed-opt input[type='radio'] { width: auto; }
 
@@ -644,7 +654,7 @@ p { line-height: 1.6; }
   background: var(--surface);
   border-radius: 8px;
   padding: 3px 8px;
-  font-size: 0.8rem;
+  font-size: var(--fs-sm);
   font-family: var(--font-body);
   cursor: pointer;
 }
@@ -656,13 +666,13 @@ p { line-height: 1.6; }
    cell, everything comparable at a glance. Fields too long for a cell (intro
    copy, quiz banks, tour stops) live in a detail row that opens under it. */
 .ed-scroll { overflow-x: auto; margin: 8px 0; }
-.ed-table { width: 100%; border-collapse: collapse; font-size: 0.85rem; }
+.ed-table { width: 100%; border-collapse: collapse; font-size: var(--fs-sm); }
 .ed-table th {
   text-align: left;
   padding: 7px 8px;
   border-bottom: 2px solid var(--line);
   white-space: nowrap;
-  font-size: 0.76rem;
+  font-size: var(--fs-sm);
   font-weight: 700;
   color: var(--muted);
   text-transform: uppercase;
@@ -681,7 +691,7 @@ p { line-height: 1.6; }
   border-radius: 6px;
   padding: 5px 6px;
   font-family: var(--font-body);
-  font-size: 0.85rem;
+  font-size: var(--fs-sm);
   color: inherit;
 }
 .ed-table input:hover, .ed-table select:hover { border-color: var(--line); background: var(--bg); }
@@ -696,7 +706,7 @@ p { line-height: 1.6; }
 /* the opened detail row */
 .ed-detail > td { background: var(--bg); padding: 12px 16px; }
 .ed-table tbody.open > tr > td { background: color-mix(in srgb, var(--gold) 10%, transparent); }
-.ed-flag { color: var(--brand); font-size: 0.75rem; white-space: nowrap; }
+.ed-flag { color: var(--brand); font-size: var(--fs-sm); white-space: nowrap; }
 
 /* editor tab strip */
 .ed-tabs { display: flex; gap: 6px; flex-wrap: wrap; margin: 14px 0 4px; }
@@ -708,7 +718,7 @@ p { line-height: 1.6; }
   padding: 6px 14px;
   font-family: var(--font-body);
   font-weight: 600;
-  font-size: 0.88rem;
+  font-size: var(--fs-sm);
   cursor: pointer;
 }
 .ed-tabs button[aria-pressed='true'] { background: var(--grad-brand); color: #fff; border-color: transparent; }
@@ -720,7 +730,7 @@ p { line-height: 1.6; }
   color: var(--ink);
   border-radius: var(--radius-sm);
   padding: 12px 14px;
-  font-size: 0.9rem;
+  font-size: var(--fs-sm);
   line-height: 1.45;
   margin-bottom: 12px;
 }

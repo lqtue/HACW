@@ -152,10 +152,10 @@
   .progress { display: flex; gap: 6px; margin-bottom: 18px; }
   .pip { flex: 1 1 0; height: 4px; border-radius: 999px; background: var(--line); }
   .pip.on { background: var(--brand); }
-  .qcount { margin: 0 0 6px; color: var(--muted); font-size: 0.8rem; font-weight: 600; letter-spacing: 0.04em; }
-  .q { margin: 0 0 20px; font-size: 1.5rem; line-height: 1.25; }
+  .qcount { margin: 0 0 6px; color: var(--muted); font-size: var(--fs-sm); font-weight: 600; letter-spacing: 0.04em; }
+  .q { margin: 0 0 20px; font-size: var(--fs-xl); line-height: 1.25; }
   .hint {
-    margin: -8px 0 18px; padding: 10px 13px; font-size: 0.92rem; line-height: 1.45;
+    margin: -8px 0 18px; padding: 10px 13px; font-size: var(--fs-sm); line-height: 1.45;
     color: var(--brand-dark);
     background: color-mix(in srgb, var(--gold) 14%, var(--surface));
     border: 1px solid color-mix(in srgb, var(--gold) 30%, var(--line));
@@ -167,7 +167,7 @@
     padding: 16px 18px;
     border: 1.5px solid var(--line); border-radius: var(--radius-sm);
     background: var(--surface);
-    font-family: var(--font-body); font-weight: 500; font-size: 1.05rem;
+    font-family: var(--font-body); font-weight: 500; font-size: var(--fs-md);
     cursor: pointer; transition: border-color 0.12s ease, background 0.12s ease;
   }
   .opt:hover { border-color: color-mix(in srgb, var(--brand) 45%, var(--line)); background: var(--bg); }
@@ -176,7 +176,7 @@
     display: flex; flex-direction: column; gap: 6px; padding: 0;
     border: 1.5px solid var(--line); border-radius: var(--radius-sm);
     background: var(--surface); overflow: hidden; cursor: pointer;
-    font-family: var(--font-body); font-weight: 600; font-size: 0.9rem;
+    font-family: var(--font-body); font-weight: 600; font-size: var(--fs-sm);
   }
   .photo-opt img { width: 100%; aspect-ratio: 3 / 2; object-fit: cover; display: block; }
   .photo-opt span { padding: 0 10px 10px; }
@@ -193,12 +193,12 @@
   .verdict-sub { width: 100%; display: flex; flex-direction: column; align-items: center; gap: 4px; margin-top: 4px; }
   .rmark {
     width: 76px; height: 76px; display: grid; place-items: center;
-    border-radius: 999px; font-size: 2.2rem; line-height: 1; font-weight: 700;
+    border-radius: 999px; font-size: var(--fs-2xl); line-height: 1; font-weight: 700;
     background: color-mix(in srgb, var(--brand) 14%, transparent); color: var(--brand);
   }
   .result.ok .rmark { background: color-mix(in srgb, var(--teal) 16%, transparent); color: var(--teal); }
-  .verdict h2 { margin: 0; font-size: 1.6rem; }
-  .wait-note { margin: 4px 0 0; color: var(--muted); font-size: 0.86rem; }
+  .verdict h2 { margin: 0; font-size: var(--fs-2xl); }
+  .wait-note { margin: 4px 0 0; color: var(--muted); font-size: var(--fs-md); }
   .result.ok .verdict h2 { color: var(--teal); }
   .explain { margin: 0; max-width: 34ch; color: var(--ink); line-height: 1.55; }
 </style>

@@ -5,7 +5,7 @@
   import destinations from '$lib/data/sites.js';
   import categories from '$lib/data/categories.json';
   import tickets from '$lib/data/ticket-points.json';
-  import Card from '$lib/components/Card.svelte';
+  import SiteRow from '$lib/components/SiteRow.svelte';
   import ViewToggle from '$lib/components/ViewToggle.svelte';
   import ChipRow from '$lib/components/ChipRow.svelte';
   import SiteMap from '$lib/components/SiteMap.svelte';
@@ -51,6 +51,7 @@
   );
   // switchback off-unit: no gold spark, no 'quiet' badge — the map shows no nudge
   const spotlight = $derived(nudgeOn() ? spotlightIds(stats.counts, destinations) : new Set());
+  let openRow = $state(null); // list row unfolded (accordion, same as the planner)
 
   // The sites layer is data-driven, so filters / spotlight / opening hours are
   // one GeoJSON rebuild rather than 25 marker mutations. Everything reactive the
@@ -244,12 +245,13 @@
     {#if !boothsOnly && view === 'list'}
       <!-- list view: cards scroll under the floating switch/filter; map stays mounted behind -->
       <div class="listview">
-        <div class="vlist">
-          {#each shown as dest}
-            <Card {dest} mark active={selected === dest.id} query="?from=list" />
+        <!-- same row as the planner's pick list; unfolded, it links to the site page -->
+        <ul class="vlist">
+          {#each shown as dest (dest.id)}
+            <SiteRow {dest} spot={spotlight.has(dest.id)} href="{base}/destinations/{dest.id}?from=list" open={openRow === dest.id} ontoggle={() => (openRow = openRow === dest.id ? null : dest.id)} />
           {/each}
-          {#if shown.length === 0}<p class="muted empty">{s('no_sites')}</p>{/if}
-        </div>
+          {#if shown.length === 0}<li class="muted empty">{s('no_sites')}</li>{/if}
+        </ul>
       </div>
     {/if}
     {/if}
@@ -288,7 +290,8 @@
     padding: calc(env(safe-area-inset-top) + 112px) var(--gutter) calc(90px + env(safe-area-inset-bottom));
     display: flex; flex-direction: column; gap: 12px;
   }
-  .vlist { display: flex; flex-direction: column; gap: 10px; }
+  .vlist { list-style: none; margin: 0; padding: 0; display: flex; flex-direction: column; gap: 8px; }
+  .vlist .empty { list-style: none; }
 
   .sr-only {
     position: absolute; width: 1px; height: 1px;

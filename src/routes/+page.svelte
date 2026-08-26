@@ -7,6 +7,7 @@
   import tours from '$lib/data/tours.json';
   import Onboarding from '$lib/components/Onboarding.svelte';
   import BuilderMap from '$lib/components/BuilderMap.svelte';
+  import SiteRow from '$lib/components/SiteRow.svelte';
   import ViewToggle from '$lib/components/ViewToggle.svelte';
   import ChipRow from '$lib/components/ChipRow.svelte';
   import SetList from '$lib/components/SetList.svelte';
@@ -223,6 +224,8 @@
   // nudge: the switchback state for right now (src/lib/switchback.js). Off-units get
   // no crowd steering anywhere on this page — the ranker, the auto-fill, the spark.
   const nudge = nudgeOn();
+  // suggested (quiet) sites: same highlight the explore list shows; empty on an off unit
+  const spotlight = $derived(nudge ? spotlightIds(stats.counts, destinations) : new Set());
   const ctx = () => ({ weather: weather.now, now: new Date(), counts: stats.counts, nudge });
   const recommended = $derived(
     rankSets(
@@ -411,27 +414,12 @@
         <ul class="list" bind:clientHeight={listH}>
           {#each shownList as { d, m } (d.id)}
             {@const picked = isPicked(d.id)}
-            {@const oh = openLabel(d)}
-            {@const open = openRow === d.id}
-            <li class="pickrow" class:picked class:open>
-              <!-- tap the card to expand details inline (like the suggested sets); the + picks -->
-              <div class="row-main">
-                <!-- collapsed: name + open/closed; expanded: the one-line intro -->
-                <button class="row-tap" onclick={() => (openRow = open ? null : d.id)} aria-expanded={open}>
-                  <span class="body">
-                    <b>{t(d.name)}</b>
-                    {#if oh}<small class="meta"><em class={oh.status}>{oh.text}</em></small>{/if}
-                  </span>
-                  <span class="caret" aria-hidden="true">{open ? '▾' : '▸'}</span>
-                </button>
+            <!-- tap the card to unfold the intro (SiteRow); the + picks -->
+            <SiteRow dest={d} {picked} spot={spotlight.has(d.id)} open={openRow === d.id} ontoggle={() => (openRow = openRow === d.id ? null : d.id)}>
+              {#snippet action()}
                 <button class="add" class:on={picked} onclick={() => pick(d.id)} aria-pressed={picked} aria-label={picked ? s('pick_remove') : s('pick_do')}>{picked ? '✓' : '+'}</button>
-              </div>
-              {#if open}
-                <div class="row-detail">
-                  <p class="rd-desc">{d.short ? t(d.short) : t(d.description)}</p>
-                </div>
-              {/if}
-            </li>
+              {/snippet}
+            </SiteRow>
           {/each}
           <!-- show-more lives inside the scroll so it clears the floating bottom block -->
           {#if onFree && rankedList.length > CAP}
@@ -500,7 +488,7 @@
     pointer-events: none;
   }
   /* total walk under the title */
-  .walk-sum { margin: 4px 0 0; color: var(--muted); font-size: 0.95rem; font-weight: 600; }
+  .walk-sum { margin: 4px 0 0; color: var(--muted); font-size: var(--fs-md); font-weight: 600; }
   .donesheet {
     position: absolute; z-index: 8;
     left: 12px; right: 12px; bottom: calc(112px + env(safe-area-inset-bottom));
@@ -511,7 +499,7 @@
     box-shadow: var(--shadow-lift);
   }
   .doneroute { list-style: none; margin: 0 0 8px; padding: 0; display: flex; flex-direction: column; gap: 8px; width: 100%; }
-  .doneroute li { display: flex; align-items: center; font-size: 0.95rem; }
+  .doneroute li { display: flex; align-items: center; font-size: var(--fs-md); }
   .doneroute .stoprow {
     flex: 1; display: flex; align-items: center; gap: 10px;
     border: 0; background: none; padding: 0; color: inherit; font: inherit; text-align: left; cursor: pointer;
@@ -520,8 +508,8 @@
   @media (max-height: 700px) {
     .donesheet { max-height: 27vh; padding: 8px 12px; }
     .doneroute { gap: 4px; margin-bottom: 4px; }
-    .doneroute li { font-size: 0.86rem; }
-    .doneroute .n { width: 20px; height: 20px; font-size: 0.7rem; }
+    .doneroute li { font-size: var(--fs-sm); }
+    .doneroute .n { width: 20px; height: 20px; font-size: var(--fs-xs); }
   }
   .doneroute .n, .stops .n {
     flex: 0 0 auto;
@@ -530,7 +518,7 @@
     border-radius: 999px;
     background: var(--cat);
     color: #fff;
-    font-size: 0.78rem;
+    font-size: var(--fs-sm);
     font-weight: 700;
   }
 
@@ -581,9 +569,9 @@
      clearance of its own, and the sub line stays compact so the card keeps its height
      (the list padding / map controls offset are tuned to it) */
   .buildbar .dock { padding: 0; margin: 0; }
-  .buildbar .sub { min-height: 0; padding: 2px; font-size: 0.85rem; }
+  .buildbar .sub { min-height: 0; padding: 2px; font-size: var(--fs-sm); }
   .b-head { display: flex; flex-direction: column; gap: 3px; }
-  .b-sub { margin: 0; color: var(--muted); font-size: 0.95rem; }
+  .b-sub { margin: 0; color: var(--muted); font-size: var(--fs-md); }
 
   /* slots double as step nav; bottom-anchored, sitting just above the docked
      CTA/clear-all like a secondary control row */
@@ -614,7 +602,7 @@
     border: 1px solid var(--line);
     background: color-mix(in srgb, var(--surface) 80%, transparent);
     backdrop-filter: blur(10px);
-    color: var(--ink); font-size: 1.2rem; line-height: 1;
+    color: var(--ink); font-size: var(--fs-lg); line-height: 1;
   }
   .backchip:focus-visible { outline: 2px solid var(--brand); outline-offset: 2px; }
   /* view region: the map fills the top and the switch (and, on the free step, the
@@ -635,7 +623,7 @@
   .fill-link {
     display: block; margin: 10px auto 0;
     border: 0; background: none; padding: 6px;
-    color: var(--brand); font-family: var(--font-body); font-weight: 700; font-size: 0.9rem;
+    color: var(--brand); font-family: var(--font-body); font-weight: 700; font-size: var(--fs-sm);
     cursor: pointer; text-decoration: underline; text-underline-offset: 3px;
   }
 
@@ -646,35 +634,6 @@
     padding: 0;
     display: flex; flex-direction: column; gap: 8px;
   }
-  /* one card per site in the picker list. NOT `.row`: the global .dock.row modifier
-     would then inherit this card's fill, radius and shadow inside the build bar. */
-  .pickrow {
-    flex: 0 0 auto; /* don't shrink in the scrolling flex column — rows keep height */
-    border: 0; border-radius: 16px; overflow: hidden;
-    background: var(--surface);
-    box-shadow: 0 1px 2px rgba(0, 0, 0, 0.04), 0 6px 16px rgba(0, 0, 0, 0.05);
-  }
-  .pickrow.picked { background: color-mix(in srgb, var(--brand) 8%, var(--surface)); }
-  .row-main { display: flex; align-items: center; }
-  .row-tap {
-    flex: 1 1 auto; min-width: 0;
-    display: flex; align-items: center; gap: 12px;
-    border: 0; background: none; padding: 12px 14px; cursor: pointer;
-    text-align: left; text-decoration: none; color: inherit;
-  }
-  .caret { flex: 0 0 auto; color: var(--muted); font-size: 0.8rem; }
-  /* inline detail, opened accordion-style like the suggested sets */
-  .row-detail { padding: 0 14px 14px; }
-  .rd-desc { margin: 0; color: var(--muted); font-size: 0.86rem; line-height: 1.5; }
-  .body { min-width: 0; flex: 1 1 auto; display: grid; gap: 1px; }
-  .body b { font-weight: 600; font-size: 0.98rem; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
-  /* one-line summary — CSS ellipsis so any-length description fits one row */
-  .body .sum { color: var(--ink); opacity: 0.7; font-size: 0.8rem; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
-  .body .meta { color: var(--muted); font-size: 0.76rem; }
-  .body em { font-style: normal; font-weight: 600; }
-  .body em.open { color: var(--teal); }
-  .body em.closed { color: var(--muted); }
-  .body em.soon { color: var(--gold); }
   .add {
     flex: 0 0 auto;
     margin-right: 12px; cursor: pointer;
@@ -683,7 +642,7 @@
     border: 1.5px solid var(--line);
     background: transparent;
     color: var(--muted);
-    font-size: 1.1rem;
+    font-size: var(--fs-lg);
     line-height: 1;
     display: grid; place-items: center;
     transition: background 0.14s, border-color 0.14s, color 0.14s;

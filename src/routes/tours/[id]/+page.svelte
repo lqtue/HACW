@@ -49,7 +49,7 @@
     {/if}
 
     <!-- compact numbered route: one row per stop so the whole tour fits a screen; tap a
-         row to expand its blurb + address inline (like the planner's list) — it does not
+         row to expand its blurb inline (like the planner's list) — it does not
          leave the page -->
     <ol class="stops">
       {#each data.stops as dest, i (dest.id)}
@@ -63,7 +63,6 @@
           {#if open}
             <div class="detail">
               <p class="d-desc">{t(dest.description)}</p>
-              <p class="d-addr">📍 {t(dest.address)}</p>
             </div>
           {/if}
         </li>
@@ -102,12 +101,11 @@
     border: 0; background: none; color: inherit; font: inherit; text-align: left; cursor: pointer;
   }
   .stops .detail { padding: 0 14px 14px 52px; display: flex; flex-direction: column; gap: 6px; }
-  .stops .d-desc { margin: 0; color: var(--muted); font-size: 0.86rem; line-height: 1.5; }
-  .stops .d-addr { margin: 0; color: var(--ink); font-size: 0.82rem; }
+  .stops .d-desc { margin: 0; color: var(--muted); font-size: var(--fs-md); line-height: 1.5; }
   .stops .n {
     flex: 0 0 auto; width: 26px; height: 26px; display: grid; place-items: center;
-    border-radius: 999px; background: var(--cat); color: #fff; font-size: 0.8rem; font-weight: 700;
+    border-radius: 999px; background: var(--cat); color: #fff; font-size: var(--fs-sm); font-weight: 700;
   }
-  .stops b { flex: 1 1 auto; min-width: 0; font-weight: 600; font-size: 0.98rem; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
-  .stops .go { flex: 0 0 auto; color: var(--muted); font-size: 1.1rem; }
+  .stops b { flex: 1 1 auto; min-width: 0; font-weight: 600; font-size: var(--fs-md); white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+  .stops .go { flex: 0 0 auto; color: var(--muted); font-size: var(--fs-lg); }
 </style>

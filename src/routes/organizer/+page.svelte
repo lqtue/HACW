@@ -473,11 +473,11 @@
     gap: 12px;
     padding: 5px 0;
     border-bottom: 1px solid var(--line);
-    font-size: 0.9rem;
+    font-size: var(--fs-sm);
   }
   .langlist b { font-variant-numeric: tabular-nums; }
 
-  .heatfilter { display: inline-flex; align-items: center; gap: 8px; margin-bottom: 10px; font-size: 0.9rem; }
+  .heatfilter { display: inline-flex; align-items: center; gap: 8px; margin-bottom: 10px; font-size: var(--fs-sm); }
   .heatfilter select {
     font-family: var(--font-body);
     padding: 6px 10px;
@@ -488,7 +488,7 @@
   }
 
   .code { margin-bottom: 10px; }
-  .err { color: var(--brand); margin: 0 0 8px; font-size: 0.9rem; }
+  .err { color: var(--brand); margin: 0 0 8px; font-size: var(--fs-sm); }
   .actions { display: flex; gap: 10px; align-items: center; flex-wrap: wrap; margin-bottom: 12px; }
   .actions .btn { width: auto; padding: 10px 14px; }
 
@@ -502,7 +502,7 @@
     justify-items: center;
     box-shadow: var(--shadow);
   }
-  .kpi strong { font-family: var(--font-display); font-weight: 800; font-size: 1.7rem; color: var(--brand-dark); }
+  .kpi strong { font-family: var(--font-display); font-weight: 800; font-size: var(--fs-2xl); color: var(--brand-dark); }
   .kpi small { color: var(--muted); }
 
   h2 { margin: 20px 0 6px; }

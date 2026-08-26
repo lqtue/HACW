@@ -31,7 +31,7 @@
   }
   .badge.num {
     width: 28px; height: 28px; border-radius: 50%; margin-inline: 3px;
-    background: var(--grad-brand, var(--brand)); color: #fff; font-weight: 800; font-size: 0.9rem;
+    background: var(--grad-brand, var(--brand)); color: #fff; font-weight: 800; font-size: var(--fs-sm);
   }
-  .text { color: var(--ink); font-weight: 600; font-size: 0.98rem; line-height: 1.35; }
+  .text { color: var(--ink); font-weight: 600; font-size: var(--fs-md); line-height: 1.35; }
 </style>

@@ -92,8 +92,8 @@
     text-align: left;
   }
   .set-h-body { flex: 1 1 auto; min-width: 0; display: grid; gap: 2px; }
-  .set-h-body b { font-size: 1.1rem; font-weight: 700; letter-spacing: -0.01em; }
-  .set-h-body small { color: var(--muted); font-size: 0.85rem; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+  .set-h-body b { font-size: var(--fs-lg); font-weight: 700; letter-spacing: -0.01em; }
+  .set-h-body small { color: var(--muted); font-size: var(--fs-sm); white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
   .set-h-body .set-dist { color: var(--ink); font-weight: 600; margin-top: 2px; }
   .caret { flex: 0 0 auto; color: var(--muted); }
   .set-body { padding: 0 16px 16px; display: flex; flex-direction: column; gap: 10px; }
@@ -101,17 +101,17 @@
     justify-self: start;
     background: var(--brand);
     color: #fff;
-    font-size: 0.68rem;
+    font-size: var(--fs-xs);
     font-weight: 700;
     letter-spacing: 0.04em;
     padding: 2px 9px;
     border-radius: 999px;
     margin-bottom: 2px;
   }
-  .narr { margin: 0; color: var(--muted); font-size: 0.9rem; line-height: 1.5; }
+  .narr { margin: 0; color: var(--muted); font-size: var(--fs-sm); line-height: 1.5; }
   .stops { list-style: none; margin: 0; padding: 8px 0 0; border-top: 1px solid var(--line); display: flex; flex-direction: column; gap: 8px; }
   .stops li { display: flex; align-items: center; gap: 10px; min-width: 0; }
-  .stops b { font-weight: 600; font-size: 0.92rem; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+  .stops b { font-weight: 600; font-size: var(--fs-sm); white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
   .stops li.got b { color: var(--muted); }
   .stops .n {
     flex: 0 0 auto;
@@ -120,7 +120,7 @@
     border-radius: 999px;
     background: var(--cat);
     color: #fff;
-    font-size: 0.78rem;
+    font-size: var(--fs-sm);
     font-weight: 700;
   }
   .btn { margin-top: 2px; text-align: center; }

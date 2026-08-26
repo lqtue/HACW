@@ -29,11 +29,11 @@
   .box {
     flex: none; width: 22px; height: 22px; border-radius: 6px;
     border: 1.8px solid var(--line-strong, var(--line)); display: grid; place-items: center;
-    color: #fff; font-size: 0.82rem; font-weight: 700;
+    color: #fff; font-size: var(--fs-sm); font-weight: 700;
   }
   .study-toggle[aria-pressed='true'] .box { background: var(--teal); border-color: var(--teal); }
   /* sub variant: plain outlined box, tick in the text's own ink — no fill */
-  .box.sm { width: 18px; height: 18px; border-radius: 5px; margin-right: 8px; font-size: 0.7rem; color: currentColor; border-color: currentColor; }
-  .study-toggle small { font-size: 0.82rem; line-height: 1.35; }
+  .box.sm { width: 18px; height: 18px; border-radius: 5px; margin-right: 8px; font-size: var(--fs-xs); color: currentColor; border-color: currentColor; }
+  .study-toggle small { font-size: var(--fs-md); line-height: 1.35; }
   .sub { text-decoration: none; }
 </style>

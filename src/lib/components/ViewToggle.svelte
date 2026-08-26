@@ -22,7 +22,7 @@
   .vtab {
     flex: 1; padding: 9px 12px; border: 0; border-radius: 999px;
     background: none; color: var(--muted);
-    font-family: var(--font-body); font-weight: 700; font-size: 0.9rem; cursor: pointer;
+    font-family: var(--font-body); font-weight: 700; font-size: var(--fs-sm); cursor: pointer;
   }
   .vtab.on { background: var(--brand); color: #fff; }
   .vtab:focus-visible { outline: 2px solid var(--brand); outline-offset: 2px; }

@@ -346,7 +346,7 @@
     color: inherit;
   }
   .rhead { display: flex; align-items: baseline; justify-content: space-between; }
-  .rhead strong { font-size: 1.1rem; font-weight: 700; }
+  .rhead strong { font-size: var(--fs-lg); font-weight: 700; }
   .rprog { color: var(--muted); font-weight: 700; font-variant-numeric: tabular-nums; }
   .pbar { height: 6px; border-radius: 999px; background: var(--bg); overflow: hidden; }
   .pbar i { display: block; height: 100%; border-radius: 999px; background: var(--brand); transition: width 0.3s ease; }
@@ -374,7 +374,7 @@
   }
   .row:first-child { border-top: 0; }
   /* same 16px gutter and muted register as the .row / .row-details text above it */
-  .foot { margin: 8px 0 2px; padding: 0 16px; font-size: 0.85rem; line-height: 1.5; color: var(--muted); }
+  .foot { margin: 8px 0 2px; padding: 0 16px; font-size: var(--fs-sm); line-height: 1.5; color: var(--muted); }
 
   /* ---- reward milestone bar ---- */
   .mile { padding: 6px 4px 10px; display: grid; gap: 6px; }
@@ -386,7 +386,7 @@
   }
   .mile-icons .m {
     display: grid; place-items: center; width: 40px; height: 40px;
-    font-size: 1.35rem; line-height: 1;
+    font-size: var(--fs-xl); line-height: 1;
     border: 0; background: none; padding: 0; cursor: pointer;
     border-radius: 12px; opacity: 0.45; filter: grayscale(0.4);
     transition: opacity 0.2s, transform 0.2s;
@@ -409,14 +409,14 @@
   .mile-icons .m.sel.next::after { border-top-color: var(--gold); }
   .mile-track { height: 8px; border-radius: 999px; background: var(--bg); overflow: hidden; }
   .mile-track i { display: block; height: 100%; border-radius: 999px; background: var(--brand); transition: width 0.4s ease; }
-  .mile-pts span { font-size: 0.72rem; font-weight: 600; color: var(--muted); }
+  .mile-pts span { font-size: var(--fs-xs); font-weight: 600; color: var(--muted); }
   .rbody { flex: 1 1 auto; min-width: 0; display: grid; gap: 2px; }
-  .rbody b { font-weight: 600; font-size: 0.98rem; }
-  .rbody small { color: var(--muted); font-size: 0.82rem; }
+  .rbody b { font-weight: 600; font-size: var(--fs-md); }
+  .rbody small { color: var(--muted); font-size: var(--fs-sm); }
 
   .pill {
     flex: 0 0 auto;
-    font-size: 0.74rem;
+    font-size: var(--fs-xs);
     font-weight: 700;
     padding: 5px 11px;
     border-radius: 999px;
@@ -428,8 +428,8 @@
 
   /* how-points, inside the points list */
   .row-details { border-top: 1px solid var(--line); }
-  .row-details summary { padding: 12px 16px; cursor: pointer; color: var(--muted); font-weight: 600; font-size: 0.85rem; }
-  .rules { margin: 0; padding: 0 16px 14px 34px; font-size: 0.86rem; line-height: 1.7; color: var(--muted); }
+  .row-details summary { padding: 12px 16px; cursor: pointer; color: var(--muted); font-weight: 600; font-size: var(--fs-sm); }
+  .rules { margin: 0; padding: 0 16px 14px 34px; font-size: var(--fs-sm); line-height: 1.7; color: var(--muted); }
   .rules b { color: var(--brand); }
 
   /* secondary folds */
@@ -452,7 +452,7 @@
   .settings .fold { border-top: 1px solid var(--line); }
   .settings .fold:first-child { border-top: 0; }
   .settings .fold > summary {
-    padding: 12px 16px; cursor: pointer; font-weight: 600; font-size: 0.92rem; list-style: none;
+    padding: 12px 16px; cursor: pointer; font-weight: 600; font-size: var(--fs-sm); list-style: none;
   }
   .settings .fold > summary::-webkit-details-marker { display: none; }
   .settings .fold > summary::after { content: '▸'; float: right; color: var(--muted); }
@@ -460,17 +460,17 @@
 
   .grid { display: grid; grid-template-columns: repeat(4, 1fr); gap: 10px; padding: 4px 16px 16px; }
   .stamp { display: grid; justify-items: center; gap: 4px; text-decoration: none; color: inherit; }
-  .stamp small { font-size: 0.62rem; line-height: 1.15; text-align: center; color: var(--muted); display: -webkit-box; -webkit-line-clamp: 2; -webkit-box-orient: vertical; overflow: hidden; }
+  .stamp small { font-size: var(--fs-sm); line-height: 1.15; text-align: center; color: var(--muted); display: -webkit-box; -webkit-line-clamp: 2; -webkit-box-orient: vertical; overflow: hidden; }
   .stamp.got small { color: var(--ink); }
 
   .backup { padding: 0 16px 16px; display: grid; gap: 10px; }
-  .backup .hint { margin: 0; color: var(--muted); font-size: 0.82rem; line-height: 1.5; }
+  .backup .hint { margin: 0; color: var(--muted); font-size: var(--fs-md); line-height: 1.5; }
   .codebox { display: flex; gap: 10px; align-items: center; }
   .pid {
     flex: 1;
     font-family: var(--font-display);
     font-weight: 700;
-    font-size: 1.4rem;
+    font-size: var(--fs-xl);
     letter-spacing: 0.12em;
     text-align: center;
     padding: 10px;
@@ -488,14 +488,14 @@
     background: var(--bg);
     color: var(--ink);
     font-family: var(--font-body);
-    font-size: 1.05rem;
+    font-size: var(--fs-md);
     text-align: center;
     letter-spacing: 0.2em;
     text-transform: uppercase;
   }
-  .backup details summary { cursor: pointer; font-weight: 600; color: var(--muted); font-size: 0.88rem; }
+  .backup details summary { cursor: pointer; font-weight: 600; color: var(--muted); font-size: var(--fs-sm); }
   .notice { margin: 0; font-weight: 600; word-break: break-word; }
   .notice.warn { color: var(--brand); font-weight: 600; }
-  .claim { flex: 0 0 auto; padding: 9px 16px; font-size: 0.9rem; }
+  .claim { flex: 0 0 auto; padding: 9px 16px; font-size: var(--fs-sm); }
   .tk-tag { font-style: normal; font-weight: 700; color: var(--gold); }
 </style>

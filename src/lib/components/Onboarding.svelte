@@ -169,8 +169,8 @@
     <div class="mid">
       <IconList items={[
         { icon: 'map', text: s('feat_map') },
-        { icon: 'ticket', text: s('feat_ticket') },
-        { icon: 'compass', text: s('feat_plan') }
+        { icon: 'check', text: s('feat_ticket') },
+        { icon: 'ticket', text: s('feat_plan') }
       ]} />
     </div>
 
@@ -185,7 +185,6 @@
     <h1 class="ptitle">{s('install')}</h1>
 
     <div class="mid">
-      <p class="lead">{s('install_why')}</p>
       <IconList items={(ios ? [s('install_ios_1'), s('install_ios_2')] : [s('install_android_1'), s('install_android_2')]).map((text) => ({ text }))} />
     </div>
 
@@ -218,11 +217,8 @@
     <h1 class="ptitle">{s('perm_title')}</h1>
 
     <div class="mid">
-      <IconList items={[
-        { icon: 'map', text: s('perm_gps') },
-        { icon: 'compass', text: s('perm_motion') },
-        { icon: 'chart', text: s('perm_study') }
-      ]} />
+      <p class="lead">{s('perm_lead')}</p>
+      <p class="lead">{s('perm_lead2')}</p>
     </div>
 
     <div class="dock">
@@ -257,9 +253,9 @@
   .glang:focus-visible { outline: 2px solid var(--brand); outline-offset: 2px; }
   .g-hello {
     font-family: var(--font-display); font-weight: 700; color: var(--ink);
-    font-size: clamp(1.25rem, 5.5vw, 1.7rem); line-height: 1.05; letter-spacing: -0.02em;
+    font-size: var(--fs-lg); line-height: 1.05; letter-spacing: -0.02em;
   }
-  .g-name { color: var(--muted); font-weight: 600; font-size: 0.82rem; }
+  .g-name { color: var(--muted); font-weight: 600; font-size: var(--fs-sm); }
   .glang.other { align-items: flex-start; }
   .glang.other .g-hello { color: var(--brand); }
 
@@ -273,6 +269,7 @@
     position: fixed; inset: 0; z-index: 900;
     background: var(--paper); /* what shows once the leaves part */
     overflow: hidden;
+    perspective: 1100px; /* the leaves swing on hinges, not slide */
   }
   .door-tap {
     position: absolute; inset: 0; display: block;
@@ -283,23 +280,22 @@
   .leaf {
     position: absolute; inset: 0;
     background-image: var(--door);
-    background-size: cover;
+    background-size: contain; /* whole photo, letterboxed on paper — never cropped */
     background-position: center;
     background-repeat: no-repeat;
-    transition: transform 0.8s cubic-bezier(0.55, 0.05, 0.3, 1);
-    animation: breathe 10s ease-in-out infinite alternate; /* the door waits, barely moving */
+    transition: transform 0.9s cubic-bezier(0.4, 0, 0.2, 1), filter 0.9s;
+    backface-visibility: hidden;
   }
-  .leaf.left { clip-path: inset(0 50% 0 0); }
-  .leaf.right { clip-path: inset(0 0 0 50%); }
+  /* hinge on the outer edge: each leaf rotates away from the seam like a real door */
+  .leaf.left { clip-path: inset(0 50% 0 0); transform-origin: 0 50%; }
+  .leaf.right { clip-path: inset(0 0 0 50%); transform-origin: 100% 50%; }
   /* dark mode: the photo keeps its own light — a slight dim so it sits with the night UI */
   :global([data-theme='dark']) .leaf { filter: brightness(0.82); }
 
-  .door.opening .leaf { animation: none; }
-  .door.opening .leaf.left { transform: translateX(-52%); }
-  .door.opening .leaf.right { transform: translateX(52%); }
+  .door.opening .leaf { filter: brightness(0.55); } /* the inside face falls into shadow */
+  .door.opening .leaf.left { transform: rotateY(-100deg); }
+  .door.opening .leaf.right { transform: rotateY(100deg); }
   .door.opening .door-hint { opacity: 0; }
-
-  @keyframes breathe { from { transform: scale(1); } to { transform: scale(1.03); } }
 
   /* the greeting rides the bottom of the door on a fade to the paper colour; each
      language fades in as {#key} remounts the line */
@@ -315,11 +311,11 @@
     display: grid; gap: 4px; text-align: center; color: #fff;
     animation: hintin 0.6s cubic-bezier(0.2, 0.7, 0.2, 1) both;
   }
-  .hint-line b { font-family: var(--font-display); font-weight: 800; font-size: clamp(1.6rem, 7vw, 2.2rem); line-height: 1.1; letter-spacing: -0.01em; }
-  .hint-line small { font-family: var(--font-body); font-weight: 600; font-size: 0.95rem; opacity: 0.85; }
+  .hint-line b { font-family: var(--font-display); font-weight: 800; font-size: var(--fs-2xl); line-height: 1.1; letter-spacing: -0.01em; }
+  .hint-line small { font-family: var(--font-body); font-weight: 600; font-size: var(--fs-md); opacity: 0.85; }
   @keyframes hintin { from { opacity: 0; transform: translateY(8px); } to { opacity: 1; transform: none; } }
   @media (prefers-reduced-motion: reduce) {
-    .leaf { transition: none; animation: none; }
+    .leaf { transition: none; }
     .hint-line { animation: none; }
   }
 
@@ -328,5 +324,4 @@
 
 
 
-  .mid .lead { margin: 0; text-align: center; color: var(--ink); font-size: 1.05rem; line-height: 1.5; }
 </style>

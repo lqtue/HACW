@@ -283,7 +283,7 @@
   }
   .stack-label {
     flex: 1; min-width: 0; text-align: center;
-    font-size: 0.82rem; font-weight: 600;
+    font-size: var(--fs-sm); font-weight: 600;
     white-space: nowrap; overflow: hidden; text-overflow: ellipsis;
   }
   .stack-label b { color: var(--brand); }
@@ -291,7 +291,7 @@
     flex: 0 0 auto; width: 34px; height: 34px;
     border: 0; border-radius: 50%;
     background: color-mix(in srgb, var(--brand) 12%, transparent); color: var(--brand);
-    font-size: 1.2rem; line-height: 1; cursor: pointer;
+    font-size: var(--fs-lg); line-height: 1; cursor: pointer;
   }
   .stack-nav:focus-visible { outline: 2px solid var(--brand); outline-offset: 2px; }
   /* popup look: .map-pop* in app.css (shared with RouteMap) */

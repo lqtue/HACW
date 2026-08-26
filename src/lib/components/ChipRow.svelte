@@ -54,7 +54,7 @@
     position: absolute; top: 0; bottom: 4px; right: 0; z-index: 2;
     width: 40px; border: 0; cursor: pointer;
     display: grid; place-items: center;
-    font-size: 1.4rem; font-weight: 700; line-height: 1; color: var(--brand-dark);
+    font-size: var(--fs-xl); font-weight: 700; line-height: 1; color: var(--brand-dark);
     padding-right: 2px;
     background: linear-gradient(to right, transparent, var(--surface) 55%);
   }
@@ -75,7 +75,7 @@
     background: var(--surface);
     box-shadow: 0 2px 8px rgba(60, 30, 20, 0.14);
     padding: 7px 12px;
-    font-size: 0.72rem;
+    font-size: var(--fs-xs);
     font-weight: 700;
     letter-spacing: 0.06em;
     text-transform: uppercase;

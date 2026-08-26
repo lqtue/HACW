@@ -78,22 +78,22 @@
     background: var(--surface);
     display: grid; gap: 1px; text-align: center;
   }
-  .tk-lbl { color: var(--muted); font-size: 0.62rem; font-weight: 700; letter-spacing: 0.1em; text-transform: uppercase; }
+  .tk-lbl { color: var(--muted); font-size: var(--fs-xs); font-weight: 700; letter-spacing: 0.1em; text-transform: uppercase; }
   .tk b {
     font-family: var(--font-display); font-weight: 800;
-    font-size: 1.4rem; letter-spacing: 0.04em; line-height: 1.1; color: var(--ink);
+    font-size: var(--fs-xl); letter-spacing: 0.04em; line-height: 1.1; color: var(--ink);
   }
-  .tk small { color: var(--muted); font-size: 0.75rem; }
+  .tk small { color: var(--muted); font-size: var(--fs-sm); }
   .tk.none { border-color: var(--gold); background: color-mix(in srgb, var(--gold) 12%, var(--surface)); }
-  .tk.none b { font-size: 1rem; color: #8a5a00; }
+  .tk.none b { font-size: var(--fs-md); color: #8a5a00; }
 
-  .err { color: var(--brand); margin: 0; font-size: 0.9rem; }
+  .err { color: var(--brand); margin: 0; font-size: var(--fs-sm); }
   .warn {
     margin: 0 0 8px;
     padding: 8px 10px;
     border-radius: 10px;
     background: #fdf0d5;
     color: #8a5a00;
-    font-size: 0.85rem;
+    font-size: var(--fs-sm);
   }
 </style>
