@@ -32,7 +32,10 @@ export const TYPES = new Set([
   // (`n` = metres), `quiz_ok` = a right answer (`n` = question index), `view_site` =
   // the site page opened. With `sid` these give plan adherence, arrivals that never
   // stamped, per-question difficulty and "looked but never went".
-  'plan_pick', 'arrive', 'quiz_ok', 'view_site'
+  'plan_pick', 'arrive', 'quiz_ok', 'view_site',
+  // "pick for me" A/B: which arm filled a slot with which site (`spot` = quiet then).
+  // Per sid, joined with plan_pick / checkin: does the steer move anyone?
+  'auto_steer', 'auto_random'
 ]);
 export const MAX_EVENTS = 50; // one dead-spot queue, not a firehose
 

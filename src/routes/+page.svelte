@@ -249,14 +249,28 @@
   let autoSlots = 0; // slots the app auto-filled this build ("how many left" to it)
 
   const remaining = $derived(5 - pickedIds.length);
-  // fill quiet sites first (dispersal), then organizer priority, then nearest the origin
+  // "Pick for me" is a coin-flip experiment, independent of the switchback: `steer`
+  // fills quiet sites first (dispersal), then organizer priority, then nearest;
+  // `random` draws uniformly from the same valid pool. One flip per build (reset with
+  // the picks), so a press that fills three slots is one arm. Every filled slot is
+  // logged as auto_steer / auto_random with the site and its quiet state, so per sid:
+  // did the steer change what got filled, was it kept (plan_pick), was it visited.
+  let autoArm = null;
+  function arm() {
+    if (!autoArm) autoArm = crypto.getRandomValues(new Uint8Array(1))[0] & 1 ? 'steer' : 'random';
+    return autoArm;
+  }
   function bestFrom(pool, n) {
     const spot = nudge ? spotlightIds(stats.counts, destinations) : new Set();
-    return pool
-      .map((d) => ({ id: d.id, quiet: spot.has(d.id) ? 0 : 1, prio: prioRank(d), m: distanceMeters(origin, d) }))
-      .sort((a, b) => a.quiet - b.quiet || a.prio - b.prio || a.m - b.m)
-      .slice(0, n)
-      .map((x) => x.id);
+    const ranked =
+      arm() === 'steer'
+        ? pool
+            .map((d) => ({ id: d.id, quiet: spot.has(d.id) ? 0 : 1, prio: prioRank(d), m: distanceMeters(origin, d) }))
+            .sort((a, b) => a.quiet - b.quiet || a.prio - b.prio || a.m - b.m)
+        : [...pool].map((d) => ({ id: d.id, r: crypto.getRandomValues(new Uint8Array(1))[0] })).sort((a, b) => a.r - b.r);
+    const ids = ranked.slice(0, n).map((x) => x.id);
+    ids.forEach((id) => track(autoArm === 'steer' ? 'auto_steer' : 'auto_random', id, undefined, spot.has(id)));
+    return ids;
   }
   function autoFree() {
     const before = free.length;
@@ -306,6 +320,7 @@
     stepIdx = 0;
     usedRecommend = false;
     autoSlots = 0;
+    autoArm = null; // fresh coin next build
   }
 </script>
 

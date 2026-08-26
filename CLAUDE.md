@@ -198,6 +198,11 @@ per-visit `sid`. The terms page and `research_optin` list exactly what is sent.
 Behaviour-detail events (`plan_pick` with position + spot, `arrive`, `quiz_ok`,
 `view_site`) exist so that, per `sid`, plan adherence, arrivals that never
 stamped, per-question difficulty and looked-but-never-went are all answerable.
+**"Pick for me" is an A/B** (`bestFrom` in the home page): one coin flip per
+build, `steer` = quiet → priority → nearest, `random` = uniform from the same
+valid pool; each filled slot logs `auto_steer`/`auto_random` with the site and
+its quiet state, so joined per `sid` with `plan_pick` and `checkin` it says
+whether the steer changes what gets filled, kept, and visited.
 
 **Scoring & spotlight** (`src/lib/score.js`, pure — no imports, so `node` can
 test it; callers pass the JSON in): 10 pts per check-in, +5 for a quiz with no

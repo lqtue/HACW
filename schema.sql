@@ -55,6 +55,8 @@ CREATE TABLE IF NOT EXISTS passports (
 --                       WHERE t='checkin' GROUP BY 1,2,3,4      -> Gini/entropy on vs off
 --   spotlight uptake:   AVG(spot) of check-ins, on vs off
 --   funnel by segment:  GROUP BY nat, tk, half, t
+--   pick-for-me A/B:    auto_steer vs auto_random rows -> kept? (plan_pick same dest,
+--                       same sid) -> visited? (checkin same dest, same sid)
 --   per visit:          GROUP BY sid -> sites, order (seq), length (max ts - min ts),
 --                       plan_pick vs checkin = adherence, arrive w/o checkin = gave up
 --   tail:               days 5–6 (nudge=0) vs off-units of days 1–4

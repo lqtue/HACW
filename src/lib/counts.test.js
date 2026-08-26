@@ -198,6 +198,7 @@ assert.equal(eventRows([{ eid: 'a1b2c3d4', t: 'welcome', tk: 7 }], real, T0)[0].
 // behaviour-detail types take the dest guard like checkin does
 assert.deepEqual(tally([{ t: 'plan_pick', id: 'chua-cau', n: 2 }], real), { 'ev:plan_pick:chua-cau': 1 });
 assert.deepEqual(tally([{ t: 'arrive', id: 'nope' }], real), {}, 'arrive at an unknown site is dropped');
+assert.deepEqual(tally([{ t: 'auto_steer', id: 'chua-cau' }, { t: 'auto_random', id: 'nope' }], real), { 'ev:auto_steer:chua-cau': 1 });
 assert.equal(eventRows([{ eid: 'a1b2c3d4', t: 'quiz_ok', id: 'chua-cau', n: 1 }], real, T0)[0].n, 1);
 assert.equal(eventRows([{ eid: 'a1b2c3d4', t: 'view_site', id: 'chua-cau' }], real, T0)[0].dest, 'chua-cau');
 assert.equal(eventRows([{ eid: 'a1b2c3d4', t: 'checkin', id: 'chua-cau' }], real, Date.parse('2026-08-28T09:00+07:00'))[0].nudge, 1);
