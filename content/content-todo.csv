@@ -1,6 +1,6 @@
 where,what,note
-A1 Chùa Cầu (Cầu Nhật Bản),quiz questions (Q/A),5/10 — every one in the bank gets asked
-A1 Chùa Cầu (Cầu Nhật Bản),quiz explanation (E),5 of 5 questions have none
+A1 Chùa Cầu,quiz questions (Q/A),5/10 — every one in the bank gets asked
+A1 Chùa Cầu,quiz explanation (E),5 of 5 questions have none
 A2 Chùa Quan Âm,quiz questions (Q/A),2/10 — every one in the bank gets asked
 A3 Miếu Quan Công,quiz questions (Q/A),3/10 — every one in the bank gets asked
 A4 Bảo tàng Gốm sứ mậu dịch,quiz questions (Q/A),3/10 — every one in the bank gets asked
@@ -9,6 +9,10 @@ A7 Bảo tàng Văn hóa dân gian,don't miss (D),2/3 lines
 A7 Bảo tàng Văn hóa dân gian,quiz questions (Q/A),3/10 — every one in the bank gets asked
 A8 Bảo tàng nghề Y truyền thống,quiz questions (Q/A),3/10 — every one in the bank gets asked
 A9 Bảo tàng Thổ sản,quiz questions (Q/A),2/10 — every one in the bank gets asked
+A10 Nhà trưng bày Văn hóa Nhật Bản,don't miss (D),0/3 lines
+A10 Nhà trưng bày Văn hóa Nhật Bản,quiz questions (Q/A),1/10 — every one in the bank gets asked
+A10 Nhà trưng bày Văn hóa Nhật Bản,opening hours,"now ""Liên hệ ban tổ chức"" — no open/closed badge without real hours"
+A10 Nhà trưng bày Văn hóa Nhật Bản,long intro (L),vi and en are the same text
 A12 Nhà thờ tộc Trần,quiz questions (Q/A),3/10 — every one in the bank gets asked
 A13 Nhà thờ tộc Nguyễn Tường,quiz questions (Q/A),3/10 — every one in the bank gets asked
 A14 Nhà cổ Phùng Hưng,quiz questions (Q/A),3/10 — every one in the bank gets asked
@@ -35,3 +39,4 @@ Vượt biển trèo non,voucher name,"now ""Voucher quà tặng (chốt tên sa
 Một tấc lòng son,voucher name,"now ""Voucher quà tặng (chốt tên sau)"""
 Lạc tại nhân hòa,voucher name,"now ""Voucher quà tặng (chốt tên sau)"""
 Ngày vàng Phố Hội,voucher name,"now ""Voucher quà tặng (chốt tên sau)"""
+"Hội An ngày ấy, bây giờ",voucher name,"now ""Voucher quà tặng (chốt tên sau)"""

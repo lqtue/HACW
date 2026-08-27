@@ -5,10 +5,10 @@ Sinh bởi `node scripts/export-full-text.mjs`. Chỉ tiếng Việt — bản g
 
 Chuỗi có `{n}` `{name}` `{i}`… là chỗ ứng dụng chèn số/tên vào — dịch xung quanh, giữ nguyên trong ngoặc.
 
-## 1. Điểm đến — 22 điểm đang mở (3 điểm đóng ở cuối mục)
+## 1. Điểm đến — 23 điểm đang mở (2 điểm đóng ở cuối mục)
 
-### A1 Chùa Cầu (Cầu Nhật Bản)
-- **Tên:** Chùa Cầu (Cầu Nhật Bản)
+### A1 Chùa Cầu
+- **Tên:** Chùa Cầu
 - **Địa chỉ:** Cuối đường Nguyễn Thị Minh Khai
 - **Giờ mở cửa:** 7:00 - 22:00
 - **Giới thiệu ngắn:** Vừa là cầu, vừa là miếu — công trình hơn 400 năm đã thành gương mặt của Hội An.
@@ -20,28 +20,28 @@ Chuỗi có `{n}` `{name}` `{i}`… là chỗ ứng dụng chèn số/tên vào 
 - **Câu hỏi 1**
   - **Câu hỏi:** Chùa Cầu do cộng đồng thương nhân nào xây dựng?
   - **ĐÁP ÁN ĐÚNG:** Nhật Bản
-  - **Đáp án:** Trung Hoa
   - **Đáp án:** Bồ Đào Nha
+  - **Đáp án:** Trung Hoa
 - **Câu hỏi 2**
   - **Câu hỏi:** Chùa Cầu được làm chủ yếu bằng vật liệu gì?
+  - **Đáp án:** Bê tông
   - **ĐÁP ÁN ĐÚNG:** Gỗ
   - **Đáp án:** Đá
-  - **Đáp án:** Bê tông
 - **Câu hỏi 3**
   - **Câu hỏi:** Chùa Cầu bắc qua dòng nước chảy ra con sông nào?
-  - **ĐÁP ÁN ĐÚNG:** Sông Thu Bồn
-  - **Đáp án:** Sông Hàn
   - **Đáp án:** Sông Hương
+  - **Đáp án:** Sông Hàn
+  - **ĐÁP ÁN ĐÚNG:** Sông Thu Bồn
 - **Câu hỏi 4**
   - **Câu hỏi:** Chùa Cầu được xây dựng vào khoảng thời gian nào?
   - **ĐÁP ÁN ĐÚNG:** Đầu thế kỷ 17
-  - **Đáp án:** Thế kỷ 15
   - **Đáp án:** Thế kỷ 19
+  - **Đáp án:** Thế kỷ 15
 - **Câu hỏi 5**
   - **Câu hỏi:** Hình ảnh Chùa Cầu xuất hiện trên tờ tiền Việt Nam mệnh giá nào?
+  - **Đáp án:** 50.000 đồng
   - **ĐÁP ÁN ĐÚNG:** 20.000 đồng
   - **Đáp án:** 10.000 đồng
-  - **Đáp án:** 50.000 đồng
 
 ### A2 Chùa Quan Âm
 - **Tên:** Chùa Quan Âm
@@ -226,6 +226,19 @@ Chuỗi có `{n}` `{name}` `{i}`… là chỗ ứng dụng chèn số/tên vào 
   - **ĐÁP ÁN ĐÚNG:** Cau
   - **Đáp án:** Tiêu
   - **Giải thích:** Cửu đỉnh là báu vật tượng trưng cho đế nghiệp muôn năm vững bền của triều Nguyễn, với 153 tấm họa tiết chạm nổi thể hiện phong cảnh, sản vật và con người Việt Nam. Trong số đó có 9 loại dược liệu và hương liệu quý, bao gồm kỳ nam, trầm hương, dâu tằm, tô hợp, yến sào, trầu không, cau, quế, và sâm ta.
+
+### A10 Nhà trưng bày Văn hóa Nhật Bản
+- **Tên:** Nhà trưng bày Văn hóa Nhật Bản
+- **Địa chỉ:** 6 Nguyễn Thị Minh Khai
+- **Giờ mở cửa:** Liên hệ ban tổ chức
+- **Giới thiệu ngắn:** Một vòng văn hóa Nhật Bản với những thực hành và món đồ chơi truyền thống
+- **Giới thiệu dài:** Exhibition on the Japanese quarter of old Hoi An and the archaeology of Japanese trade in the town.
+- **Câu hỏi 1**
+  - **Câu hỏi:** Trong dòng búp bê Koga, con khỉ đang ôm loài vật gì?
+  - **Đáp án:** Mèo
+  - **ĐÁP ÁN ĐÚNG:** Gà
+  - **Đáp án:** Chó
+  - **Giải thích:** Hiện này là một mẫu thiết kế có tên gọi "Khỉ ôm gà" của dòng búp bê Koga truyền thống đến từ tỉnh Nagasaki. Thiết kế này là một sự kết hợp độc đáo tượng trưng cho sự chuyển giao của 12 con giáp từ năm Thân (Saru) sang năm Dậu (Tori). Trong văn hóa Nhật Bản, từ con khỉ (saru) là một cách chơi chữ đồng âm với từ "rời đi" (saru / 去る), mang ý nghĩa xua đuổi những điều xui xẻo hoặc vận rủi.
 
 ### A12 Nhà thờ tộc Trần
 - **Tên:** Nhà thờ tộc Trần
@@ -636,26 +649,13 @@ Chuỗi có `{n}` `{name}` `{i}`… là chỗ ứng dụng chèn số/tên vào 
 - **Giờ mở cửa:** 7:30 - 11:30 13:30 - 17:30
 - **Giới thiệu dài:** Hội An là một thành phố nhỏ trực thuộc tỉnh Quảng Nam, nằm bên bờ bắc sông Thu Bồn cách Thành phố Đà Nẵng 30km về phía Nam. Thành phố Hội An có diện tích khoảng 60 km2, dân số hơn 90.000 người, gồm 9 phường , 3 xã đất liền và 1 xã đảo.
 
-### A10 Nhà trưng bày Văn hóa Nhật Bản — ĐANG ĐÓNG
-- **Tên:** Nhà trưng bày Văn hóa Nhật Bản
-- **Địa chỉ:** 6 Nguyễn Thị Minh Khai
-- **Giờ mở cửa:** Liên hệ ban tổ chức
-- **Giới thiệu ngắn:** Một vòng văn hóa Nhật Bản với những thực hành và món đồ chơi truyền thống
-- **Giới thiệu dài:** Exhibition on the Japanese quarter of old Hoi An and the archaeology of Japanese trade in the town.
-- **Câu hỏi 1**
-  - **Câu hỏi:** Trong dòng búp bê Koga, con khỉ đang ôm loài vật gì?
-  - **Đáp án:** Mèo
-  - **ĐÁP ÁN ĐÚNG:** Gà
-  - **Đáp án:** Chó
-  - **Giải thích:** Hiện này là một mẫu thiết kế có tên gọi "Khỉ ôm gà" của dòng búp bê Koga truyền thống đến từ tỉnh Nagasaki. Thiết kế này là một sự kết hợp độc đáo tượng trưng cho sự chuyển giao của 12 con giáp từ năm Thân (Saru) sang năm Dậu (Tori). Trong văn hóa Nhật Bản, từ con khỉ (saru) là một cách chơi chữ đồng âm với từ "rời đi" (saru / 去る), mang ý nghĩa xua đuổi những điều xui xẻo hoặc vận rủi.
-
 ### A11 Nhà biểu diễn nghệ thuật cổ truyền Hội An — ĐANG ĐÓNG
 - **Tên:** Nhà biểu diễn nghệ thuật cổ truyền Hội An
 - **Địa chỉ:** Khu phố cổ Hội An
 - **Giờ mở cửa:** Liên hệ ban tổ chức
 - **Giới thiệu dài:** Nhà Biểu diễn nghệ thuật cổ truyền được thành lập từ năm 1996 đến nay, các chương trình nghệ thuật đã mang lại nhiều mỹ cảm và sự thích thú cho đông đảo người xem trong nước và quốc tế.
 
-## 2. Tuyến — 4
+## 2. Tuyến — 5
 
 ### Vượt biển trèo non
 - **Tên:** Vượt biển trèo non
@@ -676,7 +676,7 @@ Chuỗi có `{n}` `{name}` `{i}`… là chỗ ứng dụng chèn số/tên vào 
 - **Giới thiệu ngắn:** Cuộc bộ hành khám phá sự đa dạng văn hoá của Hội An
 - **Giới thiệu dài:** Bắt đầu từ văn hóa Nhật Bản, Trung Hoa cho tới truyền thống Việt Nam, tuyến đường này tôn vinh sự phong phú về văn hóa của Hội An, đồng thời thể hiện nét chan hòa, cởi mở đặc trưng của một phố cảng - nơi nhiều sắc thái văn hóa đồng hành và phát triển.
 - **Quà:** Voucher quà tặng (chốt tên sau)
-- **Chặng:** Đình Cẩm Phô → Chùa Cầu (Cầu Nhật Bản) → Hội quán Quảng Triệu → Bảo tàng Văn hóa dân gian → Tụy Tiên Đường Minh Hương
+- **Chặng:** Đình Cẩm Phô → Chùa Cầu → Hội quán Quảng Triệu → Bảo tàng Văn hóa dân gian → Tụy Tiên Đường Minh Hương
 
 ### Ngày vàng Phố Hội
 - **Tên:** Ngày vàng Phố Hội
@@ -684,6 +684,13 @@ Chuỗi có `{n}` `{name}` `{i}`… là chỗ ứng dụng chèn số/tên vào 
 - **Giới thiệu dài:** Hành trình khám phá nét phong phú trong văn hóa, sự trù phú do thiên nhiên ban tặng cùng hệ thống thương mại phát triển của Hội An. Tất cả tạo nên một cảng thị phồn vinh với những mặt hàng quý hiếm, đắt đỏ nhưng không làm mất đi sự giàu có trong tâm hồn người.
 - **Quà:** Voucher quà tặng (chốt tên sau)
 - **Chặng:** Nhà cổ Tấn Ký → Đình Hội An → Bảo tàng Thổ sản → Chùa Quan Âm → Điểm tham quan trình nghề Xí Mà
+
+### Hội An ngày ấy, bây giờ
+- **Tên:** Hội An ngày ấy, bây giờ
+- **Giới thiệu ngắn:** Hành trình xuyên lịch sử Hội An
+- **Giới thiệu dài:** Một vùng đất, nơi tụ hội của nhiều cộng đồng dân cư. Hãy cùng dạo qua Hội An từ Sơ kỳ Đồ Sắt đến khi trở thành một cảng thị tấp nập thuyền bè Á-Âu.
+- **Quà:** Voucher quà tặng (chốt tên sau)
+- **Chặng:** Chùa Cầu → Nhà cổ Phùng Hưng → Bảo tàng Văn hóa Sa Huỳnh → Nhà cổ Quân Thắng → Nhà trưng bày Văn hóa Nhật Bản
 
 ## 3. Bậc quà — 5
 
