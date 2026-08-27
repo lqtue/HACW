@@ -185,14 +185,17 @@
     cursor: pointer; transition: border-color 0.12s ease, background 0.12s ease;
   }
   .opt:hover { border-color: color-mix(in srgb, var(--brand) 45%, var(--line)); background: var(--bg); }
-  .photo-opts { display: grid; grid-template-columns: repeat(auto-fit, minmax(130px, 1fr)); gap: 10px; }
+  /* one photo per row, full width: the pictures here are wide panoramas (roof lines),
+     and three side by side on a phone made every one of them unreadable */
+  .photo-opts { display: grid; gap: 10px; }
   .photo-opt {
     display: flex; flex-direction: column; gap: 6px; padding: 0;
     border: 1.5px solid var(--line); border-radius: var(--radius-sm);
     background: var(--surface); overflow: hidden; cursor: pointer;
     font-family: var(--font-body); font-weight: 600; font-size: var(--fs-sm);
   }
-  .photo-opt img { width: 100%; aspect-ratio: 3 / 2; object-fit: cover; display: block; }
+  /* natural height — a fixed 3:2 crop cut the ridge out of a panorama */
+  .photo-opt img { width: 100%; height: auto; display: block; }
   .photo-opt span { padding: 0 10px 10px; }
   .photo-opt:hover { border-color: color-mix(in srgb, var(--brand) 45%, var(--line)); }
 
