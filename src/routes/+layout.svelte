@@ -3,7 +3,7 @@
   import { page } from '$app/stores';
   import { base } from '$app/paths';
   import { browser } from '$app/environment';
-  import { onMount } from 'svelte';
+  import { onMount, untrack } from 'svelte';
   import { flush, backup, track } from '$lib/passport.svelte.js';
   import { loadCounts } from '$lib/stats.svelte.js';
   import { unlockFromUrl } from '$lib/staff.svelte.js';
@@ -86,12 +86,21 @@
     if (r.startsWith('/guide')) return 'guide';
     return null;
   }
+  // One row per navigation, not one per reactive settle. This effect unavoidably
+  // reads `plan` (via pageKey -> onboarding) and track() reads `plan`/`study` too, so
+  // it re-ran on every plan mutation and every hydration tick — one visit logged the
+  // same site nine times in 300 ms. `lastView` is a plain let (not $state), so the
+  // guard itself creates no dependency; untrack keeps track()'s own reads out too.
+  let lastView = '';
   $effect(() => {
     const k = pageKey(rel);
     // A site page emits view_site (which site) INSTEAD of view:site, not as well as —
     // the pair was two rows saying one thing. /organizer sums view_site for the total.
-    if (k === 'site') track('view_site', rel.split('/')[2]?.split(/[?#]/)[0]);
-    else if (k) track('view', k);
+    const id = k === 'site' ? rel.split('/')[2]?.split(/[?#]/)[0] : null;
+    const key = k ? `${k}:${id ?? ''}` : '';
+    if (!key || key === lastView) return;
+    lastView = key;
+    untrack(() => (k === 'site' ? track('view_site', id) : track('view', k)));
   });
 </script>
 
