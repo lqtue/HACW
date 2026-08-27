@@ -60,16 +60,6 @@
             "de": "Die Japaner"
           },
           {
-            "vi": "Trung Hoa",
-            "en": "Chinese",
-            "ko": "중국",
-            "zh": "中国",
-            "ja": "中国",
-            "th": "จีน",
-            "fr": "Les Chinois",
-            "de": "Die Chinesen"
-          },
-          {
             "vi": "Bồ Đào Nha",
             "en": "Portuguese",
             "ko": "포르투갈",
@@ -78,6 +68,16 @@
             "th": "โปรตุเกส",
             "fr": "Les Portugais",
             "de": "Die Portugiesen"
+          },
+          {
+            "vi": "Trung Hoa",
+            "en": "Chinese",
+            "ko": "중국",
+            "zh": "中国",
+            "ja": "中国",
+            "th": "จีน",
+            "fr": "Les Chinois",
+            "de": "Die Chinesen"
           }
         ],
         "answer": 0
@@ -94,6 +94,16 @@
           "de": "Woraus besteht die Brücke vor allem?"
         },
         "options": [
+          {
+            "vi": "Bê tông",
+            "en": "Concrete",
+            "ko": "콘크리트",
+            "zh": "混凝土",
+            "ja": "コンクリート",
+            "th": "คอนกรีต",
+            "fr": "Le béton",
+            "de": "Beton"
+          },
           {
             "vi": "Gỗ",
             "en": "Wood",
@@ -113,19 +123,9 @@
             "th": "หิน",
             "fr": "La pierre",
             "de": "Stein"
-          },
-          {
-            "vi": "Bê tông",
-            "en": "Concrete",
-            "ko": "콘크리트",
-            "zh": "混凝土",
-            "ja": "コンクリート",
-            "th": "คอนกรีต",
-            "fr": "Le béton",
-            "de": "Beton"
           }
         ],
-        "answer": 0
+        "answer": 1
       },
       {
         "question": {
@@ -140,14 +140,14 @@
         },
         "options": [
           {
-            "vi": "Sông Thu Bồn",
-            "en": "Thu Bon River",
-            "ko": "투본강",
-            "zh": "秋盆江",
-            "ja": "トゥボン川",
-            "th": "แม่น้ำทูโบน",
-            "fr": "La rivière Thu Bồn",
-            "de": "Der Thu Bồn"
+            "vi": "Sông Hương",
+            "en": "Huong River",
+            "ko": "흐엉강 (후에)",
+            "zh": "香江（顺化）",
+            "ja": "フオン川（フエ）",
+            "th": "แม่น้ำเฮือง (เว้)",
+            "fr": "La rivière des Parfums (Huế)",
+            "de": "Der Parfümfluss (Huế)"
           },
           {
             "vi": "Sông Hàn",
@@ -160,17 +160,17 @@
             "de": "Der Hàn (Đà Nẵng)"
           },
           {
-            "vi": "Sông Hương",
-            "en": "Huong River",
-            "ko": "흐엉강 (후에)",
-            "zh": "香江（顺化）",
-            "ja": "フオン川（フエ）",
-            "th": "แม่น้ำเฮือง (เว้)",
-            "fr": "La rivière des Parfums (Huế)",
-            "de": "Der Parfümfluss (Huế)"
+            "vi": "Sông Thu Bồn",
+            "en": "Thu Bon River",
+            "ko": "투본강",
+            "zh": "秋盆江",
+            "ja": "トゥボン川",
+            "th": "แม่น้ำทูโบน",
+            "fr": "La rivière Thu Bồn",
+            "de": "Der Thu Bồn"
           }
         ],
-        "answer": 0
+        "answer": 2
       },
       {
         "question": {
@@ -195,16 +195,6 @@
             "de": "Im frühen 17. Jahrhundert"
           },
           {
-            "vi": "Thế kỷ 15",
-            "en": "15th century",
-            "ko": "15세기",
-            "zh": "15世纪",
-            "ja": "15世紀",
-            "th": "ศตวรรษที่ 15",
-            "fr": "Au XVe siècle",
-            "de": "Im 15. Jahrhundert"
-          },
-          {
             "vi": "Thế kỷ 19",
             "en": "19th century",
             "ko": "19세기",
@@ -213,6 +203,16 @@
             "th": "ศตวรรษที่ 19",
             "fr": "Au XIXe siècle",
             "de": "Im 19. Jahrhundert"
+          },
+          {
+            "vi": "Thế kỷ 15",
+            "en": "15th century",
+            "ko": "15세기",
+            "zh": "15世纪",
+            "ja": "15世紀",
+            "th": "ศตวรรษที่ 15",
+            "fr": "Au XVe siècle",
+            "de": "Im 15. Jahrhundert"
           }
         ],
         "answer": 0
@@ -229,6 +229,16 @@
           "de": "Auf welchem vietnamesischen Geldschein ist die Brücke zu sehen?"
         },
         "options": [
+          {
+            "vi": "50.000 đồng",
+            "en": "50,000 VND",
+            "ko": "50,000동",
+            "zh": "50,000 越南盾",
+            "ja": "50,000ドン",
+            "th": "50,000 ดอง",
+            "fr": "50 000 ₫",
+            "de": "50.000 ₫"
+          },
           {
             "vi": "20.000 đồng",
             "en": "20,000 VND",
@@ -248,19 +258,9 @@
             "th": "10,000 ดอง",
             "fr": "10 000 ₫",
             "de": "10.000 ₫"
-          },
-          {
-            "vi": "50.000 đồng",
-            "en": "50,000 VND",
-            "ko": "50,000동",
-            "zh": "50,000 越南盾",
-            "ja": "50,000ドン",
-            "th": "50,000 ดอง",
-            "fr": "50 000 ₫",
-            "de": "50.000 ₫"
           }
         ],
-        "answer": 0
+        "answer": 1
       }
     ],
     "ticketClass": "monument",
