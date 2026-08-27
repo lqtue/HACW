@@ -50,6 +50,7 @@ D: Sản phẩm gốm tới từ Nhật Bản, Trung Hoa, Trung Đông,...
 D: Gốm Chu Đậu mỏng như giấy, trong như ngọc
 D: Câu chuyện từ những di chỉ gốm
 Q: Họa tiết này nằm trong hiện vật nào?
+I: quiz/bao-tang-gom-su-mau-dich/hoa-tiet.webp
 A: Một chiếc bát
 A: Một chiếc đĩa
 A: Một chiếc thau
