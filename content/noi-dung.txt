@@ -386,6 +386,7 @@ D: Hương án chính thếp vàng, được chạm lộng tinh vi với nhiều
 D: Bộ cửa vẽ lại điển tích “Nhị thập tứ hiếu”
 D: Kiến trúc song mái độc nhất tại Hội An
 Q: Trong hai con lân này, con nào là lân đực và con nào là lân cái?
+I: quiz/hoi-quan-hai-nam/lan-a-b.webp
 A: A là lân cái, B là lân đực
 A: A là lân đực, B là lân cái
 A: Cả A và B đều là lân đực
