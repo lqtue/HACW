@@ -220,6 +220,7 @@ D: Các bộ tranh được tạo bằng kỹ thuật truyền thống
 D: Mái nhà giữa được thiết kế theo kiểu "tứ hải" của Nhật Bản
 D: Bộ liễn đối theo lối “hồi văn” - dù đọc xuôi hay đọc ngược thì ý nghĩa không đổi
 Q: Hai bộ tranh này được tạo ra bằng kỹ nghệ gì?
+I: quiz/nha-co-phung-hung/tranh-can-xa-cu.webp
 A: Cẩn xà cừ
 A: Ghép sành sứ
 A: Pháp lam
