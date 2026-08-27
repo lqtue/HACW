@@ -23,6 +23,24 @@ const json429 = () =>
 // of throwing an AJAXError per glyph. Existing ranges are served as static assets
 // before SvelteKit, so only a genuinely-missing range ever reaches this handler.
 // Mirrors the dev fallback in vite.config.js (devGlyphs).
+// Fallback when no ratelimit binding exists (Pages can't declare one): fixed
+// 60 s window per IP, in isolate memory. ponytail: per-isolate and lost on
+// eviction, so a determined flood across colos still gets through — but a
+// single script hammering /api from one place hits 429 after RATE requests.
+// Generous because venue wifi NATs many visitors behind one IP.
+const RATE = 240;
+const hits = new Map();
+function hit(ip) {
+  const now = Date.now();
+  let h = hits.get(ip);
+  if (!h || now - h.t > 60_000) {
+    if (hits.size > 5000) hits.clear();
+    h = { t: now, n: 0 };
+    hits.set(ip, h);
+  }
+  return ++h.n <= RATE;
+}
+
 const GLYPH_RE = /\/map\/fonts\/[^/]+\/\d+-\d+\.pbf$/;
 
 export async function handle({ event, resolve }) {
@@ -49,11 +67,13 @@ export async function handle({ event, resolve }) {
   // Path first: /api/* routes are prerender=false, so this only runs at request
   // time on Cloudflare. Touching platform.env on a prerenderable page throws.
   if (/\/api\//.test(url.pathname)) {
+    const ip = request.headers.get('cf-connecting-ip') ?? 'anon';
     const limiter = platform?.env?.API_LIMITER;
     if (limiter) {
-      const ip = request.headers.get('cf-connecting-ip') ?? 'anon';
       const { success } = await limiter.limit({ key: ip });
       if (!success) return json429();
+    } else if (platform && !hit(ip)) {
+      return json429();
     }
   }
   return resolve(event);
