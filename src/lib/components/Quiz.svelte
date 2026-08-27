@@ -30,11 +30,6 @@
   let missed = $state(false); // any wrong tap this visit -> no perfect bonus
   let cool = $state(0);
   let wrongCount = $state(0); // wrong taps this visit — drives the escalating cooldown
-  let showAll = $state(false); // long explanations start clamped (see EXPLAIN_LONG)
-
-  // characters past which the explanation gets a "see more" instead of a wall of text.
-  // ponytail: a length threshold, not a measured overflow — no observer, no layout read.
-  const EXPLAIN_LONG = 220;
 
   // every question the site has, in the order the writers wrote them: answer them
   // all correctly to earn the stamp. No draw, no difficulty tiers — the bank IS the quiz.
@@ -42,7 +37,6 @@
     questions = bank;
     qIndex = 0;
     step = 'quiz';
-    showAll = false;
   }
   startQuiz();
 
@@ -62,7 +56,6 @@
   // away and locks the site for an escalating cooldown (guessing costs time + the
   // perfect bonus), and gets no explanation — that would answer the retry.
   function answer(i) {
-    showAll = false;
     lastCorrect = i === questions[qIndex].answer;
     if (!lastCorrect) {
       track('quiz_wrong', destId, qIndex);
@@ -85,7 +78,6 @@
     if (qIndex < questions.length - 1) {
       qIndex += 1;
       step = 'quiz';
-      showAll = false;
     } else {
       // One event per passed quiz, `n` = wrong taps it took. A per-question event for
       // every CORRECT answer was ~15 rows a visit and said nothing quiz_wrong doesn't:
@@ -137,13 +129,9 @@
       {#if (lastCorrect && q?.explain) || (!lastCorrect && cool > 0)}
         <div class="verdict-sub">
           {#if lastCorrect && q?.explain}
-            {@const long = t(q.explain).length > EXPLAIN_LONG}
-            <p class="explain" class:clamp={long && !showAll}>{t(q.explain)}</p>
-            {#if long}
-              <button class="more" onclick={() => (showAll = !showAll)}>
-                {showAll ? s('list_less') : s('see_more')}
-              </button>
-            {/if}
+            <!-- always shown in full: it's short enough to read and the "see more"
+                 fold just put a tap between the visitor and the site's story -->
+            <p class="explain">{t(q.explain)}</p>
           {/if}
           {#if !lastCorrect && cool > 0}<p class="wait-note">{s('wrong_wait', cool)}</p>{/if}
         </div>
@@ -209,7 +197,7 @@
     margin: auto 0; min-height: 0; display: flex; flex-direction: column; align-items: center; gap: 12px;
     overflow-y: auto;
   }
-  .verdict-sub { width: 100%; display: flex; flex-direction: column; align-items: center; gap: 4px; margin-top: 4px; }
+  .verdict-sub { width: 100%; display: flex; flex-direction: column; align-items: center; gap: 8px; margin-top: 10px; }
   .rmark {
     width: 76px; height: 76px; display: grid; place-items: center;
     border-radius: 999px; font-size: var(--fs-2xl); line-height: 1; font-weight: 700;
@@ -219,15 +207,12 @@
   .verdict h2 { margin: 0; font-size: var(--fs-2xl); }
   .wait-note { margin: 4px 0 0; color: var(--muted); font-size: var(--fs-md); }
   .result.ok .verdict h2 { color: var(--teal); }
-  .explain { margin: 0; max-width: 32ch; color: var(--ink); font-size: var(--fs-lg); line-height: 1.45; }
-  /* long explanations are 400+ characters; show the first few lines and let the
-     visitor open the rest, so the Continue button stays where they expect it */
-  .explain.clamp {
-    display: -webkit-box; -webkit-box-orient: vertical; -webkit-line-clamp: 6; overflow: hidden;
-  }
-  .more {
-    margin: 0; padding: 4px 2px; background: none; border: 0; cursor: pointer;
-    font-family: var(--font-body); font-weight: 600; font-size: var(--fs-sm);
-    color: var(--brand); text-decoration: underline; text-underline-offset: 3px;
+  /* justified: this is the one paragraph of prose on the screen, and a flush block
+     reads as a printed note rather than a ragged caption. Padded so the block has
+     air on a phone instead of touching the screen edges. */
+  .explain {
+    margin: 0; padding: 4px 6px 0; max-width: 34ch;
+    color: var(--ink); font-size: var(--fs-lg); line-height: 1.55;
+    text-align: justify; text-justify: inter-word; hyphens: auto;
   }
 </style>

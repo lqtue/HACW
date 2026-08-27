@@ -7,7 +7,7 @@
   Open http://localhost:5173/screens.html while `npm run dev` runs.
   Screen list comes from static/screens.json (node scripts/gen-screens.mjs).
   "Edit text" flips designMode on every frame — click any text and type.
-  "Show quizzes" clicks the 🧪 button in each destination frame to reveal its quiz.
+  "Show quizzes" reloads each destination frame with ?demo=quiz to reveal its quiz.
   "Save to JSON" downloads board-edits.json (the edited destination/tour/quiz text)
   to send to the maintainer, who applies it with `node scripts/apply-edits.mjs`.
   No backend — works on the dev server, a tunnel, or a static deploy.
@@ -122,23 +122,13 @@
     } catch (e) {}
     return out;
   };
-  // click the 🧪 simulate button inside a destination frame to render its quiz
-  const showQuiz = (f) => {
-    try {
-      const btn = [...f.contentDocument.querySelectorAll('button')]
-        .find((b) => b.textContent.includes('🧪'));
-      if (btn) btn.click();
-    } catch (e) {}
-  };
-
   // this file is served at <base>/screens.html, but a static host may redirect
   // that to the clean URL <base>/screens or <base>/screens/. Strip any of those
   // to recover the deploy base ('' at the domain root, '/HACW' under a subpath).
   const BASE = location.pathname.replace(/\/screens(\.html)?\/?$/, '');
   // staff code is entered at the password gate below (never shipped: only its
   // SHA-256 is in this file). It's the app staff code, so it both opens the board
-  // AND unlocks the 🧪 simulate button in each quiz frame. A ?staff= URL param
-  // still works as a bypass. No code → quizzes just won't reveal (harmless).
+  // A ?staff= URL param still works as a bypass.
   let STAFF = new URLSearchParams(location.search).get('staff') || '';
   // Board theme: one switch for every frame. Frames read hacw_theme (same origin)
   // before paint, so we set the default here BEFORE any iframe loads — the board
@@ -156,9 +146,12 @@
   // by writing it and reloading the frames. vi is the app default.
   let lang = 'vi';
   try { localStorage.setItem('hacw_lang', lang); } catch (e) {}
+  // A quiz frame is just the check-in page opened on its quiz step: ?demo=quiz.
+  // (It used to click a 🧪 button inside the frame — that button is long gone, so
+  // "Show quizzes" silently did nothing.)
   const srcFor = (sc) => {
     let p = BASE + sc.path;
-    if (sc.quiz && STAFF) p += (p.includes('?') ? '&' : '?') + 'staff=' + encodeURIComponent(STAFF);
+    if (sc.quiz && quizOn) p += (p.includes('?') ? '&' : '?') + 'demo=quiz';
     return p;
   };
 
@@ -185,6 +178,7 @@
         board.appendChild(fig);
         const f = fig.querySelector('iframe');
         f.dataset.quiz = sc.quiz ? '1' : '';
+        f.dataset.path = BASE + sc.path;
         // savable frames: /destinations/<id> and /tours/<id>
         const t = sc.path.match(/^\/(destinations|tours)\/([^?]+)/);
         if (t) { f.dataset.file = t[1]; f.dataset.id = decodeURIComponent(t[2]); }
@@ -192,7 +186,6 @@
           apply(f);
           applyTheme(f);
           capture(f);
-          if (quizOn && f.dataset.quiz) setTimeout(() => { showQuiz(f); setTimeout(() => capture(f), 500); }, 300);
         });
         frames.push(f);
       }
@@ -218,9 +211,10 @@
     quizOn = !quizOn;
     quizBtn.classList.toggle('on', quizOn);
     quizBtn.textContent = quizOn ? '🧪 Quizzes shown' : '🧪 Show quizzes';
-    if (quizOn) frames.filter((f) => f.dataset.quiz).forEach((f) => { showQuiz(f); setTimeout(() => capture(f), 500); });
-    // turning off: reload those frames back to the check-in screen
-    else frames.filter((f) => f.dataset.quiz).forEach((f) => (f.src = f.src));
+    // reload the quiz frames with / without ?demo=quiz (off = the check-in screen)
+    frames
+      .filter((f) => f.dataset.quiz)
+      .forEach((f) => (f.src = f.dataset.path + (quizOn ? '?demo=quiz' : '')));
   };
 
   // compact (one route + one location) is the default view; toggle full back on
@@ -273,7 +267,7 @@
   // The board is public at /screens; require a valid app staff code before it loads.
   // Only SHA-256 hashes ship (no plaintext code) — same threat model as staff.svelte.js:
   // a mis-tap / nosy-visitor guard, not real auth. The entered code becomes STAFF and
-  // is fed to the quiz frames, so unlocking the board also reveals every quiz.
+  // Unlocking also defaults the board to quizzes-shown.
   // Update these hashes if the app staff codes in staff.svelte.js change.
   const GATE_HASHES = [
     '0400953503268ef9bc524e7aa54217d9cf1d8d33900d8aa9fb75bd1707690179', // ORGANIZER
