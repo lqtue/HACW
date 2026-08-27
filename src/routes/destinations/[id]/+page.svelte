@@ -134,6 +134,14 @@
         {/if}
 
         <p class="desc">{t(dest.description)}</p>
+
+        <!-- "đừng bỏ lỡ": the survey team's three things to actually look at on site -->
+        {#if dest.highlights?.length}
+          <h2 class="dm-title">{s('dont_miss')}</h2>
+          <ul class="dm">
+            {#each dest.highlights as h}<li>{t(h)}</li>{/each}
+          </ul>
+        {/if}
       </div>
 
       <!-- CTA dock: pushed to the bottom of the first screen, always in reach -->
@@ -236,6 +244,16 @@
   .tags { display: flex; flex-wrap: wrap; gap: 6px; margin-bottom: 12px; }
   .tag.spot { background: var(--gold); color: #4a2f06; }
   .desc { margin: 0 0 4px; font-size: var(--fs-md); line-height: 1.6; }
+  .dm-title {
+    margin: 14px 0 6px; font-family: var(--font-display); font-weight: 800;
+    font-size: var(--fs-sm); text-transform: uppercase; letter-spacing: .08em; color: var(--muted);
+  }
+  .dm { margin: 0; padding: 0; list-style: none; display: grid; gap: 6px; }
+  .dm li { position: relative; padding-left: 15px; font-size: var(--fs-md); line-height: 1.5; }
+  .dm li::before {
+    content: ''; position: absolute; left: 0; top: .62em;
+    width: 6px; height: 6px; border-radius: 50%; background: var(--brand);
+  }
 
   /* quiz + result screens: Quiz.svelte */
 
