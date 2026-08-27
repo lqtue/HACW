@@ -9,7 +9,6 @@
   import TicketScan from '$lib/components/TicketScan.svelte';
   import StudyToggle from '$lib/components/StudyToggle.svelte';
   import MatCua from '$lib/components/MatCua.svelte';
-  import Icon from '$lib/components/Icon.svelte';
   import IconList from '$lib/components/IconList.svelte';
   import { LANGS } from '$lib/languages.js';
   import { codeFromTicket } from '$lib/backup.js';
@@ -70,13 +69,6 @@
     setLang(l.display ?? 'en');
     setNat(l.code); // nationality proxy for the study — tag events from here on
     trackLang(l.code);
-    track('welcome');
-    step = 'welcome';
-  }
-  function otherLang() {
-    setLang('en');
-    setNat('other');
-    trackLang('other');
     track('welcome');
     step = 'welcome';
   }
@@ -145,7 +137,9 @@
   </section>
 {:else if step === 'lang'}
   <!-- SCREEN 2 — the greeting IS the picker: no headings, no instructions, just a
-       grid of hellos anyone recognises in their own language. -->
+       grid of hellos anyone recognises in their own language. No "Other" tile: every
+       language the app carries has its own greeting here, and a catch-all only sent
+       people to English while telling the study nothing but "other". -->
   <section class="langscreen">
     <div class="glangs">
       {#each LANGS as l (l.code)}
@@ -154,10 +148,6 @@
           <span class="g-name">{l.name}</span>
         </button>
       {/each}
-      <button class="glang other" onclick={otherLang} aria-label="Other language">
-        <span class="g-hello"><Icon name="globe" size={28} /></span>
-        <span class="g-name">Other</span>
-      </button>
     </div>
   </section>
 {:else if step === 'welcome'}
@@ -256,8 +246,6 @@
     font-size: var(--fs-lg); line-height: 1.05; letter-spacing: -0.02em;
   }
   .g-name { color: var(--muted); font-weight: 600; font-size: var(--fs-sm); }
-  .glang.other { align-items: flex-start; }
-  .glang.other .g-hello { color: var(--brand); }
 
 
 
