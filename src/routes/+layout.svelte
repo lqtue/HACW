@@ -83,6 +83,7 @@
     if (r.startsWith('/passport')) return 'passport';
     if (r.startsWith('/organizer')) return 'organizer';
     if (r.startsWith('/terms')) return 'terms';
+    if (r.startsWith('/guide')) return 'guide';
     return null;
   }
   $effect(() => {

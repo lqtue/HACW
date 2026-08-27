@@ -9,6 +9,7 @@
   import ViewToggle from '$lib/components/ViewToggle.svelte';
   import ChipRow from '$lib/components/ChipRow.svelte';
   import SiteMap from '$lib/components/SiteMap.svelte';
+  import { sitePopup } from '$lib/map-popup.js';
   import { addLandmarks } from '$lib/landmarks.js';
   import { categoryLabel, mapsUrl, openLabel } from '$lib/util.js';
   import { hasStamp } from '$lib/passport.svelte.js';
@@ -96,8 +97,11 @@
   }
 
   // Extra layers SiteMap doesn't own: the ticket-counter dots and the landmark
-  // drawings. Runs before the sites layer, so both sit under the pins. The counters
-  // are plain markers — where to buy, nothing to tap.
+  // drawings. Runs before the sites layer, so both sit under the pins. A counter taps
+  // open the same paper label a site does, with one button: walking directions.
+  let boothPop;
+  const byTicket = Object.fromEntries(tickets.map((p) => [p.id, p]));
+
   function onInit(map, mgl, { gold, ink }) {
     dmap = map;
     map.addSource('booths', {
@@ -107,7 +111,7 @@
         features: tickets.map((p) => ({
           type: 'Feature',
           geometry: { type: 'Point', coordinates: [p.lng, p.lat] },
-          properties: {}
+          properties: { id: p.id }
         }))
       }
     });
@@ -116,6 +120,27 @@
       layout: { visibility: 'none' },
       paint: { 'circle-radius': 6, 'circle-color': gold, 'circle-stroke-width': 0 }
     });
+    // a 6 px dot is not a finger, so collect counters within 22 px of the tap rather
+    // than binding the click to the layer. Site pins win a shared tap — they own the
+    // pager, and the counters are only ever visible alongside them on the ticket chip.
+    map.on('click', (e) => {
+      boothPop?.remove();
+      boothPop = null;
+      if (map.getLayoutProperty('booths', 'visibility') === 'none') return;
+      if (map.queryRenderedFeatures(e.point, { layers: ['sites'] }).length) return;
+      const R = 22, { x, y } = e.point;
+      const hit = map.queryRenderedFeatures([[x - R, y - R], [x + R, y + R]], { layers: ['booths'] })[0];
+      const p = hit && byTicket[hit.properties.id];
+      if (!p) return;
+      boothPop = sitePopup(
+        mgl, map,
+        { lat: p.lat, lng: p.lng },
+        { label: s('directions'), onclick: () => window.open(mapsUrl(p), '_blank', 'noopener') },
+        10
+      );
+    });
+    map.on('mouseenter', 'booths', () => (map.getCanvas().style.cursor = 'pointer'));
+    map.on('mouseleave', 'booths', () => (map.getCanvas().style.cursor = ''));
     addLandmarks(map, byId, { ink, fill: '#fdf6e8' });
   }
 

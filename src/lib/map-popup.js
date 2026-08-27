@@ -19,11 +19,20 @@ const clamp = (str, n = 90) => (str.length > n ? str.slice(0, n - 1).trimEnd() +
 export function sitePopup(mgl, map, d, action = null, offset = 24) {
   const node = document.createElement('div');
   node.className = 'map-pop';
-  const name = document.createElement('strong');
-  name.textContent = t(d.name);
-  const line = document.createElement('p');
-  line.textContent = d.short ? t(d.short) : clamp(t(d.description) || '');
-  node.append(name, line);
+  // both halves are optional: a ticket counter is a pin with one job, so its popup is
+  // the Directions button and nothing else
+  const label = t(d.name);
+  const body = d.short ? t(d.short) : clamp(t(d.description) || '');
+  if (label) {
+    const name = document.createElement('strong');
+    name.textContent = label;
+    node.append(name);
+  }
+  if (body) {
+    const line = document.createElement('p');
+    line.textContent = body;
+    node.append(line);
+  }
   const popup = new mgl.Popup({ offset: [0, -offset], closeButton: false, maxWidth: '260px', className: 'map-pop-wrap' });
   if (action) {
     const btn = document.createElement('button');

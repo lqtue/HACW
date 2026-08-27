@@ -174,8 +174,8 @@ export default defineConfig({
     SvelteKitPWA({
       registerType: 'autoUpdate',
       manifest: {
-        name: 'Tuần lễ Sáng tạo Hội An 2026',
-        short_name: 'HACW 2026',
+        name: 'Xuyên Mạch Nghệ',
+        short_name: 'Xuyên Mạch Nghệ',
         description: 'Khám phá, check-in và sưu tầm tem Tuần lễ Sáng tạo Hội An 2026',
         lang: 'vi',
         theme_color: '#e85f34',

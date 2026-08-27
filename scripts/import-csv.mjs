@@ -224,12 +224,9 @@ for (const [i, row] of rows.entries()) {
 writeFileSync(join(DATA, 'destinations.json'), JSON.stringify(destinations, null, 2) + '\n');
 
 // --- build ticket-points.json ---------------------------------------------
-// Sheet rows with an empty "Định vị" cell — coordinate taken from the address.
-const TICKET_COORDS = { V332: [15.8802686, 108.3294629] }; // 10B Trần Hưng Đạo (= Bảo tàng Hội An)
-
 const tickets = [];
 for (const row of parseCsv(readFileSync(CSV_TICKETS, 'utf8'))) {
-  const ll = coords(row['Định vị']) ?? TICKET_COORDS[row['Điểm']];
+  const ll = coords(row['Định vị']);
   if (!ll) {
     console.warn(`! ticket point ${row['Điểm']} has no coordinate — skipped`);
     continue;

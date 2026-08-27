@@ -1,5 +1,8 @@
 <script>
   import { onMount } from 'svelte';
+  import { base } from '$app/paths';
+  import IconList from '$lib/components/IconList.svelte';
+  import { installSteps, shareSheetInstall } from '$lib/install.js';
   import { s } from '$lib/strings.js';
 
   // "Download the app": installing it is what makes the whole thing work with no
@@ -13,7 +16,6 @@
   // desktop web) where no beforeinstallprompt fires and it's not iOS.
   let force = $state(false);
 
-  const isIos = () => /iphone|ipad|ipod/i.test(navigator.userAgent);
   const standalone = () =>
     window.matchMedia('(display-mode: standalone)').matches || navigator.standalone === true;
 
@@ -42,7 +44,7 @@
   }
 </script>
 
-{#if !installed && (force || prompt || (typeof navigator !== 'undefined' && isIos()))}
+{#if !installed && (force || prompt || shareSheetInstall())}
   <button class="btn ghost" style="width: 100%" onclick={() => (open = true)}>{s('install')}</button>
 {/if}
 
@@ -50,13 +52,8 @@
   <div class="scrim" onclick={() => (open = false)} role="presentation">
     <div class="sheet" onclick={(e) => e.stopPropagation()} role="dialog" aria-modal="true">
       <h2>{s('install')}</h2>
-      <ul class="steps">
-        <!-- the same two steps the onboarding install screen lists; `install_ios` /
-             `install_android` never existed as keys, so this printed their names -->
-        {#each isIos() ? [s('install_ios_1'), s('install_ios_2')] : [s('install_android_1'), s('install_android_2')] as step (step)}
-          <li>{step}</li>
-        {/each}
-      </ul>
+      <!-- the same numbered steps + screenshots the onboarding install screen shows -->
+      <IconList items={installSteps(base)} />
       {#if prompt}
         <button class="btn" style="width: 100%" onclick={installNow}>{s('install_now')}</button>
       {/if}
@@ -77,7 +74,7 @@
     border-radius: 20px 20px 0 0;
     padding: 24px 20px calc(24px + env(safe-area-inset-bottom));
     display: flex; flex-direction: column; gap: 12px;
+    max-height: 85dvh; overflow-y: auto;   /* the two screenshots make this sheet tall */
   }
   .sheet h2 { margin: 0; font-family: var(--font-display); font-size: var(--fs-xl); text-transform: uppercase; }
-  .steps { margin: 0; padding-left: 20px; display: flex; flex-direction: column; gap: 8px; line-height: 1.5; }
 </style>

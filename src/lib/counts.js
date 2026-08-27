@@ -71,7 +71,7 @@ const LANG_TYPES = new Set(['lang', 'pick']);
 // Fixed, closed vocabularies — a `view` id is one of the app's routes, a `plan_mode`
 // id is one of three build modes. Both bounded by an allowlist (not just a regex), so
 // like the language keys they can't mint unbounded rows and skip the dest-id guard.
-const VIEWS = new Set(['home', 'explore', 'site', 'tours', 'tour', 'passport', 'organizer', 'terms']);
+const VIEWS = new Set(['home', 'explore', 'site', 'tours', 'tour', 'passport', 'organizer', 'terms', 'guide']);
 const PLAN_MODES = new Set(['recommend', 'manual', 'mixed']);
 
 export const countKey = (id) => `count:${id}`;

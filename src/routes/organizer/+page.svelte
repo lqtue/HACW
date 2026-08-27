@@ -120,7 +120,7 @@
   // (ev:plan_mode:<mode> + ev:plan_auto_m). Labels are English — desk-only tool.
   const VIEW_LABELS = {
     home: 'Home', explore: 'Explore map', site: 'Site detail', tours: 'Tours list',
-    tour: 'Tour detail', passport: 'Passport', organizer: 'Organizer', terms: 'Terms'
+    tour: 'Tour detail', passport: 'Passport', organizer: 'Organizer', terms: 'Terms', guide: 'How to play'
   };
   // 'site' has no view: counter of its own — the site page logs view_site:<destId>
   // (one row instead of two), so its total is the sum of those.
