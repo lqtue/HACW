@@ -1,15 +1,15 @@
 <script>
-  import { LANGS, displayFor } from '$lib/languages.js';
+  import { LANGS } from '$lib/languages.js';
   import { i18n, setLang } from '$lib/i18n.svelte.js';
-  // Change display language after onboarding. vi/en switch the built-in content; the
-  // rest set the English base and rely on the browser's Translate. Does NOT re-record
-  // the nationality signal — that's an onboarding-only capture.
-  const isActive = (l) => i18n.lang === displayFor(l);
+  // Change display language after onboarding. All eight are built, so a chip switches
+  // the app itself. Does NOT re-record the nationality signal — that is an
+  // onboarding-only capture.
+  const isActive = (l) => i18n.lang === l.code;
 </script>
 
 <div class="langswitch" role="group" aria-label="Language">
   {#each LANGS as l (l.code)}
-    <button class="ls-chip" class:on={isActive(l)} onclick={() => setLang(displayFor(l))}>
+    <button class="ls-chip" class:on={isActive(l)} onclick={() => setLang(l.code)}>
       {l.name}{#if l.enName && l.enName !== l.name}<small>{l.enName}</small>{/if}
     </button>
   {/each}

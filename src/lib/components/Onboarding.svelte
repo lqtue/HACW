@@ -17,6 +17,7 @@
   import { setNat } from '$lib/study.svelte.js';
   import { setLang } from '$lib/i18n.svelte.js';
   import { s } from '$lib/strings.js';
+  import { installSteps, shareSheetInstall } from '$lib/install.js';
 
   let { forced = '', onDone, onLocate } = $props();
 
@@ -42,12 +43,12 @@
     return () => clearInterval(iv);
   });
 
-  // iOS gets the Share-sheet steps, everything else the browser-menu steps. Set on
-  // mount because navigator is absent during prerender.
-  let ios = $state(false);
+  // resolved on mount, not at render: `forced === 'install'` (the /screens board) puts
+  // this screen in the prerendered HTML, where there is no window to ask
+  let share = $state(false);
   onMount(() => {
     if (step === 'welcome') track('welcome');
-    ios = /iphone|ipad|ipod/i.test(navigator.userAgent);
+    share = shareSheetInstall();
   });
 
   // Record the language signal for the nationality study (see counts.js): the device
@@ -60,13 +61,12 @@
     if (/^[a-z]{2,3}$/.test(loc)) track('lang', loc);
     track('pick', pick);
   }
-  // vi/en switch the built-in content; every other choice has no locale file, so it
-  // displays English (the most translatable base) and rides the browser's own
-  // page-translate (Chrome/Safari/Edge). No embedded widget — that would be a
-  // third-party script on the offline critical path. (CLAUDE.md: built locales are
-  // vi/en only.) The pick is still recorded, which is the point of the study.
+  // All eight languages are built now (src/lib/i18n/<lang>.js + the lang keys in the
+  // content JSON), so the pick switches the app itself — no embedded translate widget,
+  // which would be a third-party script on the offline critical path. The pick is also
+  // recorded: it is the study's nationality proxy.
   function chooseLang(l) {
-    setLang(l.display ?? 'en');
+    setLang(l.code);
     setNat(l.code); // nationality proxy for the study — tag events from here on
     trackLang(l.code);
     track('welcome');
@@ -154,7 +154,9 @@
   <!-- SCREEN 3 — welcome, in the chosen language, three lines + one CTA -->
   <!-- same skeleton as install/perms: title top, list centred, dock bottom -->
   <section class="screen">
-    <h1 class="ptitle"><span class="w-pre">Thử thách</span><br />Xuyên Mạch Nghệ</h1>
+    <!-- the challenge's own logo replaces the set title: it IS the name, drawn -->
+    <h1 class="ptitle vis-hidden">Xuyên Mạch Nghệ</h1>
+    <img class="logo" src="{base}/logo.webp" width="667" height="453" alt="Xuyên Mạch Nghệ" />
 
     <div class="mid">
       <IconList items={[
@@ -175,7 +177,7 @@
     <h1 class="ptitle">{s('install')}</h1>
 
     <div class="mid">
-      <IconList items={(ios ? [s('install_ios_1'), s('install_ios_2')] : [s('install_android_1'), s('install_android_2')]).map((text) => ({ text }))} />
+      <IconList items={installSteps(base, share)} />
     </div>
 
     <div class="dock">
@@ -308,7 +310,16 @@
   }
 
   /* the welcome title's first line is the light "Thử thách" over the bold event name */
-  .w-pre { font-weight: 400; }
+  /* the logo is the title, so it sits where .ptitle would and keeps its own air */
+  .logo {
+    display: block; width: min(56%, 232px); height: auto;
+    margin: 2px auto 0;
+  }
+  /* the real heading stays for screen readers and the document outline */
+  .vis-hidden {
+    position: absolute; width: 1px; height: 1px; overflow: hidden;
+    clip-path: inset(50%); white-space: nowrap;
+  }
 
 
 
