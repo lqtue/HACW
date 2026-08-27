@@ -295,6 +295,7 @@ D: Chén Khổng Tử từ Phước Kiến
 D: Nội thất gỗ được chạm cầu kỳ
 D: Tính nguyên vẹn của kiến trúc xưa
 Q: Chiếc ghe bầu này được sử dụng khi di chuyển ở vùng nước nào?
+I: quiz/nha-co-tan-ky/ghe-bau.webp
 A: Biển
 A: Sông
 A: Vịnh
