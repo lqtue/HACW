@@ -21,12 +21,11 @@
     "traffic": "high",
     "promoPriority": "low",
     "description": {
-      "vi": "Chùa Cầu nằm tiếp giáp đường Nguyễn Thị Minh Khai và đường Trần Phú- Hội An, còn được gọi là cầu Nhật Bản, là công trình do các thương gia Nhật Bản đến buôn bán tại Hội An xây dựng vào khoảng đầu thế kỷ XVII, cách nay hơn 400 năm.",
-      "en": "A wooden bridge built by Japanese merchants in the early 17th century — the architectural symbol and soul of Hoi An's old town."
+      "vi": "Do các thương nhân Nhật Bản dựng vào khoảng đầu thế kỷ XVII để nối hai bờ khe nước chảy ra sông Thu Bồn, cầu vẫn giữ mái ngói âm dương và ngôi miếu nhỏ thờ Bắc Đế Trấn Võ ngay giữa lòng cầu. Người phố Hội gọi là Chùa Cầu; tên chữ Lai Viễn Kiều có nghĩa cầu đón khách từ phương xa tới.",
+      "en": "Built by Japanese merchants in the early 17th century to cross the stream that runs into the Thu Bồn river, the bridge still carries its yin-yang tiled roof and the small shrine to Bắc Đế Trấn Võ set in the middle of its span. Locals call it Chùa Cầu, the pagoda bridge; its literary name, Lai Viễn Kiều, means the bridge that welcomes travellers from afar."
     },
     "quizBank": [
       {
-        "difficulty": "easy",
         "question": {
           "vi": "Chùa Cầu do cộng đồng thương nhân nào xây dựng?",
           "en": "Which merchant community built the bridge?"
@@ -48,7 +47,6 @@
         "answer": 0
       },
       {
-        "difficulty": "easy",
         "question": {
           "vi": "Chùa Cầu được làm chủ yếu bằng vật liệu gì?",
           "en": "What is the bridge mainly made of?"
@@ -70,7 +68,6 @@
         "answer": 0
       },
       {
-        "difficulty": "easy",
         "question": {
           "vi": "Chùa Cầu bắc qua dòng nước chảy ra con sông nào?",
           "en": "The bridge crosses a stream flowing into which river?"
@@ -92,7 +89,6 @@
         "answer": 0
       },
       {
-        "difficulty": "hard",
         "question": {
           "vi": "Chùa Cầu được xây dựng vào khoảng thời gian nào?",
           "en": "When was the bridge built?"
@@ -114,7 +110,6 @@
         "answer": 0
       },
       {
-        "difficulty": "hard",
         "question": {
           "vi": "Hình ảnh Chùa Cầu xuất hiện trên tờ tiền Việt Nam mệnh giá nào?",
           "en": "The bridge appears on which Vietnamese banknote?"
@@ -136,7 +131,25 @@
         "answer": 0
       }
     ],
-    "ticketClass": "monument"
+    "ticketClass": "monument",
+    "short": {
+      "vi": "Vừa là cầu, vừa là miếu — công trình hơn 400 năm đã thành gương mặt của Hội An.",
+      "en": "A bridge and a shrine in one — four centuries old, and the face of Hội An."
+    },
+    "highlights": [
+      {
+        "vi": "Đôi tượng thần hầu và thiên cẩu gác hai đầu cầu",
+        "en": "The monkey and dog guardians at either end of the bridge"
+      },
+      {
+        "vi": "Ngôi miếu thờ Bắc Đế Trấn Võ giữa lòng cầu",
+        "en": "The shrine to Bắc Đế Trấn Võ in the middle of the span"
+      },
+      {
+        "vi": "Mái ngói âm dương và bộ vì kèo gỗ của người thợ xưa",
+        "en": "The yin-yang tiles and the old carpenters' timber trusses"
+      }
+    ]
   },
   {
     "id": "chua-quan-am",
@@ -165,7 +178,6 @@
     },
     "quizBank": [
       {
-        "difficulty": "easy",
         "question": {
           "vi": "Tại sao vị bồ tát này lại có ngoại hình dữ tợn?",
           "en": "Why does this bodhisattva look so fierce?"
@@ -191,7 +203,6 @@
         }
       },
       {
-        "difficulty": "hard",
         "question": {
           "vi": "Quan Thế Âm Bồ Tát cầm gì trên tay trái?",
           "en": "What does Quan Am hold in her left hand?"
@@ -215,29 +226,6 @@
           "vi": "Tay trái Quan Âm cầm bình thanh tịnh đựng nước cam lồ, biểu trưng cho lòng từ bi. Tay phải bà cầm nhành dương liễu để rưới nước cam lồ cho lòng người mát mẻ. Nước này rưới đến đâu là chan rải tình thương đến đó, xoa dịu mọi khổ đau của chúng sanh.",
           "en": "Her left hand holds the vase of pure nectar, a symbol of compassion. Her right hand holds a willow branch to sprinkle that nectar and cool the heart. Wherever it falls, love spreads and the suffering of all beings is soothed."
         }
-      },
-      {
-        "difficulty": "easy",
-        "generated": true,
-        "question": {
-          "vi": "Chùa Quan Âm nằm trên đường nào?",
-          "en": "Which street is Quan Am Pagoda on?"
-        },
-        "options": [
-          {
-            "vi": "Nguyễn Thị Minh Khai",
-            "en": "Nguyễn Thị Minh Khai"
-          },
-          {
-            "vi": "Trần Phú",
-            "en": "Trần Phú"
-          },
-          {
-            "vi": "Nguyễn Thái Học",
-            "en": "Nguyễn Thái Học"
-          }
-        ],
-        "answer": 1
       }
     ],
     "ticketClass": "monument",
@@ -287,7 +275,6 @@
     },
     "quizBank": [
       {
-        "difficulty": "easy",
         "question": {
           "vi": "Tại sao Quan Thánh Đế Quân (Quan Công) lại được thờ phụng ở Hội An?",
           "en": "Why is Quan Thánh Đế Quân (Quan Công) worshipped in Hội An?"
@@ -313,7 +300,6 @@
         }
       },
       {
-        "difficulty": "easy",
         "question": {
           "vi": "Nhìn theo hướng từ chính điện ra, con ngựa bên trái Quan Công có màu gì?",
           "en": "Looking out from the main hall, what colour is the horse on Quan Công's left?"
@@ -339,7 +325,6 @@
         }
       },
       {
-        "difficulty": "hard",
         "question": {
           "vi": "Bức tranh phía bên trái từ trong chính điện nhìn ra vẽ cảnh gì?",
           "en": "Looking out from the main hall, what scene does the painting on the left show?"
@@ -412,7 +397,6 @@
     },
     "quizBank": [
       {
-        "difficulty": "easy",
         "question": {
           "vi": "Họa tiết này nằm trong hiện vật nào?",
           "en": "Which object does this pattern come from?"
@@ -438,7 +422,6 @@
         }
       },
       {
-        "difficulty": "easy",
         "question": {
           "vi": "Bạn có thể đi tìm chú cua này không? Ai là người làm ra chú?",
           "en": "Can you find this little crab? Who made it?"
@@ -464,7 +447,6 @@
         }
       },
       {
-        "difficulty": "hard",
         "question": {
           "vi": "Làm sao mà chú cua này vẫn còn nguyên vẹn sau vụ đắm tàu?",
           "en": "How did this crab survive the shipwreck intact?"
@@ -535,77 +517,7 @@
       "vi": "Hội An là một thành phố nhỏ trực thuộc tỉnh Quảng Nam, nằm bên bờ bắc sông Thu Bồn cách Thành phố Đà Nẵng 30km về phía Nam. Thành phố Hội An có diện tích khoảng 60 km2, dân số hơn 90.000 người, gồm 9 phường , 3 xã đất liền và 1 xã đảo.",
       "en": "The general museum of the town: Sa Huynh, Champa and trading-port periods through to the modern city."
     },
-    "quizBank": [
-      {
-        "difficulty": "easy",
-        "generated": true,
-        "question": {
-          "vi": "Bảo tàng Hội An nằm trên đường nào?",
-          "en": "Which street is Hoi An Museum on?"
-        },
-        "options": [
-          {
-            "vi": "Nguyễn Thị Minh Khai",
-            "en": "Nguyễn Thị Minh Khai"
-          },
-          {
-            "vi": "Trần Hưng Đạo",
-            "en": "Trần Hưng Đạo"
-          },
-          {
-            "vi": "Nguyễn Thái Học",
-            "en": "Nguyễn Thái Học"
-          }
-        ],
-        "answer": 1
-      },
-      {
-        "difficulty": "easy",
-        "generated": true,
-        "question": {
-          "vi": "Bảo tàng Hội An thuộc nhóm điểm đến nào?",
-          "en": "Which kind of site is Hoi An Museum?"
-        },
-        "options": [
-          {
-            "vi": "Di tích",
-            "en": "Heritage"
-          },
-          {
-            "vi": "Hội quán",
-            "en": "Assembly halls"
-          },
-          {
-            "vi": "Bảo tàng",
-            "en": "Museums"
-          }
-        ],
-        "answer": 2
-      },
-      {
-        "difficulty": "hard",
-        "generated": true,
-        "question": {
-          "vi": "Giờ mở cửa của Bảo tàng Hội An là?",
-          "en": "What are the opening hours of Hoi An Museum?"
-        },
-        "options": [
-          {
-            "vi": "7:30 - 11:30 13:30 - 17:30",
-            "en": "7:30 - 11:30 13:30 - 17:30"
-          },
-          {
-            "vi": "7:00 - 22:00",
-            "en": "7:00 - 22:00"
-          },
-          {
-            "vi": "8:00 - 18:00",
-            "en": "8:00 - 18:00"
-          }
-        ],
-        "answer": 0
-      }
-    ],
+    "quizBank": [],
     "ticketClass": "museum",
     "closed": true
   },
@@ -636,7 +548,6 @@
     },
     "quizBank": [
       {
-        "difficulty": "easy",
         "question": {
           "vi": "Những chiếc chum lớn từng được dùng để làm gì?",
           "en": "What were these large jars used for?"
@@ -662,7 +573,6 @@
         }
       },
       {
-        "difficulty": "hard",
         "question": {
           "vi": "Chất liệu nào được dùng rộng rãi nhất để sản xuất công cụ lao động của cư dân Sa Huỳnh?",
           "en": "Which material did the Sa Huỳnh people use most widely for their working tools?"
@@ -686,29 +596,6 @@
           "vi": "Công cụ lao động phổ biến của người Sa Huỳnh chủ yếu được làm bằng sắt, bên cạnh các vật liệu truyền thống như đá, gốm và vỏ nhuyễn thể. Đồ sắt được phát hiện trong các di tích ở Hội An hầu hết nằm bên trong mộ chum, có kích thước lớn và đã qua sử dụng. Rất có thể đây là hiện vật mà lúc còn sống chủ nhân của chúng đã từng sử dụng.",
           "en": "Sa Huỳnh tools were mostly iron, alongside traditional materials such as stone, pottery and shell. Almost all the iron found at the Hội An sites lay inside burial jars, was large, and showed wear — most likely objects their owners had used in life."
         }
-      },
-      {
-        "difficulty": "easy",
-        "generated": true,
-        "question": {
-          "vi": "Bảo tàng Văn hóa Sa Huỳnh nằm trên đường nào?",
-          "en": "Which street is Sa Huynh Culture Museum on?"
-        },
-        "options": [
-          {
-            "vi": "Nguyễn Thị Minh Khai",
-            "en": "Nguyễn Thị Minh Khai"
-          },
-          {
-            "vi": "Nguyễn Thái Học",
-            "en": "Nguyễn Thái Học"
-          },
-          {
-            "vi": "Trần Phú",
-            "en": "Trần Phú"
-          }
-        ],
-        "answer": 2
       }
     ],
     "ticketClass": "museum",
@@ -743,8 +630,8 @@
     "lng": 108.3298399,
     "radius": 75,
     "address": {
-      "vi": "34 Nguyễn Thái Học",
-      "en": "34 Nguyễn Thái Học"
+      "vi": "33 Nguyễn Thái Học",
+      "en": "33 Nguyễn Thái Học"
     },
     "hours": {
       "vi": "8:00 - 21:30",
@@ -753,12 +640,129 @@
     "traffic": "medium",
     "promoPriority": "medium",
     "description": {
+      "vi": "Bề dày truyền thống văn hóa, sự sáng tạo, những đóng góp của các thế hệ cư dân địa phương trong quá trình xây dựng phát triển vùng đất Hội An.",
+      "en": "The depth of cultural tradition, the creativity and the contributions of generations of local people in building up the land of Hội An."
+    },
+    "quizBank": [
+      {
+        "question": {
+          "vi": "Người ta bắt tôm vào thời điểm nào trong ngày?",
+          "en": "At what time of day are shrimp caught?"
+        },
+        "options": [
+          {
+            "vi": "Chiều",
+            "en": "Afternoon"
+          },
+          {
+            "vi": "Sáng sớm",
+            "en": "Early morning"
+          },
+          {
+            "vi": "Đêm",
+            "en": "At night"
+          }
+        ],
+        "answer": 2,
+        "explain": {
+          "vi": "Tôm thường được bắt vào ban đêm hoặc chiều tối (từ chập tối đến sáng sớm) vì đây là lúc tôm có tập tính rời nơi ẩn nấp để đi tìm kiếm thức ăn.",
+          "en": "Shrimp are usually caught at night or in the late afternoon — from dusk to early morning — because that is when they leave their hiding places to look for food."
+        }
+      },
+      {
+        "question": {
+          "vi": "Trong các ngày hội lớn, người dân bản địa thường chơi trò chơi dân gian nào?",
+          "en": "Which folk game do locals play at the big festivals?"
+        },
+        "options": [
+          {
+            "vi": "Bài chòi",
+            "en": "Bài chòi (sung card game)"
+          },
+          {
+            "vi": "Cờ người",
+            "en": "Human chess"
+          },
+          {
+            "vi": "Tổ tôm điếm",
+            "en": "Tổ tôm điếm"
+          }
+        ],
+        "answer": 0,
+        "explain": {
+          "vi": "Bài chòi lưu hành phổ biến ở một số địa phương miền Trung từ Quảng Bình đến Bình Thuận. Qua lời kể của những nghệ nhân, vào cuối thế kỷ XVI đầu thế kỷ XVII, nhiều thú dữ trên rừng thường về quấy nhiễu cuộc sống. Người dân vì thế đã dựng những chiếc chòi rất cao ở ven rừng, cắt cử thanh niên trai tráng canh gác. Trong quá trình ấy, để đỡ buồn chán, người ta nghĩ ra cách giao lưu với nhau bằng những câu hát, câu hò, hô bài tứ sắc.",
+          "en": "Bài chòi is popular across central Vietnam from Quảng Bình to Bình Thuận. Artisans tell that in the late 16th and early 17th centuries wild animals often came down from the forest to trouble the villages. People built tall watch-huts at the forest edge and posted young men to keep guard. To pass the time they took to calling songs and chants to one another, and card-calling was born."
+        }
+      },
+      {
+        "question": {
+          "vi": "Làng mộc nổi tiếng ở Hội An có tên là gì?",
+          "en": "What is Hội An's famous carpentry village called?"
+        },
+        "options": [
+          {
+            "vi": "Thanh Hà",
+            "en": "Thanh Hà"
+          },
+          {
+            "vi": "Kim Bồng",
+            "en": "Kim Bồng"
+          },
+          {
+            "vi": "Trà Quế",
+            "en": "Trà Quế"
+          }
+        ],
+        "answer": 1,
+        "explain": {
+          "vi": "Rất nhiều kiến trúc nhà cửa, chùa quán... ở khu phố cổ Hội An in dấu bàn tay thợ mộc Kim Bồng. Trong đó phải kể đến nhà cổ Tấn Ký, Tụy Tiên Đường Minh Hương và Miếu Quan Công.",
+          "en": "Many of the houses, pagodas and halls in Hội An's old town bear the hand of the Kim Bồng carpenters — among them Tấn Ký house, Tụy Tiên Đường Minh Hương and Quan Công Temple."
+        }
+      }
+    ],
+    "ticketClass": "museum",
+    "short": {
+      "vi": "Kho tàng tri thức bản địa sống động tái hiện hồn cốt Hội An.",
+      "en": "A living store of local knowledge that brings the soul of Hội An back to life."
+    },
+    "highlights": [
+      {
+        "vi": "Sinh kế của người bản địa",
+        "en": "How local people made their living"
+      },
+      {
+        "vi": "Các lễ hội địa phương",
+        "en": "The town's own festivals"
+      }
+    ]
+  },
+  {
+    "id": "bao-tang-nghe-y",
+    "code": "A8",
+    "name": {
+      "vi": "Bảo tàng nghề Y truyền thống",
+      "en": "Museum of Traditional Medicine"
+    },
+    "category": "bao-tang",
+    "lat": 15.8766736,
+    "lng": 108.329857,
+    "radius": 75,
+    "address": {
+      "vi": "34 Nguyễn Thái Học",
+      "en": "34 Nguyễn Thái Học"
+    },
+    "hours": {
+      "vi": "8:00 - 21:30",
+      "en": "8:00 - 21:30"
+    },
+    "traffic": "low",
+    "promoPriority": "medium",
+    "description": {
       "vi": "Từ thế kỷ XVI, thương cảng Hội An đã là nơi phân phối đa dạng từ thuốc Bắc đến thuốc Nam. Vào khoảng thế kỷ XIX-XX, những hiệu thuốc lớn nhỏ với nhiều thầy thuốc giỏi đã trở thành một phần bộ mặt phố Hội.",
       "en": "From the 16th century the port of Hội An distributed everything from northern Chinese to southern Vietnamese herbal medicine. Around the 19th and 20th centuries, pharmacies large and small, with many fine physicians, became part of the town's face."
     },
     "quizBank": [
       {
-        "difficulty": "easy",
         "question": {
           "vi": "Thầy thuốc đặt tay lên cổ tay bệnh nhân nhằm mục đích gì?",
           "en": "Why does the physician place fingers on the patient's wrist?"
@@ -784,7 +788,6 @@
         }
       },
       {
-        "difficulty": "easy",
         "question": {
           "vi": "Vị thuốc nào được mệnh danh là “nhân sâm của người nghèo\"?",
           "en": "Which remedy is known as “ginseng for the poor”?"
@@ -810,7 +813,6 @@
         }
       },
       {
-        "difficulty": "hard",
         "question": {
           "vi": "Siêu sắc thuốc xưa cần phải đảm bảo tính chất nào?",
           "en": "What must a traditional herb-decoction pot guarantee?"
@@ -857,127 +859,6 @@
     ]
   },
   {
-    "id": "bao-tang-nghe-y",
-    "code": "A8",
-    "name": {
-      "vi": "Bảo tàng nghề Y truyền thống",
-      "en": "Museum of Traditional Medicine"
-    },
-    "category": "bao-tang",
-    "lat": 15.8766736,
-    "lng": 108.329857,
-    "radius": 75,
-    "address": {
-      "vi": "33 Nguyễn Thái Học",
-      "en": "33 Nguyễn Thái Học"
-    },
-    "hours": {
-      "vi": "8:00 - 21:30",
-      "en": "8:00 - 21:30"
-    },
-    "traffic": "low",
-    "promoPriority": "medium",
-    "description": {
-      "vi": "Bề dày truyền thống văn hóa, sự sáng tạo, những đóng góp của các thế hệ cư dân địa phương trong quá trình xây dựng phát triển vùng đất Hội An.",
-      "en": "The depth of cultural tradition, the creativity and the contributions of generations of local people in building up the land of Hội An."
-    },
-    "quizBank": [
-      {
-        "difficulty": "easy",
-        "question": {
-          "vi": "Người ta bắt tôm vào thời điểm nào trong ngày?",
-          "en": "At what time of day are shrimp caught?"
-        },
-        "options": [
-          {
-            "vi": "Chiều",
-            "en": "Afternoon"
-          },
-          {
-            "vi": "Sáng sớm",
-            "en": "Early morning"
-          },
-          {
-            "vi": "Đêm",
-            "en": "At night"
-          }
-        ],
-        "answer": 2,
-        "explain": {
-          "vi": "Tôm thường được bắt vào ban đêm hoặc chiều tối (từ chập tối đến sáng sớm) vì đây là lúc tôm có tập tính rời nơi ẩn nấp để đi tìm kiếm thức ăn.",
-          "en": "Shrimp are usually caught at night or in the late afternoon — from dusk to early morning — because that is when they leave their hiding places to look for food."
-        }
-      },
-      {
-        "difficulty": "easy",
-        "question": {
-          "vi": "Trong các ngày hội lớn, người dân bản địa thường chơi trò chơi dân gian nào?",
-          "en": "Which folk game do locals play at the big festivals?"
-        },
-        "options": [
-          {
-            "vi": "Bài chòi",
-            "en": "Bài chòi (sung card game)"
-          },
-          {
-            "vi": "Cờ người",
-            "en": "Human chess"
-          },
-          {
-            "vi": "Tổ tôm điếm",
-            "en": "Tổ tôm điếm"
-          }
-        ],
-        "answer": 0,
-        "explain": {
-          "vi": "Bài chòi lưu hành phổ biến ở một số địa phương miền Trung từ Quảng Bình đến Bình Thuận. Qua lời kể của những nghệ nhân, vào cuối thế kỷ XVI đầu thế kỷ XVII, nhiều thú dữ trên rừng thường về quấy nhiễu cuộc sống. Người dân vì thế đã dựng những chiếc chòi rất cao ở ven rừng, cắt cử thanh niên trai tráng canh gác. Trong quá trình ấy, để đỡ buồn chán, người ta nghĩ ra cách giao lưu với nhau bằng những câu hát, câu hò, hô bài tứ sắc.",
-          "en": "Bài chòi is popular across central Vietnam from Quảng Bình to Bình Thuận. Artisans tell that in the late 16th and early 17th centuries wild animals often came down from the forest to trouble the villages. People built tall watch-huts at the forest edge and posted young men to keep guard. To pass the time they took to calling songs and chants to one another, and card-calling was born."
-        }
-      },
-      {
-        "difficulty": "hard",
-        "question": {
-          "vi": "Làng mộc nổi tiếng ở Hội An có tên là gì?",
-          "en": "What is Hội An's famous carpentry village called?"
-        },
-        "options": [
-          {
-            "vi": "Thanh Hà",
-            "en": "Thanh Hà"
-          },
-          {
-            "vi": "Kim Bồng",
-            "en": "Kim Bồng"
-          },
-          {
-            "vi": "Trà Quế",
-            "en": "Trà Quế"
-          }
-        ],
-        "answer": 1,
-        "explain": {
-          "vi": "Rất nhiều kiến trúc nhà cửa, chùa quán... ở khu phố cổ Hội An in dấu bàn tay thợ mộc Kim Bồng. Trong đó phải kể đến nhà cổ Tấn Ký, Tụy Tiên Đường Minh Hương và Miếu Quan Công.",
-          "en": "Many of the houses, pagodas and halls in Hội An's old town bear the hand of the Kim Bồng carpenters — among them Tấn Ký house, Tụy Tiên Đường Minh Hương and Quan Công Temple."
-        }
-      }
-    ],
-    "ticketClass": "museum",
-    "short": {
-      "vi": "Kho tàng tri thức bản địa sống động tái hiện hồn cốt Hội An.",
-      "en": "A living store of local knowledge that brings the soul of Hội An back to life."
-    },
-    "highlights": [
-      {
-        "vi": "Sinh kế của người bản địa",
-        "en": "How local people made their living"
-      },
-      {
-        "vi": "Các lễ hội địa phương",
-        "en": "The town's own festivals"
-      }
-    ]
-  },
-  {
     "id": "bao-tang-tho-san",
     "code": "A9",
     "name": {
@@ -985,10 +866,9 @@
       "en": "Museum of Local Products"
     },
     "category": "bao-tang",
-    "lat": 15.87735,
-    "lng": 108.32995,
+    "lat": 15.8771924,
+    "lng": 108.3297946,
     "radius": 75,
-    "needsSurvey": true,
     "address": {
       "vi": "57 Trần Phú",
       "en": "57 Trần Phú"
@@ -1005,7 +885,6 @@
     },
     "quizBank": [
       {
-        "difficulty": "easy",
         "question": {
           "vi": "Trong số các sản vật này, sản vật nào là quý hiếm và đắt giá nhất?",
           "en": "Which of these products was the rarest and most expensive?"
@@ -1031,7 +910,6 @@
         }
       },
       {
-        "difficulty": "hard",
         "question": {
           "vi": "Loại sản vật nào xuất hiện trên Cửu Đỉnh?",
           "en": "Which product appears on the Nine Dynastic Urns (Cửu Đỉnh)?"
@@ -1055,29 +933,6 @@
           "vi": "Cửu đỉnh là báu vật tượng trưng cho đế nghiệp muôn năm vững bền của triều Nguyễn, với 153 tấm họa tiết chạm nổi thể hiện phong cảnh, sản vật và con người Việt Nam. Trong số đó có 9 loại dược liệu và hương liệu quý, bao gồm kỳ nam, trầm hương, dâu tằm, tô hợp, yến sào, trầu không, cau, quế, và sâm ta.",
           "en": "The Nine Dynastic Urns are treasures standing for the enduring rule of the Nguyễn dynasty; their 153 relief panels depict Vietnam's landscapes, produce and people. Among them are nine precious medicinal and aromatic materials: kỳ nam and agarwood, mulberry, storax, birds' nests, betel leaf, areca nut, cinnamon and Vietnamese ginseng."
         }
-      },
-      {
-        "difficulty": "easy",
-        "generated": true,
-        "question": {
-          "vi": "Bảo tàng Thổ sản nằm trên đường nào?",
-          "en": "Which street is Museum of Local Products on?"
-        },
-        "options": [
-          {
-            "vi": "Nguyễn Thị Minh Khai",
-            "en": "Nguyễn Thị Minh Khai"
-          },
-          {
-            "vi": "Nguyễn Thái Học",
-            "en": "Nguyễn Thái Học"
-          },
-          {
-            "vi": "Trần Phú",
-            "en": "Trần Phú"
-          }
-        ],
-        "answer": 2
       }
     ],
     "ticketClass": "museum",
@@ -1127,53 +982,37 @@
     },
     "quizBank": [
       {
-        "difficulty": "easy",
-        "generated": true,
         "question": {
-          "vi": "Nhà trưng bày Văn hóa Nhật Bản nằm trên đường nào?",
-          "en": "Which street is Japanese Culture Exhibition House on?"
+          "vi": "Trong dòng búp bê Koga, con khỉ đang ôm loài vật gì?",
+          "en": "In the Koga doll tradition, what animal is the monkey holding?"
         },
         "options": [
           {
-            "vi": "Nguyễn Thị Minh Khai",
-            "en": "Nguyễn Thị Minh Khai"
+            "vi": "Mèo",
+            "en": "A cat"
           },
           {
-            "vi": "Trần Phú",
-            "en": "Trần Phú"
+            "vi": "Gà",
+            "en": "A rooster"
           },
           {
-            "vi": "Nguyễn Thái Học",
-            "en": "Nguyễn Thái Học"
+            "vi": "Chó",
+            "en": "A dog"
           }
         ],
-        "answer": 0
-      },
-      {
-        "difficulty": "easy",
-        "generated": true,
-        "question": {
-          "vi": "Nhà trưng bày Văn hóa Nhật Bản thuộc nhóm điểm đến nào?",
-          "en": "Which kind of site is Japanese Culture Exhibition House?"
-        },
-        "options": [
-          {
-            "vi": "Di tích",
-            "en": "Heritage"
-          },
-          {
-            "vi": "Bảo tàng",
-            "en": "Museums"
-          },
-          {
-            "vi": "Hội quán",
-            "en": "Assembly halls"
-          }
-        ],
-        "answer": 1
+        "answer": 1,
+        "explain": {
+          "vi": "Hiện này là một mẫu thiết kế có tên gọi \"Khỉ ôm gà\" của dòng búp bê Koga truyền thống đến từ tỉnh Nagasaki. Thiết kế này là một sự kết hợp độc đáo tượng trưng cho sự chuyển giao của 12 con giáp từ năm Thân (Saru) sang năm Dậu (Tori). Trong văn hóa Nhật Bản, từ con khỉ (saru) là một cách chơi chữ đồng âm với từ \"rời đi\" (saru / 去る), mang ý nghĩa xua đuổi những điều xui xẻo hoặc vận rủi.",
+          "en": "This is a design called “monkey holding a rooster” from the traditional Koga dolls of Nagasaki prefecture. It marks the handover of the zodiac from the year of the Monkey (Saru) to the year of the Rooster (Tori). In Japanese the word for monkey, saru, is a pun on saru (去る), “to leave” — so the doll sends bad luck away."
+        }
       }
     ],
-    "ticketClass": "other"
+    "ticketClass": "other",
+    "closed": true,
+    "short": {
+      "vi": "Một vòng văn hóa Nhật Bản với những thực hành và món đồ chơi truyền thống",
+      "en": "A round of Japanese culture through its traditional practices and toys"
+    }
   },
   {
     "id": "nha-bieu-dien-nghe-thuat",
@@ -1201,31 +1040,7 @@
       "vi": "Nhà Biểu diễn nghệ thuật cổ truyền được thành lập từ năm 1996 đến nay, các chương trình nghệ thuật đã mang lại nhiều mỹ cảm và sự thích thú cho đông đảo người xem trong nước và quốc tế.",
       "en": "Stage for traditional music, bai choi singing and folk dance performances."
     },
-    "quizBank": [
-      {
-        "difficulty": "easy",
-        "generated": true,
-        "question": {
-          "vi": "Nhà biểu diễn nghệ thuật cổ truyền Hội An thuộc nhóm điểm đến nào?",
-          "en": "Which kind of site is Traditional Art Performance House?"
-        },
-        "options": [
-          {
-            "vi": "Di tích",
-            "en": "Heritage"
-          },
-          {
-            "vi": "Hội quán",
-            "en": "Assembly halls"
-          },
-          {
-            "vi": "Trình diễn",
-            "en": "Performances"
-          }
-        ],
-        "answer": 2
-      }
-    ],
+    "quizBank": [],
     "ticketClass": "other",
     "closed": true
   },
@@ -1256,7 +1071,6 @@
     },
     "quizBank": [
       {
-        "difficulty": "easy",
         "question": {
           "vi": "Con hổ trong bức tranh ở gian ngoài đang làm gì?",
           "en": "What is the tiger in the painting in the outer room doing?"
@@ -1267,27 +1081,30 @@
             "en": "Sitting"
           },
           {
-            "vi": "Gầm",
-            "en": "Roaring"
-          },
-          {
             "vi": "Nhảy qua suối",
             "en": "Leaping a stream"
+          },
+          {
+            "vi": "Gầm",
+            "en": "Roaring"
           }
         ],
-        "answer": 1,
+        "answer": 2,
         "explain": {
           "vi": "Trên bức tranh có viết hai chữ “Hổ khiếu” tức hổ gầm, tượng trưng cho sức mạnh dũng mãnh, uy lực vang dội, có thể xua đuổi tà khí.",
           "en": "The painting carries the two characters “Hổ khiếu” — the tiger's roar — a sign of fierce strength and resounding power, able to drive off evil airs."
         }
       },
       {
-        "difficulty": "easy",
         "question": {
           "vi": "Khi muốn xin ý kiến của tổ tiên, chủ nhà sẽ thực hiện hành động gì?",
           "en": "To ask the ancestors' opinion, what does the head of the house do?"
         },
         "options": [
+          {
+            "vi": "Xin đài âm dương",
+            "en": "Cast the yin-yang coins"
+          },
           {
             "vi": "Xin báo mộng",
             "en": "Ask for a dream omen"
@@ -1295,39 +1112,34 @@
           {
             "vi": "Xin giáng bút",
             "en": "Ask for spirit writing"
-          },
-          {
-            "vi": "Xin đài âm dương",
-            "en": "Cast the yin-yang coins"
           }
         ],
-        "answer": 2,
+        "answer": 0,
         "explain": {
           "vi": "Xin đài âm dương (xin keo) là nghi thức gieo hai đồng xu hoặc hai miếng gỗ bán nguyệt để hỏi ý kiến thần linh, gia tiên phù hộ về những việc hệ trọng như làm nhà, kinh doanh, thi cử, ốm đau...",
           "en": "Casting the yin-yang lots is the rite of throwing two coins or two half-moon pieces of wood to ask the gods and ancestors for guidance on weighty matters: building a house, starting a business, sitting an exam, an illness."
         }
       },
       {
-        "difficulty": "hard",
         "question": {
-          "vi": "Kết cấu kiến trúc này có tên là gì",
+          "vi": "Kết cấu kiến trúc này có tên là gì?",
           "en": "What is this structural form called?"
         },
         "options": [
           {
-            "vi": "Vì vỏ cua",
-            "en": "The crab-shell truss"
-          },
-          {
             "vi": "Vì giá chiêng",
             "en": "The gong-frame truss"
+          },
+          {
+            "vi": "Vì vỏ cua",
+            "en": "The crab-shell truss"
           },
           {
             "vi": "Vì chồng rường giả thủ",
             "en": "The stacked-beam false-head truss"
           }
         ],
-        "answer": 0,
+        "answer": 1,
         "explain": {
           "vi": "Vì vỏ cua là một kiểu kết cấu vì kèo gỗ truyền thống trong kiến trúc cổ của người Việt, thường gặp ở Hội An, Huế và các vùng lân cận. Các vì vỏ cua thường được thợ mộc chạm trổ hoa văn, họa tiết rất tinh xảo, vừa mang tính chịu lực đỡ mái vừa làm điểm nhấn trang trí cho không gian nội thất.",
           "en": "The crab-shell truss is a traditional Vietnamese wooden roof truss, common in Hội An, Huế and nearby areas. Carpenters usually carve them with fine patterns, so the truss both carries the roof and becomes the ornament of the interior."
@@ -1381,12 +1193,15 @@
     },
     "quizBank": [
       {
-        "difficulty": "easy",
         "question": {
           "vi": "Ngôi nhà này được xây dựng bởi ai?",
           "en": "Who built this house?"
         },
         "options": [
+          {
+            "vi": "Một vị thượng thư triều Nguyễn",
+            "en": "A minister of the Nguyễn court"
+          },
           {
             "vi": "Một hoạ sĩ",
             "en": "A painter"
@@ -1394,46 +1209,40 @@
           {
             "vi": "Một nhà văn",
             "en": "A writer"
-          },
-          {
-            "vi": "Một vị thượng thư triều Nguyễn",
-            "en": "A minister of the Nguyễn court"
           }
         ],
-        "answer": 2,
+        "answer": 0,
         "explain": {
           "vi": "Nguyễn Tường Vân là một vị quan đại thần dưới triều vua Gia Long và Minh Mạng, từng giữ chức Binh bộ Thượng thư và mang tước Nhuận Trạch Hầu. Ngay trước nhà còn liễn đối ca ngợi ông: “Nhuận Trạch hầu gia khí thế trường tồn uy hải ngoại. Thượng thư Binh bộ thanh danh quảng bá Việt trung.” Chức Binh bộ Thượng thư tương đương với Bộ trưởng Bộ Quốc phòng ngày nay.",
           "en": "Nguyễn Tường Vân was a senior mandarin under the emperors Gia Long and Minh Mạng, serving as Minister of War with the title Marquis of Nhuận Trạch. A couplet in front of the house praises him: “Nhuận Trạch hầu gia khí thế trường tồn uy hải ngoại. Thượng thư Binh bộ thanh danh quảng bá Việt trung.” The post of Minister of War was the equivalent of today's Minister of Defence."
         }
       },
       {
-        "difficulty": "easy",
         "question": {
           "vi": "Phần trung tâm của ngôi nhà này được sử dụng để làm gì?",
           "en": "What is the central part of the house used for?"
         },
         "options": [
           {
-            "vi": "Thờ cúng",
-            "en": "Ancestor worship"
-          },
-          {
             "vi": "Sáng tác văn chương",
             "en": "Writing literature"
+          },
+          {
+            "vi": "Thờ cúng",
+            "en": "Ancestor worship"
           },
           {
             "vi": "Tiếp khách",
             "en": "Receiving guests"
           }
         ],
-        "answer": 0,
+        "answer": 1,
         "explain": {
           "vi": "Trước gian thờ là hoành phi ghi bốn chữ “Nguyễn Tường từ đường”, hai bên là liễn đối: “Thiên tải tần phồn truy viễn, thử tâm hà cảm giải. Nhất diên tu tiến đốc thân, tư niệm khởi năng vong.” Tạm dịch: Ngàn năm dâng lễ cúng tế tưởng nhớ tổ tiên, tấm lòng này sao dám trễ nải. Một mâm cúng dâng món ngon hiếu kính người thân, đạo lý này há thể nào quên.",
           "en": "Above the altar hangs a board reading “Nguyễn Tường family temple”, flanked by the couplet: “Thiên tải tần phồn truy viễn, thử tâm hà cảm giải. Nhất diên tu tiến đốc thân, tư niệm khởi năng vong.” Roughly: a thousand years of offerings in memory of our ancestors — how could this heart ever slacken; one tray of fine food offered in filial care — how could that duty ever be forgotten."
         }
       },
       {
-        "difficulty": "hard",
         "question": {
           "vi": "Tác giả nào là hậu duệ của tộc Nguyễn Tường?",
           "en": "Which author is a descendant of the Nguyễn Tường clan?"
@@ -1444,15 +1253,15 @@
             "en": "Nguyên Hồng"
           },
           {
-            "vi": "Thạch Lam",
-            "en": "Thạch Lam"
-          },
-          {
             "vi": "Khái Hưng",
             "en": "Khái Hưng"
+          },
+          {
+            "vi": "Thạch Lam",
+            "en": "Thạch Lam"
           }
         ],
-        "answer": 1,
+        "answer": 2,
         "explain": {
           "vi": "Thạch Lam là hậu duệ của dòng họ khoa bảng Nguyễn Tường. Tuy vậy, cuộc đời sáng tác của ông gắn liền với phố huyện Cẩm Giàng (Hải Dương) và Hà Nội. Ông viết về một chiều hoàng hôn ở phố huyện tù đọng và bị lề hóa: “Tiếng trống thu không trên cái chòi của huyện nhỏ; từng tiếng một vang ra để gọi buổi chiều. Phương tây đỏ rực như lửa cháy và những áng mây ánh hồng như hòn than sắp tàn. [...] Chiều, chiều rồi. Một chiều êm ả như ru, văng vẳng tiếng ếch nhái kêu ra ngoài đồng ruộng theo gió nhẹ đưa vào.”",
           "en": "Thạch Lam descends from the scholarly Nguyễn Tường line, though his writing life belonged to the district town of Cẩm Giàng (Hải Dương) and Hà Nội. He wrote of dusk in a stagnant, forgotten district town: “The evening drum on the little district watchtower, one beat after another, calling in the dusk. The west blazed red as fire and the clouds glowed pink like embers about to die… Evening, evening now. An evening as gentle as a lullaby, the frogs calling faintly from the fields on a light breeze.”"
@@ -1461,8 +1270,8 @@
     ],
     "ticketClass": "other",
     "short": {
-      "vi": "Câu chuyện về dòng họ được khai cơ bởi một vị Thượng thư, gốc tích của những nhà văn lớn thế kỷ XX.",
-      "en": "The story of a lineage founded by a Minister of the Court — and the root of two great 20th-century writers."
+      "vi": "Câu chuyện về dòng họ được khai cơ bởi một vị Thượng thư – cội nguồn của những nhà văn lớn thế kỷ XX.",
+      "en": "The story of a lineage founded by a Minister of the Court — the root of two great 20th-century writers."
     },
     "highlights": [
       {
@@ -1506,33 +1315,31 @@
     },
     "quizBank": [
       {
-        "difficulty": "easy",
         "question": {
           "vi": "Hai bộ tranh này được tạo ra bằng kỹ nghệ gì?",
           "en": "By which craft were these two picture panels made?"
         },
         "options": [
           {
-            "vi": "Cẩn xà cừ",
-            "en": "Mother-of-pearl inlay"
-          },
-          {
             "vi": "Pháp lam",
             "en": "Enamel (pháp lam)"
+          },
+          {
+            "vi": "Cẩn xà cừ",
+            "en": "Mother-of-pearl inlay"
           },
           {
             "vi": "Ghép sành sứ",
             "en": "Ceramic mosaic"
           }
         ],
-        "answer": 0,
+        "answer": 1,
         "explain": {
           "vi": "Cẩn xà cừ (khảm trai) là nghề thủ công truyền thống lâu đời tại Việt Nam, dùng các mảnh vỏ trai, vỏ ốc cắt gọt tinh xảo để cẩn lên bề mặt gỗ, kim loại hoặc sơn mài. Các chi tiết cẩn xà cừ có độ óng ánh, đổi màu theo góc nhìn.",
           "en": "Mother-of-pearl inlay is a long-standing Vietnamese craft: pieces of shell are cut with great precision and set into wood, metal or lacquer. Inlaid details shimmer and shift colour with the angle of view."
         }
       },
       {
-        "difficulty": "easy",
         "question": {
           "vi": "Chiếc cửa sập trong nhà dùng để làm gì?",
           "en": "What was the trapdoor in the house for?"
@@ -1543,27 +1350,30 @@
             "en": "Getting between the loft and the ground floor"
           },
           {
-            "vi": "Chuyển hàng hóa, đồ đạc lên tầng",
-            "en": "Moving goods and furniture up to the loft"
-          },
-          {
             "vi": "Thông gió",
             "en": "Ventilation"
+          },
+          {
+            "vi": "Chuyển hàng hóa, đồ đạc lên tầng",
+            "en": "Moving goods and furniture up to the loft"
           }
         ],
-        "answer": 1,
+        "answer": 2,
         "explain": {
           "vi": "Xưa kia, do phố cổ Hội An nằm gần sông và hay bị ngập lụt mùa nước lên, chủ nhà dùng cửa sập này để nhanh chóng chuyển và kéo hàng hóa từ tầng trệt lên gác lửng nhằm tránh lũ.",
           "en": "Hội An's old town sits near the river and used to flood when the water rose, so the owners used this trapdoor to move and haul goods quickly from the ground floor up to the loft, out of the water's way."
         }
       },
       {
-        "difficulty": "hard",
         "question": {
           "vi": "Bộ tượng này là nhân hóa của các giá trị gì?",
           "en": "Which values do these three statues personify?"
         },
         "options": [
+          {
+            "vi": "Phúc - Lộc - Thọ",
+            "en": "Fortune, Prosperity, Longevity"
+          },
           {
             "vi": "Tòng Phụ - Tòng Phu - Tòng Tử",
             "en": "The three obediences"
@@ -1571,13 +1381,9 @@
           {
             "vi": "Nhân - Lễ - Nghĩa",
             "en": "Benevolence, Propriety, Righteousness"
-          },
-          {
-            "vi": "Phúc - Lộc - Thọ",
-            "en": "Fortune, Prosperity, Longevity"
           }
         ],
-        "answer": 2,
+        "answer": 0,
         "explain": {
           "vi": "Phúc Lộc Thọ (hay Tam Đa) là biểu tượng trong văn hóa Á Đông tượng trưng cho ba điều ước lớn nhất của đời người: may mắn/hạnh phúc (Phúc), sự thịnh vượng/giàu sang (Lộc), và sức khỏe/sống lâu (Thọ).",
           "en": "Phúc Lộc Thọ — the Three Stars — is an East Asian symbol of life's three greatest wishes: good fortune and happiness (Phúc), prosperity and wealth (Lộc), and health and long life (Thọ)."
@@ -1631,7 +1437,6 @@
     },
     "quizBank": [
       {
-        "difficulty": "easy",
         "question": {
           "vi": "Chủ nhân đầu tiên của ngôi nhà này là ai?",
           "en": "Who was the first owner of this house?"
@@ -1642,27 +1447,30 @@
             "en": "A bookshop owner"
           },
           {
-            "vi": "Thương nhân kinh doanh hàng hóa quý hiếm",
-            "en": "A merchant in rare goods"
-          },
-          {
             "vi": "Thương nhân buôn gốm",
             "en": "A ceramics trader"
+          },
+          {
+            "vi": "Thương nhân kinh doanh hàng hóa quý hiếm",
+            "en": "A merchant in rare goods"
           }
         ],
-        "answer": 1,
+        "answer": 2,
         "explain": {
           "vi": "Chủ nhân đầu tiên là ông Quân Thắng, một thương nhân người Hoa giàu có bậc nhất tại phố Hội thời xưa. Bà Diệp Ái Phương (cháu đời thứ 7 của thương nhân Quân Thắng) cho biết, ban đầu nơi đây là một hiệu buôn sầm uất, chuyên kinh doanh các loại hàng hóa quý hiếm.",
           "en": "The first owner was Mr Quân Thắng, one of the wealthiest Chinese merchants in old Hội An. Mrs Diệp Ái Phương, his seventh-generation descendant, says the house began as a busy shop trading in rare goods."
         }
       },
       {
-        "difficulty": "easy",
         "question": {
           "vi": "Những con số này biểu thị điều gì?",
           "en": "What do these numbers mark?"
         },
         "options": [
+          {
+            "vi": "Mốc nước lũ theo từng năm",
+            "en": "The flood level of each year"
+          },
           {
             "vi": "Chiều cao của các loại cây kiểng khác nhau",
             "en": "The heights of different ornamental plants"
@@ -1670,39 +1478,34 @@
           {
             "vi": "Chiều cao các thành viên trong gia đình",
             "en": "The heights of the family's members"
-          },
-          {
-            "vi": "Mốc nước lũ theo từng năm",
-            "en": "The flood level of each year"
           }
         ],
-        "answer": 2,
+        "answer": 0,
         "explain": {
           "vi": "Bà Diệp Ái Phương cho biết việc ghi dấu mực nước trên cột gỗ đã có từ thời ông cha để lại. Con cháu trong dòng họ vẫn tiếp tục gìn giữ, bảo tồn. Trong những ngày lũ, gia đình bà chuyển toàn bộ sinh hoạt lên tầng 2 để đảm bảo an toàn. Trên cột nhà có ghi lại trận lũ Giáp Thìn 1964, một trận \"đại hồng thủy\" gây thiệt hại nghiêm trọng cho các tỉnh miền Trung từ Huế đến Bình Định (cũ).",
           "en": "Mrs Diệp Ái Phương says marking the water level on the wooden column was handed down from her forebears, and the family keeps it up. During floods they move all daily life to the upper floor. One mark records the great flood of 1964, a deluge that did severe damage across central Vietnam from Huế to Bình Định."
         }
       },
       {
-        "difficulty": "hard",
         "question": {
           "vi": "Hình ảnh được chạm trên cuốn thư ở giếng trời là gì?",
           "en": "What is carved on the scroll panel in the light well?"
         },
         "options": [
           {
-            "vi": "Cây tùng và hươu",
-            "en": "Pine and deer"
-          },
-          {
             "vi": "Hoa cúc và chim trĩ",
             "en": "Chrysanthemum and pheasant"
+          },
+          {
+            "vi": "Cây tùng và hươu",
+            "en": "Pine and deer"
           },
           {
             "vi": "Cây tùng và hạc",
             "en": "Pine and crane"
           }
         ],
-        "answer": 0,
+        "answer": 1,
         "explain": {
           "vi": "Hình ảnh tùng và hươu là một hình ảnh phổ biến trong trang trí ở Đông Á, trong đó cây tùng diện cho sức sống bền bỉ, sự hiên ngang và khí tiết vượt qua nghịch cảnh còn hươu (âm Hán Việt là “lộc”) có phát âm tương tự chữ \"lộc\" (tài lộc, bổng lộc). Trong kiến trúc nhà ống dài không có cửa sổ bên hông, thiên tỉnh là nguồn cung cấp ánh sáng và khí trời duy nhất. Ở ngay sát cửa có thể thấy hai bài vị thờ “Thiên quan tứ phúc” và “Tư mệnh táo quân”. Thờ cúng ông Thiên là truyền thống của nhiều gia đình người Hoa. Bài vị thờ “Thiên quan tứ phúc” sẽ được đặt ở nơi thoáng đãng, lộ thiên để đón phúc khí.",
           "en": "The pine and deer are a common pairing in East Asian ornament: the pine stands for lasting vitality, an upright bearing and integrity through hardship, while the deer — “lộc” in Sino-Vietnamese — sounds like the word for fortune and reward. In a long tube house with no side windows, the skywell is the only source of light and fresh air. Right beside the door are two tablets to “Thiên quan tứ phúc” and the Kitchen God. Worshipping Heaven is a tradition in many Chinese families; the tablet to “Thiên quan tứ phúc” is set in an open, airy spot to receive good fortune."
@@ -1737,10 +1540,9 @@
       "en": "Duc An Old House"
     },
     "category": "nha-co",
-    "lat": 15.8770626,
-    "lng": 108.3273177,
+    "lat": 15.8770533,
+    "lng": 108.3273582,
     "radius": 75,
-    "needsSurvey": true,
     "address": {
       "vi": "129 Trần Phú",
       "en": "129 Trần Phú"
@@ -1757,12 +1559,15 @@
     },
     "quizBank": [
       {
-        "difficulty": "easy",
         "question": {
           "vi": "Trước kia nhà Đức An từng bán sách của tác giả nào?",
           "en": "Whose books did the Đức An shop once sell?"
         },
         "options": [
+          {
+            "vi": "Sách của Khang Hữu Vi, Lương Khải Siêu",
+            "en": "Kang Youwei and Liang Qichao"
+          },
           {
             "vi": "Sách của Hà Ân Chấn",
             "en": "Hà Ân Chấn"
@@ -1770,46 +1575,40 @@
           {
             "vi": "Sách của Cù Thu Bạch",
             "en": "Qu Qiubai"
-          },
-          {
-            "vi": "Sách của Khang Hữu Vi, Lương Khải Siêu",
-            "en": "Kang Youwei and Liang Qichao"
           }
         ],
-        "answer": 2,
+        "answer": 0,
         "explain": {
-          "vi": "Từ cuối thế kỷ XIX, ngôi Nhà Đức An là nơi bán sách, chủ yếu là sách tiếng Hoa của tác giả Kh­ang Hữu Vi, Lương Khải Siêu,... Trong thời gian này, các nhà yêu nước kháng Pháp nh­ư Huỳnh Thúc Kháng, Trần Quý Cáp... thư­ờng lui tới để đặt mua những cuốn sách có nội dung tư­ tư­ởng tiến bộ. Cụ Trần Quý Cáp đã cho gia chủ các chữ được ghi trên liễn đối: “Vân trình ngũ sắc văn minh thịnh; Vạn tuế tam xuân khí tượng tân” (có nghĩa: Mây quý hiển linh giúp nền văn minh rực rỡ; Vạn năm khí sắc xuân lành), thể hiện khát khao canh tân, phát triển đất nước.",
+          "vi": "Từ cuối thế kỷ XIX, ngôi Nhà Đức An là nơi bán sách, chủ yếu là sách tiếng Hoa của tác giả Khang Hữu Vi, Lương Khải Siêu,... Trong thời gian này, các nhà yêu nước kháng Pháp như Huỳnh Thúc Kháng, Trần Quý Cáp... thường lui tới để đặt mua những cuốn sách có nội dung tư tưởng tiến bộ. Cụ Trần Quý Cáp đã cho gia chủ các chữ được ghi trên liễn đối: “Vân trình ngũ sắc văn minh thịnh; Vạn tuế tam xuân khí tượng tân” (có nghĩa: Mây quý hiển linh giúp nền văn minh rực rỡ; Vạn năm khí sắc xuân lành), thể hiện khát khao canh tân, phát triển đất nước.",
           "en": "From the late 19th century Đức An was a bookshop, selling mainly Chinese-language works by Kang Youwei, Liang Qichao and others. In those years patriots resisting the French — Huỳnh Thúc Kháng, Trần Quý Cáp and others — came often to order books of progressive ideas. The scholar Trần Quý Cáp gave the owner the words on the couplet: “Vân trình ngũ sắc văn minh thịnh; Vạn tuế tam xuân khí tượng tân” — auspicious five-coloured clouds bring a flourishing civilisation; ten thousand years of spring bring a fresh air — voicing the wish to reform and develop the country."
         }
       },
       {
-        "difficulty": "easy",
         "question": {
           "vi": "Vì sao hiệu Đức An chuyển sang bán thuốc bắc?",
           "en": "Why did Đức An switch to selling Chinese medicine?"
         },
         "options": [
           {
-            "vi": "Thực dân Pháp đàn áp Trung Kỳ dân biến",
-            "en": "The French crushed the Central Vietnam uprising"
-          },
-          {
             "vi": "Hiệu Đức An gặp được nguồn cung thuốc tốt",
             "en": "They found a good supply of medicine"
+          },
+          {
+            "vi": "Thực dân Pháp đàn áp Trung Kỳ dân biến",
+            "en": "The French crushed the Central Vietnam uprising"
           },
           {
             "vi": "Việc bán sách không còn thu được lợi nhuận",
             "en": "Bookselling stopped being profitable"
           }
         ],
-        "answer": 0,
+        "answer": 1,
         "explain": {
-          "vi": "Sau sự kiện chống thuế năm 1908, nhà Đức An chuyển sang bán thuốc Bắc hòa vào việc buôn bán tấp nập cùng nhiều hiệu thuốc Bắc ở Hội An song vẫn là điểm hẹn gặp gỡ của các chí sĩ yêu nước trong khu vực. Trong vụ dân biến này, nông dân kéo nhau thành từng đoàn đến bao vây các dinh công sứ Pháp để nộp đơn xin giảm sưu thuế. Thực dân Pháp sau đó đã dùng vũ lực đàn áp đẫm máu, bắt bời và đày ải nhiều sĩ phu, nông dân yêu nước.",
+          "vi": "Sau sự kiện chống thuế năm 1908, nhà Đức An chuyển sang bán thuốc Bắc hòa vào việc buôn bán tấp nập cùng nhiều hiệu thuốc Bắc ở Hội An song vẫn là điểm hẹn gặp gỡ của các chí sĩ yêu nước trong khu vực. Trong vụ dân biến này, nông dân kéo nhau thành từng đoàn đến bao vây các dinh công sứ Pháp để nộp đơn xin giảm sưu thuế. Thực dân Pháp sau đó đã dùng vũ lực đàn áp đẫm máu, bắt bớ và đày ải nhiều sĩ phu, nông dân yêu nước.",
           "en": "After the anti-tax protests of 1908, Đức An turned to selling northern herbal medicine, joining the brisk trade of Hội An's many pharmacies, while remaining a meeting point for patriotic scholars in the region. In those disturbances, farmers marched in crowds to surround the French residency offices to petition for lower taxes. The French then put the movement down by force, arresting and exiling many scholars and farmers."
         }
       },
       {
-        "difficulty": "hard",
         "question": {
           "vi": "Từ năm 1927 đến năm 1934, chủ nhà Đức An đã sử dụng nơi này để tổ chức những hoạt động gì?",
           "en": "From 1927 to 1934, what did the owner of Đức An use this house for?"
@@ -1820,17 +1619,17 @@
             "en": "Free medical consultations for the poor"
           },
           {
-            "vi": "Liên lạc, hội họp của phong trào cách mạng",
-            "en": "Meetings and liaison for the revolutionary movement"
-          },
-          {
             "vi": "Gặp gỡ các cầu thủ của đội bóng Ô-rô",
             "en": "Meeting players of the Ô-rô football team"
+          },
+          {
+            "vi": "Liên lạc, hội họp của phong trào cách mạng",
+            "en": "Meetings and liaison for the revolutionary movement"
           }
         ],
-        "answer": 1,
+        "answer": 2,
         "explain": {
-          "vi": "Tháng 10/1927, tại chính căn nhà này, đồng chí Năm Thêm chủ trì cuộc họp thành lập Hội Việt Nam Cách mạng Thanh niên Hội An. Từ ngày 28/03/1930, Tỉnh ủy Đảng Cộng sản Việt Nam Quảng Nam đ­ược thành lập ở Hội An, nhà Đức An tiếp tục trở thành nơi liên lạc và tổ chức hội họp của Đảng. Năm 1934, do sự chỉ dẫn của mật thám, lính Pháp đã đến lục soát ngôi nhà này và tìm thấy một vài tài liệu tiếng nư­ớc ngoài. Từ đó, nhà Đức An tạm đình chỉ làm nơi liên lạc của Đảng.",
+          "vi": "Tháng 10/1927, tại chính căn nhà này, đồng chí Năm Thêm chủ trì cuộc họp thành lập Hội Việt Nam Cách mạng Thanh niên Hội An. Từ ngày 28/03/1930, Tỉnh ủy Đảng Cộng sản Việt Nam Quảng Nam được thành lập ở Hội An, nhà Đức An tiếp tục trở thành nơi liên lạc và tổ chức hội họp của Đảng. Năm 1934, do sự chỉ dẫn của mật thám, lính Pháp đã đến lục soát ngôi nhà này và tìm thấy một vài tài liệu tiếng nước ngoài. Từ đó, nhà Đức An tạm đình chỉ làm nơi liên lạc của Đảng.",
           "en": "In October 1927, in this very house, comrade Năm Thêm chaired the meeting that founded the Hội An branch of the Vietnam Revolutionary Youth League. From 28 March 1930, when the Quảng Nam Provincial Party Committee was founded in Hội An, Đức An went on serving as a liaison and meeting place for the Party. In 1934, tipped off by informers, French soldiers searched the house and found some foreign-language documents; after that Đức An stopped being used as a Party liaison point."
         }
       }
@@ -1882,33 +1681,31 @@
     },
     "quizBank": [
       {
-        "difficulty": "easy",
         "question": {
           "vi": "Chiếc ghe bầu này được sử dụng khi di chuyển ở vùng nước nào?",
           "en": "In which waters was this ghe bầu boat used?"
         },
         "options": [
           {
-            "vi": "Biển",
-            "en": "At sea"
-          },
-          {
             "vi": "Vịnh",
             "en": "In the bay"
+          },
+          {
+            "vi": "Biển",
+            "en": "At sea"
           },
           {
             "vi": "Sông",
             "en": "On the river"
           }
         ],
-        "answer": 0,
+        "answer": 1,
         "explain": {
           "vi": "Ghe bầu là loại thương thuyền (thuyền buôn) gỗ cỡ lớn truyền thống từng đóng vai trò huyết mạch trong ngành hàng hải và giao thương ven biển Việt Nam từ thế kỷ 16 đến nửa đầu thế kỷ 20. Thuyền có phần thân phình to ở giữa giống hình quả bầu, mạn cao, đáy bằng hoặc hơi khum, giúp chịu được sóng gió lớn ngoài khơi.",
           "en": "The ghe bầu was a large traditional wooden trading boat, the lifeline of Vietnamese seafaring and coastal trade from the 16th century to the first half of the 20th. Its hull bulges in the middle like a gourd, with high sides and a flat or slightly curved bottom, so it can take heavy wind and waves offshore."
         }
       },
       {
-        "difficulty": "easy",
         "question": {
           "vi": "Hiệu Tấn Ký từng buôn bán những mặt hàng nào?",
           "en": "What goods did the Tấn Ký shop trade in?"
@@ -1919,27 +1716,30 @@
             "en": "Clothing"
           },
           {
-            "vi": "Nông sản",
-            "en": "Farm produce"
-          },
-          {
             "vi": "Sách báo",
             "en": "Books and papers"
+          },
+          {
+            "vi": "Nông sản",
+            "en": "Farm produce"
           }
         ],
-        "answer": 1,
+        "answer": 2,
         "explain": {
           "vi": "Nhà cổ Tấn Ký được xây dựng vào năm 1741 bởi ông Lê Công, một thương nhân gốc Hoa di cư đến Hội An. Ông Lê Công ban đầu kinh doanh hàng nông sản từ miền cao về phố cảng.",
           "en": "Tấn Ký house was built in 1741 by Mr Lê Công, a merchant of Chinese descent who settled in Hội An. He began by trading farm produce brought down from the highlands to the port."
         }
       },
       {
-        "difficulty": "hard",
         "question": {
           "vi": "Chiếc cốc này gửi gắm triết lý gì?",
           "en": "What philosophy does this cup hold?"
         },
         "options": [
+          {
+            "vi": "Biết đủ",
+            "en": "Knowing when you have enough"
+          },
           {
             "vi": "Nghĩa khí",
             "en": "Righteousness"
@@ -1947,13 +1747,9 @@
           {
             "vi": "Khiêm tốn",
             "en": "Modesty"
-          },
-          {
-            "vi": "Biết đủ",
-            "en": "Knowing when you have enough"
           }
         ],
-        "answer": 2,
+        "answer": 0,
         "explain": {
           "vi": "Chiếc cốc hoạt động dựa trên nguyên lý bình thông nhau và hiệu ứng xifong (siphoning). Ở giữa cốc có một cột nhỏ che giấu một đường ống cong (ống chữ U ngược). Nếu rót quá đầy (vượt quá đỉnh của ống ngầm bên trong), toàn bộ nước trong cốc sẽ tự động chảy sạch qua lỗ nhỏ ở đáy cốc.",
           "en": "The cup works by connected vessels and the siphon effect. The small column in the middle hides a bent tube — an upside-down U. Pour past the top of that hidden tube and the whole cup drains itself out through a small hole in the base."
@@ -2007,7 +1803,6 @@
     },
     "quizBank": [
       {
-        "difficulty": "easy",
         "question": {
           "vi": "Ba người này đang ở đâu?",
           "en": "Where are these three men?"
@@ -2018,27 +1813,30 @@
             "en": "A bamboo garden"
           },
           {
-            "vi": "Vườn đào",
-            "en": "A peach garden"
-          },
-          {
             "vi": "Núi tùng",
             "en": "A pine mountain"
+          },
+          {
+            "vi": "Vườn đào",
+            "en": "A peach garden"
           }
         ],
-        "answer": 1,
+        "answer": 2,
         "explain": {
           "vi": "Bức tranh vẽ cảnh kết nghĩa vườn đào của ba anh em Lưu Bị, Quan Vũ và Trương Phi với lời thề \"Tuy không sinh cùng ngày cùng tháng cùng năm, nhưng nguyện chết cùng ngày cùng tháng cùng năm\", nguyện dốc sức vì nước, cứu dân an đời.",
           "en": "The painting shows the peach-garden oath of Liu Bei, Quan Vũ and Zhang Fei: “Though not born on the same day, month and year, we wish to die on the same day, month and year,” pledging themselves to the country and its people."
         }
       },
       {
-        "difficulty": "easy",
         "question": {
           "vi": "Trong ba nhân vật, ai là Quan Vũ?",
           "en": "Of the three figures, which is Quan Vũ?"
         },
         "options": [
+          {
+            "vi": "Người có mặt đỏ",
+            "en": "The one with the red face"
+          },
           {
             "vi": "Người ở giữa có tai to",
             "en": "The one in the middle with big ears"
@@ -2046,39 +1844,34 @@
           {
             "vi": "Người có mặt đen",
             "en": "The one with the black face"
-          },
-          {
-            "vi": "Người có mặt đỏ",
-            "en": "The one with the red face"
           }
         ],
-        "answer": 2,
+        "answer": 0,
         "explain": {
-          "vi": "Trong truyện Tam Quốc có 2 câu đối nhắc tới sắc đỏ gắn liền với Quan Vũ: “Xích diện bỉnh xích tâm, kỵ Xích Thố truy phong, trì khu thời vô vong Xích Đế Thanh đăng quan thanh sử, trượng thanh long yển nguyệt, ẩn vi xứ bất uý thanh thiên” Theo bản dịch của Phan Kế Bính: “Bộ mặt đỏ giữ tấm lòng đỏ, cưỡi ngựa Thỏ Đỏ truy phong, lúc ruổi rong không quên nhớ Vua Đỏ Ngọn đèn xanh xem bộ sử xanh, cầm đao yển nguyệt rồng xanh, nơi kín đáo chẳng thẹn với trời xanh.”",
-          "en": "The Three Kingdoms novel carries two couplets on the red that belongs to Quan Vũ: “A red face keeping a red heart, riding Red Hare that chases the wind, never on the road forgetting the Red Emperor; by a green lamp reading the green annals, holding the green-dragon crescent blade, even unseen with nothing to be ashamed of before the green heavens.”"
+          "vi": "Trong truyện Tam Quốc có 2 câu đối nhắc tới sắc đỏ gắn liền với Quan Vũ: “Xích diện bỉnh xích tâm, kỵ Xích Thố truy phong, trì khu thời vô vong Xích Đế / Thanh đăng quan thanh sử, trượng thanh long yển nguyệt, ẩn vi xứ bất uý thanh thiên”. Theo bản dịch của Phan Kế Bính: “Bộ mặt đỏ giữ tấm lòng đỏ, cưỡi ngựa Thỏ Đỏ truy phong, lúc ruổi rong không quên nhớ Vua Đỏ / Ngọn đèn xanh xem bộ sử xanh, cầm đao yển nguyệt rồng xanh, nơi kín đáo chẳng thẹn với trời xanh.”",
+          "en": "The Three Kingdoms novel carries two couplets on the red that belongs to Quan Vũ: “Xích diện bỉnh xích tâm, kỵ Xích Thố truy phong, trì khu thời vô vong Xích Đế / Thanh đăng quan thanh sử, trượng thanh long yển nguyệt, ẩn vi xứ bất uý thanh thiên”. In Phan Kế Bính's translation: a red face keeping a red heart, riding Red Hare that chases the wind, never on the road forgetting the Red Emperor; by a green lamp reading the green annals, holding the green-dragon crescent blade, even unseen with nothing to be ashamed of before the green heavens."
         }
       },
       {
-        "difficulty": "hard",
         "question": {
-          "vi": "Nhân vật nữ này đang bưng thức quả gì",
+          "vi": "Nhân vật nữ này đang bưng thức quả gì?",
           "en": "What fruit is this female figure carrying?"
         },
         "options": [
           {
-            "vi": "Quả đào",
-            "en": "Peaches"
-          },
-          {
             "vi": "Quả hồng",
             "en": "Persimmons"
+          },
+          {
+            "vi": "Quả đào",
+            "en": "Peaches"
           },
           {
             "vi": "Quả phật thủ",
             "en": "Buddha's-hand citron"
           }
         ],
-        "answer": 0,
+        "answer": 1,
         "explain": {
           "vi": "Bức tranh “Ma Cô hiến thọ” vẽ lại cảnh tiên nữ Ma Cô mang đào tiên chúc thọ Tây Vương Mẫu. Đây chính là hình ảnh trang trí quen thuộc trên những chiếc đĩa cô tiên. Trong bức tranh ở Hội quán Quảng Triệu còn xuất hiện mô-típ tùng và hạc.",
           "en": "“Ma Cô offers longevity” shows the fairy Ma Cô bringing immortal peaches to wish the Queen Mother of the West long life — the familiar scene on “fairy plates”. The version here also carries the pine-and-crane motif."
@@ -2132,12 +1925,15 @@
     },
     "quizBank": [
       {
-        "difficulty": "easy",
         "question": {
           "vi": "Hình ảnh nào dưới đây là mái của Hội quán Phước Kiến?",
           "en": "Which of these pictures shows the roof of the Fujian Assembly Hall?"
         },
         "options": [
+          {
+            "vi": "Ảnh 1",
+            "en": "Picture 1"
+          },
           {
             "vi": "Ảnh 3",
             "en": "Picture 3"
@@ -2145,46 +1941,40 @@
           {
             "vi": "Ảnh 2",
             "en": "Picture 2"
-          },
-          {
-            "vi": "Ảnh 1",
-            "en": "Picture 1"
           }
         ],
-        "answer": 2,
+        "answer": 0,
         "explain": {
           "vi": "Khác với kiểu nóc mái thẳng tắp của Quảng Đông, kiến trúc mái đặc trưng của vùng Phúc Kiến có bờ nóc võng xuống như con thuyền đang cưỡi sóng. Phần trang trí cũng công phu hơn so với các hội quán khác.",
           "en": "Unlike the straight ridge of Cantonese roofs, the Fujian roof dips in the middle like a boat riding a wave. Its ornament is also more elaborate than that of the other assembly halls."
         }
       },
       {
-        "difficulty": "easy",
         "question": {
           "vi": "Tại sao Hội quán Phước Kiến và nhiều hội quán khác của người Hoa lại thờ bà Thiên Hậu? Gợi ý: Hãy quan sát những bức tranh và mô hình trong hội quán",
           "en": "Why do the Fujian hall and many other Chinese assembly halls worship Thiên Hậu? Hint: look at the paintings and the model inside the hall"
         },
         "options": [
           {
-            "vi": "Để cầu bình an khi đi biển",
-            "en": "For safety at sea"
-          },
-          {
             "vi": "Để tưởng nhớ công dẹp giặc",
             "en": "To honour her for defeating invaders"
+          },
+          {
+            "vi": "Để cầu bình an khi đi biển",
+            "en": "For safety at sea"
           },
           {
             "vi": "Để cầu tài lộc",
             "en": "For wealth"
           }
         ],
-        "answer": 0,
+        "answer": 1,
         "explain": {
           "vi": "Ngay sau khi bước vào tiền điện, du khách sẽ thấy ở phía tường Đông là bích họa Thiên Hậu Thánh Mẫu cùng đệ tử cầm đèn lồng vượt sóng gió đến cứu người bị nạn và ở phía tường Tây là bích họa Lục Tánh Vương Gia cưỡi ngựa xung trận. Bên trong chính điện có mô hình thương thuyền được trang trí kỳ công với một gian thờ Thiên Hậu trên thuyền.",
           "en": "Just inside the front hall, the east wall mural shows Thiên Hậu and her attendants carrying lanterns through the storm to rescue the shipwrecked; the west wall shows the Six Princes riding into battle. In the main hall stands an elaborately decorated model merchant ship with a shrine to Thiên Hậu on board."
         }
       },
       {
-        "difficulty": "easy",
         "question": {
           "vi": "Hai vị thần được thờ phụng trong chính điện cùng Bà Thiên Hậu là ai?",
           "en": "Which two deities are worshipped in the main hall alongside Thiên Hậu?"
@@ -2195,27 +1985,30 @@
             "en": "Azure Dragon and White Tiger"
           },
           {
-            "vi": "Thiên Lý Nhãn - Thuận Phong Nhĩ",
-            "en": "Thousand-League Eyes and Wind-Following Ears"
-          },
-          {
             "vi": "Thần Đồ - Uất Lũy",
             "en": "Shentu and Yulei"
+          },
+          {
+            "vi": "Thiên Lý Nhãn - Thuận Phong Nhĩ",
+            "en": "Thousand-League Eyes and Wind-Following Ears"
           }
         ],
-        "answer": 1,
+        "answer": 2,
         "explain": {
           "vi": "Hai vị thần phò tá Thiên Hậu Thánh Mẫu là Thiên Lý Nhãn và Thuận Phong Nhĩ. Thiên Lý Nhãn có thể nhìn thấy mọi việc ở khoảng cách rất xa, giúp Bà phát hiện tàu thuyền gặp nạn trên biển, còn Thuận Phong Nhĩ có thể nghe được tiếng kêu cứu từ muôn nơi theo chiều gió.",
           "en": "Her two attendants are Thousand-League Eyes, who sees ships in distress from afar, and Wind-Following Ears, who hears cries for help carried on the wind from anywhere."
         }
       },
       {
-        "difficulty": "easy",
         "question": {
           "vi": "Những đôi giày trong tủ kính dành cho ai?",
           "en": "Who were the shoes in the glass case made for?"
         },
         "options": [
+          {
+            "vi": "Những người phụ nữ bó chân gót sen",
+            "en": "Women with bound “lotus” feet"
+          },
           {
             "vi": "Tượng thờ các vị thần",
             "en": "The statues of the gods"
@@ -2223,39 +2016,34 @@
           {
             "vi": "Vũ công múa thủy tụ",
             "en": "Water-sleeve dancers"
-          },
-          {
-            "vi": "Những người phụ nữ bó chân gót sen",
-            "en": "Women with bound “lotus” feet"
           }
         ],
-        "answer": 2,
+        "answer": 0,
         "explain": {
           "vi": "Tủ kính trưng bày các vật dụng của người Hoa xưa. Những đôi giày trong tủ được dùng khi bó chân gót sen. Tập tục này bắt đầu từ thời nhà Tống, được coi là biểu tượng của cái đẹp và địa vị. Đến thời nhà Thanh, tuy lệnh cấm được ban hành, song ít người tuân thủ. Đến thế kỷ XIX, có khoảng một nửa phụ nữ Trung Hoa thực hành bó chân.",
           "en": "The case holds everyday objects of the old Chinese community. The shoes were worn on bound “lotus” feet, a custom begun in the Song dynasty as a mark of beauty and status. The Qing banned it with little effect; by the 19th century roughly half of Chinese women had bound feet."
         }
       },
       {
-        "difficulty": "hard",
         "question": {
           "vi": "Bức tranh vẽ những đứa trẻ này được tìm thấy ở đâu?",
           "en": "Where is this painting of children found?"
         },
         "options": [
           {
-            "vi": "Án thờ 3 bà Chúa Sanh thai và 12 bà mụ",
-            "en": "The altar of the three Birth Goddesses and twelve midwives"
-          },
-          {
             "vi": "Nhà Đông",
             "en": "The east house"
+          },
+          {
+            "vi": "Án thờ 3 bà Chúa Sanh thai và 12 bà mụ",
+            "en": "The altar of the three Birth Goddesses and twelve midwives"
           },
           {
             "vi": "Án thờ Lục Tánh vương gia",
             "en": "The altar of the Six Princes"
           }
         ],
-        "answer": 0,
+        "answer": 1,
         "explain": {
           "vi": "Ba bà Chúa Sanh thai (Tam Tiêu Nương Nương) và 12 bà mụ lo việc tạo hình hài, ban phước, bảo trợ cho việc cầu tự (cầu con), thai kỳ bình an và mẹ tròn con vuông. Tượng 12 bà mụ thường khắc họa các vị trong các động tác chăm sóc, bồng bế trẻ thơ khác nhau.",
           "en": "The three Birth Goddesses and twelve midwives shape the unborn, grant blessings and watch over prayers for children, a safe pregnancy and a safe birth. The twelve are usually shown tending and cradling infants in different poses."
@@ -2309,33 +2097,31 @@
     },
     "quizBank": [
       {
-        "difficulty": "easy",
         "question": {
           "vi": "Trong hai con lân này, con nào là lân đực và con nào là lân cái?",
           "en": "Of these two lions, which is male and which is female?"
         },
         "options": [
           {
-            "vi": "A là lân cái, B là lân đực",
-            "en": "A is female, B is male"
-          },
-          {
             "vi": "Cả A và B đều là lân đực",
             "en": "Both A and B are male"
+          },
+          {
+            "vi": "A là lân cái, B là lân đực",
+            "en": "A is female, B is male"
           },
           {
             "vi": "A là lân đực, B là lân cái",
             "en": "A is male, B is female"
           }
         ],
-        "answer": 0,
+        "answer": 1,
         "explain": {
           "vi": "Thông thường, lân đực được khắc họa trong tư thế “lân hí cầu” với quả cầu tượng trưng cho mặt trời dưới chân, còn lân cái trong tư thế \"lân giáo tử\", dùng chân trước ôm ngang lưng con lân con. Tượng lân cũng được sắp đặt theo nguyên tắc “nam tả nữ hữu”, trong đó lân cái nằm ở phía tay phải nhìn từ trong chính điện ra. Bức tường phía ngoài hội quán cũng có hai bức phù điêu lân mang bát bảo và kỳ mang ám bát tiên.",
           "en": "The male lion is usually shown with a ball under its paw, standing for the sun, while the female holds a cub against her side with a foreleg. The pair also follows the rule of “male left, female right”, so the female sits on the right as seen looking out from the main hall. The outer wall of the hall also carries two reliefs: a lion with the eight treasures and a qilin with the hidden emblems of the Eight Immortals."
         }
       },
       {
-        "difficulty": "easy",
         "question": {
           "vi": "Tại sao Hội quán Hải Nam lại thờ 108 vị Chiêu Ứng Công?",
           "en": "Why does the Hainan hall worship the 108 Chiêu Ứng Công?"
@@ -2346,27 +2132,30 @@
             "en": "To honour the 108 heroes of Liangshan who rose against evil"
           },
           {
-            "vi": "Tưởng nhớ vong linh 108 vị thương buôn chết oan đã hiển linh phù hộ thuyền bè trên biển",
-            "en": "To honour the 108 merchants who died unjustly and then appeared to protect boats at sea"
-          },
-          {
             "vi": "Tưởng nhớ công ơn 108 tiền hiền đã đặt nền móng cho sự phát triển của bang Hải Nam",
             "en": "To honour the 108 forebears who laid the foundations of the Hainan community"
+          },
+          {
+            "vi": "Tưởng nhớ vong linh 108 vị thương buôn chết oan đã hiển linh phù hộ thuyền bè trên biển",
+            "en": "To honour the 108 merchants who died unjustly and then appeared to protect boats at sea"
           }
         ],
-        "answer": 1,
+        "answer": 2,
         "explain": {
           "vi": "Mùa hạ năm 1851, 108 thương buôn người Hải Nam đã bị một số quan binh triều Nguyễn sát hại vì coi là cướp biển. Vua Tự Đức khi biết chuyện đã minh oan và sắc phong cho các vị là Chiêu Ứng Anh Liệt. Cặp liễn đối hai bên hương án chính có nghĩa: Khí khái tụ thành thần, theo dấu anh linh do oan trái; Đức độ xây nên miếu, thương kẻ đồng hương ở chốn xa.",
           "en": "In the summer of 1851, 108 Hainanese merchants were killed by Nguyễn troops who took them for pirates. Emperor Tự Đức cleared their names and titled them Chiêu Ứng Anh Liệt. The couplet flanking the main altar reads: their spirit gathered into divinity, following the trace of a wrong; virtue built this shrine, in pity for countrymen far from home."
         }
       },
       {
-        "difficulty": "hard",
         "question": {
           "vi": "Bao lam (cửa võng, rèm gỗ) ở cửa chính điện có đề tài gì?",
           "en": "What is the theme of the carved wooden valance at the main hall door?"
         },
         "options": [
+          {
+            "vi": "Tùng thử bồ đào (sóc và dây nho)",
+            "en": "Squirrels and grapevines"
+          },
           {
             "vi": "Hoa - điểu (hoa và chim muông)",
             "en": "Flowers and birds"
@@ -2374,13 +2163,9 @@
           {
             "vi": "Tùng - hạc",
             "en": "Pine and crane"
-          },
-          {
-            "vi": "Tùng thử bồ đào (sóc và dây nho)",
-            "en": "Squirrels and grapevines"
           }
         ],
-        "answer": 2,
+        "answer": 0,
         "explain": {
           "vi": "Tùng Thử Bồ Đào (松鼠葡萄) là đề tài kinh điển biểu trưng cho phú quý – sung túc – vạn sự hưng long. Hình ảnh sóc trèo nho thể hiện sự sinh sôi – đông con cháu, là lời chúc cát tường cho gia đạo thịnh vượng.",
           "en": "Squirrels and grapes (松鼠葡萄) is a classic motif of wealth, abundance and flourishing. Squirrels climbing the vine stand for fertility and many descendants — a blessing for a prosperous household."
@@ -2438,7 +2223,6 @@
     },
     "quizBank": [
       {
-        "difficulty": "easy",
         "question": {
           "vi": "Bạn có thể đi tìm chú ngựa này không? Người bạn của chú có bộ lông màu gì?",
           "en": "Can you find this horse? What colour is its companion's coat?"
@@ -2449,23 +2233,26 @@
             "en": "White"
           },
           {
-            "vi": "Nâu",
-            "en": "Brown"
-          },
-          {
             "vi": "Đen",
             "en": "Black"
+          },
+          {
+            "vi": "Nâu",
+            "en": "Brown"
           }
         ],
-        "answer": 1
+        "answer": 2
       },
       {
-        "difficulty": "easy",
         "question": {
           "vi": "Hình ảnh này là đặc trưng của mùa nào?",
           "en": "Which season does this image stand for?"
         },
         "options": [
+          {
+            "vi": "Hạ",
+            "en": "Summer"
+          },
           {
             "vi": "Thu",
             "en": "Autumn"
@@ -2473,39 +2260,34 @@
           {
             "vi": "Xuân",
             "en": "Spring"
-          },
-          {
-            "vi": "Hạ",
-            "en": "Summer"
           }
         ],
-        "answer": 2,
+        "answer": 0,
         "explain": {
           "vi": "Ở Trung Quốc, tứ quý danh hoa là \"Xuân Lan - Hạ Hà - Thu Cúc - Đông Mai\". Trong đó \"Lan\" là lan kiếm, \"Hà\" là sen, \"Cúc\" vẫn là cúc, còn \"Mai\" là mơ.",
           "en": "In China the four noble flowers of the seasons are “spring orchid, summer lotus, autumn chrysanthemum, winter plum”. Here “orchid” is the sword-leaf orchid, “lotus” is the lotus, chrysanthemum is chrysanthemum, and “plum” is the apricot-plum blossom."
         }
       },
       {
-        "difficulty": "hard",
         "question": {
           "vi": "Trên phần mái tiền điện có những đề tài trang trí gì?",
           "en": "What decorative themes are on the front-hall roof?"
         },
         "options": [
           {
-            "vi": "Lưỡng long triều dương, cá chép vượt long môn, bát tiên quá hải",
-            "en": "Two dragons facing the sun, carp leaping the dragon gate, the Eight Immortals crossing the sea"
-          },
-          {
             "vi": "Lưỡng long tranh bình hồ lô, ông Nhật - bà Nguyệt, các linh thú",
             "en": "Two dragons contesting a gourd, Sun and Moon, sacred beasts"
+          },
+          {
+            "vi": "Lưỡng long triều dương, cá chép vượt long môn, bát tiên quá hải",
+            "en": "Two dragons facing the sun, carp leaping the dragon gate, the Eight Immortals crossing the sea"
           },
           {
             "vi": "Lưỡng long tranh châu, lục quốc phong tướng",
             "en": "Two dragons contesting a pearl, the six states appointing a general"
           }
         ],
-        "answer": 0,
+        "answer": 1,
         "explain": {
           "vi": "Bên cạnh các đồ án lưỡng long hay cá chép vượt long môn, đồ án bát tiên quá hải cũng rất được ưa chuộng trong các kiến trúc của người Hoa. Bát tiên quá hải (tám vị tiên vượt biển) kể về hành trình 8 vị tiên dùng phép thuật và pháp bảo để vượt qua đại dương. Tất cả những pháp khí mà 8 vị tiên sử dụng gọi chung là Ám bát tiên, cũng là một đề tài trang trí phổ biến. Bảo vật ngư cổ của Trương Quả Lão nói về mạng sống của con người. Lã Động Tân mang bảo kiếm có thể ngăn cản tà ma. Cây sáo của Hàn Tương Tử có thể khiến vạn vật sinh sôi và nảy nở. Hà Tiên Cô có hoa sen có thể tu thân dưỡng tính. Hồ lô của Thiết Quản Lý có thể cứu giúp chúng sanh. Quạt của Hán Chung Ly có thể làm hồi sinh. Tấm ngọc của Tào Quốc Cửu có thể làm mọi vật trở nên trong sạch. Giỏ của Lam Thái Hòa có thể quảng thông thần minh.",
           "en": "Besides the paired dragons and the carp leaping the dragon gate, the Eight Immortals crossing the sea is a favourite subject in Chinese architecture. It tells of the eight immortals using their magic and their treasures to cross the ocean. Those implements together are called the hidden emblems of the Eight Immortals, itself a common ornamental theme. Trương Quả Lão's fish-drum speaks of human life. Lã Động Tân's sword can stop evil spirits. Hàn Tương Tử's flute makes all things grow and flourish. Hà Tiên Cô's lotus cultivates body and mind. Thiết Quản Lý's gourd can save all beings. Hán Chung Ly's fan can bring the dead back to life. Tào Quốc Cửu's jade tablet can make all things pure. Lam Thái Hòa's basket opens the way to the gods."
@@ -2559,12 +2341,15 @@
     },
     "quizBank": [
       {
-        "difficulty": "easy",
         "question": {
           "vi": "Mái của phương đình được trang trí với bao nhiêu con phượng?",
           "en": "How many phoenixes decorate the roof of the square pavilion?"
         },
         "options": [
+          {
+            "vi": "9 con",
+            "en": "9"
+          },
           {
             "vi": "10 con",
             "en": "10"
@@ -2572,66 +2357,38 @@
           {
             "vi": "8 con",
             "en": "8"
-          },
-          {
-            "vi": "9 con",
-            "en": "9"
           }
         ],
-        "answer": 2,
+        "answer": 0,
         "explain": {
           "vi": "Đình có một hệ thống các con giống được tạo hình rất sinh động và độc đáo trang trí cho các bộ phận kiến trúc. Nổi bật là 9 hình chim phượng trên phương đình. Trong phong thuỷ, phượng gắn liền với hành Hỏa, mùa hạ và hướng Nam, mang lại may mắn, cát khí và cơ hội phát triển. Cơ thể của phượng đại diện cho 5 phẩm chất cao quý gồm: đức hạnh (ngay thẳng), lòng nhân đạo (lương thiện), sự công bằng, tính đáng tin (chung thủy) và sự khoan đại.",
           "en": "The communal house carries a whole set of ornamental creatures, shaped with unusual life and character, across its architecture. The nine phoenixes on the square pavilion stand out. In geomancy the phoenix belongs to Fire, to summer and to the south, bringing luck, good fortune and room to grow. Its body stands for five noble qualities: virtue (uprightness), humanity (kindness), justice, trustworthiness (fidelity) and generosity."
         }
       },
       {
-        "difficulty": "hard",
         "question": {
           "vi": "Tại sao Đình Cẩm Phô lại có tên Cẩm Phô Hương Hiền?",
           "en": "Why is Đình Cẩm Phô also called Cẩm Phô Hương Hiền?"
         },
         "options": [
           {
-            "vi": "Đình có thờ các vị tiền hiền, hậu hiền làng Cẩm Phô",
-            "en": "It worships the earlier and later worthies of Cẩm Phô village"
-          },
-          {
             "vi": "Đình lưu giữ các ký ức từ xa xưa",
             "en": "It keeps memories from long ago"
+          },
+          {
+            "vi": "Đình có thờ các vị tiền hiền, hậu hiền làng Cẩm Phô",
+            "en": "It worships the earlier and later worthies of Cẩm Phô village"
           },
           {
             "vi": "Đình là nơi tổ chức sinh hoạt văn hoá truyền thống",
             "en": "It hosts traditional cultural activities"
           }
         ],
-        "answer": 0,
+        "answer": 1,
         "explain": {
           "vi": "Đình trước đây thờ bà Đại Càn và các vị thần sông nước, về sau kết hợp thờ các vị tiền hiền và hậu hiền của làng Cẩm Phô. Trong đình là những hoành phi, liễn đối thể hiện đạo lý “uống nước nhớ nguồn” như “Ẩm hà tư nguyên” (phiên bản chữ Hán của “uống nước nhớ nguồn”) hay “Quang tiền dụ hậu” mang nghĩa: rạng rỡ đời trước, sung túc đời sau.",
           "en": "The house once worshipped the goddess Đại Càn and the river deities, and later added the earlier and later worthies of Cẩm Phô village. Inside hang boards and couplets on the duty of remembering one's source — “Ẩm hà tư nguyên” (drinking from the river, think of its source) and “Quang tiền dụ hậu” (bring glory to those before, plenty to those after)."
         }
-      },
-      {
-        "difficulty": "easy",
-        "generated": true,
-        "question": {
-          "vi": "Đình Cẩm Phô nằm trên đường nào?",
-          "en": "Which street is Cam Pho Communal House on?"
-        },
-        "options": [
-          {
-            "vi": "Nguyễn Thị Minh Khai",
-            "en": "Nguyễn Thị Minh Khai"
-          },
-          {
-            "vi": "Trần Phú",
-            "en": "Trần Phú"
-          },
-          {
-            "vi": "Nguyễn Thái Học",
-            "en": "Nguyễn Thái Học"
-          }
-        ],
-        "answer": 0
       }
     ],
     "ticketClass": "other",
@@ -2672,38 +2429,36 @@
     "traffic": "low",
     "promoPriority": "high",
     "description": {
-      "vi": "Minh Hương Tụy Tiên Đường nằm ở số 14 đường Trần Phú - Hội An, còn gọi là Đình tiền hiền Minh Hương, là công trình kiến trúc tín ngưỡng do người Minh Hương dựng nên để thờ cúng các bậc tiền hiền khai lập làng Minh Hương, một trong những làng cổ ở Hội An gắn với quá trình di cư của cộng đồng người Ho…",
-      "en": "Worship house of the Minh Huong community — Chinese settlers who became Vietnamese citizens."
+      "vi": "Hai chữ Minh Hương (明香) vốn có nghĩa giữ gìn hương hỏa nhà Minh, sau đổi thành 明鄉 để chỉ làng của những người gốc nhà Minh. Tụy Tiên Đường là một di tích tiêu biểu của cộng đồng Minh Hương",
+      "en": "The two words Minh Hương (明香) first meant keeping the incense of the Ming alive; they later became 明鄉, the village of people of Ming descent. Tụy Tiên Đường is the landmark monument of that Minh Hương community."
     },
     "quizBank": [
       {
-        "difficulty": "easy",
         "question": {
           "vi": "Con hạc này đang đứng trên lưng con vật nào?",
           "en": "On whose back is this crane standing?"
         },
         "options": [
           {
-            "vi": "Rùa",
-            "en": "A tortoise"
-          },
-          {
             "vi": "Cá",
             "en": "A fish"
+          },
+          {
+            "vi": "Rùa",
+            "en": "A tortoise"
           },
           {
             "vi": "Cua",
             "en": "A crab"
           }
         ],
-        "answer": 0,
+        "answer": 1,
         "explain": {
           "vi": "Rùa đội hạc là một biểu tượng văn hóa và tâm linh quen thuộc trong các ngôi đình, chùa và trên bàn thờ gia tiên của người Việt. Nhiều di tích của người Minh Hương có biểu tượng này từ xưa, bởi lẽ người Minh Hương từ cộng đồng người Hoa di trú đã hội nhập vào xã hội và văn hoá Việt Nam và trở thành những người Việt thực thụ.",
           "en": "The crane on a tortoise is a familiar cultural and spiritual symbol in Vietnamese communal houses, pagodas and family altars. Many Minh Hương monuments have carried it for a long time, because the Minh Hương — Chinese migrants — merged into Vietnamese society and culture and became fully Vietnamese."
         }
       },
       {
-        "difficulty": "easy",
         "question": {
           "vi": "Con vật này đang mang gì trên lưng?",
           "en": "What is this creature carrying on its back?"
@@ -2714,27 +2469,30 @@
             "en": "Rolls of rope"
           },
           {
-            "vi": "Những cuốn thư",
-            "en": "Scrolls"
-          },
-          {
             "vi": "Thuốc thang",
             "en": "Medicine"
+          },
+          {
+            "vi": "Những cuốn thư",
+            "en": "Scrolls"
           }
         ],
-        "answer": 1,
+        "answer": 2,
         "explain": {
           "vi": "Hình trên cửa là một cách điệu của hình tượng Long mã Hà đồ. Truyền thuyết kể rằng, Long Mã xuất hiện trên sông Hoàng Hà, dưới thời Phục Hy, mình xanh, vằn đỏ, trên lưng có mang bức Hà đồ, hay Mã đồ, là sách trời ban cho vua để trị nước.",
           "en": "The figure on the door is a stylised Long Mã carrying the River Chart. Legend tells that the dragon-horse appeared on the Yellow River in the time of Phục Hy, blue-bodied with red stripes, bearing on its back the Hà đồ — the chart sent by heaven for the king to rule the land."
         }
       },
       {
-        "difficulty": "hard",
         "question": {
           "vi": "Nơi này thờ phụng ai?",
           "en": "Who is worshipped here?"
         },
         "options": [
+          {
+            "vi": "Những người có công với làng Minh Hương ở Hội An",
+            "en": "Those who served the Minh Hương community of Hội An"
+          },
           {
             "vi": "Tướng Trần Thượng Xuyên và Dương Ngạn Địch",
             "en": "The generals Trần Thượng Xuyên and Dương Ngạn Địch"
@@ -2742,23 +2500,19 @@
           {
             "vi": "Phúc Đức chính thần",
             "en": "The tutelary god of fortune and virtue"
-          },
-          {
-            "vi": "Những người có công với làng Minh Hương ở Hội An",
-            "en": "Those who served the Minh Hương community of Hội An"
           }
         ],
-        "answer": 2,
+        "answer": 0,
         "explain": {
-          "vi": "Trong tên Tuỵ Tiên Đường, “tuỵ” có nghĩa là tụ họp, còn “tiên” là người xưa quá vãng. Văn bia tại đình có ghi: Khi xây dựng một làng tất phải nhớ công lao của tiền nhân. Ngư­ời đời không thể quên đức tốt đã truyền lưu. Văn bia cũng giải thích rằng các vị được thờ nơi đây trư­ớc là cựu thần nhà minh. Vận nhà Minh đã qua, lòng họ không nhận hai vua nên từ quan, đổi tên họ, lánh nạn đến đất phư­ơng nam, rồi họp ngư­ời Tàu lại tại xứ nam, chọn chữ Minh để giữ quốc hiệu.",
+          "vi": "Trong tên Tuỵ Tiên Đường, “tuỵ” có nghĩa là tụ họp, còn “tiên” là người xưa quá vãng. Văn bia tại đình có ghi: Khi xây dựng một làng tất phải nhớ công lao của tiền nhân. Người đời không thể quên đức tốt đã truyền lưu. Văn bia cũng giải thích rằng các vị được thờ nơi đây trước là cựu thần nhà Minh. Vận nhà Minh đã qua, lòng họ không nhận hai vua nên từ quan, đổi tên họ, lánh nạn đến đất phương nam, rồi họp người Tàu lại tại xứ nam, chọn chữ Minh để giữ quốc hiệu.",
           "en": "In the name Tuỵ Tiên Đường, “tuỵ” means to gather and “tiên” means those who came before and have passed away. The stele here records: in building a village one must remember the work of those who came first; the world cannot forget the good they handed down. It also explains that those worshipped here were formerly officials of the Ming. When the Ming fell, they would not serve two kings, so they left office, changed their names, took refuge in the south, gathered the Chinese there, and kept the character Minh to hold on to the name of their country."
         }
       }
     ],
     "ticketClass": "other",
     "short": {
-      "vi": "Hai chữ Minh Hương vốn có nghĩa",
-      "en": "What the two words Minh Hương originally meant"
+      "vi": "Mang đậm giá trị văn hóa của những người gốc Hoa mang thân phận người dân Đại Nam dưới triều Nguyễn",
+      "en": "Carrying the culture of people of Chinese descent who lived as subjects of Đại Nam under the Nguyễn dynasty"
     },
     "highlights": [
       {
@@ -2798,12 +2552,11 @@
     "traffic": "low",
     "promoPriority": "low",
     "description": {
-      "vi": "Communal house on Le Loi street, a village worship site inside the old town.",
-      "en": "Communal house on Le Loi street, a village worship site inside the old town."
+      "vi": "Đình không chỉ gây ấn tượng thị giác mạnh mẽ mà còn là một trải nghiệm khám phá thú vị, đầy bất ngờ.",
+      "en": "The communal house is not only a strong sight; it is a walk full of small discoveries and surprises."
     },
     "quizBank": [
       {
-        "difficulty": "easy",
         "question": {
           "vi": "Đình Hội An còn có tên gọi nào khác?",
           "en": "By what other name is Đình Hội An known?"
@@ -2814,23 +2567,30 @@
             "en": "Đình Voi Ré"
           },
           {
-            "vi": "Đình Ông Voi",
-            "en": "Đình Ông Voi — the Elephant House"
-          },
-          {
             "vi": "Đình Voi Phục",
             "en": "Đình Voi Phục"
+          },
+          {
+            "vi": "Đình Ông Voi",
+            "en": "Đình Ông Voi — the Elephant House"
           }
         ],
-        "answer": 1
+        "answer": 2,
+        "explain": {
+          "vi": "Tên gọi đình Ông Voi xuất phát từ cặp tượng voi quỳ phục đặt ở sân trước. Hai pho tượng có kích thước lớn, chạm khắc tinh xảo, khoác lễ phục với nhiều chi tiết trang trí. Hình tượng voi không chỉ gây ấn tượng thị giác mà còn gắn liền với biểu tượng sức mạnh, trí tuệ trong văn hóa - tín ngưỡng dân gian. Trong Phật giáo, voi cũng là một biểu tượng của sức mạnh tâm thức, gắn với nhiều điển tích.",
+          "en": "The name “Elephant House” comes from the pair of kneeling elephant statues in the front yard. Both are large, finely carved and dressed in ceremonial cloth covered in ornament. The elephant is more than a strong image: in folk belief it stands for strength and wisdom, and in Buddhism for the power of the mind, in many well-known tales."
+        }
       },
       {
-        "difficulty": "easy",
         "question": {
           "vi": "Đây là con vật gì?",
           "en": "What creature is this?"
         },
         "options": [
+          {
+            "vi": "Long mã",
+            "en": "A dragon-horse"
+          },
           {
             "vi": "Sư tử",
             "en": "A lion"
@@ -2838,39 +2598,52 @@
           {
             "vi": "Lân",
             "en": "A qilin"
-          },
-          {
-            "vi": "Long mã",
-            "en": "A dragon-horse"
           }
         ],
-        "answer": 2
+        "answer": 0,
+        "explain": {
+          "vi": "Hình trên bình phong là một cách điệu của hình tượng Long mã Hà đồ. Truyền thuyết kể rằng, Long Mã xuất hiện trên sông Hoàng Hà, dưới thời Phục Hy, mình xanh, vằn đỏ, trên lưng có mang bức Hà đồ, hay Mã đồ, là sách trời ban cho vua để trị nước.",
+          "en": "The figure on the spirit screen is a stylised Long Mã carrying the River Chart. Legend tells that the dragon-horse appeared on the Yellow River in the time of Phục Hy, blue-bodied with red stripes, bearing on its back the Hà đồ — the chart sent by heaven for the king to rule the land."
+        }
       },
       {
-        "difficulty": "hard",
         "question": {
           "vi": "Bạn đã lên ban thờ trên tầng hai chưa? Hãy đi tìm lối lên tầng. Trên mái nhà đối diện là hoạ tiết gì?",
           "en": "Have you been up to the altar on the first floor? Find the stairs. What is the motif on the roof opposite?"
         },
         "options": [
           {
-            "vi": "Rồng dây và mặt trời",
-            "en": "A vine dragon and the sun"
-          },
-          {
             "vi": "Cá và bình hồ lô",
             "en": "A fish and a gourd bottle"
+          },
+          {
+            "vi": "Rồng dây và mặt trời",
+            "en": "A vine dragon and the sun"
           },
           {
             "vi": "Rồng và bình hồ lô",
             "en": "A dragon and a gourd bottle"
           }
         ],
-        "answer": 0
+        "answer": 1
       }
     ],
     "ticketClass": "other",
-    "closed": true
+    "closed": true,
+    "short": {
+      "vi": "Tưởng không bất ngờ, nhưng bất ngờ không tưởng với đường đi lên hậu tẩm",
+      "en": "You think nothing will surprise you — then you find the way up to the rear shrine"
+    },
+    "highlights": [
+      {
+        "vi": "Hình tượng trang trí ấn tượng ở sân trước",
+        "en": "The striking ornamental figures in the front yard"
+      },
+      {
+        "vi": "Hậu tẩm hai tầng độc đáo – view phố cổ có một không hai",
+        "en": "A two-storey rear shrine — and a view over the old town you get nowhere else"
+      }
+    ]
   },
   {
     "id": "trinh-nghe-xi-ma",
@@ -2880,10 +2653,9 @@
       "en": "Xi Ma Craft Demonstration"
     },
     "category": "trai-nghiem",
-    "lat": 15.8806,
-    "lng": 108.3302,
+    "lat": 15.8792288,
+    "lng": 108.3298632,
     "radius": 75,
-    "needsSurvey": true,
     "address": {
       "vi": "45/17 đường Trần Hưng Đạo",
       "en": "45/17 đường Trần Hưng Đạo"
@@ -2895,14 +2667,13 @@
     "traffic": "low",
     "promoPriority": "low",
     "description": {
-      "vi": "Live demonstration of xi ma — the black sesame sweet soup that is a Hoi An street-food institution.",
-      "en": "Live demonstration of xi ma — the black sesame sweet soup that is a Hoi An street-food institution."
+      "vi": "Chè mè đen từng theo những gánh hàng rong đi khắp phố cổ từ sáng sớm. Ở điểm trình nghề, khách xem cách xay mè, nấu chè và nghe vì sao bát chè này vừa là món ăn vừa là thang thuốc.",
+      "en": "Black sesame sweet soup used to travel the old town on shoulder poles from first light. At the demonstration house you watch the sesame ground and the soup cooked, and hear why the bowl is both a dish and a remedy."
     },
     "quizBank": [
       {
-        "difficulty": "easy",
         "question": {
-          "vi": "Thành phần nào sau đây không có trong chè Xí Mà",
+          "vi": "Thành phần nào sau đây không có trong chè Xí Mà?",
           "en": "Which of these is not in xí mà sweet soup?"
         },
         "options": [
@@ -2911,31 +2682,26 @@
             "en": "Rehmannia root"
           },
           {
-            "vi": "Rau má",
-            "en": "Pennywort"
-          },
-          {
             "vi": "Bột sắn",
             "en": "Cassava starch"
+          },
+          {
+            "vi": "Rau má",
+            "en": "Pennywort"
           }
         ],
-        "answer": 2,
+        "answer": 1,
         "explain": {
           "vi": "Nguyên liệu chủ yếu để làm xí mà chính là mè đen, ngoài ra còn có các loại: bột khoai, thanh địa, rau má, rau mơ, và đường, những thứ này toàn là những nguyên liệu sẵn có của địa phương, duy chỉ có thanh địa là một vị thuốc của Đông y (thuốc Bắc) phải mua ở tiệm thuốc.",
           "en": "The main ingredient of xí mà is black sesame, together with cassava starch, rehmannia root, pennywort, fish mint and sugar. All of these are local, except rehmannia root, a herb of Eastern medicine that has to be bought at a pharmacy."
         }
       },
       {
-        "difficulty": "hard",
         "question": {
           "vi": "Tên xí mà có nguồn gốc từ đâu?",
           "en": "Where does the name xí mà come from?"
         },
         "options": [
-          {
-            "vi": "Tiếng Quảng Đông",
-            "en": "Cantonese"
-          },
           {
             "vi": "Phương ngữ miền Trung",
             "en": "A central Vietnamese dialect"
@@ -2943,34 +2709,37 @@
           {
             "vi": "Tiếng Nhật",
             "en": "Japanese"
-          }
-        ],
-        "answer": 0
-      },
-      {
-        "difficulty": "easy",
-        "generated": true,
-        "question": {
-          "vi": "Điểm tham quan trình nghề Xí Mà nằm trên đường nào?",
-          "en": "Which street is Xi Ma Craft Demonstration on?"
-        },
-        "options": [
-          {
-            "vi": "Trần Hưng Đạo",
-            "en": "Trần Hưng Đạo"
           },
           {
-            "vi": "Nguyễn Thị Minh Khai",
-            "en": "Nguyễn Thị Minh Khai"
-          },
-          {
-            "vi": "Nguyễn Thái Học",
-            "en": "Nguyễn Thái Học"
+            "vi": "Tiếng Quảng Đông",
+            "en": "Cantonese"
           }
         ],
-        "answer": 0
+        "answer": 2,
+        "explain": {
+          "vi": "Xí mà (đọc lệch từ \"chí mà phù\") là một từ có gốc từ tiếng Quảng Đông (Trung Quốc), dùng để chỉ món chè mè đen (súp mè đen xay nhuyễn). Chí mà có nghĩa là mè đen và phù có nghĩa là xay nhuyễn.",
+          "en": "Xí mà — a slurring of “chí mà phù” — comes from Cantonese and names the black sesame sweet soup. Chí mà is black sesame, and phù means ground smooth."
+        }
       }
     ],
-    "ticketClass": "other"
+    "ticketClass": "other",
+    "short": {
+      "vi": "Cơ hội học nấu món chè đặc trưng của Hội An khi đi du lịch",
+      "en": "A chance to learn to cook Hội An's own sweet soup while you travel"
+    },
+    "highlights": [
+      {
+        "vi": "Cách xay và nấu mè đen theo lối cũ",
+        "en": "How the black sesame is ground and cooked the old way"
+      },
+      {
+        "vi": "Các vị đi cùng mè đen: thanh địa, rau má, rau mơ",
+        "en": "What goes in with it: rehmannia root, pennywort, fish mint"
+      },
+      {
+        "vi": "Tự tay nấu và nếm một bát chè nóng",
+        "en": "Cook a bowl yourself, and taste it hot"
+      }
+    ]
   }
 ]

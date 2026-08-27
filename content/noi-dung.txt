@@ -1,0 +1,498 @@
+# Chùa Quan Âm
+addr: 26 Trần Phú
+hours: 7:30 - 19:30
+S: “Tịnh cảnh đối phồn hoa, cửa chùa luôn tự tại”, ngôi chùa nhỏ thể hiện văn hóa Phật giáo tại Hội An.
+L: Cách Miếu Quan Công một khoảng vườn thanh tịnh làm nao lòng du khách, ngôi chùa là chốn tự tại giữa cảnh phồn hoa, giữ gìn nếp cũ người Minh Hương
+D: Bài trí giản dị với tượng thờ và tranh vẽ phía sau
+D: Bộ tranh mười tám vị La Hán
+D: Tượng Phật Bà ở sân trong, giữa tiểu cảnh và hồ nước nhỏ
+Q: Tại sao vị bồ tát này lại có ngoại hình dữ tợn?
+A: Để hàng phục quỷ đói
+A: Để tăng uy thế cho điện thờ
+A: Để bảo vệ linh tháp
+E: Tiêu Diện Đại Sĩ là một hóa thân của Quan Thế Âm Bồ Tát, cai quản, nhiếp phục loài ngạ quỷ (quỷ đói) và cứu độ chúng sinh lầm đường lạc lối. Đối diện với Tiêu Diện Đại Sĩ là Vi Đà Tôn Thiên, mang sắc tướng khôi ngô, là người bảo vệ. Hai vị cũng được gọi là Ông Thiện và Ông Ác.
+Q: Quan Thế Âm Bồ Tát cầm gì trên tay trái?
+A: Bình tịnh thuỷ
+A: Nhành dương liễu
+A: Bình hồ lô
+E: Tay trái Quan Âm cầm bình thanh tịnh đựng nước cam lồ, biểu trưng cho lòng từ bi. Tay phải bà cầm nhành dương liễu để rưới nước cam lồ cho lòng người mát mẻ. Nước này rưới đến đâu là chan rải tình thương đến đó, xoa dịu mọi khổ đau của chúng sanh.
+
+# Miếu Quan Công
+addr: 24 Trần Phú
+hours: 7:30 - 19:30
+S: Nổi bật với sắc đỏ uy phong của lòng chính trực, là trung tâm tín ngưỡng quan trọng bậc nhất cảng thị này.
+L: Một di tích lâu đời chứng kiến những đổi thay của phố Hội. Nhiều hợp đồng thương mại đã từng được ký kết ở nơi đây, dưới sự chứng giám của Quan Thánh.
+D: Hoành phi được tiến cúng bởi các hội quán người Hoa khác nhau
+D: Bài thơ của Xuân Quận công Nguyễn Nghiễm
+D: Tượng Quan Công, hai đệ tử cùng ngựa Xích Thố và Bạch Thố
+Q: Tại sao Quan Thánh Đế Quân (Quan Công) lại được thờ phụng ở Hội An?
+A: Ngài là tấm gương nghĩa khí
+A: Ngài đảm bảo sự an toàn cho phố cảng
+A: Ngài có khả năng chữa bệnh
+E: Tri huyện Trương Tăng Diễn từng cúng một câu đối thể hiện uy linh của Quan Thánh Đế Quân với người Việt: “Nhất điểm đan tâm tồn Bắc sử; Thiên thu nghĩa khí tráng Nam cương” (Một tấm lòng son lưu sử Bắc; Ngàn năm nghĩa khí tráng Nam cương). Đặc biệt, thương nhân ở Hội An còn coi Ngài là bậc Thánh chứng cho chữ tín trong giao thương và trừng phạt những kẻ vi phạm khế ước.
+Q: Nhìn theo hướng từ chính điện ra, con ngựa bên trái Quan Công có màu gì?
+A: Đỏ
+A: Trắng
+A: Đen
+E: Phía bên trái của Quan Công là tượng ngựa Xích Thố, toàn thân một màu đỏ rực như lửa. Trong tiểu thuyết “Tam Quốc diễn nghĩa”, Xích Thố đã qua nhiều đời chủ rồi gắn bó với nhân vật Quan Vũ. Sau khi Quan Vũ mất, ngựa bỏ ăn mà chết để bày tỏ lòng trung thành.
+Q: Bức tranh phía bên trái từ trong chính điện nhìn ra vẽ cảnh gì?
+A: Quan Công phò nhị tẩu (Quan Công hộ tống hai người chị dâu)
+A: Đào viên kết nghĩa (Kết nghĩa ở vườn đào)
+A: Tam cố mao lư (Ba lần đến nhà tranh)
+E: Trong tranh, Quan Vũ hộ tống hai người vợ của Lưu Bị vượt qua năm cửa ải của Tào Tháo và chém sáu tướng cản đường để trở về với Lưu Bị. Ở phía bức tường còn lại, vẽ cảnh Châu Thương xin quy phục Quan Vũ. Sự kiện này cũng diễn ra trên đường trở về với Lưu Bị. Cả thiên truyện “vượt năm ải, chém sáu tướng” ca ngợi lòng trung thành và tiết nghĩa tuyệt đối của Quan Vũ. Về Châu Thương, đây là một trong hai đệ tử thường được phối thờ với Ngài. Châu Thương là người cầm Thanh Long yển nguyệt đao đứng phía tay trái Quan Công trong miếu này.
+
+# Bảo tàng Gốm sứ mậu dịch
+addr: 80 Trần Phú
+hours: 7:00 - 21:00
+S: Một vòng cảng thị từ gốm Hizen, Phước Kiến, đến gốm Islam, Chu Đậu.
+L: Gốm là một minh chứng cho thời thông thương sôi động tại Hội An. Bên cạnh thổ sản, tơ tằm, đã từng có những con thuyền chở toàn gốm đến, đi, và cả nằm lại dưới biển.
+D: Sản phẩm gốm tới từ Nhật Bản, Trung Hoa, Trung Đông,...
+D: Gốm Chu Đậu mỏng như giấy, trong như ngọc
+D: Câu chuyện từ những di chỉ gốm
+Q: Họa tiết này nằm trong hiện vật nào?
+A: Một chiếc bát
+A: Một chiếc đĩa
+A: Một chiếc thau
+E: Chi tiết nằm trong một chiếc bát sứ Hizen, Nhật Bản, có niên đại khoảng nửa sau thế kỷ XVII. Hoạ tiết Thọ Lão cưỡi hạc này rất phổ biến trong gốm sứ Đông Á, thể hiện mong ước sống trường thọ.
+Q: Bạn có thể đi tìm chú cua này không? Ai là người làm ra chú?
+A: Người Việt thế kỷ XV-XVI
+A: Người Nhật thế kỷ XVII
+A: Người Hoa thế kỷ XVII
+E: Chu Đậu là dòng gốm cổ cao cấp nổi tiếng của Việt Nam có lịch sử gần 600 năm, phát triển rực rỡ từ thế kỷ XIV – XVI trước khi bị thất truyền và được phục hưng thành công. Làm từ đất sét trắng đặc trưng vùng Trúc Thôn (Chí Linh, Hải Dương), dòng gốm này được ca ngợi là “mỏng như giấy, trong như ngọc, trắng như ngà, kêu như chuông”.
+Q: Làm sao mà chú cua này vẫn còn nguyên vẹn sau vụ đắm tàu?
+A: Vì chúng nằm trong lớp bùn biển
+A: Vì chúng được vớt lên ngay sau đó
+A: Vì chúng nằm gần bờ
+E: Sau khi con tàu chở những đồ gốm này bị đắm, khả năng cao thân tàu đã nhanh chóng chìm vào lớp bùn, khiến cho một phần thân tàu còn nguyên vẹn và nhiều đồ gốm có thể được phát hiện nguyên trạng trong tàu.
+
+# Bảo tàng Văn hóa Sa Huỳnh
+addr: 149 Trần Phú
+hours: 8:00 - 21:00
+S: Cách đây 2000 năm, người ta đã sống tại nơi bạn đang đứng như thế nào?
+L: Sa Huỳnh là một trong ba cái nôi văn minh cổ xưa lớn nhất Việt Nam. Quan sát sự tương đồng của hiện vật sắt Sa Huỳnh tại Hội An với hiện vật sắt thời Hán, các nhà nghiên cứu đã kết luận nơi đây từng có một cảng thị sơ khai. Liệu những cư dân từ xa xưa của vùng đất này từng sống như thế nào?
+D: Táng tục mộ chum
+D: Các chế tác quan trọng như công cụ lao động và trang sức
+D: Kỹ thuật sản xuất đồ gốm
+Q: Những chiếc chum lớn từng được dùng để làm gì?
+A: Mai táng người đã khuất
+A: Dự trữ nước mưa
+A: Dự trữ lương thực
+E: Táng mộ chum là hình thức mai táng nổi bật nhất của cư dân văn hóa Sa Huỳnh, trong đó người chết được đặt nguyên thi thể, than tro hỏa táng hoặc di cốt vào bên trong một chiếc chum bằng gốm đất nung cùng một vài đồ tùy táng như công cụ sản xuất hay trang sức.
+Q: Chất liệu nào được dùng rộng rãi nhất để sản xuất công cụ lao động của cư dân Sa Huỳnh?
+A: Sắt
+A: Đá
+A: Đồng
+E: Công cụ lao động phổ biến của người Sa Huỳnh chủ yếu được làm bằng sắt, bên cạnh các vật liệu truyền thống như đá, gốm và vỏ nhuyễn thể. Đồ sắt được phát hiện trong các di tích ở Hội An hầu hết nằm bên trong mộ chum, có kích thước lớn và đã qua sử dụng. Rất có thể đây là hiện vật mà lúc còn sống chủ nhân của chúng đã từng sử dụng.
+
+# Bảo tàng Nghề Y Truyền thống
+addr: 34 Nguyễn Thái Học
+hours: 8:00 - 21:30
+S: Nhức đầu, mỏi mắt, tê chân? Tận tình anh dẫn ả coi chốn này.
+L: Từ thế kỷ XVI, thương cảng Hội An đã là nơi phân phối đa dạng từ thuốc Bắc đến thuốc Nam. Vào khoảng thế kỷ XIX-XX, những hiệu thuốc lớn nhỏ với nhiều thầy thuốc giỏi đã trở thành một phần bộ mặt phố Hội.
+D: Mô hình hiệu thuốc Đông Y
+D: Các vị thuốc phổ biến trong Đông Y
+D: Phương pháp chẩn bệnh, chữa bệnh xưa
+Q: Thầy thuốc đặt tay lên cổ tay bệnh nhân nhằm mục đích gì?
+A: Xác định tình trạng tạng phủ, khí huyết
+A: Khám tình trạng cổ tay
+A: Chẩn đoán thai sản
+E: Bắt mạch trong Y học cổ truyền là phương pháp chẩn đoán bệnh bằng cách dùng tay cảm nhận sự vận hành của khí huyết trong mạch máu, từ đó suy đoán tình trạng sinh lý và bệnh lý của cơ thể. Bắt mạch có thể xem thai, tuy nhiên đây không phải tác dụng duy nhất.
+Q: Vị thuốc nào được mệnh danh là “nhân sâm của người nghèo"?
+A: Cây đinh lăng
+A: Cây ngải cứu
+A: Cây tía tô
+E: Trong rễ và lá đinh lăng có chứa saponin triterpenoid - nhóm hoạt chất sinh học tương tự như trong nhân sâm. Saponin có những tác dụng như tăng sức đề kháng, bồi bổ thần kinh, chống oxy hóa, cải thiện trí nhớ và chức năng gan. Ngoài ra đinh lăng còn chứa 17 loại axit amin có lợi cho hệ thần kinh, hệ miễn dịch, và giúp chống viêm, kháng khuẩn.
+Q: Siêu sắc thuốc xưa cần phải đảm bảo tính chất nào?
+A: Không ảnh hưởng đến tính vị của thuốc
+A: Cách nhiệt khi đun
+A: Có thể chống tràn
+E: Điều quan trọng nhất của siêu sắc thuốc là không phản ứng hoá học với dược liệu, giữ nguyên tính vị của thuốc.
+
+# Bảo tàng Văn hóa dân gian
+addr: 33 Nguyễn Thái Học
+hours: 8:00 - 21:30
+S: Kho tàng tri thức bản địa sống động tái hiện hồn cốt Hội An.
+L: Bề dày truyền thống văn hóa, sự sáng tạo, những đóng góp của các thế hệ cư dân địa phương trong quá trình xây dựng phát triển vùng đất Hội An.
+D: Sinh kế của người bản địa
+D: Các lễ hội địa phương
+Q: Người ta bắt tôm vào thời điểm nào trong ngày?
+A: Đêm
+A: Sáng sớm
+A: Chiều
+E: Tôm thường được bắt vào ban đêm hoặc chiều tối (từ chập tối đến sáng sớm) vì đây là lúc tôm có tập tính rời nơi ẩn nấp để đi tìm kiếm thức ăn.
+Q: Trong các ngày hội lớn, người dân bản địa thường chơi trò chơi dân gian nào?
+A: Bài chòi
+A: Tổ tôm điếm
+A: Cờ người
+E: Bài chòi lưu hành phổ biến ở một số địa phương miền Trung từ Quảng Bình đến Bình Thuận. Qua lời kể của những nghệ nhân, vào cuối thế kỷ XVI đầu thế kỷ XVII, nhiều thú dữ trên rừng thường về quấy nhiễu cuộc sống. Người dân vì thế đã dựng những chiếc chòi rất cao ở ven rừng, cắt cử thanh niên trai tráng canh gác. Trong quá trình ấy, để đỡ buồn chán, người ta nghĩ ra cách giao lưu với nhau bằng những câu hát, câu hò, hô bài tứ sắc.
+Q: Làng mộc nổi tiếng ở Hội An có tên là gì?
+A: Kim Bồng
+A: Trà Quế
+A: Thanh Hà
+E: Rất nhiều kiến trúc nhà cửa, chùa quán... ở khu phố cổ Hội An in dấu bàn tay thợ mộc Kim Bồng. Trong đó phải kể đến nhà cổ Tấn Ký, Tụy Tiên Đường Minh Hương và Miếu Quan Công.
+
+# Bảo tàng Thổ sản
+addr: 57 Trần Phú
+hours: 8:00 - 21:30
+S: Một lát cắt về mạng lưới thương mại thế kỷ XVI-XVII thông qua các loại thổ sản.
+L: Thổ sản là một trong những mặt hàng được xuất khẩu qua thương cảng Hội An. Từ thế kỷ XVI, các thuyền buôn Bồ Đào Nha đã đến đây mua hàng như tơ, lụa, hồ tiêu, gỗ quý, thông qua các đại lý người Hoa hay người Nhật.
+D: Quá trình khai thác kỳ nam, lâm sản quý hiếm bậc nhất
+D: Giá cả và tầm quan trọng của từng mặt hàng trong thị trường thổ sản
+D: Những vật dụng sử dụng trong buôn bán
+Q: Trong số các sản vật này, sản vật nào là quý hiếm và đắt giá nhất?
+A: Kỳ nam
+A: Trầm hương
+A: Quế
+E: Một ghi chép từ năm 1600 cho thấy: “Kỳ nam hương màu đen, có dầu và giá 50 cruzados một catty nơi người Bồ Đào Nha, trong khi tại chính nơi sản xuất, nó trị giá ngang với bạc, bao nhiêu kỳ nam hương là bấy nhiêu bạc.” Nhiều thương nhân người Hoa sẵn sàng đợi cả năm chỉ để có đủ kỳ nam cho một chuyến tàu đến Nhật Bản, nơi giá cả được đẩy lên gấp 40 lần giá tại chỗ.
+Q: Loại sản vật nào xuất hiện trên Cửu Đỉnh?
+A: Cau
+A: Tiêu
+A: Lá lao
+E: Cửu đỉnh là báu vật tượng trưng cho đế nghiệp muôn năm vững bền của triều Nguyễn, với 153 tấm họa tiết chạm nổi thể hiện phong cảnh, sản vật và con người Việt Nam. Trong số đó có 9 loại dược liệu và hương liệu quý, bao gồm kỳ nam, trầm hương, dâu tằm, tô hợp, yến sào, trầu không, cau, quế, và sâm ta.
+
+# Nhà trưng bày Văn hóa Nhật Bản
+S: Một vòng văn hóa Nhật Bản với những thực hành và món đồ chơi truyền thống
+Q: Trong dòng búp bê Koga, con khỉ đang ôm loài vật gì?
+A: Gà
+A: Chó
+A: Mèo
+E: Hiện này là một mẫu thiết kế có tên gọi "Khỉ ôm gà" của dòng búp bê Koga truyền thống đến từ tỉnh Nagasaki. Thiết kế này là một sự kết hợp độc đáo tượng trưng cho sự chuyển giao của 12 con giáp từ năm Thân (Saru) sang năm Dậu (Tori). Trong văn hóa Nhật Bản, từ con khỉ (saru) là một cách chơi chữ đồng âm với từ "rời đi" (saru / 去る), mang ý nghĩa xua đuổi những điều xui xẻo hoặc vận rủi.
+
+# Nhà thờ tộc Trần
+addr: 21 Lê Lợi
+hours: 7:00 - 21:00
+S: Nhà thờ cổ 200 năm tuổi ẩn trong một khu vườn, với lối kiến trúc pha trộn từ ba nền văn hoá.
+L: Xuyên qua khu vườn yên ả là từ đường của tộc Trần, khởi dựng từ năm 1802 bởi một vị quan trước khi đi sứ sang Trung Quốc.
+D: Kiến trúc nhà vườn cổ kính
+D: Các cổ vật mang nhiều dấu ấn văn hoá
+D: Không gian thờ tự trang nghiêm
+Q: Con hổ trong bức tranh ở gian ngoài đang làm gì?
+A: Gầm
+A: Nhảy qua suối
+A: Ngồi
+E: Trên bức tranh có viết hai chữ “Hổ khiếu” tức hổ gầm, tượng trưng cho sức mạnh dũng mãnh, uy lực vang dội, có thể xua đuổi tà khí.
+Q: Khi muốn xin ý kiến của tổ tiên, chủ nhà sẽ thực hiện hành động gì?
+A: Xin đài âm dương
+A: Xin giáng bút
+A: Xin báo mộng
+E: Xin đài âm dương (xin keo) là nghi thức gieo hai đồng xu hoặc hai miếng gỗ bán nguyệt để hỏi ý kiến thần linh, gia tiên phù hộ về những việc hệ trọng như làm nhà, kinh doanh, thi cử, ốm đau...
+Q: Kết cấu kiến trúc này có tên là gì?
+A: Vì vỏ cua
+A: Vì chồng rường giả thủ
+A: Vì giá chiêng
+E: Vì vỏ cua là một kiểu kết cấu vì kèo gỗ truyền thống trong kiến trúc cổ của người Việt, thường gặp ở Hội An, Huế và các vùng lân cận. Các vì vỏ cua thường được thợ mộc chạm trổ hoa văn, họa tiết rất tinh xảo, vừa mang tính chịu lực đỡ mái vừa làm điểm nhấn trang trí cho không gian nội thất.
+
+# Nhà thờ tộc Nguyễn Tường
+addr: 8/2 Nguyễn Thị Minh Khai
+hours: 8:00 - 21:00
+S: Câu chuyện về dòng họ được khai cơ bởi một vị Thượng thư – cội nguồn của những nhà văn lớn thế kỷ XX.
+L: Di tích gắn với sự phát tích của dòng họ Nguyễn Tường ở Hội An và của nhóm Tự Lực Văn Đoàn.
+D: Các tác phẩm của nhóm Tự Lực Văn Đoàn
+D: Sắc phong của bốn triều vua
+D: Không gian thờ tự trang nghiêm
+Q: Ngôi nhà này được xây dựng bởi ai?
+A: Một vị thượng thư triều Nguyễn
+A: Một nhà văn
+A: Một hoạ sĩ
+E: Nguyễn Tường Vân là một vị quan đại thần dưới triều vua Gia Long và Minh Mạng, từng giữ chức Binh bộ Thượng thư và mang tước Nhuận Trạch Hầu. Ngay trước nhà còn liễn đối ca ngợi ông: “Nhuận Trạch hầu gia khí thế trường tồn uy hải ngoại. Thượng thư Binh bộ thanh danh quảng bá Việt trung.” Chức Binh bộ Thượng thư tương đương với Bộ trưởng Bộ Quốc phòng ngày nay.
+Q: Phần trung tâm của ngôi nhà này được sử dụng để làm gì?
+A: Thờ cúng
+A: Tiếp khách
+A: Sáng tác văn chương
+E: Trước gian thờ là hoành phi ghi bốn chữ “Nguyễn Tường từ đường”, hai bên là liễn đối: “Thiên tải tần phồn truy viễn, thử tâm hà cảm giải. Nhất diên tu tiến đốc thân, tư niệm khởi năng vong.” Tạm dịch: Ngàn năm dâng lễ cúng tế tưởng nhớ tổ tiên, tấm lòng này sao dám trễ nải. Một mâm cúng dâng món ngon hiếu kính người thân, đạo lý này há thể nào quên.
+Q: Tác giả nào là hậu duệ của tộc Nguyễn Tường?
+A: Thạch Lam
+A: Khái Hưng
+A: Nguyên Hồng
+E: Thạch Lam là hậu duệ của dòng họ khoa bảng Nguyễn Tường. Tuy vậy, cuộc đời sáng tác của ông gắn liền với phố huyện Cẩm Giàng (Hải Dương) và Hà Nội. Ông viết về một chiều hoàng hôn ở phố huyện tù đọng và bị lề hóa: “Tiếng trống thu không trên cái chòi của huyện nhỏ; từng tiếng một vang ra để gọi buổi chiều. Phương tây đỏ rực như lửa cháy và những áng mây ánh hồng như hòn than sắp tàn. [...] Chiều, chiều rồi. Một chiều êm ả như ru, văng vẳng tiếng ếch nhái kêu ra ngoài đồng ruộng theo gió nhẹ đưa vào.”
+
+# Nhà cổ Phùng Hưng
+addr: 4 Nguyễn Thị Minh Khai
+hours: 8:00 - 18:00
+S: Nhà cổ rộng rãi, với kiến trúc pha trộn từ ba nền văn hoá Việt - Nhật - Trung
+L: Mong muốn gia đình sẽ làm ăn ngày càng phát đạt, vị thương nhân đã đặt tên cho ngôi nhà là “Phùng Hưng” - cũng là tên hiệu buôn của ông, mang nghĩa là “hưng thịnh”.
+D: Các bộ tranh được tạo bằng kỹ thuật truyền thống
+D: Mái nhà giữa được thiết kế theo kiểu "tứ hải" của Nhật Bản
+D: Bộ liễn đối theo lối “hồi văn” - dù đọc xuôi hay đọc ngược thì ý nghĩa không đổi
+Q: Hai bộ tranh này được tạo ra bằng kỹ nghệ gì?
+A: Cẩn xà cừ
+A: Ghép sành sứ
+A: Pháp lam
+E: Cẩn xà cừ (khảm trai) là nghề thủ công truyền thống lâu đời tại Việt Nam, dùng các mảnh vỏ trai, vỏ ốc cắt gọt tinh xảo để cẩn lên bề mặt gỗ, kim loại hoặc sơn mài. Các chi tiết cẩn xà cừ có độ óng ánh, đổi màu theo góc nhìn.
+Q: Chiếc cửa sập trong nhà dùng để làm gì?
+A: Chuyển hàng hóa, đồ đạc lên tầng
+A: Thông gió
+A: Đi lại giữa gác và tầng trệt
+E: Xưa kia, do phố cổ Hội An nằm gần sông và hay bị ngập lụt mùa nước lên, chủ nhà dùng cửa sập này để nhanh chóng chuyển và kéo hàng hóa từ tầng trệt lên gác lửng nhằm tránh lũ.
+Q: Bộ tượng này là nhân hóa của các giá trị gì?
+A: Phúc - Lộc - Thọ
+A: Nhân - Lễ - Nghĩa
+A: Tòng Phụ - Tòng Phu - Tòng Tử
+E: Phúc Lộc Thọ (hay Tam Đa) là biểu tượng trong văn hóa Á Đông tượng trưng cho ba điều ước lớn nhất của đời người: may mắn/hạnh phúc (Phúc), sự thịnh vượng/giàu sang (Lộc), và sức khỏe/sống lâu (Thọ).
+
+# Nhà cổ Quân Thắng
+addr: 77 Trần Phú
+hours: 9:00 - 19:00
+S: Ngôi nhà hơn 300 tuổi mang văn hoá người Hoa
+L: Nhà cổ Quân Thắng được xây dựng vào khoảng cuối thế kỷ 17, pha trộn giữa phong cách Trung Hoa và Việt Nam.
+D: Kiến trúc nhà ống đặc trưng của Hội An
+D: Các chi tiết điêu khắc gỗ tinh xảo
+D: Nội thất và trang trí của cộng đồng người Hoa
+Q: Chủ nhân đầu tiên của ngôi nhà này là ai?
+A: Thương nhân kinh doanh hàng hóa quý hiếm
+A: Thương nhân buôn gốm
+A: Chủ hiệu sách
+E: Chủ nhân đầu tiên là ông Quân Thắng, một thương nhân người Hoa giàu có bậc nhất tại phố Hội thời xưa. Bà Diệp Ái Phương (cháu đời thứ 7 của thương nhân Quân Thắng) cho biết, ban đầu nơi đây là một hiệu buôn sầm uất, chuyên kinh doanh các loại hàng hóa quý hiếm.
+Q: Những con số này biểu thị điều gì?
+A: Mốc nước lũ theo từng năm
+A: Chiều cao các thành viên trong gia đình
+A: Chiều cao của các loại cây kiểng khác nhau
+E: Bà Diệp Ái Phương cho biết việc ghi dấu mực nước trên cột gỗ đã có từ thời ông cha để lại. Con cháu trong dòng họ vẫn tiếp tục gìn giữ, bảo tồn. Trong những ngày lũ, gia đình bà chuyển toàn bộ sinh hoạt lên tầng 2 để đảm bảo an toàn. Trên cột nhà có ghi lại trận lũ Giáp Thìn 1964, một trận "đại hồng thủy" gây thiệt hại nghiêm trọng cho các tỉnh miền Trung từ Huế đến Bình Định (cũ).
+Q: Hình ảnh được chạm trên cuốn thư ở giếng trời là gì?
+A: Cây tùng và hươu
+A: Cây tùng và hạc
+A: Hoa cúc và chim trĩ
+E: Hình ảnh tùng và hươu là một hình ảnh phổ biến trong trang trí ở Đông Á, trong đó cây tùng diện cho sức sống bền bỉ, sự hiên ngang và khí tiết vượt qua nghịch cảnh còn hươu (âm Hán Việt là “lộc”) có phát âm tương tự chữ "lộc" (tài lộc, bổng lộc). Trong kiến trúc nhà ống dài không có cửa sổ bên hông, thiên tỉnh là nguồn cung cấp ánh sáng và khí trời duy nhất. Ở ngay sát cửa có thể thấy hai bài vị thờ “Thiên quan tứ phúc” và “Tư mệnh táo quân”. Thờ cúng ông Thiên là truyền thống của nhiều gia đình người Hoa. Bài vị thờ “Thiên quan tứ phúc” sẽ được đặt ở nơi thoáng đãng, lộ thiên để đón phúc khí.
+
+# Nhà cổ Đức An
+addr: 129 Trần Phú
+hours: 9:00 - 19:00
+S: Hình hài của tinh thần yêu nước, tinh thần cách mạng qua nhiều thế hệ.
+L: Một ngôi nhà ghi lại quá trình phát triển của phong trào yêu nước đầu thế kỷ XX, từ phong trào Duy Tân cho đến hoạt động cách mạng của Đảng Cộng sản.
+D: Dụng cụ sinh hoạt và ảnh tư liệu của đồng chí Cao Hồng Lãnh
+D: Cổ vật của gia đình Đức An
+D: Phần nào hoạt động của nhóm Tam Quảng
+Q: Trước kia nhà Đức An từng bán sách của tác giả nào?
+A: Sách của Khang Hữu Vi, Lương Khải Siêu
+A: Sách của Cù Thu Bạch
+A: Sách của Hà Ân Chấn
+E: Từ cuối thế kỷ XIX, ngôi Nhà Đức An là nơi bán sách, chủ yếu là sách tiếng Hoa của tác giả Khang Hữu Vi, Lương Khải Siêu,... Trong thời gian này, các nhà yêu nước kháng Pháp như Huỳnh Thúc Kháng, Trần Quý Cáp... thường lui tới để đặt mua những cuốn sách có nội dung tư tưởng tiến bộ. Cụ Trần Quý Cáp đã cho gia chủ các chữ được ghi trên liễn đối: “Vân trình ngũ sắc văn minh thịnh; Vạn tuế tam xuân khí tượng tân” (có nghĩa: Mây quý hiển linh giúp nền văn minh rực rỡ; Vạn năm khí sắc xuân lành), thể hiện khát khao canh tân, phát triển đất nước.
+Q: Vì sao hiệu Đức An chuyển sang bán thuốc bắc?
+A: Thực dân Pháp đàn áp Trung Kỳ dân biến
+A: Việc bán sách không còn thu được lợi nhuận
+A: Hiệu Đức An gặp được nguồn cung thuốc tốt
+E: Sau sự kiện chống thuế năm 1908, nhà Đức An chuyển sang bán thuốc Bắc hòa vào việc buôn bán tấp nập cùng nhiều hiệu thuốc Bắc ở Hội An song vẫn là điểm hẹn gặp gỡ của các chí sĩ yêu nước trong khu vực. Trong vụ dân biến này, nông dân kéo nhau thành từng đoàn đến bao vây các dinh công sứ Pháp để nộp đơn xin giảm sưu thuế. Thực dân Pháp sau đó đã dùng vũ lực đàn áp đẫm máu, bắt bớ và đày ải nhiều sĩ phu, nông dân yêu nước.
+Q: Từ năm 1927 đến năm 1934, chủ nhà Đức An đã sử dụng nơi này để tổ chức những hoạt động gì?
+A: Liên lạc, hội họp của phong trào cách mạng
+A: Gặp gỡ các cầu thủ của đội bóng Ô-rô
+A: Chẩn bệnh miễn phí cho người nghèo
+E: Tháng 10/1927, tại chính căn nhà này, đồng chí Năm Thêm chủ trì cuộc họp thành lập Hội Việt Nam Cách mạng Thanh niên Hội An. Từ ngày 28/03/1930, Tỉnh ủy Đảng Cộng sản Việt Nam Quảng Nam được thành lập ở Hội An, nhà Đức An tiếp tục trở thành nơi liên lạc và tổ chức hội họp của Đảng. Năm 1934, do sự chỉ dẫn của mật thám, lính Pháp đã đến lục soát ngôi nhà này và tìm thấy một vài tài liệu tiếng nước ngoài. Từ đó, nhà Đức An tạm đình chỉ làm nơi liên lạc của Đảng.
+
+# Nhà cổ Tấn Ký
+addr: 101 Nguyễn Thái Học
+hours: 8:30 - 18:00
+S: “Bảo tàng sống” giữ gần như nguyên vẹn kiến trúc đặc trưng nhà cổ Hội An xưa.
+L: Nhà cổ Tấn Ký không chỉ đẹp ở kiến trúc mà còn giống như một bảo tàng thu nhỏ với vô vàn cổ vật thú vị
+D: Chén Khổng Tử từ Phước Kiến
+D: Nội thất gỗ được chạm cầu kỳ
+D: Tính nguyên vẹn của kiến trúc xưa
+Q: Chiếc ghe bầu này được sử dụng khi di chuyển ở vùng nước nào?
+A: Biển
+A: Sông
+A: Vịnh
+E: Ghe bầu là loại thương thuyền (thuyền buôn) gỗ cỡ lớn truyền thống từng đóng vai trò huyết mạch trong ngành hàng hải và giao thương ven biển Việt Nam từ thế kỷ 16 đến nửa đầu thế kỷ 20. Thuyền có phần thân phình to ở giữa giống hình quả bầu, mạn cao, đáy bằng hoặc hơi khum, giúp chịu được sóng gió lớn ngoài khơi.
+Q: Hiệu Tấn Ký từng buôn bán những mặt hàng nào?
+A: Nông sản
+A: Sách báo
+A: Y phục
+E: Nhà cổ Tấn Ký được xây dựng vào năm 1741 bởi ông Lê Công, một thương nhân gốc Hoa di cư đến Hội An. Ông Lê Công ban đầu kinh doanh hàng nông sản từ miền cao về phố cảng.
+Q: Chiếc cốc này gửi gắm triết lý gì?
+A: Biết đủ
+A: Khiêm tốn
+A: Nghĩa khí
+E: Chiếc cốc hoạt động dựa trên nguyên lý bình thông nhau và hiệu ứng xifong (siphoning). Ở giữa cốc có một cột nhỏ che giấu một đường ống cong (ống chữ U ngược). Nếu rót quá đầy (vượt quá đỉnh của ống ngầm bên trong), toàn bộ nước trong cốc sẽ tự động chảy sạch qua lỗ nhỏ ở đáy cốc.
+
+# Hội quán Quảng Triệu
+addr: 176 Trần Phú
+hours: 8:00 - 17:00
+S: Từng là nơi hội họp của các thương nhân Quảng Đông, một hội quán uy nghi, bề thế, và mực thước trong kể chuyện.
+L: Dưới những nếp mái vuông vức là không gian trang nghiêm, được trang trí bằng vô số cổ điển Trung Hoa
+D: Tác phẩm “ngư long hý thuỷ”
+D: Các bức tranh minh hoạ tích truyện Quan Công
+D: Các chi tiết hoa trái mang tính biểu tượng
+Q: Ba người này đang ở đâu?
+A: Vườn đào
+A: Núi tùng
+A: Vườn trúc
+E: Bức tranh vẽ cảnh kết nghĩa vườn đào của ba anh em Lưu Bị, Quan Vũ và Trương Phi với lời thề "Tuy không sinh cùng ngày cùng tháng cùng năm, nhưng nguyện chết cùng ngày cùng tháng cùng năm", nguyện dốc sức vì nước, cứu dân an đời.
+Q: Trong ba nhân vật, ai là Quan Vũ?
+A: Người có mặt đỏ
+A: Người có mặt đen
+A: Người ở giữa có tai to
+E: Trong truyện Tam Quốc có 2 câu đối nhắc tới sắc đỏ gắn liền với Quan Vũ: “Xích diện bỉnh xích tâm, kỵ Xích Thố truy phong, trì khu thời vô vong Xích Đế / Thanh đăng quan thanh sử, trượng thanh long yển nguyệt, ẩn vi xứ bất uý thanh thiên”. Theo bản dịch của Phan Kế Bính: “Bộ mặt đỏ giữ tấm lòng đỏ, cưỡi ngựa Thỏ Đỏ truy phong, lúc ruổi rong không quên nhớ Vua Đỏ / Ngọn đèn xanh xem bộ sử xanh, cầm đao yển nguyệt rồng xanh, nơi kín đáo chẳng thẹn với trời xanh.”
+Q: Nhân vật nữ này đang bưng thức quả gì?
+A: Quả đào
+A: Quả phật thủ
+A: Quả hồng
+E: Bức tranh “Ma Cô hiến thọ” vẽ lại cảnh tiên nữ Ma Cô mang đào tiên chúc thọ Tây Vương Mẫu. Đây chính là hình ảnh trang trí quen thuộc trên những chiếc đĩa cô tiên. Trong bức tranh ở Hội quán Quảng Triệu còn xuất hiện mô-típ tùng và hạc.
+
+# Hội quán Phước Kiến
+addr: 46 Trần Phú
+hours: 7:00 - 18:00
+S: Hội quán tráng lệ nhất với những chi tiết trang trí tinh xảo làm từ gốm sứ và nhiều chất liệu khác.
+L: Hội quán tráng lệ nhất phố Hội, với những chi tiết trang trí tinh xảo, tái hiện hải trình của những thương nhân Phước Kiến cùng lòng thành kính với Thiên Hậu Thánh Mẫu.
+D: Cổng tam quan uy nghi
+D: Mô hình thương thuyền vượt biển sống động
+D: Hoành phi và liễn đối do Ngô Lỗ, Trạng nguyên cuối cùng của lịch sử Tuyền Châu (Phước Kiến), cúng vào năm 1897
+Q: Hình ảnh nào dưới đây là mái của Hội quán Phước Kiến?
+A: Ảnh 1
+A: Ảnh 2
+A: Ảnh 3
+E: Khác với kiểu nóc mái thẳng tắp của Quảng Đông, kiến trúc mái đặc trưng của vùng Phúc Kiến có bờ nóc võng xuống như con thuyền đang cưỡi sóng. Phần trang trí cũng công phu hơn so với các hội quán khác.
+Q: Tại sao Hội quán Phước Kiến và nhiều hội quán khác của người Hoa lại thờ bà Thiên Hậu? Gợi ý: Hãy quan sát những bức tranh và mô hình trong hội quán
+A: Để cầu bình an khi đi biển
+A: Để cầu tài lộc
+A: Để tưởng nhớ công dẹp giặc
+E: Ngay sau khi bước vào tiền điện, du khách sẽ thấy ở phía tường Đông là bích họa Thiên Hậu Thánh Mẫu cùng đệ tử cầm đèn lồng vượt sóng gió đến cứu người bị nạn và ở phía tường Tây là bích họa Lục Tánh Vương Gia cưỡi ngựa xung trận. Bên trong chính điện có mô hình thương thuyền được trang trí kỳ công với một gian thờ Thiên Hậu trên thuyền.
+Q: Hai vị thần được thờ phụng trong chính điện cùng Bà Thiên Hậu là ai?
+A: Thiên Lý Nhãn - Thuận Phong Nhĩ
+A: Thần Đồ - Uất Lũy
+A: Thanh Long - Bạch Hổ
+E: Hai vị thần phò tá Thiên Hậu Thánh Mẫu là Thiên Lý Nhãn và Thuận Phong Nhĩ. Thiên Lý Nhãn có thể nhìn thấy mọi việc ở khoảng cách rất xa, giúp Bà phát hiện tàu thuyền gặp nạn trên biển, còn Thuận Phong Nhĩ có thể nghe được tiếng kêu cứu từ muôn nơi theo chiều gió.
+Q: Những đôi giày trong tủ kính dành cho ai?
+A: Những người phụ nữ bó chân gót sen
+A: Vũ công múa thủy tụ
+A: Tượng thờ các vị thần
+E: Tủ kính trưng bày các vật dụng của người Hoa xưa. Những đôi giày trong tủ được dùng khi bó chân gót sen. Tập tục này bắt đầu từ thời nhà Tống, được coi là biểu tượng của cái đẹp và địa vị. Đến thời nhà Thanh, tuy lệnh cấm được ban hành, song ít người tuân thủ. Đến thế kỷ XIX, có khoảng một nửa phụ nữ Trung Hoa thực hành bó chân.
+Q: Bức tranh vẽ những đứa trẻ này được tìm thấy ở đâu?
+A: Án thờ 3 bà Chúa Sanh thai và 12 bà mụ
+A: Án thờ Lục Tánh vương gia
+A: Nhà Đông
+E: Ba bà Chúa Sanh thai (Tam Tiêu Nương Nương) và 12 bà mụ lo việc tạo hình hài, ban phước, bảo trợ cho việc cầu tự (cầu con), thai kỳ bình an và mẹ tròn con vuông. Tượng 12 bà mụ thường khắc họa các vị trong các động tác chăm sóc, bồng bế trẻ thơ khác nhau.
+
+# Hội quán Hải Nam
+addr: 10 Trần Phú
+hours: 9:00 - 21:00
+S: Hội quán giản dị song lại mang những chi tiết độc nhất, chứa đựng bề dày văn hoá Trung Hoa.
+L: Sinh sau đẻ muộn và hiếm khi được ngợi ca là tráng lệ hay lộng lẫy, Hội quán Hải Nam như một cuốn sử phong phú khiến người ta ngỡ ngàng một khi bước vào trong.
+D: Khúc bi hùng ca của 108 vị Chiêu Ứng Công
+D: Hương án chính thếp vàng, được chạm lộng tinh vi với nhiều đề tài văn hoá
+D: Bộ cửa vẽ lại điển tích “Nhị thập tứ hiếu”
+D: Kiến trúc song mái độc nhất tại Hội An
+Q: Trong hai con lân này, con nào là lân đực và con nào là lân cái?
+A: A là lân cái, B là lân đực
+A: A là lân đực, B là lân cái
+A: Cả A và B đều là lân đực
+E: Thông thường, lân đực được khắc họa trong tư thế “lân hí cầu” với quả cầu tượng trưng cho mặt trời dưới chân, còn lân cái trong tư thế "lân giáo tử", dùng chân trước ôm ngang lưng con lân con. Tượng lân cũng được sắp đặt theo nguyên tắc “nam tả nữ hữu”, trong đó lân cái nằm ở phía tay phải nhìn từ trong chính điện ra. Bức tường phía ngoài hội quán cũng có hai bức phù điêu lân mang bát bảo và kỳ mang ám bát tiên.
+Q: Tại sao Hội quán Hải Nam lại thờ 108 vị Chiêu Ứng Công?
+A: Tưởng nhớ vong linh 108 vị thương buôn chết oan đã hiển linh phù hộ thuyền bè trên biển
+A: Tưởng nhớ công ơn 108 tiền hiền đã đặt nền móng cho sự phát triển của bang Hải Nam
+A: Tưởng nhớ oai linh 108 vị anh hùng Lương Sơn Bạc đứng lên chống lại cái ác
+E: Mùa hạ năm 1851, 108 thương buôn người Hải Nam đã bị một số quan binh triều Nguyễn sát hại vì coi là cướp biển. Vua Tự Đức khi biết chuyện đã minh oan và sắc phong cho các vị là Chiêu Ứng Anh Liệt. Cặp liễn đối hai bên hương án chính có nghĩa: Khí khái tụ thành thần, theo dấu anh linh do oan trái; Đức độ xây nên miếu, thương kẻ đồng hương ở chốn xa.
+Q: Bao lam (cửa võng, rèm gỗ) ở cửa chính điện có đề tài gì?
+A: Tùng thử bồ đào (sóc và dây nho)
+A: Tùng - hạc
+A: Hoa - điểu (hoa và chim muông)
+E: Tùng Thử Bồ Đào (松鼠葡萄) là đề tài kinh điển biểu trưng cho phú quý – sung túc – vạn sự hưng long. Hình ảnh sóc trèo nho thể hiện sự sinh sôi – đông con cháu, là lời chúc cát tường cho gia đạo thịnh vượng.
+
+# Hội quán Triều Châu
+addr: 362 Nguyễn Duy Hiệu
+hours: 8:00 - 17:00
+S: Hội quán rực rỡ nhất với các họa tiết trang trí gỗ phức tạp có tạo hình phong phú trong tầm mắt.
+L: Hội quán Triều Châu sinh động với các chi tiết chạm gỗ trứ danh của người Tiều. Đề tài trang trí phong phú, tạo hình sáng tạo.
+D: Trang trí khác nhau ở hai bên vì kèo
+D: Khám thờ và bao lam chạm nhiều điển tích
+D: Hệ cửa chạm gỗ và vẽ kính sáng tạo
+Q: Bạn có thể đi tìm chú ngựa này không? Người bạn của chú có bộ lông màu gì?
+A: Nâu
+A: Đen
+A: Trắng
+Q: Hình ảnh này là đặc trưng của mùa nào?
+A: Hạ
+A: Xuân
+A: Thu
+E: Ở Trung Quốc, tứ quý danh hoa là "Xuân Lan - Hạ Hà - Thu Cúc - Đông Mai". Trong đó "Lan" là lan kiếm, "Hà" là sen, "Cúc" vẫn là cúc, còn "Mai" là mơ.
+Q: Trên phần mái tiền điện có những đề tài trang trí gì?
+A: Lưỡng long triều dương, cá chép vượt long môn, bát tiên quá hải
+A: Lưỡng long tranh châu, lục quốc phong tướng
+A: Lưỡng long tranh bình hồ lô, ông Nhật - bà Nguyệt, các linh thú
+E: Bên cạnh các đồ án lưỡng long hay cá chép vượt long môn, đồ án bát tiên quá hải cũng rất được ưa chuộng trong các kiến trúc của người Hoa. Bát tiên quá hải (tám vị tiên vượt biển) kể về hành trình 8 vị tiên dùng phép thuật và pháp bảo để vượt qua đại dương. Tất cả những pháp khí mà 8 vị tiên sử dụng gọi chung là Ám bát tiên, cũng là một đề tài trang trí phổ biến. Bảo vật ngư cổ của Trương Quả Lão nói về mạng sống của con người. Lã Động Tân mang bảo kiếm có thể ngăn cản tà ma. Cây sáo của Hàn Tương Tử có thể khiến vạn vật sinh sôi và nảy nở. Hà Tiên Cô có hoa sen có thể tu thân dưỡng tính. Hồ lô của Thiết Quản Lý có thể cứu giúp chúng sanh. Quạt của Hán Chung Ly có thể làm hồi sinh. Tấm ngọc của Tào Quốc Cửu có thể làm mọi vật trở nên trong sạch. Giỏ của Lam Thái Hòa có thể quảng thông thần minh.
+
+# Đình Cẩm Phô
+addr: 52 Nguyễn Thị Minh Khai
+hours: 8:00 - 21:00
+S: Kết tinh của các giá trị văn hoá Việt – sự cởi mở và chan hoà khiến cho cảng thị phồn vinh.
+L: Đình Cẩm Phô là nơi ghi dấu rõ nhất tinh thần cởi mở và chan hoà của thương cảng này. Liễn đối trước Hương Hiền tự ghi: “Lễ nhạc uy nghi kính như thần tại. Âu ca cổ vũ lạc tại nhân hòa”, có nghĩa: Lễ nghi và âm nhạc uy nghiêm, lòng thành kính như thần linh đang hiện diện. Hát ca và múa trống tưng bừng, niềm vui thực sự nằm ở sự hòa hợp của lòng người.
+D: Các liễn đối truyền tải chiều sâu văn hoá Việt
+D: Các con giống trang trí trên phần mái
+Q: Mái của phương đình được trang trí với bao nhiêu con phượng?
+A: 9 con
+A: 8 con
+A: 10 con
+E: Đình có một hệ thống các con giống được tạo hình rất sinh động và độc đáo trang trí cho các bộ phận kiến trúc. Nổi bật là 9 hình chim phượng trên phương đình. Trong phong thuỷ, phượng gắn liền với hành Hỏa, mùa hạ và hướng Nam, mang lại may mắn, cát khí và cơ hội phát triển. Cơ thể của phượng đại diện cho 5 phẩm chất cao quý gồm: đức hạnh (ngay thẳng), lòng nhân đạo (lương thiện), sự công bằng, tính đáng tin (chung thủy) và sự khoan đại.
+Q: Tại sao Đình Cẩm Phô lại có tên Cẩm Phô Hương Hiền?
+A: Đình có thờ các vị tiền hiền, hậu hiền làng Cẩm Phô
+A: Đình là nơi tổ chức sinh hoạt văn hoá truyền thống
+A: Đình lưu giữ các ký ức từ xa xưa
+E: Đình trước đây thờ bà Đại Càn và các vị thần sông nước, về sau kết hợp thờ các vị tiền hiền và hậu hiền của làng Cẩm Phô. Trong đình là những hoành phi, liễn đối thể hiện đạo lý “uống nước nhớ nguồn” như “Ẩm hà tư nguyên” (phiên bản chữ Hán của “uống nước nhớ nguồn”) hay “Quang tiền dụ hậu” mang nghĩa: rạng rỡ đời trước, sung túc đời sau.
+
+# Tụy Tiên Đường Minh Hương
+addr: 14 Trần Phú
+S: Mang đậm giá trị văn hóa của những người gốc Hoa mang thân phận người dân Đại Nam dưới triều Nguyễn
+L: Hai chữ Minh Hương (明香) vốn có nghĩa giữ gìn hương hỏa nhà Minh, sau đổi thành 明鄉 để chỉ làng của những người gốc nhà Minh. Tụy Tiên Đường là một di tích tiêu biểu của cộng đồng Minh Hương
+D: Kiến trúc gỗ được thực hiện bởi các nghệ nhân làng Kim Bồng
+D: Sự hòa trộn văn hóa Việt và Trung
+D: Câu chuyện của cộng đồng người Hoa đã Việt hoá.
+Q: Con hạc này đang đứng trên lưng con vật nào?
+A: Rùa
+A: Cua
+A: Cá
+E: Rùa đội hạc là một biểu tượng văn hóa và tâm linh quen thuộc trong các ngôi đình, chùa và trên bàn thờ gia tiên của người Việt. Nhiều di tích của người Minh Hương có biểu tượng này từ xưa, bởi lẽ người Minh Hương từ cộng đồng người Hoa di trú đã hội nhập vào xã hội và văn hoá Việt Nam và trở thành những người Việt thực thụ.
+Q: Con vật này đang mang gì trên lưng?
+A: Những cuốn thư
+A: Thuốc thang
+A: Những cuộn dây
+E: Hình trên cửa là một cách điệu của hình tượng Long mã Hà đồ. Truyền thuyết kể rằng, Long Mã xuất hiện trên sông Hoàng Hà, dưới thời Phục Hy, mình xanh, vằn đỏ, trên lưng có mang bức Hà đồ, hay Mã đồ, là sách trời ban cho vua để trị nước.
+Q: Nơi này thờ phụng ai?
+A: Những người có công với làng Minh Hương ở Hội An
+A: Phúc Đức chính thần
+A: Tướng Trần Thượng Xuyên và Dương Ngạn Địch
+E: Trong tên Tuỵ Tiên Đường, “tuỵ” có nghĩa là tụ họp, còn “tiên” là người xưa quá vãng. Văn bia tại đình có ghi: Khi xây dựng một làng tất phải nhớ công lao của tiền nhân. Người đời không thể quên đức tốt đã truyền lưu. Văn bia cũng giải thích rằng các vị được thờ nơi đây trước là cựu thần nhà Minh. Vận nhà Minh đã qua, lòng họ không nhận hai vua nên từ quan, đổi tên họ, lánh nạn đến đất phương nam, rồi họp người Tàu lại tại xứ nam, chọn chữ Minh để giữ quốc hiệu.
+
+# Đình Hội An
+addr: 27 Lê Lợi
+S: Tưởng không bất ngờ, nhưng bất ngờ không tưởng với đường đi lên hậu tẩm
+L: Đình không chỉ gây ấn tượng thị giác mạnh mẽ mà còn là một trải nghiệm khám phá thú vị, đầy bất ngờ.
+D: Hình tượng trang trí ấn tượng ở sân trước
+D: Hậu tẩm hai tầng độc đáo – view phố cổ có một không hai
+Q: Đình Hội An còn có tên gọi nào khác?
+A: Đình Ông Voi
+A: Đình Voi Phục
+A: Đình Voi Ré
+E: Tên gọi đình Ông Voi xuất phát từ cặp tượng voi quỳ phục đặt ở sân trước. Hai pho tượng có kích thước lớn, chạm khắc tinh xảo, khoác lễ phục với nhiều chi tiết trang trí. Hình tượng voi không chỉ gây ấn tượng thị giác mà còn gắn liền với biểu tượng sức mạnh, trí tuệ trong văn hóa - tín ngưỡng dân gian. Trong Phật giáo, voi cũng là một biểu tượng của sức mạnh tâm thức, gắn với nhiều điển tích.
+Q: Đây là con vật gì?
+A: Long mã
+A: Lân
+A: Sư tử
+E: Hình trên bình phong là một cách điệu của hình tượng Long mã Hà đồ. Truyền thuyết kể rằng, Long Mã xuất hiện trên sông Hoàng Hà, dưới thời Phục Hy, mình xanh, vằn đỏ, trên lưng có mang bức Hà đồ, hay Mã đồ, là sách trời ban cho vua để trị nước.
+Q: Bạn đã lên ban thờ trên tầng hai chưa? Hãy đi tìm lối lên tầng. Trên mái nhà đối diện là hoạ tiết gì?
+A: Rồng dây và mặt trời
+A: Rồng và bình hồ lô
+A: Cá và bình hồ lô
+
+# Chùa Cầu (Cầu Nhật Bản)
+addr: Cuối đường Nguyễn Thị Minh Khai
+hours: 7:00 - 22:00
+S: Vừa là cầu, vừa là miếu — công trình hơn 400 năm đã thành gương mặt của Hội An.
+L: Do các thương nhân Nhật Bản dựng vào khoảng đầu thế kỷ XVII để nối hai bờ khe nước chảy ra sông Thu Bồn, cầu vẫn giữ mái ngói âm dương và ngôi miếu nhỏ thờ Bắc Đế Trấn Võ ngay giữa lòng cầu. Người phố Hội gọi là Chùa Cầu; tên chữ Lai Viễn Kiều có nghĩa cầu đón khách từ phương xa tới.
+D: Đôi tượng thần hầu và thiên cẩu gác hai đầu cầu
+D: Ngôi miếu thờ Bắc Đế Trấn Võ giữa lòng cầu
+D: Mái ngói âm dương và bộ vì kèo gỗ của người thợ xưa
+
+# Điểm tham quan trình diễn nghề Xí Mà
+addr: 45/17 đường Trần Hưng Đạo
+S: Cơ hội học nấu món chè đặc trưng của Hội An khi đi du lịch
+L: Chè mè đen từng theo những gánh hàng rong đi khắp phố cổ từ sáng sớm. Ở điểm trình nghề, khách xem cách xay mè, nấu chè và nghe vì sao bát chè này vừa là món ăn vừa là thang thuốc.
+D: Cách xay và nấu mè đen theo lối cũ
+D: Các vị đi cùng mè đen: thanh địa, rau má, rau mơ
+D: Tự tay nấu và nếm một bát chè nóng
+Q: Thành phần nào sau đây không có trong chè Xí Mà?
+A: Bột sắn
+A: Rau má
+A: Thanh địa
+E: Nguyên liệu chủ yếu để làm xí mà chính là mè đen, ngoài ra còn có các loại: bột khoai, thanh địa, rau má, rau mơ, và đường, những thứ này toàn là những nguyên liệu sẵn có của địa phương, duy chỉ có thanh địa là một vị thuốc của Đông y (thuốc Bắc) phải mua ở tiệm thuốc.
+Q: Tên xí mà có nguồn gốc từ đâu?
+A: Tiếng Quảng Đông
+A: Tiếng Nhật
+A: Phương ngữ miền Trung
+E: Xí mà (đọc lệch từ "chí mà phù") là một từ có gốc từ tiếng Quảng Đông (Trung Quốc), dùng để chỉ món chè mè đen (súp mè đen xay nhuyễn). Chí mà có nghĩa là mè đen và phù có nghĩa là xay nhuyễn.

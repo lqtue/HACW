@@ -71,22 +71,22 @@
     "screens": [
       {
         "label": "Nav — needs GPS",
-        "path": "/go?set=nha-co-va-nghe-xua",
+        "path": "/go?set=vuot-bien-treo-non",
         "map": true
       },
       {
         "label": "Nav — en route",
-        "path": "/go?set=nha-co-va-nghe-xua&demo=far&idx=1",
+        "path": "/go?set=vuot-bien-treo-non&demo=far&idx=1",
         "map": true
       },
       {
         "label": "Nav — arrived",
-        "path": "/go?set=nha-co-va-nghe-xua&demo=arrive&idx=1",
+        "path": "/go?set=vuot-bien-treo-non&demo=arrive&idx=1",
         "map": true
       },
       {
         "label": "Nav — set complete",
-        "path": "/go?set=nha-co-va-nghe-xua&demo=done",
+        "path": "/go?set=vuot-bien-treo-non&demo=done",
         "map": true
       }
     ]
@@ -96,39 +96,39 @@
     "screens": [
       {
         "label": "At a site",
-        "path": "/destinations/hoi-quan-quang-trieu?demo=idle"
+        "path": "/destinations/chua-cau?demo=idle"
       },
       {
         "label": "Locating (GPS)",
-        "path": "/destinations/hoi-quan-quang-trieu?demo=locating"
+        "path": "/destinations/chua-cau?demo=locating"
       },
       {
         "label": "Too far",
-        "path": "/destinations/hoi-quan-quang-trieu?demo=far"
+        "path": "/destinations/chua-cau?demo=far"
       },
       {
         "label": "GPS error",
-        "path": "/destinations/hoi-quan-quang-trieu?demo=error"
+        "path": "/destinations/chua-cau?demo=error"
       },
       {
         "label": "Quiz",
-        "path": "/destinations/hoi-quan-quang-trieu?demo=quiz"
+        "path": "/destinations/chua-cau?demo=quiz"
       },
       {
         "label": "Result — correct",
-        "path": "/destinations/hoi-quan-quang-trieu?demo=correct"
+        "path": "/destinations/chua-cau?demo=correct"
       },
       {
         "label": "Result — wrong (cooldown)",
-        "path": "/destinations/hoi-quan-quang-trieu?demo=wrong"
+        "path": "/destinations/chua-cau?demo=wrong"
       },
       {
         "label": "Checked in + stamp",
-        "path": "/destinations/hoi-quan-quang-trieu?demo=done"
+        "path": "/destinations/chua-cau?demo=done"
       },
       {
         "label": "Checked in — in a tour",
-        "path": "/destinations/hoi-quan-quang-trieu?demo=done&nav=%2Fgo%3Fset%3Dnha-co-va-nghe-xua"
+        "path": "/destinations/chua-cau?demo=done&nav=%2Fgo%3Fset%3Dvuot-bien-treo-non"
       }
     ]
   },
@@ -146,35 +146,14 @@
       },
       {
         "label": "Tour (route)",
-        "path": "/tours/nha-co-va-nghe-xua",
+        "path": "/tours/vuot-bien-treo-non",
         "map": true
       }
     ]
   },
   {
-    "title": "6 · Reward exchange",
-    "screens": [
-      {
-        "label": "Gift — nothing yet",
-        "path": "/redeem?demo=none"
-      },
-      {
-        "label": "Gift — needs a ticket",
-        "path": "/redeem?demo=needticket"
-      },
-      {
-        "label": "Gift — staff confirm",
-        "path": "/redeem?demo=ready"
-      },
-      {
-        "label": "Gift — collected",
-        "path": "/redeem?demo=taken"
-      }
-    ]
-  },
-  {
     "catalog": true,
-    "title": "Every destination (24) — “Show quizzes” to reveal each quiz",
+    "title": "Every destination (20) — “Show quizzes” to reveal each quiz",
     "screens": [
       {
         "label": "Chùa Quan Âm",
@@ -189,11 +168,6 @@
       {
         "label": "Bảo tàng Gốm sứ mậu dịch",
         "path": "/destinations/bao-tang-gom-su-mau-dich",
-        "quiz": true
-      },
-      {
-        "label": "Bảo tàng Hội An",
-        "path": "/destinations/bao-tang-hoi-an",
         "quiz": true
       },
       {
@@ -214,16 +188,6 @@
       {
         "label": "Bảo tàng Thổ sản",
         "path": "/destinations/bao-tang-tho-san",
-        "quiz": true
-      },
-      {
-        "label": "Nhà trưng bày Văn hóa Nhật Bản",
-        "path": "/destinations/nha-trung-bay-nhat-ban",
-        "quiz": true
-      },
-      {
-        "label": "Nhà biểu diễn nghệ thuật cổ truyền Hội An",
-        "path": "/destinations/nha-bieu-dien-nghe-thuat",
         "quiz": true
       },
       {
@@ -287,11 +251,6 @@
         "quiz": true
       },
       {
-        "label": "Đình Hội An",
-        "path": "/destinations/dinh-hoi-an",
-        "quiz": true
-      },
-      {
         "label": "Điểm tham quan trình nghề Xí Mà",
         "path": "/destinations/trinh-nghe-xi-ma",
         "quiz": true
@@ -303,23 +262,23 @@
     "title": "Every tour (4)",
     "screens": [
       {
-        "label": "Chùa Cầu & Cẩm Phô",
-        "path": "/tours/chua-cau-va-cam-pho",
+        "label": "Một tấc lòng son",
+        "path": "/tours/mot-tac-long-son",
         "map": true
       },
       {
-        "label": "Kiến trúc phố cổ",
-        "path": "/tours/set-kien-truc",
+        "label": "Lạc tại nhân hòa",
+        "path": "/tours/lac-tai-nhan-hoa",
         "map": true
       },
       {
-        "label": "Nghề xưa & thủ công",
-        "path": "/tours/set-nghe-xua",
+        "label": "Nghề xưa phố cổ",
+        "path": "/tours/nghe-xua-pho-co",
         "map": true
       },
       {
-        "label": "Tín ngưỡng & cộng đồng",
-        "path": "/tours/set-cong-dong",
+        "label": "Nhà cổ phố Hội",
+        "path": "/tours/nha-co-pho-hoi",
         "map": true
       }
     ]

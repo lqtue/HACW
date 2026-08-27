@@ -1,18 +1,45 @@
 [
   {
-    "id": "nha-co-va-nghe-xua",
+    "id": "vuot-bien-treo-non",
     "ticket": true,
     "title": {
-      "vi": "Nhà cổ & nghề xưa",
-      "en": "Old houses & old trades"
+      "vi": "Vượt biển trèo non",
+      "en": "Across the sea, over the mountains"
     },
-    "theme": {
-      "vi": "Nguyễn Tường → Miếu Quan Công",
-      "en": "Nguyen Tuong chapel → Quan Cong temple"
+    "short": {
+      "vi": "Ba hội quán, một miếu và một bảo tàng gốm — dấu chân người Hoa vượt biển tới Hội An.",
+      "en": "Three assembly halls, a temple and a ceramics museum — the trail of the Chinese who crossed the sea to Hội An."
     },
     "description": {
-      "vi": "Tuyến đi bộ đã khảo sát thực tế: xuất phát từ nhà thờ tộc Nguyễn Tường trên đường Nguyễn Thị Minh Khai, rẽ sang Trần Phú ghé nhà cổ Đức An, xuống Nguyễn Thái Học thăm bảo tàng nghề Y truyền thống, rồi kết thúc ở Miếu Quan Công.",
-      "en": "A surveyed walking route: start at the Nguyen Tuong family chapel on Nguyen Thi Minh Khai, turn onto Tran Phu for Duc An old house, drop down to Nguyen Thai Hoc for the Museum of Traditional Medicine, and finish at Quan Cong Temple."
+      "vi": "Tuyến đường này khám phá văn hoá của các thương nhân người Hoa đã vượt biển đến Hội An, đồng thời giới thiệu đặc trưng kiến trúc của các hội quán khác nhau của cộng đồng Hoa kiều. Nếu như Hội quán Phước Kiến nổi bật với các chi tiết trang trí bằng sành sứ, thì Hội quán Triều Châu sở hữu những chi tiết chạm gỗ tinh tế và phức tạp trứ danh Triều Châu.",
+      "en": "A route through the culture of the Chinese merchants who crossed the sea to Hội An, and through the architecture that tells their assembly halls apart. Where the Fujian hall stands out for its porcelain-shard ornament, the Teochew hall carries the fine, intricate wood carving its region is famous for."
+    },
+    "voucher": {
+      "vi": "Voucher quà tặng (chốt tên sau)",
+      "en": "Gift voucher (name TBD)"
+    },
+    "stops": [
+      "bao-tang-gom-su-mau-dich",
+      "hoi-quan-phuc-kien",
+      "mieu-quan-cong",
+      "hoi-quan-hai-nam",
+      "hoi-quan-trieu-chau"
+    ]
+  },
+  {
+    "id": "mot-tac-long-son",
+    "ticket": true,
+    "title": {
+      "vi": "Một tấc lòng son",
+      "en": "A heart of crimson loyalty"
+    },
+    "short": {
+      "vi": "Đời và chí của trí thức phố Hội, từ Quan Thánh tới các chí sĩ Duy Tân.",
+      "en": "The lives and convictions of Hội An's scholars, from Quan Công to the Duy Tân reformists."
+    },
+    "description": {
+      "vi": "Dọc theo hành trình này, du khách sẽ khám phá cuộc đời, sự nghiệp và tư tưởng của các trí thức ở Hội An: từ tấm gương trung hiếu tiết nghĩa được đông đảo nho sĩ ở các vùng phía Nam Trung Hoa và khắp Việt Nam thờ phụng, cho đến quan lại thời nhà Nguyễn và thế hệ chí sĩ Duy Tân.",
+      "en": "Along this route you meet the lives, careers and ideas of Hội An's scholars: from the model of loyalty and honour worshipped by Confucian scholars across southern China and all of Vietnam, to the mandarins of the Nguyễn court and the Duy Tân generation of reformists."
     },
     "voucher": {
       "vi": "Voucher quà tặng (chốt tên sau)",
@@ -23,23 +50,23 @@
       "nha-co-duc-an",
       "bao-tang-nghe-y",
       "mieu-quan-cong",
-      "nha-co-tan-ky"
+      "tuy-tien-duong-minh-huong"
     ]
   },
   {
-    "id": "chua-cau-va-cam-pho",
+    "id": "lac-tai-nhan-hoa",
     "ticket": true,
     "title": {
-      "vi": "Chùa Cầu & Cẩm Phô",
-      "en": "Japanese Bridge & Cam Pho"
+      "vi": "Lạc tại nhân hòa",
+      "en": "Joy lies in harmony"
     },
-    "theme": {
-      "vi": "Đình Cẩm Phô → Tụy Tiên Đường Minh Hương",
-      "en": "Cam Pho communal house → Minh Huong ancestral hall"
+    "short": {
+      "vi": "Những nơi cả làng cùng góp mặt: đình, chùa, hội quán và từ đường.",
+      "en": "The places a whole village shares: communal house, bridge-pagoda, assembly hall and ancestral hall."
     },
     "description": {
-      "vi": "Tuyến đi bộ đã khảo sát thực tế: từ đình làng Cẩm Phô đi dọc Nguyễn Thị Minh Khai qua nhà trưng bày Văn hóa Nhật Bản và Chùa Cầu, sang hội quán Quảng Triệu, rồi đi hết Trần Phú tới Tụy Tiên Đường Minh Hương.",
-      "en": "A surveyed walking route: from the Cam Pho communal house along Nguyen Thi Minh Khai past the Japanese Culture Gallery and the Japanese Bridge, on to the Cantonese Assembly Hall, then the length of Tran Phu to the Minh Huong ancestral hall."
+      "vi": "Tuyến của những nơi cả làng cùng góp mặt: liễn đối trước Hương Hiền tự ở đình Cẩm Phô viết “lạc tại nhân hòa” — niềm vui thật nằm ở sự hòa hợp của lòng người. Từ đình làng đi dọc Nguyễn Thị Minh Khai tới Chùa Cầu, qua Bảo tàng Văn hóa Sa Huỳnh và hội quán Quảng Triệu, rồi tới Tụy Tiên Đường Minh Hương — nơi người Hoa đã thành người Việt.",
+      "en": "The route of the places a whole village shares. The couplet at the Hương Hiền shrine in Cẩm Phô reads “joy lies in harmony” — the real joy is people in accord. From the communal house along Nguyễn Thị Minh Khai to the Japanese Bridge, past the Sa Huỳnh Culture Museum and the Cantonese hall, and on to the Minh Hương ancestral hall, where a Chinese community became Vietnamese."
     },
     "voucher": {
       "vi": "Voucher quà tặng (chốt tên sau)",
@@ -47,31 +74,53 @@
     },
     "stops": [
       "dinh-cam-pho",
-      "nha-trung-bay-nhat-ban",
       "chua-cau",
+      "bao-tang-sa-huynh",
       "hoi-quan-quang-trieu",
-      "bao-tang-gom-su-mau-dich"
+      "tuy-tien-duong-minh-huong"
     ]
   },
   {
-    "id": "set-kien-truc",
+    "id": "nghe-xua-pho-co",
     "ticket": true,
-    "size": 5,
-    "draft": true,
-    "tags": [
-      "kien-truc"
-    ],
     "title": {
-      "vi": "Kiến trúc phố cổ",
-      "en": "Old-town architecture"
+      "vi": "Nghề xưa phố cổ",
+      "en": "Old trades of the old town"
     },
-    "theme": {
-      "vi": "Cầu, nhà cổ & hội quán",
-      "en": "Bridge, old houses & an assembly hall"
+    "short": {
+      "vi": "Nhà buôn, thổ sản và nghề vẫn còn làm tới hôm nay.",
+      "en": "Merchant houses, local produce and a trade still practised today."
     },
     "description": {
-      "vi": "Bộ 5 điểm hợp lệ (1 di tích + 1 bảo tàng + 3 điểm tự do), tập trung vào kiến trúc gỗ và gạch của phố cổ. BẢN NHÁP — cần đội nội dung viết lại narrative và xếp thứ tự theo tuyến đã khảo sát.",
-      "en": "A valid 5-site set (1 monument + 1 museum + 3 free), themed on the old town's timber-and-brick architecture. DRAFT — content team to rewrite the narrative and order the stops along a surveyed route."
+      "vi": "Một ngày trong thời hoàng kim của thương cảng: nhà buôn, thổ sản và nghề của người phố Hội. Từ Chùa Cầu qua nhà cổ Tấn Ký, Bảo tàng Văn hóa dân gian và Bảo tàng Thổ sản, kết thúc ở điểm trình nghề chè Xí Mà còn nấu tới hôm nay.",
+      "en": "A day in the port's golden age: the merchants, the local produce and the trades of Hội An. From the Japanese Bridge through Tấn Ký house, the Folk Culture Museum and the Local Produce Museum, ending where xí mà sweet soup is still cooked today."
+    },
+    "voucher": {
+      "vi": "Voucher quà tặng (chốt tên sau)",
+      "en": "Gift voucher (name TBD)"
+    },
+    "stops": [
+      "chua-cau",
+      "nha-co-tan-ky",
+      "bao-tang-van-hoa-dan-gian",
+      "bao-tang-tho-san",
+      "trinh-nghe-xi-ma"
+    ]
+  },
+  {
+    "id": "nha-co-pho-hoi",
+    "ticket": true,
+    "title": {
+      "vi": "Nhà cổ phố Hội",
+      "en": "The old houses of Hội An"
+    },
+    "short": {
+      "vi": "Bốn ngôi nhà cổ và lớp đất Sa Huỳnh nằm dưới chân phố.",
+      "en": "Four old houses, and the Sa Huỳnh earth beneath the streets."
+    },
+    "description": {
+      "vi": "Thời hoàng kim của thương cảng, nhìn từ trong nhà: bốn ngôi nhà và từ đường của các gia đình buôn bán, cùng lớp đất Sa Huỳnh nằm dưới chân phố. Từ nhà cổ Phùng Hưng cạnh Chùa Cầu, dọc Trần Phú qua nhà cổ Quân Thắng và nhà thờ tộc Trần, tới chùa Quan Âm.",
+      "en": "The port’s golden age seen from indoors: four merchant houses and family halls, plus the Sa Huỳnh layer of earth beneath the streets. From Phùng Hưng house beside the Japanese Bridge, along Trần Phú past Quân Thắng house and the Trần family temple, to Quan Âm Pagoda."
     },
     "voucher": {
       "vi": "Voucher quà tặng (chốt tên sau)",
@@ -79,74 +128,10 @@
     },
     "stops": [
       "nha-co-phung-hung",
-      "chua-cau",
-      "nha-co-tan-ky",
-      "bao-tang-gom-su-mau-dich",
-      "hoi-quan-phuc-kien"
-    ]
-  },
-  {
-    "id": "set-nghe-xua",
-    "ticket": true,
-    "size": 5,
-    "draft": true,
-    "tags": [
-      "thu-cong"
-    ],
-    "title": {
-      "vi": "Nghề xưa & thủ công",
-      "en": "Old trades & craft"
-    },
-    "theme": {
-      "vi": "Nguyễn Tường → Xí Mà",
-      "en": "Nguyen Tuong chapel → Xi Ma craft"
-    },
-    "description": {
-      "vi": "Bộ 5 điểm hợp lệ (1 di tích + 1 bảo tàng + 3 điểm tự do), xoay quanh nghề truyền thống và nhà thờ tộc. BẢN NHÁP — cần đội nội dung viết lại narrative và xếp thứ tự theo tuyến đã khảo sát.",
-      "en": "A valid 5-site set (1 monument + 1 museum + 3 free), built around traditional trades and family chapels. DRAFT — content team to rewrite the narrative and order the stops along a surveyed route."
-    },
-    "voucher": {
-      "vi": "Voucher quà tặng (chốt tên sau)",
-      "en": "Gift voucher (name TBD)"
-    },
-    "stops": [
-      "nha-tho-toc-nguyen-tuong",
-      "nha-co-duc-an",
-      "bao-tang-nghe-y",
-      "mieu-quan-cong",
-      "trinh-nghe-xi-ma"
-    ]
-  },
-  {
-    "id": "set-cong-dong",
-    "ticket": true,
-    "size": 5,
-    "draft": true,
-    "tags": [
-      "yen-tinh"
-    ],
-    "title": {
-      "vi": "Tín ngưỡng & cộng đồng",
-      "en": "Belief & community"
-    },
-    "theme": {
-      "vi": "Đình Cẩm Phô → Minh Hương",
-      "en": "Cam Pho house → Minh Huong hall"
-    },
-    "description": {
-      "vi": "Bộ 5 điểm hợp lệ (1 di tích + 1 bảo tàng + 3 điểm tự do), gồm chùa, hội quán và đình làng — thường vắng hơn, dễ chịu hơn. BẢN NHÁP — cần đội nội dung viết lại narrative và xếp thứ tự theo tuyến đã khảo sát.",
-      "en": "A valid 5-site set (1 monument + 1 museum + 3 free) of pagoda, assembly hall and communal houses — usually quieter and more relaxed. DRAFT — content team to rewrite the narrative and order the stops along a surveyed route."
-    },
-    "voucher": {
-      "vi": "Voucher quà tặng (chốt tên sau)",
-      "en": "Gift voucher (name TBD)"
-    },
-    "stops": [
-      "dinh-cam-pho",
-      "hoi-quan-quang-trieu",
-      "bao-tang-van-hoa-dan-gian",
-      "chua-quan-am",
-      "tuy-tien-duong-minh-huong"
+      "bao-tang-sa-huynh",
+      "nha-co-quan-thang",
+      "nha-tho-toc-tran",
+      "chua-quan-am"
     ]
   }
 ]

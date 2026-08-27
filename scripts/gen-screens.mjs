@@ -8,7 +8,9 @@ import { dirname, join } from 'node:path';
 
 const root = join(dirname(fileURLToPath(import.meta.url)), '..');
 const load = (f) => JSON.parse(readFileSync(join(root, 'src/lib/data', f), 'utf8'));
-const dests = (d => d.destinations || d)(load('destinations.json'));
+// `closed` sites are dropped: their pages aren't prerendered (routes come from
+// sites.js), so a board frame pointing at one would 404.
+const dests = (d => d.destinations || d)(load('destinations.json')).filter((d) => !d.closed);
 const tours = (t => t.tours || t)(load('tours.json'));
 // iconic, real (non-generated) quiz bank, has landmark art — the Core sample.
 const SAMPLE = dests.some((d) => d.id === 'chua-cau') ? 'chua-cau' : dests[0].id;

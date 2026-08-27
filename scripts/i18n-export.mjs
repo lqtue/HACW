@@ -3,11 +3,18 @@
 // i18n-import.mjs writes edits back by `path`); strings.js is export-only (its 28
 // interpolation-function keys can't be a CSV cell — listed at the end of run).
 //
-//   node scripts/i18n-export.mjs   ->  content/i18n.csv
+//   node scripts/i18n-export.mjs   ->  content/i18n.csv + content/content-todo.csv
 //
-// Columns: file, path, skip, <langs…>. `skip=1` marks fields not worth
-// translating (street names, clock hours). Lang columns are the union of keys
-// found, so ko/zh/… appear automatically once added to any JSON node.
+// Columns: file, path, skip, status, <langs…>. `skip=1` marks fields not worth
+// translating (street names, clock hours); `status` says what a row needs:
+// `ok` · `en-missing` · `en=vi` (still Vietnamese) · `no-vi` (Vietnamese missing).
+// Lang columns are the union of keys found, so ko/zh/… appear automatically once
+// added to any JSON node.
+//
+// content-todo.csv is the other half of the answer: content that does not exist
+// yet at all, so it has no row to translate — sites with no short intro / no
+// "don't miss" lines / a thin quiz bank, quiz questions with no explanation,
+// tours still on a draft narrative or a placeholder voucher name.
 import { readFileSync, writeFileSync } from 'node:fs';
 
 const DATA = new URL('../src/lib/data/', import.meta.url);
@@ -51,16 +58,58 @@ const enUI = parsePlain(block('en'));
 const fnKeys = [...block('vi').matchAll(/^ {4}([a-zA-Z_]+)\s*:\s*[(`].*=>/gm)].map((m) => m[1]);
 for (const k of Object.keys(viUI)) rows.push({ file: 'strings.js', path: k, skip: '', vals: { vi: viUI[k], en: enUI[k] ?? '' } });
 
+// ---- status per row: what this string still needs ----
+for (const r of rows) {
+  const vi = String(r.vals?.vi ?? '').trim();
+  const en = String(r.vals?.en ?? '').trim();
+  r.status = !vi ? 'no-vi' : r.skip ? 'ok' : !en ? 'en-missing' : en === vi ? 'en=vi' : 'ok';
+}
+
 // ---- emit CSV ----
-const cols = ['file', 'path', 'skip', ...[...langs]];
+const cols = ['file', 'path', 'skip', 'status', ...[...langs]];
 const esc = (v) => /[",\n]/.test(v ?? '') ? `"${String(v ?? '').replace(/"/g, '""')}"` : (v ?? '');
 const csv = [cols.join(',')];
 for (const r of rows) csv.push(cols.map((c) => esc(c in r ? r[c] : r.vals[c])).join(','));
 writeFileSync(new URL('../content/i18n.csv', import.meta.url), csv.join('\n') + '\n');
+
+// ---- content that isn't written yet (nothing to translate — it has to be authored) ----
+const QUIZ_TARGET = 10;
+const dests = JSON.parse(readFileSync(new URL('destinations.json', DATA), 'utf8'));
+const tours = JSON.parse(readFileSync(new URL('tours.json', DATA), 'utf8'));
+const todo = [];
+const add = (where, what, note) => todo.push({ where, what, note });
+for (const d of dests) {
+  if (d.closed) continue; // not shown to visitors
+  const at = `${d.code ?? '?'} ${d.name?.vi ?? d.id}`;
+  if (!d.short?.vi) add(at, 'short intro (S)', 'one line, shown on the map label');
+  const hl = d.highlights?.length ?? 0;
+  if (hl < 3) add(at, "don't miss (D)", `${hl}/3 lines`);
+  const bank = d.quizBank ?? [];
+  if (bank.length < QUIZ_TARGET) add(at, 'quiz questions (Q/A)', `${bank.length}/${QUIZ_TARGET} — every one in the bank gets asked`);
+  const noExplain = bank.filter((q) => !q.explain?.vi).length;
+  if (noExplain) add(at, 'quiz explanation (E)', `${noExplain} of ${bank.length} questions have none`);
+  if (!/\d/.test(d.hours?.vi ?? '')) add(at, 'opening hours', `now "${d.hours?.vi ?? ''}" — no open/closed badge without real hours`);
+  if (d.needsSurvey) add(at, 'coordinates', 'lat/lng from a Maps link, needs an on-site check');
+  if (d.description?.vi && d.description.vi === d.description.en) add(at, 'long intro (L)', 'vi and en are the same text');
+}
+for (const t of tours) {
+  const at = t.title?.vi ?? t.id;
+  if (!t.short?.vi) add(at, 'tour short intro', 'one line, shown on the collapsed tour card');
+  if (t.draft) add(at, 'tour narrative (long intro)', 'placeholder written by us, needs the organiser\'s own copy');
+  if (/chốt tên sau|TBD/i.test(t.voucher?.vi ?? '') || /TBD/i.test(t.voucher?.en ?? '')) add(at, 'voucher name', `now "${t.voucher?.vi ?? ''}"`);
+}
+const todoCsv = ['where,what,note'];
+for (const t of todo) todoCsv.push([t.where, t.what, t.note].map(esc).join(','));
+writeFileSync(new URL('../content/content-todo.csv', import.meta.url), todoCsv.join('\n') + '\n');
 
 console.log(`content/i18n.csv  —  ${rows.length} strings, langs: ${[...langs].join(' ')}`);
 for (const l of langs) {
   const blank = rows.filter((r) => !r.skip && !String(r.vals?.[l] ?? '').trim()).length;
   console.log(`  ${l}: ${rows.length - blank}/${rows.length} filled${blank ? `  (${blank} blank)` : ''}`);
 }
+for (const st of ['no-vi', 'en-missing', 'en=vi']) {
+  const n = rows.filter((r) => r.status === st).length;
+  if (n) console.log(`  ${st}: ${n} rows`);
+}
 console.log(`  strings.js function keys (code-only, not in CSV): ${fnKeys.length} — ${fnKeys.join(', ')}`);
+console.log(`content/content-todo.csv  —  ${todo.length} pieces of content not written yet`);
