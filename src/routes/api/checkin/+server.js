@@ -23,7 +23,6 @@ export const prerender = false;
 // The only ids allowed to become counter rows. Anything else is junk from a
 // script and would spend the D1 free-tier write quota on rows nobody reads.
 const VALID_IDS = new Set(destinations.map((d) => d.id));
-const HARD_CAP = 90_000;
 
 export async function POST({ request, platform }) {
   let body;
@@ -41,15 +40,13 @@ export async function POST({ request, platform }) {
   // clocks drift. `INSERT OR IGNORE` on eid keeps a retried chunk exactly-once.
   const now = Date.now();
   const rows = eventRows(body.events, VALID_IDS, now);
-  // Free-tier D1 is 100k row-writes/day and this stays on the free tier. The study
-  // log is ONE row per POST (a JSON chunk, see schema.sql), so it is never shed;
-  // past HARD_CAP the counters shrink to count:<dest> (spotlight + dashboard).
-  // Reads are 5M/day, so one SELECT per POST is free. ponytail: reads our own
-  // ev:rows counter, not the real quota — passport backups drift it, hence 90k.
-  if (db && Object.keys(bump).length) {
-    const spent = (await db.prepare('SELECT n FROM counters WHERE k = ?').bind(`ev:rows:${unit(now).day}`).first('n').catch(() => 0)) ?? 0;
-    if (spent > HARD_CAP) for (const k of Object.keys(bump)) if (!k.startsWith('count:')) delete bump[k];
-  }
+  // Only the spotlight's count:<dest> keys become counter rows: every other tally
+  // (funnel, pageviews, nat cross-tab, cells) is inside the chunk and is a GROUP
+  // BY over the `events` view after the festival. Free-tier D1 meters rows
+  // written (100k/day); this leaves ~5 count rows + 1 chunk + 1 budget row per
+  // POST, so /organizer's live event tallies read 0 on purpose. tally() itself
+  // keeps minting the keys so the dev stand-in and the tests still see them.
+  for (const k of Object.keys(bump)) if (!k.startsWith('count:')) delete bump[k];
   // Row-writes spent today, so /organizer can show the D1 free-tier budget (100k
   // rows/day) before it runs out mid-festival. One extra upsert per REQUEST — not
   // per event — and it counts itself. Free to read: it rides the ev: prefix the
