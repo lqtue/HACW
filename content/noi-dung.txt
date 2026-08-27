@@ -321,6 +321,7 @@ D: Tác phẩm “ngư long hý thuỷ”
 D: Các bức tranh minh hoạ tích truyện Quan Công
 D: Các chi tiết hoa trái mang tính biểu tượng
 Q: Ba người này đang ở đâu?
+I: quiz/hoi-quan-quang-trieu/dao-vien.webp
 A: Vườn đào
 A: Núi tùng
 A: Vườn trúc
