@@ -1,0 +1,163 @@
+# Watches the D1 free-tier write budget during the festival and shouts before it runs out.
+#
+# Why this exists: D1's free plan allows 100,000 row-writes per day. The app spends
+# ~73 per visit, so the ceiling is roughly 1,400 app users a day. Past the cap D1
+# refuses writes; the phones keep their queue and retry, and the limit resets at
+# 00:00 UTC (07:00 ICT, just before each festival day), so an overflow costs some
+# data rather than all of it. This job is the warning that it is about to happen.
+#
+# It reads the number the endpoint already publishes (ev:rows:<YYYY-MM-DD>, one
+# upsert per request) — no Cloudflare credentials, nothing to expire, and it runs
+# on GitHub rather than on anyone's laptop.
+#
+# Two independent notifications, so it works with no setup and better with some:
+#   1. A GitHub issue. Always. Needs no secrets; you get it because you watch the repo.
+#   2. An email, only if MAIL_USERNAME / MAIL_PASSWORD secrets exist. See README below.
+#
+# Set up the email (optional, ~3 minutes):
+#   - Google account -> Security -> 2-Step Verification must be ON
+#   - then Security -> App passwords -> generate one for "Mail"
+#   - repo -> Settings -> Secrets and variables -> Actions -> New repository secret:
+#       MAIL_USERNAME = the gmail address that sends (e.g. lequangtuevn@gmail.com)
+#       MAIL_PASSWORD = the 16-character app password (NOT your Google password)
+#   - optional: MAIL_TO to send somewhere other than the default below
+# Without those secrets the job still runs and still opens the issue.
+
+name: D1 write budget
+
+on:
+  schedule:
+    # 13 past, every 2h, 01:13–15:13 UTC = 08:13–22:13 Asia/Ho_Chi_Minh.
+    # GitHub may run scheduled jobs late under load; minutes do not matter here.
+    - cron: '13 1-15/2 * * *'
+  workflow_dispatch:
+    inputs:
+      force_threshold:
+        description: 'Temporarily lower the warn threshold, to prove the alert path works (e.g. 1)'
+        required: false
+        default: ''
+
+permissions:
+  issues: write
+
+env:
+  SITE: https://hacw.pages.dev
+  DAY_CAP: 100000
+  WARN_AT: 70000
+  URGENT_AT: 90000
+  DEFAULT_MAIL_TO: lequangtuevn@gmail.com
+
+jobs:
+  check:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Read today's row-writes
+        id: read
+        run: |
+          set -euo pipefail
+          DAY=$(TZ=Asia/Ho_Chi_Minh date +%F)
+          TIME=$(TZ=Asia/Ho_Chi_Minh date +%H:%M)
+
+          # The organizer-only reads are gated on Sec-Fetch-Site (see src/lib/guard.js).
+          if ! BODY=$(curl -sS --fail --max-time 30 \
+                        -H 'sec-fetch-site: same-origin' \
+                        "$SITE/api/checkin?events=1"); then
+            echo "::error::could not reach $SITE/api/checkin"
+            exit 1
+          fi
+
+          N=$(printf '%s' "$BODY" | jq -r --arg k "rows:$DAY" '.[$k] // 0')
+          case "$N" in ''|*[!0-9]*) echo "::error::unexpected response: ${BODY:0:200}"; exit 1;; esac
+
+          WARN=${{ github.event.inputs.force_threshold || 0 }}
+          if [ "${WARN:-0}" -gt 0 ] 2>/dev/null; then WARN_AT=$WARN; fi
+
+          PCT=$(( N * 100 / DAY_CAP ))
+          LEVEL=ok
+          if   [ "$N" -ge "$URGENT_AT" ]; then LEVEL=urgent
+          elif [ "$N" -ge "$WARN_AT"   ]; then LEVEL=warn
+          fi
+
+          {
+            echo "day=$DAY"; echo "time=$TIME"; echo "n=$N"
+            echo "pct=$PCT"; echo "level=$LEVEL"
+          } >> "$GITHUB_OUTPUT"
+
+          echo "$DAY $TIME — $N row-writes = $PCT% of $DAY_CAP (level: $LEVEL)" >> "$GITHUB_STEP_SUMMARY"
+
+      - name: Compose the message
+        if: steps.read.outputs.level != 'ok'
+        id: msg
+        run: |
+          set -euo pipefail
+          N='${{ steps.read.outputs.n }}'
+          PCT='${{ steps.read.outputs.pct }}'
+          DAY='${{ steps.read.outputs.day }}'
+          TIME='${{ steps.read.outputs.time }}'
+          LEVEL='${{ steps.read.outputs.level }}'
+
+          if [ "$LEVEL" = urgent ]; then
+            SUBJECT="URGENT: HACW D1 writes at ${PCT}% — $DAY $TIME ICT"
+          else
+            SUBJECT="HACW D1 writes at ${PCT}% — $DAY $TIME ICT"
+          fi
+
+          {
+            echo "$N of $DAY_CAP row-writes used today ($PCT%), as of $TIME ICT on $DAY."
+            echo
+            echo "The festival day is not over. At 100% D1 refuses writes: phones keep"
+            echo "their queue and retry, and the quota resets at 07:00 ICT, so an"
+            echo "overflow costs part of today's behaviour data, not the passports and"
+            echo "not the stamps — those live on the devices."
+            echo
+            echo "Free ways to buy headroom, in order of effort (CONCERNS.md):"
+            echo "  1. Drop ev:view_site and the nat: counter crossings — about -20%"
+            echo "     of writes, both are already duplicated inside the events table."
+            echo "  2. Move the events log to R2 — append-only, never read live, well"
+            echo "     inside R2's free tier, keeps everything on one Cloudflare account."
+            echo
+            echo "Paid fix, if it is ever acceptable: Workers Paid (\$5/mo) lifts the"
+            echo "cap to 50M writes/month and takes effect immediately."
+            echo
+            echo "Live figure: $SITE/organizer (budget bar under the KPI row)."
+          } > body.txt
+
+          echo "subject=$SUBJECT" >> "$GITHUB_OUTPUT"
+
+      # Always available, needs no secrets: you get this because you watch the repo.
+      # One issue per day per level, so a sustained overrun does not spam.
+      - name: Open a GitHub issue
+        if: steps.read.outputs.level != 'ok'
+        env:
+          GH_TOKEN: ${{ github.token }}
+          TITLE: ${{ steps.msg.outputs.subject }}
+        run: |
+          set -euo pipefail
+          if gh issue list --state open --search "$TITLE in:title" --json title \
+             | jq -e --arg t "$TITLE" 'any(.[]; .title == $t)' >/dev/null; then
+            echo "already reported: $TITLE"
+          else
+            gh issue create --title "$TITLE" --body-file body.txt
+          fi
+
+      # Optional second channel, straight to an inbox. Skipped when the secrets are absent.
+      - name: Email
+        # `secrets.` not `env.`: an `if:` is evaluated before the step's own env exists.
+        if: steps.read.outputs.level != 'ok' && secrets.MAIL_USERNAME != ''
+        env:
+          MAIL_USERNAME: ${{ secrets.MAIL_USERNAME }}
+          MAIL_PASSWORD: ${{ secrets.MAIL_PASSWORD }}
+          MAIL_TO: ${{ secrets.MAIL_TO }}
+          SUBJECT: ${{ steps.msg.outputs.subject }}
+        run: |
+          set -euo pipefail
+          TO="${MAIL_TO:-$DEFAULT_MAIL_TO}"
+          { printf 'From: %s\nTo: %s\nSubject: %s\n\n' "$MAIL_USERNAME" "$TO" "$SUBJECT"
+            cat body.txt
+          } > mail.txt
+          # curl's own SMTP client: no third-party action in the supply chain.
+          curl -sS --ssl-reqd --url 'smtps://smtp.gmail.com:465' \
+               --user "$MAIL_USERNAME:$MAIL_PASSWORD" \
+               --mail-from "$MAIL_USERNAME" --mail-rcpt "$TO" \
+               --upload-file mail.txt
+          echo "emailed $TO"
