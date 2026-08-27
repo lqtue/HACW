@@ -8,8 +8,11 @@
 // Columns: file, path, skip, status, <langs…>. `skip=1` marks fields not worth
 // translating (street names, clock hours); `status` says what a row needs:
 // `ok` · `en-missing` · `en=vi` (still Vietnamese) · `no-vi` (Vietnamese missing).
-// Lang columns are the union of keys found, so ko/zh/… appear automatically once
-// added to any JSON node.
+// Lang columns are every language in TARGET plus any found in the JSON, so a
+// translator gets an empty column per language to fill in.
+//
+// strings.js interpolation keys (`(n) => \`+${n} điểm\``) are exported too, with
+// their slots as {n} — translate around the braces and keep them.
 //
 // content-todo.csv is the other half of the answer: content that does not exist
 // yet at all, so it has no row to translate — sites with no short intro / no
@@ -55,8 +58,26 @@ const parsePlain = (b) => {
 };
 const viUI = parsePlain(block('vi'));
 const enUI = parsePlain(block('en'));
-const fnKeys = [...block('vi').matchAll(/^ {4}([a-zA-Z_]+)\s*:\s*[(`].*=>/gm)].map((m) => m[1]);
+// interpolation keys — `question_of: (i, n) => \`Câu ${i}/${n}\`` exports as "Câu {i}/{n}"
+const parseFns = (b) => {
+  const out = {};
+  for (const m of b.matchAll(/^ {4}([a-zA-Z_]+)\s*:\s*\(([^)]*)\)\s*=>\s*`([^`]*)`/gm)) {
+    out[m[1]] = m[3].replace(/\$\{([^}]+)\}/g, (_, slot) => `{${slot.trim()}}`);
+  }
+  return out;
+};
+const viFn = parseFns(block('vi'));
+const enFn = parseFns(block('en'));
 for (const k of Object.keys(viUI)) rows.push({ file: 'strings.js', path: k, skip: '', vals: { vi: viUI[k], en: enUI[k] ?? '' } });
+for (const k of Object.keys(viFn)) rows.push({ file: 'strings.js', path: `${k}()`, skip: '', vals: { vi: viFn[k], en: enFn[k] ?? '' } });
+
+// the language picker's own greetings (languages.js) — each is already in its own
+// language, so they are listed for review, not translation
+const langsSrc = readFileSync(new URL('../src/lib/languages.js', import.meta.url), 'utf8');
+for (const m of langsSrc.matchAll(/\{ code: '(\w+)',[^}]*hello: '([^']*)'[^}]*name: '([^']*)'[^}]*open: '([^']*)'/g)) {
+  rows.push({ file: 'languages.js', path: `${m[1]}.hello`, skip: '1', vals: { vi: m[2], en: m[2] } });
+  rows.push({ file: 'languages.js', path: `${m[1]}.open`, skip: '1', vals: { vi: m[4], en: m[4] } });
+}
 
 // ---- status per row: what this string still needs ----
 for (const r of rows) {
@@ -66,7 +87,11 @@ for (const r of rows) {
 }
 
 // ---- emit CSV ----
-const cols = ['file', 'path', 'skip', 'status', ...[...langs]];
+// the languages the app offers (languages.js): vi/en are built, the rest ride the
+// browser's translate today — an empty column each is where a real translation lands
+const TARGET = ['vi', 'en', 'ko', 'zh', 'ja', 'th', 'fr', 'de'];
+for (const l of TARGET) langs.add(l);
+const cols = ['file', 'path', 'skip', 'status', ...TARGET, ...[...langs].filter((l) => !TARGET.includes(l))];
 const esc = (v) => /[",\n]/.test(v ?? '') ? `"${String(v ?? '').replace(/"/g, '""')}"` : (v ?? '');
 const csv = [cols.join(',')];
 for (const r of rows) csv.push(cols.map((c) => esc(c in r ? r[c] : r.vals[c])).join(','));
@@ -103,13 +128,14 @@ for (const t of todo) todoCsv.push([t.where, t.what, t.note].map(esc).join(','))
 writeFileSync(new URL('../content/content-todo.csv', import.meta.url), todoCsv.join('\n') + '\n');
 
 console.log(`content/i18n.csv  —  ${rows.length} strings, langs: ${[...langs].join(' ')}`);
+const needed = rows.filter((r) => !r.skip).length; // skip=1 rows are names/hours, not translatable
 for (const l of langs) {
-  const blank = rows.filter((r) => !r.skip && !String(r.vals?.[l] ?? '').trim()).length;
-  console.log(`  ${l}: ${rows.length - blank}/${rows.length} filled${blank ? `  (${blank} blank)` : ''}`);
+  const done = rows.filter((r) => !r.skip && String(r.vals?.[l] ?? '').trim()).length;
+  console.log(`  ${l}: ${done}/${needed} translated${done < needed ? `  (${needed - done} to go)` : ''}`);
 }
 for (const st of ['no-vi', 'en-missing', 'en=vi']) {
   const n = rows.filter((r) => r.status === st).length;
   if (n) console.log(`  ${st}: ${n} rows`);
 }
-console.log(`  strings.js function keys (code-only, not in CSV): ${fnKeys.length} — ${fnKeys.join(', ')}`);
+console.log(`  (${Object.keys(viFn).length} of those are interpolation keys, slots exported as {n})`);
 console.log(`content/content-todo.csv  —  ${todo.length} pieces of content not written yet`);

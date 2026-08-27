@@ -295,9 +295,16 @@ battery leak. `/organizer` calls the same `nearest()` for its per-site counter
 column.
 
 `node scripts/i18n-export.mjs` writes the two files the content/translation team
-works from: `content/i18n.csv` — every translatable string with a `status`
-(`ok` · `en-missing` · `en=vi` · `no-vi`) and one column per language, so adding
-`ko`/`zh`/… to any JSON node makes a column appear — and
+works from: `content/i18n.csv` — **813 rows, everything translatable in the app**:
+the content JSON, every `strings.js` key including the interpolation ones (slots
+exported as `{n}`, translate around the braces), and the language picker's own
+greetings. Columns are `file, path, skip, status` then one per language
+(`vi en ko zh ja th fr de`), so a translator gets an empty column to fill;
+`skip=1` marks the 66 rows that are street names and clock times. `status` is
+`ok` · `en-missing` · `en=vi` (still Vietnamese) · `no-vi`. **Nothing imports the
+extra languages back yet** — vi/en are the built locales and the rest ride the
+browser's translate (see *Bilingual content*); the CSV is where a real
+translation is collected until an `i18n-import.mjs` exists. Plus
 `content/content-todo.csv`, the content that does not exist yet (missing short
 intro, fewer than three "don't miss" lines, a thin quiz bank, questions with no
 explanation, placeholder tour narratives and voucher names).
