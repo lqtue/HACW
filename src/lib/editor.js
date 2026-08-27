@@ -39,8 +39,10 @@ export function checkDestination(d, categoryIds = null) {
   if (!LEVELS.includes(d?.traffic)) out.push(`${at}: bad traffic`);
   if (!LEVELS.includes(d?.promoPriority)) out.push(`${at}: bad promoPriority`);
 
+  // Every question in the bank is asked, in order — there is no draw and no
+  // easy/hard split. An empty bank is allowed: that site stamps on GPS alone until
+  // its questions are written (check-data.mjs lists them).
   const bank = d?.quizBank ?? [];
-  if (!bank.length) out.push(`${at}: empty quiz bank`);
   bank.forEach((q, i) => {
     bilingual(q?.question, `${at}.quiz[${i}].question`, out);
     const opts = q?.options ?? [];
@@ -48,7 +50,6 @@ export function checkDestination(d, categoryIds = null) {
     opts.forEach((o, j) => bilingual(o, `${at}.quiz[${i}].options[${j}]`, out));
     if (!(Number.isInteger(q?.answer) && q.answer >= 0 && q.answer < opts.length))
       out.push(`${at}.quiz[${i}]: answer index out of range`);
-    if (!['easy', 'hard'].includes(q?.difficulty)) out.push(`${at}.quiz[${i}]: bad difficulty`);
     // optional per-question extras
     if (q?.hint != null) bilingual(q.hint, `${at}.quiz[${i}].hint`, out);
     if (q?.explain != null) bilingual(q.explain, `${at}.quiz[${i}].explain`, out);
@@ -98,7 +99,9 @@ export function checkTours(list, dests = null) {
     if (!tour?.id) out.push(`${at}: missing id`);
     else if (seenId.has(tour.id)) out.push(`${at}: duplicate id`);
     seenId.add(tour?.id);
-    for (const f of ['title', 'theme', 'description', 'voucher']) bilingual(tour?.[f], `${at}.${f}`, out);
+    for (const f of ['title', 'description', 'voucher']) bilingual(tour?.[f], `${at}.${f}`, out);
+    // short = the one-line pitch on a collapsed card; description = the long intro
+    if (tour?.short != null) bilingual(tour.short, `${at}.short`, out);
     const stops = tour?.stops ?? [];
 
     if (tour?.ticket) {
@@ -108,6 +111,12 @@ export function checkTours(list, dests = null) {
         out.push(`${at}: not a valid ${size}-site ticket set (need 1 monument + 1 museum + ${size - 2} free)`);
     } else if (stops.length < 2) {
       out.push(`${at}: needs at least 2 stops`);
+    }
+
+    // recommended-nearby sites: real ids, and not already one of the five slots
+    for (const id of tour?.extra ?? []) {
+      if (destIds && !destIds.includes(id)) out.push(`${at}: unknown extra ${id}`);
+      if (stops.includes(id)) out.push(`${at}: extra ${id} is already a stop`);
     }
 
     for (const stop of stops) {

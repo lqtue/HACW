@@ -28,6 +28,14 @@ ok(checkDestinations(destinations, categories.map((c) => c.id)), 'destinations.j
 // Full destination objects (not just ids) so ticket-set slot composition is checked.
 ok(checkTours(tours, destinations), 'tours.json');
 
+// A tour with a `closed` stop can never be completed, so its +30 and its voucher are
+// unreachable — swap the stop for an open site instead of leaving a dead set.
+const shut = new Set(destinations.filter((d) => d.closed).map((d) => d.id));
+ok(
+  tours.flatMap((t) => t.stops.filter((s) => shut.has(s)).map((s) => `${t.id}: stop ${s} is a closed site`)),
+  'tours.json'
+);
+
 // Ticket-class taxonomy: the paper ticket admits 1 of 3 monuments + 1 of 6 museums
 // + free slots. Every site must carry a ticketClass; counts must match the ticket.
 // PLACEHOLDER ASSIGNMENT — survey team must confirm the real monument/museum ids.
@@ -50,6 +58,8 @@ assert.equal(tc.museum, 6, `expected 6 museums, got ${tc.museum}`);
 const inSet = new Set(tours.filter((t) => t.ticket).flatMap((t) => t.stops));
 const uncovered = destinations.filter((d) => !inSet.has(d.id)).map((d) => d.id);
 if (uncovered.length) console.warn(`  ⚠ ${uncovered.length} sites in no ticket set: ${uncovered.join(', ')}`);
+const noQuiz = destinations.filter((d) => !d.closed && !d.quizBank.length).map((d) => d.id);
+if (noQuiz.length) console.warn(`  ⚠ ${noQuiz.length} open sites have no questions yet: ${noQuiz.join(', ')}`);
 const draftSets = tours.filter((t) => t.ticket && t.draft).map((t) => t.id);
 if (draftSets.length) console.warn(`  ⚠ ${draftSets.length} draft ticket sets need real narratives: ${draftSets.join(', ')}`);
 // Tiers gate on points, so the ceiling is the score a visitor is guaranteed to

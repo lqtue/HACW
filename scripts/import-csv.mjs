@@ -6,6 +6,8 @@
 // Re-runnable: hand-authored fields that the sheet doesn't carry (id, category,
 // English copy, quiz banks) live in META here / in the existing JSON and survive
 // a re-import. The sheet owns address, hours, traffic, priority, VI intro text.
+// Quiz questions come from the writers' sheet (scripts/import-content.mjs); this
+// script no longer generates filler questions from the row.
 
 import { readFileSync, writeFileSync } from 'node:fs';
 import { fileURLToPath } from 'node:url';
@@ -160,62 +162,6 @@ function street(address) {
     .trim();
 }
 
-function distractors(pool, correct, n = 2) {
-  const others = [...new Set(pool)].filter((v) => v && v !== correct);
-  const out = [];
-  // deterministic pick (stable diffs): spread across the pool
-  for (let i = 0; out.length < n && i < others.length; i += Math.max(1, Math.floor(others.length / n))) {
-    out.push(others[i]);
-  }
-  return out;
-}
-
-function shuffleWithAnswer(correct, wrong, seed) {
-  const opts = [correct, ...wrong];
-  const at = seed % opts.length; // deterministic position, not always index 0
-  opts.splice(at, 0, opts.splice(0, 1)[0]);
-  return { options: opts, answer: at };
-}
-
-function generateBank(row, meta, allStreets, allHours, index) {
-  const bank = [];
-  const st = street(row['Địa chỉ']);
-  const name = { vi: row['Điểm'], en: meta.en };
-  if (st) {
-    const { options, answer } = shuffleWithAnswer(st, distractors(allStreets, st), index);
-    bank.push({
-      difficulty: 'easy',
-      generated: true,
-      question: { vi: `${name.vi} nằm trên đường nào?`, en: `Which street is ${name.en} on?` },
-      options: options.map((v) => ({ vi: v, en: v })),
-      answer
-    });
-  }
-  const cat = CATS.find((c) => c.id === meta.category);
-  if (cat) {
-    const wrong = CATS.filter((c) => c.id !== cat.id).slice(0, 2);
-    const { options, answer } = shuffleWithAnswer(cat, wrong, index + 1);
-    bank.push({
-      difficulty: 'easy',
-      generated: true,
-      question: { vi: `${name.vi} thuộc nhóm điểm đến nào?`, en: `Which kind of site is ${name.en}?` },
-      options: options.map((c) => c.label),
-      answer
-    });
-  }
-  const hours = row['Giờ mở cửa'].replace(/\s+/g, ' ').trim();
-  if (hours && hours !== 'N/A') {
-    const { options, answer } = shuffleWithAnswer(hours, distractors(allHours, hours), index + 2);
-    bank.push({
-      difficulty: 'hard',
-      generated: true,
-      question: { vi: `Giờ mở cửa của ${name.vi} là?`, en: `What are the opening hours of ${name.en}?` },
-      options: options.map((v) => ({ vi: v, en: v })),
-      answer
-    });
-  }
-  return bank;
-}
 
 // --- build destinations.json ----------------------------------------------
 const rows = parseCsv(readFileSync(CSV_SITES, 'utf8'));
@@ -223,8 +169,6 @@ const existing = Object.fromEntries(
   JSON.parse(readFileSync(join(DATA, 'destinations.json'), 'utf8')).map((d) => [d.id, d])
 );
 
-const allStreets = rows.map((r) => street(r['Địa chỉ'])).filter(Boolean);
-const allHours = rows.map((r) => r['Giờ mở cửa'].replace(/\s+/g, ' ').trim()).filter((h) => h && h !== 'N/A');
 
 const resolveLinks = process.argv.includes('--resolve');
 const destinations = [];
@@ -271,9 +215,9 @@ for (const [i, row] of rows.entries()) {
       vi: viDesc ? intro(viDesc) : (prev.description?.vi ?? meta.enDesc),
       en: prev.description?.en ?? meta.enDesc
     },
-    quizBank: prev.quizBank?.length && !prev.quizBank[0].generated
-      ? prev.quizBank
-      : generateBank(row, meta, allStreets, allHours, i)
+    // Quiz banks are hand-written (scripts/import-content.mjs / the /organizer
+     // editor) and this script never touches them.
+    quizBank: prev.quizBank ?? []
   });
 }
 
@@ -309,9 +253,9 @@ for (let i = 0; i < destinations.length; i++) {
   }
 }
 
-const generated = destinations.filter((d) => d.quizBank[0]?.generated).length;
 console.log(
-  `destinations: ${destinations.length} (${generated} with generated quizzes, ` +
+  `destinations: ${destinations.length} (` +
+  `${destinations.filter((d) => !d.quizBank.length).length} with no questions yet, ` +
   `${destinations.filter((d) => d.needsSurvey).length} needing a coordinate survey)\n` +
   `ticket points: ${tickets.length}`
 );

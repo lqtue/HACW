@@ -5,7 +5,6 @@
   // outcome once every drawn question is right via onpass({ missed }).
   import { base } from '$app/paths';
   import { onMount } from 'svelte';
-  import { pickQuestions } from '$lib/quiz.js';
   import { track } from '$lib/passport.svelte.js';
   import { t } from '$lib/i18n.svelte.js';
   import { s } from '$lib/strings.js';
@@ -31,12 +30,19 @@
   let missed = $state(false); // any wrong tap this visit -> no perfect bonus
   let cool = $state(0);
   let wrongCount = $state(0); // wrong taps this visit — drives the escalating cooldown
+  let showAll = $state(false); // long explanations start clamped (see EXPLAIN_LONG)
 
-  // draw 2 easy + 1 hard; answer all correctly to earn the stamp
+  // characters past which the explanation gets a "see more" instead of a wall of text.
+  // ponytail: a length threshold, not a measured overflow — no observer, no layout read.
+  const EXPLAIN_LONG = 220;
+
+  // every question the site has, in the order the writers wrote them: answer them
+  // all correctly to earn the stamp. No draw, no difficulty tiers — the bank IS the quiz.
   function startQuiz() {
-    questions = pickQuestions(bank);
+    questions = bank;
     qIndex = 0;
     step = 'quiz';
+    showAll = false;
   }
   startQuiz();
 
@@ -56,6 +62,7 @@
   // away and locks the site for an escalating cooldown (guessing costs time + the
   // perfect bonus), and gets no explanation — that would answer the retry.
   function answer(i) {
+    showAll = false;
     lastCorrect = i === questions[qIndex].answer;
     if (!lastCorrect) {
       track('quiz_wrong', destId, qIndex);
@@ -78,6 +85,7 @@
     if (qIndex < questions.length - 1) {
       qIndex += 1;
       step = 'quiz';
+      showAll = false;
     } else {
       // One event per passed quiz, `n` = wrong taps it took. A per-question event for
       // every CORRECT answer was ~15 rows a visit and said nothing quiz_wrong doesn't:
@@ -128,7 +136,15 @@
       <h2>{lastCorrect ? s('correct_title') : s('wrong_title')}</h2>
       {#if (lastCorrect && q?.explain) || (!lastCorrect && cool > 0)}
         <div class="verdict-sub">
-          {#if lastCorrect && q?.explain}<p class="explain">{t(q.explain)}</p>{/if}
+          {#if lastCorrect && q?.explain}
+            {@const long = t(q.explain).length > EXPLAIN_LONG}
+            <p class="explain" class:clamp={long && !showAll}>{t(q.explain)}</p>
+            {#if long}
+              <button class="more" onclick={() => (showAll = !showAll)}>
+                {showAll ? s('list_less') : s('see_more')}
+              </button>
+            {/if}
+          {/if}
           {#if !lastCorrect && cool > 0}<p class="wait-note">{s('wrong_wait', cool)}</p>{/if}
         </div>
       {/if}
@@ -203,5 +219,15 @@
   .verdict h2 { margin: 0; font-size: var(--fs-2xl); }
   .wait-note { margin: 4px 0 0; color: var(--muted); font-size: var(--fs-md); }
   .result.ok .verdict h2 { color: var(--teal); }
-  .explain { margin: 0; max-width: 34ch; color: var(--ink); line-height: 1.55; }
+  .explain { margin: 0; max-width: 32ch; color: var(--ink); font-size: var(--fs-lg); line-height: 1.45; }
+  /* long explanations are 400+ characters; show the first few lines and let the
+     visitor open the rest, so the Continue button stays where they expect it */
+  .explain.clamp {
+    display: -webkit-box; -webkit-box-orient: vertical; -webkit-line-clamp: 6; overflow: hidden;
+  }
+  .more {
+    margin: 0; padding: 4px 2px; background: none; border: 0; cursor: pointer;
+    font-family: var(--font-body); font-weight: 600; font-size: var(--fs-sm);
+    color: var(--brand); text-decoration: underline; text-underline-offset: 3px;
+  }
 </style>

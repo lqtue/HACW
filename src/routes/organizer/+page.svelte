@@ -54,7 +54,8 @@
   const max = $derived(Math.max(1, ...rows.map((r) => r.n)));
 
   const survey = destinations.filter((d) => d.needsSurvey);
-  const quizTodo = destinations.filter((d) => d.quizBank.some((q) => q.generated));
+  // sites with no questions written yet — they stamp on the GPS fix alone
+  const noQuiz = destinations.filter((d) => !d.closed && !d.quizBank.length);
 
   // Language study (nationality proxy): `lang:<code>` = device locale, `pick:<code>`
   // = the language chosen on the welcome screen. Split out of the raw event dump
@@ -283,8 +284,8 @@
   <h2>{s('org_survey')} ({survey.length})</h2>
   <p class="muted"><small>{survey.map((d) => `${d.code} ${d.name.vi}`).join(' · ') || '—'}</small></p>
 
-  <h2>{s('org_quiz_todo')} ({quizTodo.length})</h2>
-  <p class="muted"><small>{quizTodo.map((d) => d.code).join(' · ') || '—'}</small></p>
+  <h2>{s('org_quiz_todo')} ({noQuiz.length})</h2>
+  <p class="muted"><small>{noQuiz.map((d) => `${d.code} ${d.name.vi}`).join(' · ') || '—'}</small></p>
 
   <!-- Everything the app reports that is not a check-in: failed GPS, wrong quiz
        taps, vouchers handed over. Same queue, so it works offline too. -->

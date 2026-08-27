@@ -19,7 +19,6 @@ const good = {
   promoPriority: 'low',
   quizBank: [
     {
-      difficulty: 'easy',
       question: { vi: 'q', en: 'q' },
       options: [
         { vi: 'a', en: 'a' },
@@ -37,7 +36,7 @@ assert.equal(bad({ lat: 21.03 }).length, 1); // Hà Nội, not Hội An
 assert.equal(bad({ radius: 500 }).length, 1);
 assert.equal(bad({ traffic: 'huge' }).length, 1);
 assert.equal(bad({ category: 'nope' }).length, 1);
-assert.equal(bad({ quizBank: [] }).length, 1);
+assert.deepEqual(bad({ quizBank: [] }), []); // no questions yet is allowed — GPS-only stamp
 
 // answer index must point at an option that exists
 const q = structuredClone(good.quizBank[0]);

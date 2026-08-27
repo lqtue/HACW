@@ -17,7 +17,6 @@
   const toggle = (id) => (open[id] = !open[id]);
 
   const blank = () => ({
-    difficulty: 'easy',
     question: { vi: '', en: '' },
     options: [
       { vi: '', en: '' },
@@ -79,7 +78,6 @@
               <td><input type="checkbox" bind:checked={d.needsSurvey} /></td>
               <td class="num">
                 {d.quizBank.length}
-                {#if d.quizBank.some((q) => q.generated)}<span class="ed-flag">{s('org_generated')}</span>{/if}
               </td>
             </tr>
 
@@ -94,20 +92,9 @@
                     <fieldset class="ed-fieldset">
                       <legend>
                         {s('f_question')} {qi + 1}
-                        {#if q.generated}
-                          <small class="ed-tag">{s('org_generated')}</small>
-                          <!-- The flag is what /organizer lists as to-do, so clearing it is the "done" button. -->
-                          <button class="mini" onclick={() => delete d.quizBank[qi].generated}>{s('org_reviewed')}</button>
-                        {/if}
                         <button class="mini danger" onclick={() => d.quizBank.splice(qi, 1)}>{s('org_del_q')}</button>
                       </legend>
 
-                      <label class="ed-row">
-                        <span>{s('f_difficulty')}</span>
-                        <select bind:value={q.difficulty}>
-                          {#each ['easy', 'hard'] as v}<option value={v}>{s(`lvl_${v}`)}</option>{/each}
-                        </select>
-                      </label>
                       <Bi field={q.question} label={s('f_question')} rows={2} />
 
                       <p class="muted"><small>{s('org_answer')} ◉</small></p>
