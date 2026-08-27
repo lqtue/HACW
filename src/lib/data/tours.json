@@ -202,5 +202,56 @@
       "chua-quan-am",
       "trinh-nghe-xi-ma"
     ]
+  },
+  {
+    "id": "hoi-an-ngay-ay-bay-gio",
+    "ticket": true,
+    "title": {
+      "vi": "Hội An ngày ấy, bây giờ",
+      "en": "Hội An, then and now",
+      "ko": "그때의 호이안, 지금의 호이안",
+      "zh": "会安，昔日与今日",
+      "ja": "あの日の会安、いまの会安",
+      "th": "ฮอยอันเมื่อวันวาน และวันนี้",
+      "fr": "Hội An, hier et aujourd'hui",
+      "de": "Hội An, damals und heute"
+    },
+    "short": {
+      "vi": "Hành trình xuyên lịch sử Hội An",
+      "en": "A walk straight through the history of Hội An",
+      "ko": "호이안의 역사를 가로지르는 여정",
+      "zh": "穿越会安历史的旅程",
+      "ja": "会安の歴史を貫く旅",
+      "th": "การเดินทางข้ามประวัติศาสตร์ฮอยอัน",
+      "fr": "Un voyage à travers l'histoire de Hội An",
+      "de": "Eine Reise durch die Geschichte von Hội An"
+    },
+    "description": {
+      "vi": "Một vùng đất, nơi tụ hội của nhiều cộng đồng dân cư. Hãy cùng dạo qua Hội An từ Sơ kỳ Đồ Sắt đến khi trở thành một cảng thị tấp nập thuyền bè Á-Âu.",
+      "en": "One stretch of land where many communities came together. Walk Hội An from the early Iron Age to the day it became a port crowded with Asian and European ships.",
+      "ko": "여러 공동체가 한데 모인 하나의 땅. 초기 철기 시대부터 아시아와 유럽의 배로 붐비는 항구가 되기까지, 호이안을 함께 걸어 봅니다.",
+      "zh": "一方土地，多个族群在此汇聚。让我们从铁器时代早期一路走到亚欧船舶云集的繁忙港市。",
+      "ja": "多くの共同体が集まった一つの土地。鉄器時代初期から、アジアとヨーロッパの船でにぎわう港町になるまでの会安を歩きます。",
+      "th": "ผืนดินหนึ่งที่หลายชุมชนมาบรรจบกัน มาเดินชมฮอยอันตั้งแต่ยุคเหล็กตอนต้น จนกลายเป็นเมืองท่าที่คลาคล่ำด้วยเรือจากเอเชียและยุโรป",
+      "fr": "Une terre où plusieurs communautés se sont rassemblées. Parcourons Hội An depuis le début de l'âge du fer jusqu'au jour où elle devint un port grouillant de navires d'Asie et d'Europe.",
+      "de": "Ein Landstrich, in dem viele Gemeinschaften zusammenkamen. Wir gehen durch Hội An von der frühen Eisenzeit bis zu dem Tag, an dem es ein Hafen voller Schiffe aus Asien und Europa wurde."
+    },
+    "voucher": {
+      "vi": "Voucher quà tặng (chốt tên sau)",
+      "en": "Gift voucher (name TBD)",
+      "ko": "선물 상품권 (이름 확정 전)",
+      "zh": "礼品代金券（名称待定）",
+      "ja": "ギフト券（名称は未定）",
+      "th": "บัตรกำนัลของขวัญ (ยังไม่กำหนดชื่อ)",
+      "fr": "Bon cadeau (nom à confirmer)",
+      "de": "Geschenkgutschein (Name folgt)"
+    },
+    "stops": [
+      "chua-cau",
+      "nha-co-phung-hung",
+      "bao-tang-sa-huynh",
+      "nha-co-quan-thang",
+      "nha-trung-bay-nhat-ban"
+    ]
   }
 ]

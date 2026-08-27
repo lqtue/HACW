@@ -3,6 +3,7 @@ import { base } from '$app/paths';
 import { mergeStamps, encodeSnapshot, decodeSnapshot, normalizeCode, isValidCode, codeFromTicket } from './backup.js';
 import { study, journeyTag } from './study.svelte.js';
 import { plan } from './plan.svelte.js';
+import { staff } from './staff.svelte.js';
 
 const KEY = 'hacw_passport_v1';
 const QUEUE = 'hacw_checkin_queue_v1';
@@ -145,6 +146,30 @@ function soon(key, fn, ms) {
   timers[key] = setTimeout(fn, ms);
 }
 
+// Our own testing must not become the festival dataset. The first run of this app
+// logged ~500 events and 217 passports from developers in Hanoi (GPS 595 km out),
+// which had to be deleted by hand before day one.
+//
+// Deliberately a BLOCK list, not an allow list: an allow list keyed to
+// hacw.pages.dev would silently stop all logging the day this moves to a real
+// domain, and silence is the one failure nobody notices.
+//   * localhost           — `npm run dev` already answers /api from memory
+//                           (devApi in vite.config.js), this is belt and braces
+//   * <branch>.pages.dev  — preview deploys share the PRODUCTION D1 on purpose
+//                           (wrangler.toml), so the host is all that separates them
+//   * staff devices       — a phone with the staff code is running the app to test
+//                           it: skip-GPS check-ins, screen sweeps, code demos.
+//                           A visitor redeeming a voucher is unaffected: the staff
+//                           member taps confirm on the VISITOR's phone, which has
+//                           no staff code of its own.
+function isRealVisit() {
+  if (!browser) return false;
+  const h = location.hostname;
+  if (h === 'localhost' || h === '127.0.0.1' || h.endsWith('.local')) return false;
+  if (h.endsWith('.pages.dev') && h !== 'hacw.pages.dev') return false;
+  return !staff.on;
+}
+
 // --- offline-tolerant analytics: queue locally, POST when online ---
 // Own endpoint instead of Google Analytics: no cookie banner, no ad-blocker
 // hole, works offline (the queue survives in localStorage), and the organizer
@@ -155,7 +180,7 @@ function soon(key, fn, ms) {
  *  @param {number} [n] optional measurement (metres off, question index)
  *  @param {boolean} [spot] the site was spotlight at the time (study: nudge uptake) */
 export function track(type, id, n, spot) {
-  if (!browser) return;
+  if (!isRealVisit()) return;
   const q = read(QUEUE);
   // eid: random per event so the server's INSERT OR IGNORE makes a re-sent chunk
   // exactly-once in the study log (a lost response must not double-log).
@@ -244,7 +269,7 @@ export function restoreFromHash(hash) {
 /** Push a copy to the server so the code can restore it on another device. */
 /** @param {{ claim?: boolean }} [opts] claim = take this ticket over (after a scan) */
 export async function backup(opts = {}) {
-  if (!browser || !navigator.onLine || !passport.pid) return;
+  if (!navigator.onLine || !passport.pid || !isRealVisit()) return;
   if (passport.taken && !opts.claim) return; // another device holds the ticket
   try {
     const res = await fetch(`${base}/api/passport`, {
