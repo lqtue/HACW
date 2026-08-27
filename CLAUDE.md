@@ -264,13 +264,32 @@ site, CSV export, and the data-quality lists (`needsSurvey` coords, sites with
 no questions yet) plus the non-check-in event tallies. Not in the bottom nav — reach it
 by URL, behind the staff code (mis-tap guard, not auth — see `staff.svelte.js`).
 
-**Bilingual content** (`src/lib/i18n.svelte.js` + `src/lib/strings.js`): all
-content JSON fields are `{ vi, en }` objects — resolve them in markup with
-`t(field)`. UI chrome strings live in `strings.js`, used via `s('key', ...args)`
-(some are functions for interpolation). Reactive `$state` language toggle is in
-the layout. Official languages are vi/en; other languages rely on the user's
-browser Google Translate (don't build more locales). When adding content,
-**every translatable field must be `{ vi, en }`**.
+**Eight languages, all built** (`src/lib/i18n.svelte.js` + `src/lib/strings.js`
++ `src/lib/i18n/<lang>.js`): content JSON fields carry a key per language
+(`{ vi, en, ko, zh, ja, th, fr, de }`) — resolve them in markup with `t(field)`,
+which falls back to `vi`. UI chrome lives in `strings.js` (`s('key', ...args)`;
+some values are functions for interpolation) with the other six languages in
+`src/lib/i18n/<lang>.js`, merged into the same `UI` map — `s()` falls back to vi
+per key, which is how `/organizer` and the content editors stay Vietnamese
+without translating 88 staff strings. `?lang=ko` sets and remembers a language
+(per-language QR codes, the `/screens` board). When adding content, **`vi` is the
+source and the only required key**.
+
+The translation loop is two scripts and one file per language:
+
+```bash
+node scripts/i18n-export.mjs            # content/i18n.csv + content/content-todo.csv + content/full-text.md
+node scripts/i18n-export.mjs ko         # content/translate-ko.tsv — path <TAB> vi <TAB> ko (full sheet)
+node scripts/i18n-export.mjs ko --todo  # …only the rows still missing
+node scripts/i18n-import.mjs ko         # TSV -> the JSON files + src/lib/i18n/ko.js
+```
+
+The TSV is keyed by `file::path`, so nothing is matched on the Vietnamese string
+and a re-run is idempotent; the importer *merges* into the locale file, so a
+partial sheet cannot truncate it. `content/full-text.md` is the same content
+Vietnamese-only and grouped per site — the file to hand a translator, with
+`content/translate-prompt.md` as the brief (localise names: Hội quán Phúc Kiến →
+福建会馆, not a transliteration).
 
 **Voucher redemption** (`src/routes/tours/[id]/+page.svelte` + the reward tiers on
 the passport page, both via `src/lib/components/StaffConfirm.svelte`): a "set" =

@@ -772,25 +772,25 @@ strings.js,f_reward,,ok,Phần thưởng,Reward,,,,,,
 strings.js,org_details,,ok,Chi tiết,Details,,,,,,
 strings.js,lvl_easy,,ok,dễ,easy,,,,,,
 strings.js,lvl_hard,,ok,khó,hard,,,,,,
-strings.js,nav_arrived_at(),,ok,Đã đến {name},Arrived at {name},${name} 도착,已到达 ${name},${name} に到着,ถึง ${name} แล้ว,Arrivé à ${name},Angekommen: ${name}
-strings.js,nav_to(),,ok,{dist} tới {name},{dist} to {name},${name}까지 ${dist},距 ${name} ${dist},${name} まで ${dist},อีก ${dist} ถึง ${name},${dist} jusqu'à ${name},${dist} bis ${name}
-strings.js,question_of(),,ok,Câu {i}/{n},Question {i}/{n},문제 ${i}/${n},第 ${i}/${n} 题,問題 ${i}/${n},ข้อ ${i}/${n},Question ${i}/${n},Frage ${i}/${n}
-strings.js,stops(),,ok,{n} điểm dừng,{n} stops,${n}개 지점,${n} 个站点,${n} か所,${n} จุด,${n} étapes,${n} Stationen
-strings.js,walk_time(),,ok,{m} phút đi bộ,{m} min walk,도보 ${m}분,步行 ${m} 分钟,徒歩 ${m} 分,เดิน ${m} นาที,${m} min à pied,${m} Min. zu Fuß
-strings.js,route_walk(),,ok,{d} · {m} phút đi bộ,{d} · {m} min walk,${d} · 도보 ${m}분,${d} · 步行 ${m} 分钟,${d} · 徒歩 ${m} 分,${d} · เดิน ${m} นาที,${d} · ${m} min à pied,${d} · ${m} Min. zu Fuß
-strings.js,list_more(),,ok,Xem thêm {n} điểm,Show {n} more,${n}곳 더 보기,再看 ${n} 处,さらに ${n} か所,ดูเพิ่ม ${n} แห่ง,Voir ${n} lieux de plus,${n} weitere Orte
-strings.js,tk_sites(),,ok,Vé {n} điểm,{n}-site ticket,${n}곳 입장권,${n} 处门票,${n} か所の入場券,บัตร ${n} แห่ง,Billet ${n} sites,Ticket für ${n} Orte
-strings.js,wrong_wait(),,ok,Sai. Thử lại sau {n}s.,Incorrect. Retry in {n}s.,틀렸습니다. ${n}초 후 다시 시도.,答错了。${n} 秒后再试。,不正解。${n} 秒後にもう一度。,ผิด ลองอีกครั้งใน ${n} วินาที,Faux. Réessayez dans ${n} s.,Falsch. In ${n} s erneut versuchen.
-strings.js,booth_nearest(),,ok,Quầy {name} · cách {d},Counter {name} · {d},${name} 매표소 · ${d},${name} 售票点 · ${d},${name} チケット売り場 · ${d},จุดขายบัตร ${name} · ${d},Guichet ${name} · ${d},Ticketstelle ${name} · ${d}
+strings.js,nav_arrived_at(),,ok,Đã đến {name},Arrived at {name},\$${name} 도착,已到达 \$${name},\$${name} に到着,ถึง \$${name} แล้ว,Arrivé à \$${name},Angekommen: \$${name}
+strings.js,nav_to(),,ok,{dist} tới {name},{dist} to {name},\$${name}까지 \$${dist},距 \$${name} \$${dist},\$${name} まで \$${dist},อีก \$${dist} ถึง \$${name},\$${dist} jusqu'à \$${name},\$${dist} bis \$${name}
+strings.js,question_of(),,ok,Câu {i}/{n},Question {i}/{n},문제 \$${i}/\$${n},第 \$${i}/\$${n} 题,問題 \$${i}/\$${n},ข้อ \$${i}/\$${n},Question \$${i}/\$${n},Frage \$${i}/\$${n}
+strings.js,stops(),,ok,{n} điểm dừng,{n} stops,\$${n}개 지점,\$${n} 个站点,\$${n} か所,\$${n} จุด,\$${n} étapes,\$${n} Stationen
+strings.js,walk_time(),,ok,{m} phút đi bộ,{m} min walk,도보 \$${m}분,步行 \$${m} 分钟,徒歩 \$${m} 分,เดิน \$${m} นาที,\$${m} min à pied,\$${m} Min. zu Fuß
+strings.js,route_walk(),,ok,{d} · {m} phút đi bộ,{d} · {m} min walk,\$${d} · 도보 \$${m}분,\$${d} · 步行 \$${m} 分钟,\$${d} · 徒歩 \$${m} 分,\$${d} · เดิน \$${m} นาที,\$${d} · \$${m} min à pied,\$${d} · \$${m} Min. zu Fuß
+strings.js,list_more(),,ok,Xem thêm {n} điểm,Show {n} more,\$${n}곳 더 보기,再看 \$${n} 处,さらに \$${n} か所,ดูเพิ่ม \$${n} แห่ง,Voir \$${n} lieux de plus,\$${n} weitere Orte
+strings.js,tk_sites(),,ok,Vé {n} điểm,{n}-site ticket,\$${n}곳 입장권,\$${n} 处门票,\$${n} か所の入場券,บัตร \$${n} แห่ง,Billet \$${n} sites,Ticket für \$${n} Orte
+strings.js,wrong_wait(),,ok,Sai. Thử lại sau {n}s.,Incorrect. Retry in {n}s.,틀렸습니다. \$${n}초 후 다시 시도.,答错了。\$${n} 秒后再试。,不正解。\$${n} 秒後にもう一度。,ผิด ลองอีกครั้งใน \$${n} วินาที,Faux. Réessayez dans \$${n} s.,Falsch. In \$${n} s erneut versuchen.
+strings.js,booth_nearest(),,ok,Quầy {name} · cách {d},Counter {name} · {d},\$${name} 매표소 · \$${d},\$${name} 售票点 · \$${d},\$${name} チケット売り場 · \$${d},จุดขายบัตร \$${name} · \$${d},Guichet \$${name} · \$${d},Ticketstelle \$${name} · \$${d}
 strings.js,org_journeys_count(),,ok,{n} hành trình,{n} journeys,,,,,,
-strings.js,earned(),,ok,+{n} điểm,+{n} points,+${n}점,+${n} 分,+${n} ポイント,+${n} คะแนน,+${n} points,+${n} Punkte
-strings.js,spotlight_hint(),,ok,Check-in tại đây nhận +{n} điểm.,Suggested. Earn +{n} points.,여기서 체크인하면 +${n}점.,在此打卡可得 +${n} 分。,ここでチェックインすると +${n} ポイント。,เช็กอินที่นี่ได้ +${n} คะแนน,Enregistrez-vous ici : +${n} points.,Hier einchecken: +${n} Punkte.
-strings.js,pts_more(),,ok,Cần thêm {n} điểm,{n} pts needed,${n}점 더 필요,还需 ${n} 分,あと ${n} ポイント,ต้องการอีก ${n} คะแนน,Encore ${n} points,Noch ${n} Punkte
-strings.js,reward_at(),,ok,Mốc {n} điểm,{n}-point tier,${n}점 단계,${n} 分档,${n} ポイントの段階,ระดับ ${n} คะแนน,Palier ${n} points,Stufe ${n} Punkte
-strings.js,pt_all(),,ok,check-in đủ {n} điểm,checking in at {n} sites,${n}곳 모두 체크인,打卡全部 ${n} 处,${n} か所すべてにチェックイン,เช็กอินครบ ${n} แห่ง,enregistrer les ${n} sites,alle ${n} Orte einchecken
-strings.js,walk(),,ok,{d} · {m} phút đi bộ,{d} · {m} min walk,${d} · 도보 ${m}분,${d} · 步行 ${m} 分钟,${d} · 徒歩 ${m} 分,${d} · เดิน ${m} นาที,${d} · ${m} min à pied,${d} · ${m} Min. zu Fuß
-strings.js,closing_soon(),,ok,Đóng trong {m} phút,Closing in {m} min,${m}분 후 마감,${m} 分钟后关闭,${m} 分後に閉まります,ปิดในอีก ${m} นาที,Ferme dans ${m} min,Schließt in ${m} Min.
-strings.js,opens_at(),,ok,Mở lúc {t},Opens {t},${t} 개장,${t} 开放,${t} 開館,เปิด ${t},Ouvre à ${t},Öffnet um ${t}
+strings.js,earned(),,ok,+{n} điểm,+{n} points,+\$${n}점,+\$${n} 分,+\$${n} ポイント,+\$${n} คะแนน,+\$${n} points,+\$${n} Punkte
+strings.js,spotlight_hint(),,ok,Check-in tại đây nhận +{n} điểm.,Suggested. Earn +{n} points.,여기서 체크인하면 +\$${n}점.,在此打卡可得 +\$${n} 分。,ここでチェックインすると +\$${n} ポイント。,เช็กอินที่นี่ได้ +\$${n} คะแนน,Enregistrez-vous ici : +\$${n} points.,Hier einchecken: +\$${n} Punkte.
+strings.js,pts_more(),,ok,Cần thêm {n} điểm,{n} pts needed,\$${n}점 더 필요,还需 \$${n} 分,あと \$${n} ポイント,ต้องการอีก \$${n} คะแนน,Encore \$${n} points,Noch \$${n} Punkte
+strings.js,reward_at(),,ok,Mốc {n} điểm,{n}-point tier,\$${n}점 단계,\$${n} 分档,\$${n} ポイントの段階,ระดับ \$${n} คะแนน,Palier \$${n} points,Stufe \$${n} Punkte
+strings.js,pt_all(),,ok,check-in đủ {n} điểm,checking in at {n} sites,\$${n}곳 모두 체크인,打卡全部 \$${n} 处,\$${n} か所すべてにチェックイン,เช็กอินครบ \$${n} แห่ง,enregistrer les \$${n} sites,alle \$${n} Orte einchecken
+strings.js,walk(),,ok,{d} · {m} phút đi bộ,{d} · {m} min walk,\$${d} · 도보 \$${m}분,\$${d} · 步行 \$${m} 分钟,\$${d} · 徒歩 \$${m} 分,\$${d} · เดิน \$${m} นาที,\$${d} · \$${m} min à pied,\$${d} · \$${m} Min. zu Fuß
+strings.js,closing_soon(),,ok,Đóng trong {m} phút,Closing in {m} min,\$${m}분 후 마감,\$${m} 分钟后关闭,\$${m} 分後に閉まります,ปิดในอีก \$${m} นาที,Ferme dans \$${m} min,Schließt in \$${m} Min.
+strings.js,opens_at(),,ok,Mở lúc {t},Opens {t},\$${t} 개장,\$${t} 开放,\$${t} 開館,เปิด \$${t},Ouvre à \$${t},Öffnet um \$${t}
 strings.js,org_quota(),,ok,Ghi hôm nay: {n} dòng — {pct}% hạn mức miễn phí/ngày,Writes today: {n} rows — {pct}% of the free daily cap,,,,,,
 strings.js,org_updated(),,ok,Cập nhật: {t},Updated: {t},,,,,,
 strings.js,org_rewards_hint(),,ok,"Mốc điểm tăng dần, tối đa {n}.","Ascending tiers, max {n}.",,,,,,

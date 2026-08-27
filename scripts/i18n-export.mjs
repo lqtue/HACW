@@ -174,16 +174,19 @@ console.log(`content/content-todo.csv  —  ${todo.length} pieces of content not
 const lang = process.argv[2];
 if (lang) {
   if (!langs.has(lang)) { console.error(`unknown language "${lang}" — one of ${[...langs].join(' ')}`); process.exit(1); }
-  // default: only what is still missing. `--all` re-issues the whole sheet, which is
-  // what you want before re-importing (the sheet is the source for the UI locale file).
-  const all = process.argv.includes('--all');
+  // The sheet is the full record by default — it is the source the UI locale file is
+  // built from, and a complete file diffs quietly and can be handed to a translator as
+  // is. `--todo` narrows it to the rows still missing.
+  const todo = process.argv.includes('--todo');
   const todoRows = rows.filter((r) =>
-    !r.skip && (all || !String(r.vals?.[lang] ?? '').trim()) && !STAFF_ONLY.test(`${r.file}::${r.path}`));
+    !r.skip && (!todo || !String(r.vals?.[lang] ?? '').trim()) && !STAFF_ONLY.test(`${r.file}::${r.path}`));
   // three columns: the key, the Vietnamese to translate, and an empty one to fill.
   // Keeping the Vietnamese in place means a half-filled sheet still reads, and the
   // importer can never mistake an untranslated row for a translation.
   const tsv = [`path\tvi\t${lang}`,
-    ...todoRows.map((r) => `${r.file}::${r.path}\t${r.vals.vi.replace(/\s+/g, ' ')}\t`)];
+    ...todoRows.map((r) =>
+      `${r.file}::${r.path}\t${r.vals.vi.replace(/\s+/g, ' ')}\t${String(r.vals[lang] ?? '').replace(/\s+/g, ' ')}`)];
   writeFileSync(new URL(`../content/translate-${lang}.tsv`, import.meta.url), tsv.join('\n') + '\n');
-  console.log(`content/translate-${lang}.tsv  —  ${todoRows.length} rows${all ? ' (full sheet)' : ' still to translate'}`);
+  const left = todoRows.filter((r) => !String(r.vals[lang] ?? '').trim()).length;
+  console.log(`content/translate-${lang}.tsv  —  ${todoRows.length} rows, ${left} still to translate`);
 }
