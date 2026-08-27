@@ -36,6 +36,7 @@ const SRC = join(root, 'content/noi-dung.txt');
 
 // Names the writers use that don't match destinations.json character for character.
 const ALIAS = {
+  'chua cau cau nhat ban': 'chua-cau',
   'hoi quan phuoc kien': 'hoi-quan-phuc-kien',
   'diem tham quan trinh dien nghe xi ma': 'trinh-nghe-xi-ma'
 };

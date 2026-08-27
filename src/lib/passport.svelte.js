@@ -167,6 +167,15 @@ function isRealVisit() {
   const h = location.hostname;
   if (h === 'localhost' || h === '127.0.0.1' || h.endsWith('.local')) return false;
   if (h.endsWith('.pages.dev') && h !== 'hacw.pages.dev') return false;
+  // The /screens board renders the real components (Onboarding, Quiz, StaffConfirm
+  // all still take a `demo` prop for it), so a board sweep would fire genuine
+  // welcome / plan_built / redeem events. The route is currently a 404 in
+  // production — this is here so re-adding it cannot quietly poison the dataset.
+  // Only `/screens` and `?demo=` are blocked: `?view=list` IS real (the site page's
+  // back button writes it), and wrongly blocking a real param loses funnel data
+  // silently, which is worse than a board frame slipping through.
+  if (location.pathname.includes('/screens')) return false;
+  if (/[?&]demo=/.test(location.search)) return false;
   return !staff.on;
 }
 

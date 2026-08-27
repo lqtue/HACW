@@ -3,7 +3,7 @@
     "id": "chua-cau",
     "code": "A1",
     "name": {
-      "vi": "Chùa Cầu (Cầu Nhật Bản)",
+      "vi": "Chùa Cầu",
       "en": "Japanese Covered Bridge",
       "ko": "내원교 (일본교)",
       "zh": "来远桥（日本桥）",
@@ -2008,7 +2008,6 @@
       }
     ],
     "ticketClass": "other",
-    "closed": true,
     "short": {
       "vi": "Một vòng văn hóa Nhật Bản với những thực hành và món đồ chơi truyền thống",
       "en": "A round of Japanese culture through its traditional practices and toys",
