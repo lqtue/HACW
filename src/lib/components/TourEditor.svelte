@@ -36,7 +36,7 @@
   const blankTour = (list) => ({
     id: `tuyen-${list.length + 1}`,
     title: { vi: '', en: '' },
-    theme: { vi: '', en: '' },
+    short: { vi: '', en: '' },
     description: { vi: '', en: '' },
     voucher: { vi: '', en: '' },
     stops: []
@@ -55,7 +55,6 @@
             <th>id</th>
             <th>{s('f_title')} vi</th>
             <th>{s('f_title')} en</th>
-            <th>{s('f_theme')} vi</th>
             <th>{s('f_voucher')} vi</th>
             <th class="num">{s('f_stops')}</th>
             <th class="num">{s('route')}</th>
@@ -76,7 +75,6 @@
               <td><input bind:value={tour.id} /></td>
               <td><input bind:value={tour.title.vi} /></td>
               <td><input bind:value={tour.title.en} /></td>
-              <td><input bind:value={tour.theme.vi} /></td>
               <td><input bind:value={tour.voucher.vi} /></td>
               <td class="num">{tour.stops.length}</td>
               <td class="num">{w ? formatDistance(w.meters, i18n.lang) : '—'}</td>
@@ -87,8 +85,8 @@
 
             {#if open[tour.id]}
               <tr class="ed-detail">
-                <td colspan="9">
-                  <Bi field={tour.theme} label={s('f_theme')} />
+                <td colspan="8">
+                  <Bi field={tour.short} label={s('f_short')} rows={2} />
                   <Bi field={tour.description} label={s('f_desc')} rows={3} />
                   <Bi field={tour.voucher} label={s('f_voucher')} />
 

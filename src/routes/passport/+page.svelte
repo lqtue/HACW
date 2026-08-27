@@ -280,42 +280,52 @@
   <details class="fold">
     <summary>{s('pp_more')}</summary>
     <div class="settings">
+      <!-- 1. Ngôn ngữ (Language) -->
       <details class="fold">
         <summary>{s('lang_switch')} · {i18n.lang.toUpperCase()}</summary>
         <LangSwitch />
       </details>
 
+      <!-- 2. Sao lưu — the code IS the backup: one line saying so, then the code itself -->
       <details class="fold">
         <summary>{s('backup_title')}</summary>
         <div class="backup">
-          <!-- the code IS the backup: one line saying so, then the code itself -->
           <p class="hint">{s('backup_hint')}</p>
           <div class="codebox">
             <span class="pid">{prettyCode()}</span>
             <button class="btn secondary" onclick={() => copy(prettyCode(), s('copied'))}>{s('copy')}</button>
           </div>
           <button class="btn secondary wide" onclick={() => copy(backupLink(), s('copied'))}>{s('copy_link')}</button>
-          <details>
-            <summary>{s('restore')}</summary>
-            <!-- Scanning the ticket is the easy path: it derives the same code the ticket
-                 minted in the first place. `bare` because this panel supplies its own
-                 button — TicketScan's own strip would add a "buy a ticket" prompt, which
-                 is the wrong offer to someone recovering a passport they already have. -->
-            <TicketScan bind:this={rescan} onsaved={onTicketScanned} hero bare />
-            <button class="btn wide" onclick={() => rescan?.start()}>{s('scan_btn')}</button>
-            <p class="hint or">{s('restore_or_code')}</p>
-            <input class="code-in" bind:value={code} placeholder="XXXX-XXXX" autocapitalize="characters" />
-            <button class="btn secondary wide" onclick={doRestore} disabled={busy}>{s('restore')}</button>
-          </details>
-          {#if notice}<p class="notice">{notice}</p>{/if}
-          {#if passport.taken}<p class="notice warn">{s('ticket_taken')}</p>{/if}
           <p class="hint">{s('offline_ok')}</p>
         </div>
       </details>
 
+      <!-- 3. Khôi phục — its own item, not buried inside the backup panel: someone
+           restoring on a new device has no backup code panel to look under. -->
       <details class="fold">
-        <summary>{s('study_note')}</summary>
-        <div class="study-fold"><StudyToggle /></div>
+        <summary>{s('restore')}</summary>
+        <div class="backup">
+          <!-- Scanning the ticket is the easy path: it derives the same code the ticket
+               minted in the first place. `bare` because this panel supplies its own
+               button — TicketScan's own strip would add a "buy a ticket" prompt, which
+               is the wrong offer to someone recovering a passport they already have. -->
+          <TicketScan bind:this={rescan} onsaved={onTicketScanned} hero bare />
+          <button class="btn wide" onclick={() => rescan?.start()}>{s('scan_btn')}</button>
+          <p class="hint or">{s('restore_or_code')}</p>
+          <input class="code-in" bind:value={code} placeholder="XXXX-XXXX" autocapitalize="characters" />
+          <button class="btn secondary wide" onclick={doRestore} disabled={busy}>{s('restore')}</button>
+          {#if notice}<p class="notice">{notice}</p>{/if}
+          {#if passport.taken}<p class="notice warn">{s('ticket_taken')}</p>{/if}
+        </div>
+      </details>
+
+      <!-- 4. Tham gia nghiên cứu -->
+      <details class="fold">
+        <summary>{s('study_agree')}</summary>
+        <div class="study-fold">
+          <StudyToggle />
+          <p class="hint">{s('study_note')}</p>
+        </div>
       </details>
 
       <InstallApp />
@@ -493,7 +503,6 @@
     letter-spacing: 0.2em;
     text-transform: uppercase;
   }
-  .backup details summary { cursor: pointer; font-weight: 600; color: var(--muted); font-size: var(--fs-sm); }
   .notice { margin: 0; font-weight: 600; word-break: break-word; }
   .notice.warn { color: var(--brand); font-weight: 600; }
   .claim { flex: 0 0 auto; padding: 9px 16px; font-size: var(--fs-sm); }

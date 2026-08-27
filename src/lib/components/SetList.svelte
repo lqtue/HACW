@@ -1,7 +1,8 @@
 <script>
   // The themed-set accordion, shared by the planner's "Gợi ý cho bạn" and the passport's
-  // "Hành trình đề xuất": one card per set, single-open, the head carrying title, theme
-  // and walk cost, the body its narrative, numbered stops and one action.
+  // "Hành trình đề xuất": one card per set, single-open. Closed, a card is the pitch —
+  // title, SHORT intro, walk cost. Open, it is the detail — LONG intro (`description`),
+  // numbered stops and one action.
   //
   // The two screens differ only in what the action does — the planner adopts the set as
   // your plan (`onpick`), the passport opens the tour page (`hrefFor`) — and in whether a
@@ -11,7 +12,7 @@
   import { s } from '$lib/strings.js';
 
   /** @type {{
-   *   sets: any[],                      // { id, title, theme, description, stops: dest[] , walkM?, walkMin? }
+   *   sets: any[],                      // { id, title, short, description, stops: dest[] , walkM?, walkMin? }
    *   badge?: boolean,                  // mark the first card as the recommendation
    *   open?: string | null,             // id of the open card (bindable)
    *   actionLabel: string,
@@ -38,7 +39,9 @@
         <span class="set-h-body">
           {#if badge && i === 0}<span class="rec-badge">✦ {s('rec_badge')}</span>{/if}
           <b>{t(set.title)}</b>
-          <small>{t(set.theme)}</small>
+          {#if !isOpen && set.short}
+            <small class="set-short">{t(set.short)}</small>
+          {/if}
           {#if !isOpen}
             <small class="set-dist">
               {formatDistance(c.meters, i18n.lang)} · {s('walk_time', c.minutes)}{#if stamped} · {done}/{set.stops.length} ✓{/if}
@@ -94,6 +97,11 @@
   .set-h-body { flex: 1 1 auto; min-width: 0; display: grid; gap: 2px; }
   .set-h-body b { font-size: var(--fs-lg); font-weight: 700; letter-spacing: -0.01em; }
   .set-h-body small { color: var(--muted); font-size: var(--fs-sm); white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+  /* the short intro is a sentence, not a label: let it wrap, capped at two lines */
+  .set-h-body .set-short {
+    white-space: normal; line-height: 1.4;
+    display: -webkit-box; -webkit-box-orient: vertical; -webkit-line-clamp: 2;
+  }
   .set-h-body .set-dist { color: var(--ink); font-weight: 600; margin-top: 2px; }
   .caret { flex: 0 0 auto; color: var(--muted); }
   .set-body { padding: 0 16px 16px; display: flex; flex-direction: column; gap: 10px; }

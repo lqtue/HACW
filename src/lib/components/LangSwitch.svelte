@@ -10,7 +10,7 @@
 <div class="langswitch" role="group" aria-label="Language">
   {#each LANGS as l (l.code)}
     <button class="ls-chip" class:on={isActive(l)} onclick={() => setLang(displayFor(l))}>
-      {l.name}
+      {l.name}{#if l.enName && l.enName !== l.name}<small>{l.enName}</small>{/if}
     </button>
   {/each}
 </div>
@@ -29,6 +29,8 @@
     cursor: pointer;
     transition: border-color 0.14s, color 0.14s, background 0.14s;
   }
+  .ls-chip small { color: var(--muted); font-weight: 500; margin-left: 6px; }
+  .ls-chip.on small { color: var(--muted); }
   .ls-chip:hover { border-color: color-mix(in srgb, var(--brand) 45%, var(--line)); }
   .ls-chip:focus-visible { outline: 2px solid var(--brand); outline-offset: 2px; }
   .ls-chip.on {

@@ -8,12 +8,13 @@ This file provides guidance to Claude Code (claude.ai/code) when working with co
 npm run dev          # dev server (+ in-memory /api stand-in, see devApi in vite.config.js)
 npm run build        # Cloudflare Pages build into .svelte-kit/cloudflare/
 npm run preview      # preview the production build
-npm test             # node self-checks: geo, quiz draw, scoring, backup/merge, route,
+npm test             # node self-checks: geo, scoring, backup/merge, route,
                      # hours, counter keys + event validation, the D1 SQL against
                      # a real sqlite, API guard, map style (layer ids, glyph
                      # coverage, pins inside the tile extract),
                      # + scripts/check-data.mjs (content integrity). No framework.
 node scripts/import-csv.mjs [--resolve]   # survey CSV -> destinations/ticket-points JSON
+node scripts/import-content.mjs           # writers' copy (content/noi-dung.txt) -> per-site copy, don't-miss, quiz
 ```
 
 No lint step. Deploy target is **Cloudflare Pages** (`adapter-cloudflare`), live at
@@ -123,11 +124,14 @@ machine `idle → locating → (far | quiz | cooldown) → done`. Tier 1 is GPS 
 vs the destination's `radius` (default **75 m**, per-destination — wide on purpose,
 old-town alleys multipath badly); tier 2 is the quiz. The "skip GPS" test button
 only renders when the staff code is unlocked (`staff.on`), so it can't ship to
-visitors by accident. The quiz draws **2 easy + 1 hard** from the destination's
-`quizBank` (target 10/site) via `src/lib/quiz.js`; all drawn questions must be
-answered correctly to earn the stamp. **One wrong answer throws the whole draw
-away and locks the site for 20 s** (`COOLDOWN`) — guessing costs time and the
-perfect-answer bonus. The answers still ship in `destinations.json`, so this
+visitors by accident. **The bank IS the quiz**: every question in the
+destination's `quizBank` is asked, in the order the writers wrote them — no draw,
+no easy/hard tiers, no cap (`src/lib/quiz.js` and its `difficulty` field are
+gone). All of them must be answered correctly to earn the stamp. **One wrong
+answer throws the whole run away and locks the site for 20 s** (`COOLDOWN`) —
+guessing costs time and the perfect-answer bonus. A site whose questions are not
+written yet has an **empty bank and stamps on the GPS fix alone** (counted clean —
+there was nothing to get wrong); `/organizer` and `check-data.mjs` list those. The answers still ship in `destinations.json`, so this
 slows brute force, it doesn't prevent it; staff handing over the paper voucher
 is the real gate.
 
@@ -168,11 +172,14 @@ a 900px `.dash` cap — only the editors want the full width.
 Validation lives in `src/lib/editor.js` — `checkDestinations`, `checkTours` and
 `checkRewards` — and `scripts/check-data.mjs` runs those same three in `npm test`, so the download button is disabled on anything the repo would
 reject. Cross-file rules that a single editor cannot see stay in `check-data.mjs`;
-"no two tours claim the same stop" and "no tour points at an unknown id" are
-enforced by passing the destination ids into `checkTours`. A site in **no** tour
-is allowed on purpose: only surveyed walking routes ship as tours, and the rest
-still stamp and score — they just form no voucher set, and the passport groups
-them into a final "other sites" block. Editor CSS is global (`.ed-*` in `app.css`) because Svelte
+"no tour points at an unknown id" is enforced by passing the destination ids into
+`checkTours`. A tour stop that is a `closed` site is rejected outright — the set
+could never be completed, so its +30 and its voucher would be dead. **Ticket sets
+may share a stop**: there are only three monuments and every 5-slot set needs one,
+so Chùa Cầu, Miếu Quan Công, Chùa Quan Âm and BT Sa Huỳnh each appear in two
+routes. ("No two tours claim the same stop" still holds for a non-`ticket` tour.)
+A site in **no** tour is allowed on purpose — it still stamps and scores, it just
+forms no voucher set. Editor CSS is global (`.ed-*` in `app.css`) because Svelte
 scopes component styles and four editors would otherwise carry four copies.
 
 **Fraud flagging** (`src/lib/fraud.js`, pure): `flagPassport(stamps, destinations)`
@@ -197,7 +204,7 @@ the scan step and the passport page) covering the footfall `cell` counts and the
 per-visit `sid`. The terms page and `research_optin` list exactly what is sent.
 Behaviour-detail events (`plan_pick` with position + spot, `arrive`, `quiz_done`,
 `view_site`) exist so that, per `sid`, plan adherence, arrivals that never
-stamped, per-site quiz difficulty and looked-but-never-went are all answerable.
+stamped, which questions get missed most and looked-but-never-went are all answerable.
 
 **Counters are only what `/organizer` renders live**; everything else is
 `events`-only (`EVENTS_ONLY` in `counts.js`). The per-destination detail types
@@ -240,8 +247,8 @@ the +100 full-set bonus is most of the gap.
 / full-set bonus and `totalPoints` is now just its `.total`, so the "how points
 work" panel on the passport cannot drift from the number above it. The stamp wall
 is **grouped by tour** rather than shown as one wall of 25 — a tour is the unit
-that earns a voucher, and `checkTours` guarantees every site is in exactly one, so
-the groups cover all of them with nothing orphaned. That replaced the separate
+that earns a voucher. The five sets cover all 21 open sites (the four `closed`
+ones are outside them), and a site shared by two sets counts in both. That replaced the separate
 tours list, which showed the same progress twice.
 
 **Recovery** (`src/lib/backup.js` pure + `passport.svelte.js` glue): every device
@@ -253,8 +260,8 @@ deploys with no server at all. Restore can only add stamps.
 
 **Organizer dashboard** (`src/routes/organizer/+page.svelte`): check-ins per site
 ascending, evenness score, currently-boosted list, nearest ticket counter per
-site, CSV export, and the data-quality lists (`needsSurvey` coords, `generated`
-quiz banks) plus the non-check-in event tallies. Not in the bottom nav — reach it
+site, CSV export, and the data-quality lists (`needsSurvey` coords, sites with
+no questions yet) plus the non-check-in event tallies. Not in the bottom nav — reach it
 by URL, behind the staff code (mis-tap guard, not auth — see `staff.svelte.js`).
 
 **Bilingual content** (`src/lib/i18n.svelte.js` + `src/lib/strings.js`): all
@@ -287,14 +294,34 @@ removes the control, which clears the watch: a watch that outlives the route is 
 battery leak. `/organizer` calls the same `nearest()` for its per-site counter
 column.
 
-**Content intake**: the survey team works in Google Sheets; CSV exports live in
+`node scripts/i18n-export.mjs` writes the two files the content/translation team
+works from: `content/i18n.csv` — every translatable string with a `status`
+(`ok` · `en-missing` · `en=vi` · `no-vi`) and one column per language, so adding
+`ko`/`zh`/… to any JSON node makes a column appear — and
+`content/content-todo.csv`, the content that does not exist yet (missing short
+intro, fewer than three "don't miss" lines, a thin quiz bank, questions with no
+explanation, placeholder tour narratives and voucher names).
+
+**Content intake** comes from two sources. The **writers'** copy lives in
+`content/noi-dung.txt` (→ `node scripts/import-content.mjs`), one tagged block per
+site, keyed by the destination's Vietnamese name (`ALIAS` covers the spellings that
+don't match): `S` short intro (`short`, the map popup's one-liner), `L` long intro
+(`description`), `D` "đừng bỏ lỡ" lines (`highlights`, rendered on the site info
+screen), `addr`/`hours`, and `Q`/`A`/`A`/`A`/`E` quiz blocks — **the first `A` is
+the correct answer**, the script shuffles and records the index, and `E` becomes the
+`explain` the quiz result screen shows. Every question in a block ships — nothing is
+dropped, padded or generated. Sites absent from the file keep what they have. VI only: every `en` is looked up by its
+VI string in the JSON on disk, so **translations survive a re-import** and a
+changed VI line is reported as missing rather than silently dropped.
+
+The **survey** team's sheet is the other one; its CSV exports live in
 `content/csv/` and `node scripts/import-csv.mjs` regenerates
 `destinations.json` + `ticket-points.json`. The sheet owns address, hours,
 traffic, promo priority and the VI intro text; the script's `META` table owns
-ids, categories and EN copy; hand-written quiz banks survive re-imports. Sites
-without a real bank get questions generated from their own row (street /
-category / hours), flagged `"generated": true`, so they are never factually
-wrong — just dull, and listed in `/organizer` as to-do. `content/
+ids, categories and EN copy; quiz banks are never touched by it. It used to
+generate filler questions from the row (street / category / hours) for sites
+without a bank — **that generator and every question it wrote are deleted**; a
+site with no questions simply has none. `content/
 CONTENT-GUIDE.md` (Vietnamese) + `content/destination.template.json` still
 define the target per-destination schema (10 questions/site).
 `scripts/check-data.mjs` (in `npm test`) fails on a missing `vi`/`en`, a pin
@@ -410,6 +437,14 @@ same roofs was not. `map-style.test.js` asserts every layer draws from
 stylesheet is imported at **runtime**, i.e. after component CSS, so every
 override in the page has to out-specify it (hence `.maplibregl-map …`).
 
+Each tour carries **both intros**: `short` is the one-line pitch and `description`
+the long narrative. `SetList.svelte` (the planner's "Gợi ý tuyến" and the
+passport's set fold) shows `short` + walk cost while a card is **closed**, and
+swaps to the long `description` + the numbered stop list when it **opens** — so a
+collapsed list of five sets is five sentences, not five paragraphs. `extra` is the
+survey team's recommended sixth site: shown on the tour page under the numbered
+stops, outside the ticket's five slots, and never part of `isSetComplete`.
+
 **Tours** (`src/routes/tours/[id]/+page.svelte`, reached from the passport's set
 list — there is no `/tours` index): the page renders `RouteMap.svelte` (dashed
 line + numbered stops, all native layers
@@ -432,6 +467,7 @@ listed beside it. `RouteMap` tears itself down in `onDestroy` because an **async
 
 Verify every destination's `lat`/`lng`/`radius` on-site (coords come from the
 sheet's Google Maps links; 5 are estimates, flagged `needsSurvey` and listed in
-`/organizer`), replace the 19 auto-generated quiz banks, add real photos, add
+`/organizer`), write the missing quiz questions (banks are 2–5 today, target 10),
+add real photos, add
 192/512 PNG icons, and change both staff codes in `src/lib/staff.svelte.js`.
 Full list with reasoning: `CONCERNS.md`.

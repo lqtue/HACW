@@ -10,7 +10,6 @@
   import destinations from '$lib/data/sites.js';
   import { t } from '$lib/i18n.svelte.js';
   import { s } from '$lib/strings.js';
-  import MatCua from '$lib/components/MatCua.svelte';
   import Icon from '$lib/components/Icon.svelte';
   import StampPress from '$lib/components/StampPress.svelte';
   import PageShell from '$lib/components/PageShell.svelte';
@@ -76,8 +75,11 @@
       recordCell(here); // anonymous foot-traffic count when consent is on (research store)
       distance = Math.round(distanceMeters(here, { lat: dest.lat, lng: dest.lng }));
       if (distance <= dest.radius) {
-        step = 'quiz';
         track('arrive', dest.id, distance, quiet); // arrival; a missing checkin after = gave up
+        // a site whose questions aren't written yet stamps on the GPS fix alone, and
+        // counts as clean (there was nothing to get wrong)
+        if (dest.quizBank.length) step = 'quiz';
+        else onPass({ missed: false });
       }
       else {
         step = 'far';
@@ -117,16 +119,11 @@
      and done carry their own heading (question / verdict / stamp), so no top bar there -->
 <PageShell title={onInfo ? t(dest.name) : ''} fill>
   {#if onInfo}
-    <!-- SCREEN 1 — the destination: image, name (topbar), description, one CTA -->
+    <!-- SCREEN 1 — the destination: name (topbar), description, don't-miss, one CTA.
+         No image: there are no real site photos yet, and a decorative stand-in
+         only pushed the copy down. -->
     <section class="screen info">
       <div class="info-body">
-        <div class="hero" style="--cat: var(--c-{dest.category})">
-          <span class="watermark">{t(dest.name).charAt(0)}</span>
-          <div class="eye">
-            <MatCua size={104} color="var(--cat)" inner="#fbe0b8" ink="var(--cat)" />
-          </div>
-        </div>
-
         {#if spotlight}
           <div class="tags">
             <span class="tag spot"><Icon name="spark" size={14} /> {s('spotlight')} {s('earned', POINTS.spotlight)}</span>
@@ -137,10 +134,12 @@
 
         <!-- "đừng bỏ lỡ": the survey team's three things to actually look at on site -->
         {#if dest.highlights?.length}
-          <h2 class="dm-title">{s('dont_miss')}</h2>
-          <ul class="dm">
-            {#each dest.highlights as h}<li>{t(h)}</li>{/each}
-          </ul>
+          <div class="dm-box">
+            <h2 class="dm-title"><Icon name="spark" size={14} /> {s('dont_miss')}</h2>
+            <ul class="dm">
+              {#each dest.highlights as h}<li>{t(h)}</li>{/each}
+            </ul>
+          </div>
         {/if}
       </div>
 
@@ -210,49 +209,29 @@
 
   /* ---- info screen ---- */
   .info-body { display: flex; flex-direction: column; }
-  .hero {
-    position: relative;
-    height: 160px;
-    flex: 0 0 auto; /* never let the flex column shrink the image when a banner appears */
-    border-radius: var(--radius);
-    overflow: hidden;
-    margin-bottom: 14px;
-    background: linear-gradient(160deg, color-mix(in srgb, var(--cat) 10%, var(--surface)), var(--surface));
-    border: 1px solid var(--line);
-  }
-  .hero::before, .hero::after {
-    content: '';
-    position: absolute;
-    border-radius: 999px;
-    background: var(--grad-warm);
-  }
-  .hero::before { top: 22px; left: -30px; width: 130px; height: 28px; opacity: 0.7; }
-  .hero::after { top: 62px; left: 10px; width: 84px; height: 22px; opacity: 0.45; }
-  .hero .eye {
-    position: absolute;
-    top: 18px; right: 18px;
-    opacity: 0.9;
-    filter: drop-shadow(0 8px 14px rgba(126, 31, 19, 0.2));
-  }
-  .hero .watermark {
-    position: absolute;
-    right: 8px; bottom: -24px;
-    font-family: var(--font-display);
-    font-size: 11rem; font-weight: 700; line-height: 1;
-    color: var(--cat); opacity: 0.16; user-select: none;
-  }
   .tags { display: flex; flex-wrap: wrap; gap: 6px; margin-bottom: 12px; }
   .tag.spot { background: var(--gold); color: #4a2f06; }
-  .desc { margin: 0 0 4px; font-size: var(--fs-md); line-height: 1.6; }
-  .dm-title {
-    margin: 14px 0 6px; font-family: var(--font-display); font-weight: 800;
-    font-size: var(--fs-sm); text-transform: uppercase; letter-spacing: .08em; color: var(--muted);
+  .desc { margin: 0 0 4px; font-size: var(--fs-lg); line-height: 1.45; }
+  /* the page's one block of colour now that the stand-in photo is gone: the gold
+     "quieter/notice" tint the banners use, so it reads as the thing to look at */
+  .dm-box {
+    margin: 16px 0 4px;
+    padding: 14px 16px;
+    border-radius: var(--radius);
+    background: color-mix(in srgb, var(--gold) 12%, var(--surface));
+    border: 1px solid color-mix(in srgb, var(--gold) 32%, var(--line));
   }
-  .dm { margin: 0; padding: 0; list-style: none; display: grid; gap: 6px; }
-  .dm li { position: relative; padding-left: 15px; font-size: var(--fs-md); line-height: 1.5; }
+  .dm-title {
+    display: flex; align-items: center; gap: 7px;
+    margin: 0 0 9px; font-family: var(--font-display); font-weight: 800;
+    font-size: var(--fs-sm); text-transform: uppercase; letter-spacing: .08em;
+    color: var(--brand-dark);
+  }
+  .dm { margin: 0; padding: 0; list-style: none; display: grid; gap: 8px; }
+  .dm li { position: relative; padding-left: 17px; font-size: var(--fs-lg); line-height: 1.35; }
   .dm li::before {
-    content: ''; position: absolute; left: 0; top: .62em;
-    width: 6px; height: 6px; border-radius: 50%; background: var(--brand);
+    content: ''; position: absolute; left: 0; top: .5em;
+    width: 7px; height: 7px; border-radius: 50%; background: var(--gold);
   }
 
   /* quiz + result screens: Quiz.svelte */

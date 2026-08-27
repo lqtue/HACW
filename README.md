@@ -256,7 +256,7 @@ the removal and reinstall it if a static demo is ever wanted back.
 - Change both staff codes (`VOLUNTEER`, `ORGANIZER`) in `src/lib/staff.svelte.js` (they gate the
   skip-GPS button, `/organizer` and voucher confirmation).
 - Verify all coordinates + radii on-site (5 are estimates — see `/organizer`).
-- Replace the 19 auto-generated quiz banks with real questions (target 10/site).
+- Grow the quiz banks: every question in a bank is asked, and banks are 2–5 today (target 10/site).
 - Add real destination photos (the unused `image` field was dropped from
   `destinations.json`; re-add it in `scripts/import-csv.mjs` when photos exist).
 - Replace `static/icon.svg` with 192/512 PNG icons for full iOS install fidelity.
