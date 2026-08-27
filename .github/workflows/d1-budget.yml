@@ -50,6 +50,12 @@ env:
 jobs:
   check:
     runs-on: ubuntu-latest
+    # Secrets are lifted to job env here because a step `if:` can read `env.` but
+    # not `secrets.` — referencing secrets in a condition fails to parse the file.
+    env:
+      MAIL_USERNAME: ${{ secrets.MAIL_USERNAME }}
+      MAIL_PASSWORD: ${{ secrets.MAIL_PASSWORD }}
+      MAIL_TO: ${{ secrets.MAIL_TO }}
     steps:
       - name: Read today's row-writes
         id: read
@@ -142,12 +148,10 @@ jobs:
 
       # Optional second channel, straight to an inbox. Skipped when the secrets are absent.
       - name: Email
-        # `secrets.` not `env.`: an `if:` is evaluated before the step's own env exists.
-        if: steps.read.outputs.level != 'ok' && secrets.MAIL_USERNAME != ''
+        # env., not secrets. — a step `if:` cannot reference secrets (the file then
+        # fails to parse outright), so they are lifted to job env above.
+        if: steps.read.outputs.level != 'ok' && env.MAIL_USERNAME != ''
         env:
-          MAIL_USERNAME: ${{ secrets.MAIL_USERNAME }}
-          MAIL_PASSWORD: ${{ secrets.MAIL_PASSWORD }}
-          MAIL_TO: ${{ secrets.MAIL_TO }}
           SUBJECT: ${{ steps.msg.outputs.subject }}
         run: |
           set -euo pipefail
