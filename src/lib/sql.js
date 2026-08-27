@@ -30,10 +30,9 @@ export const UPSERT_PASSPORT = `INSERT INTO passports (pid, snapshot, updated, f
 export const SELECT_FLAGGED = `SELECT pid, flags, updated FROM passports
    WHERE flags > 0 ORDER BY flags DESC, updated DESC LIMIT 50`;
 
-/** (eid, ts, day, half, nudge, t, dest, spot, nat, n, sid, seq, tk) — one study row.
- *  OR IGNORE on the eid: a re-sent queue chunk stores nothing twice. */
-export const INSERT_EVENT = `INSERT OR IGNORE INTO events (eid, ts, day, half, nudge, t, dest, spot, nat, n, sid, seq, tk)
-   VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)`;
+/** (ts, pid, body) — one POST chunk = one study row; body = JSON of eventRows().
+ *  The `events` view unpacks it and dedupes a re-sent chunk by eid. */
+export const INSERT_CHUNK = `INSERT INTO chunks (ts, pid, body) VALUES (?, ?, ?)`;
 
 /** (limit) — newest opt-in journey rows (events carrying a sid) for the organizer CSV. */
 export const SELECT_JOURNEYS = `SELECT sid, seq, nat, t, dest, ts FROM events

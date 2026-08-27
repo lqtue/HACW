@@ -85,6 +85,14 @@ export function geohashDecode(hash) {
   return { lat: (latMin + latMax) / 2, lng: (lngMin + lngMax) / 2 };
 }
 
+// Last GPS fix seen anywhere in the app (check-in, map locate watch), so every
+// tracked event can carry where the phone was. Plain object, not reactive.
+export const fix = { at: 0, lat: 0, lng: 0, acc: 0 };
+export function noteFix(p) {
+  if (!p || !Number.isFinite(p.lat)) return;
+  Object.assign(fix, { at: Date.now(), lat: p.lat, lng: p.lng, acc: p.accuracy ?? p.acc ?? 0 });
+}
+
 // Promise wrapper around the browser geolocation API.
 export function getPosition() {
   return new Promise((resolve, reject) => {
@@ -93,7 +101,11 @@ export function getPosition() {
       return;
     }
     navigator.geolocation.getCurrentPosition(
-      (p) => resolve({ lat: p.coords.latitude, lng: p.coords.longitude, accuracy: p.coords.accuracy }),
+      (p) => {
+        const here = { lat: p.coords.latitude, lng: p.coords.longitude, accuracy: p.coords.accuracy };
+        noteFix(here);
+        resolve(here);
+      },
       (err) => reject(err),
       { enableHighAccuracy: true, timeout: 10000, maximumAge: 0 }
     );

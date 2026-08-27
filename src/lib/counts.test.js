@@ -1,5 +1,5 @@
 import assert from 'node:assert';
-import { countKey, eventKey, tally, totals, natTotals, eventRows, MAX_EVENTS } from './counts.js';
+import { countKey, eventKey, tally, totals, natTotals, eventRows, cleanPid, MAX_EVENTS } from './counts.js';
 
 // --- key layout ---
 assert.equal(countKey('chua-cau'), 'count:chua-cau');
@@ -185,14 +185,21 @@ const jr = eventRows(
 );
 const unitOf = { ts: T0, day: '2026-08-29', half: 'am', nudge: 0, tk: null };
 assert.deepEqual(jr, [
-  { eid: 'a1b2c3d4e5f6', ...unitOf, tk: 5, t: 'checkin', dest: 'chua-cau', spot: 1, nat: 'ko', n: null, sid: 'a1b2c3d4', seq: 0 },
-  { eid: 'a1b2c3d4e5f7', ...unitOf, t: 'scan', dest: null, spot: null, nat: null, n: null, sid: null, seq: null },
+  { eid: 'a1b2c3d4e5f6', ...unitOf, tk: 5, t: 'checkin', dest: 'chua-cau', spot: 1, nat: 'ko', n: null, sid: 'a1b2c3d4', seq: 0, at: 1000 },
+  { eid: 'a1b2c3d4e5f7', ...unitOf, at: 1001, t: 'scan', dest: null, spot: null, nat: null, n: null, sid: null, seq: null },
   { eid: 'a1b2c3d4e5f9', ...unitOf, t: 'view', dest: 'explore', spot: null, nat: 'ja', n: null, sid: null, seq: null },
   { eid: 'a1b2c3d4e5fa', ...unitOf, t: 'cell', dest: 'w6v434x-ko', spot: null, nat: null, n: null, sid: null, seq: null },
   { eid: 'a1b2c3d4e5fb', ...unitOf, t: 'pick', dest: 'ko', spot: null, nat: null, n: null, sid: null, seq: null },
   { eid: 'a1b2c3d4e5fc', ...unitOf, t: 'quiz_wrong', dest: 'chua-cau', spot: null, nat: null, n: 2, sid: null, seq: null }
 ]);
 assert.equal(eventRows([{ eid: 'AB12CD34', t: 'welcome' }], real, T0)[0].eid, 'ab12cd34', 'eid normalised');
+// GPS on the event: kept (rounded, bounded) when both coordinates are sane, else dropped
+const g = eventRows([{ eid: 'ab12cd35', t: 'pos', lat: 15.87712345, lng: 108.3266, acc: 12.6 }], real, T0)[0];
+assert.deepEqual([g.lat, g.lng, g.acc], [15.877123, 108.3266, 13]);
+assert.ok(!('lat' in eventRows([{ eid: 'ab12cd36', t: 'pos', lat: 99, lng: 1 }], real, T0)[0]), 'impossible latitude dropped');
+assert.ok(!('lat' in eventRows([{ eid: 'ab12cd37', t: 'pos', lat: 15 }], real, T0)[0]), 'lat without lng dropped');
+assert.deepEqual(tally([{ eid: 'ab12cd38', t: 'pos', n: 5 }]), {}, 'pos mints no counter');
+assert.equal(cleanPid('ABCDEFGH'), 'ABCDEFGH'); assert.equal(cleanPid('abcdefgh'), null); assert.equal(cleanPid('ABCDEFGI'), null, 'I is not Crockford');
 assert.deepEqual(eventRows([{ eid: 'zz', t: 'welcome' }], real, T0), [], 'malformed eid is not logged');
 assert.equal(eventRows([{ eid: 'a1b2c3d4', t: 'welcome', tk: 7 }], real, T0)[0].tk, null, 'ticket type is 5 or 3 only');
 // behaviour-detail types take the dest guard like checkin does

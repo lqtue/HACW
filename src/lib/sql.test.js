@@ -12,7 +12,7 @@ import {
   SELECT_PASSPORT,
   UPSERT_PASSPORT,
   SELECT_FLAGGED,
-  INSERT_EVENT,
+  INSERT_CHUNK,
   SELECT_JOURNEYS,
   prefixRange
 } from './sql.js';
@@ -126,14 +126,15 @@ const batch = [
   { eid: 'aa11bb22cc36', t: 'checkin', id: 'not-real' }, // junk dest: dropped
   { t: 'checkin', id: 'chua-cau' } // no eid: dropped (would double-log on retry)
 ];
-const ins = (rows) =>
-  rows.forEach((r) =>
-    db.prepare(INSERT_EVENT).run(r.eid, r.ts, r.day, r.half, r.nudge, r.t, r.dest, r.spot, r.nat, r.n, r.sid, r.seq, r.tk)
-  );
+// one POST = one chunk row; the `events` view unpacks it and dedupes by eid
+const ins = (rows, pid = 'ABCDEFGH') => db.prepare(INSERT_CHUNK).run(rows[0]?.ts ?? 0, pid, JSON.stringify(rows));
 ins(eventRows(batch, real, T0));
 ins(eventRows(batch, real, T0 + 5000)); // the client re-sends the same chunk
+assert.equal(db.prepare('SELECT COUNT(*) AS c FROM chunks').get().c, 2, 'two POSTs = two rows written');
 const all = db.prepare('SELECT * FROM events ORDER BY id').all();
-assert.equal(all.length, 3, 'one row per accepted event, none twice');
+assert.equal(all.length, 3, 'one event per accepted event, none twice');
+assert.ok(all.every((r) => r.pid === 'ABCDEFGH'), 'device id rides the chunk');
+assert.equal(all[0].at, 1000, 'client clock kept alongside the server one');
 assert.deepEqual(
   all.map((r) => [r.day, r.half, r.nudge, r.t, r.dest, r.spot, r.nat, r.n, r.sid, r.seq]),
   [
@@ -153,11 +154,10 @@ assert.deepEqual(
 // the analysis query the schema exists for
 const per = db.prepare("SELECT day, half, nudge, dest, COUNT(*) AS c FROM events WHERE t='checkin' GROUP BY 1,2,3,4").all();
 assert.equal(per.length, 2);
-assert.equal(
-  db.prepare("EXPLAIN QUERY PLAN SELECT * FROM events WHERE day=? AND half=? AND t='checkin'").get('2026-08-28', 'pm').detail.includes('events_unit'),
-  true,
-  'per-unit analysis uses its index'
-);
+// GPS trace: a pos event with a fix reads back as numbers through the view
+ins(eventRows([{ eid: 'dd11bb22cc99', t: 'pos', n: 12, at: 5, lat: 15.8771, lng: 108.3266, acc: 12 }], real, T0));
+const pos = db.prepare("SELECT lat, lng, acc, pid FROM events WHERE t='pos'").get();
+assert.deepEqual(pos, { lat: 15.8771, lng: 108.3266, acc: 12, pid: 'ABCDEFGH' });
 assert.ok(
   db.prepare('EXPLAIN QUERY PLAN ' + SELECT_FLAGGED).all().some((r) => r.detail.includes('passports_flagged')),
   'review list uses the partial index'

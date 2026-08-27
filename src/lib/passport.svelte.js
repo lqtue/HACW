@@ -4,6 +4,7 @@ import { mergeStamps, encodeSnapshot, decodeSnapshot, normalizeCode, isValidCode
 import { study, journeyTag } from './study.svelte.js';
 import { plan } from './plan.svelte.js';
 import { staff } from './staff.svelte.js';
+import { fix } from './geo.js';
 
 const KEY = 'hacw_passport_v1';
 const QUEUE = 'hacw_checkin_queue_v1';
@@ -199,6 +200,8 @@ export function track(type, id, n, spot) {
   if (plan.ticketCode) e.tk = plan.size;
   // nationality tag → the server crosses whitelisted behaviour with it (aggregate)
   if (study.nat) e.nat = study.nat;
+  // where the phone was: the last GPS fix if it is under 5 min old
+  if (fix.at && Date.now() - fix.at < 300_000) Object.assign(e, { lat: fix.lat, lng: fix.lng, acc: fix.acc });
   // journey stamp only when the visitor opted into the sequence study
   const j = journeyTag();
   if (j) {
@@ -226,7 +229,7 @@ export async function flush() {
       const res = await fetch(`${base}/api/checkin`, {
         method: 'POST',
         headers: { 'content-type': 'application/json' },
-        body: JSON.stringify({ events: chunk })
+        body: JSON.stringify({ pid: passport.pid, events: chunk })
       });
       if (!res.ok) break; // server down -> keep the queue, retry next flush
       // drop only what we actually sent — check-ins made during the request stay queued

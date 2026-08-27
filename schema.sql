@@ -61,23 +61,42 @@ CREATE TABLE IF NOT EXISTS passports (
 --                       plan_pick vs checkin = adherence, arrive w/o checkin = gave up
 --   tail:               days 5–6 (nudge=0) vs off-units of days 1–4
 -- ponytail: no retention job — drop the table after the event (CONCERNS.md §3b).
-CREATE TABLE IF NOT EXISTS events (
-  id    INTEGER PRIMARY KEY,
-  eid   TEXT NOT NULL UNIQUE,
-  ts    INTEGER NOT NULL,
-  day   TEXT NOT NULL,
-  half  TEXT NOT NULL,
-  nudge INTEGER NOT NULL,
-  t     TEXT NOT NULL,
-  dest  TEXT,
-  spot  INTEGER,
-  nat   TEXT,
-  n     REAL,
-  sid   TEXT,
-  seq   INTEGER,
-  tk    INTEGER
+-- The free tier meters ROWS written (100k/day), not bytes, so the study log is
+-- one row per POST chunk (up to 50 events as JSON), not one row per event: the
+-- same quota holds ~50x the events. `pid` = the device's recovery code, so one
+-- visitor's days join; each event carries the client clock (`at`) and its last
+-- GPS fix (`lat`, `lng`, `acc`) when it had one. The `events` VIEW below unpacks
+-- the chunks with json_each, so the analysis queries above read unchanged.
+-- Retried chunks are not deduped on write any more; the view GROUPs BY eid.
+-- Migrating a live DB: DROP TABLE IF EXISTS events; then apply this file.
+CREATE TABLE IF NOT EXISTS chunks (
+  id   INTEGER PRIMARY KEY,
+  ts   INTEGER NOT NULL,
+  pid  TEXT,
+  body TEXT NOT NULL
 );
-CREATE INDEX IF NOT EXISTS events_unit ON events (day, half, t);
+CREATE VIEW IF NOT EXISTS events AS
+  SELECT MIN(c.id * 1000 + j.key) AS id,
+         json_extract(j.value, '$.eid')   AS eid,
+         json_extract(j.value, '$.ts')    AS ts,
+         json_extract(j.value, '$.day')   AS day,
+         json_extract(j.value, '$.half')  AS half,
+         json_extract(j.value, '$.nudge') AS nudge,
+         json_extract(j.value, '$.t')     AS t,
+         json_extract(j.value, '$.dest')  AS dest,
+         json_extract(j.value, '$.spot')  AS spot,
+         json_extract(j.value, '$.nat')   AS nat,
+         json_extract(j.value, '$.n')     AS n,
+         json_extract(j.value, '$.sid')   AS sid,
+         json_extract(j.value, '$.seq')   AS seq,
+         json_extract(j.value, '$.tk')    AS tk,
+         json_extract(j.value, '$.at')    AS at,
+         json_extract(j.value, '$.lat')   AS lat,
+         json_extract(j.value, '$.lng')   AS lng,
+         json_extract(j.value, '$.acc')   AS acc,
+         c.pid                            AS pid
+  FROM chunks c, json_each(c.body) j
+  GROUP BY eid;
 -- The organizer review list is `WHERE flags > 0 ORDER BY flags, updated`; without
 -- this it is a full scan of every passport plus a sort on each dashboard load.
 CREATE INDEX IF NOT EXISTS passports_flagged ON passports (flags DESC, updated DESC) WHERE flags > 0;

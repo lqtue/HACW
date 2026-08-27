@@ -77,15 +77,22 @@ caveat. It is the **ops** store: spotlight and the dashboard read only it. The r
 is a primary-key **range** (`k >= ? AND k < ?` via `prefixRange()`), not `LIKE` —
 LIKE can't use the index and the table is a few thousand rows now, not 50.
 
-`events` is the **study** store (`src/lib/switchback.js`, `eventRows()` in
+`chunks` is the **study** store — **one row per POST**, `body` = JSON of up to 50
+accepted events, `pid` = the device's recovery code; the `events` **VIEW** in
+`schema.sql` unpacks it with `json_each` (GROUP BY eid = retry dedupe), so the
+analysis SQL reads it as a table. Rows-written is the free-tier meter (100k/day),
+so this holds ~50× the events of one-row-per-event; every event also carries the
+client clock `at` and the last GPS fix (`lat`/`lng`/`acc`, from `fix` in `geo.js`,
+fed by check-in and the map's locate watch, which also emits a `pos` heartbeat
+~1/min). `events` (the view) (`src/lib/switchback.js`, `eventRows()` in
 `counts.js`): one row per accepted event, stamped with the *server* clock, the
 half-day switchback unit (`day`, `half`, `nudge` from the pre-registered
 `SCHEDULE`), whether the site was spotlight on the client (`spot`), nationality,
 an ephemeral per-visit `sid`/`seq` (dies with the tab; absent only when the visitor
 switched the study off), and `tk` = ticket type (5 | 3), the cheapest segment.
-**Device-free by design**: no pid, no device id. Per-device questions (plan
-adherence) are answered from `passports.snapshot`, which now carries `plan` (the
-5 chosen ids) and `spot` on each stamp. Each client event has a random `eid`;
+Since 2026-08-28 each chunk carries the device `pid` (was device-free — the
+consent/terms text still needs updating to say so). `passports.snapshot` also
+carries `plan` (the 5 chosen ids) and `spot` on each stamp. Each client event has a random `eid`;
 `INSERT OR IGNORE` on it makes a re-sent queue chunk exactly-once in the log (the
 counters still double-bump on a retry — ops only, accepted). Both stores are
 written in **one `db.batch`** so they cannot disagree. Nobody reads `events` live:

@@ -12,7 +12,7 @@
   import { sitePopup } from '$lib/map-popup.js';
   import { addLandmarks } from '$lib/landmarks.js';
   import { categoryLabel, mapsUrl, openLabel } from '$lib/util.js';
-  import { hasStamp } from '$lib/passport.svelte.js';
+  import { hasStamp, track } from '$lib/passport.svelte.js';
   import { stats } from '$lib/stats.svelte.js';
   import { spotlightIds } from '$lib/score.js';
   import { nudgeOn } from '$lib/switchback.js';
@@ -20,6 +20,7 @@
   import { s } from '$lib/strings.js';
   import { theme } from '$lib/theme.svelte.js';
   import { recordCell } from '$lib/research.svelte.js';
+  import { noteFix } from '$lib/geo.js';
   import { ui } from '$lib/ui.svelte.js';
 
   let active = $state('all');
@@ -183,7 +184,17 @@
   });
 
   // SiteMap pushes the sites *data*; these log footfall + toggle layer visibility.
-  $effect(() => { if (me) recordCell(me); });
+  // ~one `pos` event a minute while the locate watch runs = the walking trace
+  let lastPos = 0;
+  $effect(() => {
+    if (!me) return;
+    recordCell(me);
+    noteFix(me);
+    if (Date.now() - lastPos > 60_000) {
+      lastPos = Date.now();
+      track('pos', undefined, Math.round(me.accuracy ?? 0));
+    }
+  });
   $effect(() => { if (ready) dmap.setLayoutProperty('booths', 'visibility', showTickets || boothsOnly ? 'visible' : 'none'); });
   // showing the counters dims the 25 site pins so the gold booths read
   $effect(() => { if (ready) dmap.setPaintProperty('sites', 'icon-opacity', showTickets ? 0.2 : ['coalesce', ['get', 'dim'], 1]); });

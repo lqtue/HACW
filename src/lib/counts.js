@@ -35,7 +35,10 @@ export const TYPES = new Set([
   'plan_pick', 'arrive', 'quiz_done', 'view_site',
   // "pick for me" A/B: which arm filled a slot with which site (`spot` = quiet then).
   // Per sid, joined with plan_pick / checkin: does the steer move anyone?
-  'auto_steer', 'auto_random'
+  'auto_steer', 'auto_random',
+  // GPS heartbeat from the map's locate watch (~1/min, `n` = accuracy); with the
+  // lat/lng every event carries this is the walking trace between sites.
+  'pos'
 ]);
 export const MAX_EVENTS = 50; // one dead-spot queue, not a firehose
 
@@ -44,7 +47,7 @@ export const MAX_EVENTS = 50; // one dead-spot queue, not a firehose
 // visit) while nothing reads them live: /organizer shows check-ins, the funnel, views
 // and the GPS/quiz to-do lists, all of which keep their counters. Everything here is
 // answered after the event by a GROUP BY over `events`, which is where it already is.
-const EVENTS_ONLY = new Set(['arrive', 'quiz_done', 'plan_pick', 'auto_steer', 'auto_random']);
+const EVENTS_ONLY = new Set(['arrive', 'quiz_done', 'plan_pick', 'auto_steer', 'auto_random', 'pos']);
 
 // Behaviour crossed BY nationality, keyed `nat:<type>:<id|_>:<code>` (aggregate,
 // alongside the plain counters, which stay untouched so the spotlight is unaffected).
@@ -55,6 +58,9 @@ const EVENTS_ONLY = new Set(['arrive', 'quiz_done', 'plan_pick', 'auto_steer', '
 // own locale; neither crosses.
 const NAT_CROSS = new Set(['checkin', 'welcome', 'scan', 'plan_built']);
 const SID = /^[a-f0-9]{8,24}$/i; // ephemeral session id (study.svelte.js)
+const PID = /^[0-9A-HJKMNP-TV-Z]{8}$/; // device recovery code (backup.js, Crockford base32)
+/** Body-level device id -> stored on the chunk, or null when absent/junk. */
+export const cleanPid = (p) => (typeof p === 'string' && PID.test(p) ? p : null);
 
 const ID = /^[a-z0-9-]{1,32}$/;
 // A language code (ISO 639 subtag, or 'other'). Its own bounded alphabet caps how
@@ -234,7 +240,12 @@ export function eventRows(events, validIds = null, now = Date.now()) {
       n: Number.isFinite(e?.n) ? e.n : null,
       sid: typeof e?.sid === 'string' && SID.test(e.sid) ? e.sid : null,
       seq: Number.isInteger(e?.seq) ? e.seq : null,
-      tk: e?.tk === 5 || e?.tk === 3 ? e.tk : null
+      tk: e?.tk === 5 || e?.tk === 3 ? e.tk : null,
+      // client clock + last GPS fix, only when present (Hội An is ~15.88N 108.33E)
+      ...(Number.isFinite(e?.at) ? { at: Math.round(e.at) } : {}),
+      ...(Number.isFinite(e?.lat) && Number.isFinite(e?.lng) && Math.abs(e.lat) <= 90 && Math.abs(e.lng) <= 180
+        ? { lat: +e.lat.toFixed(6), lng: +e.lng.toFixed(6), acc: Number.isFinite(e?.acc) ? Math.min(Math.round(e.acc), 9999) : null }
+        : {})
     });
   }
   return rows;
