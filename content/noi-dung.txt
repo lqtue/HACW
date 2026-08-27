@@ -332,6 +332,7 @@ A: Người có mặt đen
 A: Người ở giữa có tai to
 E: Trong truyện Tam Quốc có 2 câu đối nhắc tới sắc đỏ gắn liền với Quan Vũ: “Xích diện bỉnh xích tâm, kỵ Xích Thố truy phong, trì khu thời vô vong Xích Đế / Thanh đăng quan thanh sử, trượng thanh long yển nguyệt, ẩn vi xứ bất uý thanh thiên”. Theo bản dịch của Phan Kế Bính: “Bộ mặt đỏ giữ tấm lòng đỏ, cưỡi ngựa Thỏ Đỏ truy phong, lúc ruổi rong không quên nhớ Vua Đỏ / Ngọn đèn xanh xem bộ sử xanh, cầm đao yển nguyệt rồng xanh, nơi kín đáo chẳng thẹn với trời xanh.”
 Q: Nhân vật nữ này đang bưng thức quả gì?
+I: quiz/hoi-quan-quang-trieu/tien-nu-dao.webp
 A: Quả đào
 A: Quả phật thủ
 A: Quả hồng
