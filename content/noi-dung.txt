@@ -306,6 +306,7 @@ A: Sách báo
 A: Y phục
 E: Nhà cổ Tấn Ký được xây dựng vào năm 1741 bởi ông Lê Công, một thương nhân gốc Hoa di cư đến Hội An. Ông Lê Công ban đầu kinh doanh hàng nông sản từ miền cao về phố cảng.
 Q: Chiếc cốc này gửi gắm triết lý gì?
+I: quiz/nha-co-tan-ky/chen-khong-tu.webp
 A: Biết đủ
 A: Khiêm tốn
 A: Nghĩa khí
