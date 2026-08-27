@@ -139,3 +139,16 @@ for (const st of ['no-vi', 'en-missing', 'en=vi']) {
 }
 console.log(`  (${Object.keys(viFn).length} of those are interpolation keys, slots exported as {n})`);
 console.log(`content/content-todo.csv  —  ${todo.length} pieces of content not written yet`);
+
+// ---- per-language worksheet: `node scripts/i18n-export.mjs ko` ----
+// path + Vietnamese, tab separated. A translator sends back the same two columns
+// with the text replaced, which drops into the CSV by `path` — no matching on the
+// Vietnamese string, no structure to break.
+const lang = process.argv[2];
+if (lang) {
+  if (!langs.has(lang)) { console.error(`unknown language "${lang}" — one of ${[...langs].join(' ')}`); process.exit(1); }
+  const todoRows = rows.filter((r) => !r.skip && !String(r.vals?.[lang] ?? '').trim());
+  const tsv = ['path\tvi', ...todoRows.map((r) => `${r.file}::${r.path}\t${r.vals.vi.replace(/\s+/g, ' ')}`)];
+  writeFileSync(new URL(`../content/translate-${lang}.tsv`, import.meta.url), tsv.join('\n') + '\n');
+  console.log(`content/translate-${lang}.tsv  —  ${todoRows.length} rows still to translate`);
+}
