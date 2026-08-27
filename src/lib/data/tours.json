@@ -7,12 +7,12 @@
       "en": "Across the sea, over the mountains"
     },
     "short": {
-      "vi": "Ba hội quán, một miếu và một bảo tàng gốm — dấu chân người Hoa vượt biển tới Hội An.",
-      "en": "Three assembly halls, a temple and a ceramics museum — the trail of the Chinese who crossed the sea to Hội An."
+      "vi": "Hành trình của những người vượt biển đến Hội An",
+      "en": "The voyage of those who crossed the sea to Hội An"
     },
     "description": {
-      "vi": "Tuyến đường này khám phá văn hoá của các thương nhân người Hoa đã vượt biển đến Hội An, đồng thời giới thiệu đặc trưng kiến trúc của các hội quán khác nhau của cộng đồng Hoa kiều. Nếu như Hội quán Phước Kiến nổi bật với các chi tiết trang trí bằng sành sứ, thì Hội quán Triều Châu sở hữu những chi tiết chạm gỗ tinh tế và phức tạp trứ danh Triều Châu.",
-      "en": "A route through the culture of the Chinese merchants who crossed the sea to Hội An, and through the architecture that tells their assembly halls apart. Where the Fujian hall stands out for its porcelain-shard ornament, the Teochew hall carries the fine, intricate wood carving its region is famous for."
+      "vi": "Từ chuyện 108 thương nhân bị xử oan đến khát khao những chuyến hải trình sóng yên biển lặng, chuyến đi khám phá trải nghiệm của những thương thuyền đến cảng thị Hội An đồng thời giới thiệu đặc trưng kiến trúc của các hội quán khác nhau của cộng đồng Hoa kiều.",
+      "en": "From the 108 merchants wrongly put to death to the longing for calm seas on every crossing, this route follows what the trading junks met on their way to the port of Hội An — and shows what tells the Chinese community's assembly halls apart."
     },
     "voucher": {
       "vi": "Voucher quà tặng (chốt tên sau)",
@@ -34,8 +34,8 @@
       "en": "A heart of crimson loyalty"
     },
     "short": {
-      "vi": "Đời và chí của trí thức phố Hội, từ Quan Thánh tới các chí sĩ Duy Tân.",
-      "en": "The lives and convictions of Hội An's scholars, from Quan Công to the Duy Tân reformists."
+      "vi": "Cuộc đời, sự nghiệp và tư tưởng của trí thức Hội An",
+      "en": "The lives, careers and ideas of Hội An's scholars"
     },
     "description": {
       "vi": "Dọc theo hành trình này, du khách sẽ khám phá cuộc đời, sự nghiệp và tư tưởng của các trí thức ở Hội An: từ tấm gương trung hiếu tiết nghĩa được đông đảo nho sĩ ở các vùng phía Nam Trung Hoa và khắp Việt Nam thờ phụng, cho đến quan lại thời nhà Nguyễn và thế hệ chí sĩ Duy Tân.",
@@ -48,9 +48,9 @@
     "stops": [
       "nha-tho-toc-nguyen-tuong",
       "nha-co-duc-an",
+      "nha-tho-toc-tran",
       "bao-tang-nghe-y",
-      "mieu-quan-cong",
-      "tuy-tien-duong-minh-huong"
+      "mieu-quan-cong"
     ]
   },
   {
@@ -61,12 +61,12 @@
       "en": "Joy lies in harmony"
     },
     "short": {
-      "vi": "Những nơi cả làng cùng góp mặt: đình, chùa, hội quán và từ đường.",
-      "en": "The places a whole village shares: communal house, bridge-pagoda, assembly hall and ancestral hall."
+      "vi": "Cuộc bộ hành khám phá sự đa dạng văn hoá của Hội An",
+      "en": "A walk through the many cultures of Hội An"
     },
     "description": {
-      "vi": "Tuyến của những nơi cả làng cùng góp mặt: liễn đối trước Hương Hiền tự ở đình Cẩm Phô viết “lạc tại nhân hòa” — niềm vui thật nằm ở sự hòa hợp của lòng người. Từ đình làng đi dọc Nguyễn Thị Minh Khai tới Chùa Cầu, qua Bảo tàng Văn hóa Sa Huỳnh và hội quán Quảng Triệu, rồi tới Tụy Tiên Đường Minh Hương — nơi người Hoa đã thành người Việt.",
-      "en": "The route of the places a whole village shares. The couplet at the Hương Hiền shrine in Cẩm Phô reads “joy lies in harmony” — the real joy is people in accord. From the communal house along Nguyễn Thị Minh Khai to the Japanese Bridge, past the Sa Huỳnh Culture Museum and the Cantonese hall, and on to the Minh Hương ancestral hall, where a Chinese community became Vietnamese."
+      "vi": "Bắt đầu từ văn hóa Nhật Bản, Trung Hoa cho tới truyền thống Việt Nam, tuyến đường này tôn vinh sự phong phú về văn hóa của Hội An, đồng thời thể hiện nét chan hòa, cởi mở đặc trưng của một phố cảng - nơi nhiều sắc thái văn hóa đồng hành và phát triển.",
+      "en": "From Japanese and Chinese culture to Vietnamese tradition, this route honours how much culture Hội An holds, and the openness of a port town where all of it lived and grew side by side."
     },
     "voucher": {
       "vi": "Voucher quà tặng (chốt tên sau)",
@@ -75,63 +75,36 @@
     "stops": [
       "dinh-cam-pho",
       "chua-cau",
-      "bao-tang-sa-huynh",
       "hoi-quan-quang-trieu",
+      "bao-tang-van-hoa-dan-gian",
       "tuy-tien-duong-minh-huong"
     ]
   },
   {
-    "id": "nghe-xua-pho-co",
+    "id": "ngay-vang-pho-hoi",
     "ticket": true,
     "title": {
-      "vi": "Nghề xưa phố cổ",
-      "en": "Old trades of the old town"
+      "vi": "Ngày vàng Phố Hội",
+      "en": "Hội An's golden days"
     },
     "short": {
-      "vi": "Nhà buôn, thổ sản và nghề vẫn còn làm tới hôm nay.",
-      "en": "Merchant houses, local produce and a trade still practised today."
+      "vi": "Khám phá một thời vàng son của cảng thị Hội An",
+      "en": "Inside the golden age of the port of Hội An"
     },
     "description": {
-      "vi": "Một ngày trong thời hoàng kim của thương cảng: nhà buôn, thổ sản và nghề của người phố Hội. Từ Chùa Cầu qua nhà cổ Tấn Ký, Bảo tàng Văn hóa dân gian và Bảo tàng Thổ sản, kết thúc ở điểm trình nghề chè Xí Mà còn nấu tới hôm nay.",
-      "en": "A day in the port's golden age: the merchants, the local produce and the trades of Hội An. From the Japanese Bridge through Tấn Ký house, the Folk Culture Museum and the Local Produce Museum, ending where xí mà sweet soup is still cooked today."
+      "vi": "Hành trình khám phá nét phong phú trong văn hóa, sự trù phú do thiên nhiên ban tặng cùng hệ thống thương mại phát triển của Hội An. Tất cả tạo nên một cảng thị phồn vinh với những mặt hàng quý hiếm, đắt đỏ nhưng không làm mất đi sự giàu có trong tâm hồn người.",
+      "en": "A walk through the culture, the natural bounty and the trading network that made Hội An prosper — a port of rare and costly goods that never traded away the richness of its people."
     },
     "voucher": {
       "vi": "Voucher quà tặng (chốt tên sau)",
       "en": "Gift voucher (name TBD)"
     },
     "stops": [
-      "chua-cau",
       "nha-co-tan-ky",
-      "bao-tang-van-hoa-dan-gian",
+      "dinh-hoi-an",
       "bao-tang-tho-san",
+      "chua-quan-am",
       "trinh-nghe-xi-ma"
-    ]
-  },
-  {
-    "id": "nha-co-pho-hoi",
-    "ticket": true,
-    "title": {
-      "vi": "Nhà cổ phố Hội",
-      "en": "The old houses of Hội An"
-    },
-    "short": {
-      "vi": "Bốn ngôi nhà cổ và lớp đất Sa Huỳnh nằm dưới chân phố.",
-      "en": "Four old houses, and the Sa Huỳnh earth beneath the streets."
-    },
-    "description": {
-      "vi": "Thời hoàng kim của thương cảng, nhìn từ trong nhà: bốn ngôi nhà và từ đường của các gia đình buôn bán, cùng lớp đất Sa Huỳnh nằm dưới chân phố. Từ nhà cổ Phùng Hưng cạnh Chùa Cầu, dọc Trần Phú qua nhà cổ Quân Thắng và nhà thờ tộc Trần, tới chùa Quan Âm.",
-      "en": "The port’s golden age seen from indoors: four merchant houses and family halls, plus the Sa Huỳnh layer of earth beneath the streets. From Phùng Hưng house beside the Japanese Bridge, along Trần Phú past Quân Thắng house and the Trần family temple, to Quan Âm Pagoda."
-    },
-    "voucher": {
-      "vi": "Voucher quà tặng (chốt tên sau)",
-      "en": "Gift voucher (name TBD)"
-    },
-    "stops": [
-      "nha-co-phung-hung",
-      "bao-tang-sa-huynh",
-      "nha-co-quan-thang",
-      "nha-tho-toc-tran",
-      "chua-quan-am"
     ]
   }
 ]

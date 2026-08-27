@@ -153,7 +153,7 @@
   },
   {
     "catalog": true,
-    "title": "Every destination (20) — “Show quizzes” to reveal each quiz",
+    "title": "Every destination (21) — “Show quizzes” to reveal each quiz",
     "screens": [
       {
         "label": "Chùa Quan Âm",
@@ -251,6 +251,11 @@
         "quiz": true
       },
       {
+        "label": "Đình Hội An",
+        "path": "/destinations/dinh-hoi-an",
+        "quiz": true
+      },
+      {
         "label": "Điểm tham quan trình nghề Xí Mà",
         "path": "/destinations/trinh-nghe-xi-ma",
         "quiz": true
@@ -259,7 +264,7 @@
   },
   {
     "catalog": true,
-    "title": "Every tour (4)",
+    "title": "Every tour (3)",
     "screens": [
       {
         "label": "Một tấc lòng son",
@@ -272,13 +277,8 @@
         "map": true
       },
       {
-        "label": "Nghề xưa phố cổ",
-        "path": "/tours/nghe-xua-pho-co",
-        "map": true
-      },
-      {
-        "label": "Nhà cổ phố Hội",
-        "path": "/tours/nha-co-pho-hoi",
+        "label": "Ngày vàng Phố Hội",
+        "path": "/tours/ngay-vang-pho-hoi",
         "map": true
       }
     ]
