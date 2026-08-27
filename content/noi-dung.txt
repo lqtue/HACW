@@ -7,6 +7,7 @@ D: Bài trí giản dị với tượng thờ và tranh vẽ phía sau
 D: Bộ tranh mười tám vị La Hán
 D: Tượng Phật Bà ở sân trong, giữa tiểu cảnh và hồ nước nhỏ
 Q: Tại sao vị bồ tát này lại có ngoại hình dữ tợn?
+I: quiz/chua-quan-am/bo-tat.webp
 A: Để hàng phục quỷ đói
 A: Để tăng uy thế cho điện thờ
 A: Để bảo vệ linh tháp
