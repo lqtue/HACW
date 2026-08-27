@@ -251,6 +251,7 @@ A: Thương nhân buôn gốm
 A: Chủ hiệu sách
 E: Chủ nhân đầu tiên là ông Quân Thắng, một thương nhân người Hoa giàu có bậc nhất tại phố Hội thời xưa. Bà Diệp Ái Phương (cháu đời thứ 7 của thương nhân Quân Thắng) cho biết, ban đầu nơi đây là một hiệu buôn sầm uất, chuyên kinh doanh các loại hàng hóa quý hiếm.
 Q: Những con số này biểu thị điều gì?
+I: quiz/nha-co-quan-thang/moc-nuoc-lu.webp
 A: Mốc nước lũ theo từng năm
 A: Chiều cao các thành viên trong gia đình
 A: Chiều cao của các loại cây kiểng khác nhau
