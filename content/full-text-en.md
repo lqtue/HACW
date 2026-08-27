@@ -118,7 +118,7 @@ Strings with `{n}` `{name}` `{i}`… are where the app inserts a number or name 
   - **Answer:** Japanese, 17th century
   - **Explanation:** Chu Đậu is Vietnam's celebrated old fine ware, nearly 600 years old, at its height from the 14th to the 16th century before it was lost and later successfully revived. Made from the white clay of Trúc Thôn (Chí Linh, Hải Dương), it is praised as “thin as paper, clear as jade, white as ivory, ringing like a bell”.
 - **Question 3**
-  - **Question:** How did this crab survive the shipwreck intact?
+  - **Question:** Why did this crab and the ceramics around it survive the shipwreck intact?
   - **Answer:** Because it lay close to shore
   - **CORRECT ANSWER:** Because it lay in the sea mud
   - **Answer:** Because it was salvaged straight away
@@ -157,7 +157,7 @@ Strings with `{n}` `{name}` `{i}`… are where the app inserts a number or name 
   - **1:** How local people made their living
   - **2:** The town's own festivals
 - **Question 1**
-  - **Question:** At what time of day are shrimp caught?
+  - **Question:** At what time of day are shrimp usually caught?
   - **Answer:** Afternoon
   - **Answer:** Early morning
   - **CORRECT ANSWER:** At night
@@ -186,7 +186,7 @@ Strings with `{n}` `{name}` `{i}`… are where the app inserts a number or name 
   - **2:** The common remedies of Eastern medicine
   - **3:** How illness was diagnosed and treated in the old days
 - **Question 1**
-  - **Question:** Why does the physician place fingers on the patient's wrist?
+  - **Question:** Look at the reconstructed scenes in the museum. Why does the physician place three fingertips on the patient's wrist?
   - **Answer:** To diagnose pregnancy
   - **CORRECT ANSWER:** To read the state of the organs, qi and blood
   - **Answer:** To examine the wrist itself

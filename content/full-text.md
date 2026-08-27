@@ -48,7 +48,7 @@ Chuỗi có `{n}` `{name}` `{i}`… là chỗ ứng dụng chèn số/tên vào 
 - **Địa chỉ:** 26 Trần Phú
 - **Giờ mở cửa:** 7:30 - 19:30
 - **Giới thiệu ngắn:** “Tịnh cảnh đối phồn hoa, cửa chùa luôn tự tại”, ngôi chùa nhỏ thể hiện văn hóa Phật giáo tại Hội An.
-- **Giới thiệu dài:** Cách Miếu Quan Công một khoảng vườn thanh tịnh làm nao lòng du khách, ngôi chùa là chốn tự tại giữa cảnh phồn hoa, giữ gìn nếp cũ người Minh Hương
+- **Giới thiệu dài:** Cách Miếu Quan Công một khoảng vườn thanh tịnh làm nao lòng du khách, ngôi chùa là chốn tự tại giữa cảnh phồn hoa, giữ gìn nếp cũ người Minh Hương.
 - **Đừng bỏ lỡ**
   - **1:** Bài trí giản dị với tượng thờ và tranh vẽ phía sau
   - **2:** Bộ tranh mười tám vị La Hán
@@ -118,7 +118,7 @@ Chuỗi có `{n}` `{name}` `{i}`… là chỗ ứng dụng chèn số/tên vào 
   - **Đáp án:** Người Nhật thế kỷ XVII
   - **Giải thích:** Chu Đậu là dòng gốm cổ cao cấp nổi tiếng của Việt Nam có lịch sử gần 600 năm, phát triển rực rỡ từ thế kỷ XIV – XVI trước khi bị thất truyền và được phục hưng thành công. Làm từ đất sét trắng đặc trưng vùng Trúc Thôn (Chí Linh, Hải Dương), dòng gốm này được ca ngợi là “mỏng như giấy, trong như ngọc, trắng như ngà, kêu như chuông”.
 - **Câu hỏi 3**
-  - **Câu hỏi:** Làm sao mà chú cua này vẫn còn nguyên vẹn sau vụ đắm tàu?
+  - **Câu hỏi:** Tại sao chú cua và các sản phẩm gốm xung quanh vẫn còn nguyên vẹn sau vụ đắm tàu?
   - **Đáp án:** Vì chúng nằm gần bờ
   - **ĐÁP ÁN ĐÚNG:** Vì chúng nằm trong lớp bùn biển
   - **Đáp án:** Vì chúng được vớt lên ngay sau đó
@@ -141,7 +141,7 @@ Chuỗi có `{n}` `{name}` `{i}`… là chỗ ứng dụng chèn số/tên vào 
   - **Đáp án:** Dự trữ nước mưa
   - **Giải thích:** Táng mộ chum là hình thức mai táng nổi bật nhất của cư dân văn hóa Sa Huỳnh, trong đó người chết được đặt nguyên thi thể, than tro hỏa táng hoặc di cốt vào bên trong một chiếc chum bằng gốm đất nung cùng một vài đồ tùy táng như công cụ sản xuất hay trang sức.
 - **Câu hỏi 2**
-  - **Câu hỏi:** Chất liệu nào được dùng rộng rãi nhất để sản xuất công cụ lao động của cư dân Sa Huỳnh?
+  - **Câu hỏi:** Chất liệu nào là phổ biến nhất để chế tác công cụ lao động của cư dân Sa Huỳnh?
   - **Đáp án:** Đồng
   - **ĐÁP ÁN ĐÚNG:** Sắt
   - **Đáp án:** Đá
@@ -157,7 +157,7 @@ Chuỗi có `{n}` `{name}` `{i}`… là chỗ ứng dụng chèn số/tên vào 
   - **1:** Sinh kế của người bản địa
   - **2:** Các lễ hội địa phương
 - **Câu hỏi 1**
-  - **Câu hỏi:** Người ta bắt tôm vào thời điểm nào trong ngày?
+  - **Câu hỏi:** Người ta thường bắt tôm vào thời điểm nào trong ngày?
   - **Đáp án:** Chiều
   - **Đáp án:** Sáng sớm
   - **ĐÁP ÁN ĐÚNG:** Đêm
@@ -186,7 +186,7 @@ Chuỗi có `{n}` `{name}` `{i}`… là chỗ ứng dụng chèn số/tên vào 
   - **2:** Các vị thuốc phổ biến trong Đông Y
   - **3:** Phương pháp chẩn bệnh, chữa bệnh xưa
 - **Câu hỏi 1**
-  - **Câu hỏi:** Thầy thuốc đặt tay lên cổ tay bệnh nhân nhằm mục đích gì?
+  - **Câu hỏi:** Hãy quan sát các mô hình phục dựng trong bảo tàng. Thầy thuốc đặt ba đầu ngón tay lên cổ tay bệnh nhân nhằm mục đích gì?
   - **Đáp án:** Chẩn đoán thai sản
   - **ĐÁP ÁN ĐÚNG:** Xác định tình trạng tạng phủ, khí huyết
   - **Đáp án:** Khám tình trạng cổ tay
@@ -302,7 +302,7 @@ Chuỗi có `{n}` `{name}` `{i}`… là chỗ ứng dụng chèn số/tên vào 
 - **Tên:** Nhà cổ Phùng Hưng
 - **Địa chỉ:** 4 Nguyễn Thị Minh Khai
 - **Giờ mở cửa:** 8:00 - 18:00
-- **Giới thiệu ngắn:** Nhà cổ rộng rãi, với kiến trúc pha trộn từ ba nền văn hoá Việt - Nhật - Trung
+- **Giới thiệu ngắn:** Nhà cổ rộng rãi, với kiến trúc pha trộn từ ba nền văn hoá Việt - Nhật - Trung.
 - **Giới thiệu dài:** Mong muốn gia đình sẽ làm ăn ngày càng phát đạt, vị thương nhân đã đặt tên cho ngôi nhà là “Phùng Hưng” - cũng là tên hiệu buôn của ông, mang nghĩa là “hưng thịnh”.
 - **Đừng bỏ lỡ**
   - **1:** Các bộ tranh được tạo bằng kỹ thuật truyền thống
@@ -331,7 +331,7 @@ Chuỗi có `{n}` `{name}` `{i}`… là chỗ ứng dụng chèn số/tên vào 
 - **Tên:** Nhà cổ Quân Thắng
 - **Địa chỉ:** 77 Trần Phú
 - **Giờ mở cửa:** 9:00 - 19:00
-- **Giới thiệu ngắn:** Ngôi nhà hơn 300 tuổi mang văn hoá người Hoa
+- **Giới thiệu ngắn:** Ngôi nhà hơn 300 tuổi mang văn hoá người Hoa.
 - **Giới thiệu dài:** Nhà cổ Quân Thắng được xây dựng vào khoảng cuối thế kỷ 17, pha trộn giữa phong cách Trung Hoa và Việt Nam.
 - **Đừng bỏ lỡ**
   - **1:** Kiến trúc nhà ống đặc trưng của Hội An
@@ -390,7 +390,7 @@ Chuỗi có `{n}` `{name}` `{i}`… là chỗ ứng dụng chèn số/tên vào 
 - **Địa chỉ:** 101 Nguyễn Thái Học
 - **Giờ mở cửa:** 8:30 - 18:00
 - **Giới thiệu ngắn:** “Bảo tàng sống” giữ gần như nguyên vẹn kiến trúc đặc trưng nhà cổ Hội An xưa.
-- **Giới thiệu dài:** Nhà cổ Tấn Ký không chỉ đẹp ở kiến trúc mà còn giống như một bảo tàng thu nhỏ với vô vàn cổ vật thú vị
+- **Giới thiệu dài:** Nhà cổ Tấn Ký không chỉ đẹp ở kiến trúc mà còn giống như một bảo tàng thu nhỏ với vô vàn cổ vật thú vị.
 - **Đừng bỏ lỡ**
   - **1:** Chén Khổng Tử từ Phước Kiến
   - **2:** Nội thất gỗ được chạm cầu kỳ
@@ -419,7 +419,7 @@ Chuỗi có `{n}` `{name}` `{i}`… là chỗ ứng dụng chèn số/tên vào 
 - **Địa chỉ:** 176 Trần Phú
 - **Giờ mở cửa:** 8:00 - 17:00
 - **Giới thiệu ngắn:** Từng là nơi hội họp của các thương nhân Quảng Đông, một hội quán uy nghi, bề thế, và mực thước trong kể chuyện.
-- **Giới thiệu dài:** Dưới những nếp mái vuông vức là không gian trang nghiêm, được trang trí bằng vô số cổ điển Trung Hoa
+- **Giới thiệu dài:** Dưới những nếp mái vuông vức là không gian trang nghiêm, được trang trí bằng vô số cổ điển Trung Hoa.
 - **Đừng bỏ lỡ**
   - **1:** Tác phẩm “ngư long hý thuỷ”
   - **2:** Các bức tranh minh hoạ tích truyện Quan Công

@@ -335,7 +335,7 @@
     "traffic": "low",
     "promoPriority": "high",
     "description": {
-      "vi": "Cách Miếu Quan Công một khoảng vườn thanh tịnh làm nao lòng du khách, ngôi chùa là chốn tự tại giữa cảnh phồn hoa, giữ gìn nếp cũ người Minh Hương",
+      "vi": "Cách Miếu Quan Công một khoảng vườn thanh tịnh làm nao lòng du khách, ngôi chùa là chốn tự tại giữa cảnh phồn hoa, giữ gìn nếp cũ người Minh Hương.",
       "en": "A garden's calm away from Quan Công Temple, the pagoda is a place at ease amid the bustle, keeping the old ways of the Minh Hương community.",
       "ko": "관제묘와 정갈한 정원 하나를 사이에 두고 있는 이 절은 번화한 거리 가운데 마음을 내려놓는 자리이며, 명향(明鄉) 사람들의 옛 예법을 지켜 온 곳입니다.",
       "zh": "与关公庙只隔一座清幽庭园，这座寺是繁华街市中让人安顿下来的地方，也守着明乡人的旧规矩。",
@@ -901,14 +901,14 @@
       },
       {
         "question": {
-          "vi": "Làm sao mà chú cua này vẫn còn nguyên vẹn sau vụ đắm tàu?",
-          "en": "How did this crab survive the shipwreck intact?",
-          "ko": "이 게는 배가 난파했는데 어떻게 온전히 남았을까요?",
-          "zh": "这只蟹为何在沉船后仍完好如初？",
-          "ja": "この器は難破したのに、なぜ無傷で残ったのでしょう？",
-          "th": "ทำไมปูตัวนี้จึงยังสมบูรณ์หลังเรือจม?",
-          "fr": "Comment ce crabe est-il resté intact après le naufrage ?",
-          "de": "Wie blieb diese Krabbe nach dem Schiffbruch unversehrt?"
+          "vi": "Tại sao chú cua và các sản phẩm gốm xung quanh vẫn còn nguyên vẹn sau vụ đắm tàu?",
+          "en": "Why did this crab and the ceramics around it survive the shipwreck intact?",
+          "ko": "이 게와 주변의 도자기들은 배가 난파했는데 왜 온전히 남았을까요?",
+          "zh": "这只蟹和周围的陶瓷为何在沉船后仍完好如初？",
+          "ja": "このカニと周りの陶磁器は難破したのに、なぜ無傷で残ったのでしょう？",
+          "th": "ทำไมปูตัวนี้และเครื่องปั้นดินเผารอบ ๆ จึงยังสมบูรณ์หลังเรือจม?",
+          "fr": "Pourquoi ce crabe et les céramiques qui l'entourent sont-ils restés intacts après le naufrage ?",
+          "de": "Warum blieben diese Krabbe und die Keramik um sie herum nach dem Schiffbruch unversehrt?"
         },
         "options": [
           {
@@ -1136,7 +1136,7 @@
       },
       {
         "question": {
-          "vi": "Chất liệu nào được dùng rộng rãi nhất để sản xuất công cụ lao động của cư dân Sa Huỳnh?",
+          "vi": "Chất liệu nào là phổ biến nhất để chế tác công cụ lao động của cư dân Sa Huỳnh?",
           "en": "Which material did the Sa Huỳnh people use most widely for their working tools?",
           "ko": "사후인 사람들이 노동 도구를 만들 때 가장 널리 쓴 재료는 무엇인가요?",
           "zh": "沙黄人制作劳动工具最常用什么材料？",
@@ -1274,14 +1274,14 @@
     "quizBank": [
       {
         "question": {
-          "vi": "Người ta bắt tôm vào thời điểm nào trong ngày?",
-          "en": "At what time of day are shrimp caught?",
-          "ko": "사람들은 하루 중 언제 새우를 잡나요?",
-          "zh": "人们在一天中的什么时候捕虾？",
-          "ja": "人々は一日のいつエビをとりますか？",
-          "th": "ผู้คนจับกุ้งช่วงไหนของวัน?",
-          "fr": "À quel moment de la journée pêche-t-on la crevette ?",
-          "de": "Zu welcher Tageszeit fängt man Garnelen?"
+          "vi": "Người ta thường bắt tôm vào thời điểm nào trong ngày?",
+          "en": "At what time of day are shrimp usually caught?",
+          "ko": "사람들은 보통 하루 중 언제 새우를 잡나요?",
+          "zh": "人们通常在一天中的什么时候捕虾？",
+          "ja": "人々はふだん一日のいつエビをとりますか？",
+          "th": "ผู้คนมักจับกุ้งช่วงไหนของวัน?",
+          "fr": "À quel moment de la journée pêche-t-on habituellement la crevette ?",
+          "de": "Zu welcher Tageszeit fängt man gewöhnlich Garnelen?"
         },
         "options": [
           {
@@ -1512,14 +1512,14 @@
     "quizBank": [
       {
         "question": {
-          "vi": "Thầy thuốc đặt tay lên cổ tay bệnh nhân nhằm mục đích gì?",
-          "en": "Why does the physician place fingers on the patient's wrist?",
-          "ko": "의원이 환자의 손목에 손을 얹는 것은 무엇을 하려는 것인가요?",
-          "zh": "医者把手放在病人手腕上，是为了什么？",
-          "ja": "医者が患者の手首に手を置くのは何のためですか？",
-          "th": "หมอวางมือบนข้อมือผู้ป่วยเพื่ออะไร?",
-          "fr": "Pourquoi le médecin pose-t-il la main sur le poignet du patient ?",
-          "de": "Warum legt der Arzt die Hand auf das Handgelenk?"
+          "vi": "Hãy quan sát các mô hình phục dựng trong bảo tàng. Thầy thuốc đặt ba đầu ngón tay lên cổ tay bệnh nhân nhằm mục đích gì?",
+          "en": "Look at the reconstructed scenes in the museum. Why does the physician place three fingertips on the patient's wrist?",
+          "ko": "박물관의 복원 모형을 살펴보세요. 의원이 환자의 손목에 세 손가락 끝을 얹는 것은 무엇을 하려는 것인가요?",
+          "zh": "请观察馆内的复原模型。医者把三指指尖放在病人手腕上，是为了什么？",
+          "ja": "館内の復元模型を見てみましょう。医者が患者の手首に三本の指先を当てるのは何のためですか？",
+          "th": "ลองสังเกตหุ่นจำลองในพิพิธภัณฑ์ หมอวางปลายนิ้วสามนิ้วบนข้อมือผู้ป่วยเพื่ออะไร?",
+          "fr": "Observez les scènes reconstituées du musée. Pourquoi le médecin pose-t-il trois doigts sur le poignet du patient ?",
+          "de": "Sehen Sie sich die nachgestellten Szenen im Museum an. Warum legt der Arzt drei Fingerspitzen auf das Handgelenk des Patienten?"
         },
         "options": [
           {
@@ -2766,7 +2766,7 @@
     ],
     "ticketClass": "other",
     "short": {
-      "vi": "Nhà cổ rộng rãi, với kiến trúc pha trộn từ ba nền văn hoá Việt - Nhật - Trung",
+      "vi": "Nhà cổ rộng rãi, với kiến trúc pha trộn từ ba nền văn hoá Việt - Nhật - Trung.",
       "en": "A spacious old house whose architecture blends three cultures — Vietnamese, Japanese and Chinese.",
       "ko": "넉넉한 고가 — 베트남·일본·중국 세 문화가 섞인 건축",
       "zh": "宽敞的古宅，融合越、日、中三种文化的建筑",
@@ -3015,7 +3015,7 @@
     ],
     "ticketClass": "other",
     "short": {
-      "vi": "Ngôi nhà hơn 300 tuổi mang văn hoá người Hoa",
+      "vi": "Ngôi nhà hơn 300 tuổi mang văn hoá người Hoa.",
       "en": "A house of more than 300 years carrying Chinese culture",
       "ko": "화교 문화를 품은 300년 넘은 집",
       "zh": "一座三百多年、承载华人文化的宅子",
@@ -3333,7 +3333,7 @@
     "traffic": "high",
     "promoPriority": "low",
     "description": {
-      "vi": "Nhà cổ Tấn Ký không chỉ đẹp ở kiến trúc mà còn giống như một bảo tàng thu nhỏ với vô vàn cổ vật thú vị",
+      "vi": "Nhà cổ Tấn Ký không chỉ đẹp ở kiến trúc mà còn giống như một bảo tàng thu nhỏ với vô vàn cổ vật thú vị.",
       "en": "Tấn Ký house is not only beautiful architecture — it is a museum in miniature, full of curious antiques.",
       "ko": "떤끼 고가는 건축이 아름다울 뿐 아니라, 흥미로운 골동품이 가득한 작은 박물관 같습니다.",
       "zh": "进记古宅不只建筑好看，更像一座袖珍博物馆，藏着无数有趣的古物。",
@@ -3583,7 +3583,7 @@
     "traffic": "high",
     "promoPriority": "low",
     "description": {
-      "vi": "Dưới những nếp mái vuông vức là không gian trang nghiêm, được trang trí bằng vô số cổ điển Trung Hoa",
+      "vi": "Dưới những nếp mái vuông vức là không gian trang nghiêm, được trang trí bằng vô số cổ điển Trung Hoa.",
       "en": "Under square-cut roofs lies a solemn space, decorated with countless Chinese classical scenes.",
       "ko": "네모지게 다듬은 지붕 아래에는 정중한 공간이 있고, 중국 고전의 장면이 수없이 장식되어 있습니다.",
       "zh": "方正的屋顶之下，是一处庄严的空间，装饰着无数中国古典题材。",
