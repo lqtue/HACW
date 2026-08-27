@@ -15,7 +15,7 @@ is a deliberate hold: decide the policy first, then it's ~10 lines.
 
 ## 1. Still to do before launch
 
-- [ ] **Change the staff codes.** `VOLUNTEER` (`2026`) and `ORGANIZER` (`2026hacw`)
+- [x] **Staff codes changed 2026-08-28.** `VOLUNTEER` (`1920`) and `ORGANIZER` (`hoian-969089`)
       in `src/lib/staff.svelte.js`.
       The volunteer code unlocks the skip-GPS button, voucher confirmation and a
       read-only `/organizer`; the organizer code additionally unlocks the content
@@ -135,7 +135,7 @@ entirely anyway. Retune per-site from day-1 `gps_far_m / gps_far` data.
 | 5 | **Forged POST** to `/api/checkin` to skew the spotlight | minutes | Moves the bonus to sites they choose; distorts organizer numbers | Same-origin guard + Cloudflare rate limit are in place; add a per-`pid` daily cap. Counters are advisory anyway |
 | 6 | **Forged passport PUT** with 25 stamps under a chosen code | minutes | A "complete" passport restorable on any phone | Merge-only limits it to *adding*; the plausibility flag below catches the shape of it |
 | 7 | **Recovery-code sharing** — one passport restored onto a group's phones | seconds | N vouchers from one real visit | Restore merges, so all copies stay identical. Counter-side: one voucher per person, and the flag shows the same `pid` redeeming repeatedly |
-| 8 | **Staff-code leak** — visitors learn `2026` and self-confirm redemptions | zero once leaked | Self-serve vouchers | Rotate the code per shift; it's one constant. Longer term the redeem confirm needs the server |
+| 8 | **Staff-code leak** — visitors learn the volunteer code and self-confirm redemptions | zero once leaked | Self-serve vouchers | Rotate the code per shift; it's one constant. Longer term the redeem confirm needs the server |
 | 9 | **Brute-forcing another device's recovery code** | 32^8 guesses | Someone else's stamps | Ignore. No PII, and there's nothing to steal but stamps |
 
 ### The one control — built

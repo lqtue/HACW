@@ -9,8 +9,8 @@ const KEY = 'hacw_staff_v1';
 // Unlock by typing the code, or once per device with ?staff=<code> on any URL.
 // ponytail: client-side constants — stops mis-taps and curious visitors, NOT fraud.
 // Real gate = Cloudflare Access in front of /organizer + a server-signed redemption.
-const VOLUNTEER = '2026';
-const ORGANIZER = '2026hacw';
+const VOLUNTEER = '1920';
+const ORGANIZER = 'hoian-969089';
 
 const stored = browser ? localStorage.getItem(KEY) : null;
 

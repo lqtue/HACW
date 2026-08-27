@@ -143,8 +143,8 @@ slows brute force, it doesn't prevent it; staff handing over the paper voucher
 is the real gate.
 
 **Staff mode** (`src/lib/staff.svelte.js`): two codes, both remembered in
-`localStorage`. `VOLUNTEER` (`2026`) → `staff.on`: skip-GPS button, voucher
-confirm, `/organizer` read-only. `ORGANIZER` (`2026hacw`) → `staff.on` *and*
+`localStorage`. `VOLUNTEER` (`1920`) → `staff.on`: skip-GPS button, voucher
+confirm, `/organizer` read-only. `ORGANIZER` (`hoian-969089`) → `staff.on` *and*
 `staff.admin`, which additionally shows the content editor in `/organizer`.
 `?staff=<code>` on any URL unlocks a device, `?staff=0` locks it. Client-side:
 stops mis-taps and curious visitors, not fraud.
