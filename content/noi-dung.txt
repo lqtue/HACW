@@ -459,6 +459,7 @@ A: Cua
 A: Cá
 E: Rùa đội hạc là một biểu tượng văn hóa và tâm linh quen thuộc trong các ngôi đình, chùa và trên bàn thờ gia tiên của người Việt. Nhiều di tích của người Minh Hương có biểu tượng này từ xưa, bởi lẽ người Minh Hương từ cộng đồng người Hoa di trú đã hội nhập vào xã hội và văn hoá Việt Nam và trở thành những người Việt thực thụ.
 Q: Con vật này đang mang gì trên lưng?
+I: quiz/tuy-tien-duong-minh-huong/lan-cuon-thu.webp
 A: Những cuốn thư
 A: Thuốc thang
 A: Những cuộn dây
