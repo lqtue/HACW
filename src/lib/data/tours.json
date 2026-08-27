@@ -4,19 +4,43 @@
     "ticket": true,
     "title": {
       "vi": "Vượt biển trèo non",
-      "en": "Across the sea, over the mountains"
+      "en": "Across the sea, over the mountains",
+      "ko": "바다를 건너 산을 넘어",
+      "zh": "跨海越山",
+      "ja": "海を越え山を越え",
+      "th": "ข้ามทะเลข้ามขุนเขา",
+      "fr": "Par-delà les mers et les monts",
+      "de": "Über Meere und Berge"
     },
     "short": {
       "vi": "Hành trình của những người vượt biển đến Hội An",
-      "en": "The voyage of those who crossed the sea to Hội An"
+      "en": "The voyage of those who crossed the sea to Hội An",
+      "ko": "바다를 건너 호이안에 온 사람들의 여정",
+      "zh": "渡海而来的人们抵达会安的旅程",
+      "ja": "海を越えて会安にたどり着いた人々の旅",
+      "th": "เส้นทางของผู้คนที่ข้ามทะเลมาถึงฮอยอัน",
+      "fr": "Le voyage de ceux qui ont traversé la mer jusqu'à Hội An",
+      "de": "Die Reise jener, die über das Meer nach Hội An kamen"
     },
     "description": {
       "vi": "Từ chuyện 108 thương nhân bị xử oan đến khát khao những chuyến hải trình sóng yên biển lặng, chuyến đi khám phá trải nghiệm của những thương thuyền đến cảng thị Hội An đồng thời giới thiệu đặc trưng kiến trúc của các hội quán khác nhau của cộng đồng Hoa kiều.",
-      "en": "From the 108 merchants wrongly put to death to the longing for calm seas on every crossing, this route follows what the trading junks met on their way to the port of Hội An — and shows what tells the Chinese community's assembly halls apart."
+      "en": "From the 108 merchants wrongly put to death to the longing for calm seas on every crossing, this route follows what the trading junks met on their way to the port of Hội An — and shows what tells the Chinese community's assembly halls apart.",
+      "ko": "억울하게 목숨을 잃은 108명의 상인 이야기부터 파도 없는 뱃길을 바라던 마음까지, 이 길은 상선들이 회안 항구에 이르기까지 겪은 일을 따라갑니다. 동시에 화교 사회의 여러 회관이 서로 어떻게 다른지 그 건축을 보여 줍니다.",
+      "zh": "从108位商人被冤杀的往事，到对风平浪静的祈愿，这条路线追随商船抵达会安港的经历，同时呈现华人各会馆在建筑上的不同特色。",
+      "ja": "無念の死を遂げた108人の商人の物語から、波静かな航海への願いまで。この道は商船が会安の港にたどり着くまでの経験をたどり、同時に華人それぞれの会館の建築の違いを見せてくれます。",
+      "th": "จากเรื่องพ่อค้า 108 คนที่ถูกประหารอย่างไม่เป็นธรรม ถึงความปรารถนาให้ทะเลสงบในทุกเที่ยวเรือ เส้นทางนี้ตามรอยสิ่งที่เรือสำเภาพบเจอก่อนถึงท่าฮอยอัน และชี้ให้เห็นความต่างทางสถาปัตยกรรมของศาลเจ้าสมาคมชาวจีนแต่ละแห่ง",
+      "fr": "Des 108 marchands injustement mis à mort au désir d'une mer calme à chaque traversée, cet itinéraire suit ce que les jonques marchandes ont rencontré avant d'atteindre le port de Hội An, et montre ce qui distingue l'architecture des différentes maisons de congrégation chinoises.",
+      "de": "Von den 108 zu Unrecht getöteten Kaufleuten bis zur Sehnsucht nach ruhiger See auf jeder Überfahrt: Diese Route folgt dem, was den Handelsschiffen auf dem Weg zum Hafen von Hội An begegnete — und zeigt, was die Versammlungshallen der chinesischen Gemeinschaften architektonisch unterscheidet."
     },
     "voucher": {
       "vi": "Voucher quà tặng (chốt tên sau)",
-      "en": "Gift voucher (name TBD)"
+      "en": "Gift voucher (name TBD)",
+      "ko": "선물 상품권 (이름 확정 전)",
+      "zh": "礼品代金券（名称待定）",
+      "ja": "ギフト券（名称は未定）",
+      "th": "บัตรกำนัลของขวัญ (ยังไม่กำหนดชื่อ)",
+      "fr": "Bon cadeau (nom à confirmer)",
+      "de": "Geschenkgutschein (Name folgt)"
     },
     "stops": [
       "bao-tang-gom-su-mau-dich",
@@ -31,19 +55,43 @@
     "ticket": true,
     "title": {
       "vi": "Một tấc lòng son",
-      "en": "A heart of crimson loyalty"
+      "en": "A heart of crimson loyalty",
+      "ko": "한 조각 붉은 마음",
+      "zh": "一寸丹心",
+      "ja": "一寸の丹心",
+      "th": "หนึ่งดวงใจภักดี",
+      "fr": "Un cœur de vermillon",
+      "de": "Ein treues Herz"
     },
     "short": {
       "vi": "Cuộc đời, sự nghiệp và tư tưởng của trí thức Hội An",
-      "en": "The lives, careers and ideas of Hội An's scholars"
+      "en": "The lives, careers and ideas of Hội An's scholars",
+      "ko": "호이안 지식인들의 삶과 이력, 그리고 생각",
+      "zh": "会安文人的生平、事业与思想",
+      "ja": "会安の知識人の生涯・仕事・思想",
+      "th": "ชีวิต หน้าที่การงาน และความคิดของปัญญาชนฮอยอัน",
+      "fr": "La vie, la carrière et les idées des lettrés de Hội An",
+      "de": "Leben, Werk und Ideen der Gelehrten von Hội An"
     },
     "description": {
       "vi": "Dọc theo hành trình này, du khách sẽ khám phá cuộc đời, sự nghiệp và tư tưởng của các trí thức ở Hội An: từ tấm gương trung hiếu tiết nghĩa được đông đảo nho sĩ ở các vùng phía Nam Trung Hoa và khắp Việt Nam thờ phụng, cho đến quan lại thời nhà Nguyễn và thế hệ chí sĩ Duy Tân.",
-      "en": "Along this route you meet the lives, careers and ideas of Hội An's scholars: from the model of loyalty and honour worshipped by Confucian scholars across southern China and all of Vietnam, to the mandarins of the Nguyễn court and the Duy Tân generation of reformists."
+      "en": "Along this route you meet the lives, careers and ideas of Hội An's scholars: from the model of loyalty and honour worshipped by Confucian scholars across southern China and all of Vietnam, to the mandarins of the Nguyễn court and the Duy Tân generation of reformists.",
+      "ko": "이 길에서는 호이안 지식인들의 삶과 이력, 생각을 만납니다. 중국 남방과 베트남 전역의 유학자들이 받들어 온 충의와 절개의 표상에서, 응우옌 왕조의 관리들과 두이떤(維新) 세대의 지사들까지.",
+      "zh": "沿着这条路线，你会遇见会安文人的生平、事业与思想：从华南与越南各地儒生共同奉祀的忠义节操典范，到阮朝的官员，再到维新一代的志士。",
+      "ja": "この道では、会安の知識人たちの生涯と仕事、そして思想に出会います。中国南方とベトナム各地の儒者が仰いできた忠義と節義の象徴から、阮朝の官吏、そして維新世代の志士たちまで。",
+      "th": "ตามเส้นทางนี้ คุณจะพบชีวิต หน้าที่การงาน และความคิดของปัญญาชนฮอยอัน ตั้งแต่แบบอย่างแห่งความซื่อสัตย์และคุณธรรมที่นักปราชญ์ทั้งจีนตอนใต้และทั่วเวียดนามเคารพบูชา ไปจนถึงขุนนางสมัยราชวงศ์เหงียนและคนรุ่นนักปฏิรูปสาย Duy Tân",
+      "fr": "Le long de cet itinéraire, vous croisez la vie, la carrière et les idées des lettrés de Hội An : du modèle de loyauté et de droiture vénéré par les confucianistes du sud de la Chine et de tout le Viêt Nam, jusqu'aux mandarins de la cour des Nguyễn et à la génération réformatrice du Duy Tân.",
+      "de": "Diese Route führt durch das Leben, das Werk und die Ideen der Gelehrten von Hội An: vom Vorbild an Treue und Aufrichtigkeit, das Konfuzianer in Südchina und ganz Vietnam verehrten, über die Mandarine des Nguyễn-Hofs bis zur Reformgeneration der Duy-Tân-Bewegung."
     },
     "voucher": {
       "vi": "Voucher quà tặng (chốt tên sau)",
-      "en": "Gift voucher (name TBD)"
+      "en": "Gift voucher (name TBD)",
+      "ko": "선물 상품권 (이름 확정 전)",
+      "zh": "礼品代金券（名称待定）",
+      "ja": "ギフト券（名称は未定）",
+      "th": "บัตรกำนัลของขวัญ (ยังไม่กำหนดชื่อ)",
+      "fr": "Bon cadeau (nom à confirmer)",
+      "de": "Geschenkgutschein (Name folgt)"
     },
     "stops": [
       "nha-tho-toc-nguyen-tuong",
@@ -58,19 +106,43 @@
     "ticket": true,
     "title": {
       "vi": "Lạc tại nhân hòa",
-      "en": "Joy lies in harmony"
+      "en": "Joy lies in harmony",
+      "ko": "즐거움은 화합에 있다",
+      "zh": "乐在人和",
+      "ja": "楽しみは人の和にあり",
+      "th": "ความสุขอยู่ที่ความสามัคคี",
+      "fr": "La joie est dans l'harmonie",
+      "de": "Die Freude liegt in der Eintracht"
     },
     "short": {
       "vi": "Cuộc bộ hành khám phá sự đa dạng văn hoá của Hội An",
-      "en": "A walk through the many cultures of Hội An"
+      "en": "A walk through the many cultures of Hội An",
+      "ko": "호이안의 여러 문화를 걸어서 만나기",
+      "zh": "徒步走进会安的多元文化",
+      "ja": "歩いて出会う会安の多彩な文化",
+      "th": "เดินสำรวจความหลากหลายทางวัฒนธรรมของฮอยอัน",
+      "fr": "Une marche à travers les cultures de Hội An",
+      "de": "Ein Spaziergang durch die Kulturen von Hội An"
     },
     "description": {
       "vi": "Bắt đầu từ văn hóa Nhật Bản, Trung Hoa cho tới truyền thống Việt Nam, tuyến đường này tôn vinh sự phong phú về văn hóa của Hội An, đồng thời thể hiện nét chan hòa, cởi mở đặc trưng của một phố cảng - nơi nhiều sắc thái văn hóa đồng hành và phát triển.",
-      "en": "From Japanese and Chinese culture to Vietnamese tradition, this route honours how much culture Hội An holds, and the openness of a port town where all of it lived and grew side by side."
+      "en": "From Japanese and Chinese culture to Vietnamese tradition, this route honours how much culture Hội An holds, and the openness of a port town where all of it lived and grew side by side.",
+      "ko": "일본과 중국의 문화에서 베트남의 전통까지, 이 길은 호이안이 품은 문화의 두께를 기립니다. 그리고 여러 문화가 나란히 살아가고 자라난 항구 도시의 열린 마음을 보여 줍니다.",
+      "zh": "从日本、中国的文化到越南的传统，这条路线致敬会安文化的丰厚，也呈现一座港城特有的包容与开放——多种文化在此并肩生长。",
+      "ja": "日本と中国の文化からベトナムの伝統まで。この道は会安が抱える文化の厚みをたたえ、多くの文化が並んで生き、育ってきた港町の開かれた気風を映します。",
+      "th": "จากวัฒนธรรมญี่ปุ่นและจีน สู่ประเพณีเวียดนาม เส้นทางนี้ยกย่องความหลากหลายทางวัฒนธรรมของฮอยอัน และสะท้อนความเปิดกว้างของเมืองท่า ที่วัฒนธรรมหลายสายอยู่ร่วมและเติบโตไปด้วยกัน",
+      "fr": "Des cultures japonaise et chinoise jusqu'à la tradition vietnamienne, cet itinéraire rend hommage à tout ce que Hội An porte, et à l'ouverture d'une ville portuaire où ces cultures ont vécu et grandi côte à côte.",
+      "de": "Von japanischer und chinesischer Kultur bis zur vietnamesischen Tradition: Diese Route ehrt den kulturellen Reichtum von Hội An und die Offenheit einer Hafenstadt, in der all das nebeneinander lebte und wuchs."
     },
     "voucher": {
       "vi": "Voucher quà tặng (chốt tên sau)",
-      "en": "Gift voucher (name TBD)"
+      "en": "Gift voucher (name TBD)",
+      "ko": "선물 상품권 (이름 확정 전)",
+      "zh": "礼品代金券（名称待定）",
+      "ja": "ギフト券（名称は未定）",
+      "th": "บัตรกำนัลของขวัญ (ยังไม่กำหนดชื่อ)",
+      "fr": "Bon cadeau (nom à confirmer)",
+      "de": "Geschenkgutschein (Name folgt)"
     },
     "stops": [
       "dinh-cam-pho",
@@ -85,19 +157,43 @@
     "ticket": true,
     "title": {
       "vi": "Ngày vàng Phố Hội",
-      "en": "Hội An's golden days"
+      "en": "Hội An's golden days",
+      "ko": "호이안의 황금기",
+      "zh": "会安的黄金岁月",
+      "ja": "会安の黄金時代",
+      "th": "วันทองของฮอยอัน",
+      "fr": "L'âge d'or de Hội An",
+      "de": "Hội Ans goldene Tage"
     },
     "short": {
       "vi": "Khám phá một thời vàng son của cảng thị Hội An",
-      "en": "Inside the golden age of the port of Hội An"
+      "en": "Inside the golden age of the port of Hội An",
+      "ko": "항구 도시 호이안의 전성기를 들여다보기",
+      "zh": "走进会安港的鼎盛时期",
+      "ja": "港町・会安の最盛期をのぞく",
+      "th": "สำรวจยุคทองของเมืองท่าฮอยอัน",
+      "fr": "Au cœur de l'âge d'or du port de Hội An",
+      "de": "Mitten in der Blütezeit des Hafens von Hội An"
     },
     "description": {
       "vi": "Hành trình khám phá nét phong phú trong văn hóa, sự trù phú do thiên nhiên ban tặng cùng hệ thống thương mại phát triển của Hội An. Tất cả tạo nên một cảng thị phồn vinh với những mặt hàng quý hiếm, đắt đỏ nhưng không làm mất đi sự giàu có trong tâm hồn người.",
-      "en": "A walk through the culture, the natural bounty and the trading network that made Hội An prosper — a port of rare and costly goods that never traded away the richness of its people."
+      "en": "A walk through the culture, the natural bounty and the trading network that made Hội An prosper — a port of rare and costly goods that never traded away the richness of its people.",
+      "ko": "호이안을 넉넉하게 만든 문화와 자연의 산물, 그리고 상업망을 따라 걷습니다. 귀하고 값비싼 물건이 오간 항구였지만, 사람의 마음속 넉넉함까지 팔아넘기지는 않았습니다.",
+      "zh": "沿着让会安富足的文化、自然物产与商贸网络走一趟。这是一座珍稀而昂贵货物往来的港口，却从未把人心里的富足一并卖掉。",
+      "ja": "会安を豊かにした文化、自然の恵み、そして交易の網をたどる道。珍しく高価な品が行き交う港でありながら、人の心の豊かさまで手放すことはありませんでした。",
+      "th": "เดินผ่านวัฒนธรรม ความอุดมสมบูรณ์จากธรรมชาติ และเครือข่ายการค้าที่ทำให้ฮอยอันมั่งคั่ง เมืองท่าแห่งสินค้าหายากและราคาสูง แต่ไม่เคยแลกความมั่งคั่งในจิตใจของผู้คนไป",
+      "fr": "Une marche à travers la culture, les richesses naturelles et le réseau commercial qui ont fait la prospérité de Hội An : un port de marchandises rares et coûteuses qui n'a jamais bradé la richesse intérieure de ses habitants.",
+      "de": "Ein Weg durch die Kultur, die Gaben der Natur und das Handelsnetz, die Hội An reich machten — ein Hafen seltener und teurer Waren, der den inneren Reichtum seiner Menschen nie verkaufte."
     },
     "voucher": {
       "vi": "Voucher quà tặng (chốt tên sau)",
-      "en": "Gift voucher (name TBD)"
+      "en": "Gift voucher (name TBD)",
+      "ko": "선물 상품권 (이름 확정 전)",
+      "zh": "礼品代金券（名称待定）",
+      "ja": "ギフト券（名称は未定）",
+      "th": "บัตรกำนัลของขวัญ (ยังไม่กำหนดชื่อ)",
+      "fr": "Bon cadeau (nom à confirmer)",
+      "de": "Geschenkgutschein (Name folgt)"
     },
     "stops": [
       "nha-co-tan-ky",

@@ -1,742 +1,655 @@
-path	vi
-destinations.json::[0].name	Chùa Cầu (Cầu Nhật Bản)
-destinations.json::[0].description	Do các thương nhân Nhật Bản dựng vào khoảng đầu thế kỷ XVII để nối hai bờ khe nước chảy ra sông Thu Bồn, cầu vẫn giữ mái ngói âm dương và ngôi miếu nhỏ thờ Bắc Đế Trấn Võ ngay giữa lòng cầu. Người phố Hội gọi là Chùa Cầu; tên chữ Lai Viễn Kiều có nghĩa cầu đón khách từ phương xa tới.
-destinations.json::[0].quizBank[0].question	Chùa Cầu do cộng đồng thương nhân nào xây dựng?
-destinations.json::[0].quizBank[0].options[0]	Nhật Bản
-destinations.json::[0].quizBank[0].options[1]	Trung Hoa
-destinations.json::[0].quizBank[0].options[2]	Bồ Đào Nha
-destinations.json::[0].quizBank[1].question	Chùa Cầu được làm chủ yếu bằng vật liệu gì?
-destinations.json::[0].quizBank[1].options[0]	Gỗ
-destinations.json::[0].quizBank[1].options[1]	Đá
-destinations.json::[0].quizBank[1].options[2]	Bê tông
-destinations.json::[0].quizBank[2].question	Chùa Cầu bắc qua dòng nước chảy ra con sông nào?
-destinations.json::[0].quizBank[2].options[0]	Sông Thu Bồn
-destinations.json::[0].quizBank[2].options[1]	Sông Hàn
-destinations.json::[0].quizBank[2].options[2]	Sông Hương
-destinations.json::[0].quizBank[3].question	Chùa Cầu được xây dựng vào khoảng thời gian nào?
-destinations.json::[0].quizBank[3].options[0]	Đầu thế kỷ 17
-destinations.json::[0].quizBank[3].options[1]	Thế kỷ 15
-destinations.json::[0].quizBank[3].options[2]	Thế kỷ 19
-destinations.json::[0].quizBank[4].question	Hình ảnh Chùa Cầu xuất hiện trên tờ tiền Việt Nam mệnh giá nào?
-destinations.json::[0].quizBank[4].options[0]	20.000 đồng
-destinations.json::[0].quizBank[4].options[1]	10.000 đồng
-destinations.json::[0].quizBank[4].options[2]	50.000 đồng
-destinations.json::[0].short	Vừa là cầu, vừa là miếu — công trình hơn 400 năm đã thành gương mặt của Hội An.
-destinations.json::[0].highlights[0]	Đôi tượng thần hầu và thiên cẩu gác hai đầu cầu
-destinations.json::[0].highlights[1]	Ngôi miếu thờ Bắc Đế Trấn Võ giữa lòng cầu
-destinations.json::[0].highlights[2]	Mái ngói âm dương và bộ vì kèo gỗ của người thợ xưa
-destinations.json::[1].name	Chùa Quan Âm
-destinations.json::[1].description	Cách Miếu Quan Công một khoảng vườn thanh tịnh làm nao lòng du khách, ngôi chùa là chốn tự tại giữa cảnh phồn hoa, giữ gìn nếp cũ người Minh Hương
-destinations.json::[1].quizBank[0].question	Tại sao vị bồ tát này lại có ngoại hình dữ tợn?
-destinations.json::[1].quizBank[0].options[0]	Để hàng phục quỷ đói
-destinations.json::[1].quizBank[0].options[1]	Để bảo vệ linh tháp
-destinations.json::[1].quizBank[0].options[2]	Để tăng uy thế cho điện thờ
-destinations.json::[1].quizBank[0].explain	Tiêu Diện Đại Sĩ là một hóa thân của Quan Thế Âm Bồ Tát, cai quản, nhiếp phục loài ngạ quỷ (quỷ đói) và cứu độ chúng sinh lầm đường lạc lối. Đối diện với Tiêu Diện Đại Sĩ là Vi Đà Tôn Thiên, mang sắc tướng khôi ngô, là người bảo vệ. Hai vị cũng được gọi là Ông Thiện và Ông Ác.
-destinations.json::[1].quizBank[1].question	Quan Thế Âm Bồ Tát cầm gì trên tay trái?
-destinations.json::[1].quizBank[1].options[0]	Bình hồ lô
-destinations.json::[1].quizBank[1].options[1]	Bình tịnh thuỷ
-destinations.json::[1].quizBank[1].options[2]	Nhành dương liễu
-destinations.json::[1].quizBank[1].explain	Tay trái Quan Âm cầm bình thanh tịnh đựng nước cam lồ, biểu trưng cho lòng từ bi. Tay phải bà cầm nhành dương liễu để rưới nước cam lồ cho lòng người mát mẻ. Nước này rưới đến đâu là chan rải tình thương đến đó, xoa dịu mọi khổ đau của chúng sanh.
-destinations.json::[1].short	“Tịnh cảnh đối phồn hoa, cửa chùa luôn tự tại”, ngôi chùa nhỏ thể hiện văn hóa Phật giáo tại Hội An.
-destinations.json::[1].highlights[0]	Bài trí giản dị với tượng thờ và tranh vẽ phía sau
-destinations.json::[1].highlights[1]	Bộ tranh mười tám vị La Hán
-destinations.json::[1].highlights[2]	Tượng Phật Bà ở sân trong, giữa tiểu cảnh và hồ nước nhỏ
-destinations.json::[2].name	Miếu Quan Công
-destinations.json::[2].description	Một di tích lâu đời chứng kiến những đổi thay của phố Hội. Nhiều hợp đồng thương mại đã từng được ký kết ở nơi đây, dưới sự chứng giám của Quan Thánh.
-destinations.json::[2].quizBank[0].question	Tại sao Quan Thánh Đế Quân (Quan Công) lại được thờ phụng ở Hội An?
-destinations.json::[2].quizBank[0].options[0]	Ngài có khả năng chữa bệnh
-destinations.json::[2].quizBank[0].options[1]	Ngài là tấm gương nghĩa khí
-destinations.json::[2].quizBank[0].options[2]	Ngài đảm bảo sự an toàn cho phố cảng
-destinations.json::[2].quizBank[0].explain	Tri huyện Trương Tăng Diễn từng cúng một câu đối thể hiện uy linh của Quan Thánh Đế Quân với người Việt: “Nhất điểm đan tâm tồn Bắc sử; Thiên thu nghĩa khí tráng Nam cương” (Một tấm lòng son lưu sử Bắc; Ngàn năm nghĩa khí tráng Nam cương). Đặc biệt, thương nhân ở Hội An còn coi Ngài là bậc Thánh chứng cho chữ tín trong giao thương và trừng phạt những kẻ vi phạm khế ước.
-destinations.json::[2].quizBank[1].question	Nhìn theo hướng từ chính điện ra, con ngựa bên trái Quan Công có màu gì?
-destinations.json::[2].quizBank[1].options[0]	Đen
-destinations.json::[2].quizBank[1].options[1]	Trắng
-destinations.json::[2].quizBank[1].options[2]	Đỏ
-destinations.json::[2].quizBank[1].explain	Phía bên trái của Quan Công là tượng ngựa Xích Thố, toàn thân một màu đỏ rực như lửa. Trong tiểu thuyết “Tam Quốc diễn nghĩa”, Xích Thố đã qua nhiều đời chủ rồi gắn bó với nhân vật Quan Vũ. Sau khi Quan Vũ mất, ngựa bỏ ăn mà chết để bày tỏ lòng trung thành.
-destinations.json::[2].quizBank[2].question	Bức tranh phía bên trái từ trong chính điện nhìn ra vẽ cảnh gì?
-destinations.json::[2].quizBank[2].options[0]	Quan Công phò nhị tẩu (Quan Công hộ tống hai người chị dâu)
-destinations.json::[2].quizBank[2].options[1]	Tam cố mao lư (Ba lần đến nhà tranh)
-destinations.json::[2].quizBank[2].options[2]	Đào viên kết nghĩa (Kết nghĩa ở vườn đào)
-destinations.json::[2].quizBank[2].explain	Trong tranh, Quan Vũ hộ tống hai người vợ của Lưu Bị vượt qua năm cửa ải của Tào Tháo và chém sáu tướng cản đường để trở về với Lưu Bị. Ở phía bức tường còn lại, vẽ cảnh Châu Thương xin quy phục Quan Vũ. Sự kiện này cũng diễn ra trên đường trở về với Lưu Bị. Cả thiên truyện “vượt năm ải, chém sáu tướng” ca ngợi lòng trung thành và tiết nghĩa tuyệt đối của Quan Vũ. Về Châu Thương, đây là một trong hai đệ tử thường được phối thờ với Ngài. Châu Thương là người cầm Thanh Long yển nguyệt đao đứng phía tay trái Quan Công trong miếu này.
-destinations.json::[2].short	Nổi bật với sắc đỏ uy phong của lòng chính trực, là trung tâm tín ngưỡng quan trọng bậc nhất cảng thị này.
-destinations.json::[2].highlights[0]	Hoành phi được tiến cúng bởi các hội quán người Hoa khác nhau
-destinations.json::[2].highlights[1]	Bài thơ của Xuân Quận công Nguyễn Nghiễm
-destinations.json::[2].highlights[2]	Tượng Quan Công, hai đệ tử cùng ngựa Xích Thố và Bạch Thố
-destinations.json::[3].name	Bảo tàng Gốm sứ mậu dịch
-destinations.json::[3].description	Gốm là một minh chứng cho thời thông thương sôi động tại Hội An. Bên cạnh thổ sản, tơ tằm, đã từng có những con thuyền chở toàn gốm đến, đi, và cả nằm lại dưới biển.
-destinations.json::[3].quizBank[0].question	Họa tiết này nằm trong hiện vật nào?
-destinations.json::[3].quizBank[0].options[0]	Một chiếc thau
-destinations.json::[3].quizBank[0].options[1]	Một chiếc đĩa
-destinations.json::[3].quizBank[0].options[2]	Một chiếc bát
-destinations.json::[3].quizBank[0].explain	Chi tiết nằm trong một chiếc bát sứ Hizen, Nhật Bản, có niên đại khoảng nửa sau thế kỷ XVII. Hoạ tiết Thọ Lão cưỡi hạc này rất phổ biến trong gốm sứ Đông Á, thể hiện mong ước sống trường thọ.
-destinations.json::[3].quizBank[1].question	Bạn có thể đi tìm chú cua này không? Ai là người làm ra chú?
-destinations.json::[3].quizBank[1].options[0]	Người Việt thế kỷ XV-XVI
-destinations.json::[3].quizBank[1].options[1]	Người Hoa thế kỷ XVII
-destinations.json::[3].quizBank[1].options[2]	Người Nhật thế kỷ XVII
-destinations.json::[3].quizBank[1].explain	Chu Đậu là dòng gốm cổ cao cấp nổi tiếng của Việt Nam có lịch sử gần 600 năm, phát triển rực rỡ từ thế kỷ XIV – XVI trước khi bị thất truyền và được phục hưng thành công. Làm từ đất sét trắng đặc trưng vùng Trúc Thôn (Chí Linh, Hải Dương), dòng gốm này được ca ngợi là “mỏng như giấy, trong như ngọc, trắng như ngà, kêu như chuông”.
-destinations.json::[3].quizBank[2].question	Làm sao mà chú cua này vẫn còn nguyên vẹn sau vụ đắm tàu?
-destinations.json::[3].quizBank[2].options[0]	Vì chúng nằm gần bờ
-destinations.json::[3].quizBank[2].options[1]	Vì chúng nằm trong lớp bùn biển
-destinations.json::[3].quizBank[2].options[2]	Vì chúng được vớt lên ngay sau đó
-destinations.json::[3].quizBank[2].explain	Sau khi con tàu chở những đồ gốm này bị đắm, khả năng cao thân tàu đã nhanh chóng chìm vào lớp bùn, khiến cho một phần thân tàu còn nguyên vẹn và nhiều đồ gốm có thể được phát hiện nguyên trạng trong tàu.
-destinations.json::[3].short	Một vòng cảng thị từ gốm Hizen, Phước Kiến, đến gốm Islam, Chu Đậu.
-destinations.json::[3].highlights[0]	Sản phẩm gốm tới từ Nhật Bản, Trung Hoa, Trung Đông,...
-destinations.json::[3].highlights[1]	Gốm Chu Đậu mỏng như giấy, trong như ngọc
-destinations.json::[3].highlights[2]	Câu chuyện từ những di chỉ gốm
-destinations.json::[4].name	Bảo tàng Hội An
-destinations.json::[4].description	Hội An là một thành phố nhỏ trực thuộc tỉnh Quảng Nam, nằm bên bờ bắc sông Thu Bồn cách Thành phố Đà Nẵng 30km về phía Nam. Thành phố Hội An có diện tích khoảng 60 km2, dân số hơn 90.000 người, gồm 9 phường , 3 xã đất liền và 1 xã đảo.
-destinations.json::[5].name	Bảo tàng Văn hóa Sa Huỳnh
-destinations.json::[5].description	Sa Huỳnh là một trong ba cái nôi văn minh cổ xưa lớn nhất Việt Nam. Quan sát sự tương đồng của hiện vật sắt Sa Huỳnh tại Hội An với hiện vật sắt thời Hán, các nhà nghiên cứu đã kết luận nơi đây từng có một cảng thị sơ khai. Liệu những cư dân từ xa xưa của vùng đất này từng sống như thế nào?
-destinations.json::[5].quizBank[0].question	Những chiếc chum lớn từng được dùng để làm gì?
-destinations.json::[5].quizBank[0].options[0]	Mai táng người đã khuất
-destinations.json::[5].quizBank[0].options[1]	Dự trữ lương thực
-destinations.json::[5].quizBank[0].options[2]	Dự trữ nước mưa
-destinations.json::[5].quizBank[0].explain	Táng mộ chum là hình thức mai táng nổi bật nhất của cư dân văn hóa Sa Huỳnh, trong đó người chết được đặt nguyên thi thể, than tro hỏa táng hoặc di cốt vào bên trong một chiếc chum bằng gốm đất nung cùng một vài đồ tùy táng như công cụ sản xuất hay trang sức.
-destinations.json::[5].quizBank[1].question	Chất liệu nào được dùng rộng rãi nhất để sản xuất công cụ lao động của cư dân Sa Huỳnh?
-destinations.json::[5].quizBank[1].options[0]	Đồng
-destinations.json::[5].quizBank[1].options[1]	Sắt
-destinations.json::[5].quizBank[1].options[2]	Đá
-destinations.json::[5].quizBank[1].explain	Công cụ lao động phổ biến của người Sa Huỳnh chủ yếu được làm bằng sắt, bên cạnh các vật liệu truyền thống như đá, gốm và vỏ nhuyễn thể. Đồ sắt được phát hiện trong các di tích ở Hội An hầu hết nằm bên trong mộ chum, có kích thước lớn và đã qua sử dụng. Rất có thể đây là hiện vật mà lúc còn sống chủ nhân của chúng đã từng sử dụng.
-destinations.json::[5].short	Cách đây 2000 năm, người ta đã sống tại nơi bạn đang đứng như thế nào?
-destinations.json::[5].highlights[0]	Táng tục mộ chum
-destinations.json::[5].highlights[1]	Các chế tác quan trọng như công cụ lao động và trang sức
-destinations.json::[5].highlights[2]	Kỹ thuật sản xuất đồ gốm
-destinations.json::[6].name	Bảo tàng Văn hóa dân gian
-destinations.json::[6].description	Bề dày truyền thống văn hóa, sự sáng tạo, những đóng góp của các thế hệ cư dân địa phương trong quá trình xây dựng phát triển vùng đất Hội An.
-destinations.json::[6].quizBank[0].question	Người ta bắt tôm vào thời điểm nào trong ngày?
-destinations.json::[6].quizBank[0].options[0]	Chiều
-destinations.json::[6].quizBank[0].options[1]	Sáng sớm
-destinations.json::[6].quizBank[0].options[2]	Đêm
-destinations.json::[6].quizBank[0].explain	Tôm thường được bắt vào ban đêm hoặc chiều tối (từ chập tối đến sáng sớm) vì đây là lúc tôm có tập tính rời nơi ẩn nấp để đi tìm kiếm thức ăn.
-destinations.json::[6].quizBank[1].question	Trong các ngày hội lớn, người dân bản địa thường chơi trò chơi dân gian nào?
-destinations.json::[6].quizBank[1].options[0]	Bài chòi
-destinations.json::[6].quizBank[1].options[1]	Cờ người
-destinations.json::[6].quizBank[1].options[2]	Tổ tôm điếm
-destinations.json::[6].quizBank[1].explain	Bài chòi lưu hành phổ biến ở một số địa phương miền Trung từ Quảng Bình đến Bình Thuận. Qua lời kể của những nghệ nhân, vào cuối thế kỷ XVI đầu thế kỷ XVII, nhiều thú dữ trên rừng thường về quấy nhiễu cuộc sống. Người dân vì thế đã dựng những chiếc chòi rất cao ở ven rừng, cắt cử thanh niên trai tráng canh gác. Trong quá trình ấy, để đỡ buồn chán, người ta nghĩ ra cách giao lưu với nhau bằng những câu hát, câu hò, hô bài tứ sắc.
-destinations.json::[6].quizBank[2].question	Làng mộc nổi tiếng ở Hội An có tên là gì?
-destinations.json::[6].quizBank[2].options[0]	Thanh Hà
-destinations.json::[6].quizBank[2].options[1]	Kim Bồng
-destinations.json::[6].quizBank[2].options[2]	Trà Quế
-destinations.json::[6].quizBank[2].explain	Rất nhiều kiến trúc nhà cửa, chùa quán... ở khu phố cổ Hội An in dấu bàn tay thợ mộc Kim Bồng. Trong đó phải kể đến nhà cổ Tấn Ký, Tụy Tiên Đường Minh Hương và Miếu Quan Công.
-destinations.json::[6].short	Kho tàng tri thức bản địa sống động tái hiện hồn cốt Hội An.
-destinations.json::[6].highlights[0]	Sinh kế của người bản địa
-destinations.json::[6].highlights[1]	Các lễ hội địa phương
-destinations.json::[7].name	Bảo tàng nghề Y truyền thống
-destinations.json::[7].description	Từ thế kỷ XVI, thương cảng Hội An đã là nơi phân phối đa dạng từ thuốc Bắc đến thuốc Nam. Vào khoảng thế kỷ XIX-XX, những hiệu thuốc lớn nhỏ với nhiều thầy thuốc giỏi đã trở thành một phần bộ mặt phố Hội.
-destinations.json::[7].quizBank[0].question	Thầy thuốc đặt tay lên cổ tay bệnh nhân nhằm mục đích gì?
-destinations.json::[7].quizBank[0].options[0]	Chẩn đoán thai sản
-destinations.json::[7].quizBank[0].options[1]	Xác định tình trạng tạng phủ, khí huyết
-destinations.json::[7].quizBank[0].options[2]	Khám tình trạng cổ tay
-destinations.json::[7].quizBank[0].explain	Bắt mạch trong Y học cổ truyền là phương pháp chẩn đoán bệnh bằng cách dùng tay cảm nhận sự vận hành của khí huyết trong mạch máu, từ đó suy đoán tình trạng sinh lý và bệnh lý của cơ thể. Bắt mạch có thể xem thai, tuy nhiên đây không phải tác dụng duy nhất.
-destinations.json::[7].quizBank[1].question	Vị thuốc nào được mệnh danh là “nhân sâm của người nghèo"?
-destinations.json::[7].quizBank[1].options[0]	Cây tía tô
-destinations.json::[7].quizBank[1].options[1]	Cây ngải cứu
-destinations.json::[7].quizBank[1].options[2]	Cây đinh lăng
-destinations.json::[7].quizBank[1].explain	Trong rễ và lá đinh lăng có chứa saponin triterpenoid - nhóm hoạt chất sinh học tương tự như trong nhân sâm. Saponin có những tác dụng như tăng sức đề kháng, bồi bổ thần kinh, chống oxy hóa, cải thiện trí nhớ và chức năng gan. Ngoài ra đinh lăng còn chứa 17 loại axit amin có lợi cho hệ thần kinh, hệ miễn dịch, và giúp chống viêm, kháng khuẩn.
-destinations.json::[7].quizBank[2].question	Siêu sắc thuốc xưa cần phải đảm bảo tính chất nào?
-destinations.json::[7].quizBank[2].options[0]	Không ảnh hưởng đến tính vị của thuốc
-destinations.json::[7].quizBank[2].options[1]	Có thể chống tràn
-destinations.json::[7].quizBank[2].options[2]	Cách nhiệt khi đun
-destinations.json::[7].quizBank[2].explain	Điều quan trọng nhất của siêu sắc thuốc là không phản ứng hoá học với dược liệu, giữ nguyên tính vị của thuốc.
-destinations.json::[7].short	Nhức đầu, mỏi mắt, tê chân? Tận tình anh dẫn ả coi chốn này.
-destinations.json::[7].highlights[0]	Mô hình hiệu thuốc Đông Y
-destinations.json::[7].highlights[1]	Các vị thuốc phổ biến trong Đông Y
-destinations.json::[7].highlights[2]	Phương pháp chẩn bệnh, chữa bệnh xưa
-destinations.json::[8].name	Bảo tàng Thổ sản
-destinations.json::[8].description	Thổ sản là một trong những mặt hàng được xuất khẩu qua thương cảng Hội An. Từ thế kỷ XVI, các thuyền buôn Bồ Đào Nha đã đến đây mua hàng như tơ, lụa, hồ tiêu, gỗ quý, thông qua các đại lý người Hoa hay người Nhật.
-destinations.json::[8].quizBank[0].question	Trong số các sản vật này, sản vật nào là quý hiếm và đắt giá nhất?
-destinations.json::[8].quizBank[0].options[0]	Kỳ nam
-destinations.json::[8].quizBank[0].options[1]	Quế
-destinations.json::[8].quizBank[0].options[2]	Trầm hương
-destinations.json::[8].quizBank[0].explain	Một ghi chép từ năm 1600 cho thấy: “Kỳ nam hương màu đen, có dầu và giá 50 cruzados một catty nơi người Bồ Đào Nha, trong khi tại chính nơi sản xuất, nó trị giá ngang với bạc, bao nhiêu kỳ nam hương là bấy nhiêu bạc.” Nhiều thương nhân người Hoa sẵn sàng đợi cả năm chỉ để có đủ kỳ nam cho một chuyến tàu đến Nhật Bản, nơi giá cả được đẩy lên gấp 40 lần giá tại chỗ.
-destinations.json::[8].quizBank[1].question	Loại sản vật nào xuất hiện trên Cửu Đỉnh?
-destinations.json::[8].quizBank[1].options[0]	Lá lao
-destinations.json::[8].quizBank[1].options[1]	Cau
-destinations.json::[8].quizBank[1].options[2]	Tiêu
-destinations.json::[8].quizBank[1].explain	Cửu đỉnh là báu vật tượng trưng cho đế nghiệp muôn năm vững bền của triều Nguyễn, với 153 tấm họa tiết chạm nổi thể hiện phong cảnh, sản vật và con người Việt Nam. Trong số đó có 9 loại dược liệu và hương liệu quý, bao gồm kỳ nam, trầm hương, dâu tằm, tô hợp, yến sào, trầu không, cau, quế, và sâm ta.
-destinations.json::[8].short	Một lát cắt về mạng lưới thương mại thế kỷ XVI-XVII thông qua các loại thổ sản.
-destinations.json::[8].highlights[0]	Quá trình khai thác kỳ nam, lâm sản quý hiếm bậc nhất
-destinations.json::[8].highlights[1]	Giá cả và tầm quan trọng của từng mặt hàng trong thị trường thổ sản
-destinations.json::[8].highlights[2]	Những vật dụng sử dụng trong buôn bán
-destinations.json::[9].name	Nhà trưng bày Văn hóa Nhật Bản
-destinations.json::[9].description	Exhibition on the Japanese quarter of old Hoi An and the archaeology of Japanese trade in the town.
-destinations.json::[9].quizBank[0].question	Trong dòng búp bê Koga, con khỉ đang ôm loài vật gì?
-destinations.json::[9].quizBank[0].options[0]	Mèo
-destinations.json::[9].quizBank[0].options[1]	Gà
-destinations.json::[9].quizBank[0].options[2]	Chó
-destinations.json::[9].quizBank[0].explain	Hiện này là một mẫu thiết kế có tên gọi "Khỉ ôm gà" của dòng búp bê Koga truyền thống đến từ tỉnh Nagasaki. Thiết kế này là một sự kết hợp độc đáo tượng trưng cho sự chuyển giao của 12 con giáp từ năm Thân (Saru) sang năm Dậu (Tori). Trong văn hóa Nhật Bản, từ con khỉ (saru) là một cách chơi chữ đồng âm với từ "rời đi" (saru / 去る), mang ý nghĩa xua đuổi những điều xui xẻo hoặc vận rủi.
-destinations.json::[9].short	Một vòng văn hóa Nhật Bản với những thực hành và món đồ chơi truyền thống
-destinations.json::[10].name	Nhà biểu diễn nghệ thuật cổ truyền Hội An
-destinations.json::[10].description	Nhà Biểu diễn nghệ thuật cổ truyền được thành lập từ năm 1996 đến nay, các chương trình nghệ thuật đã mang lại nhiều mỹ cảm và sự thích thú cho đông đảo người xem trong nước và quốc tế.
-destinations.json::[11].name	Nhà thờ tộc Trần
-destinations.json::[11].description	Xuyên qua khu vườn yên ả là từ đường của tộc Trần, khởi dựng từ năm 1802 bởi một vị quan trước khi đi sứ sang Trung Quốc.
-destinations.json::[11].quizBank[0].question	Con hổ trong bức tranh ở gian ngoài đang làm gì?
-destinations.json::[11].quizBank[0].options[0]	Ngồi
-destinations.json::[11].quizBank[0].options[1]	Nhảy qua suối
-destinations.json::[11].quizBank[0].options[2]	Gầm
-destinations.json::[11].quizBank[0].explain	Trên bức tranh có viết hai chữ “Hổ khiếu” tức hổ gầm, tượng trưng cho sức mạnh dũng mãnh, uy lực vang dội, có thể xua đuổi tà khí.
-destinations.json::[11].quizBank[1].question	Khi muốn xin ý kiến của tổ tiên, chủ nhà sẽ thực hiện hành động gì?
-destinations.json::[11].quizBank[1].options[0]	Xin đài âm dương
-destinations.json::[11].quizBank[1].options[1]	Xin báo mộng
-destinations.json::[11].quizBank[1].options[2]	Xin giáng bút
-destinations.json::[11].quizBank[1].explain	Xin đài âm dương (xin keo) là nghi thức gieo hai đồng xu hoặc hai miếng gỗ bán nguyệt để hỏi ý kiến thần linh, gia tiên phù hộ về những việc hệ trọng như làm nhà, kinh doanh, thi cử, ốm đau...
-destinations.json::[11].quizBank[2].question	Kết cấu kiến trúc này có tên là gì?
-destinations.json::[11].quizBank[2].options[0]	Vì giá chiêng
-destinations.json::[11].quizBank[2].options[1]	Vì vỏ cua
-destinations.json::[11].quizBank[2].options[2]	Vì chồng rường giả thủ
-destinations.json::[11].quizBank[2].explain	Vì vỏ cua là một kiểu kết cấu vì kèo gỗ truyền thống trong kiến trúc cổ của người Việt, thường gặp ở Hội An, Huế và các vùng lân cận. Các vì vỏ cua thường được thợ mộc chạm trổ hoa văn, họa tiết rất tinh xảo, vừa mang tính chịu lực đỡ mái vừa làm điểm nhấn trang trí cho không gian nội thất.
-destinations.json::[11].short	Nhà thờ cổ 200 năm tuổi ẩn trong một khu vườn, với lối kiến trúc pha trộn từ ba nền văn hoá.
-destinations.json::[11].highlights[0]	Kiến trúc nhà vườn cổ kính
-destinations.json::[11].highlights[1]	Các cổ vật mang nhiều dấu ấn văn hoá
-destinations.json::[11].highlights[2]	Không gian thờ tự trang nghiêm
-destinations.json::[12].name	Nhà thờ tộc Nguyễn Tường
-destinations.json::[12].description	Di tích gắn với sự phát tích của dòng họ Nguyễn Tường ở Hội An và của nhóm Tự Lực Văn Đoàn.
-destinations.json::[12].quizBank[0].question	Ngôi nhà này được xây dựng bởi ai?
-destinations.json::[12].quizBank[0].options[0]	Một vị thượng thư triều Nguyễn
-destinations.json::[12].quizBank[0].options[1]	Một hoạ sĩ
-destinations.json::[12].quizBank[0].options[2]	Một nhà văn
-destinations.json::[12].quizBank[0].explain	Nguyễn Tường Vân là một vị quan đại thần dưới triều vua Gia Long và Minh Mạng, từng giữ chức Binh bộ Thượng thư và mang tước Nhuận Trạch Hầu. Ngay trước nhà còn liễn đối ca ngợi ông: “Nhuận Trạch hầu gia khí thế trường tồn uy hải ngoại. Thượng thư Binh bộ thanh danh quảng bá Việt trung.” Chức Binh bộ Thượng thư tương đương với Bộ trưởng Bộ Quốc phòng ngày nay.
-destinations.json::[12].quizBank[1].question	Phần trung tâm của ngôi nhà này được sử dụng để làm gì?
-destinations.json::[12].quizBank[1].options[0]	Sáng tác văn chương
-destinations.json::[12].quizBank[1].options[1]	Thờ cúng
-destinations.json::[12].quizBank[1].options[2]	Tiếp khách
-destinations.json::[12].quizBank[1].explain	Trước gian thờ là hoành phi ghi bốn chữ “Nguyễn Tường từ đường”, hai bên là liễn đối: “Thiên tải tần phồn truy viễn, thử tâm hà cảm giải. Nhất diên tu tiến đốc thân, tư niệm khởi năng vong.” Tạm dịch: Ngàn năm dâng lễ cúng tế tưởng nhớ tổ tiên, tấm lòng này sao dám trễ nải. Một mâm cúng dâng món ngon hiếu kính người thân, đạo lý này há thể nào quên.
-destinations.json::[12].quizBank[2].question	Tác giả nào là hậu duệ của tộc Nguyễn Tường?
-destinations.json::[12].quizBank[2].options[0]	Nguyên Hồng
-destinations.json::[12].quizBank[2].options[1]	Khái Hưng
-destinations.json::[12].quizBank[2].options[2]	Thạch Lam
-destinations.json::[12].quizBank[2].explain	Thạch Lam là hậu duệ của dòng họ khoa bảng Nguyễn Tường. Tuy vậy, cuộc đời sáng tác của ông gắn liền với phố huyện Cẩm Giàng (Hải Dương) và Hà Nội. Ông viết về một chiều hoàng hôn ở phố huyện tù đọng và bị lề hóa: “Tiếng trống thu không trên cái chòi của huyện nhỏ; từng tiếng một vang ra để gọi buổi chiều. Phương tây đỏ rực như lửa cháy và những áng mây ánh hồng như hòn than sắp tàn. [...] Chiều, chiều rồi. Một chiều êm ả như ru, văng vẳng tiếng ếch nhái kêu ra ngoài đồng ruộng theo gió nhẹ đưa vào.”
-destinations.json::[12].short	Câu chuyện về dòng họ được khai cơ bởi một vị Thượng thư – cội nguồn của những nhà văn lớn thế kỷ XX.
-destinations.json::[12].highlights[0]	Các tác phẩm của nhóm Tự Lực Văn Đoàn
-destinations.json::[12].highlights[1]	Sắc phong của bốn triều vua
-destinations.json::[12].highlights[2]	Không gian thờ tự trang nghiêm
-destinations.json::[13].name	Nhà cổ Phùng Hưng
-destinations.json::[13].description	Mong muốn gia đình sẽ làm ăn ngày càng phát đạt, vị thương nhân đã đặt tên cho ngôi nhà là “Phùng Hưng” - cũng là tên hiệu buôn của ông, mang nghĩa là “hưng thịnh”.
-destinations.json::[13].quizBank[0].question	Hai bộ tranh này được tạo ra bằng kỹ nghệ gì?
-destinations.json::[13].quizBank[0].options[0]	Pháp lam
-destinations.json::[13].quizBank[0].options[1]	Cẩn xà cừ
-destinations.json::[13].quizBank[0].options[2]	Ghép sành sứ
-destinations.json::[13].quizBank[0].explain	Cẩn xà cừ (khảm trai) là nghề thủ công truyền thống lâu đời tại Việt Nam, dùng các mảnh vỏ trai, vỏ ốc cắt gọt tinh xảo để cẩn lên bề mặt gỗ, kim loại hoặc sơn mài. Các chi tiết cẩn xà cừ có độ óng ánh, đổi màu theo góc nhìn.
-destinations.json::[13].quizBank[1].question	Chiếc cửa sập trong nhà dùng để làm gì?
-destinations.json::[13].quizBank[1].options[0]	Đi lại giữa gác và tầng trệt
-destinations.json::[13].quizBank[1].options[1]	Thông gió
-destinations.json::[13].quizBank[1].options[2]	Chuyển hàng hóa, đồ đạc lên tầng
-destinations.json::[13].quizBank[1].explain	Xưa kia, do phố cổ Hội An nằm gần sông và hay bị ngập lụt mùa nước lên, chủ nhà dùng cửa sập này để nhanh chóng chuyển và kéo hàng hóa từ tầng trệt lên gác lửng nhằm tránh lũ.
-destinations.json::[13].quizBank[2].question	Bộ tượng này là nhân hóa của các giá trị gì?
-destinations.json::[13].quizBank[2].options[0]	Phúc - Lộc - Thọ
-destinations.json::[13].quizBank[2].options[1]	Tòng Phụ - Tòng Phu - Tòng Tử
-destinations.json::[13].quizBank[2].options[2]	Nhân - Lễ - Nghĩa
-destinations.json::[13].quizBank[2].explain	Phúc Lộc Thọ (hay Tam Đa) là biểu tượng trong văn hóa Á Đông tượng trưng cho ba điều ước lớn nhất của đời người: may mắn/hạnh phúc (Phúc), sự thịnh vượng/giàu sang (Lộc), và sức khỏe/sống lâu (Thọ).
-destinations.json::[13].short	Nhà cổ rộng rãi, với kiến trúc pha trộn từ ba nền văn hoá Việt - Nhật - Trung
-destinations.json::[13].highlights[0]	Các bộ tranh được tạo bằng kỹ thuật truyền thống
-destinations.json::[13].highlights[1]	Mái nhà giữa được thiết kế theo kiểu "tứ hải" của Nhật Bản
-destinations.json::[13].highlights[2]	Bộ liễn đối theo lối “hồi văn” - dù đọc xuôi hay đọc ngược thì ý nghĩa không đổi
-destinations.json::[14].name	Nhà cổ Quân Thắng
-destinations.json::[14].description	Nhà cổ Quân Thắng được xây dựng vào khoảng cuối thế kỷ 17, pha trộn giữa phong cách Trung Hoa và Việt Nam.
-destinations.json::[14].quizBank[0].question	Chủ nhân đầu tiên của ngôi nhà này là ai?
-destinations.json::[14].quizBank[0].options[0]	Chủ hiệu sách
-destinations.json::[14].quizBank[0].options[1]	Thương nhân buôn gốm
-destinations.json::[14].quizBank[0].options[2]	Thương nhân kinh doanh hàng hóa quý hiếm
-destinations.json::[14].quizBank[0].explain	Chủ nhân đầu tiên là ông Quân Thắng, một thương nhân người Hoa giàu có bậc nhất tại phố Hội thời xưa. Bà Diệp Ái Phương (cháu đời thứ 7 của thương nhân Quân Thắng) cho biết, ban đầu nơi đây là một hiệu buôn sầm uất, chuyên kinh doanh các loại hàng hóa quý hiếm.
-destinations.json::[14].quizBank[1].question	Những con số này biểu thị điều gì?
-destinations.json::[14].quizBank[1].options[0]	Mốc nước lũ theo từng năm
-destinations.json::[14].quizBank[1].options[1]	Chiều cao của các loại cây kiểng khác nhau
-destinations.json::[14].quizBank[1].options[2]	Chiều cao các thành viên trong gia đình
-destinations.json::[14].quizBank[1].explain	Bà Diệp Ái Phương cho biết việc ghi dấu mực nước trên cột gỗ đã có từ thời ông cha để lại. Con cháu trong dòng họ vẫn tiếp tục gìn giữ, bảo tồn. Trong những ngày lũ, gia đình bà chuyển toàn bộ sinh hoạt lên tầng 2 để đảm bảo an toàn. Trên cột nhà có ghi lại trận lũ Giáp Thìn 1964, một trận "đại hồng thủy" gây thiệt hại nghiêm trọng cho các tỉnh miền Trung từ Huế đến Bình Định (cũ).
-destinations.json::[14].quizBank[2].question	Hình ảnh được chạm trên cuốn thư ở giếng trời là gì?
-destinations.json::[14].quizBank[2].options[0]	Hoa cúc và chim trĩ
-destinations.json::[14].quizBank[2].options[1]	Cây tùng và hươu
-destinations.json::[14].quizBank[2].options[2]	Cây tùng và hạc
-destinations.json::[14].quizBank[2].explain	Hình ảnh tùng và hươu là một hình ảnh phổ biến trong trang trí ở Đông Á, trong đó cây tùng diện cho sức sống bền bỉ, sự hiên ngang và khí tiết vượt qua nghịch cảnh còn hươu (âm Hán Việt là “lộc”) có phát âm tương tự chữ "lộc" (tài lộc, bổng lộc). Trong kiến trúc nhà ống dài không có cửa sổ bên hông, thiên tỉnh là nguồn cung cấp ánh sáng và khí trời duy nhất. Ở ngay sát cửa có thể thấy hai bài vị thờ “Thiên quan tứ phúc” và “Tư mệnh táo quân”. Thờ cúng ông Thiên là truyền thống của nhiều gia đình người Hoa. Bài vị thờ “Thiên quan tứ phúc” sẽ được đặt ở nơi thoáng đãng, lộ thiên để đón phúc khí.
-destinations.json::[14].short	Ngôi nhà hơn 300 tuổi mang văn hoá người Hoa
-destinations.json::[14].highlights[0]	Kiến trúc nhà ống đặc trưng của Hội An
-destinations.json::[14].highlights[1]	Các chi tiết điêu khắc gỗ tinh xảo
-destinations.json::[14].highlights[2]	Nội thất và trang trí của cộng đồng người Hoa
-destinations.json::[15].name	Nhà cổ Đức An
-destinations.json::[15].description	Một ngôi nhà ghi lại quá trình phát triển của phong trào yêu nước đầu thế kỷ XX, từ phong trào Duy Tân cho đến hoạt động cách mạng của Đảng Cộng sản.
-destinations.json::[15].quizBank[0].question	Trước kia nhà Đức An từng bán sách của tác giả nào?
-destinations.json::[15].quizBank[0].options[0]	Sách của Khang Hữu Vi, Lương Khải Siêu
-destinations.json::[15].quizBank[0].options[1]	Sách của Hà Ân Chấn
-destinations.json::[15].quizBank[0].options[2]	Sách của Cù Thu Bạch
-destinations.json::[15].quizBank[0].explain	Từ cuối thế kỷ XIX, ngôi Nhà Đức An là nơi bán sách, chủ yếu là sách tiếng Hoa của tác giả Khang Hữu Vi, Lương Khải Siêu,... Trong thời gian này, các nhà yêu nước kháng Pháp như Huỳnh Thúc Kháng, Trần Quý Cáp... thường lui tới để đặt mua những cuốn sách có nội dung tư tưởng tiến bộ. Cụ Trần Quý Cáp đã cho gia chủ các chữ được ghi trên liễn đối: “Vân trình ngũ sắc văn minh thịnh; Vạn tuế tam xuân khí tượng tân” (có nghĩa: Mây quý hiển linh giúp nền văn minh rực rỡ; Vạn năm khí sắc xuân lành), thể hiện khát khao canh tân, phát triển đất nước.
-destinations.json::[15].quizBank[1].question	Vì sao hiệu Đức An chuyển sang bán thuốc bắc?
-destinations.json::[15].quizBank[1].options[0]	Hiệu Đức An gặp được nguồn cung thuốc tốt
-destinations.json::[15].quizBank[1].options[1]	Thực dân Pháp đàn áp Trung Kỳ dân biến
-destinations.json::[15].quizBank[1].options[2]	Việc bán sách không còn thu được lợi nhuận
-destinations.json::[15].quizBank[1].explain	Sau sự kiện chống thuế năm 1908, nhà Đức An chuyển sang bán thuốc Bắc hòa vào việc buôn bán tấp nập cùng nhiều hiệu thuốc Bắc ở Hội An song vẫn là điểm hẹn gặp gỡ của các chí sĩ yêu nước trong khu vực. Trong vụ dân biến này, nông dân kéo nhau thành từng đoàn đến bao vây các dinh công sứ Pháp để nộp đơn xin giảm sưu thuế. Thực dân Pháp sau đó đã dùng vũ lực đàn áp đẫm máu, bắt bớ và đày ải nhiều sĩ phu, nông dân yêu nước.
-destinations.json::[15].quizBank[2].question	Từ năm 1927 đến năm 1934, chủ nhà Đức An đã sử dụng nơi này để tổ chức những hoạt động gì?
-destinations.json::[15].quizBank[2].options[0]	Chẩn bệnh miễn phí cho người nghèo
-destinations.json::[15].quizBank[2].options[1]	Gặp gỡ các cầu thủ của đội bóng Ô-rô
-destinations.json::[15].quizBank[2].options[2]	Liên lạc, hội họp của phong trào cách mạng
-destinations.json::[15].quizBank[2].explain	Tháng 10/1927, tại chính căn nhà này, đồng chí Năm Thêm chủ trì cuộc họp thành lập Hội Việt Nam Cách mạng Thanh niên Hội An. Từ ngày 28/03/1930, Tỉnh ủy Đảng Cộng sản Việt Nam Quảng Nam được thành lập ở Hội An, nhà Đức An tiếp tục trở thành nơi liên lạc và tổ chức hội họp của Đảng. Năm 1934, do sự chỉ dẫn của mật thám, lính Pháp đã đến lục soát ngôi nhà này và tìm thấy một vài tài liệu tiếng nước ngoài. Từ đó, nhà Đức An tạm đình chỉ làm nơi liên lạc của Đảng.
-destinations.json::[15].short	Hình hài của tinh thần yêu nước, tinh thần cách mạng qua nhiều thế hệ.
-destinations.json::[15].highlights[0]	Dụng cụ sinh hoạt và ảnh tư liệu của đồng chí Cao Hồng Lãnh
-destinations.json::[15].highlights[1]	Cổ vật của gia đình Đức An
-destinations.json::[15].highlights[2]	Phần nào hoạt động của nhóm Tam Quảng
-destinations.json::[16].name	Nhà cổ Tấn Ký
-destinations.json::[16].description	Nhà cổ Tấn Ký không chỉ đẹp ở kiến trúc mà còn giống như một bảo tàng thu nhỏ với vô vàn cổ vật thú vị
-destinations.json::[16].quizBank[0].question	Chiếc ghe bầu này được sử dụng khi di chuyển ở vùng nước nào?
-destinations.json::[16].quizBank[0].options[0]	Vịnh
-destinations.json::[16].quizBank[0].options[1]	Biển
-destinations.json::[16].quizBank[0].options[2]	Sông
-destinations.json::[16].quizBank[0].explain	Ghe bầu là loại thương thuyền (thuyền buôn) gỗ cỡ lớn truyền thống từng đóng vai trò huyết mạch trong ngành hàng hải và giao thương ven biển Việt Nam từ thế kỷ 16 đến nửa đầu thế kỷ 20. Thuyền có phần thân phình to ở giữa giống hình quả bầu, mạn cao, đáy bằng hoặc hơi khum, giúp chịu được sóng gió lớn ngoài khơi.
-destinations.json::[16].quizBank[1].question	Hiệu Tấn Ký từng buôn bán những mặt hàng nào?
-destinations.json::[16].quizBank[1].options[0]	Y phục
-destinations.json::[16].quizBank[1].options[1]	Sách báo
-destinations.json::[16].quizBank[1].options[2]	Nông sản
-destinations.json::[16].quizBank[1].explain	Nhà cổ Tấn Ký được xây dựng vào năm 1741 bởi ông Lê Công, một thương nhân gốc Hoa di cư đến Hội An. Ông Lê Công ban đầu kinh doanh hàng nông sản từ miền cao về phố cảng.
-destinations.json::[16].quizBank[2].question	Chiếc cốc này gửi gắm triết lý gì?
-destinations.json::[16].quizBank[2].options[0]	Biết đủ
-destinations.json::[16].quizBank[2].options[1]	Nghĩa khí
-destinations.json::[16].quizBank[2].options[2]	Khiêm tốn
-destinations.json::[16].quizBank[2].explain	Chiếc cốc hoạt động dựa trên nguyên lý bình thông nhau và hiệu ứng xifong (siphoning). Ở giữa cốc có một cột nhỏ che giấu một đường ống cong (ống chữ U ngược). Nếu rót quá đầy (vượt quá đỉnh của ống ngầm bên trong), toàn bộ nước trong cốc sẽ tự động chảy sạch qua lỗ nhỏ ở đáy cốc.
-destinations.json::[16].short	“Bảo tàng sống” giữ gần như nguyên vẹn kiến trúc đặc trưng nhà cổ Hội An xưa.
-destinations.json::[16].highlights[0]	Chén Khổng Tử từ Phước Kiến
-destinations.json::[16].highlights[1]	Nội thất gỗ được chạm cầu kỳ
-destinations.json::[16].highlights[2]	Tính nguyên vẹn của kiến trúc xưa
-destinations.json::[17].name	Hội quán Quảng Triệu
-destinations.json::[17].description	Dưới những nếp mái vuông vức là không gian trang nghiêm, được trang trí bằng vô số cổ điển Trung Hoa
-destinations.json::[17].quizBank[0].question	Ba người này đang ở đâu?
-destinations.json::[17].quizBank[0].options[0]	Vườn trúc
-destinations.json::[17].quizBank[0].options[1]	Núi tùng
-destinations.json::[17].quizBank[0].options[2]	Vườn đào
-destinations.json::[17].quizBank[0].explain	Bức tranh vẽ cảnh kết nghĩa vườn đào của ba anh em Lưu Bị, Quan Vũ và Trương Phi với lời thề "Tuy không sinh cùng ngày cùng tháng cùng năm, nhưng nguyện chết cùng ngày cùng tháng cùng năm", nguyện dốc sức vì nước, cứu dân an đời.
-destinations.json::[17].quizBank[1].question	Trong ba nhân vật, ai là Quan Vũ?
-destinations.json::[17].quizBank[1].options[0]	Người có mặt đỏ
-destinations.json::[17].quizBank[1].options[1]	Người ở giữa có tai to
-destinations.json::[17].quizBank[1].options[2]	Người có mặt đen
-destinations.json::[17].quizBank[1].explain	Trong truyện Tam Quốc có 2 câu đối nhắc tới sắc đỏ gắn liền với Quan Vũ: “Xích diện bỉnh xích tâm, kỵ Xích Thố truy phong, trì khu thời vô vong Xích Đế / Thanh đăng quan thanh sử, trượng thanh long yển nguyệt, ẩn vi xứ bất uý thanh thiên”. Theo bản dịch của Phan Kế Bính: “Bộ mặt đỏ giữ tấm lòng đỏ, cưỡi ngựa Thỏ Đỏ truy phong, lúc ruổi rong không quên nhớ Vua Đỏ / Ngọn đèn xanh xem bộ sử xanh, cầm đao yển nguyệt rồng xanh, nơi kín đáo chẳng thẹn với trời xanh.”
-destinations.json::[17].quizBank[2].question	Nhân vật nữ này đang bưng thức quả gì?
-destinations.json::[17].quizBank[2].options[0]	Quả hồng
-destinations.json::[17].quizBank[2].options[1]	Quả đào
-destinations.json::[17].quizBank[2].options[2]	Quả phật thủ
-destinations.json::[17].quizBank[2].explain	Bức tranh “Ma Cô hiến thọ” vẽ lại cảnh tiên nữ Ma Cô mang đào tiên chúc thọ Tây Vương Mẫu. Đây chính là hình ảnh trang trí quen thuộc trên những chiếc đĩa cô tiên. Trong bức tranh ở Hội quán Quảng Triệu còn xuất hiện mô-típ tùng và hạc.
-destinations.json::[17].short	Từng là nơi hội họp của các thương nhân Quảng Đông, một hội quán uy nghi, bề thế, và mực thước trong kể chuyện.
-destinations.json::[17].highlights[0]	Tác phẩm “ngư long hý thuỷ”
-destinations.json::[17].highlights[1]	Các bức tranh minh hoạ tích truyện Quan Công
-destinations.json::[17].highlights[2]	Các chi tiết hoa trái mang tính biểu tượng
-destinations.json::[18].name	Hội quán Phúc Kiến
-destinations.json::[18].description	Hội quán tráng lệ nhất phố Hội, với những chi tiết trang trí tinh xảo, tái hiện hải trình của những thương nhân Phước Kiến cùng lòng thành kính với Thiên Hậu Thánh Mẫu.
-destinations.json::[18].quizBank[0].question	Hình ảnh nào dưới đây là mái của Hội quán Phước Kiến?
-destinations.json::[18].quizBank[0].options[0]	Ảnh 1
-destinations.json::[18].quizBank[0].options[1]	Ảnh 3
-destinations.json::[18].quizBank[0].options[2]	Ảnh 2
-destinations.json::[18].quizBank[0].explain	Khác với kiểu nóc mái thẳng tắp của Quảng Đông, kiến trúc mái đặc trưng của vùng Phúc Kiến có bờ nóc võng xuống như con thuyền đang cưỡi sóng. Phần trang trí cũng công phu hơn so với các hội quán khác.
-destinations.json::[18].quizBank[1].question	Tại sao Hội quán Phước Kiến và nhiều hội quán khác của người Hoa lại thờ bà Thiên Hậu? Gợi ý: Hãy quan sát những bức tranh và mô hình trong hội quán
-destinations.json::[18].quizBank[1].options[0]	Để tưởng nhớ công dẹp giặc
-destinations.json::[18].quizBank[1].options[1]	Để cầu bình an khi đi biển
-destinations.json::[18].quizBank[1].options[2]	Để cầu tài lộc
-destinations.json::[18].quizBank[1].explain	Ngay sau khi bước vào tiền điện, du khách sẽ thấy ở phía tường Đông là bích họa Thiên Hậu Thánh Mẫu cùng đệ tử cầm đèn lồng vượt sóng gió đến cứu người bị nạn và ở phía tường Tây là bích họa Lục Tánh Vương Gia cưỡi ngựa xung trận. Bên trong chính điện có mô hình thương thuyền được trang trí kỳ công với một gian thờ Thiên Hậu trên thuyền.
-destinations.json::[18].quizBank[2].question	Hai vị thần được thờ phụng trong chính điện cùng Bà Thiên Hậu là ai?
-destinations.json::[18].quizBank[2].options[0]	Thanh Long - Bạch Hổ
-destinations.json::[18].quizBank[2].options[1]	Thần Đồ - Uất Lũy
-destinations.json::[18].quizBank[2].options[2]	Thiên Lý Nhãn - Thuận Phong Nhĩ
-destinations.json::[18].quizBank[2].explain	Hai vị thần phò tá Thiên Hậu Thánh Mẫu là Thiên Lý Nhãn và Thuận Phong Nhĩ. Thiên Lý Nhãn có thể nhìn thấy mọi việc ở khoảng cách rất xa, giúp Bà phát hiện tàu thuyền gặp nạn trên biển, còn Thuận Phong Nhĩ có thể nghe được tiếng kêu cứu từ muôn nơi theo chiều gió.
-destinations.json::[18].quizBank[3].question	Những đôi giày trong tủ kính dành cho ai?
-destinations.json::[18].quizBank[3].options[0]	Những người phụ nữ bó chân gót sen
-destinations.json::[18].quizBank[3].options[1]	Tượng thờ các vị thần
-destinations.json::[18].quizBank[3].options[2]	Vũ công múa thủy tụ
-destinations.json::[18].quizBank[3].explain	Tủ kính trưng bày các vật dụng của người Hoa xưa. Những đôi giày trong tủ được dùng khi bó chân gót sen. Tập tục này bắt đầu từ thời nhà Tống, được coi là biểu tượng của cái đẹp và địa vị. Đến thời nhà Thanh, tuy lệnh cấm được ban hành, song ít người tuân thủ. Đến thế kỷ XIX, có khoảng một nửa phụ nữ Trung Hoa thực hành bó chân.
-destinations.json::[18].quizBank[4].question	Bức tranh vẽ những đứa trẻ này được tìm thấy ở đâu?
-destinations.json::[18].quizBank[4].options[0]	Nhà Đông
-destinations.json::[18].quizBank[4].options[1]	Án thờ 3 bà Chúa Sanh thai và 12 bà mụ
-destinations.json::[18].quizBank[4].options[2]	Án thờ Lục Tánh vương gia
-destinations.json::[18].quizBank[4].explain	Ba bà Chúa Sanh thai (Tam Tiêu Nương Nương) và 12 bà mụ lo việc tạo hình hài, ban phước, bảo trợ cho việc cầu tự (cầu con), thai kỳ bình an và mẹ tròn con vuông. Tượng 12 bà mụ thường khắc họa các vị trong các động tác chăm sóc, bồng bế trẻ thơ khác nhau.
-destinations.json::[18].short	Hội quán tráng lệ nhất với những chi tiết trang trí tinh xảo làm từ gốm sứ và nhiều chất liệu khác.
-destinations.json::[18].highlights[0]	Cổng tam quan uy nghi
-destinations.json::[18].highlights[1]	Mô hình thương thuyền vượt biển sống động
-destinations.json::[18].highlights[2]	Hoành phi và liễn đối do Ngô Lỗ, Trạng nguyên cuối cùng của lịch sử Tuyền Châu (Phước Kiến), cúng vào năm 1897
-destinations.json::[19].name	Hội quán Hải Nam
-destinations.json::[19].description	Sinh sau đẻ muộn và hiếm khi được ngợi ca là tráng lệ hay lộng lẫy, Hội quán Hải Nam như một cuốn sử phong phú khiến người ta ngỡ ngàng một khi bước vào trong.
-destinations.json::[19].quizBank[0].question	Trong hai con lân này, con nào là lân đực và con nào là lân cái?
-destinations.json::[19].quizBank[0].options[0]	Cả A và B đều là lân đực
-destinations.json::[19].quizBank[0].options[1]	A là lân cái, B là lân đực
-destinations.json::[19].quizBank[0].options[2]	A là lân đực, B là lân cái
-destinations.json::[19].quizBank[0].explain	Thông thường, lân đực được khắc họa trong tư thế “lân hí cầu” với quả cầu tượng trưng cho mặt trời dưới chân, còn lân cái trong tư thế "lân giáo tử", dùng chân trước ôm ngang lưng con lân con. Tượng lân cũng được sắp đặt theo nguyên tắc “nam tả nữ hữu”, trong đó lân cái nằm ở phía tay phải nhìn từ trong chính điện ra. Bức tường phía ngoài hội quán cũng có hai bức phù điêu lân mang bát bảo và kỳ mang ám bát tiên.
-destinations.json::[19].quizBank[1].question	Tại sao Hội quán Hải Nam lại thờ 108 vị Chiêu Ứng Công?
-destinations.json::[19].quizBank[1].options[0]	Tưởng nhớ oai linh 108 vị anh hùng Lương Sơn Bạc đứng lên chống lại cái ác
-destinations.json::[19].quizBank[1].options[1]	Tưởng nhớ công ơn 108 tiền hiền đã đặt nền móng cho sự phát triển của bang Hải Nam
-destinations.json::[19].quizBank[1].options[2]	Tưởng nhớ vong linh 108 vị thương buôn chết oan đã hiển linh phù hộ thuyền bè trên biển
-destinations.json::[19].quizBank[1].explain	Mùa hạ năm 1851, 108 thương buôn người Hải Nam đã bị một số quan binh triều Nguyễn sát hại vì coi là cướp biển. Vua Tự Đức khi biết chuyện đã minh oan và sắc phong cho các vị là Chiêu Ứng Anh Liệt. Cặp liễn đối hai bên hương án chính có nghĩa: Khí khái tụ thành thần, theo dấu anh linh do oan trái; Đức độ xây nên miếu, thương kẻ đồng hương ở chốn xa.
-destinations.json::[19].quizBank[2].question	Bao lam (cửa võng, rèm gỗ) ở cửa chính điện có đề tài gì?
-destinations.json::[19].quizBank[2].options[0]	Tùng thử bồ đào (sóc và dây nho)
-destinations.json::[19].quizBank[2].options[1]	Hoa - điểu (hoa và chim muông)
-destinations.json::[19].quizBank[2].options[2]	Tùng - hạc
-destinations.json::[19].quizBank[2].explain	Tùng Thử Bồ Đào (松鼠葡萄) là đề tài kinh điển biểu trưng cho phú quý – sung túc – vạn sự hưng long. Hình ảnh sóc trèo nho thể hiện sự sinh sôi – đông con cháu, là lời chúc cát tường cho gia đạo thịnh vượng.
-destinations.json::[19].short	Hội quán giản dị song lại mang những chi tiết độc nhất, chứa đựng bề dày văn hoá Trung Hoa.
-destinations.json::[19].highlights[0]	Khúc bi hùng ca của 108 vị Chiêu Ứng Công
-destinations.json::[19].highlights[1]	Hương án chính thếp vàng, được chạm lộng tinh vi với nhiều đề tài văn hoá
-destinations.json::[19].highlights[2]	Bộ cửa vẽ lại điển tích “Nhị thập tứ hiếu”
-destinations.json::[19].highlights[3]	Kiến trúc song mái độc nhất tại Hội An
-destinations.json::[20].name	Hội quán Triều Châu
-destinations.json::[20].description	Hội quán Triều Châu sinh động với các chi tiết chạm gỗ trứ danh của người Tiều. Đề tài trang trí phong phú, tạo hình sáng tạo.
-destinations.json::[20].quizBank[0].question	Bạn có thể đi tìm chú ngựa này không? Người bạn của chú có bộ lông màu gì?
-destinations.json::[20].quizBank[0].options[0]	Trắng
-destinations.json::[20].quizBank[0].options[1]	Đen
-destinations.json::[20].quizBank[0].options[2]	Nâu
-destinations.json::[20].quizBank[1].question	Hình ảnh này là đặc trưng của mùa nào?
-destinations.json::[20].quizBank[1].options[0]	Hạ
-destinations.json::[20].quizBank[1].options[1]	Thu
-destinations.json::[20].quizBank[1].options[2]	Xuân
-destinations.json::[20].quizBank[1].explain	Ở Trung Quốc, tứ quý danh hoa là "Xuân Lan - Hạ Hà - Thu Cúc - Đông Mai". Trong đó "Lan" là lan kiếm, "Hà" là sen, "Cúc" vẫn là cúc, còn "Mai" là mơ.
-destinations.json::[20].quizBank[2].question	Trên phần mái tiền điện có những đề tài trang trí gì?
-destinations.json::[20].quizBank[2].options[0]	Lưỡng long tranh bình hồ lô, ông Nhật - bà Nguyệt, các linh thú
-destinations.json::[20].quizBank[2].options[1]	Lưỡng long triều dương, cá chép vượt long môn, bát tiên quá hải
-destinations.json::[20].quizBank[2].options[2]	Lưỡng long tranh châu, lục quốc phong tướng
-destinations.json::[20].quizBank[2].explain	Bên cạnh các đồ án lưỡng long hay cá chép vượt long môn, đồ án bát tiên quá hải cũng rất được ưa chuộng trong các kiến trúc của người Hoa. Bát tiên quá hải (tám vị tiên vượt biển) kể về hành trình 8 vị tiên dùng phép thuật và pháp bảo để vượt qua đại dương. Tất cả những pháp khí mà 8 vị tiên sử dụng gọi chung là Ám bát tiên, cũng là một đề tài trang trí phổ biến. Bảo vật ngư cổ của Trương Quả Lão nói về mạng sống của con người. Lã Động Tân mang bảo kiếm có thể ngăn cản tà ma. Cây sáo của Hàn Tương Tử có thể khiến vạn vật sinh sôi và nảy nở. Hà Tiên Cô có hoa sen có thể tu thân dưỡng tính. Hồ lô của Thiết Quản Lý có thể cứu giúp chúng sanh. Quạt của Hán Chung Ly có thể làm hồi sinh. Tấm ngọc của Tào Quốc Cửu có thể làm mọi vật trở nên trong sạch. Giỏ của Lam Thái Hòa có thể quảng thông thần minh.
-destinations.json::[20].short	Hội quán rực rỡ nhất với các họa tiết trang trí gỗ phức tạp có tạo hình phong phú trong tầm mắt.
-destinations.json::[20].highlights[0]	Trang trí khác nhau ở hai bên vì kèo
-destinations.json::[20].highlights[1]	Khám thờ và bao lam chạm nhiều điển tích
-destinations.json::[20].highlights[2]	Hệ cửa chạm gỗ và vẽ kính sáng tạo
-destinations.json::[21].name	Đình Cẩm Phô
-destinations.json::[21].description	Đình Cẩm Phô là nơi ghi dấu rõ nhất tinh thần cởi mở và chan hoà của thương cảng này. Liễn đối trước Hương Hiền tự ghi: “Lễ nhạc uy nghi kính như thần tại. Âu ca cổ vũ lạc tại nhân hòa”, có nghĩa: Lễ nghi và âm nhạc uy nghiêm, lòng thành kính như thần linh đang hiện diện. Hát ca và múa trống tưng bừng, niềm vui thực sự nằm ở sự hòa hợp của lòng người.
-destinations.json::[21].quizBank[0].question	Mái của phương đình được trang trí với bao nhiêu con phượng?
-destinations.json::[21].quizBank[0].options[0]	9 con
-destinations.json::[21].quizBank[0].options[1]	10 con
-destinations.json::[21].quizBank[0].options[2]	8 con
-destinations.json::[21].quizBank[0].explain	Đình có một hệ thống các con giống được tạo hình rất sinh động và độc đáo trang trí cho các bộ phận kiến trúc. Nổi bật là 9 hình chim phượng trên phương đình. Trong phong thuỷ, phượng gắn liền với hành Hỏa, mùa hạ và hướng Nam, mang lại may mắn, cát khí và cơ hội phát triển. Cơ thể của phượng đại diện cho 5 phẩm chất cao quý gồm: đức hạnh (ngay thẳng), lòng nhân đạo (lương thiện), sự công bằng, tính đáng tin (chung thủy) và sự khoan đại.
-destinations.json::[21].quizBank[1].question	Tại sao Đình Cẩm Phô lại có tên Cẩm Phô Hương Hiền?
-destinations.json::[21].quizBank[1].options[0]	Đình lưu giữ các ký ức từ xa xưa
-destinations.json::[21].quizBank[1].options[1]	Đình có thờ các vị tiền hiền, hậu hiền làng Cẩm Phô
-destinations.json::[21].quizBank[1].options[2]	Đình là nơi tổ chức sinh hoạt văn hoá truyền thống
-destinations.json::[21].quizBank[1].explain	Đình trước đây thờ bà Đại Càn và các vị thần sông nước, về sau kết hợp thờ các vị tiền hiền và hậu hiền của làng Cẩm Phô. Trong đình là những hoành phi, liễn đối thể hiện đạo lý “uống nước nhớ nguồn” như “Ẩm hà tư nguyên” (phiên bản chữ Hán của “uống nước nhớ nguồn”) hay “Quang tiền dụ hậu” mang nghĩa: rạng rỡ đời trước, sung túc đời sau.
-destinations.json::[21].short	Kết tinh của các giá trị văn hoá Việt – sự cởi mở và chan hoà khiến cho cảng thị phồn vinh.
-destinations.json::[21].highlights[0]	Các liễn đối truyền tải chiều sâu văn hoá Việt
-destinations.json::[21].highlights[1]	Các con giống trang trí trên phần mái
-destinations.json::[22].name	Tụy Tiên Đường Minh Hương
-destinations.json::[22].description	Hai chữ Minh Hương (明香) vốn có nghĩa giữ gìn hương hỏa nhà Minh, sau đổi thành 明鄉 để chỉ làng của những người gốc nhà Minh. Tụy Tiên Đường là một di tích tiêu biểu của cộng đồng Minh Hương
-destinations.json::[22].quizBank[0].question	Con hạc này đang đứng trên lưng con vật nào?
-destinations.json::[22].quizBank[0].options[0]	Cá
-destinations.json::[22].quizBank[0].options[1]	Rùa
-destinations.json::[22].quizBank[0].options[2]	Cua
-destinations.json::[22].quizBank[0].explain	Rùa đội hạc là một biểu tượng văn hóa và tâm linh quen thuộc trong các ngôi đình, chùa và trên bàn thờ gia tiên của người Việt. Nhiều di tích của người Minh Hương có biểu tượng này từ xưa, bởi lẽ người Minh Hương từ cộng đồng người Hoa di trú đã hội nhập vào xã hội và văn hoá Việt Nam và trở thành những người Việt thực thụ.
-destinations.json::[22].quizBank[1].question	Con vật này đang mang gì trên lưng?
-destinations.json::[22].quizBank[1].options[0]	Những cuộn dây
-destinations.json::[22].quizBank[1].options[1]	Thuốc thang
-destinations.json::[22].quizBank[1].options[2]	Những cuốn thư
-destinations.json::[22].quizBank[1].explain	Hình trên cửa là một cách điệu của hình tượng Long mã Hà đồ. Truyền thuyết kể rằng, Long Mã xuất hiện trên sông Hoàng Hà, dưới thời Phục Hy, mình xanh, vằn đỏ, trên lưng có mang bức Hà đồ, hay Mã đồ, là sách trời ban cho vua để trị nước.
-destinations.json::[22].quizBank[2].question	Nơi này thờ phụng ai?
-destinations.json::[22].quizBank[2].options[0]	Những người có công với làng Minh Hương ở Hội An
-destinations.json::[22].quizBank[2].options[1]	Tướng Trần Thượng Xuyên và Dương Ngạn Địch
-destinations.json::[22].quizBank[2].options[2]	Phúc Đức chính thần
-destinations.json::[22].quizBank[2].explain	Trong tên Tuỵ Tiên Đường, “tuỵ” có nghĩa là tụ họp, còn “tiên” là người xưa quá vãng. Văn bia tại đình có ghi: Khi xây dựng một làng tất phải nhớ công lao của tiền nhân. Người đời không thể quên đức tốt đã truyền lưu. Văn bia cũng giải thích rằng các vị được thờ nơi đây trước là cựu thần nhà Minh. Vận nhà Minh đã qua, lòng họ không nhận hai vua nên từ quan, đổi tên họ, lánh nạn đến đất phương nam, rồi họp người Tàu lại tại xứ nam, chọn chữ Minh để giữ quốc hiệu.
-destinations.json::[22].short	Mang đậm giá trị văn hóa của những người gốc Hoa mang thân phận người dân Đại Nam dưới triều Nguyễn
-destinations.json::[22].highlights[0]	Kiến trúc gỗ được thực hiện bởi các nghệ nhân làng Kim Bồng
-destinations.json::[22].highlights[1]	Sự hòa trộn văn hóa Việt và Trung
-destinations.json::[22].highlights[2]	Câu chuyện của cộng đồng người Hoa đã Việt hoá.
-destinations.json::[23].name	Đình Hội An
-destinations.json::[23].description	Đình không chỉ gây ấn tượng thị giác mạnh mẽ mà còn là một trải nghiệm khám phá thú vị, đầy bất ngờ.
-destinations.json::[23].quizBank[0].question	Đình Hội An còn có tên gọi nào khác?
-destinations.json::[23].quizBank[0].options[0]	Đình Voi Ré
-destinations.json::[23].quizBank[0].options[1]	Đình Voi Phục
-destinations.json::[23].quizBank[0].options[2]	Đình Ông Voi
-destinations.json::[23].quizBank[0].explain	Tên gọi đình Ông Voi xuất phát từ cặp tượng voi quỳ phục đặt ở sân trước. Hai pho tượng có kích thước lớn, chạm khắc tinh xảo, khoác lễ phục với nhiều chi tiết trang trí. Hình tượng voi không chỉ gây ấn tượng thị giác mà còn gắn liền với biểu tượng sức mạnh, trí tuệ trong văn hóa - tín ngưỡng dân gian. Trong Phật giáo, voi cũng là một biểu tượng của sức mạnh tâm thức, gắn với nhiều điển tích.
-destinations.json::[23].quizBank[1].question	Đây là con vật gì?
-destinations.json::[23].quizBank[1].options[0]	Long mã
-destinations.json::[23].quizBank[1].options[1]	Sư tử
-destinations.json::[23].quizBank[1].options[2]	Lân
-destinations.json::[23].quizBank[1].explain	Hình trên bình phong là một cách điệu của hình tượng Long mã Hà đồ. Truyền thuyết kể rằng, Long Mã xuất hiện trên sông Hoàng Hà, dưới thời Phục Hy, mình xanh, vằn đỏ, trên lưng có mang bức Hà đồ, hay Mã đồ, là sách trời ban cho vua để trị nước.
-destinations.json::[23].quizBank[2].question	Bạn đã lên ban thờ trên tầng hai chưa? Hãy đi tìm lối lên tầng. Trên mái nhà đối diện là hoạ tiết gì?
-destinations.json::[23].quizBank[2].options[0]	Cá và bình hồ lô
-destinations.json::[23].quizBank[2].options[1]	Rồng dây và mặt trời
-destinations.json::[23].quizBank[2].options[2]	Rồng và bình hồ lô
-destinations.json::[23].short	Tưởng không bất ngờ, nhưng bất ngờ không tưởng với đường đi lên hậu tẩm
-destinations.json::[23].highlights[0]	Hình tượng trang trí ấn tượng ở sân trước
-destinations.json::[23].highlights[1]	Hậu tẩm hai tầng độc đáo – view phố cổ có một không hai
-destinations.json::[24].name	Điểm tham quan trình nghề Xí Mà
-destinations.json::[24].description	Chè mè đen từng theo những gánh hàng rong đi khắp phố cổ từ sáng sớm. Ở điểm trình nghề, khách xem cách xay mè, nấu chè và nghe vì sao bát chè này vừa là món ăn vừa là thang thuốc.
-destinations.json::[24].quizBank[0].question	Thành phần nào sau đây không có trong chè Xí Mà?
-destinations.json::[24].quizBank[0].options[0]	Thanh địa
-destinations.json::[24].quizBank[0].options[1]	Bột sắn
-destinations.json::[24].quizBank[0].options[2]	Rau má
-destinations.json::[24].quizBank[0].explain	Nguyên liệu chủ yếu để làm xí mà chính là mè đen, ngoài ra còn có các loại: bột khoai, thanh địa, rau má, rau mơ, và đường, những thứ này toàn là những nguyên liệu sẵn có của địa phương, duy chỉ có thanh địa là một vị thuốc của Đông y (thuốc Bắc) phải mua ở tiệm thuốc.
-destinations.json::[24].quizBank[1].question	Tên xí mà có nguồn gốc từ đâu?
-destinations.json::[24].quizBank[1].options[0]	Phương ngữ miền Trung
-destinations.json::[24].quizBank[1].options[1]	Tiếng Nhật
-destinations.json::[24].quizBank[1].options[2]	Tiếng Quảng Đông
-destinations.json::[24].quizBank[1].explain	Xí mà (đọc lệch từ "chí mà phù") là một từ có gốc từ tiếng Quảng Đông (Trung Quốc), dùng để chỉ món chè mè đen (súp mè đen xay nhuyễn). Chí mà có nghĩa là mè đen và phù có nghĩa là xay nhuyễn.
-destinations.json::[24].short	Cơ hội học nấu món chè đặc trưng của Hội An khi đi du lịch
-destinations.json::[24].highlights[0]	Cách xay và nấu mè đen theo lối cũ
-destinations.json::[24].highlights[1]	Các vị đi cùng mè đen: thanh địa, rau má, rau mơ
-destinations.json::[24].highlights[2]	Tự tay nấu và nếm một bát chè nóng
-tours.json::[0].title	Vượt biển trèo non
-tours.json::[0].short	Hành trình của những người vượt biển đến Hội An
-tours.json::[0].description	Từ chuyện 108 thương nhân bị xử oan đến khát khao những chuyến hải trình sóng yên biển lặng, chuyến đi khám phá trải nghiệm của những thương thuyền đến cảng thị Hội An đồng thời giới thiệu đặc trưng kiến trúc của các hội quán khác nhau của cộng đồng Hoa kiều.
-tours.json::[0].voucher	Voucher quà tặng (chốt tên sau)
-tours.json::[1].title	Một tấc lòng son
-tours.json::[1].short	Cuộc đời, sự nghiệp và tư tưởng của trí thức Hội An
-tours.json::[1].description	Dọc theo hành trình này, du khách sẽ khám phá cuộc đời, sự nghiệp và tư tưởng của các trí thức ở Hội An: từ tấm gương trung hiếu tiết nghĩa được đông đảo nho sĩ ở các vùng phía Nam Trung Hoa và khắp Việt Nam thờ phụng, cho đến quan lại thời nhà Nguyễn và thế hệ chí sĩ Duy Tân.
-tours.json::[1].voucher	Voucher quà tặng (chốt tên sau)
-tours.json::[2].title	Lạc tại nhân hòa
-tours.json::[2].short	Cuộc bộ hành khám phá sự đa dạng văn hoá của Hội An
-tours.json::[2].description	Bắt đầu từ văn hóa Nhật Bản, Trung Hoa cho tới truyền thống Việt Nam, tuyến đường này tôn vinh sự phong phú về văn hóa của Hội An, đồng thời thể hiện nét chan hòa, cởi mở đặc trưng của một phố cảng - nơi nhiều sắc thái văn hóa đồng hành và phát triển.
-tours.json::[2].voucher	Voucher quà tặng (chốt tên sau)
-tours.json::[3].title	Ngày vàng Phố Hội
-tours.json::[3].short	Khám phá một thời vàng son của cảng thị Hội An
-tours.json::[3].description	Hành trình khám phá nét phong phú trong văn hóa, sự trù phú do thiên nhiên ban tặng cùng hệ thống thương mại phát triển của Hội An. Tất cả tạo nên một cảng thị phồn vinh với những mặt hàng quý hiếm, đắt đỏ nhưng không làm mất đi sự giàu có trong tâm hồn người.
-tours.json::[3].voucher	Voucher quà tặng (chốt tên sau)
-rewards.json::[0].title	Quà đầu tiên
-rewards.json::[0].reward	Voucher 50.000đ của Vigift hoặc giảm 10% ở VAN•HOA
-rewards.json::[1].title	Voucher lớn hơn
-rewards.json::[1].reward	Voucher 100.000đ của Vigift hoặc giảm 15% ở VAN•HOA
-rewards.json::[2].title	Món quà cầm tay
-rewards.json::[2].reward	Set charm DIY hoạ tiết Trung thu hoặc quạt Tuần lễ Sáng tạo Hội An
-rewards.json::[3].title	Chiếc khăn Tuần lễ
-rewards.json::[3].reward	Khăn Tuần lễ Sáng tạo Hội An
-rewards.json::[4].title	Quà lớn nhất
-rewards.json::[4].reward	Set quà Vigift Đà Nẵng
-categories.json::[0].label	Di tích
-categories.json::[1].label	Hội quán
-categories.json::[2].label	Nhà cổ
-categories.json::[3].label	Bảo tàng
-categories.json::[4].label	Trải nghiệm & trình diễn
-ticket-points.json::[0].where	Bên trái Quảng trường sông Hoài, trên dọc đường Công Nữ Ngọc Hoa
-ticket-points.json::[1].where	Đầu đường Nguyễn Thị Minh Khai, gần chỗ con thuyền Nhật Bản, ngay chỗ bắt xe taxi - xe điện
-ticket-points.json::[2].where	Đầu đường Nguyễn Phúc Chu
-ticket-points.json::[3].where	Công viên Phan Châu Trinh
-ticket-points.json::[4].where	Cạnh chùa Cầu
-ticket-points.json::[5].where	Đầu cầu An Hội, bên Nguyễn Phúc Chu
-ticket-points.json::[6].where	Trên đường Hai Bà Trưng, trước cổng chùa Bà Thiên Mụ
-ticket-points.json::[7].where	Trên đường Lê Lợi, cạnh Đình Hội An
-ticket-points.json::[8].where	Trên đường Hoàng Văn Thụ, ra bờ sông
-ticket-points.json::[9].where	Góc đường Phan Châu Trinh - Nguyễn Huệ
-ticket-points.json::[10].where	Điểm bán vé tại bãi xe Hoiango
-strings.js::explore	Khám phá
-strings.js::tours	Hành trình
-strings.js::passport	Sổ tay
-strings.js::all	Tất cả
-strings.js::no_sites	Chưa có điểm đến.
-strings.js::directions	Chỉ đường
-strings.js::checkin	Check-in
-strings.js::locating	Đang định vị...
-strings.js::retry	Thử lại
-strings.js::back	Quay lại
-strings.js::far	Quá xa. Hãy đến gần hơn.
-strings.js::geo_denied	Bật vị trí để check-in.
-strings.js::allow_location	Bật vị trí
-strings.js::geo_fail	Lỗi định vị. Thử lại ngoài trời.
-strings.js::continue_btn	Tiếp tục
-strings.js::correct_title	Chính xác
-strings.js::wrong_title	Chưa đúng
-strings.js::nav_start	Lên đường
-strings.js::nav_here	Check-in tại đây
-strings.js::continue_tour	Tiếp tục tuyến
-strings.js::nav_locate_prompt	Cần vị trí để dẫn đường
-strings.js::nav_enable	Bật định vị
-strings.js::nav_done	Đã hoàn thành tuyến
-strings.js::nav_exit	Thoát
-strings.js::nav_seepassport	Xem sổ tay
-strings.js::checkin_done	Đã check-in và lưu tem.
-strings.js::route	Lộ trình
-strings.js::tour_extra	Còn thời gian thì ghé thêm
-strings.js::plan	Gợi ý
-strings.js::plan_title	Chọn điểm
-strings.js::plan_cta	Gợi ý 5 điểm
-strings.js::plan_scan	Quét vé để lưu
-strings.js::scan_btn	Quét vé
-strings.js::scan_saved	Đã lưu vé.
-strings.js::scan_why	Bạn cần vé để nhận quà lớn hơn.
-strings.js::scan_saved_short	Đã lưu vé
-strings.js::see_detail	Xem chi tiết
-strings.js::buy_ticket	Mua vé ở đâu?
-strings.js::close_btn	Đóng
-strings.js::scan_point	Quét mã QR trên vé
-strings.js::scan_unsupported	Lỗi camera. Bật camera hoặc chọn điểm bên dưới.
-strings.js::scan_bad_ticket	Mã không hợp lệ. Vui lòng quét vé Hội An.
-strings.js::welcome_start	Tiếp tục
-strings.js::scan_title	Quét mã vé
-strings.js::scan_skip	Bỏ qua, chọn điểm ngay
-strings.js::terms_pre	Bạn đồng ý với 
-strings.js::terms_link	điều khoản sử dụng
-strings.js::terms_post	.
-strings.js::terms_title	Điều khoản
-strings.js::perm_lead	Cho phép vị trí và chuyển động để tìm điểm đến phù hợp và dẫn đường.
-strings.js::study_agree	Tham gia nghiên cứu
-strings.js::feat_map	Khám phá 25 điểm di sản & tạo hành trình phù hợp
-strings.js::feat_ticket	Check-in và nhận mắt cửa tại mỗi điểm
-strings.js::feat_plan	Đổi mắt cửa và nhận quà
-strings.js::perm_title	Vị trí và chuyển động
-strings.js::your_ticket	Vé của bạn
-strings.js::route_label	Tuyến của bạn
-strings.js::route_resume	Tiếp tục hành trình
-strings.js::route_more	Xem thêm hành trình
-strings.js::route_empty	Chưa có tuyến. Chọn 5 điểm.
-strings.js::all_sites	Tất cả điểm đến
-strings.js::r_higher	Đã đủ điểm
-strings.js::view_mode	Chế độ xem
-strings.js::view_list	Danh sách
-strings.js::view_map	Bản đồ
-strings.js::step_monument	Di tích
-strings.js::step_museum	Bảo tàng
-strings.js::step_free	3 điểm tự do
-strings.js::rec_head	Gợi ý tuyến
-strings.js::rec_badge	Đề xuất
-strings.js::use_set	Chọn tuyến này
-strings.js::pick_own	Tự chọn 5 điểm
-strings.js::reset_picks	Xóa hết
-strings.js::auto_pick	Chọn giúp tôi
-strings.js::pick_hint	Chạm để bắt đầu
-strings.js::scroll_more	Thêm bộ lọc
-strings.js::see_more	Xem thêm
-strings.js::list_less	Thu gọn
-strings.js::pick_do	Chọn
-strings.js::pick_remove	Bỏ chọn
-strings.js::done_title	Hành trình của bạn
-strings.js::go_checkin	Lên đường
-strings.js::edit_plan	Chọn lại
-strings.js::lang_switch	Ngôn ngữ (Language)
-strings.js::set_complete	Đã hoàn thành bộ tem.
-strings.js::tour_to_passport	Đã cộng điểm. Đổi quà trong Sổ tay.
-strings.js::redeem_intro	Đưa màn hình này cho nhân viên để nhận quà.
-strings.js::redeem_title	Đổi quà
-strings.js::redeem_none	Chưa có quà.
-strings.js::needs_ticket_tag	Cần vé
-strings.js::gift_ticket_hint	Quét mã QR vé để nhận.
-strings.js::tk_check	Đối chiếu vé
-strings.js::tk_none	Chưa quét vé
-strings.js::staff_confirm	Nhân viên xác nhận
-strings.js::enter_code	Nhập mã nhân viên
-strings.js::wrong_code	Sai mã.
-strings.js::staff_only	Dành cho ban tổ chức. Nhập mã để xem.
-strings.js::redeem_closed	Đổi quà tại quầy vé từ 28/8 đến 02/9.
-strings.js::install	Cài ứng dụng
-strings.js::install_next	Đã hiểu
-strings.js::install_now	Cài đặt ngay
-strings.js::locate_me	Vị trí của tôi
-strings.js::reset_north	Hướng Bắc
-strings.js::research_optin	Góp dữ liệu ẩn danh cho nghiên cứu: điểm ghé, thứ tự trong lượt thăm, vị trí thô. Không tên, không số máy, không nối giữa các lần dùng. Tắt được tại đây.
-strings.js::study_note	Dữ liệu giúp ban tổ chức xem mật độ tại các điểm đến.
-strings.js::prev_site	Điểm trước
-strings.js::next_site	Điểm sau
-strings.js::booth_find	Quầy vé gần nhất
-strings.js::org_heat	Bản đồ nhiệt
-strings.js::org_heat_hint	Dữ liệu mật độ ẩn danh theo ô ~150m. Không lưu lộ trình.
-strings.js::org_heat_filter	Lọc theo quốc tịch:
-strings.js::org_lang	Ngôn ngữ/Quốc tịch
-strings.js::org_lang_hint	Quốc tịch dự đoán qua ngôn ngữ thiết bị và ngôn ngữ đã chọn.
-strings.js::org_lang_device	Ngôn ngữ thiết bị
-strings.js::org_lang_pick	Ngôn ngữ đã chọn
-strings.js::org_nat	Hành vi theo quốc tịch
-strings.js::org_nat_hint	Lượt tương tác ẩn danh theo nhóm ngôn ngữ.
-strings.js::org_nat_metric	Chỉ số
-strings.js::org_journeys	Hành trình
-strings.js::org_journeys_hint	Thứ tự tham quan theo lượt (khách chưa tắt nghiên cứu).
-strings.js::org_journeys_export	Tải dữ liệu (CSV)
-strings.js::org_events	Sự kiện khác
-strings.js::org_flagged	Sổ tay bất thường
-strings.js::org_flagged_none	Không có sổ tay bất thường.
-strings.js::org_flagged_hint	Thời gian di chuyển bất thường.
-strings.js::flag_warn	Sổ tay có dấu hiệu bất thường. Xác nhận lại trước khi phát voucher.
-strings.js::points	điểm
-strings.js::perfect_bonus	Đúng lần đầu
-strings.js::spotlight	Đề xuất
-strings.js::rewards_title	Điểm & Quà
-strings.js::pp_more	Cài đặt
-strings.js::reward_taken	Đã nhận
-strings.js::one_gift_note	Mỗi sổ tay nhận 1 phần quà.
-strings.js::score_how	Cách tính điểm
-strings.js::pt_stamp	khi check-in
-strings.js::pt_perfect	trả lời đúng ngay lần đầu
-strings.js::pt_spotlight	ghé điểm vắng khách
-strings.js::pt_tour	hoàn thành tuyến
-strings.js::backup_title	Sao lưu
-strings.js::backup_hint	Lưu mã bên dưới để khôi phục tem khi đổi thiết bị.
-strings.js::copy	Sao chép
-strings.js::copied	Đã sao chép
-strings.js::copy_link	Sao chép link
-strings.js::restore	Khôi phục
-strings.js::restore_or_code	Nhập mã 8 ký tự:
-strings.js::ticket_taken	Vé đã quét ở thiết bị khác. Quét lại để lấy dữ liệu.
-strings.js::restore_ok	Đã khôi phục.
-strings.js::restore_bad	Mã phải có 8 ký tự.
-strings.js::restore_offline	Lỗi mạng. Thử lại sau.
-strings.js::offline_ok	Vẫn có thể check-in offline. Ứng dụng sẽ đồng bộ khi có mạng.
-strings.js::ticket_points	Điểm bán vé
-strings.js::popup_detail	Xem & check-in
-strings.js::dont_miss	Đừng bỏ lỡ
-strings.js::open_now	Đang mở
-strings.js::closed_now	Đã đóng
-strings.js::org_title	Quản lý
-strings.js::org_sub	Dữ liệu check-in
-strings.js::org_evenness	Độ phân bổ
-strings.js::org_total	Lượt check-in
-strings.js::org_covered	Điểm có khách
-strings.js::org_spotlight_now	Đang đề xuất
-strings.js::org_refresh	Tải lại
-strings.js::org_export	Tải CSV
-strings.js::org_no_data	Chưa có dữ liệu.
-strings.js::org_survey	Tọa độ cần khảo sát
-strings.js::org_quiz_todo	Điểm chưa có câu hỏi
-strings.js::org_nearest_ticket	Quầy vé gần nhất
-strings.js::org_traffic	Lượng khách
-strings.js::org_priority	Ưu tiên
-strings.js::lvl_low	thấp
-strings.js::lvl_medium	vừa
-strings.js::lvl_high	cao
-strings.js::org_tier_volunteer	Tình nguyện viên (xem)
-strings.js::org_tier_admin	Ban tổ chức (sửa)
-strings.js::org_edit	Sửa nội dung
-strings.js::org_edit_hint	Sửa, tải JSON và gửi kỹ thuật. Dữ liệu không lưu trên máy chủ.
-strings.js::org_need_admin	Cần mã ban tổ chức để sửa.
-strings.js::org_tab_dest	Điểm đến
-strings.js::org_tab_tours	Tuyến
-strings.js::org_tab_rewards	Phần thưởng
-strings.js::org_tours_hint	Thứ tự theo điểm đến. Một điểm thuộc một tuyến. Điểm ngoài tuyến vẫn nhận tem.
-strings.js::org_add_tour	Thêm tuyến
-strings.js::org_del_tour	Xóa tuyến
-strings.js::org_add_stop	Thêm điểm dừng
-strings.js::org_add_tier	Thêm mốc
-strings.js::org_del_tier	Xóa mốc
-strings.js::org_load_json	Mở file
-strings.js::org_reset	Về bản gốc
-strings.js::org_reset_confirm	Bỏ các thay đổi?
-strings.js::org_data_ok	Dữ liệu hợp lệ
-strings.js::org_add_q	Thêm câu hỏi
-strings.js::org_del_q	Xóa câu
-strings.js::org_add_opt	Thêm đáp án
-strings.js::org_del_opt	Xóa
-strings.js::org_answer	Đáp án đúng
-strings.js::org_needs_survey	Cần khảo sát
-strings.js::f_code	Mã
-strings.js::f_name	Tên
-strings.js::f_address	Địa chỉ
-strings.js::f_hours	Giờ mở cửa
-strings.js::f_short	Giới thiệu ngắn
-strings.js::f_desc	Giới thiệu
-strings.js::f_category	Nhóm
-strings.js::f_radius	Bán kính (m)
-strings.js::f_question	Câu hỏi
-strings.js::f_title	Tiêu đề
-strings.js::f_voucher	Quà tặng
-strings.js::f_stops	Điểm dừng
-strings.js::f_points	Điểm
-strings.js::f_icon	Biểu tượng
-strings.js::f_reward	Phần thưởng
-strings.js::org_details	Chi tiết
-strings.js::lvl_easy	dễ
-strings.js::lvl_hard	khó
-strings.js::nav_arrived_at()	Đã đến {name}
-strings.js::nav_to()	{dist} tới {name}
-strings.js::question_of()	Câu {i}/{n}
-strings.js::stops()	{n} điểm dừng
-strings.js::walk_time()	{m} phút đi bộ
-strings.js::route_walk()	{d} · {m} phút đi bộ
-strings.js::list_more()	Xem thêm {n} điểm
-strings.js::tk_sites()	Vé {n} điểm
-strings.js::wrong_wait()	Sai. Thử lại sau {n}s.
-strings.js::booth_nearest()	Quầy {name} · cách {d}
-strings.js::org_journeys_count()	{n} hành trình
-strings.js::earned()	+{n} điểm
-strings.js::spotlight_hint()	Check-in tại đây nhận +{n} điểm.
-strings.js::pts_more()	Cần thêm {n} điểm
-strings.js::reward_at()	Mốc {n} điểm
-strings.js::pt_all()	check-in đủ {n} điểm
-strings.js::walk()	{d} · {m} phút đi bộ
-strings.js::closing_soon()	Đóng trong {m} phút
-strings.js::opens_at()	Mở lúc {t}
-strings.js::org_quota()	Ghi hôm nay: {n} dòng — {pct}% hạn mức miễn phí/ngày
-strings.js::org_updated()	Cập nhật: {t}
-strings.js::org_rewards_hint()	Mốc điểm tăng dần, tối đa {n}.
-strings.js::org_download_json()	Tải {f}
-strings.js::org_problems()	{n} lỗi - cần sửa trước khi tải
-strings.js::org_bad_file()	Lỗi file: {m}
+path	vi	ko
+destinations.json::[0].name	Chùa Cầu (Cầu Nhật Bản)	내원교 (일본교)
+destinations.json::[0].description	Do các thương nhân Nhật Bản dựng vào khoảng đầu thế kỷ XVII để nối hai bờ khe nước chảy ra sông Thu Bồn, cầu vẫn giữ mái ngói âm dương và ngôi miếu nhỏ thờ Bắc Đế Trấn Võ ngay giữa lòng cầu. Người phố Hội gọi là Chùa Cầu; tên chữ Lai Viễn Kiều có nghĩa cầu đón khách từ phương xa tới.	17세기 초 일본 상인들이 투본강으로 흘러드는 물길의 두 岸을 잇기 위해 세웠습니다. 지금도 음양 기와지붕과, 다리 한가운데 북제진무(北帝鎭武)를 모신 작은 사당이 그대로 남아 있습니다. 현지에서는 '쭈아 꺼우(다리 사당)'라 부르고, 문헌상의 이름 내원교(來遠橋)는 '먼 곳에서 오는 손님을 맞는 다리'라는 뜻입니다.
+destinations.json::[0].quizBank[0].question	Chùa Cầu do cộng đồng thương nhân nào xây dựng?	내원교는 어느 상인 공동체가 세웠나요?
+destinations.json::[0].quizBank[0].options[0]	Nhật Bản	일본
+destinations.json::[0].quizBank[0].options[1]	Trung Hoa	중국
+destinations.json::[0].quizBank[0].options[2]	Bồ Đào Nha	포르투갈
+destinations.json::[0].quizBank[1].question	Chùa Cầu được làm chủ yếu bằng vật liệu gì?	내원교는 주로 어떤 재료로 만들었나요?
+destinations.json::[0].quizBank[1].options[0]	Gỗ	나무
+destinations.json::[0].quizBank[1].options[1]	Đá	돌
+destinations.json::[0].quizBank[1].options[2]	Bê tông	콘크리트
+destinations.json::[0].quizBank[2].question	Chùa Cầu bắc qua dòng nước chảy ra con sông nào?	내원교 아래 물길은 어느 강으로 흘러드나요?
+destinations.json::[0].quizBank[2].options[0]	Sông Thu Bồn	투본강
+destinations.json::[0].quizBank[2].options[1]	Sông Hàn	한강 (다낭)
+destinations.json::[0].quizBank[2].options[2]	Sông Hương	흐엉강 (후에)
+destinations.json::[0].quizBank[3].question	Chùa Cầu được xây dựng vào khoảng thời gian nào?	내원교는 언제쯤 세워졌나요?
+destinations.json::[0].quizBank[3].options[0]	Đầu thế kỷ 17	17세기 초
+destinations.json::[0].quizBank[3].options[1]	Thế kỷ 15	15세기
+destinations.json::[0].quizBank[3].options[2]	Thế kỷ 19	19세기
+destinations.json::[0].quizBank[4].question	Hình ảnh Chùa Cầu xuất hiện trên tờ tiền Việt Nam mệnh giá nào?	내원교는 베트남 화폐 어느 권종에 실려 있나요?
+destinations.json::[0].quizBank[4].options[0]	20.000 đồng	20,000동
+destinations.json::[0].quizBank[4].options[1]	10.000 đồng	10,000동
+destinations.json::[0].quizBank[4].options[2]	50.000 đồng	50,000동
+destinations.json::[0].short	Vừa là cầu, vừa là miếu — công trình hơn 400 năm đã thành gương mặt của Hội An.	다리이면서 사당인 곳 — 400년을 넘긴 이 건물이 호이안의 얼굴입니다.
+destinations.json::[0].highlights[0]	Đôi tượng thần hầu và thiên cẩu gác hai đầu cầu	다리 양쪽 끝을 지키는 원숭이상과 개상
+destinations.json::[0].highlights[1]	Ngôi miếu thờ Bắc Đế Trấn Võ giữa lòng cầu	다리 한가운데 북제진무를 모신 사당
+destinations.json::[0].highlights[2]	Mái ngói âm dương và bộ vì kèo gỗ của người thợ xưa	음양 기와지붕과 옛 목수들의 목조 트러스
+destinations.json::[1].name	Chùa Quan Âm	관음사
+destinations.json::[1].description	Cách Miếu Quan Công một khoảng vườn thanh tịnh làm nao lòng du khách, ngôi chùa là chốn tự tại giữa cảnh phồn hoa, giữ gìn nếp cũ người Minh Hương	관제묘와 정갈한 정원 하나를 사이에 두고 있는 이 절은 번화한 거리 가운데 마음을 내려놓는 자리이며, 명향(明鄉) 사람들의 옛 예법을 지켜 온 곳입니다.
+destinations.json::[1].quizBank[0].question	Tại sao vị bồ tát này lại có ngoại hình dữ tợn?	이 보살은 왜 이렇게 무서운 모습인가요?
+destinations.json::[1].quizBank[0].options[0]	Để hàng phục quỷ đói	아귀를 굴복시키기 위해
+destinations.json::[1].quizBank[0].options[1]	Để bảo vệ linh tháp	사리탑을 지키기 위해
+destinations.json::[1].quizBank[0].options[2]	Để tăng uy thế cho điện thờ	전각의 위엄을 더하기 위해
+destinations.json::[1].quizBank[0].explain	Tiêu Diện Đại Sĩ là một hóa thân của Quan Thế Âm Bồ Tát, cai quản, nhiếp phục loài ngạ quỷ (quỷ đói) và cứu độ chúng sinh lầm đường lạc lối. Đối diện với Tiêu Diện Đại Sĩ là Vi Đà Tôn Thiên, mang sắc tướng khôi ngô, là người bảo vệ. Hai vị cũng được gọi là Ông Thiện và Ông Ác.	초면대사(焦面大士)는 관세음보살의 화신으로, 아귀를 다스려 굴복시키고 길을 잃은 중생을 건집니다. 그 맞은편에는 준수한 모습의 위타존천(韋陀尊天)이 지킴이로 서 있습니다. 두 분을 각각 '선한 분'과 '악한 분'이라고도 부릅니다.
+destinations.json::[1].quizBank[1].question	Quan Thế Âm Bồ Tát cầm gì trên tay trái?	관세음보살은 왼손에 무엇을 들고 있나요?
+destinations.json::[1].quizBank[1].options[0]	Bình hồ lô	호로병
+destinations.json::[1].quizBank[1].options[1]	Bình tịnh thuỷ	정수를 담은 병
+destinations.json::[1].quizBank[1].options[2]	Nhành dương liễu	버들 가지
+destinations.json::[1].quizBank[1].explain	Tay trái Quan Âm cầm bình thanh tịnh đựng nước cam lồ, biểu trưng cho lòng từ bi. Tay phải bà cầm nhành dương liễu để rưới nước cam lồ cho lòng người mát mẻ. Nước này rưới đến đâu là chan rải tình thương đến đó, xoa dịu mọi khổ đau của chúng sanh.	관음의 왼손에는 감로수를 담은 정병이 들려 있어 자비를 나타냅니다. 오른손의 버들 가지로 그 감로수를 뿌려 사람의 마음을 시원하게 합니다. 물이 닿는 곳마다 사랑이 퍼지고 중생의 고통이 씻긴다고 합니다.
+destinations.json::[1].short	“Tịnh cảnh đối phồn hoa, cửa chùa luôn tự tại”, ngôi chùa nhỏ thể hiện văn hóa Phật giáo tại Hội An.	“번화함을 마주한 고요, 절 문은 늘 편안하다” — 호이안의 불교 문화를 담은 작은 절.
+destinations.json::[1].highlights[0]	Bài trí giản dị với tượng thờ và tranh vẽ phía sau	단정한 배치 — 불상과 그 뒤의 그림
+destinations.json::[1].highlights[1]	Bộ tranh mười tám vị La Hán	십팔 나한 그림
+destinations.json::[1].highlights[2]	Tượng Phật Bà ở sân trong, giữa tiểu cảnh và hồ nước nhỏ	안마당의 관음상 — 작은 조경과 연못 사이
+destinations.json::[2].name	Miếu Quan Công	관제묘 (관공묘)
+destinations.json::[2].description	Một di tích lâu đời chứng kiến những đổi thay của phố Hội. Nhiều hợp đồng thương mại đã từng được ký kết ở nơi đây, dưới sự chứng giám của Quan Thánh.	호이안의 변화를 오래 지켜본 유적입니다. 이곳에서 관성제군을 증인으로 삼아 수많은 상업 계약이 맺어졌습니다.
+destinations.json::[2].quizBank[0].question	Tại sao Quan Thánh Đế Quân (Quan Công) lại được thờ phụng ở Hội An?	관성제군(관공)은 왜 호이안에서 모셔지나요?
+destinations.json::[2].quizBank[0].options[0]	Ngài có khả năng chữa bệnh	병을 고치는 능력이 있어서
+destinations.json::[2].quizBank[0].options[1]	Ngài là tấm gương nghĩa khí	의로움의 표상이기 때문에
+destinations.json::[2].quizBank[0].options[2]	Ngài đảm bảo sự an toàn cho phố cảng	항구의 안전을 지켜 주기 때문에
+destinations.json::[2].quizBank[0].explain	Tri huyện Trương Tăng Diễn từng cúng một câu đối thể hiện uy linh của Quan Thánh Đế Quân với người Việt: “Nhất điểm đan tâm tồn Bắc sử; Thiên thu nghĩa khí tráng Nam cương” (Một tấm lòng son lưu sử Bắc; Ngàn năm nghĩa khí tráng Nam cương). Đặc biệt, thương nhân ở Hội An còn coi Ngài là bậc Thánh chứng cho chữ tín trong giao thương và trừng phạt những kẻ vi phạm khế ước.	현감 쯔엉 땅 지엔은 베트남 사람들에게 관성제군의 위엄을 보여 주는 대련을 바쳤습니다. “일점단심존북사(一點丹心存北史), 천추의기장남강(千秋義氣壯南疆)” — 한 조각 붉은 마음은 북쪽 역사에 남고, 천년의 의기는 남쪽 강토를 씩씩하게 한다. 특히 호이안의 상인들은 그를 상거래의 신용을 증언하고 계약을 어긴 자를 벌하는 성인으로 여겼습니다.
+destinations.json::[2].quizBank[1].question	Nhìn theo hướng từ chính điện ra, con ngựa bên trái Quan Công có màu gì?	본전에서 밖을 바라볼 때, 관공 왼쪽의 말은 어떤 색인가요?
+destinations.json::[2].quizBank[1].options[0]	Đen	검정
+destinations.json::[2].quizBank[1].options[1]	Trắng	흰색
+destinations.json::[2].quizBank[1].options[2]	Đỏ	빨강
+destinations.json::[2].quizBank[1].explain	Phía bên trái của Quan Công là tượng ngựa Xích Thố, toàn thân một màu đỏ rực như lửa. Trong tiểu thuyết “Tam Quốc diễn nghĩa”, Xích Thố đã qua nhiều đời chủ rồi gắn bó với nhân vật Quan Vũ. Sau khi Quan Vũ mất, ngựa bỏ ăn mà chết để bày tỏ lòng trung thành.	관공의 왼쪽에 있는 것은 온몸이 불처럼 붉은 적토마(赤兔馬)입니다. 『삼국지연의』에서 적토마는 여러 주인을 거친 뒤 관우와 함께했고, 관우가 세상을 떠난 뒤 먹이를 끊고 죽어 충심을 보였다고 합니다.
+destinations.json::[2].quizBank[2].question	Bức tranh phía bên trái từ trong chính điện nhìn ra vẽ cảnh gì?	본전에서 밖을 바라볼 때 왼쪽 벽의 그림은 어떤 장면인가요?
+destinations.json::[2].quizBank[2].options[0]	Quan Công phò nhị tẩu (Quan Công hộ tống hai người chị dâu)	관공이 두 형수를 호송하다 (千里護嫂)
+destinations.json::[2].quizBank[2].options[1]	Tam cố mao lư (Ba lần đến nhà tranh)	삼고초려 (세 번 초가를 찾다)
+destinations.json::[2].quizBank[2].options[2]	Đào viên kết nghĩa (Kết nghĩa ở vườn đào)	도원결의 (복숭아 동산의 맹세)
+destinations.json::[2].quizBank[2].explain	Trong tranh, Quan Vũ hộ tống hai người vợ của Lưu Bị vượt qua năm cửa ải của Tào Tháo và chém sáu tướng cản đường để trở về với Lưu Bị. Ở phía bức tường còn lại, vẽ cảnh Châu Thương xin quy phục Quan Vũ. Sự kiện này cũng diễn ra trên đường trở về với Lưu Bị. Cả thiên truyện “vượt năm ải, chém sáu tướng” ca ngợi lòng trung thành và tiết nghĩa tuyệt đối của Quan Vũ. Về Châu Thương, đây là một trong hai đệ tử thường được phối thờ với Ngài. Châu Thương là người cầm Thanh Long yển nguyệt đao đứng phía tay trái Quan Công trong miếu này.	그림에서 관우는 유비의 두 부인을 호송해 조조의 다섯 관문을 지나고, 길을 막는 여섯 장수를 베며 유비에게 돌아갑니다. 반대편 벽에는 주창이 관우에게 귀순을 청하는 장면이 있는데, 이 역시 돌아가는 길에 일어난 일입니다. '오관을 지나 여섯 장수를 베다'라는 이야기 전체가 관우의 충의를 기립니다. 주창은 관우와 함께 모셔지는 두 제자 중 한 명으로, 이 묘에서는 청룡언월도를 든 채 관공의 왼쪽에 서 있습니다.
+destinations.json::[2].short	Nổi bật với sắc đỏ uy phong của lòng chính trực, là trung tâm tín ngưỡng quan trọng bậc nhất cảng thị này.	정직한 마음을 나타내는 위엄 있는 붉은색 — 이 항구 도시에서 가장 중요한 신앙의 중심.
+destinations.json::[2].highlights[0]	Hoành phi được tiến cúng bởi các hội quán người Hoa khác nhau	여러 화교 회관이 바친 편액
+destinations.json::[2].highlights[1]	Bài thơ của Xuân Quận công Nguyễn Nghiễm	쑤언 꾸언 꽁 응우옌 응이엠의 시
+destinations.json::[2].highlights[2]	Tượng Quan Công, hai đệ tử cùng ngựa Xích Thố và Bạch Thố	관공상과 두 제자, 적토마와 백토마
+destinations.json::[3].name	Bảo tàng Gốm sứ mậu dịch	무역 도자 박물관
+destinations.json::[3].description	Gốm là một minh chứng cho thời thông thương sôi động tại Hội An. Bên cạnh thổ sản, tơ tằm, đã từng có những con thuyền chở toàn gốm đến, đi, và cả nằm lại dưới biển.	도자기는 호이안의 활발했던 교역기를 증언합니다. 토산물과 명주 외에도, 배 한 척을 온통 도자기로 채워 오고 가던 시절이 있었고, 그중 일부는 바다 밑에 남았습니다.
+destinations.json::[3].quizBank[0].question	Họa tiết này nằm trong hiện vật nào?	이 문양은 어떤 유물에 있는 것인가요?
+destinations.json::[3].quizBank[0].options[0]	Một chiếc thau	대야
+destinations.json::[3].quizBank[0].options[1]	Một chiếc đĩa	접시
+destinations.json::[3].quizBank[0].options[2]	Một chiếc bát	사발
+destinations.json::[3].quizBank[0].explain	Chi tiết nằm trong một chiếc bát sứ Hizen, Nhật Bản, có niên đại khoảng nửa sau thế kỷ XVII. Hoạ tiết Thọ Lão cưỡi hạc này rất phổ biến trong gốm sứ Đông Á, thể hiện mong ước sống trường thọ.	이 세부는 17세기 후반 무렵 일본 히젠(肥前)에서 만든 자기 사발에 있는 것입니다. 학을 탄 수로인(壽老人) 문양은 동아시아 도자기에서 매우 흔하며, 오래 살기를 바라는 마음을 담습니다.
+destinations.json::[3].quizBank[1].question	Bạn có thể đi tìm chú cua này không? Ai là người làm ra chú?	이 게를 찾아보실래요? 누가 만든 것일까요?
+destinations.json::[3].quizBank[1].options[0]	Người Việt thế kỷ XV-XVI	15~16세기 베트남 사람
+destinations.json::[3].quizBank[1].options[1]	Người Hoa thế kỷ XVII	17세기 중국 사람
+destinations.json::[3].quizBank[1].options[2]	Người Nhật thế kỷ XVII	17세기 일본 사람
+destinations.json::[3].quizBank[1].explain	Chu Đậu là dòng gốm cổ cao cấp nổi tiếng của Việt Nam có lịch sử gần 600 năm, phát triển rực rỡ từ thế kỷ XIV – XVI trước khi bị thất truyền và được phục hưng thành công. Làm từ đất sét trắng đặc trưng vùng Trúc Thôn (Chí Linh, Hải Dương), dòng gốm này được ca ngợi là “mỏng như giấy, trong như ngọc, trắng như ngà, kêu như chuông”.	쭈더우(朱豆)는 600년 가까운 역사를 가진 베트남의 이름난 고급 도자기로, 14~16세기에 활발히 발전했다가 끊겼고 뒷날 되살아났습니다. 하이즈엉 찌린의 쭉톤 지역 특유의 백토로 만들며 '종이처럼 얇고, 옥처럼 맑고, 상아처럼 희고, 종처럼 울린다'고 칭송받았습니다.
+destinations.json::[3].quizBank[2].question	Làm sao mà chú cua này vẫn còn nguyên vẹn sau vụ đắm tàu?	이 게는 배가 난파했는데 어떻게 온전히 남았을까요?
+destinations.json::[3].quizBank[2].options[0]	Vì chúng nằm gần bờ	바닷가에 가까이 있었기 때문
+destinations.json::[3].quizBank[2].options[1]	Vì chúng nằm trong lớp bùn biển	바다 진흙층 안에 묻혔기 때문
+destinations.json::[3].quizBank[2].options[2]	Vì chúng được vớt lên ngay sau đó	곧바로 건져 올렸기 때문
+destinations.json::[3].quizBank[2].explain	Sau khi con tàu chở những đồ gốm này bị đắm, khả năng cao thân tàu đã nhanh chóng chìm vào lớp bùn, khiến cho một phần thân tàu còn nguyên vẹn và nhiều đồ gốm có thể được phát hiện nguyên trạng trong tàu.	이 도자기를 실은 배가 가라앉은 뒤, 선체는 빠르게 진흙 속에 잠긴 것으로 보입니다. 그래서 선체의 일부가 온전히 남았고, 많은 도자기가 배 안에서 원래 상태로 발견될 수 있었습니다.
+destinations.json::[3].short	Một vòng cảng thị từ gốm Hizen, Phước Kiến, đến gốm Islam, Chu Đậu.	히젠과 푸젠의 도자기부터 이슬람 도기, 쭈더우 자기까지 — 항구를 한 바퀴.
+destinations.json::[3].highlights[0]	Sản phẩm gốm tới từ Nhật Bản, Trung Hoa, Trung Đông,...	일본, 중국, 중동에서 온 도자기
+destinations.json::[3].highlights[1]	Gốm Chu Đậu mỏng như giấy, trong như ngọc	종이처럼 얇고 옥처럼 맑은 쭈더우 자기
+destinations.json::[3].highlights[2]	Câu chuyện từ những di chỉ gốm	도자기 유적이 들려주는 이야기
+destinations.json::[4].name	Bảo tàng Hội An	호이안 박물관
+destinations.json::[4].description	Hội An là một thành phố nhỏ trực thuộc tỉnh Quảng Nam, nằm bên bờ bắc sông Thu Bồn cách Thành phố Đà Nẵng 30km về phía Nam. Thành phố Hội An có diện tích khoảng 60 km2, dân số hơn 90.000 người, gồm 9 phường , 3 xã đất liền và 1 xã đảo.	호이안은 꽝남성에 속한 작은 도시로, 투본강 북안에 있으며 다낭에서 남쪽으로 30km 떨어져 있습니다. 면적은 약 60km², 인구는 9만 명이 넘고, 9개 동과 육지 3개 면, 섬 1개 면으로 이루어져 있습니다.
+destinations.json::[5].name	Bảo tàng Văn hóa Sa Huỳnh	사후인 문화 박물관
+destinations.json::[5].description	Sa Huỳnh là một trong ba cái nôi văn minh cổ xưa lớn nhất Việt Nam. Quan sát sự tương đồng của hiện vật sắt Sa Huỳnh tại Hội An với hiện vật sắt thời Hán, các nhà nghiên cứu đã kết luận nơi đây từng có một cảng thị sơ khai. Liệu những cư dân từ xa xưa của vùng đất này từng sống như thế nào?	사후인은 베트남 3대 고대 문명의 요람 가운데 하나입니다. 호이안에서 나온 사후인 철기가 한(漢)대 철기와 닮은 점을 근거로, 연구자들은 이곳에 초기 항구 도시가 있었다고 보았습니다. 이 땅의 옛 주민들은 어떻게 살았을까요?
+destinations.json::[5].quizBank[0].question	Những chiếc chum lớn từng được dùng để làm gì?	이 큰 독들은 무엇에 쓰였나요?
+destinations.json::[5].quizBank[0].options[0]	Mai táng người đã khuất	죽은 이를 묻는 데
+destinations.json::[5].quizBank[0].options[1]	Dự trữ lương thực	곡식을 저장하는 데
+destinations.json::[5].quizBank[0].options[2]	Dự trữ nước mưa	빗물을 받아 두는 데
+destinations.json::[5].quizBank[0].explain	Táng mộ chum là hình thức mai táng nổi bật nhất của cư dân văn hóa Sa Huỳnh, trong đó người chết được đặt nguyên thi thể, than tro hỏa táng hoặc di cốt vào bên trong một chiếc chum bằng gốm đất nung cùng một vài đồ tùy táng như công cụ sản xuất hay trang sức.	옹관장은 사후인 문화 주민의 가장 두드러진 장례 방식입니다. 시신을 그대로, 또는 화장한 재나 뼈를 구운 토기 독 안에 넣고, 생산 도구나 장신구 같은 부장품을 몇 가지 함께 두었습니다.
+destinations.json::[5].quizBank[1].question	Chất liệu nào được dùng rộng rãi nhất để sản xuất công cụ lao động của cư dân Sa Huỳnh?	사후인 사람들이 노동 도구를 만들 때 가장 널리 쓴 재료는 무엇인가요?
+destinations.json::[5].quizBank[1].options[0]	Đồng	청동
+destinations.json::[5].quizBank[1].options[1]	Sắt	철
+destinations.json::[5].quizBank[1].options[2]	Đá	돌
+destinations.json::[5].quizBank[1].explain	Công cụ lao động phổ biến của người Sa Huỳnh chủ yếu được làm bằng sắt, bên cạnh các vật liệu truyền thống như đá, gốm và vỏ nhuyễn thể. Đồ sắt được phát hiện trong các di tích ở Hội An hầu hết nằm bên trong mộ chum, có kích thước lớn và đã qua sử dụng. Rất có thể đây là hiện vật mà lúc còn sống chủ nhân của chúng đã từng sử dụng.	사후인 사람들의 도구는 대부분 철로 만들었고, 돌·토기·조개껍데기 같은 전통 재료도 함께 썼습니다. 호이안 유적에서 나온 철기는 거의 모두 옹관 안에 있었고, 크기가 크며 사용한 흔적이 있습니다. 생전에 주인이 실제로 쓰던 물건일 가능성이 큽니다.
+destinations.json::[5].short	Cách đây 2000 năm, người ta đã sống tại nơi bạn đang đứng như thế nào?	2000년 전, 지금 당신이 선 이곳에서 사람들은 어떻게 살았을까요?
+destinations.json::[5].highlights[0]	Táng tục mộ chum	독무덤(옹관) 장례 풍습
+destinations.json::[5].highlights[1]	Các chế tác quan trọng như công cụ lao động và trang sức	노동 도구와 장신구 등 중요한 제작물
+destinations.json::[5].highlights[2]	Kỹ thuật sản xuất đồ gốm	토기 제작 기술
+destinations.json::[6].name	Bảo tàng Văn hóa dân gian	민속 문화 박물관
+destinations.json::[6].description	Bề dày truyền thống văn hóa, sự sáng tạo, những đóng góp của các thế hệ cư dân địa phương trong quá trình xây dựng phát triển vùng đất Hội An.	호이안이라는 땅을 세우고 키워 온 지역 주민 여러 세대의 문화 전통과 창의, 그리고 그들이 남긴 몫.
+destinations.json::[6].quizBank[0].question	Người ta bắt tôm vào thời điểm nào trong ngày?	사람들은 하루 중 언제 새우를 잡나요?
+destinations.json::[6].quizBank[0].options[0]	Chiều	오후
+destinations.json::[6].quizBank[0].options[1]	Sáng sớm	새벽
+destinations.json::[6].quizBank[0].options[2]	Đêm	밤
+destinations.json::[6].quizBank[0].explain	Tôm thường được bắt vào ban đêm hoặc chiều tối (từ chập tối đến sáng sớm) vì đây là lúc tôm có tập tính rời nơi ẩn nấp để đi tìm kiếm thức ăn.	새우는 보통 밤이나 초저녁부터 새벽까지 잡습니다. 이때 새우가 숨어 있던 자리를 떠나 먹이를 찾아 움직이기 때문입니다.
+destinations.json::[6].quizBank[1].question	Trong các ngày hội lớn, người dân bản địa thường chơi trò chơi dân gian nào?	큰 축제 날에 이곳 사람들이 즐기는 민속놀이는 무엇인가요?
+destinations.json::[6].quizBank[1].options[0]	Bài chòi	바이 쪼이 (노래를 부르며 하는 카드놀이)
+destinations.json::[6].quizBank[1].options[1]	Cờ người	인간 장기
+destinations.json::[6].quizBank[1].options[2]	Tổ tôm điếm	또 톰 디엠 (카드 게임)
+destinations.json::[6].quizBank[1].explain	Bài chòi lưu hành phổ biến ở một số địa phương miền Trung từ Quảng Bình đến Bình Thuận. Qua lời kể của những nghệ nhân, vào cuối thế kỷ XVI đầu thế kỷ XVII, nhiều thú dữ trên rừng thường về quấy nhiễu cuộc sống. Người dân vì thế đã dựng những chiếc chòi rất cao ở ven rừng, cắt cử thanh niên trai tráng canh gác. Trong quá trình ấy, để đỡ buồn chán, người ta nghĩ ra cách giao lưu với nhau bằng những câu hát, câu hò, hô bài tứ sắc.	바이 쪼이는 꽝빈에서 빈투언까지 베트남 중부 여러 곳에서 널리 놀았습니다. 장인들의 이야기로는 16세기 말~17세기 초, 숲에서 맹수가 자주 내려와 사람들을 괴롭혔습니다. 그래서 숲가에 아주 높은 망루(쪼이)를 세우고 젊은 장정을 세워 지키게 했습니다. 그 지루함을 달래려 서로 노래와 후렴을 주고받고 사색 패를 외치던 것이 놀이가 되었습니다.
+destinations.json::[6].quizBank[2].question	Làng mộc nổi tiếng ở Hội An có tên là gì?	호이안에서 이름난 목공 마을의 이름은 무엇인가요?
+destinations.json::[6].quizBank[2].options[0]	Thanh Hà	타인 하 (도자기 마을)
+destinations.json::[6].quizBank[2].options[1]	Kim Bồng	김봉 (목공 마을)
+destinations.json::[6].quizBank[2].options[2]	Trà Quế	짜 꾸에 (채소 마을)
+destinations.json::[6].quizBank[2].explain	Rất nhiều kiến trúc nhà cửa, chùa quán... ở khu phố cổ Hội An in dấu bàn tay thợ mộc Kim Bồng. Trong đó phải kể đến nhà cổ Tấn Ký, Tụy Tiên Đường Minh Hương và Miếu Quan Công.	호이안 구시가의 집과 절, 회관 등 많은 건물에 김봉 목수의 손길이 남아 있습니다. 그중에서도 떤끼 고가, 명향 취선당, 관제묘를 꼽을 수 있습니다.
+destinations.json::[6].short	Kho tàng tri thức bản địa sống động tái hiện hồn cốt Hội An.	호이안의 속살을 되살리는, 살아 있는 토착 지식의 보고.
+destinations.json::[6].highlights[0]	Sinh kế của người bản địa	이곳 사람들의 생업
+destinations.json::[6].highlights[1]	Các lễ hội địa phương	지역의 축제들
+destinations.json::[7].name	Bảo tàng nghề Y truyền thống	전통 의약 박물관
+destinations.json::[7].description	Từ thế kỷ XVI, thương cảng Hội An đã là nơi phân phối đa dạng từ thuốc Bắc đến thuốc Nam. Vào khoảng thế kỷ XIX-XX, những hiệu thuốc lớn nhỏ với nhiều thầy thuốc giỏi đã trở thành một phần bộ mặt phố Hội.	16세기부터 호이안 항구는 북약(중국 약재)에서 남약(현지 약재)까지 다양한 약을 유통하는 곳이었습니다. 19~20세기 무렵에는 크고 작은 약방과 이름난 의원들이 이 도시의 얼굴 가운데 하나가 되었습니다.
+destinations.json::[7].quizBank[0].question	Thầy thuốc đặt tay lên cổ tay bệnh nhân nhằm mục đích gì?	의원이 환자의 손목에 손을 얹는 것은 무엇을 하려는 것인가요?
+destinations.json::[7].quizBank[0].options[0]	Chẩn đoán thai sản	임신 여부를 보려고
+destinations.json::[7].quizBank[0].options[1]	Xác định tình trạng tạng phủ, khí huyết	장부와 기혈의 상태를 살피려고
+destinations.json::[7].quizBank[0].options[2]	Khám tình trạng cổ tay	손목 자체를 진찰하려고
+destinations.json::[7].quizBank[0].explain	Bắt mạch trong Y học cổ truyền là phương pháp chẩn đoán bệnh bằng cách dùng tay cảm nhận sự vận hành của khí huyết trong mạch máu, từ đó suy đoán tình trạng sinh lý và bệnh lý của cơ thể. Bắt mạch có thể xem thai, tuy nhiên đây không phải tác dụng duy nhất.	전통 의학의 진맥은 손으로 혈맥 속 기혈의 흐름을 느껴 병을 살피고, 몸의 생리와 병리 상태를 짐작하는 방법입니다. 진맥으로 임신을 볼 수도 있지만, 그것만을 위한 것은 아닙니다.
+destinations.json::[7].quizBank[1].question	Vị thuốc nào được mệnh danh là “nhân sâm của người nghèo"?	'가난한 이의 인삼'이라 불리는 약재는 무엇인가요?
+destinations.json::[7].quizBank[1].options[0]	Cây tía tô	차조기 (자소엽)
+destinations.json::[7].quizBank[1].options[1]	Cây ngải cứu	애엽 (쑥)
+destinations.json::[7].quizBank[1].options[2]	Cây đinh lăng	딘랑 (Polyscias fruticosa)
+destinations.json::[7].quizBank[1].explain	Trong rễ và lá đinh lăng có chứa saponin triterpenoid - nhóm hoạt chất sinh học tương tự như trong nhân sâm. Saponin có những tác dụng như tăng sức đề kháng, bồi bổ thần kinh, chống oxy hóa, cải thiện trí nhớ và chức năng gan. Ngoài ra đinh lăng còn chứa 17 loại axit amin có lợi cho hệ thần kinh, hệ miễn dịch, và giúp chống viêm, kháng khuẩn.	딘랑의 뿌리와 잎에는 인삼과 같은 계열의 트리테르페노이드 사포닌이 들어 있습니다. 사포닌은 저항력을 높이고 신경을 보하며 항산화 작용을 하고 기억력과 간 기능을 돕습니다. 또한 딘랑에는 신경계와 면역계에 좋은 아미노산이 17종 들어 있고, 염증과 세균을 막는 데도 도움이 됩니다.
+destinations.json::[7].quizBank[2].question	Siêu sắc thuốc xưa cần phải đảm bảo tính chất nào?	옛 약탕관은 어떤 성질을 지켜야 했나요?
+destinations.json::[7].quizBank[2].options[0]	Không ảnh hưởng đến tính vị của thuốc	약의 성질과 맛을 바꾸지 않는 것
+destinations.json::[7].quizBank[2].options[1]	Có thể chống tràn	끓어 넘치지 않는 것
+destinations.json::[7].quizBank[2].options[2]	Cách nhiệt khi đun	달일 때 열이 전해지지 않는 것
+destinations.json::[7].quizBank[2].explain	Điều quan trọng nhất của siêu sắc thuốc là không phản ứng hoá học với dược liệu, giữ nguyên tính vị của thuốc.	약탕관에서 가장 중요한 점은 약재와 화학적으로 반응하지 않아 약의 성질과 맛을 그대로 지키는 것입니다.
+destinations.json::[7].short	Nhức đầu, mỏi mắt, tê chân? Tận tình anh dẫn ả coi chốn này.	머리가 아프고 눈이 침침하고 다리가 저리신가요? 이곳을 한 바퀴 돌아보세요.
+destinations.json::[7].highlights[0]	Mô hình hiệu thuốc Đông Y	한방 약방의 재현 모형
+destinations.json::[7].highlights[1]	Các vị thuốc phổ biến trong Đông Y	한방에서 자주 쓰는 약재들
+destinations.json::[7].highlights[2]	Phương pháp chẩn bệnh, chữa bệnh xưa	옛날의 진단법과 치료법
+destinations.json::[8].name	Bảo tàng Thổ sản	토산물 박물관
+destinations.json::[8].description	Thổ sản là một trong những mặt hàng được xuất khẩu qua thương cảng Hội An. Từ thế kỷ XVI, các thuyền buôn Bồ Đào Nha đã đến đây mua hàng như tơ, lụa, hồ tiêu, gỗ quý, thông qua các đại lý người Hoa hay người Nhật.	토산물은 호이안 항구를 통해 수출된 주요 품목 가운데 하나였습니다. 16세기부터 포르투갈 상선이 이곳에 와서 중국인이나 일본인 대리인을 통해 명주와 비단, 후추, 귀한 목재 등을 사들였습니다.
+destinations.json::[8].quizBank[0].question	Trong số các sản vật này, sản vật nào là quý hiếm và đắt giá nhất?	이 산물들 가운데 가장 귀하고 값비싼 것은 무엇인가요?
+destinations.json::[8].quizBank[0].options[0]	Kỳ nam	기남 (최상급 침향)
+destinations.json::[8].quizBank[0].options[1]	Quế	계피
+destinations.json::[8].quizBank[0].options[2]	Trầm hương	침향
+destinations.json::[8].quizBank[0].explain	Một ghi chép từ năm 1600 cho thấy: “Kỳ nam hương màu đen, có dầu và giá 50 cruzados một catty nơi người Bồ Đào Nha, trong khi tại chính nơi sản xuất, nó trị giá ngang với bạc, bao nhiêu kỳ nam hương là bấy nhiêu bạc.” Nhiều thương nhân người Hoa sẵn sàng đợi cả năm chỉ để có đủ kỳ nam cho một chuyến tàu đến Nhật Bản, nơi giá cả được đẩy lên gấp 40 lần giá tại chỗ.	1600년의 한 기록은 이렇게 적었습니다. “기남향은 검고 기름지며, 포르투갈 사람에게는 한 캐티에 50크루자두이다. 반면 생산지에서는 은과 같은 값이어서, 기남향의 무게만큼 은을 준다.” 많은 중국 상인은 일본으로 갈 배 한 척을 채울 기남을 모으려고 1년을 기다리기도 했습니다. 일본에서는 값이 산지의 40배까지 올랐습니다.
+destinations.json::[8].quizBank[1].question	Loại sản vật nào xuất hiện trên Cửu Đỉnh?	구정(九鼎)에 새겨진 산물은 무엇인가요?
+destinations.json::[8].quizBank[1].options[0]	Lá lao	라오 잎
+destinations.json::[8].quizBank[1].options[1]	Cau	빈랑 (아레카)
+destinations.json::[8].quizBank[1].options[2]	Tiêu	후추
+destinations.json::[8].quizBank[1].explain	Cửu đỉnh là báu vật tượng trưng cho đế nghiệp muôn năm vững bền của triều Nguyễn, với 153 tấm họa tiết chạm nổi thể hiện phong cảnh, sản vật và con người Việt Nam. Trong số đó có 9 loại dược liệu và hương liệu quý, bao gồm kỳ nam, trầm hương, dâu tằm, tô hợp, yến sào, trầu không, cau, quế, và sâm ta.	구정(九鼎)은 응우옌 왕조의 만년 대업을 상징하는 보물로, 153개의 부조 도안에 베트남의 풍경과 산물, 사람을 담았습니다. 그 가운데 귀한 약재와 향료 9가지가 있습니다 — 기남, 침향, 뽕나무, 소합향, 제비집, 후추잎(빈랑잎), 빈랑, 계피, 그리고 베트남 인삼입니다.
+destinations.json::[8].short	Một lát cắt về mạng lưới thương mại thế kỷ XVI-XVII thông qua các loại thổ sản.	토산물로 들여다본 16~17세기 교역망의 한 단면.
+destinations.json::[8].highlights[0]	Quá trình khai thác kỳ nam, lâm sản quý hiếm bậc nhất	최고의 귀한 임산물, 기남(奇南) 채취 과정
+destinations.json::[8].highlights[1]	Giá cả và tầm quan trọng của từng mặt hàng trong thị trường thổ sản	토산물 시장에서 품목별 가격과 비중
+destinations.json::[8].highlights[2]	Những vật dụng sử dụng trong buôn bán	거래에 쓰인 도구들
+destinations.json::[9].name	Nhà trưng bày Văn hóa Nhật Bản	일본 문화 전시관
+destinations.json::[9].description	Exhibition on the Japanese quarter of old Hoi An and the archaeology of Japanese trade in the town.	옛 호이안의 일본인 거리와, 이 도시에서 이루어진 일본 교역에 관한 고고학 전시입니다.
+destinations.json::[9].quizBank[0].question	Trong dòng búp bê Koga, con khỉ đang ôm loài vật gì?	고가 인형 가운데, 원숭이가 안고 있는 동물은 무엇인가요?
+destinations.json::[9].quizBank[0].options[0]	Mèo	고양이
+destinations.json::[9].quizBank[0].options[1]	Gà	닭
+destinations.json::[9].quizBank[0].options[2]	Chó	개
+destinations.json::[9].quizBank[0].explain	Hiện này là một mẫu thiết kế có tên gọi "Khỉ ôm gà" của dòng búp bê Koga truyền thống đến từ tỉnh Nagasaki. Thiết kế này là một sự kết hợp độc đáo tượng trưng cho sự chuyển giao của 12 con giáp từ năm Thân (Saru) sang năm Dậu (Tori). Trong văn hóa Nhật Bản, từ con khỉ (saru) là một cách chơi chữ đồng âm với từ "rời đi" (saru / 去る), mang ý nghĩa xua đuổi những điều xui xẻo hoặc vận rủi.	이것은 나가사키현의 전통 고가 인형(古賀人形) 가운데 '원숭이가 닭을 안다'는 이름의 도안입니다. 십이지가 신년(申, saru)에서 유년(酉, tori)으로 넘어가는 것을 함께 담은 독특한 조합입니다. 일본어에서 '원숭이(saru)'는 '떠나다(去る, saru)'와 발음이 같아, 불운을 물러가게 한다는 뜻을 지닙니다.
+destinations.json::[9].short	Một vòng văn hóa Nhật Bản với những thực hành và món đồ chơi truyền thống	전통 놀이와 장난감으로 둘러보는 일본 문화 한 바퀴
+destinations.json::[10].name	Nhà biểu diễn nghệ thuật cổ truyền Hội An	호이안 전통예술 공연장
+destinations.json::[10].description	Nhà Biểu diễn nghệ thuật cổ truyền được thành lập từ năm 1996 đến nay, các chương trình nghệ thuật đã mang lại nhiều mỹ cảm và sự thích thú cho đông đảo người xem trong nước và quốc tế.	1996년에 문을 연 전통예술 공연장으로, 그동안의 공연들은 국내외 많은 관객에게 아름다움과 즐거움을 안겨 주었습니다.
+destinations.json::[11].name	Nhà thờ tộc Trần	쩐 씨 가문 사당
+destinations.json::[11].description	Xuyên qua khu vườn yên ả là từ đường của tộc Trần, khởi dựng từ năm 1802 bởi một vị quan trước khi đi sứ sang Trung Quốc.	고요한 정원을 지나면 쩐 씨의 사당이 나옵니다. 1802년, 중국으로 사신 길을 떠나기 전 한 관리가 세웠습니다.
+destinations.json::[11].quizBank[0].question	Con hổ trong bức tranh ở gian ngoài đang làm gì?	바깥 칸 그림 속 호랑이는 무엇을 하고 있나요?
+destinations.json::[11].quizBank[0].options[0]	Ngồi	앉아 있다
+destinations.json::[11].quizBank[0].options[1]	Nhảy qua suối	계곡을 뛰어넘는다
+destinations.json::[11].quizBank[0].options[2]	Gầm	포효한다
+destinations.json::[11].quizBank[0].explain	Trên bức tranh có viết hai chữ “Hổ khiếu” tức hổ gầm, tượng trưng cho sức mạnh dũng mãnh, uy lực vang dội, có thể xua đuổi tà khí.	그림에는 '호소(虎嘯)', 즉 호랑이의 포효라는 두 글자가 적혀 있습니다. 사나운 힘과 멀리 울리는 위세를 나타내며, 나쁜 기운을 물리친다고 여겨집니다.
+destinations.json::[11].quizBank[1].question	Khi muốn xin ý kiến của tổ tiên, chủ nhà sẽ thực hiện hành động gì?	조상의 뜻을 여쭐 때 집주인은 어떤 의식을 하나요?
+destinations.json::[11].quizBank[1].options[0]	Xin đài âm dương	음양 산가지를 던진다 (신 께이)
+destinations.json::[11].quizBank[1].options[1]	Xin báo mộng	꿈으로 알려 주기를 청한다
+destinations.json::[11].quizBank[1].options[2]	Xin giáng bút	신필(강필)을 청한다
+destinations.json::[11].quizBank[1].explain	Xin đài âm dương (xin keo) là nghi thức gieo hai đồng xu hoặc hai miếng gỗ bán nguyệt để hỏi ý kiến thần linh, gia tiên phù hộ về những việc hệ trọng như làm nhà, kinh doanh, thi cử, ốm đau...	음양 산가지 던지기(신 다이 엄 즈엉, 신 께오)는 동전 두 개 또는 반달 모양 나무 두 쪽을 던져 신령과 조상의 뜻을 묻는 의식입니다. 집을 짓거나 장사를 시작하거나 시험을 치르거나 병이 났을 때처럼 중요한 일에 행합니다.
+destinations.json::[11].quizBank[2].question	Kết cấu kiến trúc này có tên là gì?	이 구조의 이름은 무엇인가요?
+destinations.json::[11].quizBank[2].options[0]	Vì giá chiêng	징걸이 트러스 (비 자 찌엥)
+destinations.json::[11].quizBank[2].options[1]	Vì vỏ cua	게 등딱지 트러스 (비 보 꾸어)
+destinations.json::[11].quizBank[2].options[2]	Vì chồng rường giả thủ	겹보 가짜머리 트러스 (비 쫑 즈엉 자 투)
+destinations.json::[11].quizBank[2].explain	Vì vỏ cua là một kiểu kết cấu vì kèo gỗ truyền thống trong kiến trúc cổ của người Việt, thường gặp ở Hội An, Huế và các vùng lân cận. Các vì vỏ cua thường được thợ mộc chạm trổ hoa văn, họa tiết rất tinh xảo, vừa mang tính chịu lực đỡ mái vừa làm điểm nhấn trang trí cho không gian nội thất.	게 등딱지 트러스는 베트남 옛 건축의 전통 목조 지붕 구조로, 호이안과 후에 및 그 주변에서 자주 볼 수 있습니다. 목수들이 아주 정교하게 무늬를 새겨, 지붕을 받치는 구조이면서 실내를 꾸미는 요소가 됩니다.
+destinations.json::[11].short	Nhà thờ cổ 200 năm tuổi ẩn trong một khu vườn, với lối kiến trúc pha trộn từ ba nền văn hoá.	정원에 숨은 200년 된 가문 사당 — 세 문화가 섞인 건축.
+destinations.json::[11].highlights[0]	Kiến trúc nhà vườn cổ kính	옛 정원 주택의 건축
+destinations.json::[11].highlights[1]	Các cổ vật mang nhiều dấu ấn văn hoá	여러 문화의 흔적이 담긴 골동품
+destinations.json::[11].highlights[2]	Không gian thờ tự trang nghiêm	정중한 제례 공간
+destinations.json::[12].name	Nhà thờ tộc Nguyễn Tường	응우옌 뜨엉 가문 사당
+destinations.json::[12].description	Di tích gắn với sự phát tích của dòng họ Nguyễn Tường ở Hội An và của nhóm Tự Lực Văn Đoàn.	호이안에서 응우옌 뜨엉 가문이 일어난 자리이자, 문학 단체 뜨륵 반 도안(自力文團)과 이어진 유적입니다.
+destinations.json::[12].quizBank[0].question	Ngôi nhà này được xây dựng bởi ai?	이 집은 누가 지었나요?
+destinations.json::[12].quizBank[0].options[0]	Một vị thượng thư triều Nguyễn	응우옌 왕조의 한 상서(장관)
+destinations.json::[12].quizBank[0].options[1]	Một hoạ sĩ	한 화가
+destinations.json::[12].quizBank[0].options[2]	Một nhà văn	한 소설가
+destinations.json::[12].quizBank[0].explain	Nguyễn Tường Vân là một vị quan đại thần dưới triều vua Gia Long và Minh Mạng, từng giữ chức Binh bộ Thượng thư và mang tước Nhuận Trạch Hầu. Ngay trước nhà còn liễn đối ca ngợi ông: “Nhuận Trạch hầu gia khí thế trường tồn uy hải ngoại. Thượng thư Binh bộ thanh danh quảng bá Việt trung.” Chức Binh bộ Thượng thư tương đương với Bộ trưởng Bộ Quốc phòng ngày nay.	응우옌 뜨엉 번은 자롱·민망 두 임금 아래의 대신으로, 병부상서(兵部尙書)를 지내고 뉴언 짝 후(潤澤侯) 작호를 받았습니다. 집 앞에는 그를 기리는 대련이 남아 있습니다. “뉴언 짝 후의 가문, 그 기세가 오래도록 바다 밖에까지 위엄을 떨치고; 병부상서의 이름은 베트남 안에 널리 퍼졌다.” 병부상서는 오늘날의 국방부 장관에 해당합니다.
+destinations.json::[12].quizBank[1].question	Phần trung tâm của ngôi nhà này được sử dụng để làm gì?	이 집의 중심 칸은 무엇에 쓰였나요?
+destinations.json::[12].quizBank[1].options[0]	Sáng tác văn chương	글을 쓰는 곳
+destinations.json::[12].quizBank[1].options[1]	Thờ cúng	제사를 모시는 곳
+destinations.json::[12].quizBank[1].options[2]	Tiếp khách	손님을 맞는 곳
+destinations.json::[12].quizBank[1].explain	Trước gian thờ là hoành phi ghi bốn chữ “Nguyễn Tường từ đường”, hai bên là liễn đối: “Thiên tải tần phồn truy viễn, thử tâm hà cảm giải. Nhất diên tu tiến đốc thân, tư niệm khởi năng vong.” Tạm dịch: Ngàn năm dâng lễ cúng tế tưởng nhớ tổ tiên, tấm lòng này sao dám trễ nải. Một mâm cúng dâng món ngon hiếu kính người thân, đạo lý này há thể nào quên.	제단 앞에는 '응우옌 뜨엉 사당(阮祥祠堂)'이라는 네 글자의 편액이 걸려 있고, 양쪽에 대련이 있습니다. “천 년을 두고 제사를 올려 조상을 기리니, 이 마음 어찌 게을러지겠는가. 한 상에 좋은 음식을 올려 어버이를 공경하니, 이 도리를 어찌 잊겠는가.”
+destinations.json::[12].quizBank[2].question	Tác giả nào là hậu duệ của tộc Nguyễn Tường?	응우옌 뜨엉 가문의 후손인 작가는 누구인가요?
+destinations.json::[12].quizBank[2].options[0]	Nguyên Hồng	응우옌 홍
+destinations.json::[12].quizBank[2].options[1]	Khái Hưng	카이 흥
+destinations.json::[12].quizBank[2].options[2]	Thạch Lam	타익 람
+destinations.json::[12].quizBank[2].explain	Thạch Lam là hậu duệ của dòng họ khoa bảng Nguyễn Tường. Tuy vậy, cuộc đời sáng tác của ông gắn liền với phố huyện Cẩm Giàng (Hải Dương) và Hà Nội. Ông viết về một chiều hoàng hôn ở phố huyện tù đọng và bị lề hóa: “Tiếng trống thu không trên cái chòi của huyện nhỏ; từng tiếng một vang ra để gọi buổi chiều. Phương tây đỏ rực như lửa cháy và những áng mây ánh hồng như hòn than sắp tàn. [...] Chiều, chiều rồi. Một chiều êm ả như ru, văng vẳng tiếng ếch nhái kêu ra ngoài đồng ruộng theo gió nhẹ đưa vào.”	타익 람은 과거 급제자를 배출한 응우옌 뜨엉 가문의 후손입니다. 다만 그의 작품 세계는 하이즈엉의 껌장 읍내와 하노이에 붙어 있습니다. 그는 정체되고 밀려난 읍내의 해질녘을 이렇게 썼습니다. “작은 현의 망루에서 저녁을 부르는 북소리가 하나하나 울려 퍼진다. 서쪽은 불타는 듯 붉고, 붉은빛 구름은 꺼져 가는 숯덩이 같다. […] 저녁, 저녁이 왔다. 자장가처럼 고요한 저녁, 들에서 개구리 울음이 가벼운 바람을 타고 들려온다.”
+destinations.json::[12].short	Câu chuyện về dòng họ được khai cơ bởi một vị Thượng thư – cội nguồn của những nhà văn lớn thế kỷ XX.	한 상서(尙書)가 일으킨 가문의 이야기 — 20세기 큰 작가들의 뿌리.
+destinations.json::[12].highlights[0]	Các tác phẩm của nhóm Tự Lực Văn Đoàn	뜨륵 반 도안 작가들의 작품
+destinations.json::[12].highlights[1]	Sắc phong của bốn triều vua	네 임금이 내린 칙봉
+destinations.json::[12].highlights[2]	Không gian thờ tự trang nghiêm	정중한 제례 공간
+destinations.json::[13].name	Nhà cổ Phùng Hưng	풍흥 고가
+destinations.json::[13].description	Mong muốn gia đình sẽ làm ăn ngày càng phát đạt, vị thương nhân đã đặt tên cho ngôi nhà là “Phùng Hưng” - cũng là tên hiệu buôn của ông, mang nghĩa là “hưng thịnh”.	집안의 장사가 갈수록 번창하기를 바라며, 그 상인은 집 이름을 '풍흥(馮興)'이라 지었습니다. 자기 상호이기도 했고, '흥하고 번성한다'는 뜻입니다.
+destinations.json::[13].quizBank[0].question	Hai bộ tranh này được tạo ra bằng kỹ nghệ gì?	이 두 그림은 어떤 기법으로 만들었나요?
+destinations.json::[13].quizBank[0].options[0]	Pháp lam	법랑 (에나멜)
+destinations.json::[13].quizBank[0].options[1]	Cẩn xà cừ	자개 상감
+destinations.json::[13].quizBank[0].options[2]	Ghép sành sứ	도자기 조각 붙이기
+destinations.json::[13].quizBank[0].explain	Cẩn xà cừ (khảm trai) là nghề thủ công truyền thống lâu đời tại Việt Nam, dùng các mảnh vỏ trai, vỏ ốc cắt gọt tinh xảo để cẩn lên bề mặt gỗ, kim loại hoặc sơn mài. Các chi tiết cẩn xà cừ có độ óng ánh, đổi màu theo góc nhìn.	자개 상감은 베트남의 오랜 전통 공예입니다. 조개와 소라 껍데기를 아주 정교하게 잘라 나무, 금속, 칠기 표면에 박아 넣습니다. 자개는 보는 각도에 따라 빛이 어른거리고 색이 달라집니다.
+destinations.json::[13].quizBank[1].question	Chiếc cửa sập trong nhà dùng để làm gì?	집 안의 이 뚜껑문은 무엇에 쓰였나요?
+destinations.json::[13].quizBank[1].options[0]	Đi lại giữa gác và tầng trệt	다락과 1층 사이를 오가는 데
+destinations.json::[13].quizBank[1].options[1]	Thông gió	바람이 통하게 하려고
+destinations.json::[13].quizBank[1].options[2]	Chuyển hàng hóa, đồ đạc lên tầng	물건과 가구를 위층으로 올리는 데
+destinations.json::[13].quizBank[1].explain	Xưa kia, do phố cổ Hội An nằm gần sông và hay bị ngập lụt mùa nước lên, chủ nhà dùng cửa sập này để nhanh chóng chuyển và kéo hàng hóa từ tầng trệt lên gác lửng nhằm tránh lũ.	옛날 호이안 구시가는 강에 가까워 물이 오르면 자주 잠겼습니다. 그래서 집주인은 이 뚜껑문으로 1층의 물건을 재빨리 다락으로 끌어 올려 홍수를 피했습니다.
+destinations.json::[13].quizBank[2].question	Bộ tượng này là nhân hóa của các giá trị gì?	이 세 상은 어떤 가치를 사람의 모습으로 나타낸 것인가요?
+destinations.json::[13].quizBank[2].options[0]	Phúc - Lộc - Thọ	복 · 록 · 수
+destinations.json::[13].quizBank[2].options[1]	Tòng Phụ - Tòng Phu - Tòng Tử	종부 · 종부 · 종자 (삼종)
+destinations.json::[13].quizBank[2].options[2]	Nhân - Lễ - Nghĩa	인 · 예 · 의
+destinations.json::[13].quizBank[2].explain	Phúc Lộc Thọ (hay Tam Đa) là biểu tượng trong văn hóa Á Đông tượng trưng cho ba điều ước lớn nhất của đời người: may mắn/hạnh phúc (Phúc), sự thịnh vượng/giàu sang (Lộc), và sức khỏe/sống lâu (Thọ).	복록수(福祿壽), 즉 삼다(三多)는 동아시아 문화에서 인생의 세 가지 큰 소망을 나타냅니다. 복은 행운과 행복, 록은 번영과 부, 수는 건강과 오래 삶입니다.
+destinations.json::[13].short	Nhà cổ rộng rãi, với kiến trúc pha trộn từ ba nền văn hoá Việt - Nhật - Trung	넉넉한 고가 — 베트남·일본·중국 세 문화가 섞인 건축
+destinations.json::[13].highlights[0]	Các bộ tranh được tạo bằng kỹ thuật truyền thống	전통 기법으로 만든 그림들
+destinations.json::[13].highlights[1]	Mái nhà giữa được thiết kế theo kiểu "tứ hải" của Nhật Bản	가운데 지붕은 일본의 '사해(四海)' 형식
+destinations.json::[13].highlights[2]	Bộ liễn đối theo lối “hồi văn” - dù đọc xuôi hay đọc ngược thì ý nghĩa không đổi	'회문(回文)' 대련 — 앞으로 읽어도 뒤로 읽어도 뜻이 같다
+destinations.json::[14].name	Nhà cổ Quân Thắng	꾸언 탕 고가
+destinations.json::[14].description	Nhà cổ Quân Thắng được xây dựng vào khoảng cuối thế kỷ 17, pha trộn giữa phong cách Trung Hoa và Việt Nam.	꾸언 탕 고가는 17세기 말 무렵에 지어졌고, 중국 양식과 베트남 양식이 섞여 있습니다.
+destinations.json::[14].quizBank[0].question	Chủ nhân đầu tiên của ngôi nhà này là ai?	이 집의 첫 주인은 누구였나요?
+destinations.json::[14].quizBank[0].options[0]	Chủ hiệu sách	서점 주인
+destinations.json::[14].quizBank[0].options[1]	Thương nhân buôn gốm	도자기 상인
+destinations.json::[14].quizBank[0].options[2]	Thương nhân kinh doanh hàng hóa quý hiếm	귀한 물품을 다루던 상인
+destinations.json::[14].quizBank[0].explain	Chủ nhân đầu tiên là ông Quân Thắng, một thương nhân người Hoa giàu có bậc nhất tại phố Hội thời xưa. Bà Diệp Ái Phương (cháu đời thứ 7 của thương nhân Quân Thắng) cho biết, ban đầu nơi đây là một hiệu buôn sầm uất, chuyên kinh doanh các loại hàng hóa quý hiếm.	첫 주인은 꾸언 탕으로, 옛 호이안에서 가장 부유한 화교 상인 가운데 한 사람이었습니다. 7대손 지엡 아이 프엉 여사에 따르면, 이곳은 본래 귀한 물품을 전문으로 다루던 번성한 상점이었습니다.
+destinations.json::[14].quizBank[1].question	Những con số này biểu thị điều gì?	이 숫자들은 무엇을 나타내나요?
+destinations.json::[14].quizBank[1].options[0]	Mốc nước lũ theo từng năm	해마다의 홍수 수위
+destinations.json::[14].quizBank[1].options[1]	Chiều cao của các loại cây kiểng khác nhau	여러 분재의 키
+destinations.json::[14].quizBank[1].options[2]	Chiều cao các thành viên trong gia đình	가족들의 키
+destinations.json::[14].quizBank[1].explain	Bà Diệp Ái Phương cho biết việc ghi dấu mực nước trên cột gỗ đã có từ thời ông cha để lại. Con cháu trong dòng họ vẫn tiếp tục gìn giữ, bảo tồn. Trong những ngày lũ, gia đình bà chuyển toàn bộ sinh hoạt lên tầng 2 để đảm bảo an toàn. Trên cột nhà có ghi lại trận lũ Giáp Thìn 1964, một trận "đại hồng thủy" gây thiệt hại nghiêm trọng cho các tỉnh miền Trung từ Huế đến Bình Định (cũ).	지엡 아이 프엉 여사는 나무 기둥에 물 높이를 적는 일이 조부 대부터 내려왔다고 합니다. 후손들도 그것을 지키고 있습니다. 홍수가 나면 온 가족이 2층으로 올라가 지냈습니다. 기둥에는 1964년 갑진년 대홍수도 적혀 있는데, 후에에서 (옛) 빈딘까지 중부 여러 성에 큰 피해를 입힌 '대홍수'였습니다.
+destinations.json::[14].quizBank[2].question	Hình ảnh được chạm trên cuốn thư ở giếng trời là gì?	천정(하늘우물) 위 편액에 새겨진 그림은 무엇인가요?
+destinations.json::[14].quizBank[2].options[0]	Hoa cúc và chim trĩ	국화와 꿩
+destinations.json::[14].quizBank[2].options[1]	Cây tùng và hươu	소나무와 사슴
+destinations.json::[14].quizBank[2].options[2]	Cây tùng và hạc	소나무와 학
+destinations.json::[14].quizBank[2].explain	Hình ảnh tùng và hươu là một hình ảnh phổ biến trong trang trí ở Đông Á, trong đó cây tùng diện cho sức sống bền bỉ, sự hiên ngang và khí tiết vượt qua nghịch cảnh còn hươu (âm Hán Việt là “lộc”) có phát âm tương tự chữ "lộc" (tài lộc, bổng lộc). Trong kiến trúc nhà ống dài không có cửa sổ bên hông, thiên tỉnh là nguồn cung cấp ánh sáng và khí trời duy nhất. Ở ngay sát cửa có thể thấy hai bài vị thờ “Thiên quan tứ phúc” và “Tư mệnh táo quân”. Thờ cúng ông Thiên là truyền thống của nhiều gia đình người Hoa. Bài vị thờ “Thiên quan tứ phúc” sẽ được đặt ở nơi thoáng đãng, lộ thiên để đón phúc khí.	소나무와 사슴은 동아시아 장식에서 흔한 짜임입니다. 소나무는 끈질긴 생명력과 곧은 기개, 역경을 넘는 절개를 나타내고, 사슴은 한자음으로 '록(鹿)'이어서 '록(祿, 재물과 복)'과 소리가 같습니다. 옆으로 창을 낼 수 없는 긴 튜브 하우스에서 천정(하늘우물)은 빛과 바람의 유일한 통로입니다. 문 바로 옆에는 '천관사복(天官賜福)'과 '사명조군(司命灶君)' 두 신위가 있습니다. 하늘에 제사하는 것은 많은 화교 가정의 전통이며, '천관사복' 신위는 복된 기운을 받으려 하늘이 열린 곳에 둡니다.
+destinations.json::[14].short	Ngôi nhà hơn 300 tuổi mang văn hoá người Hoa	화교 문화를 품은 300년 넘은 집
+destinations.json::[14].highlights[0]	Kiến trúc nhà ống đặc trưng của Hội An	호이안 특유의 튜브 하우스 구조
+destinations.json::[14].highlights[1]	Các chi tiết điêu khắc gỗ tinh xảo	정교한 목조 조각
+destinations.json::[14].highlights[2]	Nội thất và trang trí của cộng đồng người Hoa	화교 사회의 가구와 장식
+destinations.json::[15].name	Nhà cổ Đức An	득안 고가
+destinations.json::[15].description	Một ngôi nhà ghi lại quá trình phát triển của phong trào yêu nước đầu thế kỷ XX, từ phong trào Duy Tân cho đến hoạt động cách mạng của Đảng Cộng sản.	20세기 초 애국 운동의 전개를 기록한 집입니다. 두이떤(維新) 운동에서 공산당의 혁명 활동까지 이어집니다.
+destinations.json::[15].quizBank[0].question	Trước kia nhà Đức An từng bán sách của tác giả nào?	옛날 득안 상점은 어느 저자의 책을 팔았나요?
+destinations.json::[15].quizBank[0].options[0]	Sách của Khang Hữu Vi, Lương Khải Siêu	캉유웨이, 량치차오의 책
+destinations.json::[15].quizBank[0].options[1]	Sách của Hà Ân Chấn	허언전의 책
+destinations.json::[15].quizBank[0].options[2]	Sách của Cù Thu Bạch	취추바이의 책
+destinations.json::[15].quizBank[0].explain	Từ cuối thế kỷ XIX, ngôi Nhà Đức An là nơi bán sách, chủ yếu là sách tiếng Hoa của tác giả Khang Hữu Vi, Lương Khải Siêu,... Trong thời gian này, các nhà yêu nước kháng Pháp như Huỳnh Thúc Kháng, Trần Quý Cáp... thường lui tới để đặt mua những cuốn sách có nội dung tư tưởng tiến bộ. Cụ Trần Quý Cáp đã cho gia chủ các chữ được ghi trên liễn đối: “Vân trình ngũ sắc văn minh thịnh; Vạn tuế tam xuân khí tượng tân” (có nghĩa: Mây quý hiển linh giúp nền văn minh rực rỡ; Vạn năm khí sắc xuân lành), thể hiện khát khao canh tân, phát triển đất nước.	19세기 말부터 득안 집은 서점이었고, 주로 캉유웨이·량치차오 등의 중국어 책을 팔았습니다. 이 시기에 후인 특 캉, 쩐 꾸이 깝 같은 항불 애국지사들이 진보적인 책을 주문하러 자주 드나들었습니다. 쩐 꾸이 깝은 집주인에게 대련의 글귀를 지어 주었습니다. “운정오색문명성(雲程五色文明盛); 만세삼춘기상신(萬歲三春氣象新)” — 오색 구름이 상서로워 문명이 빛나고, 만년의 삼춘 기운이 새롭다. 나라를 개혁하고 발전시키고자 하는 열망을 담은 글입니다.
+destinations.json::[15].quizBank[1].question	Vì sao hiệu Đức An chuyển sang bán thuốc bắc?	득안 상점은 왜 한약 판매로 바꾸었나요?
+destinations.json::[15].quizBank[1].options[0]	Hiệu Đức An gặp được nguồn cung thuốc tốt	좋은 약재 공급처를 만나서
+destinations.json::[15].quizBank[1].options[1]	Thực dân Pháp đàn áp Trung Kỳ dân biến	프랑스가 중부 민중 봉기를 탄압해서
+destinations.json::[15].quizBank[1].options[2]	Việc bán sách không còn thu được lợi nhuận	책 장사가 더는 남지 않아서
+destinations.json::[15].quizBank[1].explain	Sau sự kiện chống thuế năm 1908, nhà Đức An chuyển sang bán thuốc Bắc hòa vào việc buôn bán tấp nập cùng nhiều hiệu thuốc Bắc ở Hội An song vẫn là điểm hẹn gặp gỡ của các chí sĩ yêu nước trong khu vực. Trong vụ dân biến này, nông dân kéo nhau thành từng đoàn đến bao vây các dinh công sứ Pháp để nộp đơn xin giảm sưu thuế. Thực dân Pháp sau đó đã dùng vũ lực đàn áp đẫm máu, bắt bớ và đày ải nhiều sĩ phu, nông dân yêu nước.	1908년 조세 저항 사건 이후 득안 집은 한약 판매로 돌아섰고, 호이안의 여러 한약방과 함께 활발히 장사했습니다. 그러면서도 이 지역 애국지사들이 만나는 자리로 남았습니다. 이 봉기에서 농민들은 무리를 지어 프랑스 공사관을 둘러싸고 부역과 세금을 줄여 달라는 청원을 냈습니다. 프랑스는 그 뒤 무력으로 피의 진압을 하고, 많은 사대부와 애국 농민을 잡아 유배 보냈습니다.
+destinations.json::[15].quizBank[2].question	Từ năm 1927 đến năm 1934, chủ nhà Đức An đã sử dụng nơi này để tổ chức những hoạt động gì?	1927년부터 1934년까지 득안의 주인은 이곳을 무슨 활동에 썼나요?
+destinations.json::[15].quizBank[2].options[0]	Chẩn bệnh miễn phí cho người nghèo	가난한 이들을 위한 무료 진료
+destinations.json::[15].quizBank[2].options[1]	Gặp gỡ các cầu thủ của đội bóng Ô-rô	오로 축구팀 선수들과의 만남
+destinations.json::[15].quizBank[2].options[2]	Liên lạc, hội họp của phong trào cách mạng	혁명 운동의 연락과 회합
+destinations.json::[15].quizBank[2].explain	Tháng 10/1927, tại chính căn nhà này, đồng chí Năm Thêm chủ trì cuộc họp thành lập Hội Việt Nam Cách mạng Thanh niên Hội An. Từ ngày 28/03/1930, Tỉnh ủy Đảng Cộng sản Việt Nam Quảng Nam được thành lập ở Hội An, nhà Đức An tiếp tục trở thành nơi liên lạc và tổ chức hội họp của Đảng. Năm 1934, do sự chỉ dẫn của mật thám, lính Pháp đã đến lục soát ngôi nhà này và tìm thấy một vài tài liệu tiếng nước ngoài. Từ đó, nhà Đức An tạm đình chỉ làm nơi liên lạc của Đảng.	1927년 10월, 바로 이 집에서 남 템 동지가 호이안 베트남 혁명청년회 창립 회의를 주재했습니다. 1930년 3월 28일 꽝남 성 당위원회가 호이안에서 세워진 뒤에도 득안은 당의 연락처이자 회합 장소였습니다. 1934년, 밀정의 제보로 프랑스 병사들이 집을 수색해 외국어 문서 몇 점을 찾아냈습니다. 그 뒤 득안은 당의 연락처 역할을 잠시 멈추었습니다.
+destinations.json::[15].short	Hình hài của tinh thần yêu nước, tinh thần cách mạng qua nhiều thế hệ.	여러 세대에 걸친 애국과 혁명 정신이 형태를 얻은 집.
+destinations.json::[15].highlights[0]	Dụng cụ sinh hoạt và ảnh tư liệu của đồng chí Cao Hồng Lãnh	까오 홍 란 동지의 생활 도구와 자료 사진
+destinations.json::[15].highlights[1]	Cổ vật của gia đình Đức An	득안 집안의 골동품
+destinations.json::[15].highlights[2]	Phần nào hoạt động của nhóm Tam Quảng	땀 꽝(三廣) 그룹 활동의 일부
+destinations.json::[16].name	Nhà cổ Tấn Ký	떤끼 고가
+destinations.json::[16].description	Nhà cổ Tấn Ký không chỉ đẹp ở kiến trúc mà còn giống như một bảo tàng thu nhỏ với vô vàn cổ vật thú vị	떤끼 고가는 건축이 아름다울 뿐 아니라, 흥미로운 골동품이 가득한 작은 박물관 같습니다.
+destinations.json::[16].quizBank[0].question	Chiếc ghe bầu này được sử dụng khi di chuyển ở vùng nước nào?	이 게 바우 배는 어떤 물에서 움직였나요?
+destinations.json::[16].quizBank[0].options[0]	Vịnh	만
+destinations.json::[16].quizBank[0].options[1]	Biển	바다
+destinations.json::[16].quizBank[0].options[2]	Sông	강
+destinations.json::[16].quizBank[0].explain	Ghe bầu là loại thương thuyền (thuyền buôn) gỗ cỡ lớn truyền thống từng đóng vai trò huyết mạch trong ngành hàng hải và giao thương ven biển Việt Nam từ thế kỷ 16 đến nửa đầu thế kỷ 20. Thuyền có phần thân phình to ở giữa giống hình quả bầu, mạn cao, đáy bằng hoặc hơi khum, giúp chịu được sóng gió lớn ngoài khơi.	게 바우는 큰 목조 상선으로, 16세기부터 20세기 전반까지 베트남 해운과 연안 교역의 대동맥 구실을 했습니다. 배 가운데가 조롱박처럼 불룩하고 뱃전이 높으며 바닥은 평평하거나 살짝 둥글어, 먼바다의 큰 파도와 바람을 견딜 수 있었습니다.
+destinations.json::[16].quizBank[1].question	Hiệu Tấn Ký từng buôn bán những mặt hàng nào?	떤끼 상점은 어떤 물품을 거래했나요?
+destinations.json::[16].quizBank[1].options[0]	Y phục	의복
+destinations.json::[16].quizBank[1].options[1]	Sách báo	책과 신문
+destinations.json::[16].quizBank[1].options[2]	Nông sản	농산물
+destinations.json::[16].quizBank[1].explain	Nhà cổ Tấn Ký được xây dựng vào năm 1741 bởi ông Lê Công, một thương nhân gốc Hoa di cư đến Hội An. Ông Lê Công ban đầu kinh doanh hàng nông sản từ miền cao về phố cảng.	떤끼 고가는 1741년, 호이안으로 이주해 온 중국계 상인 레 꽁이 지었습니다. 그는 처음에 산간 지역의 농산물을 항구로 가져와 거래했습니다.
+destinations.json::[16].quizBank[2].question	Chiếc cốc này gửi gắm triết lý gì?	이 잔은 어떤 가르침을 담고 있나요?
+destinations.json::[16].quizBank[2].options[0]	Biết đủ	만족을 아는 것 (지족)
+destinations.json::[16].quizBank[2].options[1]	Nghĩa khí	의로움
+destinations.json::[16].quizBank[2].options[2]	Khiêm tốn	겸손
+destinations.json::[16].quizBank[2].explain	Chiếc cốc hoạt động dựa trên nguyên lý bình thông nhau và hiệu ứng xifong (siphoning). Ở giữa cốc có một cột nhỏ che giấu một đường ống cong (ống chữ U ngược). Nếu rót quá đầy (vượt quá đỉnh của ống ngầm bên trong), toàn bộ nước trong cốc sẽ tự động chảy sạch qua lỗ nhỏ ở đáy cốc.	이 잔은 연결된 그릇의 원리와 사이펀 효과로 작동합니다. 잔 가운데 작은 기둥이 거꾸로 된 U자 관을 감추고 있어, 관 꼭대기를 넘길 만큼 너무 가득 부으면 잔 속의 물이 바닥의 작은 구멍으로 모두 빠져나갑니다.
+destinations.json::[16].short	“Bảo tàng sống” giữ gần như nguyên vẹn kiến trúc đặc trưng nhà cổ Hội An xưa.	옛 호이안 고가의 특징을 거의 그대로 지킨 '살아 있는 박물관'.
+destinations.json::[16].highlights[0]	Chén Khổng Tử từ Phước Kiến	푸젠에서 온 공자 잔
+destinations.json::[16].highlights[1]	Nội thất gỗ được chạm cầu kỳ	공들여 새긴 목조 실내
+destinations.json::[16].highlights[2]	Tính nguyên vẹn của kiến trúc xưa	옛 건축이 온전히 남은 점
+destinations.json::[17].name	Hội quán Quảng Triệu	광조 회관 (광둥 회관)
+destinations.json::[17].description	Dưới những nếp mái vuông vức là không gian trang nghiêm, được trang trí bằng vô số cổ điển Trung Hoa	네모지게 다듬은 지붕 아래에는 정중한 공간이 있고, 중국 고전의 장면이 수없이 장식되어 있습니다.
+destinations.json::[17].quizBank[0].question	Ba người này đang ở đâu?	이 세 사람은 어디에 있나요?
+destinations.json::[17].quizBank[0].options[0]	Vườn trúc	대나무 정원
+destinations.json::[17].quizBank[0].options[1]	Núi tùng	소나무 산
+destinations.json::[17].quizBank[0].options[2]	Vườn đào	복숭아 동산
+destinations.json::[17].quizBank[0].explain	Bức tranh vẽ cảnh kết nghĩa vườn đào của ba anh em Lưu Bị, Quan Vũ và Trương Phi với lời thề "Tuy không sinh cùng ngày cùng tháng cùng năm, nhưng nguyện chết cùng ngày cùng tháng cùng năm", nguyện dốc sức vì nước, cứu dân an đời.	그림은 유비, 관우, 장비 세 형제의 도원결의를 담았습니다. “같은 날 같은 달 같은 해에 태어나지는 않았으나, 같은 날 같은 달 같은 해에 죽기를 원한다”는 맹세와 함께 나라를 위해 힘을 다하고 백성을 구하겠다고 다짐합니다.
+destinations.json::[17].quizBank[1].question	Trong ba nhân vật, ai là Quan Vũ?	세 인물 가운데 누가 관우인가요?
+destinations.json::[17].quizBank[1].options[0]	Người có mặt đỏ	얼굴이 붉은 사람
+destinations.json::[17].quizBank[1].options[1]	Người ở giữa có tai to	가운데 귀가 큰 사람
+destinations.json::[17].quizBank[1].options[2]	Người có mặt đen	얼굴이 검은 사람
+destinations.json::[17].quizBank[1].explain	Trong truyện Tam Quốc có 2 câu đối nhắc tới sắc đỏ gắn liền với Quan Vũ: “Xích diện bỉnh xích tâm, kỵ Xích Thố truy phong, trì khu thời vô vong Xích Đế / Thanh đăng quan thanh sử, trượng thanh long yển nguyệt, ẩn vi xứ bất uý thanh thiên”. Theo bản dịch của Phan Kế Bính: “Bộ mặt đỏ giữ tấm lòng đỏ, cưỡi ngựa Thỏ Đỏ truy phong, lúc ruổi rong không quên nhớ Vua Đỏ / Ngọn đèn xanh xem bộ sử xanh, cầm đao yển nguyệt rồng xanh, nơi kín đáo chẳng thẹn với trời xanh.”	『삼국지』에는 관우와 이어진 붉은색을 말하는 대련이 둘 있습니다. “적면병적심(赤面秉赤心), 기적토추풍(騎赤兔追風), 치구시무망적제(馳驅時無忘赤帝) / 청등관청사(靑燈觀靑史), 장청룡언월(仗靑龍偃月), 은미처불외청천(隱微處不畏靑天).” 판 께 빈의 번역으로는 “붉은 얼굴에 붉은 마음을 지키고, 바람을 쫓는 적토마를 타고, 달릴 때에도 붉은 임금을 잊지 않는다 / 푸른 등불로 푸른 역사를 보고, 청룡언월도를 잡고, 은밀한 곳에서도 푸른 하늘에 부끄럽지 않다.”
+destinations.json::[17].quizBank[2].question	Nhân vật nữ này đang bưng thức quả gì?	이 여성 인물이 받쳐 든 과일은 무엇인가요?
+destinations.json::[17].quizBank[2].options[0]	Quả hồng	감
+destinations.json::[17].quizBank[2].options[1]	Quả đào	복숭아
+destinations.json::[17].quizBank[2].options[2]	Quả phật thủ	불수감
+destinations.json::[17].quizBank[2].explain	Bức tranh “Ma Cô hiến thọ” vẽ lại cảnh tiên nữ Ma Cô mang đào tiên chúc thọ Tây Vương Mẫu. Đây chính là hình ảnh trang trí quen thuộc trên những chiếc đĩa cô tiên. Trong bức tranh ở Hội quán Quảng Triệu còn xuất hiện mô-típ tùng và hạc.	'마고헌수(麻姑獻壽)' 그림은 선녀 마고가 선도(仙桃)를 들고 서왕모의 장수를 축원하는 장면입니다. 신선 그림 접시에 자주 등장하는 낯익은 도안이기도 합니다. 광조 회관의 이 그림에는 소나무와 학의 모티프도 함께 나옵니다.
+destinations.json::[17].short	Từng là nơi hội họp của các thương nhân Quảng Đông, một hội quán uy nghi, bề thế, và mực thước trong kể chuyện.	광둥 상인들이 모이던 곳 — 위엄 있고 규모가 크며, 이야기를 절제 있게 들려주는 회관.
+destinations.json::[17].highlights[0]	Tác phẩm “ngư long hý thuỷ”	'어룡희수(魚龍戲水)' 작품
+destinations.json::[17].highlights[1]	Các bức tranh minh hoạ tích truyện Quan Công	관공 이야기를 그린 그림들
+destinations.json::[17].highlights[2]	Các chi tiết hoa trái mang tính biểu tượng	상징을 담은 꽃과 열매의 세부
+destinations.json::[18].name	Hội quán Phúc Kiến	복건 회관
+destinations.json::[18].description	Hội quán tráng lệ nhất phố Hội, với những chi tiết trang trí tinh xảo, tái hiện hải trình của những thương nhân Phước Kiến cùng lòng thành kính với Thiên Hậu Thánh Mẫu.	호이안에서 가장 화려한 회관입니다. 정교한 장식으로 복건 상인들의 항해를 되살리고, 천후성모(天后聖母)를 향한 정성을 담았습니다.
+destinations.json::[18].quizBank[0].question	Hình ảnh nào dưới đây là mái của Hội quán Phước Kiến?	아래 사진 가운데 복건 회관의 지붕은 어느 것인가요?
+destinations.json::[18].quizBank[0].options[0]	Ảnh 1	사진 1
+destinations.json::[18].quizBank[0].options[1]	Ảnh 3	사진 3
+destinations.json::[18].quizBank[0].options[2]	Ảnh 2	사진 2
+destinations.json::[18].quizBank[0].explain	Khác với kiểu nóc mái thẳng tắp của Quảng Đông, kiến trúc mái đặc trưng của vùng Phúc Kiến có bờ nóc võng xuống như con thuyền đang cưỡi sóng. Phần trang trí cũng công phu hơn so với các hội quán khác.	곧게 뻗은 광둥식 용마루와 달리, 복건 지방의 지붕은 용마루가 파도를 타는 배처럼 가운데가 처집니다. 장식도 다른 회관들보다 공을 더 들였습니다.
+destinations.json::[18].quizBank[1].question	Tại sao Hội quán Phước Kiến và nhiều hội quán khác của người Hoa lại thờ bà Thiên Hậu? Gợi ý: Hãy quan sát những bức tranh và mô hình trong hội quán	복건 회관과 여러 화교 회관은 왜 천후(天后)를 모시나요? 힌트: 회관 안의 그림과 모형을 살펴보세요
+destinations.json::[18].quizBank[1].options[0]	Để tưởng nhớ công dẹp giặc	적을 물리친 공을 기리려고
+destinations.json::[18].quizBank[1].options[1]	Để cầu bình an khi đi biển	바닷길의 무사함을 빌려고
+destinations.json::[18].quizBank[1].options[2]	Để cầu tài lộc	재물과 복을 빌려고
+destinations.json::[18].quizBank[1].explain	Ngay sau khi bước vào tiền điện, du khách sẽ thấy ở phía tường Đông là bích họa Thiên Hậu Thánh Mẫu cùng đệ tử cầm đèn lồng vượt sóng gió đến cứu người bị nạn và ở phía tường Tây là bích họa Lục Tánh Vương Gia cưỡi ngựa xung trận. Bên trong chính điện có mô hình thương thuyền được trang trí kỳ công với một gian thờ Thiên Hậu trên thuyền.	전전(前殿)에 들어서면 동쪽 벽에 천후성모가 제자들과 등롱을 들고 풍랑을 헤쳐 조난자를 구하러 가는 벽화가, 서쪽 벽에는 육성왕가(六姓王爺)가 말을 타고 전장에 나서는 벽화가 있습니다. 정전 안에는 정교하게 꾸민 상선 모형이 있고, 배 위에 천후를 모신 감실이 있습니다.
+destinations.json::[18].quizBank[2].question	Hai vị thần được thờ phụng trong chính điện cùng Bà Thiên Hậu là ai?	정전에서 천후와 함께 모셔진 두 신은 누구인가요?
+destinations.json::[18].quizBank[2].options[0]	Thanh Long - Bạch Hổ	청룡 · 백호
+destinations.json::[18].quizBank[2].options[1]	Thần Đồ - Uất Lũy	신도 · 울루
+destinations.json::[18].quizBank[2].options[2]	Thiên Lý Nhãn - Thuận Phong Nhĩ	천리안 · 순풍이
+destinations.json::[18].quizBank[2].explain	Hai vị thần phò tá Thiên Hậu Thánh Mẫu là Thiên Lý Nhãn và Thuận Phong Nhĩ. Thiên Lý Nhãn có thể nhìn thấy mọi việc ở khoảng cách rất xa, giúp Bà phát hiện tàu thuyền gặp nạn trên biển, còn Thuận Phong Nhĩ có thể nghe được tiếng kêu cứu từ muôn nơi theo chiều gió.	천후성모를 돕는 두 신은 천리안과 순풍이입니다. 천리안은 아주 먼 곳의 일까지 볼 수 있어 바다에서 조난한 배를 찾아내고, 순풍이는 바람을 따라 어디서든 들려오는 구조 요청을 들을 수 있습니다.
+destinations.json::[18].quizBank[3].question	Những đôi giày trong tủ kính dành cho ai?	유리장 안의 저 신들은 누구를 위한 것인가요?
+destinations.json::[18].quizBank[3].options[0]	Những người phụ nữ bó chân gót sen	전족을 한 여성들
+destinations.json::[18].quizBank[3].options[1]	Tượng thờ các vị thần	신상(神像)들
+destinations.json::[18].quizBank[3].options[2]	Vũ công múa thủy tụ	수수(水袖) 춤을 추는 무희들
+destinations.json::[18].quizBank[3].explain	Tủ kính trưng bày các vật dụng của người Hoa xưa. Những đôi giày trong tủ được dùng khi bó chân gót sen. Tập tục này bắt đầu từ thời nhà Tống, được coi là biểu tượng của cái đẹp và địa vị. Đến thời nhà Thanh, tuy lệnh cấm được ban hành, song ít người tuân thủ. Đến thế kỷ XIX, có khoảng một nửa phụ nữ Trung Hoa thực hành bó chân.	유리장에는 옛 화교의 생활 도구가 전시되어 있습니다. 그 안의 신은 전족을 한 발에 신던 것입니다. 이 풍습은 송대에 시작되어 아름다움과 신분의 상징으로 여겨졌습니다. 청대에는 금지령이 내려졌지만 지키는 이가 적었고, 19세기에는 중국 여성의 절반쯤이 전족을 했습니다.
+destinations.json::[18].quizBank[4].question	Bức tranh vẽ những đứa trẻ này được tìm thấy ở đâu?	아이들을 그린 이 그림은 어디에서 볼 수 있나요?
+destinations.json::[18].quizBank[4].options[0]	Nhà Đông	동쪽 건물
+destinations.json::[18].quizBank[4].options[1]	Án thờ 3 bà Chúa Sanh thai và 12 bà mụ	삼위 생육 여신과 열두 산파의 제단
+destinations.json::[18].quizBank[4].options[2]	Án thờ Lục Tánh vương gia	육성왕가의 제단
+destinations.json::[18].quizBank[4].explain	Ba bà Chúa Sanh thai (Tam Tiêu Nương Nương) và 12 bà mụ lo việc tạo hình hài, ban phước, bảo trợ cho việc cầu tự (cầu con), thai kỳ bình an và mẹ tròn con vuông. Tượng 12 bà mụ thường khắc họa các vị trong các động tác chăm sóc, bồng bế trẻ thơ khác nhau.	삼위 생육 여신(삼소낭낭)과 열두 산파는 아이의 몸을 이루고 복을 내리며, 자식 구하기, 순한 임신, 무사한 출산을 돕습니다. 열두 산파의 상은 흔히 아기를 돌보고 안는 여러 자세로 표현됩니다.
+destinations.json::[18].short	Hội quán tráng lệ nhất với những chi tiết trang trí tinh xảo làm từ gốm sứ và nhiều chất liệu khác.	도자기와 여러 재료로 만든 정교한 장식이 가장 화려한 회관.
+destinations.json::[18].highlights[0]	Cổng tam quan uy nghi	위엄 있는 삼관문
+destinations.json::[18].highlights[1]	Mô hình thương thuyền vượt biển sống động	바다를 건너는 상선 모형
+destinations.json::[18].highlights[2]	Hoành phi và liễn đối do Ngô Lỗ, Trạng nguyên cuối cùng của lịch sử Tuyền Châu (Phước Kiến), cúng vào năm 1897	1897년 오로(吳魯) — 취안저우(복건) 역사상 마지막 장원 — 가 바친 편액과 대련
+destinations.json::[19].name	Hội quán Hải Nam	해남 회관
+destinations.json::[19].description	Sinh sau đẻ muộn và hiếm khi được ngợi ca là tráng lệ hay lộng lẫy, Hội quán Hải Nam như một cuốn sử phong phú khiến người ta ngỡ ngàng một khi bước vào trong.	늦게 세워졌고 화려하다는 칭찬은 좀처럼 듣지 못하지만, 해남 회관은 안으로 들어서는 순간 놀라게 하는 두꺼운 역사책 같습니다.
+destinations.json::[19].quizBank[0].question	Trong hai con lân này, con nào là lân đực và con nào là lân cái?	이 두 기린상 가운데 어느 것이 암컷이고 어느 것이 수컷인가요?
+destinations.json::[19].quizBank[0].options[0]	Cả A và B đều là lân đực	A와 B 모두 수컷
+destinations.json::[19].quizBank[0].options[1]	A là lân cái, B là lân đực	A는 암컷, B는 수컷
+destinations.json::[19].quizBank[0].options[2]	A là lân đực, B là lân cái	A는 수컷, B는 암컷
+destinations.json::[19].quizBank[0].explain	Thông thường, lân đực được khắc họa trong tư thế “lân hí cầu” với quả cầu tượng trưng cho mặt trời dưới chân, còn lân cái trong tư thế "lân giáo tử", dùng chân trước ôm ngang lưng con lân con. Tượng lân cũng được sắp đặt theo nguyên tắc “nam tả nữ hữu”, trong đó lân cái nằm ở phía tay phải nhìn từ trong chính điện ra. Bức tường phía ngoài hội quán cũng có hai bức phù điêu lân mang bát bảo và kỳ mang ám bát tiên.	보통 수컷은 발 아래에 해를 뜻하는 공을 두고 '기린희구(麒麟戲球)' 자세로, 암컷은 앞발로 새끼의 허리를 감싸는 '기린교자(麒麟敎子)' 자세로 새깁니다. 상의 배치도 '남좌여우(男左女右)'를 따르므로, 정전 안에서 밖을 바라볼 때 암컷이 오른쪽에 있습니다. 회관 바깥 담에도 팔보(八寶)를 지닌 기린과 암팔선(暗八仙)을 지닌 기(麒) 부조가 각각 있습니다.
+destinations.json::[19].quizBank[1].question	Tại sao Hội quán Hải Nam lại thờ 108 vị Chiêu Ứng Công?	해남 회관은 왜 초응공 108위를 모시나요?
+destinations.json::[19].quizBank[1].options[0]	Tưởng nhớ oai linh 108 vị anh hùng Lương Sơn Bạc đứng lên chống lại cái ác	악에 맞선 양산박 108 영웅의 위엄을 기리려고
+destinations.json::[19].quizBank[1].options[1]	Tưởng nhớ công ơn 108 tiền hiền đã đặt nền móng cho sự phát triển của bang Hải Nam	해남 방(帮)의 기틀을 놓은 선현 108위의 공을 기리려고
+destinations.json::[19].quizBank[1].options[2]	Tưởng nhớ vong linh 108 vị thương buôn chết oan đã hiển linh phù hộ thuyền bè trên biển	억울하게 죽은 뒤 바다에서 배를 지켜 준 상인 108위의 넋을 기리려고
+destinations.json::[19].quizBank[1].explain	Mùa hạ năm 1851, 108 thương buôn người Hải Nam đã bị một số quan binh triều Nguyễn sát hại vì coi là cướp biển. Vua Tự Đức khi biết chuyện đã minh oan và sắc phong cho các vị là Chiêu Ứng Anh Liệt. Cặp liễn đối hai bên hương án chính có nghĩa: Khí khái tụ thành thần, theo dấu anh linh do oan trái; Đức độ xây nên miếu, thương kẻ đồng hương ở chốn xa.	1851년 여름, 해남 상인 108명이 해적으로 오인되어 응우옌 조정의 일부 관군에게 살해되었습니다. 뒤에 이를 알게 된 뜨득 황제가 무죄를 밝히고 '초응영렬(昭應英烈)'로 봉했습니다. 주 향안 양쪽 대련의 뜻은 이렇습니다. “기개는 모여 신이 되었으니, 억울함이 남긴 영령의 자취를 따르고; 덕은 쌓여 사당을 세웠으니, 먼 곳에 있는 같은 고향 사람을 아낀다.”
+destinations.json::[19].quizBank[2].question	Bao lam (cửa võng, rèm gỗ) ở cửa chính điện có đề tài gì?	정전 문 위 바오람(목조 장식 커튼)의 주제는 무엇인가요?
+destinations.json::[19].quizBank[2].options[0]	Tùng thử bồ đào (sóc và dây nho)	송서포도 (다람쥐와 포도 덩굴)
+destinations.json::[19].quizBank[2].options[1]	Hoa - điểu (hoa và chim muông)	화조 (꽃과 새)
+destinations.json::[19].quizBank[2].options[2]	Tùng - hạc	송학 (소나무와 학)
+destinations.json::[19].quizBank[2].explain	Tùng Thử Bồ Đào (松鼠葡萄) là đề tài kinh điển biểu trưng cho phú quý – sung túc – vạn sự hưng long. Hình ảnh sóc trèo nho thể hiện sự sinh sôi – đông con cháu, là lời chúc cát tường cho gia đạo thịnh vượng.	송서포도(松鼠葡萄)는 부귀와 넉넉함, 만사가 흥하기를 나타내는 고전적인 주제입니다. 다람쥐가 포도 덩굴을 타는 모습은 번식과 자손의 번성을 뜻하며, 집안이 흥하기를 바라는 길상의 인사입니다.
+destinations.json::[19].short	Hội quán giản dị song lại mang những chi tiết độc nhất, chứa đựng bề dày văn hoá Trung Hoa.	소박하지만 유일무이한 세부를 지닌 회관 — 중국 문화의 두께가 담겨 있습니다.
+destinations.json::[19].highlights[0]	Khúc bi hùng ca của 108 vị Chiêu Ứng Công	초응공(昭應公) 108위의 비장한 노래
+destinations.json::[19].highlights[1]	Hương án chính thếp vàng, được chạm lộng tinh vi với nhiều đề tài văn hoá	금박을 입힌 주 향안 — 여러 문화 주제를 정교하게 투각
+destinations.json::[19].highlights[2]	Bộ cửa vẽ lại điển tích “Nhị thập tứ hiếu”	'이십사효(二十四孝)' 이야기를 그린 문짝
+destinations.json::[19].highlights[3]	Kiến trúc song mái độc nhất tại Hội An	호이안에서 유일한 겹지붕 구조
+destinations.json::[20].name	Hội quán Triều Châu	조주 회관
+destinations.json::[20].description	Hội quán Triều Châu sinh động với các chi tiết chạm gỗ trứ danh của người Tiều. Đề tài trang trí phong phú, tạo hình sáng tạo.	조주 회관은 조주(潮州) 사람들의 이름난 목조 조각으로 생기가 넘칩니다. 장식 주제가 풍부하고 형상이 창의적입니다.
+destinations.json::[20].quizBank[0].question	Bạn có thể đi tìm chú ngựa này không? Người bạn của chú có bộ lông màu gì?	이 말을 찾아보실래요? 이 말의 짝은 어떤 색 털인가요?
+destinations.json::[20].quizBank[0].options[0]	Trắng	흰색
+destinations.json::[20].quizBank[0].options[1]	Đen	검정
+destinations.json::[20].quizBank[0].options[2]	Nâu	갈색
+destinations.json::[20].quizBank[1].question	Hình ảnh này là đặc trưng của mùa nào?	이 그림은 어느 계절을 나타내나요?
+destinations.json::[20].quizBank[1].options[0]	Hạ	여름
+destinations.json::[20].quizBank[1].options[1]	Thu	가을
+destinations.json::[20].quizBank[1].options[2]	Xuân	봄
+destinations.json::[20].quizBank[1].explain	Ở Trung Quốc, tứ quý danh hoa là "Xuân Lan - Hạ Hà - Thu Cúc - Đông Mai". Trong đó "Lan" là lan kiếm, "Hà" là sen, "Cúc" vẫn là cúc, còn "Mai" là mơ.	중국에서 사계절의 네 명화(名花)는 '춘란 - 하하 - 추국 - 동매'입니다. 여기서 '란'은 검란(劍蘭), '하'는 연꽃, '국'은 국화, '매'는 매화입니다.
+destinations.json::[20].quizBank[2].question	Trên phần mái tiền điện có những đề tài trang trí gì?	전전(前殿) 지붕에는 어떤 장식 주제가 있나요?
+destinations.json::[20].quizBank[2].options[0]	Lưỡng long tranh bình hồ lô, ông Nhật - bà Nguyệt, các linh thú	두 용이 호로병을 다투는 도안, 해와 달의 신, 여러 영수(靈獸)
+destinations.json::[20].quizBank[2].options[1]	Lưỡng long triều dương, cá chép vượt long môn, bát tiên quá hải	두 용이 해를 향하는 도안, 잉어가 용문을 뛰어오르는 도안, 팔선과해
+destinations.json::[20].quizBank[2].options[2]	Lưỡng long tranh châu, lục quốc phong tướng	두 용이 여의주를 다투는 도안, 육국봉장
+destinations.json::[20].quizBank[2].explain	Bên cạnh các đồ án lưỡng long hay cá chép vượt long môn, đồ án bát tiên quá hải cũng rất được ưa chuộng trong các kiến trúc của người Hoa. Bát tiên quá hải (tám vị tiên vượt biển) kể về hành trình 8 vị tiên dùng phép thuật và pháp bảo để vượt qua đại dương. Tất cả những pháp khí mà 8 vị tiên sử dụng gọi chung là Ám bát tiên, cũng là một đề tài trang trí phổ biến. Bảo vật ngư cổ của Trương Quả Lão nói về mạng sống của con người. Lã Động Tân mang bảo kiếm có thể ngăn cản tà ma. Cây sáo của Hàn Tương Tử có thể khiến vạn vật sinh sôi và nảy nở. Hà Tiên Cô có hoa sen có thể tu thân dưỡng tính. Hồ lô của Thiết Quản Lý có thể cứu giúp chúng sanh. Quạt của Hán Chung Ly có thể làm hồi sinh. Tấm ngọc của Tào Quốc Cửu có thể làm mọi vật trở nên trong sạch. Giỏ của Lam Thái Hòa có thể quảng thông thần minh.	두 용 도안이나 잉어가 용문을 뛰어오르는 도안 외에, 팔선과해(八仙過海)도 화교 건축에서 매우 즐겨 쓰였습니다. 팔선과해는 여덟 신선이 술법과 법기(法器)로 큰 바다를 건너는 이야기입니다. 여덟 신선이 쓰는 법기를 모두 묶어 암팔선(暗八仙)이라 하며, 이 또한 흔한 장식 주제입니다. 장과로의 어고(魚鼓)는 사람의 목숨을 말합니다. 여동빈의 보검은 사악한 기운을 막습니다. 한상자의 피리는 만물을 자라나게 합니다. 하선고의 연꽃은 몸과 마음을 닦게 합니다. 철관리의 호로는 중생을 구합니다. 한종리의 부채는 죽은 이를 되살립니다. 조국구의 옥판은 모든 것을 맑게 합니다. 남채화의 바구니는 신명과 널리 통하게 합니다.
+destinations.json::[20].short	Hội quán rực rỡ nhất với các họa tiết trang trí gỗ phức tạp có tạo hình phong phú trong tầm mắt.	눈앞에 가장 화려한 회관 — 복잡하고 형상이 풍부한 목조 무늬.
+destinations.json::[20].highlights[0]	Trang trí khác nhau ở hai bên vì kèo	서로 다른 두 쪽 서까래 장식
+destinations.json::[20].highlights[1]	Khám thờ và bao lam chạm nhiều điển tích	여러 고사를 새긴 신감(神龕)과 바오람
+destinations.json::[20].highlights[2]	Hệ cửa chạm gỗ và vẽ kính sáng tạo	목조 조각과 유리 그림을 창의적으로 쓴 문 세트
+destinations.json::[21].name	Đình Cẩm Phô	껌포 마을회관 (딘 껌포)
+destinations.json::[21].description	Đình Cẩm Phô là nơi ghi dấu rõ nhất tinh thần cởi mở và chan hoà của thương cảng này. Liễn đối trước Hương Hiền tự ghi: “Lễ nhạc uy nghi kính như thần tại. Âu ca cổ vũ lạc tại nhân hòa”, có nghĩa: Lễ nghi và âm nhạc uy nghiêm, lòng thành kính như thần linh đang hiện diện. Hát ca và múa trống tưng bừng, niềm vui thực sự nằm ở sự hòa hợp của lòng người.	딘 껌포는 이 항구의 열린 마음과 어울림을 가장 또렷하게 남긴 자리입니다. 향현사(香賢祠) 앞 대련에는 이렇게 적혀 있습니다. “예악(禮樂)이 위엄 있어 공경함이 신이 계신 듯하고, 노래와 북춤이 흥겨우니 참된 즐거움은 사람의 마음이 어울리는 데 있다.”
+destinations.json::[21].quizBank[0].question	Mái của phương đình được trang trí với bao nhiêu con phượng?	방정(方亭) 지붕에는 봉황이 몇 마리 장식되어 있나요?
+destinations.json::[21].quizBank[0].options[0]	9 con	9마리
+destinations.json::[21].quizBank[0].options[1]	10 con	10마리
+destinations.json::[21].quizBank[0].options[2]	8 con	8마리
+destinations.json::[21].quizBank[0].explain	Đình có một hệ thống các con giống được tạo hình rất sinh động và độc đáo trang trí cho các bộ phận kiến trúc. Nổi bật là 9 hình chim phượng trên phương đình. Trong phong thuỷ, phượng gắn liền với hành Hỏa, mùa hạ và hướng Nam, mang lại may mắn, cát khí và cơ hội phát triển. Cơ thể của phượng đại diện cho 5 phẩm chất cao quý gồm: đức hạnh (ngay thẳng), lòng nhân đạo (lương thiện), sự công bằng, tính đáng tin (chung thủy) và sự khoan đại.	이 마을회관에는 건축 부재마다 아주 생생하고 독특하게 형상화한 영물들이 있습니다. 그중 방정 위의 봉황 9마리가 눈에 띕니다. 풍수에서 봉황은 화(火), 여름, 남쪽과 이어져 행운과 길한 기운, 성장의 기회를 가져옵니다. 봉황의 몸은 다섯 가지 고귀한 덕 — 덕행(곧음), 인도(선함), 공정, 신뢰(정절), 관대 — 를 나타냅니다.
+destinations.json::[21].quizBank[1].question	Tại sao Đình Cẩm Phô lại có tên Cẩm Phô Hương Hiền?	딘 껌포는 왜 '껌포 향현(香賢)'이라는 이름을 갖게 되었나요?
+destinations.json::[21].quizBank[1].options[0]	Đình lưu giữ các ký ức từ xa xưa	아주 먼 옛날의 기억을 간직하고 있어서
+destinations.json::[21].quizBank[1].options[1]	Đình có thờ các vị tiền hiền, hậu hiền làng Cẩm Phô	껌포 마을의 선현과 후현을 모시고 있어서
+destinations.json::[21].quizBank[1].options[2]	Đình là nơi tổ chức sinh hoạt văn hoá truyền thống	전통 문화 행사를 여는 곳이어서
+destinations.json::[21].quizBank[1].explain	Đình trước đây thờ bà Đại Càn và các vị thần sông nước, về sau kết hợp thờ các vị tiền hiền và hậu hiền của làng Cẩm Phô. Trong đình là những hoành phi, liễn đối thể hiện đạo lý “uống nước nhớ nguồn” như “Ẩm hà tư nguyên” (phiên bản chữ Hán của “uống nước nhớ nguồn”) hay “Quang tiền dụ hậu” mang nghĩa: rạng rỡ đời trước, sung túc đời sau.	이 회관은 예전에 다이 껀 여신과 물의 신들을 모셨고, 뒤에 껌포 마을의 선현과 후현을 함께 모시게 되었습니다. 안에는 '근본을 잊지 않는다'는 도리를 담은 편액과 대련이 있습니다. '음하사원(飮河思源)' — 강물을 마시며 그 근원을 생각한다 — 이나 '광전유후(光前裕後)' — 앞 세대를 빛나게 하고 뒷 세대를 넉넉하게 한다 — 같은 글귀입니다.
+destinations.json::[21].short	Kết tinh của các giá trị văn hoá Việt – sự cởi mở và chan hoà khiến cho cảng thị phồn vinh.	베트남 문화 가치가 응결된 곳 — 이 항구를 번영하게 한 열림과 어울림.
+destinations.json::[21].highlights[0]	Các liễn đối truyền tải chiều sâu văn hoá Việt	베트남 문화의 깊이를 전하는 대련들
+destinations.json::[21].highlights[1]	Các con giống trang trí trên phần mái	지붕을 장식한 영물(靈物)들
+destinations.json::[22].name	Tụy Tiên Đường Minh Hương	취선당 명향 (萃先堂 明鄉)
+destinations.json::[22].description	Hai chữ Minh Hương (明香) vốn có nghĩa giữ gìn hương hỏa nhà Minh, sau đổi thành 明鄉 để chỉ làng của những người gốc nhà Minh. Tụy Tiên Đường là một di tích tiêu biểu của cộng đồng Minh Hương	명향(明香)이라는 두 글자는 본래 명(明)나라의 향불을 지킨다는 뜻이었고, 뒤에 명향(明鄉)으로 바뀌어 명나라 후손들의 마을을 가리켰습니다. 취선당은 그 명향 공동체의 대표적인 유적입니다.
+destinations.json::[22].quizBank[0].question	Con hạc này đang đứng trên lưng con vật nào?	이 학은 어떤 동물의 등에 서 있나요?
+destinations.json::[22].quizBank[0].options[0]	Cá	물고기
+destinations.json::[22].quizBank[0].options[1]	Rùa	거북
+destinations.json::[22].quizBank[0].options[2]	Cua	게
+destinations.json::[22].quizBank[0].explain	Rùa đội hạc là một biểu tượng văn hóa và tâm linh quen thuộc trong các ngôi đình, chùa và trên bàn thờ gia tiên của người Việt. Nhiều di tích của người Minh Hương có biểu tượng này từ xưa, bởi lẽ người Minh Hương từ cộng đồng người Hoa di trú đã hội nhập vào xã hội và văn hoá Việt Nam và trở thành những người Việt thực thụ.	거북이 학을 받치는 모습은 베트남의 마을회관과 절, 그리고 집안 조상 제단에서 낯익은 문화적·정신적 상징입니다. 명향 사람들의 여러 유적에도 예부터 이 상징이 있습니다. 이주한 화교 공동체에서 나온 명향 사람들이 베트남 사회와 문화에 들어와 진짜 베트남 사람이 되었기 때문입니다.
+destinations.json::[22].quizBank[1].question	Con vật này đang mang gì trên lưng?	이 동물은 등에 무엇을 지고 있나요?
+destinations.json::[22].quizBank[1].options[0]	Những cuộn dây	여러 개의 두루마리 끈
+destinations.json::[22].quizBank[1].options[1]	Thuốc thang	약재
+destinations.json::[22].quizBank[1].options[2]	Những cuốn thư	두루마리 책
+destinations.json::[22].quizBank[1].explain	Hình trên cửa là một cách điệu của hình tượng Long mã Hà đồ. Truyền thuyết kể rằng, Long Mã xuất hiện trên sông Hoàng Hà, dưới thời Phục Hy, mình xanh, vằn đỏ, trên lưng có mang bức Hà đồ, hay Mã đồ, là sách trời ban cho vua để trị nước.	문 위의 그림은 용마하도(龍馬河圖)를 도안화한 것입니다. 전설에 따르면 복희(伏羲) 때 황하에 용마가 나타났는데, 몸은 푸르고 붉은 무늬가 있었으며, 등에는 하도(河圖) 또는 마도(馬圖)를 지고 있었습니다. 임금이 나라를 다스리도록 하늘이 내린 책입니다.
+destinations.json::[22].quizBank[2].question	Nơi này thờ phụng ai?	이곳은 누구를 모시고 있나요?
+destinations.json::[22].quizBank[2].options[0]	Những người có công với làng Minh Hương ở Hội An	호이안 명향 마을에 공을 세운 사람들
+destinations.json::[22].quizBank[2].options[1]	Tướng Trần Thượng Xuyên và Dương Ngạn Địch	쩐 트엉 쑤옌과 즈엉 응안 딕 장군
+destinations.json::[22].quizBank[2].options[2]	Phúc Đức chính thần	복덕정신(福德正神)
+destinations.json::[22].quizBank[2].explain	Trong tên Tuỵ Tiên Đường, “tuỵ” có nghĩa là tụ họp, còn “tiên” là người xưa quá vãng. Văn bia tại đình có ghi: Khi xây dựng một làng tất phải nhớ công lao của tiền nhân. Người đời không thể quên đức tốt đã truyền lưu. Văn bia cũng giải thích rằng các vị được thờ nơi đây trước là cựu thần nhà Minh. Vận nhà Minh đã qua, lòng họ không nhận hai vua nên từ quan, đổi tên họ, lánh nạn đến đất phương nam, rồi họp người Tàu lại tại xứ nam, chọn chữ Minh để giữ quốc hiệu.	취선당(萃先堂)이라는 이름에서 '취'는 모인다는 뜻이고, '선'은 앞서 살다 간 사람입니다. 이곳 비문에는 이렇게 적혀 있습니다. “마을을 세울 때에는 반드시 앞사람의 공을 기억해야 한다. 세상 사람은 전해진 좋은 덕을 잊을 수 없다.” 비문은 또, 여기 모신 분들이 본래 명나라의 옛 신하였다고 밝힙니다. 명의 운이 다한 뒤 그들은 두 임금을 섬기지 않겠다며 벼슬을 버리고 성을 바꾸어 남쪽 땅으로 피해 왔고, 남쪽에서 중국 사람들을 모아 '명(明)'이라는 글자를 골라 나라 이름을 지켰습니다.
+destinations.json::[22].short	Mang đậm giá trị văn hóa của những người gốc Hoa mang thân phận người dân Đại Nam dưới triều Nguyễn	응우옌 왕조 아래 다이남(大南)의 백성으로 살아간 화교 후손들의 문화가 짙게 남은 곳
+destinations.json::[22].highlights[0]	Kiến trúc gỗ được thực hiện bởi các nghệ nhân làng Kim Bồng	김봉 마을 장인들이 지은 목조 건축
+destinations.json::[22].highlights[1]	Sự hòa trộn văn hóa Việt và Trung	베트남과 중국 문화의 어우러짐
+destinations.json::[22].highlights[2]	Câu chuyện của cộng đồng người Hoa đã Việt hoá.	베트남 사람이 된 화교 공동체의 이야기
+destinations.json::[23].name	Đình Hội An	호이안 마을회관 (딘 호이안)
+destinations.json::[23].description	Đình không chỉ gây ấn tượng thị giác mạnh mẽ mà còn là một trải nghiệm khám phá thú vị, đầy bất ngờ.	이 회관은 시각적으로 강한 인상을 줄 뿐 아니라, 뜻밖의 발견이 이어지는 즐거운 탐험이 됩니다.
+destinations.json::[23].quizBank[0].question	Đình Hội An còn có tên gọi nào khác?	딘 호이안에는 어떤 다른 이름이 있나요?
+destinations.json::[23].quizBank[0].options[0]	Đình Voi Ré	딘 보이 제 (코끼리 울음 회관)
+destinations.json::[23].quizBank[0].options[1]	Đình Voi Phục	딘 보이 푹 (엎드린 코끼리 회관)
+destinations.json::[23].quizBank[0].options[2]	Đình Ông Voi	딘 옹 보이 (코끼리 어른 회관)
+destinations.json::[23].quizBank[0].explain	Tên gọi đình Ông Voi xuất phát từ cặp tượng voi quỳ phục đặt ở sân trước. Hai pho tượng có kích thước lớn, chạm khắc tinh xảo, khoác lễ phục với nhiều chi tiết trang trí. Hình tượng voi không chỉ gây ấn tượng thị giác mà còn gắn liền với biểu tượng sức mạnh, trí tuệ trong văn hóa - tín ngưỡng dân gian. Trong Phật giáo, voi cũng là một biểu tượng của sức mạnh tâm thức, gắn với nhiều điển tích.	'딘 옹 보이'라는 이름은 앞마당에 무릎을 꿇고 엎드린 코끼리 한 쌍의 상에서 왔습니다. 두 상은 크기가 크고 정교하게 새겨졌으며, 장식이 많은 예복을 걸치고 있습니다. 코끼리의 형상은 시각적으로 강렬할 뿐 아니라, 민간 문화와 신앙에서 힘과 지혜의 상징과 이어집니다. 불교에서도 코끼리는 마음의 힘을 나타내는 상징으로 여러 이야기에 등장합니다.
+destinations.json::[23].quizBank[1].question	Đây là con vật gì?	이것은 어떤 동물인가요?
+destinations.json::[23].quizBank[1].options[0]	Long mã	용마 (龍馬)
+destinations.json::[23].quizBank[1].options[1]	Sư tử	사자
+destinations.json::[23].quizBank[1].options[2]	Lân	기린 (麒麟)
+destinations.json::[23].quizBank[1].explain	Hình trên bình phong là một cách điệu của hình tượng Long mã Hà đồ. Truyền thuyết kể rằng, Long Mã xuất hiện trên sông Hoàng Hà, dưới thời Phục Hy, mình xanh, vằn đỏ, trên lưng có mang bức Hà đồ, hay Mã đồ, là sách trời ban cho vua để trị nước.	병풍 위의 그림은 용마하도(龍馬河圖)를 도안화한 것입니다. 전설에 따르면 복희 때 황하에 용마가 나타났는데, 몸은 푸르고 붉은 무늬가 있었으며 등에 하도(마도)를 지고 있었습니다. 임금이 나라를 다스리도록 하늘이 내린 책입니다.
+destinations.json::[23].quizBank[2].question	Bạn đã lên ban thờ trên tầng hai chưa? Hãy đi tìm lối lên tầng. Trên mái nhà đối diện là hoạ tiết gì?	2층 제단에 올라가 보셨나요? 올라가는 길을 찾아보세요. 마주 보이는 지붕에는 어떤 무늬가 있나요?
+destinations.json::[23].quizBank[2].options[0]	Cá và bình hồ lô	물고기와 호로병
+destinations.json::[23].quizBank[2].options[1]	Rồng dây và mặt trời	덩굴 용과 해
+destinations.json::[23].quizBank[2].options[2]	Rồng và bình hồ lô	용과 호로병
+destinations.json::[23].short	Tưởng không bất ngờ, nhưng bất ngờ không tưởng với đường đi lên hậu tẩm	놀랄 일 없어 보이지만, 뒤편 신실로 오르는 길에서 뜻밖의 놀라움을 만납니다.
+destinations.json::[23].highlights[0]	Hình tượng trang trí ấn tượng ở sân trước	앞마당의 인상적인 장식 조형
+destinations.json::[23].highlights[1]	Hậu tẩm hai tầng độc đáo – view phố cổ có một không hai	2층 구조의 독특한 후침(後寢) — 구시가를 보는 유일한 시야
+destinations.json::[24].name	Điểm tham quan trình nghề Xí Mà	시마 (흑임자 죽) 시연장
+destinations.json::[24].description	Chè mè đen từng theo những gánh hàng rong đi khắp phố cổ từ sáng sớm. Ở điểm trình nghề, khách xem cách xay mè, nấu chè và nghe vì sao bát chè này vừa là món ăn vừa là thang thuốc.	흑임자 죽은 이른 아침부터 구시가를 돌던 봇짐 장수들의 짐 속에 있었습니다. 시연장에서는 참깨를 가는 법과 죽을 끓이는 법을 보고, 이 한 그릇이 어째서 음식이면서 약도 되는지 듣게 됩니다.
+destinations.json::[24].quizBank[0].question	Thành phần nào sau đây không có trong chè Xí Mà?	다음 중 시마 죽에 들어가지 않는 재료는 무엇인가요?
+destinations.json::[24].quizBank[0].options[0]	Thanh địa	지황 (숙지황)
+destinations.json::[24].quizBank[0].options[1]	Bột sắn	카사바 전분
+destinations.json::[24].quizBank[0].options[2]	Rau má	병풀 (센텔라)
+destinations.json::[24].quizBank[0].explain	Nguyên liệu chủ yếu để làm xí mà chính là mè đen, ngoài ra còn có các loại: bột khoai, thanh địa, rau má, rau mơ, và đường, những thứ này toàn là những nguyên liệu sẵn có của địa phương, duy chỉ có thanh địa là một vị thuốc của Đông y (thuốc Bắc) phải mua ở tiệm thuốc.	시마의 주재료는 검은깨입니다. 그 밖에 고구마 가루, 지황, 병풀, 피쉬민트, 설탕이 들어갑니다. 모두 이 지역에서 나는 재료이고, 지황만은 한약재라서 약방에서 사 와야 합니다.
+destinations.json::[24].quizBank[1].question	Tên xí mà có nguồn gốc từ đâu?	'시마'라는 이름은 어디에서 왔나요?
+destinations.json::[24].quizBank[1].options[0]	Phương ngữ miền Trung	중부 지방 방언
+destinations.json::[24].quizBank[1].options[1]	Tiếng Nhật	일본어
+destinations.json::[24].quizBank[1].options[2]	Tiếng Quảng Đông	광둥어
+destinations.json::[24].quizBank[1].explain	Xí mà (đọc lệch từ "chí mà phù") là một từ có gốc từ tiếng Quảng Đông (Trung Quốc), dùng để chỉ món chè mè đen (súp mè đen xay nhuyễn). Chí mà có nghĩa là mè đen và phù có nghĩa là xay nhuyễn.	시마는 '지마후(芝麻糊)'가 소리가 바뀐 말로, 광둥어에서 왔습니다. 검은깨를 곱게 갈아 끓인 단죽을 가리킵니다. '지마'는 검은깨, '후'는 곱게 갈았다는 뜻입니다.
+destinations.json::[24].short	Cơ hội học nấu món chè đặc trưng của Hội An khi đi du lịch	여행 중에 호이안의 대표 단죽을 직접 끓여 보는 기회
+destinations.json::[24].highlights[0]	Cách xay và nấu mè đen theo lối cũ	옛 방식으로 참깨를 갈고 죽을 끓이는 법
+destinations.json::[24].highlights[1]	Các vị đi cùng mè đen: thanh địa, rau má, rau mơ	흑임자와 함께 들어가는 재료 — 지황, 병풀, 피쉬민트
+destinations.json::[24].highlights[2]	Tự tay nấu và nếm một bát chè nóng	직접 끓여 뜨거운 한 그릇을 맛보기
+tours.json::[0].title	Vượt biển trèo non	바다를 건너 산을 넘어
+tours.json::[0].short	Hành trình của những người vượt biển đến Hội An	바다를 건너 호이안에 온 사람들의 여정
+tours.json::[0].description	Từ chuyện 108 thương nhân bị xử oan đến khát khao những chuyến hải trình sóng yên biển lặng, chuyến đi khám phá trải nghiệm của những thương thuyền đến cảng thị Hội An đồng thời giới thiệu đặc trưng kiến trúc của các hội quán khác nhau của cộng đồng Hoa kiều.	억울하게 목숨을 잃은 108명의 상인 이야기부터 파도 없는 뱃길을 바라던 마음까지, 이 길은 상선들이 회안 항구에 이르기까지 겪은 일을 따라갑니다. 동시에 화교 사회의 여러 회관이 서로 어떻게 다른지 그 건축을 보여 줍니다.
+tours.json::[0].voucher	Voucher quà tặng (chốt tên sau)	선물 상품권 (이름 확정 전)
+tours.json::[1].title	Một tấc lòng son	한 조각 붉은 마음
+tours.json::[1].short	Cuộc đời, sự nghiệp và tư tưởng của trí thức Hội An	호이안 지식인들의 삶과 이력, 그리고 생각
+tours.json::[1].description	Dọc theo hành trình này, du khách sẽ khám phá cuộc đời, sự nghiệp và tư tưởng của các trí thức ở Hội An: từ tấm gương trung hiếu tiết nghĩa được đông đảo nho sĩ ở các vùng phía Nam Trung Hoa và khắp Việt Nam thờ phụng, cho đến quan lại thời nhà Nguyễn và thế hệ chí sĩ Duy Tân.	이 길에서는 호이안 지식인들의 삶과 이력, 생각을 만납니다. 중국 남방과 베트남 전역의 유학자들이 받들어 온 충의와 절개의 표상에서, 응우옌 왕조의 관리들과 두이떤(維新) 세대의 지사들까지.
+tours.json::[1].voucher	Voucher quà tặng (chốt tên sau)	선물 상품권 (이름 확정 전)
+tours.json::[2].title	Lạc tại nhân hòa	즐거움은 화합에 있다
+tours.json::[2].short	Cuộc bộ hành khám phá sự đa dạng văn hoá của Hội An	호이안의 여러 문화를 걸어서 만나기
+tours.json::[2].description	Bắt đầu từ văn hóa Nhật Bản, Trung Hoa cho tới truyền thống Việt Nam, tuyến đường này tôn vinh sự phong phú về văn hóa của Hội An, đồng thời thể hiện nét chan hòa, cởi mở đặc trưng của một phố cảng - nơi nhiều sắc thái văn hóa đồng hành và phát triển.	일본과 중국의 문화에서 베트남의 전통까지, 이 길은 호이안이 품은 문화의 두께를 기립니다. 그리고 여러 문화가 나란히 살아가고 자라난 항구 도시의 열린 마음을 보여 줍니다.
+tours.json::[2].voucher	Voucher quà tặng (chốt tên sau)	선물 상품권 (이름 확정 전)
+tours.json::[3].title	Ngày vàng Phố Hội	호이안의 황금기
+tours.json::[3].short	Khám phá một thời vàng son của cảng thị Hội An	항구 도시 호이안의 전성기를 들여다보기
+tours.json::[3].description	Hành trình khám phá nét phong phú trong văn hóa, sự trù phú do thiên nhiên ban tặng cùng hệ thống thương mại phát triển của Hội An. Tất cả tạo nên một cảng thị phồn vinh với những mặt hàng quý hiếm, đắt đỏ nhưng không làm mất đi sự giàu có trong tâm hồn người.	호이안을 넉넉하게 만든 문화와 자연의 산물, 그리고 상업망을 따라 걷습니다. 귀하고 값비싼 물건이 오간 항구였지만, 사람의 마음속 넉넉함까지 팔아넘기지는 않았습니다.
+tours.json::[3].voucher	Voucher quà tặng (chốt tên sau)	선물 상품권 (이름 확정 전)
+rewards.json::[0].title	Quà đầu tiên	첫 선물
+rewards.json::[0].reward	Voucher 50.000đ của Vigift hoặc giảm 10% ở VAN•HOA	Vigift 50,000동 상품권 또는 VAN•HOA 10% 할인
+rewards.json::[1].title	Voucher lớn hơn	더 큰 상품권
+rewards.json::[1].reward	Voucher 100.000đ của Vigift hoặc giảm 15% ở VAN•HOA	Vigift 100,000동 상품권 또는 VAN•HOA 15% 할인
+rewards.json::[2].title	Món quà cầm tay	손에 쥐는 선물
+rewards.json::[2].reward	Set charm DIY hoạ tiết Trung thu hoặc quạt Tuần lễ Sáng tạo Hội An	중추절 문양 DIY 참 세트 또는 호이안 크리에이티브 위크 부채
+rewards.json::[3].title	Chiếc khăn Tuần lễ	크리에이티브 위크 스카프
+rewards.json::[3].reward	Khăn Tuần lễ Sáng tạo Hội An	호이안 크리에이티브 위크 스카프
+rewards.json::[4].title	Quà lớn nhất	가장 큰 선물
+rewards.json::[4].reward	Set quà Vigift Đà Nẵng	Vigift 다낭 기프트 세트
+categories.json::[0].label	Di tích	유적
+categories.json::[1].label	Hội quán	회관
+categories.json::[2].label	Nhà cổ	고가옥
+categories.json::[3].label	Bảo tàng	박물관
+categories.json::[4].label	Trải nghiệm & trình diễn	체험·시연
+ticket-points.json::[0].where	Bên trái Quảng trường sông Hoài, trên dọc đường Công Nữ Ngọc Hoa	호아이강 광장 왼편, Công Nữ Ngọc Hoa 거리를 따라
+ticket-points.json::[1].where	Đầu đường Nguyễn Thị Minh Khai, gần chỗ con thuyền Nhật Bản, ngay chỗ bắt xe taxi - xe điện	Nguyễn Thị Minh Khai 거리 입구, 일본 배 모형 근처, 택시·전기차 승차장 바로 옆
+ticket-points.json::[2].where	Đầu đường Nguyễn Phúc Chu	Nguyễn Phúc Chu 거리 입구
+ticket-points.json::[3].where	Công viên Phan Châu Trinh	Phan Châu Trinh 공원
+ticket-points.json::[4].where	Cạnh chùa Cầu	내원교(일본교) 옆
+ticket-points.json::[5].where	Đầu cầu An Hội, bên Nguyễn Phúc Chu	안호이교 입구, Nguyễn Phúc Chu 쪽
+ticket-points.json::[6].where	Trên đường Hai Bà Trưng, trước cổng chùa Bà Thiên Mụ	Hai Bà Trưng 거리, 티엔무 사원 문 앞
+ticket-points.json::[7].where	Trên đường Lê Lợi, cạnh Đình Hội An	Lê Lợi 거리, 호이안 마을회관 옆
+ticket-points.json::[8].where	Trên đường Hoàng Văn Thụ, ra bờ sông	Hoàng Văn Thụ 거리, 강변 쪽
+ticket-points.json::[9].where	Góc đường Phan Châu Trinh - Nguyễn Huệ	Phan Châu Trinh · Nguyễn Huệ 교차로
+ticket-points.json::[10].where	Điểm bán vé tại bãi xe Hoiango	Hoiango 주차장 매표소
+strings.js::explore	Khám phá	탐색
+strings.js::tours	Hành trình	코스
+strings.js::passport	Sổ tay	수첩
+strings.js::all	Tất cả	전체
+strings.js::no_sites	Chưa có điểm đến.	아직 표시할 곳이 없습니다.
+strings.js::directions	Chỉ đường	길찾기
+strings.js::checkin	Check-in	체크인
+strings.js::locating	Đang định vị...	위치 확인 중...
+strings.js::retry	Thử lại	다시 시도
+strings.js::back	Quay lại	돌아가기
+strings.js::far	Quá xa. Hãy đến gần hơn.	너무 멉니다. 더 가까이 가 주세요.
+strings.js::geo_denied	Bật vị trí để check-in.	체크인하려면 위치를 켜 주세요.
+strings.js::allow_location	Bật vị trí	위치 켜기
+strings.js::geo_fail	Lỗi định vị. Thử lại ngoài trời.	위치 확인 실패. 야외에서 다시 시도해 주세요.
+strings.js::continue_btn	Tiếp tục	계속
+strings.js::correct_title	Chính xác	정답
+strings.js::wrong_title	Chưa đúng	아쉽네요
+strings.js::nav_start	Lên đường	출발
+strings.js::nav_here	Check-in tại đây	여기서 체크인
+strings.js::continue_tour	Tiếp tục tuyến	코스 계속하기
+strings.js::nav_locate_prompt	Cần vị trí để dẫn đường	길 안내에는 위치가 필요합니다
+strings.js::nav_enable	Bật định vị	위치 켜기
+strings.js::nav_done	Đã hoàn thành tuyến	코스를 완주했습니다
+strings.js::nav_exit	Thoát	나가기
+strings.js::nav_seepassport	Xem sổ tay	수첩 보기
+strings.js::checkin_done	Đã check-in và lưu tem.	체크인 완료, 도장을 받았습니다.
+strings.js::route	Lộ trình	경로
+strings.js::tour_extra	Còn thời gian thì ghé thêm	시간이 남으면 여기도
+strings.js::plan	Gợi ý	추천
+strings.js::plan_title	Chọn điểm	갈 곳 고르기
+strings.js::plan_cta	Gợi ý 5 điểm	5곳 추천받기
+strings.js::plan_scan	Quét vé để lưu	입장권을 스캔해 저장
+strings.js::scan_btn	Quét vé	입장권 스캔
+strings.js::scan_saved	Đã lưu vé.	입장권을 저장했습니다.
+strings.js::scan_why	Bạn cần vé để nhận quà lớn hơn.	더 큰 선물을 받으려면 입장권이 필요합니다.
+strings.js::scan_saved_short	Đã lưu vé	입장권 저장됨
+strings.js::see_detail	Xem chi tiết	자세히 보기
+strings.js::buy_ticket	Mua vé ở đâu?	입장권은 어디서 사나요?
+strings.js::close_btn	Đóng	닫기
+strings.js::scan_point	Quét mã QR trên vé	입장권의 QR 코드를 스캔하세요
+strings.js::scan_unsupported	Lỗi camera. Bật camera hoặc chọn điểm bên dưới.	카메라 오류입니다. 카메라를 켜거나 아래에서 직접 고르세요.
+strings.js::scan_bad_ticket	Mã không hợp lệ. Vui lòng quét vé Hội An.	올바른 코드가 아닙니다. 호이안 입장권을 스캔해 주세요.
+strings.js::welcome_start	Tiếp tục	계속
+strings.js::scan_title	Quét mã vé	입장권 스캔
+strings.js::scan_skip	Bỏ qua, chọn điểm ngay	건너뛰고 바로 고르기
+strings.js::terms_pre	Bạn đồng ý với 	동의합니다: 
+strings.js::terms_link	điều khoản sử dụng	이용약관
+strings.js::terms_title	Điều khoản	이용약관
+strings.js::guide_title	Cách chơi	게임 방법
+strings.js::perm_lead	Cho phép vị trí và chuyển động để tìm điểm đến phù hợp và dẫn đường.	맞는 목적지를 찾고 길을 안내하기 위해 위치와 동작 정보를 허용해 주세요.
+strings.js::study_agree	Tham gia nghiên cứu	연구에 참여하기
+strings.js::feat_map	Khám phá 25 điểm di sản & tạo hành trình phù hợp	25곳의 문화유산을 둘러보고 나에게 맞는 코스 만들기
+strings.js::feat_ticket	Check-in và nhận mắt cửa tại mỗi điểm	각 지점에서 체크인하고 맛끄어(문의 눈) 도장 받기
+strings.js::feat_plan	Đổi mắt cửa và nhận quà	맛끄어를 모아 선물로 바꾸기
+strings.js::perm_title	Vị trí và chuyển động	위치와 동작
+strings.js::your_ticket	Vé của bạn	나의 입장권
+strings.js::route_label	Tuyến của bạn	나의 코스
+strings.js::route_resume	Tiếp tục hành trình	이어서 걷기
+strings.js::route_more	Xem thêm hành trình	다른 코스 보기
+strings.js::route_empty	Chưa có tuyến. Chọn 5 điểm.	아직 코스가 없습니다. 5곳을 골라 보세요.
+strings.js::all_sites	Tất cả điểm đến	전체 지점
+strings.js::r_higher	Đã đủ điểm	점수 충족
+strings.js::view_mode	Chế độ xem	보기 방식
+strings.js::view_list	Danh sách	목록
+strings.js::view_map	Bản đồ	지도
+strings.js::step_monument	Di tích	유적
+strings.js::step_museum	Bảo tàng	박물관
+strings.js::step_free	3 điểm tự do	자유 선택 3곳
+strings.js::rec_head	Gợi ý tuyến	추천 코스
+strings.js::rec_badge	Đề xuất	추천
+strings.js::use_set	Chọn tuyến này	이 코스로 하기
+strings.js::pick_own	Tự chọn 5 điểm	직접 5곳 고르기
+strings.js::reset_picks	Xóa hết	전체 지우기
+strings.js::auto_pick	Chọn giúp tôi	골라 주세요
+strings.js::pick_hint	Chạm để bắt đầu	눌러서 시작
+strings.js::scroll_more	Thêm bộ lọc	필터 더 보기
+strings.js::see_more	Xem thêm	더 보기
+strings.js::list_less	Thu gọn	접기
+strings.js::pick_do	Chọn	선택
+strings.js::pick_remove	Bỏ chọn	선택 해제
+strings.js::done_title	Hành trình của bạn	나의 코스
+strings.js::go_checkin	Lên đường	출발
+strings.js::edit_plan	Chọn lại	다시 고르기
+strings.js::lang_switch	Ngôn ngữ (Language)	언어 (Language)
+strings.js::set_complete	Đã hoàn thành bộ tem.	도장을 모두 모았습니다.
+strings.js::tour_to_passport	Đã cộng điểm. Đổi quà trong Sổ tay.	점수가 더해졌습니다. 수첩에서 선물을 받으세요.
+strings.js::redeem_intro	Đưa màn hình này cho nhân viên để nhận quà.	이 화면을 직원에게 보여 주세요.
+strings.js::redeem_title	Đổi quà	선물 받기
+strings.js::redeem_none	Chưa có quà.	아직 받을 선물이 없습니다.
+strings.js::needs_ticket_tag	Cần vé	입장권 필요
+strings.js::gift_ticket_hint	Quét mã QR vé để nhận.	입장권 QR을 스캔하면 받을 수 있습니다.
+strings.js::tk_check	Đối chiếu vé	입장권 확인
+strings.js::tk_none	Chưa quét vé	입장권 미등록
+strings.js::redeem_closed	Đổi quà tại quầy vé từ 28/8 đến 02/9.	선물은 8월 28일~9월 2일 매표소에서 받을 수 있습니다.
+strings.js::install	Cài ứng dụng	앱 설치
+strings.js::install_next	Đã hiểu	알겠습니다
+strings.js::install_now	Cài đặt ngay	지금 설치
+strings.js::locate_me	Vị trí của tôi	내 위치
+strings.js::reset_north	Hướng Bắc	북쪽
+strings.js::research_optin	Góp dữ liệu ẩn danh cho nghiên cứu: điểm ghé, thứ tự trong lượt thăm, vị trí thô. Không tên, không số máy, không nối giữa các lần dùng. Tắt được tại đây.	연구를 위해 익명 데이터를 보냅니다: 방문한 곳, 방문 순서, 대략적인 위치. 이름·전화번호는 없고, 방문 기록끼리 연결되지도 않습니다. 여기서 언제든 끌 수 있습니다.
+strings.js::study_note	Dữ liệu giúp ban tổ chức xem mật độ tại các điểm đến.	이 데이터로 주최 측이 각 지점의 혼잡도를 봅니다.
+strings.js::prev_site	Điểm trước	이전 지점
+strings.js::next_site	Điểm sau	다음 지점
+strings.js::booth_find	Quầy vé gần nhất	가장 가까운 매표소
+strings.js::flag_warn	Sổ tay có dấu hiệu bất thường. Xác nhận lại trước khi phát voucher.	이 수첩에 이상 징후가 있습니다. 상품권을 주기 전에 다시 확인하세요.
+strings.js::points	điểm	점
+strings.js::perfect_bonus	Đúng lần đầu	첫 시도에 정답
+strings.js::spotlight	Đề xuất	추천
+strings.js::rewards_title	Điểm & Quà	점수와 선물
+strings.js::pp_more	Cài đặt	설정
+strings.js::reward_taken	Đã nhận	받음
+strings.js::one_gift_note	Mỗi sổ tay nhận 1 phần quà.	수첩 하나에 선물 하나.
+strings.js::score_how	Cách tính điểm	점수 계산 방법
+strings.js::pt_stamp	khi check-in	체크인할 때
+strings.js::pt_perfect	trả lời đúng ngay lần đầu	첫 시도에 정답을 맞히면
+strings.js::pt_spotlight	ghé điểm vắng khách	한가한 지점에 들르면
+strings.js::pt_tour	hoàn thành tuyến	코스를 완주하면
+strings.js::backup_title	Sao lưu	백업
+strings.js::backup_hint	Lưu mã bên dưới để khôi phục tem khi đổi thiết bị.	기기를 바꿀 때 도장을 되살리려면 아래 코드를 저장해 두세요.
+strings.js::copy	Sao chép	복사
+strings.js::copied	Đã sao chép	복사했습니다
+strings.js::copy_link	Sao chép link	링크 복사
+strings.js::restore	Khôi phục	복원
+strings.js::restore_or_code	Nhập mã 8 ký tự:	8자리 코드 입력:
+strings.js::ticket_taken	Vé đã quét ở thiết bị khác. Quét lại để lấy dữ liệu.	이 입장권은 다른 기기에서 스캔되었습니다. 다시 스캔하면 기록을 가져옵니다.
+strings.js::restore_ok	Đã khôi phục.	복원했습니다.
+strings.js::restore_bad	Mã phải có 8 ký tự.	코드는 8자리여야 합니다.
+strings.js::restore_offline	Lỗi mạng. Thử lại sau.	네트워크 오류입니다. 나중에 다시 시도해 주세요.
+strings.js::offline_ok	Vẫn có thể check-in offline. Ứng dụng sẽ đồng bộ khi có mạng.	오프라인에서도 체크인할 수 있습니다. 연결되면 자동으로 동기화됩니다.
+strings.js::ticket_points	Điểm bán vé	매표소
+strings.js::popup_detail	Xem & check-in	보기 & 체크인
+strings.js::dont_miss	Đừng bỏ lỡ	놓치지 마세요
+strings.js::open_now	Đang mở	영업 중
+strings.js::closed_now	Đã đóng	마감
+strings.js::nav_arrived_at()	Đã đến {name}	{name} 도착
+strings.js::nav_to()	{dist} tới {name}	{name}까지 {dist}
+strings.js::question_of()	Câu {i}/{n}	문제 {i}/{n}
+strings.js::stops()	{n} điểm dừng	{n}개 지점
+strings.js::walk_time()	{m} phút đi bộ	도보 {m}분
+strings.js::route_walk()	{d} · {m} phút đi bộ	{d} · 도보 {m}분
+strings.js::list_more()	Xem thêm {n} điểm	{n}곳 더 보기
+strings.js::tk_sites()	Vé {n} điểm	{n}곳 입장권
+strings.js::wrong_wait()	Sai. Thử lại sau {n}s.	틀렸습니다. {n}초 후 다시 시도.
+strings.js::booth_nearest()	Quầy {name} · cách {d}	{name} 매표소 · {d}
+strings.js::earned()	+{n} điểm	+{n}점
+strings.js::spotlight_hint()	Check-in tại đây nhận +{n} điểm.	여기서 체크인하면 +{n}점.
+strings.js::pts_more()	Cần thêm {n} điểm	{n}점 더 필요
+strings.js::reward_at()	Mốc {n} điểm	{n}점 단계
+strings.js::pt_all()	check-in đủ {n} điểm	{n}곳 모두 체크인
+strings.js::walk()	{d} · {m} phút đi bộ	{d} · 도보 {m}분
+strings.js::closing_soon()	Đóng trong {m} phút	{m}분 후 마감
+strings.js::opens_at()	Mở lúc {t}	{t} 개장

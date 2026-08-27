@@ -5,7 +5,13 @@
     "lng": 108.323972,
     "where": {
       "vi": "Bên trái Quảng trường sông Hoài, trên dọc đường Công Nữ Ngọc Hoa",
-      "en": "Bên trái Quảng trường sông Hoài, trên dọc đường Công Nữ Ngọc Hoa"
+      "en": "Bên trái Quảng trường sông Hoài, trên dọc đường Công Nữ Ngọc Hoa",
+      "ko": "호아이강 광장 왼편, Công Nữ Ngọc Hoa 거리를 따라",
+      "zh": "怀河广场左侧，沿 Công Nữ Ngọc Hoa 街",
+      "ja": "ホアイ川広場の左手、Công Nữ Ngọc Hoa 通り沿い",
+      "th": "ด้านซ้ายของลานแม่น้ำหว่าย ริมถนน Công Nữ Ngọc Hoa",
+      "fr": "À gauche de la place de la rivière Hoài, le long de la rue Công Nữ Ngọc Hoa",
+      "de": "Links vom Platz am Hoài-Fluss, entlang der Straße Công Nữ Ngọc Hoa"
     }
   },
   {
@@ -14,7 +20,13 @@
     "lng": 108.323417,
     "where": {
       "vi": "Đầu đường Nguyễn Thị Minh Khai, gần chỗ con thuyền Nhật Bản, ngay chỗ bắt xe taxi - xe điện",
-      "en": "Đầu đường Nguyễn Thị Minh Khai, gần chỗ con thuyền Nhật Bản, ngay chỗ bắt xe taxi - xe điện"
+      "en": "Đầu đường Nguyễn Thị Minh Khai, gần chỗ con thuyền Nhật Bản, ngay chỗ bắt xe taxi - xe điện",
+      "ko": "Nguyễn Thị Minh Khai 거리 입구, 일본 배 모형 근처, 택시·전기차 승차장 바로 옆",
+      "zh": "Nguyễn Thị Minh Khai 街口，靠近日本船模型，就在出租车与电瓶车候车处",
+      "ja": "Nguyễn Thị Minh Khai 通りの入口、日本船の模型のそば、タクシー・電気カート乗り場のところ",
+      "th": "ต้นถนน Nguyễn Thị Minh Khai ใกล้เรือจำลองญี่ปุ่น ตรงจุดขึ้นแท็กซี่และรถไฟฟ้า",
+      "fr": "À l'entrée de la rue Nguyễn Thị Minh Khai, près de la barque japonaise, à l'arrêt des taxis et voiturettes",
+      "de": "Am Anfang der Straße Nguyễn Thị Minh Khai, beim japanischen Bootsmodell, am Taxi- und E-Cart-Stand"
     }
   },
   {
@@ -23,7 +35,13 @@
     "lng": 108.323389,
     "where": {
       "vi": "Đầu đường Nguyễn Phúc Chu",
-      "en": "Đầu đường Nguyễn Phúc Chu"
+      "en": "Đầu đường Nguyễn Phúc Chu",
+      "ko": "Nguyễn Phúc Chu 거리 입구",
+      "zh": "Nguyễn Phúc Chu 街口",
+      "ja": "Nguyễn Phúc Chu 通りの入口",
+      "th": "ต้นถนน Nguyễn Phúc Chu",
+      "fr": "À l'entrée de la rue Nguyễn Phúc Chu",
+      "de": "Am Anfang der Straße Nguyễn Phúc Chu"
     }
   },
   {
@@ -32,7 +50,13 @@
     "lng": 108.325351,
     "where": {
       "vi": "Công viên Phan Châu Trinh",
-      "en": "Công viên Phan Châu Trinh"
+      "en": "Công viên Phan Châu Trinh",
+      "ko": "Phan Châu Trinh 공원",
+      "zh": "Phan Châu Trinh 公园",
+      "ja": "Phan Châu Trinh 公園",
+      "th": "สวน Phan Châu Trinh",
+      "fr": "Le parc Phan Châu Trinh",
+      "de": "Der Phan-Châu-Trinh-Park"
     }
   },
   {
@@ -41,7 +65,13 @@
     "lng": 108.326167,
     "where": {
       "vi": "Cạnh chùa Cầu",
-      "en": "Cạnh chùa Cầu"
+      "en": "Cạnh chùa Cầu",
+      "ko": "내원교(일본교) 옆",
+      "zh": "来远桥旁",
+      "ja": "来遠橋（日本橋）のそば",
+      "th": "ข้างสะพานญี่ปุ่น",
+      "fr": "À côté du pont couvert japonais",
+      "de": "Neben der Japanischen Brücke"
     }
   },
   {
@@ -50,7 +80,13 @@
     "lng": 108.326444,
     "where": {
       "vi": "Đầu cầu An Hội, bên Nguyễn Phúc Chu",
-      "en": "Đầu cầu An Hội, bên Nguyễn Phúc Chu"
+      "en": "Đầu cầu An Hội, bên Nguyễn Phúc Chu",
+      "ko": "안호이교 입구, Nguyễn Phúc Chu 쪽",
+      "zh": "安会桥桥头，Nguyễn Phúc Chu 一侧",
+      "ja": "アンホイ橋のたもと、Nguyễn Phúc Chu 側",
+      "th": "หัวสะพานอานโหย ฝั่งถนน Nguyễn Phúc Chu",
+      "fr": "À l'entrée du pont An Hội, côté Nguyễn Phúc Chu",
+      "de": "Am Anfang der An-Hội-Brücke, Seite Nguyễn Phúc Chu"
     }
   },
   {
@@ -59,7 +95,13 @@
     "lng": 108.326778,
     "where": {
       "vi": "Trên đường Hai Bà Trưng, trước cổng chùa Bà Thiên Mụ",
-      "en": "Trên đường Hai Bà Trưng, trước cổng chùa Bà Thiên Mụ"
+      "en": "Trên đường Hai Bà Trưng, trước cổng chùa Bà Thiên Mụ",
+      "ko": "Hai Bà Trưng 거리, 티엔무 사원 문 앞",
+      "zh": "Hai Bà Trưng 街，天姥寺门前",
+      "ja": "Hai Bà Trưng 通り、ティエンムー寺の門前",
+      "th": "ถนน Hai Bà Trưng หน้าประตูวัดบ่าเทียนมู",
+      "fr": "Rue Hai Bà Trưng, devant la porte de la pagode Bà Thiên Mụ",
+      "de": "In der Straße Hai Bà Trưng, vor dem Tor der Bà-Thiên-Mụ-Pagode"
     }
   },
   {
@@ -68,7 +110,13 @@
     "lng": 108.328667,
     "where": {
       "vi": "Trên đường Lê Lợi, cạnh Đình Hội An",
-      "en": "Trên đường Lê Lợi, cạnh Đình Hội An"
+      "en": "Trên đường Lê Lợi, cạnh Đình Hội An",
+      "ko": "Lê Lợi 거리, 호이안 마을회관 옆",
+      "zh": "Lê Lợi 街，会安亭旁",
+      "ja": "Lê Lợi 通り、ディン・ホイアンのそば",
+      "th": "ถนน Lê Lợi ข้างศาลาประจำเมืองฮอยอัน",
+      "fr": "Rue Lê Lợi, à côté de la maison communale de Hội An",
+      "de": "In der Straße Lê Lợi, neben dem Gemeindehaus von Hội An"
     }
   },
   {
@@ -77,7 +125,13 @@
     "lng": 108.329972,
     "where": {
       "vi": "Trên đường Hoàng Văn Thụ, ra bờ sông",
-      "en": "Trên đường Hoàng Văn Thụ, ra bờ sông"
+      "en": "Trên đường Hoàng Văn Thụ, ra bờ sông",
+      "ko": "Hoàng Văn Thụ 거리, 강변 쪽",
+      "zh": "Hoàng Văn Thụ 街，往河岸方向",
+      "ja": "Hoàng Văn Thụ 通り、川岸へ出るところ",
+      "th": "ถนน Hoàng Văn Thụ ทางออกริมแม่น้ำ",
+      "fr": "Rue Hoàng Văn Thụ, vers la berge",
+      "de": "In der Straße Hoàng Văn Thụ, Richtung Flussufer"
     }
   },
   {
@@ -86,16 +140,13 @@
     "lng": 108.331111,
     "where": {
       "vi": "Góc đường Phan Châu Trinh - Nguyễn Huệ",
-      "en": "Góc đường Phan Châu Trinh - Nguyễn Huệ"
-    }
-  },
-  {
-    "id": "V2",
-    "lat": 15.877778,
-    "lng": 108.332528,
-    "where": {
-      "vi": "Đầu đường Hoàng Diệu giao Trần Phú",
-      "en": "Đầu đường Hoàng Diệu giao Trần Phú"
+      "en": "Góc đường Phan Châu Trinh - Nguyễn Huệ",
+      "ko": "Phan Châu Trinh · Nguyễn Huệ 교차로",
+      "zh": "Phan Châu Trinh 街与 Nguyễn Huệ 街路口",
+      "ja": "Phan Châu Trinh 通りと Nguyễn Huệ 通りの角",
+      "th": "สี่แยกถนน Phan Châu Trinh กับ Nguyễn Huệ",
+      "fr": "Au croisement des rues Phan Châu Trinh et Nguyễn Huệ",
+      "de": "An der Kreuzung Phan Châu Trinh / Nguyễn Huệ"
     }
   },
   {
@@ -104,16 +155,13 @@
     "lng": 108.319611,
     "where": {
       "vi": "Điểm bán vé tại bãi xe Hoiango",
-      "en": "Điểm bán vé tại bãi xe Hoiango"
-    }
-  },
-  {
-    "id": "V332",
-    "lat": 15.8802686,
-    "lng": 108.3294629,
-    "where": {
-      "vi": "Điểm bán vé tại 10B Trần Hưng Đạo",
-      "en": "Điểm bán vé tại 10B Trần Hưng Đạo"
+      "en": "Điểm bán vé tại bãi xe Hoiango",
+      "ko": "Hoiango 주차장 매표소",
+      "zh": "Hoiango 停车场售票点",
+      "ja": "Hoiango 駐車場のチケット売り場",
+      "th": "จุดขายบัตรที่ลานจอดรถ Hoiango",
+      "fr": "Guichet du parking Hoiango",
+      "de": "Ticketstelle am Parkplatz Hoiango"
     }
   }
 ]

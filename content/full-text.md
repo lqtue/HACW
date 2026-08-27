@@ -778,6 +778,7 @@ Chuỗi có `{n}` `{name}` `{i}`… là chỗ ứng dụng chèn số/tên vào 
 - **terms_link:** điều khoản sử dụng
 - **terms_post:** .
 - **terms_title:** Điều khoản
+- **guide_title:** Cách chơi
 - **perm_lead:** Cho phép vị trí và chuyển động để tìm điểm đến phù hợp và dẫn đường.
 - **study_agree:** Tham gia nghiên cứu
 - **feat_map:** Khám phá 25 điểm di sản & tạo hành trình phù hợp
@@ -952,7 +953,6 @@ Chuỗi có `{n}` `{name}` `{i}`… là chỗ ứng dụng chèn số/tên vào 
 - **list_more():** Xem thêm {n} điểm
 - **tk_sites():** Vé {n} điểm
 - **wrong_wait():** Sai. Thử lại sau {n}s.
-- **booth_at():** Quầy vé {id}
 - **booth_nearest():** Quầy {name} · cách {d}
 - **org_journeys_count():** {n} hành trình
 - **earned():** +{n} điểm

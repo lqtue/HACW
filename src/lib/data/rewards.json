@@ -5,11 +5,23 @@
     "icon": "🎟️",
     "title": {
       "vi": "Quà đầu tiên",
-      "en": "First gift"
+      "en": "First gift",
+      "ko": "첫 선물",
+      "zh": "第一份礼物",
+      "ja": "はじめての贈り物",
+      "th": "ของขวัญชิ้นแรก",
+      "fr": "Premier cadeau",
+      "de": "Erstes Geschenk"
     },
     "reward": {
       "vi": "Voucher 50.000đ của Vigift hoặc giảm 10% ở VAN•HOA",
-      "en": "A 50,000đ Vigift voucher or 10% off at VAN•HOA"
+      "en": "A 50,000đ Vigift voucher or 10% off at VAN•HOA",
+      "ko": "Vigift 50,000동 상품권 또는 VAN•HOA 10% 할인",
+      "zh": "Vigift 50,000 越南盾代金券，或 VAN•HOA 九折优惠",
+      "ja": "Vigift 50,000ドン券、または VAN•HOA 10%割引",
+      "th": "บัตรกำนัล Vigift 50,000 ดอง หรือส่วนลด 10% ที่ VAN•HOA",
+      "fr": "Bon Vigift de 50 000 ₫ ou 10 % de remise chez VAN•HOA",
+      "de": "Vigift-Gutschein über 50.000 ₫ oder 10 % Rabatt bei VAN•HOA"
     }
   },
   {
@@ -18,11 +30,23 @@
     "icon": "🎟️",
     "title": {
       "vi": "Voucher lớn hơn",
-      "en": "Bigger voucher"
+      "en": "Bigger voucher",
+      "ko": "더 큰 상품권",
+      "zh": "更大的代金券",
+      "ja": "もっと大きな券",
+      "th": "บัตรกำนัลใบใหญ่ขึ้น",
+      "fr": "Un bon plus généreux",
+      "de": "Ein größerer Gutschein"
     },
     "reward": {
       "vi": "Voucher 100.000đ của Vigift hoặc giảm 15% ở VAN•HOA",
-      "en": "A 100,000đ Vigift voucher or 15% off at VAN•HOA"
+      "en": "A 100,000đ Vigift voucher or 15% off at VAN•HOA",
+      "ko": "Vigift 100,000동 상품권 또는 VAN•HOA 15% 할인",
+      "zh": "Vigift 100,000 越南盾代金券，或 VAN•HOA 85折优惠",
+      "ja": "Vigift 100,000ドン券、または VAN•HOA 15%割引",
+      "th": "บัตรกำนัล Vigift 100,000 ดอง หรือส่วนลด 15% ที่ VAN•HOA",
+      "fr": "Bon Vigift de 100 000 ₫ ou 15 % de remise chez VAN•HOA",
+      "de": "Vigift-Gutschein über 100.000 ₫ oder 15 % Rabatt bei VAN•HOA"
     }
   },
   {
@@ -31,11 +55,23 @@
     "icon": "🎁",
     "title": {
       "vi": "Món quà cầm tay",
-      "en": "Something to hold"
+      "en": "Something to hold",
+      "ko": "손에 쥐는 선물",
+      "zh": "可以带走的礼物",
+      "ja": "手にとれる贈り物",
+      "th": "ของขวัญที่ถือกลับได้",
+      "fr": "Un cadeau à emporter",
+      "de": "Ein Geschenk für die Hand"
     },
     "reward": {
       "vi": "Set charm DIY hoạ tiết Trung thu hoặc quạt Tuần lễ Sáng tạo Hội An",
-      "en": "A Mid-Autumn motif DIY charm set or the Hội An Creative Week fan"
+      "en": "A Mid-Autumn motif DIY charm set or the Hội An Creative Week fan",
+      "ko": "중추절 문양 DIY 참 세트 또는 호이안 크리에이티브 위크 부채",
+      "zh": "中秋图案 DIY 挂饰套装，或会安创意周折扇",
+      "ja": "中秋の意匠のDIYチャームセット、または会安クリエイティブウィークの扇子",
+      "th": "ชุดชาร์ม DIY ลายไหว้พระจันทร์ หรือพัดสัปดาห์สร้างสรรค์ฮอยอัน",
+      "fr": "Kit de breloques DIY à motif de la fête de la Lune, ou l'éventail de la Semaine créative de Hội An",
+      "de": "DIY-Charm-Set mit Mondfest-Motiv oder der Fächer der Hội An Creative Week"
     },
     "needsTicket": true
   },
@@ -45,11 +81,23 @@
     "icon": "🧣",
     "title": {
       "vi": "Chiếc khăn Tuần lễ",
-      "en": "The festival scarf"
+      "en": "The festival scarf",
+      "ko": "크리에이티브 위크 스카프",
+      "zh": "创意周围巾",
+      "ja": "クリエイティブウィークのスカーフ",
+      "th": "ผ้าพันคอประจำสัปดาห์",
+      "fr": "Le foulard de la Semaine",
+      "de": "Das Tuch der Creative Week"
     },
     "reward": {
       "vi": "Khăn Tuần lễ Sáng tạo Hội An",
-      "en": "The Hội An Creative Week scarf"
+      "en": "The Hội An Creative Week scarf",
+      "ko": "호이안 크리에이티브 위크 스카프",
+      "zh": "会安创意周围巾",
+      "ja": "会安クリエイティブウィークのスカーフ",
+      "th": "ผ้าพันคอสัปดาห์สร้างสรรค์ฮอยอัน",
+      "fr": "Le foulard de la Semaine créative de Hội An",
+      "de": "Das Tuch der Hội An Creative Week"
     },
     "needsTicket": true
   },
@@ -59,11 +107,23 @@
     "icon": "🎁",
     "title": {
       "vi": "Quà lớn nhất",
-      "en": "The big one"
+      "en": "The big one",
+      "ko": "가장 큰 선물",
+      "zh": "最大的礼物",
+      "ja": "いちばん大きな贈り物",
+      "th": "ของขวัญชิ้นใหญ่ที่สุด",
+      "fr": "Le plus beau cadeau",
+      "de": "Das größte Geschenk"
     },
     "reward": {
       "vi": "Set quà Vigift Đà Nẵng",
-      "en": "A Vigift Đà Nẵng gift set"
+      "en": "A Vigift Đà Nẵng gift set",
+      "ko": "Vigift 다낭 기프트 세트",
+      "zh": "Vigift 岘港礼盒",
+      "ja": "Vigift ダナン ギフトセット",
+      "th": "ชุดของขวัญ Vigift ดานัง",
+      "fr": "Le coffret Vigift Đà Nẵng",
+      "de": "Das Vigift-Geschenkset aus Đà Nẵng"
     },
     "needsTicket": true
   }

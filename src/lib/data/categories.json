@@ -1,7 +1,72 @@
 [
-  { "id": "di-tich", "label": { "vi": "Di tích", "en": "Heritage" }, "icon": "⛩️" },
-  { "id": "hoi-quan", "label": { "vi": "Hội quán", "en": "Assembly halls" }, "icon": "🏮" },
-  { "id": "nha-co", "label": { "vi": "Nhà cổ", "en": "Old houses" }, "icon": "🏠" },
-  { "id": "bao-tang", "label": { "vi": "Bảo tàng", "en": "Museums" }, "icon": "🏛️" },
-  { "id": "trai-nghiem", "label": { "vi": "Trải nghiệm & trình diễn", "en": "Experiences & performances" }, "icon": "🎭" }
+  {
+    "id": "di-tich",
+    "label": {
+      "vi": "Di tích",
+      "en": "Heritage",
+      "ko": "유적",
+      "zh": "古迹",
+      "ja": "史跡",
+      "th": "โบราณสถาน",
+      "fr": "Monument",
+      "de": "Denkmal"
+    },
+    "icon": "⛩️"
+  },
+  {
+    "id": "hoi-quan",
+    "label": {
+      "vi": "Hội quán",
+      "en": "Assembly halls",
+      "ko": "회관",
+      "zh": "会馆",
+      "ja": "会館",
+      "th": "ศาลเจ้าสมาคม",
+      "fr": "Maison de congrégation",
+      "de": "Versammlungshalle"
+    },
+    "icon": "🏮"
+  },
+  {
+    "id": "nha-co",
+    "label": {
+      "vi": "Nhà cổ",
+      "en": "Old houses",
+      "ko": "고가옥",
+      "zh": "古宅",
+      "ja": "古民家",
+      "th": "บ้านโบราณ",
+      "fr": "Maison ancienne",
+      "de": "Altes Wohnhaus"
+    },
+    "icon": "🏠"
+  },
+  {
+    "id": "bao-tang",
+    "label": {
+      "vi": "Bảo tàng",
+      "en": "Museums",
+      "ko": "박물관",
+      "zh": "博物馆",
+      "ja": "博物館",
+      "th": "พิพิธภัณฑ์",
+      "fr": "Musée",
+      "de": "Museum"
+    },
+    "icon": "🏛️"
+  },
+  {
+    "id": "trai-nghiem",
+    "label": {
+      "vi": "Trải nghiệm & trình diễn",
+      "en": "Experiences & performances",
+      "ko": "체험·시연",
+      "zh": "体验与展演",
+      "ja": "体験・実演",
+      "th": "ประสบการณ์และการสาธิต",
+      "fr": "Expérience & démonstration",
+      "de": "Erleben & Vorführen"
+    },
+    "icon": "🎭"
+  }
 ]
