@@ -188,8 +188,8 @@
   let lastPos = 0;
   $effect(() => {
     if (!me) return;
+    noteFix(me); // before recordCell so the cell event carries the fix too
     recordCell(me);
-    noteFix(me);
     if (Date.now() - lastPos > 60_000) {
       lastPos = Date.now();
       track('pos', undefined, Math.round(me.accuracy ?? 0));
