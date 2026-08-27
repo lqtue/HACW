@@ -95,11 +95,11 @@ const block = (lang) => {
   return src.slice(start, src.indexOf('\n  }', start));
 };
 const plain = (b) => Object.fromEntries(
-  [...b.matchAll(/^ {4}([a-zA-Z_]+)\s*:\s*(['"`])((?:\\.|(?!\2).)*)\2\s*,?\s*$/gm)]
+  [...b.matchAll(/^ {4}([a-zA-Z_0-9]+)\s*:\s*(['"`])((?:\\.|(?!\2).)*)\2\s*,?\s*$/gm)]
     .map((m) => [m[1], m[3].replace(/\\(['"`\\])/g, '$1')])
 );
 const fns = (b) => Object.fromEntries(
-  [...b.matchAll(/^ {4}([a-zA-Z_]+)\s*:\s*\(([^)]*)\)\s*=>\s*`([^`]*)`/gm)]
+  [...b.matchAll(/^ {4}([a-zA-Z_0-9]+)\s*:\s*\(([^)]*)\)\s*=>\s*`([^`]*)`/gm)]
     .map((m) => [`${m[1]}()`, m[3].replace(/\$\{([^}]+)\}/g, (_, s) => `{${s.trim()}}`)])
 );
 const vi = { ...plain(block('vi')), ...fns(block('vi')) };

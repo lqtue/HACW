@@ -727,11 +727,12 @@ Chuỗi có `{n}` `{name}` `{i}`… là chỗ ứng dụng chèn số/tên vào 
 - **V7:** Góc đường Phan Châu Trinh - Nguyễn Huệ
 - **V97:** Điểm bán vé tại bãi xe Hoiango
 
-## 6. Chữ trong ứng dụng — 240
+## 6. Chữ trong ứng dụng — 246
 
 - **explore:** Khám phá
 - **tours:** Hành trình
 - **passport:** Sổ tay
+- **resonance_30:** 30 địa điểm cộng hưởng
 - **all:** Tất cả
 - **no_sites:** Chưa có điểm đến.
 - **directions:** Chỉ đường
@@ -780,6 +781,7 @@ Chuỗi có `{n}` `{name}` `{i}`… là chỗ ứng dụng chèn số/tên vào 
 - **terms_title:** Điều khoản
 - **guide_title:** Cách chơi
 - **perm_lead:** Cho phép vị trí và chuyển động để tìm điểm đến phù hợp và dẫn đường.
+- **perm_lead2:** Chúng tôi xin phép thu thập dữ liệu ẩn danh để thực hiện nghiên cứu về phát triển du lịch Hội An.
 - **study_agree:** Tham gia nghiên cứu
 - **feat_map:** Khám phá 25 điểm di sản & tạo hành trình phù hợp
 - **feat_ticket:** Check-in và nhận mắt cửa tại mỗi điểm
@@ -830,6 +832,10 @@ Chuỗi có `{n}` `{name}` `{i}`… là chỗ ứng dụng chèn số/tên vào 
 - **redeem_closed:** Đổi quà tại quầy vé từ 28/8 đến 02/9.
 - **install:** Cài ứng dụng
 - **install_next:** Đã hiểu
+- **install_ios_1:** Safari: chạm nút Chia sẻ (mũi tên đi lên) ở thanh dưới.
+- **install_ios_2:** Kéo xuống cuối, chọn "Thêm vào Màn hình chính".
+- **install_android_1:** Chrome: chạm nút ba chấm ở bên phải thanh địa chỉ.
+- **install_android_2:** Chọn "Cài đặt và tạo lối tắt".
 - **install_now:** Cài đặt ngay
 - **locate_me:** Vị trí của tôi
 - **reset_north:** Hướng Bắc

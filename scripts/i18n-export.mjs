@@ -58,7 +58,7 @@ const block = (lang) => {
 };
 const parsePlain = (b) => {
   const out = {};
-  for (const m of b.matchAll(/^ {4}([a-zA-Z_]+)\s*:\s*(['"`])((?:\\.|(?!\2).)*)\2\s*,?\s*$/gm)) {
+  for (const m of b.matchAll(/^ {4}([a-zA-Z_0-9]+)\s*:\s*(['"`])((?:\\.|(?!\2).)*)\2\s*,?\s*$/gm)) {
     out[m[1]] = m[3].replace(/\\(['"`\\])/g, '$1');
   }
   return out;
@@ -68,7 +68,7 @@ const enUI = parsePlain(block('en'));
 // interpolation keys — `question_of: (i, n) => \`Câu ${i}/${n}\`` exports as "Câu {i}/{n}"
 const parseFns = (b) => {
   const out = {};
-  for (const m of b.matchAll(/^ {4}([a-zA-Z_]+)\s*:\s*\(([^)]*)\)\s*=>\s*`([^`]*)`/gm)) {
+  for (const m of b.matchAll(/^ {4}([a-zA-Z_0-9]+)\s*:\s*\(([^)]*)\)\s*=>\s*`([^`]*)`/gm)) {
     out[m[1]] = m[3].replace(/\$\{([^}]+)\}/g, (_, slot) => `{${slot.trim()}}`);
   }
   return out;
