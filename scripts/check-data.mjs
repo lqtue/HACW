@@ -6,7 +6,7 @@
 // exact same check on a JSON before it lets an organizer download it. Only the
 // cross-file rules that the editor cannot see are written out here.
 import assert from 'node:assert';
-import { readFileSync } from 'node:fs';
+import { existsSync, readFileSync } from 'node:fs';
 import { fileURLToPath } from 'node:url';
 import { dirname, join } from 'node:path';
 import { BOX, checkDestinations, checkTours, checkRewards } from '../src/lib/editor.js';
@@ -52,6 +52,16 @@ assert.equal(tc.museum, 6, `expected 6 museums, got ${tc.museum}`);
 // (Opening hours are free text and may legitimately be "Liên hệ ban tổ chức" /
 // unknown — hours.js reports those as unknown and the filter treats them as open,
 // so there is nothing to enforce here.)
+
+// Quiz pictures must be files that actually ship — a missing one is a broken <img>
+// in the middle of a check-in. (One-photo-per-option is checkDestinations' A19.)
+const STATIC = join(dirname(fileURLToPath(import.meta.url)), '..', 'static');
+const badPix = [];
+for (const d of destinations)
+  for (const [i, q] of (d.quizBank ?? []).entries())
+    for (const rel of [...(q.photo ?? []), ...(q.image ? [q.image] : [])])
+      if (!existsSync(join(STATIC, rel))) badPix.push(`${d.id} q${i + 1}: missing static/${rel}`);
+ok(badPix, 'quiz pictures');
 
 // Coverage: a site in NO ticket set is invisible to the planner. Warn (don't fail)
 // — the themed sets are still being authored; /organizer lists these as a to-do.

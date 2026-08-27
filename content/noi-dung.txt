@@ -336,8 +336,11 @@ D: Mô hình thương thuyền vượt biển sống động
 D: Hoành phi và liễn đối do Ngô Lỗ, Trạng nguyên cuối cùng của lịch sử Tuyền Châu (Phước Kiến), cúng vào năm 1897
 Q: Hình ảnh nào dưới đây là mái của Hội quán Phước Kiến?
 A: Ảnh 1
+P: quiz/hoi-quan-phuc-kien/mai-1.webp
 A: Ảnh 2
+P: quiz/hoi-quan-phuc-kien/mai-2.webp
 A: Ảnh 3
+P: quiz/hoi-quan-phuc-kien/mai-3.webp
 E: Khác với kiểu nóc mái thẳng tắp của Quảng Đông, kiến trúc mái đặc trưng của vùng Phúc Kiến có bờ nóc võng xuống như con thuyền đang cưỡi sóng. Phần trang trí cũng công phu hơn so với các hội quán khác.
 Q: Tại sao Hội quán Phước Kiến và nhiều hội quán khác của người Hoa lại thờ bà Thiên Hậu? Gợi ý: Hãy quan sát những bức tranh và mô hình trong hội quán
 A: Để cầu bình an khi đi biển
@@ -355,6 +358,7 @@ A: Vũ công múa thủy tụ
 A: Tượng thờ các vị thần
 E: Tủ kính trưng bày các vật dụng của người Hoa xưa. Những đôi giày trong tủ được dùng khi bó chân gót sen. Tập tục này bắt đầu từ thời nhà Tống, được coi là biểu tượng của cái đẹp và địa vị. Đến thời nhà Thanh, tuy lệnh cấm được ban hành, song ít người tuân thủ. Đến thế kỷ XIX, có khoảng một nửa phụ nữ Trung Hoa thực hành bó chân.
 Q: Bức tranh vẽ những đứa trẻ này được tìm thấy ở đâu?
+I: quiz/hoi-quan-phuc-kien/tranh-tre.webp
 A: Án thờ 3 bà Chúa Sanh thai và 12 bà mụ
 A: Án thờ Lục Tánh vương gia
 A: Nhà Đông
@@ -394,6 +398,7 @@ D: Trang trí khác nhau ở hai bên vì kèo
 D: Khám thờ và bao lam chạm nhiều điển tích
 D: Hệ cửa chạm gỗ và vẽ kính sáng tạo
 Q: Bạn có thể đi tìm chú ngựa này không? Người bạn của chú có bộ lông màu gì?
+I: quiz/hoi-quan-trieu-chau/ngua.webp
 A: Nâu
 A: Đen
 A: Trắng

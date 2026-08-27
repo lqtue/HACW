@@ -58,6 +58,9 @@ export function checkDestination(d, categoryIds = null) {
         out.push(`${at}.quiz[${i}].photo: must be one image path per option`);
       else q.photo.forEach((p, j) => { if (typeof p !== 'string' || !p.trim()) out.push(`${at}.quiz[${i}].photo[${j}]: empty path`); });
     }
+    // one picture for the question itself ("find THIS carving")
+    if (q?.image != null && (typeof q.image !== 'string' || !q.image.trim()))
+      out.push(`${at}.quiz[${i}].image: empty path`);
   });
   return out;
 }

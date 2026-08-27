@@ -3876,6 +3876,11 @@
           }
         ],
         "answer": 0,
+        "photo": [
+          "quiz/hoi-quan-phuc-kien/mai-1.webp",
+          "quiz/hoi-quan-phuc-kien/mai-3.webp",
+          "quiz/hoi-quan-phuc-kien/mai-2.webp"
+        ],
         "explain": {
           "vi": "Khác với kiểu nóc mái thẳng tắp của Quảng Đông, kiến trúc mái đặc trưng của vùng Phúc Kiến có bờ nóc võng xuống như con thuyền đang cưỡi sóng. Phần trang trí cũng công phu hơn so với các hội quán khác.",
           "en": "Unlike the straight ridge of Cantonese roofs, the Fujian roof dips in the middle like a boat riding a wave. Its ornament is also more elaborate than that of the other assembly halls.",
@@ -4096,6 +4101,7 @@
           }
         ],
         "answer": 1,
+        "image": "quiz/hoi-quan-phuc-kien/tranh-tre.webp",
         "explain": {
           "vi": "Ba bà Chúa Sanh thai (Tam Tiêu Nương Nương) và 12 bà mụ lo việc tạo hình hài, ban phước, bảo trợ cho việc cầu tự (cầu con), thai kỳ bình an và mẹ tròn con vuông. Tượng 12 bà mụ thường khắc họa các vị trong các động tác chăm sóc, bồng bế trẻ thơ khác nhau.",
           "en": "The three Birth Goddesses and twelve midwives shape the unborn, grant blessings and watch over prayers for children, a safe pregnancy and a safe birth. The twelve are usually shown tending and cradling infants in different poses.",
@@ -4467,7 +4473,7 @@
             "zh": "白色",
             "ja": "白",
             "th": "ขาว",
-            "fr": "Blanche",
+            "fr": "Blanc",
             "de": "Weiß"
           },
           {
@@ -4477,7 +4483,7 @@
             "zh": "黑色",
             "ja": "黒",
             "th": "ดำ",
-            "fr": "Noire",
+            "fr": "Noir",
             "de": "Schwarz"
           },
           {
@@ -4491,7 +4497,8 @@
             "de": "Braun"
           }
         ],
-        "answer": 2
+        "answer": 2,
+        "image": "quiz/hoi-quan-trieu-chau/ngua.webp"
       },
       {
         "question": {

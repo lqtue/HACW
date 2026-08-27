@@ -97,6 +97,8 @@
     </div>
     <p class="qcount">{s('question_of', qIndex + 1, questions.length)}</p>
     <h2 class="q">{t(q.question)}</h2>
+    <!-- "find THIS carving" questions: the picture IS the question -->
+    {#if q.image}<img class="qimg" src="{base}/{q.image}" alt={t(q.question)} />{/if}
     {#if q.hint}<p class="hint"><Icon name="bulb" size={16} /> {t(q.hint)}</p>{/if}
 
     <div class="opts">
@@ -167,6 +169,11 @@
     background: color-mix(in srgb, var(--gold) 14%, var(--surface));
     border: 1px solid color-mix(in srgb, var(--gold) 30%, var(--line));
     border-radius: var(--radius-sm);
+  }
+  .qimg {
+    display: block; width: 100%; margin: -8px 0 18px;
+    max-height: 42vh; object-fit: contain; object-position: center;
+    border-radius: var(--radius-sm); border: 1px solid var(--line); background: var(--surface);
   }
   .opts { margin: auto 0; display: grid; gap: 10px; } /* centered mid-page, not pinned to the bottom */
   .opt {

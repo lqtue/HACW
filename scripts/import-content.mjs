@@ -13,7 +13,9 @@
 //   L: long intro              — the site page's `description`
 //   D: don't-miss line         — repeatable, 3 is the target
 //   Q: question
+//   I: image for the question   — optional, static/ path ("find THIS carving" questions)
 //   A: option                  — the FIRST A of a question is the correct one
+//   P: photo for that option    — optional, one per A, in the same order (static/ path)
 //   E: explanation             — optional, shown on the quiz result screen
 //
 // Every question ships and gets asked, in the order written: no draw, no
@@ -53,12 +55,14 @@ function blocks(text) {
       continue;
     }
     if (!cur) continue;
-    const m = /^(addr|hours|S|L|D|Q|A|E):\s*(.*)$/.exec(line);
+    const m = /^(addr|hours|S|L|D|Q|I|A|P|E):\s*(.*)$/.exec(line);
     if (!m) { console.warn(`skipped untagged line: ${line.slice(0, 60)}`); continue; }
     const [, tag, val] = m;
     if (tag === 'addr' || tag === 'hours') cur[tag] = val;
-    else if (tag === 'Q') cur.Q.push({ q: val, a: [], e: '' });
+    else if (tag === 'Q') cur.Q.push({ q: val, a: [], p: [], e: '', i: '' });
+    else if (tag === 'I') { const q = cur.Q.at(-1); if (q) q.i = val; }
     else if (tag === 'A') cur.Q.at(-1)?.a.push(val);
+    else if (tag === 'P') cur.Q.at(-1)?.p.push(val);
     else if (tag === 'E') { const q = cur.Q.at(-1); if (q) q.e = q.e ? `${q.e} ${val}` : val; }
     else cur[tag].push(val);
   }
@@ -67,12 +71,14 @@ function blocks(text) {
 
 const dests = JSON.parse(readFileSync(DEST, 'utf8'));
 
-// vi -> en, harvested from what is already shipped
+// vi -> the whole shipped translation object for that string. Keyed by VI and
+// carrying EVERY language, not just en: the eight locales are imported separately
+// (scripts/i18n-import.mjs) and a re-run here must not truncate them back to vi/en.
 const EN = new Map();
 (function harvest(o) {
   if (Array.isArray(o)) o.forEach(harvest);
   else if (o && typeof o === 'object') {
-    if (typeof o.vi === 'string' && typeof o.en === 'string' && !EN.has(o.vi.trim())) EN.set(o.vi.trim(), o.en);
+    if (typeof o.vi === 'string' && typeof o.en === 'string' && !EN.has(o.vi.trim())) EN.set(o.vi.trim(), o);
     Object.values(o).forEach(harvest);
   }
 })(dests);
@@ -80,16 +86,16 @@ const EN = new Map();
 const missing = [];
 const bi = (vi) => {
   const v = vi.trim();
-  const en = EN.get(v);
-  if (!en) missing.push(v);
-  return { vi: v, en: en ?? '' };
+  const hit = EN.get(v);
+  if (!hit?.en) missing.push(v);
+  return { ...hit, vi: v, en: hit?.en ?? '' };
 };
 
 // hand-written translations for VI strings that aren't in the JSON yet; the file is
 // consumed once — after a successful run the pairs live in destinations.json.
 try {
   const fresh = JSON.parse(readFileSync(join(root, 'content/en-new.json'), 'utf8'));
-  for (const [vi, en] of Object.entries(fresh)) if (en) EN.set(vi.trim(), en);
+  for (const [vi, en] of Object.entries(fresh)) if (en) EN.set(vi.trim(), { ...EN.get(vi.trim()), en });
 } catch { /* no pending translations */ }
 
 const byName = new Map(dests.map((d) => [norm(d.name.vi), d]));
@@ -114,9 +120,13 @@ sites.forEach((s, i) => {
   if (s.Q.length) d.quizBank = s.Q.map((q, j) => {
     const opts = q.a.filter(Boolean);
     const at = (i + j) % opts.length; // correct answer moves around, never always first
-    const options = [...opts.slice(1)].reverse();
-    options.splice(at, 0, opts[0]);
-    const item = { question: bi(q.q), options: options.map(bi), answer: at };
+    // the correct option (and its photo) lands at `at`; one shuffle used for both,
+    // so a picture can never drift onto another answer
+    const shuffle = (arr) => { const o = arr.slice(1).reverse(); o.splice(at, 0, arr[0]); return o; };
+    const item = { question: bi(q.q), options: shuffle(opts).map(bi), answer: at };
+    if (q.i) item.image = q.i;
+    if (q.p.length === opts.length) item.photo = shuffle(q.p);
+    else if (q.p.length) console.error(`"${q.q.slice(0, 40)}…" has ${q.p.length} P for ${opts.length} A — photos dropped`);
     if (q.e) item.explain = bi(q.e);
     return item;
   });
