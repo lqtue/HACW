@@ -482,6 +482,7 @@ A: Đình Voi Phục
 A: Đình Voi Ré
 E: Tên gọi đình Ông Voi xuất phát từ cặp tượng voi quỳ phục đặt ở sân trước. Hai pho tượng có kích thước lớn, chạm khắc tinh xảo, khoác lễ phục với nhiều chi tiết trang trí. Hình tượng voi không chỉ gây ấn tượng thị giác mà còn gắn liền với biểu tượng sức mạnh, trí tuệ trong văn hóa - tín ngưỡng dân gian. Trong Phật giáo, voi cũng là một biểu tượng của sức mạnh tâm thức, gắn với nhiều điển tích.
 Q: Đây là con vật gì?
+I: quiz/dinh-hoi-an/long-ma.webp
 A: Long mã
 A: Lân
 A: Sư tử
