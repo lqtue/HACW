@@ -453,6 +453,7 @@ D: Kiến trúc gỗ được thực hiện bởi các nghệ nhân làng Kim B�
 D: Sự hòa trộn văn hóa Việt và Trung
 D: Câu chuyện của cộng đồng người Hoa đã Việt hoá.
 Q: Con hạc này đang đứng trên lưng con vật nào?
+I: quiz/tuy-tien-duong-minh-huong/hac-rua.webp
 A: Rùa
 A: Cua
 A: Cá
