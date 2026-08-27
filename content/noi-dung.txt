@@ -231,6 +231,7 @@ A: Thông gió
 A: Đi lại giữa gác và tầng trệt
 E: Xưa kia, do phố cổ Hội An nằm gần sông và hay bị ngập lụt mùa nước lên, chủ nhà dùng cửa sập này để nhanh chóng chuyển và kéo hàng hóa từ tầng trệt lên gác lửng nhằm tránh lũ.
 Q: Bộ tượng này là nhân hóa của các giá trị gì?
+I: quiz/nha-co-phung-hung/tuong-phuc-loc-tho.webp
 A: Phúc - Lộc - Thọ
 A: Nhân - Lễ - Nghĩa
 A: Tòng Phụ - Tòng Phu - Tòng Tử
