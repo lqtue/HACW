@@ -181,6 +181,7 @@ A: Xin giáng bút
 A: Xin báo mộng
 E: Xin đài âm dương (xin keo) là nghi thức gieo hai đồng xu hoặc hai miếng gỗ bán nguyệt để hỏi ý kiến thần linh, gia tiên phù hộ về những việc hệ trọng như làm nhà, kinh doanh, thi cử, ốm đau...
 Q: Kết cấu kiến trúc này có tên là gì?
+I: quiz/nha-tho-toc-tran/vi-vo-cua.webp
 A: Vì vỏ cua
 A: Vì chồng rường giả thủ
 A: Vì giá chiêng
