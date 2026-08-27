@@ -55,11 +55,13 @@ A: Một chiếc đĩa
 A: Một chiếc thau
 E: Chi tiết nằm trong một chiếc bát sứ Hizen, Nhật Bản, có niên đại khoảng nửa sau thế kỷ XVII. Hoạ tiết Thọ Lão cưỡi hạc này rất phổ biến trong gốm sứ Đông Á, thể hiện mong ước sống trường thọ.
 Q: Bạn có thể đi tìm chú cua này không? Ai là người làm ra chú?
+I: quiz/bao-tang-gom-su-mau-dich/cua.webp
 A: Người Việt thế kỷ XV-XVI
 A: Người Nhật thế kỷ XVII
 A: Người Hoa thế kỷ XVII
 E: Chu Đậu là dòng gốm cổ cao cấp nổi tiếng của Việt Nam có lịch sử gần 600 năm, phát triển rực rỡ từ thế kỷ XIV – XVI trước khi bị thất truyền và được phục hưng thành công. Làm từ đất sét trắng đặc trưng vùng Trúc Thôn (Chí Linh, Hải Dương), dòng gốm này được ca ngợi là “mỏng như giấy, trong như ngọc, trắng như ngà, kêu như chuông”.
 Q: Làm sao mà chú cua này vẫn còn nguyên vẹn sau vụ đắm tàu?
+I: quiz/bao-tang-gom-su-mau-dich/cua.webp
 A: Vì chúng nằm trong lớp bùn biển
 A: Vì chúng được vớt lên ngay sau đó
 A: Vì chúng nằm gần bờ
@@ -403,6 +405,7 @@ A: Nâu
 A: Đen
 A: Trắng
 Q: Hình ảnh này là đặc trưng của mùa nào?
+I: quiz/hoi-quan-trieu-chau/sen.webp
 A: Hạ
 A: Xuân
 A: Thu
