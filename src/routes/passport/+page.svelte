@@ -31,7 +31,7 @@
   const RESONANCE_URL = 'https://docs.google.com/spreadsheets/d/17D28LNHU6fw2_3qScnd16qVXegeS_K1Nooc4-lHNy9E/';
   // ponytail: sponsors page is external and not written yet — set the URL and the
   // footer link appears; empty = no dead link shipped.
-  const SPONSORS_URL = '';
+  const SPONSORS_URL = 'https://docs.google.com/document/d/1KEa3fsWV144FxYy8tkEBY46Z7UI8ag8MsG_ISbAgxQ0/';
 
   const total = destinations.length;
   const byId = Object.fromEntries(destinations.map((d) => [d.id, d]));
