@@ -50,6 +50,7 @@ export default {
   terms_pre: `Sie stimmen`,
   terms_link: `den Nutzungsbedingungen`,
   terms_title: `Nutzungsbedingungen`,
+  sponsors_title: `Sponsoren`,
   guide_title: `So wird gespielt`,
   perm_lead: `Erlauben Sie Standort und Bewegung, damit wir passende Orte finden und Sie führen können.`,
   perm_lead2: `Wir bitten außerdem um Ihre Erlaubnis, anonyme Daten für eine Studie zur Tourismusentwicklung in Hội An zu erheben.`,

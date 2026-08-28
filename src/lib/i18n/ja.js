@@ -50,6 +50,7 @@ export default {
   terms_pre: `同意します：`,
   terms_link: `利用規約`,
   terms_title: `利用規約`,
+  sponsors_title: `スポンサー`,
   guide_title: `遊びかた`,
   perm_lead: `ぴったりの行き先を探して案内するために、位置情報と動きの情報を許可してください。`,
   perm_lead2: `会安の観光発展に関する調査のため、匿名データの収集をお願いしています。`,

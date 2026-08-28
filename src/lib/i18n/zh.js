@@ -50,6 +50,7 @@ export default {
   terms_pre: `您同意`,
   terms_link: `使用条款`,
   terms_title: `使用条款`,
+  sponsors_title: `赞助方`,
   guide_title: `玩法`,
   perm_lead: `请允许使用定位与运动数据，以便为你找到合适的地点并导航。`,
   perm_lead2: `我们也想请您允许收集匿名数据，用于会安旅游发展研究。`,

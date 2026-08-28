@@ -50,6 +50,7 @@ export default {
   terms_pre: `Vous acceptez`,
   terms_link: `les conditions d'utilisation`,
   terms_title: `Conditions`,
+  sponsors_title: `Partenaires`,
   guide_title: `Comment jouer`,
   perm_lead: `Autorisez la localisation et le mouvement pour trouver les bons lieux et vous guider.`,
   perm_lead2: `Nous vous demandons aussi l'autorisation de recueillir des données anonymes pour une recherche sur le développement touristique de Hội An.`,

@@ -50,6 +50,7 @@ export default {
   terms_pre: `동의합니다:`,
   terms_link: `이용약관`,
   terms_title: `이용약관`,
+  sponsors_title: `후원`,
   guide_title: `게임 방법`,
   perm_lead: `맞는 목적지를 찾고 길을 안내하기 위해 위치와 동작 정보를 허용해 주세요.`,
   perm_lead2: `호이안 관광 발전 연구를 위해 익명 데이터 수집을 허락해 주시기를 부탁드립니다.`,

@@ -29,6 +29,9 @@
 
   // organisers' sheet, updated by them during the week — not content we ship
   const RESONANCE_URL = 'https://docs.google.com/spreadsheets/d/17D28LNHU6fw2_3qScnd16qVXegeS_K1Nooc4-lHNy9E/';
+  // ponytail: sponsors page is external and not written yet — set the URL and the
+  // footer link appears; empty = no dead link shipped.
+  const SPONSORS_URL = '';
 
   const total = destinations.length;
   const byId = Object.fromEntries(destinations.map((d) => [d.id, d]));
@@ -332,34 +335,28 @@
       </details>
 
       <InstallApp />
-
-      <!-- the two standing text pages: rules and terms. Nothing else in the app links
-           them, and the settings fold is where someone goes looking. -->
-      <div class="plinks">
-        <a href="{base}/guide">{s('guide_title')}</a>
-        <a href="{base}/terms">{s('terms_title')}</a>
-      </div>
     </div>
   </details>
 
-  <!-- The organisers' own sheet of the 30 partner venues. Lives outside the app and
-       needs a connection — the one link here that does — so it is a plain outbound
-       link at the very bottom, not a card competing with the stamps. -->
-  <a class="resonance" href={RESONANCE_URL} target="_blank" rel="noopener">{s('resonance_30')}</a>
+  <!-- Page footer: the standing pages + the organisers' outbound links (sponsors and
+       the sheet of 30 partner venues need a connection — the only links here that do). -->
+  <footer class="pfoot">
+    <a href="{base}/guide">{s('guide_title')}</a>
+    <a href="{base}/terms">{s('terms_title')}</a>
+    {#if SPONSORS_URL}<a href={SPONSORS_URL} target="_blank" rel="noopener">{s('sponsors_title')}</a>{/if}
+    <a href={RESONANCE_URL} target="_blank" rel="noopener">{s('resonance_30')}</a>
+  </footer>
 </div>
 
 <style>
-  .plinks { display: flex; gap: 16px; padding: 4px 2px; }
-  .plinks a {
-    color: var(--muted);
-    font-size: var(--fs-sm);
-    font-weight: 600;
-    text-decoration: underline;
-    text-underline-offset: 3px;
-  }
-  .resonance {
-    align-self: center;
+  .pfoot {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    gap: 6px 20px;
     padding: 4px 8px 8px;
+  }
+  .pfoot a {
     color: var(--muted);
     font-size: var(--fs-sm);
     font-weight: 600;
