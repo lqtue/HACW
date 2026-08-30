@@ -143,6 +143,7 @@ export default {
   open_now: `开放中`,
   closed_now: `已关闭`,
   nav_arrived_at: (name) => `已到达 \$${name}`,
+  update_ready: '有新版本 — 点击刷新',
   nav_to: (name, dist) => `距 \$${name} \$${dist}`,
   question_of: (i, n) => `第 \$${i}/\$${n} 题`,
   stops: (n) => `\$${n} 个站点`,

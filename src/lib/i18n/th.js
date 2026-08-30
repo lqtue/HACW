@@ -143,6 +143,7 @@ export default {
   open_now: `เปิดอยู่`,
   closed_now: `ปิดแล้ว`,
   nav_arrived_at: (name) => `ถึง \$${name} แล้ว`,
+  update_ready: 'มีเวอร์ชันใหม่ — แตะเพื่อโหลดใหม่',
   nav_to: (dist, name) => `อีก \$${dist} ถึง \$${name}`,
   question_of: (i, n) => `ข้อ \$${i}/\$${n}`,
   stops: (n) => `\$${n} จุด`,

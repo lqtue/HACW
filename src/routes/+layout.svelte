@@ -13,6 +13,9 @@
   import { s } from '$lib/strings.js';
 
   let { children } = $props();
+  // a new service worker took over this tab (autoUpdate + skipWaiting) — the page still
+  // runs the old bundle until it reloads, so offer the reload instead of forcing it mid-walk
+  let updated = $state(false);
 
   // three tabs, matching the sample. Organizer is reached by URL (staff), not nav.
   const tabs = [
@@ -40,7 +43,12 @@
       backup();
     };
     window.addEventListener('pagehide', leave);
+    const sw = navigator.serviceWorker;
+    // only a *change* of controller is an update; the first install also fires this
+    const swap = () => { if (sw.controller) updated = true; };
+    if (sw?.controller) sw.addEventListener('controllerchange', swap);
     return () => {
+      sw?.removeEventListener('controllerchange', swap);
       window.removeEventListener('online', sync);
       window.removeEventListener('pagehide', leave);
     };
@@ -121,6 +129,10 @@
   {@render children()}
 </div>
 
+{#if updated}
+  <button class="update" onclick={() => location.reload()}>{s('update_ready')}</button>
+{/if}
+
 {#if !wide && !onboarding && !noNav}
   <nav class="nav" aria-label="Main">
     {#each tabs as t (t.path)}
@@ -141,6 +153,14 @@
 {/if}
 
 <style>
+  .update {
+    position: fixed; z-index: 2100; /* above TourNav (2000) */
+    top: calc(var(--pad-top) + 44px); left: 50%; transform: translateX(-50%);
+    padding: 10px 16px; border-radius: 999px; border: 0; cursor: pointer;
+    background: var(--brand); color: #fff;
+    font-family: var(--font-body); font-size: var(--fs-sm); font-weight: 700;
+    box-shadow: 0 6px 20px rgba(0,0,0,0.18);
+  }
   .chip-fab {
     position: fixed;
     top: var(--pad-top); /* same notch clearance as every page title */

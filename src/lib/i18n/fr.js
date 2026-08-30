@@ -143,6 +143,7 @@ export default {
   open_now: `Ouvert`,
   closed_now: `Fermé`,
   nav_arrived_at: (name) => `Arrivé à \$${name}`,
+  update_ready: 'Nouvelle version — touchez pour recharger',
   nav_to: (dist, name) => `\$${dist} jusqu'à \$${name}`,
   question_of: (i, n) => `Question \$${i}/\$${n}`,
   stops: (n) => `\$${n} étapes`,

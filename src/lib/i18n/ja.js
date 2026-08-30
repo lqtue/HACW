@@ -143,6 +143,7 @@ export default {
   open_now: `開館中`,
   closed_now: `閉館`,
   nav_arrived_at: (name) => `\$${name} に到着`,
+  update_ready: '新しいバージョン — タップして更新',
   nav_to: (name, dist) => `\$${name} まで \$${dist}`,
   question_of: (i, n) => `問題 \$${i}/\$${n}`,
   stops: (n) => `\$${n} か所`,

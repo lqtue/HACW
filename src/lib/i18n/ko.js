@@ -143,6 +143,7 @@ export default {
   open_now: `영업 중`,
   closed_now: `마감`,
   nav_arrived_at: (name) => `\$${name} 도착`,
+  update_ready: '새 버전 — 탭하여 새로 고침',
   nav_to: (name, dist) => `\$${name}까지 \$${dist}`,
   question_of: (i, n) => `문제 \$${i}/\$${n}`,
   stops: (n) => `\$${n}개 지점`,

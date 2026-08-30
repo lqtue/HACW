@@ -143,6 +143,7 @@ export default {
   open_now: `Geöffnet`,
   closed_now: `Geschlossen`,
   nav_arrived_at: (name) => `Angekommen: \$${name}`,
+  update_ready: 'Neue Version — tippen zum Neuladen',
   nav_to: (dist, name) => `\$${dist} bis \$${name}`,
   question_of: (i, n) => `Frage \$${i}/\$${n}`,
   stops: (n) => `\$${n} Stationen`,
