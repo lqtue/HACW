@@ -64,7 +64,9 @@
   const onExplore = $derived(rel.startsWith('/destinations'));
   // site detail is a single-job screen (own back button); route-derived so the previous
   // page's onDestroy reset of ui.hideNav can't race it back on
-  const onSite = $derived(/^\/destinations\/.+/.test(rel));
+  // /go (tour nav) is a fixed full-screen map with its own exit + check-in buttons at the
+  // bottom — the tab bar would sit on top of them
+  const onSite = $derived(/^\/destinations\/.+/.test(rel) || rel.startsWith('/go'));
   const noNav = $derived(ui.hideNav || onSite);
   // the very first screen: a forced ?step=door, or a fresh device opening the home route
   // browser-only: searchParams is off-limits while prerendering, and the hint is a
