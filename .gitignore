@@ -18,3 +18,6 @@ playwright-report/
 # agent tooling (not part of the app)
 .agents/
 skills-lock.json
+
+# Visitor session analytics from the live 2026 event — stays local
+hacw-journeys-*.csv

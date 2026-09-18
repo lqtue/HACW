@@ -1,5 +1,6 @@
 [
   {
+<<<<<<< Updated upstream
     "id": "vuot-bien-treo-non",
     "ticket": true,
     "title": {
@@ -253,5 +254,38 @@
       "nha-co-quan-thang",
       "nha-trung-bay-nhat-ban"
     ]
+=======
+    "id": "kien-truc-co",
+    "title": { "vi": "Nơi ba dòng chảy gặp nhau", "en": "Where Three Currents Met" },
+    "theme": { "vi": "Cầu cổ · nhà cổ · gốm sứ", "en": "Old bridge · old houses · ceramics" },
+    "description": {
+      "vi": "Bắt đầu nơi khu phố Nhật gặp khu phố Hoa, bạn lần theo dấu chân thương hồ: từ cây cầu trấn thuỷ quái, qua ngôi nhà bảy đời chống lũ, đến kho gốm sứ vớt lên từ những con tàu đắm. Mỗi điểm là một mảnh ghép của thương cảng vàng son.",
+      "en": "Begin where the Japanese and Chinese quarters met and follow the merchants' footsteps: from the bridge that pins a monster, to a house that has out-survived seven generations of floods, to ceramics raised from sunken ships. Each stop is a piece of the golden port."
+    },
+    "voucher": { "vi": "Voucher quà tặng (chốt tên sau)", "en": "Gift voucher (name TBD)" },
+    "stops": ["chua-cau", "nha-co-phung-hung", "nha-co-tan-ky", "bao-tang-gom-su-mau-dich"]
+  },
+  {
+    "id": "hoi-quan-nguoi-hoa",
+    "title": { "vi": "Lời nguyện của người đi biển", "en": "The Seafarers' Vow" },
+    "theme": { "vi": "Hội quán & tín ngưỡng", "en": "Assembly halls & beliefs" },
+    "description": {
+      "vi": "Theo chân những cộng đồng người Hoa vượt biển đến Hội An. Bạn dừng ở miếu cầu chữ tín, rồi qua các hội quán nơi họ tạ ơn vị thần đã che chở thuyền buôn giữa sóng dữ. Câu chuyện của lòng biết ơn và niềm tin được kể qua từng nếp mái.",
+      "en": "Follow the Chinese communities who crossed the sea to Hoi An. Pause at a temple of merchant honor, then move through the halls where they thanked the goddess who shielded their ships from the storm. A story of gratitude and faith, told in every curved roof."
+    },
+    "voucher": { "vi": "Voucher quà tặng (chốt tên sau)", "en": "Gift voucher (name TBD)" },
+    "stops": ["mieu-quan-cong", "hoi-quan-phuc-kien", "hoi-quan-quang-trieu", "hoi-quan-trieu-chau"]
+  },
+  {
+    "id": "hon-pho-song",
+    "title": { "vi": "Hồn phố lên đèn", "en": "The Old Town Awakes" },
+    "theme": { "vi": "Di sản sống & về đêm", "en": "Living heritage by night" },
+    "description": {
+      "vi": "Khi đèn lồng thắp sáng, phố cổ kể chuyện bằng âm thanh và hương vị. Bạn nghe anh Hiệu hô bài chòi, nếm gánh chè mè đen truyền đời, xem một làn điệu cổ và tự tay làm một món quà giao lưu Việt – Nhật. Di sản ở đây không nằm sau tủ kính — nó đang sống.",
+      "en": "As the lanterns glow, the old town tells its story in sound and taste. Hear the bai choi caller, taste a generations-old black-sesame soup, watch an ancient tune, and craft your own Vietnam–Japan keepsake. Here heritage isn't behind glass — it's alive."
+    },
+    "voucher": { "vi": "Voucher quà tặng (chốt tên sau)", "en": "Gift voucher (name TBD)" },
+    "stops": ["bai-choi", "trinh-nghe-xi-ma", "nha-bieu-dien-nghe-thuat-co-truyen", "khong-gian-van-hoa-viet-nhat"]
+>>>>>>> Stashed changes
   }
 ]

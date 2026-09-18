@@ -1,6 +1,7 @@
 <script>
   import { base } from '$app/paths';
   import { getPosition, distanceMeters } from '$lib/geo.js';
+<<<<<<< Updated upstream
   import { mapsUrl, openLabel } from '$lib/util.js';
   import { hasStamp, addStamp, track } from '$lib/passport.svelte.js';
   import { stats } from '$lib/stats.svelte.js';
@@ -8,6 +9,10 @@
   import { POINTS, spotlightIds, stampPoints } from '$lib/score.js';
   import { nudgeOn } from '$lib/switchback.js';
   import destinations from '$lib/data/sites.js';
+=======
+  import { categoryLabel, mapsUrl } from '$lib/util.js';
+  import { hasStamp, addStamp } from '$lib/passport.svelte.js';
+>>>>>>> Stashed changes
   import { t } from '$lib/i18n.svelte.js';
   import { s } from '$lib/strings.js';
   import Icon from '$lib/components/Icon.svelte';
@@ -31,6 +36,7 @@
 
   let { data } = $props();
   const dest = data.dest;
+  const disc = dest.discovery;
 
   // ?nav=<url> is set when the check-in was launched from the route screen (/go). If
   // present, the stamp screen resumes the tour instead of sending the visitor to the
@@ -38,6 +44,7 @@
   const navBack =
     (typeof location !== 'undefined' && new URLSearchParams(location.search).get('nav')) || '';
 
+<<<<<<< Updated upstream
   // ?demo=idle|far|error|quiz|correct|wrong|done forces a check-in step for the /screens
   // board (and testers), independent of GPS and whether this device already has the
   // stamp — otherwise a stamped device only ever shows 'done'. Never mutates the
@@ -66,6 +73,12 @@
   let distance = $state(0);
   let missed = $state(false); // any wrong tap in the quiz -> no perfect bonus
   let earned = $state(0);
+=======
+  // idle -> locating -> (far | discover) -> done ; or error
+  let step = $state(hasStamp(dest.id) ? 'done' : 'idle');
+  let message = $state('');
+  let distance = $state(0);
+>>>>>>> Stashed changes
 
   async function checkIn() {
     step = 'locating';
@@ -74,6 +87,7 @@
       const here = await getPosition();
       recordCell(here); // anonymous foot-traffic count when consent is on (research store)
       distance = Math.round(distanceMeters(here, { lat: dest.lat, lng: dest.lng }));
+<<<<<<< Updated upstream
       if (distance <= dest.radius) {
         track('arrive', dest.id, distance, quiet); // arrival; a missing checkin after = gave up
         // a site whose questions aren't written yet stamps on the GPS fix alone, and
@@ -86,6 +100,10 @@
         // how far off people actually are -> whether this radius needs widening
         track('gps_far', dest.id, distance, quiet);
       }
+=======
+      if (distance <= dest.radius) startDiscovery();
+      else step = 'far';
+>>>>>>> Stashed changes
     } catch (e) {
       step = 'error';
       message = e?.code === 1 ? s('geo_denied') : s('geo_fail');
@@ -93,6 +111,7 @@
     }
   }
 
+<<<<<<< Updated upstream
   // every drawn question answered right → the stamp lands
   function onPass(r) {
     missed = r.missed;
@@ -113,6 +132,23 @@
     else if (demo === 'far') { distance = dest.radius + 120; } // sample "too far" banner
     else if (demo === 'error') { message = s('geo_denied'); } // sample GPS-denied banner
   });
+=======
+  function startDiscovery() {
+    message = '';
+    step = 'discover';
+  }
+
+  // Single on-site discovery challenge: find the detail, pick the right option.
+  function answer(i) {
+    if (i !== disc.answer) {
+      message = s('wrong');
+      return;
+    }
+    message = '';
+    addStamp(dest.id);
+    step = 'done';
+  }
+>>>>>>> Stashed changes
 </script>
 
 <!-- no top-bar back anywhere here; only the info screen shows the title — quiz, result
@@ -132,6 +168,7 @@
 
         <p class="desc">{t(dest.description)}</p>
 
+<<<<<<< Updated upstream
         <!-- "đừng bỏ lỡ": the survey team's three things to actually look at on site -->
         {#if dest.highlights?.length}
           <div class="dm-box">
@@ -141,6 +178,42 @@
             </ul>
           </div>
         {/if}
+=======
+  <span class="tag" style="background: var(--c-{dest.category})">{t(categoryLabel(dest.category))}</span>
+  <p>{t(dest.description)}</p>
+  <p class="muted"><small>🕑 {t(dest.hours)} · 📍 {t(dest.address)}</small></p>
+
+  <a class="btn secondary" href={mapsUrl(dest)} target="_blank" rel="noopener" style="width: 100%">
+    {s('directions')}
+  </a>
+
+  <div class="checkin">
+    {#if step === 'done'}
+      <div class="success">{s('checkin_done')}</div>
+      {#if t(disc.reveal)}<p class="reveal">{t(disc.reveal)}</p>{/if}
+      <a class="btn secondary" href="{base}/passport">{s('passport')}</a>
+    {:else if step === 'idle' || step === 'error'}
+      {#if message}<div class="banner">{message}</div>{/if}
+      <button class="btn" onclick={checkIn} style="width: 100%">{s('checkin')}</button>
+      {#if SIMULATE}
+        <button class="btn secondary" onclick={startDiscovery} style="width: 100%">{s('simulate')}</button>
+      {/if}
+    {:else if step === 'locating'}
+      <button class="btn" disabled style="width: 100%">{s('locating')}</button>
+    {:else if step === 'far'}
+      <div class="banner">{s('far', distance, dest.radius)}</div>
+      <button class="btn" onclick={checkIn} style="width: 100%">{s('retry')}</button>
+    {:else if step === 'discover'}
+      <div class="quiz">
+        <p><strong>{s('arrived')}</strong></p>
+        {#if t(disc.story)}<p class="story">{t(disc.story)}</p>{/if}
+        <p class="clue">🔍 {t(disc.clue)}</p>
+        <p>{t(disc.prompt)}</p>
+        {#each disc.options as opt, i}
+          <button class="opt" onclick={() => answer(i)}>{t(opt)}</button>
+        {/each}
+        {#if message}<p class="muted">{message}</p>{/if}
+>>>>>>> Stashed changes
       </div>
 
       <!-- CTA dock: pushed to the bottom of the first screen, always in reach -->
@@ -227,11 +300,48 @@
     font-size: var(--fs-sm); text-transform: uppercase; letter-spacing: .08em;
     color: var(--brand-dark);
   }
+<<<<<<< Updated upstream
   .dm { margin: 0; padding: 0; list-style: none; display: grid; gap: 8px; }
   .dm li { position: relative; padding-left: 17px; font-size: var(--fs-lg); line-height: 1.35; }
   .dm li::before {
     content: ''; position: absolute; left: 0; top: .5em;
     width: 7px; height: 7px; border-radius: 50%; background: var(--gold);
+=======
+  .checkin { margin-top: 20px; display: grid; gap: 10px; }
+  .success {
+    background: #e6f4ea;
+    border: 1px solid #a8d8b9;
+    color: #1e6b34;
+    border-radius: 12px;
+    padding: 12px;
+    font-weight: 600;
+  }
+  .story { color: var(--muted, #555); font-style: italic; }
+  .clue {
+    background: color-mix(in srgb, var(--cat, #c98a3a) 12%, var(--surface));
+    border-left: 3px solid var(--cat, #c98a3a);
+    border-radius: 8px;
+    padding: 10px 12px;
+  }
+  .reveal {
+    background: #fff8ec;
+    border: 1px solid #f0dcae;
+    border-radius: 12px;
+    padding: 12px;
+  }
+  .quiz .opt {
+    display: block;
+    width: 100%;
+    text-align: left;
+    padding: 12px 16px;
+    margin-bottom: 8px;
+    border: 1px solid var(--line);
+    border-radius: 12px;
+    background: var(--surface);
+    font-family: var(--font-body);
+    font-size: 1rem;
+    cursor: pointer;
+>>>>>>> Stashed changes
   }
 
   /* quiz + result screens: Quiz.svelte */

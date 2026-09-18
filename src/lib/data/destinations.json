@@ -36,6 +36,7 @@
       "fr": "Bâti par des marchands japonais au début du XVIIe siècle pour franchir le ruisseau qui se jette dans la rivière Thu Bồn, le pont garde son toit de tuiles yin-yang et, en son milieu, un petit sanctuaire dédié à Bắc Đế Trấn Võ. Les habitants l'appellent Chùa Cầu, le pont-pagode ; son nom lettré, Lai Viễn Kiều, signifie « le pont qui accueille ceux qui viennent de loin ».",
       "de": "Japanische Kaufleute errichteten die Brücke im frühen 17. Jahrhundert über den Bach, der in den Thu Bồn mündet. Sie trägt noch ihr Yin-Yang-Ziegeldach und in der Mitte einen kleinen Schrein für Bắc Đế Trấn Võ. Einheimische nennen sie Chùa Cầu, die Pagodenbrücke; ihr Gelehrtenname Lai Viễn Kiều heißt „Brücke, die Gäste aus der Ferne empfängt“."
     },
+<<<<<<< Updated upstream
     "quizBank": [
       {
         "question": {
@@ -304,10 +305,35 @@
         "th": "หลังคากระเบื้องหยินหยางและโครงไม้ฝีมือช่างโบราณ",
         "fr": "Le toit de tuiles yin-yang et les fermes en bois des anciens charpentiers",
         "de": "Yin-Yang-Ziegel und das Holzgebälk der alten Zimmerleute"
+=======
+    "discovery": {
+      "story": {
+        "vi": "Bạn đang đứng đúng nơi khu phố Nhật và khu phố Hoa gặp nhau hơn 400 năm trước. Tương truyền cây cầu được dựng để trấn lưng con thuỷ quái Namazu — đầu ở Ấn Độ, thân ở Hội An, đuôi ở Nhật Bản — khiến nó không thể quẫy mình gây động đất.",
+        "en": "You're standing exactly where the Japanese and Chinese quarters met over 400 years ago. Legend says the bridge was built to pin down the monster Namazu — head in India, body in Hoi An, tail in Japan — so it could not thrash and cause earthquakes."
+      },
+      "clue": {
+        "vi": "Đừng vội qua cầu. Hãy nhìn kỹ hai đầu cầu — có hai cặp tượng linh vật bằng gỗ ngồi canh giữ.",
+        "en": "Don't cross yet. Look closely at the two ends of the bridge — two pairs of carved wooden guardian animals sit watching."
+      },
+      "prompt": {
+        "vi": "Hai cặp linh vật canh giữ hai đầu Chùa Cầu là con gì?",
+        "en": "Which two guardian animals watch over the ends of the bridge?"
+      },
+      "options": [
+        { "vi": "Chó và Khỉ", "en": "Dogs and Monkeys" },
+        { "vi": "Rồng và Phượng", "en": "Dragons and Phoenixes" },
+        { "vi": "Hổ và Voi", "en": "Tigers and Elephants" }
+      ],
+      "answer": 0,
+      "reveal": {
+        "vi": "Đúng rồi! Tương truyền cầu khởi công năm Thân và hoàn thành năm Tuất, nên chó và khỉ được chọn làm linh vật trấn giữ. Hình ảnh cây cầu này in trên tờ 20.000 đồng đấy.",
+        "en": "Correct! Tradition says construction began in the Year of the Monkey and finished in the Year of the Dog — so monkeys and dogs became its guardians. This bridge is printed on the 20,000 VND banknote."
+>>>>>>> Stashed changes
       }
-    ]
+    }
   },
   {
+<<<<<<< Updated upstream
     "id": "chua-quan-am",
     "code": "A2",
     "name": {
@@ -334,6 +360,17 @@
     },
     "traffic": "low",
     "promoPriority": "high",
+=======
+    "id": "hoi-quan-phuc-kien",
+    "name": { "vi": "Hội quán Phúc Kiến", "en": "Fujian Assembly Hall" },
+    "category": "hoi-quan",
+    "lat": 15.877350,
+    "lng": 108.330000,
+    "radius": 35,
+    "address": { "vi": "46 Trần Phú, Phường Minh An", "en": "46 Tran Phu St, Minh An Ward" },
+    "hours": { "vi": "07:00 – 18:00", "en": "07:00 – 18:00" },
+    "image": null,
+>>>>>>> Stashed changes
     "description": {
       "vi": "Cách Miếu Quan Công một khoảng vườn thanh tịnh làm nao lòng du khách, ngôi chùa là chốn tự tại giữa cảnh phồn hoa, giữ gìn nếp cũ người Minh Hương.",
       "en": "A garden's calm away from Quan Công Temple, the pagoda is a place at ease amid the bustle, keeping the old ways of the Minh Hương community.",
@@ -344,6 +381,7 @@
       "fr": "À un jardin paisible du temple de Quan Công, cette pagode est un lieu où l'on se pose au milieu de l'animation, et où se gardent les usages anciens de la communauté Minh Hương.",
       "de": "Nur ein stiller Garten trennt sie vom Quan-Công-Tempel: Diese Pagode ist ein Ort der Ruhe mitten im Treiben und bewahrt die alten Gebräuche der Minh-Hương-Gemeinschaft."
     },
+<<<<<<< Updated upstream
     "quizBank": [
       {
         "question": {
@@ -498,8 +536,71 @@
         "th": "รูปปั้นเจ้าแม่กวนอิมในลานใน ท่ามกลางสวนหินและสระเล็ก",
         "fr": "La statue de Quan Âm dans la cour, entre rocaille et petit bassin",
         "de": "Die Quan-Âm-Statue im Innenhof, zwischen Steingarten und kleinem Teich"
+=======
+    "discovery": {
+      "story": {
+        "vi": "Năm 1697, một pho tượng nữ thần được sóng đưa vào bãi biển Hội An. Cộng đồng Phúc Kiến tin đó là Thiên Hậu — vị thần che chở thuyền buôn giữa biển khơi — và dựng nên hội quán nguy nga này để thờ bà.",
+        "en": "In 1697 a statue of a goddess washed ashore on Hoi An beach. The Fujian community believed it was Thien Hau — protector of merchant ships on the open sea — and raised this magnificent hall in her honor."
+      },
+      "clue": {
+        "vi": "Trước khi vào trong, hãy dừng lại ở cổng chính màu hồng lộng lẫy phía ngoài và đếm số lối đi xuyên qua nó.",
+        "en": "Before going in, pause at the grand pink front gate and count how many passageways run through it."
+      },
+      "prompt": {
+        "vi": "Cổng chính (Tam Quan) của Hội quán Phúc Kiến có mấy lối đi?",
+        "en": "How many passageways does the main gate (Tam Quan) of the hall have?"
+      },
+      "options": [
+        { "vi": "3 lối", "en": "3 passageways" },
+        { "vi": "1 lối", "en": "1 passageway" },
+        { "vi": "5 lối", "en": "5 passageways" }
+      ],
+      "answer": 0,
+      "reveal": {
+        "vi": "Chính xác — Tam Quan nghĩa là 'ba cổng'. Trên nóc là cặp rồng gốm sứ chầu mặt trời, hai bên là biểu tượng mặt trời và mặt trăng cho âm dương hoà hợp.",
+        "en": "Exactly — Tam Quan means 'three gates'. On its roof a pair of ceramic dragons face the sun, flanked by sun and moon symbols for the harmony of yin and yang."
       }
-    ]
+    }
+  },
+  {
+    "id": "nha-co-tan-ky",
+    "name": { "vi": "Nhà cổ Tấn Ký", "en": "Tan Ky Old House" },
+    "category": "nha-co",
+    "lat": 15.876800,
+    "lng": 108.328700,
+    "radius": 35,
+    "address": { "vi": "101 Nguyễn Thái Học, Phường Minh An", "en": "101 Nguyen Thai Hoc St, Minh An Ward" },
+    "hours": { "vi": "08:00 – 18:00", "en": "08:00 – 18:00" },
+    "image": null,
+    "description": {
+      "vi": "Ngôi nhà gần 200 năm tuổi, nơi bảy thế hệ một gia đình thương nhân sinh sống. Kiến trúc hoà quyện ba nền văn hoá Việt – Hoa – Nhật, mặt trước mở ra phố buôn, mặt sau quay ra sông Thu Bồn để bốc dỡ hàng.",
+      "en": "A nearly 200-year-old house lived in by seven generations of a merchant family. Its architecture blends three cultures — Vietnamese, Chinese, Japanese — with a shopfront onto the street and a back door onto the Thu Bon River for loading goods."
+    },
+    "discovery": {
+      "story": {
+        "vi": "Tên 'Tấn Ký' nghĩa là 'phát triển thịnh vượng trong buôn bán'. Nhưng sống bên sông Thu Bồn cũng có giá của nó — mỗi mùa mưa, nước lũ lại tìm đến tận trong nhà.",
+        "en": "The name 'Tan Ky' means 'progress and prosperity in trade'. But living beside the Thu Bon River has its price — every rainy season the floodwaters find their way inside."
+      },
+      "clue": {
+        "vi": "Hãy quan sát cây cột hoặc bức tường gần gian giữa nhà. Bạn sẽ thấy những vạch khắc đánh dấu nằm ngang ở nhiều độ cao khác nhau.",
+        "en": "Look at a pillar or wall near the middle of the house. You'll find horizontal marks carved at several different heights."
+      },
+      "prompt": {
+        "vi": "Những vạch ngang được đánh dấu trên cột/tường nhà Tấn Ký ghi lại điều gì?",
+        "en": "What do the horizontal marks on the pillar/wall record?"
+      },
+      "options": [
+        { "vi": "Mực nước các trận lụt lịch sử", "en": "Water levels of historic floods" },
+        { "vi": "Chiều cao các đời chủ nhà", "en": "Heights of each generation of owners" },
+        { "vi": "Năm xây dựng từng gian nhà", "en": "The year each room was built" }
+      ],
+      "answer": 0,
+      "reveal": {
+        "vi": "Đúng vậy. Mỗi vạch là một trận lụt mà ngôi nhà đã đi qua. Bộ khung gỗ lim ghép mộng không dùng đinh đã giúp nó đứng vững gần hai thế kỷ.",
+        "en": "Right. Each mark is a flood the house has survived. Its ironwood frame, joined without a single nail, has held it up for nearly two centuries."
+>>>>>>> Stashed changes
+      }
+    }
   },
   {
     "id": "mieu-quan-cong",
@@ -515,6 +616,7 @@
       "de": "Der Quan-Công-Tempel"
     },
     "category": "di-tich",
+<<<<<<< Updated upstream
     "lat": 15.8775421,
     "lng": 108.3313724,
     "radius": 75,
@@ -746,8 +848,504 @@
         "th": "รูปกวนกง สองศิษย์ ม้าฉีถู่และม้าขาว",
         "fr": "La statue de Quan Công, ses deux disciples et les chevaux Xích Thố et Bạch Thố",
         "de": "Die Statue von Quan Công, seine zwei Schüler und die Pferde Xích Thố und Bạch Thố"
+=======
+    "lat": 15.877260,
+    "lng": 108.329300,
+    "radius": 35,
+    "address": { "vi": "24 Trần Phú, Phường Minh An", "en": "24 Tran Phu St, Minh An Ward" },
+    "hours": { "vi": "08:00 – 17:00", "en": "08:00 – 17:00" },
+    "image": null,
+    "description": {
+      "vi": "Ngôi miếu thờ Quan Công (Quan Vũ) — vị tướng thời Tam Quốc được tôn là biểu tượng của lòng trung nghĩa, được cả thương nhân Việt và Hoa kính ngưỡng.",
+      "en": "A temple to Quan Cong (Guan Yu), the Three Kingdoms general revered as a symbol of loyalty and righteousness, honored by both Vietnamese and Chinese merchants."
+    },
+    "discovery": {
+      "story": {
+        "vi": "Thương nhân xưa đến đây không chỉ cầu tài, mà cầu cho mình giữ được chữ 'tín' trong buôn bán — đức tính mà Quan Công là hiện thân. Ngài luôn được tạc với gương mặt đỏ rực.",
+        "en": "Old merchants came here not only to pray for wealth, but to keep their word in trade — the virtue Quan Cong embodies. He is always sculpted with a fierce red face."
+      },
+      "clue": {
+        "vi": "Trong sân miếu, hai bên có đặt tượng hai con tuấn mã được sơn màu nổi bật. Hãy để ý màu của chúng.",
+        "en": "In the temple courtyard stand two statues of warhorses painted in striking colors. Notice their colors."
+      },
+      "prompt": {
+        "vi": "Đôi tượng ngựa trong miếu Quan Công được sơn hai màu gì?",
+        "en": "What two colors are the horse statues in the temple painted?"
+      },
+      "options": [
+        { "vi": "Trắng và Đỏ", "en": "White and Red" },
+        { "vi": "Đen và Vàng", "en": "Black and Gold" },
+        { "vi": "Nâu và Xám", "en": "Brown and Grey" }
+      ],
+      "answer": 0,
+      "reveal": {
+        "vi": "Chính xác! Con ngựa đỏ là Xích Thố — chiến mã huyền thoại gắn liền với Quan Công trong sử thi Tam Quốc.",
+        "en": "Correct! The red horse is Xich Tho (Red Hare), the legendary steed bound to Quan Cong in the Three Kingdoms epic."
+>>>>>>> Stashed changes
       }
-    ]
+    }
+  },
+  {
+    "id": "hoi-quan-quang-trieu",
+    "name": { "vi": "Hội quán Quảng Triệu", "en": "Cantonese Assembly Hall" },
+    "category": "hoi-quan",
+    "lat": 15.877250,
+    "lng": 108.326500,
+    "radius": 35,
+    "address": { "vi": "176 Trần Phú, Phường Minh An", "en": "176 Tran Phu St, Minh An Ward" },
+    "hours": { "vi": "07:00 – 17:30", "en": "07:00 – 17:30" },
+    "image": null,
+    "description": {
+      "vi": "Hội quán của cộng đồng người Hoa gốc Quảng Đông, nổi bật với nghệ thuật ghép sành sứ và những cột đá chạm rồng tinh xảo.",
+      "en": "Assembly hall of the Cantonese community, known for its ceramic mosaic art and finely carved dragon stone columns."
+    },
+    "discovery": {
+      "story": { "vi": "", "en": "" },
+      "clue": {
+        "vi": "⚠ Cần khảo sát tại điểm — thay bằng manh mối dẫn khách tìm một chi tiết CÓ THẬT chỉ thấy được khi đứng tại nơi này.",
+        "en": "⚠ Capture on-site — replace with a clue pointing to a REAL detail only visible while standing here."
+      },
+      "prompt": {
+        "vi": "Tìm tấm biển tên ở lối vào — bạn đang ở điểm nào?",
+        "en": "Find the name plaque at the entrance — which site are you at?"
+      },
+      "options": [
+        { "vi": "Hội quán Quảng Triệu", "en": "Cantonese Assembly Hall" },
+        { "vi": "Hội quán Phúc Kiến", "en": "Fujian Assembly Hall" },
+        { "vi": "Hội quán Hải Nam", "en": "Hainan Assembly Hall" }
+      ],
+      "answer": 0,
+      "reveal": { "vi": "", "en": "" }
+    }
+  },
+  {
+    "id": "hoi-quan-trieu-chau",
+    "name": { "vi": "Hội quán Triều Châu", "en": "Teochew Assembly Hall" },
+    "category": "hoi-quan",
+    "lat": 15.876900,
+    "lng": 108.332300,
+    "radius": 35,
+    "address": { "vi": "157 Nguyễn Duy Hiệu, Phường Minh An", "en": "157 Nguyen Duy Hieu St, Minh An Ward" },
+    "hours": { "vi": "08:00 – 17:00", "en": "08:00 – 17:00" },
+    "image": null,
+    "description": {
+      "vi": "Hội quán của người Hoa gốc Triều Châu, thờ Phục Ba tướng quân — vị thần trấn sóng gió, nổi tiếng với các bức chạm gỗ và ghép sứ tinh tế.",
+      "en": "Assembly hall of the Teochew community, dedicated to a general who calms the waves, famed for its delicate wood carvings and ceramic inlays."
+    },
+    "discovery": {
+      "story": { "vi": "", "en": "" },
+      "clue": {
+        "vi": "⚠ Cần khảo sát tại điểm — thay bằng manh mối dẫn khách tìm một chi tiết CÓ THẬT chỉ thấy được khi đứng tại nơi này.",
+        "en": "⚠ Capture on-site — replace with a clue pointing to a REAL detail only visible while standing here."
+      },
+      "prompt": {
+        "vi": "Tìm tấm biển tên ở lối vào — bạn đang ở điểm nào?",
+        "en": "Find the name plaque at the entrance — which site are you at?"
+      },
+      "options": [
+        { "vi": "Hội quán Triều Châu", "en": "Teochew Assembly Hall" },
+        { "vi": "Hội quán Quảng Triệu", "en": "Cantonese Assembly Hall" },
+        { "vi": "Hội quán Trung Hoa", "en": "Chinese Assembly Hall" }
+      ],
+      "answer": 0,
+      "reveal": { "vi": "", "en": "" }
+    }
+  },
+  {
+    "id": "hoi-quan-hai-nam",
+    "name": { "vi": "Hội quán Hải Nam", "en": "Hainan Assembly Hall" },
+    "category": "hoi-quan",
+    "lat": 15.877050,
+    "lng": 108.330800,
+    "radius": 35,
+    "address": { "vi": "10 Trần Phú, Phường Minh An", "en": "10 Tran Phu St, Minh An Ward" },
+    "hours": { "vi": "08:00 – 17:00", "en": "08:00 – 17:00" },
+    "image": null,
+    "description": {
+      "vi": "Hội quán của cộng đồng người Hoa gốc Hải Nam, dựng để tưởng niệm 108 thương nhân gặp nạn oan khuất, với bàn thờ sơn son thếp vàng lộng lẫy.",
+      "en": "Assembly hall of the Hainan community, built to honor 108 merchants who died unjustly, with a richly gilded main altar."
+    },
+    "discovery": {
+      "story": { "vi": "", "en": "" },
+      "clue": {
+        "vi": "⚠ Cần khảo sát tại điểm — thay bằng manh mối dẫn khách tìm một chi tiết CÓ THẬT chỉ thấy được khi đứng tại nơi này.",
+        "en": "⚠ Capture on-site — replace with a clue pointing to a REAL detail only visible while standing here."
+      },
+      "prompt": {
+        "vi": "Tìm tấm biển tên ở lối vào — bạn đang ở điểm nào?",
+        "en": "Find the name plaque at the entrance — which site are you at?"
+      },
+      "options": [
+        { "vi": "Hội quán Hải Nam", "en": "Hainan Assembly Hall" },
+        { "vi": "Hội quán Phúc Kiến", "en": "Fujian Assembly Hall" },
+        { "vi": "Hội quán Triều Châu", "en": "Teochew Assembly Hall" }
+      ],
+      "answer": 0,
+      "reveal": { "vi": "", "en": "" }
+    }
+  },
+  {
+    "id": "hoi-quan-trung-hoa",
+    "name": { "vi": "Hội quán Trung Hoa", "en": "Chinese Assembly Hall" },
+    "category": "hoi-quan",
+    "lat": 15.877400,
+    "lng": 108.327600,
+    "radius": 35,
+    "address": { "vi": "64 Trần Phú, Phường Minh An", "en": "64 Tran Phu St, Minh An Ward" },
+    "hours": { "vi": "08:00 – 17:00", "en": "08:00 – 17:00" },
+    "image": null,
+    "description": {
+      "vi": "Hội quán chung của năm bang người Hoa (Ngũ Bang) tại Hội An, là nơi sinh hoạt cộng đồng và thờ Thiên Hậu Thánh Mẫu.",
+      "en": "The shared assembly hall of the five Chinese congregations in Hoi An, a community gathering place dedicated to the goddess Thien Hau."
+    },
+    "discovery": {
+      "story": { "vi": "", "en": "" },
+      "clue": {
+        "vi": "⚠ Cần khảo sát tại điểm — thay bằng manh mối dẫn khách tìm một chi tiết CÓ THẬT chỉ thấy được khi đứng tại nơi này.",
+        "en": "⚠ Capture on-site — replace with a clue pointing to a REAL detail only visible while standing here."
+      },
+      "prompt": {
+        "vi": "Tìm tấm biển tên ở lối vào — bạn đang ở điểm nào?",
+        "en": "Find the name plaque at the entrance — which site are you at?"
+      },
+      "options": [
+        { "vi": "Hội quán Trung Hoa", "en": "Chinese Assembly Hall" },
+        { "vi": "Hội quán Hải Nam", "en": "Hainan Assembly Hall" },
+        { "vi": "Hội quán Quảng Triệu", "en": "Cantonese Assembly Hall" }
+      ],
+      "answer": 0,
+      "reveal": { "vi": "", "en": "" }
+    }
+  },
+  {
+    "id": "nha-co-phung-hung",
+    "name": { "vi": "Nhà cổ Phùng Hưng", "en": "Phung Hung Old House" },
+    "category": "nha-co",
+    "lat": 15.876950,
+    "lng": 108.326000,
+    "radius": 35,
+    "address": { "vi": "4 Nguyễn Thị Minh Khai, Phường Minh An", "en": "4 Nguyen Thi Minh Khai St, Minh An Ward" },
+    "hours": { "vi": "08:00 – 18:00", "en": "08:00 – 18:00" },
+    "image": null,
+    "description": {
+      "vi": "Ngôi nhà gỗ hai tầng hơn 200 năm tuổi ngay cạnh Chùa Cầu, có cửa sập trên sàn gác để chuyển hàng tránh lũ — minh chứng cho đời sống thương hồ xưa.",
+      "en": "A two-storey wooden house over 200 years old beside the Japanese Bridge, with a trapdoor in the upper floor to move goods above floodwaters — a record of old trading life."
+    },
+    "discovery": {
+      "story": { "vi": "", "en": "" },
+      "clue": {
+        "vi": "⚠ Cần khảo sát tại điểm — thay bằng manh mối dẫn khách tìm một chi tiết CÓ THẬT chỉ thấy được khi đứng tại nơi này.",
+        "en": "⚠ Capture on-site — replace with a clue pointing to a REAL detail only visible while standing here."
+      },
+      "prompt": {
+        "vi": "Tìm tấm biển tên ở lối vào — bạn đang ở điểm nào?",
+        "en": "Find the name plaque at the entrance — which site are you at?"
+      },
+      "options": [
+        { "vi": "Nhà cổ Phùng Hưng", "en": "Phung Hung Old House" },
+        { "vi": "Nhà cổ Tấn Ký", "en": "Tan Ky Old House" },
+        { "vi": "Nhà cổ Quân Thắng", "en": "Quan Thang Old House" }
+      ],
+      "answer": 0,
+      "reveal": { "vi": "", "en": "" }
+    }
+  },
+  {
+    "id": "nha-co-quan-thang",
+    "name": { "vi": "Nhà cổ Quân Thắng", "en": "Quan Thang Old House" },
+    "category": "nha-co",
+    "lat": 15.877000,
+    "lng": 108.329000,
+    "radius": 35,
+    "address": { "vi": "77 Trần Phú, Phường Minh An", "en": "77 Tran Phu St, Minh An Ward" },
+    "hours": { "vi": "08:00 – 18:00", "en": "08:00 – 18:00" },
+    "image": null,
+    "description": {
+      "vi": "Ngôi nhà hơn 300 năm tuổi mang đậm phong cách Hoa Hạ vùng Triều Châu, nổi bật với những mảng chạm gỗ tinh xảo trên vì kèo và vách ngăn.",
+      "en": "A house over 300 years old in the Teochew Chinese style, distinguished by exquisite wood carvings on its trusses and partitions."
+    },
+    "discovery": {
+      "story": { "vi": "", "en": "" },
+      "clue": {
+        "vi": "⚠ Cần khảo sát tại điểm — thay bằng manh mối dẫn khách tìm một chi tiết CÓ THẬT chỉ thấy được khi đứng tại nơi này.",
+        "en": "⚠ Capture on-site — replace with a clue pointing to a REAL detail only visible while standing here."
+      },
+      "prompt": {
+        "vi": "Tìm tấm biển tên ở lối vào — bạn đang ở điểm nào?",
+        "en": "Find the name plaque at the entrance — which site are you at?"
+      },
+      "options": [
+        { "vi": "Nhà cổ Quân Thắng", "en": "Quan Thang Old House" },
+        { "vi": "Nhà cổ Đức An", "en": "Duc An Old House" },
+        { "vi": "Nhà cổ Phùng Hưng", "en": "Phung Hung Old House" }
+      ],
+      "answer": 0,
+      "reveal": { "vi": "", "en": "" }
+    }
+  },
+  {
+    "id": "nha-co-duc-an",
+    "name": { "vi": "Nhà cổ Đức An", "en": "Duc An Old House" },
+    "category": "nha-co",
+    "lat": 15.876900,
+    "lng": 108.329500,
+    "radius": 35,
+    "address": { "vi": "129 Trần Phú, Phường Minh An", "en": "129 Tran Phu St, Minh An Ward" },
+    "hours": { "vi": "08:00 – 18:00", "en": "08:00 – 18:00" },
+    "image": null,
+    "description": {
+      "vi": "Ngôi nhà từng là hiệu sách và nơi lui tới của các nhà yêu nước đầu thế kỷ 20, gắn với phong trào cách mạng ở Quảng Nam.",
+      "en": "Once a bookshop and meeting place for early-20th-century patriots, tied to the revolutionary movement in Quang Nam."
+    },
+    "discovery": {
+      "story": { "vi": "", "en": "" },
+      "clue": {
+        "vi": "⚠ Cần khảo sát tại điểm — thay bằng manh mối dẫn khách tìm một chi tiết CÓ THẬT chỉ thấy được khi đứng tại nơi này.",
+        "en": "⚠ Capture on-site — replace with a clue pointing to a REAL detail only visible while standing here."
+      },
+      "prompt": {
+        "vi": "Tìm tấm biển tên ở lối vào — bạn đang ở điểm nào?",
+        "en": "Find the name plaque at the entrance — which site are you at?"
+      },
+      "options": [
+        { "vi": "Nhà cổ Đức An", "en": "Duc An Old House" },
+        { "vi": "Nhà cổ Tấn Ký", "en": "Tan Ky Old House" },
+        { "vi": "Nhà cổ Quân Thắng", "en": "Quan Thang Old House" }
+      ],
+      "answer": 0,
+      "reveal": { "vi": "", "en": "" }
+    }
+  },
+  {
+    "id": "nha-tho-toc-tran",
+    "name": { "vi": "Nhà thờ tộc Trần", "en": "Tran Family Chapel" },
+    "category": "nha-co",
+    "lat": 15.877700,
+    "lng": 108.328500,
+    "radius": 35,
+    "address": { "vi": "21 Lê Lợi, Phường Minh An", "en": "21 Le Loi St, Minh An Ward" },
+    "hours": { "vi": "08:00 – 17:30", "en": "08:00 – 17:30" },
+    "image": null,
+    "description": {
+      "vi": "Nhà thờ tộc gần 200 năm của dòng họ Trần, dòng họ quan lại gốc Hoa, là nơi thờ cúng tổ tiên còn gìn giữ nhiều sắc phong và gia phả cổ.",
+      "en": "A nearly 200-year-old ancestral chapel of the Tran clan, a mandarin family of Chinese origin, preserving old royal decrees and genealogies."
+    },
+    "discovery": {
+      "story": { "vi": "", "en": "" },
+      "clue": {
+        "vi": "⚠ Cần khảo sát tại điểm — thay bằng manh mối dẫn khách tìm một chi tiết CÓ THẬT chỉ thấy được khi đứng tại nơi này.",
+        "en": "⚠ Capture on-site — replace with a clue pointing to a REAL detail only visible while standing here."
+      },
+      "prompt": {
+        "vi": "Tìm tấm biển tên ở lối vào — bạn đang ở điểm nào?",
+        "en": "Find the name plaque at the entrance — which site are you at?"
+      },
+      "options": [
+        { "vi": "Nhà thờ tộc Trần", "en": "Tran Family Chapel" },
+        { "vi": "Nhà thờ tộc Nguyễn Tường", "en": "Nguyen Tuong Family Chapel" },
+        { "vi": "Nhà cổ Đức An", "en": "Duc An Old House" }
+      ],
+      "answer": 0,
+      "reveal": { "vi": "", "en": "" }
+    }
+  },
+  {
+    "id": "quan-am-phat-tu",
+    "name": { "vi": "Quan Âm Phật tự (Chùa Quan Âm)", "en": "Quan Am Pagoda" },
+    "category": "di-tich",
+    "lat": 15.877300,
+    "lng": 108.330500,
+    "radius": 35,
+    "address": { "vi": "Trần Phú, Phường Minh An", "en": "Tran Phu St, Minh An Ward" },
+    "hours": { "vi": "Cả ngày", "en": "All day" },
+    "image": null,
+    "description": {
+      "vi": "Ngôi chùa thờ Phật Bà Quan Âm, không gian tĩnh lặng giữa phố cổ, lưu giữ nét kiến trúc tôn giáo truyền thống của Hội An.",
+      "en": "A pagoda dedicated to the Goddess of Mercy Quan Am, a tranquil space amid the old town preserving Hoi An's traditional religious architecture."
+    },
+    "discovery": {
+      "story": { "vi": "", "en": "" },
+      "clue": {
+        "vi": "⚠ Cần khảo sát tại điểm — thay bằng manh mối dẫn khách tìm một chi tiết CÓ THẬT chỉ thấy được khi đứng tại nơi này.",
+        "en": "⚠ Capture on-site — replace with a clue pointing to a REAL detail only visible while standing here."
+      },
+      "prompt": {
+        "vi": "Tìm tấm biển tên ở lối vào — bạn đang ở điểm nào?",
+        "en": "Find the name plaque at the entrance — which site are you at?"
+      },
+      "options": [
+        { "vi": "Quan Âm Phật tự", "en": "Quan Am Pagoda" },
+        { "vi": "Miếu Quan Công", "en": "Quan Cong Temple" },
+        { "vi": "Đình Cẩm Phô", "en": "Cam Pho Communal House" }
+      ],
+      "answer": 0,
+      "reveal": { "vi": "", "en": "" }
+    }
+  },
+  {
+    "id": "dinh-cam-pho",
+    "name": { "vi": "Đình Cẩm Phô", "en": "Cam Pho Communal House" },
+    "category": "di-tich",
+    "lat": 15.877600,
+    "lng": 108.324300,
+    "radius": 40,
+    "address": { "vi": "52 Nguyễn Thị Minh Khai, Phường Minh An", "en": "52 Nguyen Thi Minh Khai St, Minh An Ward" },
+    "hours": { "vi": "08:00 – 17:00", "en": "08:00 – 17:00" },
+    "image": null,
+    "description": {
+      "vi": "Đình làng cổ của làng Cẩm Phô, nơi thờ thành hoàng và sinh hoạt tín ngưỡng của cư dân bản địa Hội An qua nhiều thế kỷ.",
+      "en": "The ancient communal house of Cam Pho village, where the village guardian deity is worshipped and local Hoi An life has centered for centuries."
+    },
+    "discovery": {
+      "story": { "vi": "", "en": "" },
+      "clue": {
+        "vi": "⚠ Cần khảo sát tại điểm — thay bằng manh mối dẫn khách tìm một chi tiết CÓ THẬT chỉ thấy được khi đứng tại nơi này.",
+        "en": "⚠ Capture on-site — replace with a clue pointing to a REAL detail only visible while standing here."
+      },
+      "prompt": {
+        "vi": "Tìm tấm biển tên ở lối vào — bạn đang ở điểm nào?",
+        "en": "Find the name plaque at the entrance — which site are you at?"
+      },
+      "options": [
+        { "vi": "Đình Cẩm Phô", "en": "Cam Pho Communal House" },
+        { "vi": "Đình Hội An", "en": "Hoi An Communal House" },
+        { "vi": "Tụy Tiên Đường Minh Hương", "en": "Minh Huong Communal House" }
+      ],
+      "answer": 0,
+      "reveal": { "vi": "", "en": "" }
+    }
+  },
+  {
+    "id": "tuy-tien-duong-minh-huong",
+    "name": { "vi": "Tụy Tiên Đường Minh Hương", "en": "Minh Huong Communal House" },
+    "category": "di-tich",
+    "lat": 15.877100,
+    "lng": 108.329900,
+    "radius": 35,
+    "address": { "vi": "14 Trần Phú, Phường Minh An", "en": "14 Tran Phu St, Minh An Ward" },
+    "hours": { "vi": "08:00 – 17:00", "en": "08:00 – 17:00" },
+    "image": null,
+    "description": {
+      "vi": "Nơi thờ các bậc tiền hiền người Minh Hương — cộng đồng người Hoa định cư và hoà nhập, có công khai phá, lập nên phố Hội An.",
+      "en": "A hall honoring the founding elders of the Minh Huong community — Chinese settlers who integrated locally and helped found the town of Hoi An."
+    },
+    "discovery": {
+      "story": { "vi": "", "en": "" },
+      "clue": {
+        "vi": "⚠ Cần khảo sát tại điểm — thay bằng manh mối dẫn khách tìm một chi tiết CÓ THẬT chỉ thấy được khi đứng tại nơi này.",
+        "en": "⚠ Capture on-site — replace with a clue pointing to a REAL detail only visible while standing here."
+      },
+      "prompt": {
+        "vi": "Tìm tấm biển tên ở lối vào — bạn đang ở điểm nào?",
+        "en": "Find the name plaque at the entrance — which site are you at?"
+      },
+      "options": [
+        { "vi": "Tụy Tiên Đường Minh Hương", "en": "Minh Huong Communal House" },
+        { "vi": "Đình Cẩm Phô", "en": "Cam Pho Communal House" },
+        { "vi": "Đình Hội An", "en": "Hoi An Communal House" }
+      ],
+      "answer": 0,
+      "reveal": { "vi": "", "en": "" }
+    }
+  },
+  {
+    "id": "dinh-hoi-an",
+    "name": { "vi": "Đình Hội An (Đình Ông Voi)", "en": "Hoi An Communal House" },
+    "category": "di-tich",
+    "lat": 15.877000,
+    "lng": 108.330100,
+    "radius": 35,
+    "address": { "vi": "27 Lê Lợi, Phường Minh An", "en": "27 Le Loi St, Minh An Ward" },
+    "hours": { "vi": "08:00 – 17:00", "en": "08:00 – 17:00" },
+    "image": null,
+    "description": {
+      "vi": "Ngôi đình cổ của làng Hội An, dân gian quen gọi là đình Ông Voi, là một trong những thiết chế tín ngưỡng làng xã lâu đời nhất nơi đây.",
+      "en": "The ancient communal house of Hoi An village, popularly called the Elephant House, one of the oldest village religious institutions in the area."
+    },
+    "discovery": {
+      "story": { "vi": "", "en": "" },
+      "clue": {
+        "vi": "⚠ Cần khảo sát tại điểm — thay bằng manh mối dẫn khách tìm một chi tiết CÓ THẬT chỉ thấy được khi đứng tại nơi này.",
+        "en": "⚠ Capture on-site — replace with a clue pointing to a REAL detail only visible while standing here."
+      },
+      "prompt": {
+        "vi": "Tìm tấm biển tên ở lối vào — bạn đang ở điểm nào?",
+        "en": "Find the name plaque at the entrance — which site are you at?"
+      },
+      "options": [
+        { "vi": "Đình Hội An", "en": "Hoi An Communal House" },
+        { "vi": "Đình Cẩm Phô", "en": "Cam Pho Communal House" },
+        { "vi": "Miếu Quan Công", "en": "Quan Cong Temple" }
+      ],
+      "answer": 0,
+      "reveal": { "vi": "", "en": "" }
+    }
+  },
+  {
+    "id": "bao-tang-hoi-an",
+    "name": { "vi": "Bảo tàng Hội An", "en": "Hoi An Museum" },
+    "category": "bao-tang",
+    "lat": 15.877600,
+    "lng": 108.330600,
+    "radius": 40,
+    "address": { "vi": "10B Trần Hưng Đạo, Phường Minh An", "en": "10B Tran Hung Dao St, Minh An Ward" },
+    "hours": { "vi": "08:00 – 17:00", "en": "08:00 – 17:00" },
+    "image": null,
+    "description": {
+      "vi": "Bảo tàng tổng hợp trưng bày tiến trình lịch sử – văn hoá Hội An từ thời tiền sử, qua thời thương cảng quốc tế, đến ngày nay.",
+      "en": "A general museum tracing Hoi An's history and culture from prehistory, through its era as an international port, to today."
+    },
+    "discovery": {
+      "story": { "vi": "", "en": "" },
+      "clue": {
+        "vi": "⚠ Cần khảo sát tại điểm — thay bằng manh mối dẫn khách tìm một chi tiết CÓ THẬT chỉ thấy được khi đứng tại nơi này.",
+        "en": "⚠ Capture on-site — replace with a clue pointing to a REAL detail only visible while standing here."
+      },
+      "prompt": {
+        "vi": "Tìm tấm biển tên ở lối vào — bạn đang ở điểm nào?",
+        "en": "Find the name plaque at the entrance — which site are you at?"
+      },
+      "options": [
+        { "vi": "Bảo tàng Hội An", "en": "Hoi An Museum" },
+        { "vi": "Bảo tàng Văn hóa Sa Huỳnh", "en": "Museum of Sa Huynh Culture" },
+        { "vi": "Bảo tàng Văn hóa Dân gian", "en": "Museum of Folk Culture" }
+      ],
+      "answer": 0,
+      "reveal": { "vi": "", "en": "" }
+    }
+  },
+  {
+    "id": "bao-tang-van-hoa-sa-huynh",
+    "name": { "vi": "Bảo tàng Văn hóa Sa Huỳnh", "en": "Museum of Sa Huynh Culture" },
+    "category": "bao-tang",
+    "lat": 15.877200,
+    "lng": 108.327200,
+    "radius": 35,
+    "address": { "vi": "149 Trần Phú, Phường Minh An", "en": "149 Tran Phu St, Minh An Ward" },
+    "hours": { "vi": "08:00 – 17:00", "en": "08:00 – 17:00" },
+    "image": null,
+    "description": {
+      "vi": "Bảo tàng trưng bày hiện vật của nền văn hoá Sa Huỳnh cách đây hơn 2.000 năm — chủ nhân đầu tiên của vùng đất Hội An, nổi tiếng với mộ chum.",
+      "en": "A museum of the 2,000-year-old Sa Huynh culture — the earliest inhabitants of the Hoi An area, famed for their burial jars."
+    },
+    "discovery": {
+      "story": { "vi": "", "en": "" },
+      "clue": {
+        "vi": "⚠ Cần khảo sát tại điểm — thay bằng manh mối dẫn khách tìm một chi tiết CÓ THẬT chỉ thấy được khi đứng tại nơi này.",
+        "en": "⚠ Capture on-site — replace with a clue pointing to a REAL detail only visible while standing here."
+      },
+      "prompt": {
+        "vi": "Tìm tấm biển tên ở lối vào — bạn đang ở điểm nào?",
+        "en": "Find the name plaque at the entrance — which site are you at?"
+      },
+      "options": [
+        { "vi": "Bảo tàng Văn hóa Sa Huỳnh", "en": "Museum of Sa Huynh Culture" },
+        { "vi": "Bảo tàng Gốm sứ Mậu dịch", "en": "Museum of Trade Ceramics" },
+        { "vi": "Bảo tàng Hội An", "en": "Hoi An Museum" }
+      ],
+      "answer": 0,
+      "reveal": { "vi": "", "en": "" }
+    }
   },
   {
     "id": "bao-tang-gom-su-mau-dich",
@@ -763,6 +1361,7 @@
       "de": "Museum für Handelskeramik"
     },
     "category": "bao-tang",
+<<<<<<< Updated upstream
     "lat": 15.8772894,
     "lng": 108.3295509,
     "radius": 75,
@@ -5523,5 +6122,233 @@
         "de": "Selbst eine Schale kochen und heiß probieren"
       }
     ]
+=======
+    "lat": 15.877100,
+    "lng": 108.328300,
+    "radius": 35,
+    "address": { "vi": "80 Trần Phú, Phường Minh An", "en": "80 Tran Phu St, Minh An Ward" },
+    "hours": { "vi": "08:00 – 17:00", "en": "08:00 – 17:00" },
+    "image": null,
+    "description": {
+      "vi": "Trưng bày hàng trăm hiện vật gốm sứ mậu dịch vớt từ các con tàu đắm và khai quật trong vùng, minh chứng cho thời hoàng kim của thương cảng Hội An.",
+      "en": "Hundreds of trade ceramics recovered from shipwrecks and local digs, evidence of Hoi An's golden age as a trading port."
+    },
+    "discovery": {
+      "story": { "vi": "", "en": "" },
+      "clue": {
+        "vi": "⚠ Cần khảo sát tại điểm — thay bằng manh mối dẫn khách tìm một chi tiết CÓ THẬT chỉ thấy được khi đứng tại nơi này.",
+        "en": "⚠ Capture on-site — replace with a clue pointing to a REAL detail only visible while standing here."
+      },
+      "prompt": {
+        "vi": "Tìm tấm biển tên ở lối vào — bạn đang ở điểm nào?",
+        "en": "Find the name plaque at the entrance — which site are you at?"
+      },
+      "options": [
+        { "vi": "Bảo tàng Gốm sứ Mậu dịch", "en": "Museum of Trade Ceramics" },
+        { "vi": "Bảo tàng Văn hóa Sa Huỳnh", "en": "Museum of Sa Huynh Culture" },
+        { "vi": "Bảo tàng Nghề Y truyền thống", "en": "Museum of Traditional Medicine" }
+      ],
+      "answer": 0,
+      "reveal": { "vi": "", "en": "" }
+    }
+  },
+  {
+    "id": "bao-tang-van-hoa-dan-gian",
+    "name": { "vi": "Bảo tàng Văn hóa Dân gian", "en": "Museum of Folk Culture" },
+    "category": "bao-tang",
+    "lat": 15.876750,
+    "lng": 108.329200,
+    "radius": 35,
+    "address": { "vi": "33 Nguyễn Thái Học, Phường Minh An", "en": "33 Nguyen Thai Hoc St, Minh An Ward" },
+    "hours": { "vi": "08:00 – 17:00", "en": "08:00 – 17:00" },
+    "image": null,
+    "description": {
+      "vi": "Nằm trong ngôi nhà cổ hai tầng lớn nhất phố cổ, bảo tàng giới thiệu nghề truyền thống, đời sống và sinh hoạt dân gian của cư dân Hội An.",
+      "en": "Set in the largest two-storey old house in town, this museum presents the traditional crafts and folk life of Hoi An's people."
+    },
+    "discovery": {
+      "story": { "vi": "", "en": "" },
+      "clue": {
+        "vi": "⚠ Cần khảo sát tại điểm — thay bằng manh mối dẫn khách tìm một chi tiết CÓ THẬT chỉ thấy được khi đứng tại nơi này.",
+        "en": "⚠ Capture on-site — replace with a clue pointing to a REAL detail only visible while standing here."
+      },
+      "prompt": {
+        "vi": "Tìm tấm biển tên ở lối vào — bạn đang ở điểm nào?",
+        "en": "Find the name plaque at the entrance — which site are you at?"
+      },
+      "options": [
+        { "vi": "Bảo tàng Văn hóa Dân gian", "en": "Museum of Folk Culture" },
+        { "vi": "Bảo tàng Nghề Y truyền thống", "en": "Museum of Traditional Medicine" },
+        { "vi": "Bảo tàng Hội An", "en": "Hoi An Museum" }
+      ],
+      "answer": 0,
+      "reveal": { "vi": "", "en": "" }
+    }
+  },
+  {
+    "id": "bao-tang-nghe-y-truyen-thong",
+    "name": { "vi": "Bảo tàng Nghề Y truyền thống", "en": "Museum of Traditional Medicine" },
+    "category": "bao-tang",
+    "lat": 15.876850,
+    "lng": 108.329900,
+    "radius": 35,
+    "address": { "vi": "46 Nguyễn Thái Học, Phường Minh An", "en": "46 Nguyen Thai Hoc St, Minh An Ward" },
+    "hours": { "vi": "08:00 – 17:00", "en": "08:00 – 17:00" },
+    "image": null,
+    "description": {
+      "vi": "Bảo tàng tái hiện nghề thuốc Đông y cổ truyền của Hội An, trưng bày dụng cụ bốc thuốc, thang thuốc và không gian một hiệu thuốc Bắc xưa.",
+      "en": "A museum recreating Hoi An's traditional medicine trade, with apothecary tools and a recreated old herbal pharmacy."
+    },
+    "discovery": {
+      "story": { "vi": "", "en": "" },
+      "clue": {
+        "vi": "⚠ Cần khảo sát tại điểm — thay bằng manh mối dẫn khách tìm một chi tiết CÓ THẬT chỉ thấy được khi đứng tại nơi này.",
+        "en": "⚠ Capture on-site — replace with a clue pointing to a REAL detail only visible while standing here."
+      },
+      "prompt": {
+        "vi": "Tìm tấm biển tên ở lối vào — bạn đang ở điểm nào?",
+        "en": "Find the name plaque at the entrance — which site are you at?"
+      },
+      "options": [
+        { "vi": "Bảo tàng Nghề Y truyền thống", "en": "Museum of Traditional Medicine" },
+        { "vi": "Bảo tàng Văn hóa Dân gian", "en": "Museum of Folk Culture" },
+        { "vi": "Bảo tàng Gốm sứ Mậu dịch", "en": "Museum of Trade Ceramics" }
+      ],
+      "answer": 0,
+      "reveal": { "vi": "", "en": "" }
+    }
+  },
+  {
+    "id": "nha-bieu-dien-nghe-thuat-co-truyen",
+    "name": { "vi": "Nhà biểu diễn Nghệ thuật cổ truyền", "en": "Traditional Art Performance House" },
+    "category": "trinh-dien",
+    "lat": 15.876950,
+    "lng": 108.330100,
+    "radius": 35,
+    "address": { "vi": "66 Bạch Đằng, Phường Minh An", "en": "66 Bach Dang St, Minh An Ward" },
+    "hours": { "vi": "Suất 10:15, 15:15, 16:15", "en": "Shows 10:15, 15:15, 16:15" },
+    "image": null,
+    "description": {
+      "vi": "Nơi trình diễn các loại hình nghệ thuật cổ truyền của vùng đất Quảng Nam — hát bội, dân ca, hoà tấu nhạc cụ dân tộc — theo các suất diễn trong ngày.",
+      "en": "A venue presenting Quang Nam's traditional performing arts — classical opera, folk songs and ensemble music — in scheduled daily shows."
+    },
+    "discovery": {
+      "story": { "vi": "", "en": "" },
+      "clue": {
+        "vi": "⚠ Cần khảo sát tại điểm — thay bằng manh mối liên quan buổi diễn (vd: nhạc cụ mở màn, làn điệu trình diễn).",
+        "en": "⚠ Capture on-site — replace with a clue tied to the show (e.g. the opening instrument or the tune performed)."
+      },
+      "prompt": {
+        "vi": "Tìm bảng lịch suất diễn — buổi diễn đầu tiên trong ngày bắt đầu lúc mấy giờ?",
+        "en": "Find the show schedule board — what time is the first show of the day?"
+      },
+      "options": [
+        { "vi": "10:15", "en": "10:15" },
+        { "vi": "09:00", "en": "09:00" },
+        { "vi": "12:00", "en": "12:00" }
+      ],
+      "answer": 0,
+      "reveal": { "vi": "", "en": "" }
+    }
+  },
+  {
+    "id": "bai-choi",
+    "name": { "vi": "Trò chơi Bài chòi", "en": "Bai Choi Folk Game" },
+    "category": "trinh-dien",
+    "lat": 15.876600,
+    "lng": 108.327000,
+    "radius": 40,
+    "address": { "vi": "Sân khấu Bài chòi, vỉa sông An Hội", "en": "Bai Choi stage, An Hoi riverside" },
+    "hours": { "vi": "Buổi tối hằng ngày", "en": "Nightly in the evening" },
+    "image": null,
+    "description": {
+      "vi": "Bài chòi — di sản văn hoá phi vật thể của nhân loại được UNESCO ghi danh — là trò chơi dân gian kết hợp hô hát, nơi anh Hiệu xướng tên quân bài bằng những câu thai dí dỏm.",
+      "en": "Bai Choi — a UNESCO Intangible Cultural Heritage — is a folk game blending song and play, where the caller announces each card with witty rhyming verses."
+    },
+    "discovery": {
+      "story": { "vi": "", "en": "" },
+      "clue": {
+        "vi": "⚠ Cần khảo sát tại điểm — thay bằng manh mối từ buổi chơi (vd: tên một quân bài, câu hô của anh Hiệu).",
+        "en": "⚠ Capture on-site — replace with a clue from a live round (e.g. a card name or the caller's verse)."
+      },
+      "prompt": {
+        "vi": "Bài chòi được UNESCO ghi danh là loại di sản gì?",
+        "en": "Bai Choi is recognized by UNESCO as what kind of heritage?"
+      },
+      "options": [
+        { "vi": "Di sản văn hoá phi vật thể", "en": "Intangible Cultural Heritage" },
+        { "vi": "Di sản thiên nhiên", "en": "Natural Heritage" },
+        { "vi": "Di sản tư liệu", "en": "Documentary Heritage" }
+      ],
+      "answer": 0,
+      "reveal": { "vi": "", "en": "" }
+    }
+  },
+  {
+    "id": "trinh-nghe-xi-ma",
+    "name": { "vi": "Trình nghệ Xí Mà", "en": "Xi Ma Heritage Stall" },
+    "category": "trinh-dien",
+    "lat": 15.877050,
+    "lng": 108.328800,
+    "radius": 35,
+    "address": { "vi": "Số 56 Bạch Đằng, Phường Minh An", "en": "56 Bach Dang St, Minh An Ward" },
+    "hours": { "vi": "Theo lịch trình diễn", "en": "Per performance schedule" },
+    "image": null,
+    "description": {
+      "vi": "Gánh chè mè đen (xí mà) trứ danh gắn với một nghệ nhân gánh hàng rong lâu năm — một 'di sản sống' của ẩm thực và đời sống phố cổ Hội An.",
+      "en": "The celebrated black-sesame sweet soup (xi ma) of a long-time street vendor — a 'living heritage' of Hoi An's old-town food and life."
+    },
+    "discovery": {
+      "story": { "vi": "", "en": "" },
+      "clue": {
+        "vi": "⚠ Cần khảo sát tại điểm — thay bằng manh mối về gánh chè (vd: nguyên liệu chính, dụng cụ gánh hàng).",
+        "en": "⚠ Capture on-site — replace with a clue about the stall (e.g. its main ingredient or the carrying gear)."
+      },
+      "prompt": {
+        "vi": "Món 'xí mà' được nấu chủ yếu từ nguyên liệu nào?",
+        "en": "What is 'xi ma' mainly made from?"
+      },
+      "options": [
+        { "vi": "Mè (vừng) đen", "en": "Black sesame" },
+        { "vi": "Đậu xanh", "en": "Mung bean" },
+        { "vi": "Gạo nếp", "en": "Sticky rice" }
+      ],
+      "answer": 0,
+      "reveal": { "vi": "", "en": "" }
+    }
+  },
+  {
+    "id": "khong-gian-van-hoa-viet-nhat",
+    "name": { "vi": "Không gian Văn hóa Việt Nam – Nhật Bản", "en": "Vietnam–Japan Culture Space" },
+    "category": "trai-nghiem",
+    "lat": 15.876900,
+    "lng": 108.327800,
+    "radius": 35,
+    "address": { "vi": "Phường Minh An (cập nhật địa chỉ)", "en": "Minh An Ward (address TBC)" },
+    "hours": { "vi": "08:00 – 21:00", "en": "08:00 – 21:00" },
+    "image": null,
+    "description": {
+      "vi": "Không gian trưng bày và trải nghiệm tôn vinh mối giao lưu Việt – Nhật từ thời thương cảng: thư pháp, gấp giấy origami, trà đạo và các hoạt động giao lưu văn hoá.",
+      "en": "An exhibition and hands-on space celebrating Vietnam–Japan exchange since the trading-port era: calligraphy, origami, tea ceremony and cultural activities."
+    },
+    "discovery": {
+      "story": { "vi": "", "en": "" },
+      "clue": {
+        "vi": "⚠ Cần khảo sát tại điểm — thay bằng manh mối từ hoạt động trải nghiệm (vd: vật phẩm bạn tự làm được tại đây).",
+        "en": "⚠ Capture on-site — replace with a clue from a hands-on activity (e.g. the craft you can make here)."
+      },
+      "prompt": {
+        "vi": "Tìm tấm biển tên ở lối vào — bạn đang ở điểm nào?",
+        "en": "Find the name plaque at the entrance — which site are you at?"
+      },
+      "options": [
+        { "vi": "Không gian Văn hóa Việt Nam – Nhật Bản", "en": "Vietnam–Japan Culture Space" },
+        { "vi": "Bảo tàng Hội An", "en": "Hoi An Museum" },
+        { "vi": "Nhà cổ Phùng Hưng", "en": "Phung Hung Old House" }
+      ],
+      "answer": 0,
+      "reveal": { "vi": "", "en": "" }
+    }
+>>>>>>> Stashed changes
   }
 ]
